@@ -8,7 +8,7 @@ confidence note and points at evidence. Sources carry status labels per
    early-warning/triage system: monitor the flock, shortlist birds/zones,
    flag abnormal droppings, and hand evidence to a human. It is not a visual
    disease diagnosis and never makes automatic culling decisions.
-   Confidence: high: veterinary authorities, dataset label evidence, and
+   Confidence: high. Veterinary authorities, dataset label evidence, and
    the commercial pattern all point the same way. See
    [research/PAPER.md](research/PAPER.md) §1, [BIBLE.md](BIBLE.md) §2-3.
 
@@ -37,7 +37,7 @@ confidence note and points at evidence. Sources carry status labels per
    hypothesis: detect a new dropping by temporal change/segmentation, look
    back over a short identity-track window, and assign only when one tagged
    bird occupies the footprint and a visible posture/event cue supports it;
-   otherwise mark unattributed. Confidence: hypothesis: untested; zone-level
+   otherwise mark unattributed. Confidence: untested hypothesis; zone-level
    output is the fallback. See [research/PAPER.md](research/PAPER.md) §4, [BIBLE.md](BIBLE.md) §4.
 
 5. **Machuve is the best-characterized downloadable fecal collection reviewed
@@ -60,7 +60,7 @@ confidence note and points at evidence. Sources carry status labels per
    'n' Track `[skimmed]` reported 95.28% F1 for presence in defined resource
    regions, not continuous identity, and 82.72% less annotation time.
    Treat attachment, welfare, cleaning, marker loss, growth, pecking, and
-   handling as study variables. Confidence: medium: encouraging but not
+   handling as study variables. Confidence: medium. This is encouraging but not
    evidence of production-scale performance. See [research/identity/aruco-marker-backpacks.md](research/identity/aruco-marker-backpacks.md).
 
 7. **RFID answers coarse presence, not footprint attribution.** In a broiler
@@ -86,7 +86,7 @@ confidence note and points at evidence. Sources carry status labels per
    features; these are vendor claims or roadmap items, not independent
    evidence. The wedge is an evidence-backed bird shortlist and health anomaly
    workflow. This is a product hypothesis, not proof of adoption or willingness
-   to pay. Confidence: medium: vendor/company sources `[vendor]`. See
+   to pay. Confidence: medium, based on vendor/company sources `[vendor]`. See
    [research/systems/industry-landscape.md](research/systems/industry-landscape.md),
    [research/practice/operator-needs-and-product-wedge.md](research/practice/operator-needs-and-product-wedge.md).
 

@@ -29,8 +29,9 @@ deployment gaps. The 2026 narrative review of 82 YOLO poultry studies
 `[read]` lists occlusion, lighting/infrastructure variation, limited dataset
 generalization, and scalability as recurring gaps. The 2024 critical review
 `[skimmed]` and the video-monitoring review `[skimmed]` add annotation
-challenges and the need for operator-interpretable indicators. Tracking
-works; identity across occlusion does not. See
+challenges and the need for operator-interpretable indicators. Detection and
+short-window tracking are demonstrated, while dependable continuous identity
+at commercial density remains unproven. See
 [research/systems/industry-landscape.md](research/systems/industry-landscape.md).
 
 **Commercial layer.** Across the reviewed vendor pages, positioning emphasizes

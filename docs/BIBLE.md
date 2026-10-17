@@ -306,9 +306,11 @@ bring-up plan: [03-open-questions.md](03-open-questions.md).
   approach; markerless identity is underdeveloped in field settings
   ([research/identity/aruco-marker-backpacks.md](research/identity/aruco-marker-backpacks.md),
   [research/identity/rfid-and-markerless-tracking.md](research/identity/rfid-and-markerless-tracking.md)).
-- Commercial systems lead with weight/uniformity, movement/distribution,
-  occupancy, environmental and mortality anomalies, auditability, and
-  alerts: not pathogen labels from feces
+- Across the reviewed vendor pages, positioning emphasizes weight and
+  uniformity, movement and distribution, environmental or operational anomaly
+  monitoring, auditability, and alerts. Feed, water, mortality, and
+  disease-warning features are individual vendor claims or roadmap items, not
+  independent evidence
   ([research/systems/industry-landscape.md](research/systems/industry-landscape.md)).
 - Full synthesis: [research/PAPER.md](research/PAPER.md). Numbered findings:
   [01-key-findings.md](01-key-findings.md). Sources: [02-bibliography.md](02-bibliography.md). Gaps:

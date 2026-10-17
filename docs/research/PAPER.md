@@ -308,8 +308,8 @@ Deployment note: the selected camera is Raspberry Pi Camera Module 3 and the
 verified compute target is one headless Raspberry Pi 5 running QNX 8.0.0.
 QNX AICA is the selected Sensor Framework/OpenCV/TensorFlow Lite reference,
 but Pi 5 + Camera Module 3 + AICA has not been demonstrated on this target.
-Reliable high-bandwidth Wi-Fi is a working assumption, the desktop is the
-primary UI and receives camera data, and the optional M5Stack StopWatch is a
+Reliable high-bandwidth Wi-Fi is a working assumption. The desktop is the
+primary UI and receives camera data; the optional M5Stack StopWatch is a
 secondary status display. Inference placement remains benchmark-driven. See
 [../BIBLE.md](../BIBLE.md).
 

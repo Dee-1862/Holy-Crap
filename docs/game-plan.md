@@ -1,67 +1,103 @@
-# Game Plan: Holy-Crap (Poultry Fecal Health Monitor)
+# Game plan
+
+This plan implements the current decisions in [BIBLE.md](BIBLE.md). The bible
+controls if the two files ever diverge.
 
 ## Goal
-Detect abnormal chicken droppings on a barn floor with an edge vision device and alert the farmer before birds start dying. Classes: Healthy, Coccidiosis, Salmonella, Newcastle Disease (NCD).
 
-## Important scoping note
-The system classifies **droppings on the floor, not individual hens**. With many hens, a dropping cannot be tied to one bird. The output is "zone X has abnormal droppings", which is what a farmer can act on anyway. Per-hen attribution would need a separate tracking problem and is out of scope.
+Build a fixed, overhead poultry-monitoring system that turns camera footage
+into explainable flock, zone, bird, and dropping anomalies for human review.
+It does not diagnose disease, prescribe treatment, or make culling decisions.
 
-## Architecture
+## Working architecture
+
+```text
+Raspberry Pi Camera Module 3
+  -> Raspberry Pi 5 running QNX 8
+  -> QNX Sensor Framework capture based on ai-camera-app
+  -> reliable high-bandwidth Wi-Fi (working assumption)
+  -> desktop application (primary UI and authoritative review workflow)
+       -> live/recorded video and evidence clips
+       -> flock/zone metrics and individual history when identity is reliable
+       -> alert acknowledgement and audit trail
+  -> optional M5Stack StopWatch wall display (summary/status only)
 ```
-[CSI camera] -> [Pi 5 on QNX]
-                  Stage 1: dropping detector (YOLO-family, small)
-                  Stage 2: crop classifier (MobileNetV2, 4 classes + confidence)
-                  Log (zone/time/class/conf) -> local store
-                  -> Wi-Fi/MQTT -> dashboard + alert
-                                      -> [ESP32 display node] (farmer-side alert)
-[ESP32 sensor nodes] (optional: temp/humidity/ammonia) -> MQTT
-```
 
-## Hardware decision (see research.md for sources)
-- **Baseline: ONE QNX Raspberry Pi 5 + one camera.** Enough to prove the whole idea. Do NOT cluster several Pis to share one workload; there's no benefit.
-- Camera and connector behavior on the Pi 5 under QNX is not yet verified. If one camera can't cover the area, try in this order: (1) move the camera (trolley/robot), (2) add a USB camera to the same Pi (CPU is the limit), (3) only then add more independent Pis, each owning a zone and reporting to one broker.
-- Extra Pis add **coverage only**, not accuracy or speed.
-- **ESP32 cannot run QNX** (no QNX port found). Use ESP32 only for what it is good at: sensors and a small alert display. It cannot run the vision models.
-- M5Stack StopWatch (ESP32-S3, 1.75" AMOLED, Wi-Fi, speaker, vibration) = good farmer-side alert/status device, not a vision node.
+Inference may run on the Pi, the desktop, or both. Benchmarking decides; it is
+not an architectural article of faith. MQTT, WebSocket, HTTP, and video codec
+choices remain open.
 
-## Phases
-1. **Data**: get the public 4-class dataset (verify name/license, see research.md). Collect own barn images later; public data will not match real lighting/bedding.
-2. **Prototype on laptop**: train classifier first (the easier stage); then detector. Measure accuracy per class, watch the confusion between Cocci and Healthy-dark-brown.
-3. **Bring-up on QNX Pi 5**: flash QNX SDP 8.0 Quick Start Target Image, confirm camera capture works, run a still-image inference.
-4. **Port inference**: ONNX Runtime / TFLite on QNX (check availability and CPU latency). Assume CPU-only inference until acceleration is verified. Target: 1-2 FPS is enough for a slow-moving platform.
-5. **Alerting**: MQTT -> dashboard; ESP32 StopWatch shows alert + vibrates.
-6. **Field test**: static mount first, mobile robot/trolley later.
+## Delivery sequence
 
-## Risks
-- Dataset domain gap (lab/photo images vs. dusty barn camera).
-- CPU-only inference on the Pi 5 may require a smaller model or lower resolution.
-- Hardware acceleration, QNX ML runtime availability, and camera stack details are still unverified. Resolve them before committing to a model or camera.
-- Fecal color overlaps (diet, bile, cecal droppings are normal but look abnormal). Expect false positives; alert on repeated detections per zone, not single frames.
-- Not a veterinary diagnostic; frame output as "suspected, send sample to vet/lab".
+1. **Read-only target inventory.** Record the installed Pi 5 BSP, Screen,
+   Sensor Framework, camera configuration, OpenCV, and TensorFlow Lite state.
+   Do not reflash or change startup files as part of ordinary bring-up.
+2. **Camera proof.** Inventory the Camera Module 3 variant and cable, enumerate
+   it through Sensor Framework/camapi, capture frames, and measure format,
+   resolution, FPS, autofocus behavior, reboot recovery, and 24-hour stability.
+3. **AICA compatibility spike.** Cross-build the unmodified QNX AI Camera App
+   with QNX SDP 8.0 on a supported host; upstream says its instructions were
+   tested on Ubuntu 20.04/22.04, so do not assume this Mac or the QNX target is
+   a supported build host. Run the bundled face/style demo only to prove
+   compatibility, then replace it with poultry logic. Do not enable root SSH
+   to follow the sample.
+4. **Headless capture service.** Reuse/fork AICA's QSF and TensorFlow Lite
+   integration while removing its Screen/render/touch dependency from the
+   production path. Run under a consistent non-root service model.
+5. **Desktop stream and UI.** Benchmark raw bandwidth, downscaling, and encoder
+   cost before choosing a timestamped camera transport. QSTI documents only
+   uncompressed recording/playback on its stock camera path, not H.264/H.265,
+   so demonstrate any required compressed path. Authenticate and encrypt the
+   link, provision and rotate device keys outside the repository, and make
+   acknowledgements replay-resistant. Show live/recorded feeds, explicit
+   stream freshness, bounded local buffering, evidence clips, alerts, history,
+   acknowledgement, and audit records.
+6. **Flock baseline.** Mount one camera over one representative pen with
+   controlled lighting. Build activity and zone-distribution baselines before
+   individual identity or disease-related work.
+7. **Identity pilot.** Test welfare-reviewed ArUco backpacks on a small flock.
+   Measure visible-time identity coverage, unknown-ID time, marker retention,
+   occlusion, cleaning, growth/fit, pecking, and handling burden.
+8. **Dropping events.** Detect new deposits, then classify visible appearance
+   as normal/abnormal for review. Attribute to a bird only with strong temporal
+   and spatial evidence; `unattributed` is a valid result.
+9. **Optional wall display.** Add the M5Stack StopWatch after the authoritative
+   desktop/event path works. It shows state, alert count, affected bird/zone,
+   age, confidence/persistence, acknowledgement, and connectivity.
 
-## Open questions for the user
-- Static camera, or moving robot/trolley? (Changes mounting, motion blur, power.)
-- Barn size / number of zones?
-- How much floor area must one camera cover? (Decides whether a second Pi is ever needed.)
-- Is this a school/competition project (QNX challenge?) with a deadline?
+Disease-specific associations are future offline research requiring
+veterinary sampling, laboratory reference labels, independent prospective
+validation, and a separately defined intended use. They are not an MVP output.
 
-## Assumptions (decided 2026-10-17)
-- **Wi-Fi is available throughout the barn** and is the only network link for now. Revisit if coverage proves unreliable (risk: dead spots, dust, metal structures).
-- Transport: MQTT over Wi-Fi (fallback: HTTP POST if MQTT isn't available on QNX; unverified).
+## Evaluation gates
 
-## Scaling layout (optional, only if one Pi can't cover the area)
-- Each added QNX Pi 5 + CSI camera owns one coverage zone; each runs the full pipeline and publishes only small results (zone ID, time, class, confidence).
-- One MQTT broker (on a Pi, small server, or cloud) collects everything. Needs NTP time sync on every node.
-- Alert rule: repeated abnormal detections per zone in a time window (e.g. 3+ in 10 min), not single frames.
-- ESP32 nodes: sensors (temp/humidity/ammonia) and alert displays only. They never run the vision models.
-- Start with 1 Pi (the default). Add a 2nd only if coverage demands it, and use it to validate zone IDs and the shared broker before buying more.
+- Split data by the strongest independent acquisition unit available (bird,
+  flock, farm, date, or session), and keep near-duplicate video frames together.
+- Measure capture uptime, stream latency/freshness, identity coverage,
+  unknown-ID rate, new-dropping event recall/precision, attribution coverage,
+  false alerts per pen-day, missed incidents, and operator follow-through.
+- Treat literature accuracy as study context, never as expected field
+  performance.
+- Preserve an evidence clip and reason for every alert.
 
-## M5Stack StopWatch role: glanceable status + alerts (not a full dashboard)
-Screen is 1.75" round, 466x466, so keep content inside the center circle.
-1. Home: overall barn color (green/amber/red) + number of zones in alert.
-2. Zone pages (swipe): zone name, last detection time, suspected class, confidence.
-3. Alert popup: "Coccidiosis suspected, Aisle 4"; vibrate + beep; touch to acknowledge.
-4. Optional: temp/humidity/ammonia value from sensor nodes.
-- Subscribes to the MQTT broker over Wi-Fi; runs standard ESP32 firmware (Arduino/ESP-IDF + M5 libs), not QNX.
-- Images, history and configuration live on a separate web dashboard (phone/laptop).
-- To test: battery life with Wi-Fi on, behavior when Wi-Fi drops (show "offline" state).
+## Hardware boundaries
+
+- Compute: one headless Raspberry Pi 5 running QNX 8.0.0.
+- Camera: Raspberry Pi Camera Module 3; exact standard/wide and IR-cut/NoIR
+  variant, count, mount geometry, lighting, and enclosure remain to inventory.
+- Primary UI: desktop application over reliable high-bandwidth Wi-Fi.
+- Optional UI: M5Stack StopWatch C152 wall client, powered continuously over
+  protected USB-C; it does not run QNX or this camera pipeline.
+- MVP uses one Pi. Add cameras or compute nodes only if measured coverage or
+  performance requires them.
+
+## Safety and operating boundaries
+
+- The camera reports observable anomalies, not diagnoses.
+- Suspected high-consequence or reportable disease is escalated promptly to a
+  veterinarian or animal-health authority. Their guidance controls isolation,
+  biosecurity, testing, treatment, and reporting.
+- Never enable root SSH merely to follow AICA's sample instructions.
+- Do not modify `/boot/onboot` or the Railway reverse tunnel unless explicitly
+  asked to perform connectivity maintenance.
+- Exact target facts and connection commands are in [../TARGET.md](../TARGET.md).

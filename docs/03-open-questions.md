@@ -12,14 +12,18 @@ truth: [BIBLE.md](BIBLE.md).
    mount.
    Method: inventory the exact module variants and count; verify the required
    22-to-15-pin camera cables; record pen dimensions, camera height, lighting,
-   cable route, and a dry enclosure plan.
+   cable route, dry enclosure/optical-window plan, and pixels per smallest
+   bird/dropping target. Validate the calculated footprint with captured frames
+   before choosing standard versus wide.
    Unlocks: mount geometry, coverage, floor resolution, and day/night strategy.
 
 2. **What is installed and working on the physical QNX Pi 5?**
    Why: official documentation does not establish the state of this image.
    Method: after SSH reachability is confirmed, inventory the BSP/SDP, Screen,
-   Sensor Framework, camera configuration, OpenCV, and TensorFlow Lite packages
-   read-only. Do not reflash or modify startup files during discovery.
+   Sensor Framework, camera configuration, OpenCV, TensorFlow Lite, `io-sock`,
+   physical interface state, and onboard Wi-Fi driver/firmware/association
+   read-only. Do not reflash, rebuild the BSP, or modify startup files during
+   discovery. The current `qnxpi`/Railway path does not prove WLAN support.
    Unlocks: the shortest safe bring-up path.
 
 3. **Can Sensor Framework capture stable Camera Module 3 frames on Pi 5?**
@@ -51,6 +55,12 @@ truth: [BIBLE.md](BIBLE.md).
    temperature/throttling, and 24-hour stability. Require authentication,
    encryption, device-key provisioning and rotation, replay-resistant
    acknowledgements, bounded local buffering, and no credentials in the repo.
+   Survey and load-test at the actual camera/AP/desktop positions during normal
+   work and equipment use. Measure sustained and low-percentile throughput,
+   packet loss, RTT/jitter, reconnects, and outage duration. Define preview
+   drop/backfill and local-retention policy; prioritize alert/status traffic.
+   If headroom is insufficient, use wired Ethernet or local inference and
+   recording. Never silently present stale video.
    Unlocks: stream protocol/codec and the Pi-versus-desktop model boundary.
 
 6. **What are the Machuve dataset reuse terms?**
@@ -133,8 +143,10 @@ truth: [BIBLE.md](BIBLE.md).
 - Camera software foundation: QNX AI Camera App, used as a reference/fork base
   rather than a ready headless service.
 - Mount concept: fixed overhead, not a moving trolley.
-- Connectivity: assume reliable, high-bandwidth Wi-Fi and stream camera data
-  to a desktop primary UI.
+- Connectivity: reliable, high-bandwidth Wi-Fi is a working assumption, not a
+  settled fact. The physical WLAN path and a viable compressed/downsampled
+  transport remain to be demonstrated; the desktop remains the intended
+  primary UI.
 - Inference location: benchmark-driven; Pi, desktop, or split remain viable.
 - M5Stack StopWatch: optional wall status/alert client, not a hard constraint.
 - Diagnosis: no camera-issued disease diagnosis or automatic culling.

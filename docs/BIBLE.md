@@ -84,6 +84,21 @@ H.264 and H.265 are not supported there. This does not prove that a custom
 encoder is impossible, but compressed transport must be demonstrated before
 the desktop stream is considered viable.
 
+Raw HD video over barn Wi-Fi is not the baseline. At 1920×1080 and 30 FPS,
+uncompressed payload is roughly 1.0 Gb/s at 16 bits per pixel and 2.0 Gb/s at
+32 bits per pixel, before stride, metadata, and protocol overhead. The exact
+format and stride must be measured on the target. Stage 1 must demonstrate a
+compressed or downsampled preview, or choose local inference plus event clips,
+sampled keyframes, or wired Ethernet. AICA supplies capture/inference
+scaffolding, not network transport. Sources: [QNX camera frame types](https://qnx.com/developers/docs/7.0.0/com.qnx.doc.camera/topic/camera_frametype_t.html)
+and [AICA README](https://gitlab.com/qnx/projects/ai-camera-app/-/raw/main/README.md).
+
+A 120-day study of a different mobile system in a commercial broiler house
+reported weak locations, packet loss, latency, and repeated reconnects. Those
+figures are not forecasts for this fixed installation, but they justify an
+actual-position site survey, buffering, acknowledgements, and a degraded-mode
+test. Source: [commercial-house connectivity study](https://doi.org/10.3390/electronics15112406).
+
 Inference placement is **Proposed, not decided**. Capture must run on the QNX
 Pi. Models may run on the Pi, on the desktop, or be split between them. We will
 choose after measuring stream quality, latency, Pi throughput, thermals, and
@@ -143,12 +158,23 @@ stage-5 experiment measures it.
 | Deployment geometry | Unknown | Mount height, pen footprint, pixels per bird/dropping, focus strategy, lighting, cable length, and enclosure |
 | Live target state | Unknown | Sensor Framework configuration, negotiated formats/resolutions/FPS, autofocus behavior, and long-run stability have not been tested on this Pi |
 
-The standard module has a 75° diagonal field of view and the wide version
-120°. More coverage means fewer pixels per bird, so the variant cannot be
-chosen from field of view alone. Color is important for dropping review;
+The standard module has a 66°×41° horizontal-by-vertical field of view (75°
+diagonal); the wide version is 102°×67° (120° diagonal). For a level,
+straight-down camera over a flat floor, the ideal footprint is
+`2 × height × tan(FOV / 2)`. At 3 m, that is about 3.90×2.24 m for standard and
+7.41×3.97 m for wide. At 1080p, the idealized resolution is about 493×481
+pixels/m versus 259×272 pixels/m. Mode crop, distortion, tilt, obstructions,
+and usable overlap will change those figures, so validate them from captured
+frames before choosing wide. More coverage means fewer pixels per bird, so the
+variant cannot be chosen from field of view alone. Color is important for dropping review;
 standard IR-cut is the safer starting assumption unless we deliberately
 design an IR/night mode. The module is specified for dry 0–50°C operation and
-must be protected from moisture and condensation. Raspberry Pi 5 uses a
+must be protected from moisture and condensation. Record mount height and pen
+dimensions, calculate pixels per smallest bird/dropping target, then confirm
+with representative frames under normal dust, humidity, temperature, and
+lighting. Use a protected optical window, strain relief, and a documented
+cleaning/fouling cadence. The supplied ribbon is only 200 mm, so keep the Pi
+near the camera or validate an extension. Raspberry Pi 5 uses a
 22-way mini camera connector while the module uses a 15-way connector, so the
 correct standard-to-mini camera cable is required.
 Shut down the Pi and disconnect external power before connecting or removing
@@ -171,10 +197,20 @@ overall flock state, active alerts, affected bird or zone, alert age,
 confidence/persistence, acknowledgement, and stream/device connectivity.
 Video, history, configuration, and detailed review remain in the desktop UI.
 
+The StopWatch receives low-rate, versioned event/status summaries only, never
+video. Survey its 2.4 GHz-only link independently at the wall position. Show
+the last successful update and an explicit stale/offline state. An
+acknowledgement remains pending until accepted by the authoritative desktop;
+an offline tap is never shown as confirmed.
+
 For wall deployment, use protected continuous USB-C power and treat the
 battery as a short continuity buffer until measured. Enclosure, dust/moisture
 protection, screen visibility, AMOLED image retention, Wi-Fi reconnect,
-auto-restart, and fleet updating are open tests. Inventory the hardware
+auto-restart, and fleet updating are open tests. Use mechanical retention and
+cable strain relief; the rear magnet alone is not accepted for a barn wall.
+The published page gives no barn IP or operating-temperature rating, so the
+enclosure and environment need acceptance tests. Prove cold boot and reconnect
+after an outage; the 450 mAh battery is not an assumed UPS. Inventory the hardware
 revision before touching the rear pins: on some v1.0 units a pin labeled
 `BAT` is actually 5 V input, while v1.0.1 changes that pin to an actual battery
 connection. Never connect a lithium battery to a v1.0 pin labeled `BAT`; on
@@ -184,9 +220,13 @@ affected units it is actually 5 V input. Source:
 ### Compute power and cooling
 
 The Raspberry Pi 5 vendor recommendation is a 5 V/5 A (27 W) supply, and
-active cooling is recommended for sustained heavy workloads. Treat both as
-the starting point for CV benchmarking, then measure power, temperature, and
-throttling in a 24-hour run. Sources: [Raspberry Pi 5 product page](https://www.raspberrypi.com/products/raspberry-pi-5/)
+active cooling is recommended for sustained heavy workloads. Use protected
+barn power and prove cold-start/autostart recovery. Treat the fan, filter, and
+enclosure as maintenance items: define a cleaning cadence and measure power,
+temperature, throttling, and image quality under representative dust and heat,
+not only on a clean bench. QNX documents watchdog capability, but enabling it
+or changing startup is a later operations decision, not part of read-only
+discovery. Sources: [Raspberry Pi 5 product page](https://www.raspberrypi.com/products/raspberry-pi-5/)
 and [Raspberry Pi documentation](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html).
 
 ## 6. Headless QNX Pi: connection and operating procedures
@@ -207,6 +247,12 @@ target work. Details also in [TARGET.md](../TARGET.md).
 - Runner status:
   `ssh qnxpi /data/home/qnxuser/qnx-runner-app/status-runner.sh`
 - The aports tree is not configured or verified.
+- The active physical interface and onboard Wi-Fi driver, firmware, and
+  association state are unverified. The working SSH/Railway path does not prove
+  the planned WLAN path. Inventory `io-sock`, interfaces, driver/firmware
+  presence, and association read-only before selecting transport; QNX documents
+  that enabling onboard Wi-Fi can require image/BSP components
+  ([Pi 5 driver commands](https://www.qnx.com/developers/docs/BSP8.0/com.qnx.doc.bsp_raspberrypi.bcm2712.rpi5_8.0/topic/driver_commands.html)).
 - Do not change the Railway reverse tunnel or `/boot/onboot` unless
   connectivity maintenance is explicitly requested.
 
@@ -323,9 +369,9 @@ without passing it.
 
 | Stage | Work | Evaluation gate |
 |---|---|---|
-| 0. Capture bring-up | Inventory Camera Module 3 variant/cable; prove Sensor Framework capture on Pi 5 | Stable frames, negotiated format/FPS, reboot recovery, focus behavior recorded |
-| 1. Desktop stream | Benchmark raw bandwidth, downscaling, encoder cost, and representative camera transport over the assumed reliable Wi-Fi link | Authenticated and encrypted live view with bounded latency, local buffering, timestamps, replay-resistant acknowledgements, and explicit stale/offline state; compressed transport demonstrated if required |
-| 2. Instrument one pen | Mount overhead with controlled lighting; record baseline footage | Coverage and pixels per bird/dropping are sufficient for annotation |
+| 0. Capture + site survey | Inventory Camera Module 3 variant/cable, mount height, pen dimensions, lighting, enclosure, and physical/Wi-Fi interface state; prove Sensor Framework capture on Pi 5 | Stable representative frames; negotiated format, stride, FPS, reboot recovery, focus, footprint, and pixels per smallest target recorded; discovery makes no BSP or startup changes |
+| 1. Desktop stream | Benchmark raw bandwidth, downscaling, encoder cost, and representative camera transport over the proposed Wi-Fi link | Authenticated and encrypted live view with bounded latency, local retention, timestamps, replay-resistant acknowledgements, and explicit stale/offline state; site survey plus 24-hour load test records throughput, loss, RTT/jitter, reconnects, and outages at actual positions; compressed transport demonstrated if required, with wired or local-inference fallback |
+| 2. Instrument one pen | Mount overhead with controlled lighting; record baseline footage | Measured coverage and pixels per bird/dropping remain sufficient during normal barn work, dust, humidity, and lighting |
 | 3. Flock metrics + UI | Activity/zone metrics; primary desktop alert workflow with evidence clips | False alarms per pen-day and operator follow-through measured |
 | 4. ArUco pilot | Welfare-reviewed markers on a small flock | Visible-time identity rate, unknown-ID rate, marker loss/occlusion, handling burden |
 | 5. Droppings | Detect new droppings and triage normal/abnormal appearance | Event detection and unattributed rates measured; no disease classes claimed |

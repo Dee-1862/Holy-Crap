@@ -30,11 +30,15 @@ choices remain open.
 ## Delivery sequence
 
 1. **Read-only target inventory.** Record the installed Pi 5 BSP, Screen,
-   Sensor Framework, camera configuration, OpenCV, and TensorFlow Lite state.
-   Do not reflash or change startup files as part of ordinary bring-up.
+   Sensor Framework, camera configuration, OpenCV, TensorFlow Lite, physical
+   interface, `io-sock`, and onboard Wi-Fi driver/firmware/association state.
+   Do not reflash, rebuild the BSP, or change startup files during discovery.
 2. **Camera proof.** Inventory the Camera Module 3 variant and cable, enumerate
    it through Sensor Framework/camapi, capture frames, and measure format,
-   resolution, FPS, autofocus behavior, reboot recovery, and 24-hour stability.
+   stride, resolution, FPS, autofocus behavior, reboot recovery, and 24-hour
+   stability. Record the mount height and pen dimensions; calculate and then
+   verify the footprint and pixels per smallest bird/dropping target before
+   choosing standard versus wide.
 3. **AICA compatibility spike.** Cross-build the unmodified QNX AI Camera App
    with QNX SDP 8.0 on a supported host; upstream says its instructions were
    tested on Ubuntu 20.04/22.04, so do not assume this Mac or the QNX target is
@@ -51,7 +55,12 @@ choices remain open.
    link, provision and rotate device keys outside the repository, and make
    acknowledgements replay-resistant. Show live/recorded feeds, explicit
    stream freshness, bounded local buffering, evidence clips, alerts, history,
-   acknowledgement, and audit records.
+   acknowledgement, and audit records. Run the load test at the actual
+   camera/AP/desktop positions during normal barn work and equipment use;
+   measure throughput, loss, RTT/jitter, reconnects, and outages. Prioritize
+   alert/status traffic over preview, define drop/backfill and local-retention
+   policies, and fall back to wired Ethernet or local inference/recording if
+   the Wi-Fi path has insufficient headroom.
 6. **Flock baseline.** Mount one camera over one representative pen with
    controlled lighting. Build activity and zone-distribution baselines before
    individual identity or disease-related work.
@@ -63,7 +72,9 @@ choices remain open.
    and spatial evidence; `unattributed` is a valid result.
 9. **Optional wall display.** Add the M5Stack StopWatch after the authoritative
    desktop/event path works. It shows state, alert count, affected bird/zone,
-   age, confidence/persistence, acknowledgement, and connectivity.
+   age, confidence/persistence, acknowledgement, and connectivity. It receives
+   low-rate versioned summaries, never video; offline acknowledgement stays
+   pending until the desktop accepts it.
 
 Disease-specific associations are future offline research requiring
 veterinary sampling, laboratory reference labels, independent prospective

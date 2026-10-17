@@ -29,12 +29,17 @@
 - Optional interface: M5Stack StopWatch C152 wall-status client
 - Installed Sensor Framework, Screen, OpenCV, TensorFlow Lite, and camera
   configuration state: not yet inventoried on this target
+- Current physical network interface and onboard Wi-Fi driver, firmware, and
+  association state: not yet inventoried. The working `qnxpi`/Railway path does
+  not prove that the intended barn WLAN path is installed or usable.
 
 The upstream AI Camera App describes root-oriented deployment and a graphical
 Screen/touch workflow. Do not enable root SSH to follow the sample. Keep the
 target's service model non-root, inventory Screen/drm ownership first, and use
 the app as a capture/inference reference for a headless service. The project
 architecture and bring-up gates are in [docs/BIBLE.md](docs/BIBLE.md).
+During discovery, inventory `io-sock`, interfaces, driver/firmware presence,
+and association read-only. Do not rebuild the BSP or change `/boot/onboot`.
 
 ## Durable jobs
 

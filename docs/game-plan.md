@@ -24,6 +24,24 @@ The system classifies **droppings on the floor, not individual hens**. With many
 - **ESP32 cannot run QNX** (no QNX port found). Use ESP32 only for what it is good at: sensors and a small alert display. It cannot run the vision models.
 - M5Stack StopWatch (ESP32-S3, 1.75" AMOLED, Wi-Fi, speaker, vibration) = good farmer-side alert/status device, not a vision node.
 
+## Vision stack (decided 2026-10-17)
+> **Superseded in part by [vision-plan.md](vision-plan.md):** the Pi runs QNX 8.0.0, and ONNX Runtime on oss.qnx.com is built only for 8.0.5. The runtime (ONNX Runtime vs TFLite) now depends on a test on the Pi. Detector boxes now come from Zenodo, not Roboflow. The recommended model is a single-stage 4-class YOLO11n.
+- Hardware: **Raspberry Pi 5** + Camera Module 3 (what we have). Pi 4 notes elsewhere still apply as the fallback.
+- Runtime: **ONNX Runtime 1.24.4** (oss.qnx.com, QNX 8.0.5, aarch64; C/C++ and Python packages).
+- Language: camera capture **must be C/C++** (QNX Sensor Framework has no Python API). Start with the QNX `camera_example1_callback` / AI Camera App as the template.
+  - **Decided: all C++ on device.** One C++ process does capture → preprocess → ONNX Runtime C++ API → result. Avoids passing frames between processes. Python stays on the laptop for training/export.
+  - Fallback if C++ inference is painful: C++ capture writes a frame (shared memory or JPEG) and a Python ONNX Runtime script classifies it; fine at 1–2 FPS.
+
+## Hackathon scope (decided 2026-10-17: deadline is days)
+- Camera view undecided; **prototype close-up first** (camera ~30–60 cm above floor), since it matches the public datasets.
+- Detector data: try the Roboflow "chicken-droppings-analysis" set (boxes); check its label quality before training.
+- Order of work, cut from the bottom if time runs out:
+  1. Laptop: train 4-class classifier on Kaggle/Zenodo set, export to ONNX. Train a small YOLO (e.g. nano) on Roboflow boxes, export to ONNX.
+  2. Pi 5: flash QNX, get Camera Module 3 frames via QSF sample app. **Biggest risk; start in parallel with step 1.**
+  3. Pi 5: C++ app = QSF capture → ONNX Runtime (detector → crop → classifier) → print/log result.
+  4. Publish result via MQTT (mosquitto) to the StopWatch.
+- Fallback demo if the camera on Pi 5 won't work: run the same C++ inference on still images copied to the Pi.
+
 ## Phases
 1. **Data**: get the public 4-class dataset (verify name/license, see research.md). Collect own barn images later; public data will not match real lighting/bedding.
 2. **Prototype on laptop**: train classifier first (the easier stage); then detector. Measure accuracy per class, watch the confusion between Cocci and Healthy-dark-brown.

@@ -27,15 +27,17 @@ Caveat: green/yellow/dark droppings also occur from diet, bile, and normal cecal
 - [ ] Veterinary reference on fecal color vs disease
 
 ## QNX findings (web search, 2026-10-17)
-- Pi 4 (BCM2711) BSP for QNX SDP 8.0 exists; release notes dated Jan 2026 (build 484).
-  https://www.qnx.com/developers/docs/BSP8.0/com.qnx.doc.bsp.releasenotes/topic/rel_sdp80.bsp.broadcom.rpi4.bcm2711.html
-- Quick Start Target Image (QSTI) for Raspberry Pi includes a camera demo; recommended if you need camera functionality.
-  https://www.qnx.com/developers/docs/qnxeverywhere/com.qnx.doc.target_images/topic/qsti/intro.html
-- Refreshed QSTI adds Raspberry Pi Camera Module 3 support and multi-camera configuration.
-  https://qnx.software/en/blog/2026/refreshed-qnx-quick-start
-- Custom image build repo for Pi 4 on QNX 8.0: https://devblog.qnx.com/refreshed-quick-start-custom-image-builds-and-more-samples
+- **Verified target (2026-10-17)**: the actual device is a Raspberry Pi 5 running QNX 8.0.0 (`aarch64le`). See TARGET.md for the recorded target facts and connection procedure.
+- **Pi 4 background research only** (kept for reference, not evidence of Pi 5 support):
+  - Pi 4 (BCM2711) BSP for QNX SDP 8.0 exists; release notes dated Jan 2026 (build 484).
+    https://www.qnx.com/developers/docs/BSP8.0/com.qnx.doc.bsp.releasenotes/topic/rel_sdp80.bsp.broadcom.rpi4.bcm2711.html
+  - Quick Start Target Image (QSTI) for Raspberry Pi includes a camera demo; recommended if you need camera functionality.
+    https://www.qnx.com/developers/docs/qnxeverywhere/com.qnx.doc.target_images/topic/qsti/intro.html
+  - Refreshed QSTI adds Raspberry Pi Camera Module 3 support and multi-camera configuration.
+    https://qnx.software/en/blog/2026/refreshed-qnx-quick-start
+  - Custom image build repo for Pi 4 on QNX 8.0: https://devblog.qnx.com/refreshed-quick-start-custom-image-builds-and-more-samples
 - Resources hub: https://oss.qnx.com/
-- **Not confirmed**: whether QNX's camera stack is libcamera; whether ONNX Runtime/TFLite/OpenCV are available (oss.qnx.com ports list should be checked next). Whether Pi 5 is supported was not checked.
+- **Not confirmed**: whether QNX's camera stack is libcamera and whether it works on the Pi 5; whether ONNX Runtime/TFLite/OpenCV are available (oss.qnx.com ports list should be checked next).
 - **No evidence** QNX runs on ESP32. Other RTOSes (Zephyr, NuttX, FreeRTOS via ESP-IDF) do. https://www.espressif.com/en/media_overview/news/support-new-operating-systems-esp32-series-socs
 
 ## M5Stack StopWatch (C152 dev kit), per CNX Software / Mouser

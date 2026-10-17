@@ -31,14 +31,16 @@ confidence note and points at evidence. Sources carry status labels per
    feasibility is medium and must be measured. See
    [research/evidence/clinical-limits-of-visual-diagnosis.md](research/evidence/clinical-limits-of-visual-diagnosis.md).
 
-4. **Bird-level dropping attribution has not been demonstrated for our setting.**
-   We found no peer-reviewed result for a crowded, free-moving floor pen; the
-   nearest work traced manure to a cage, not a bird. Working
-   hypothesis: detect a new dropping by temporal change/segmentation, look
-   back over a short identity-track window, and assign only when one tagged
-   bird occupies the footprint and a visible posture/event cue supports it;
-   otherwise mark unattributed. Confidence: untested hypothesis; zone-level
-   output is the fallback. See [research/PAPER.md](research/PAPER.md) §4, [BIBLE.md](BIBLE.md) §4.
+4. **No end-to-end bird-to-dropping attribution has been demonstrated in our
+   setting.** Big Broiler `[read]` is the closest precursor found: it attaches
+   a human-labelled `Defecating` action to broiler tracklets, including a
+   140-bird angled-view pen and a small overhead setup. It does not label the
+   resulting deposit, its location or appearance, or persistent bird identity
+   across clips; released tracklets average about 73 seconds, and the paper
+   notes relatively low stocking density. Qin et al. separately traced manure
+   to a cage, not a bird. The proposed event-cue + identity-track + new-deposit
+   pipeline remains an untested hypothesis; zone-level output is the fallback.
+   See [research/PAPER.md](research/PAPER.md) §4, [BIBLE.md](BIBLE.md) §4.
 
 5. **Machuve is the best-characterized downloadable fecal collection reviewed
    in this pass, with real caveats.**
@@ -90,27 +92,45 @@ confidence note and points at evidence. Sources carry status labels per
    [research/systems/industry-landscape.md](research/systems/industry-landscape.md),
    [research/practice/operator-needs-and-product-wedge.md](research/practice/operator-needs-and-product-wedge.md).
 
-10. **Expect the documented deployment gaps.** The 2026 review of 82 YOLO
+10. **The grower is often not the sole buyer.** In one Tennessee survey
+    `[read]`, only 46% of a contract-grower-heavy sample said they were the
+    primary technology decision-maker; 41% consulted the integrator or had
+    technology addressed by contract. This is regional, low-response evidence,
+    not a universal rate, but it changes customer discovery. Interview growers
+    and integrators; map who approves, pays, owns data, services hardware, and
+    receives the benefit. Confidence: medium. See
+    [research/practice/operator-needs-and-product-wedge.md](research/practice/operator-needs-and-product-wedge.md).
+
+11. **Field reliability and data ownership are product features.** Farm visits
+    and longitudinal deployments `[read]` report broken equipment, unrealistic
+    values, slow maintenance, vendor-held data, missing/duplicate/stale data,
+    dust and insect fouling, connectivity loss, ammonia damage, and large
+    research-to-commercial performance drops. Track trusted-data uptime and
+    maintenance burden, give operators exportable records, and distinguish “no
+    alert” from “no trustworthy data.” Confidence: medium-high across several
+    field studies. See [research/systems/industry-landscape.md](research/systems/industry-landscape.md).
+
+12. **Expect the documented deployment gaps.** The 2026 review of 82 YOLO
     poultry studies `[read]` names occlusion, lighting/infrastructure
     variation, limited dataset generalization, and scalability; controlled
     metrics are not commercial proof. Confidence: high as a literature
     consensus; treat as our risk list. See [research/systems/industry-landscape.md](research/systems/industry-landscape.md).
 
-11. **Evaluate like an operator, split to avoid leakage.** As project method,
+13. **Evaluate like an operator, split to avoid leakage.** As project method,
     split by the strongest available independent unit (bird, flock, farm,
     date, or session), and keep near-duplicate video frames together. Measure
     event-level alert value, identity
-    coverage, false alarms per pen-day, latency, missed incidents, and
+    coverage, false alarms per house-day, latency, missed incidents, and
     operator follow-through. Confidence: high as method.
     See [research/PAPER.md](research/PAPER.md) §9, [BIBLE.md](BIBLE.md) §9.
 
-12. **Label governance before model shopping.** Data collection and label
+14. **Label governance before model shopping.** Data collection and label
     quality decide the outcome more than model choice; consider model
     families at a high level only and prescribe no YOLO version.
     Confidence: high; this is the core lesson across the reviews in this pass.
     See [research/PAPER.md](research/PAPER.md) §8.
 
-13. **Hardware reality is narrow and specific.** The compute target is one
+15. **Hardware reality is narrow and specific.** The compute target is one
     headless Raspberry Pi 5 (`aarch64le`) running QNX 8.0.0, with Raspberry Pi
     Camera Module 3 and QNX AICA selected. AICA documents Sensor Framework,
     OpenCV, and TensorFlow Lite on QNX but recommends Pi 4; the combined Pi 5
@@ -118,14 +138,15 @@ confidence note and points at evidence. Sources carry status labels per
     selected/unknown mix.
     See [BIBLE.md](BIBLE.md) §5-6, [03-open-questions.md](03-open-questions.md).
 
-14. **Rabies is off the table.** An earlier draft disease list included
+16. **Rabies is off the table.** An earlier draft disease list included
     rabies; WOAH `[read]` states rabies is a mammalian disease. It is not a
     chicken-camera target and has been removed. Confidence: high.
     See [research/evidence/clinical-limits-of-visual-diagnosis.md](research/evidence/clinical-limits-of-visual-diagnosis.md).
 
-15. **The desktop is primary; the StopWatch is optional.** Assume reliable,
-    high-bandwidth barn Wi-Fi and stream camera data to a desktop application
-    for live view, history, evidence, and alert review. The M5Stack StopWatch
+17. **The desktop is primary; the StopWatch is optional.** Reliable,
+    high-bandwidth barn Wi-Fi and desktop camera streaming are working
+    assumptions to validate, not guarantees. The desktop application owns live
+    view, history, evidence, and alert review. The M5Stack StopWatch
     is a replaceable wall-status client, not a hard constraint or source of
     truth. Pi-versus-desktop inference placement is decided by benchmarks.
     Confidence: project decision. See [BIBLE.md](BIBLE.md) §4-7.

@@ -3,15 +3,9 @@
 - [machuve-fecal-datasets.md](machuve-fecal-datasets.md): the Machuve et al. Tanzanian fecal datasets
   (v2 farm-labeled, v3 PCR-annotated) and their caveats.
 - [abnormal-droppings-datasets.md](abnormal-droppings-datasets.md): appearance-based normal/abnormal
-  datasets from conveyor, litter-floor, and controlled-cage studies.
-
-## Not yet a node
-
-- A Nigerian binary healthy/unhealthy fecal dataset (14,618 images at
-  100x100 px) is reported in the 2025 poultry CV survey `[skimmed]`
-  ([https://www.sciencedirect.com/science/article/pii/S0032579125000215](https://www.sciencedirect.com/science/article/pii/S0032579125000215)).
-  We have not located or reviewed the dataset itself; do not add details
-  beyond what the survey states.
+  datasets from conveyor, litter-floor, controlled-cage, manure-belt, and
+  smartphone studies; also covers the Big Broiler defecation-action precursor
+  and a long-running overhead dataset without health labels.
 
 ## General caveats
 
@@ -22,5 +16,8 @@
 - Label quality: farm-labeled and PCR-labeled images carry different evidence
   strength and must not be mixed without care. See
   [machuve-fecal-datasets.md](machuve-fecal-datasets.md).
-- Field gap: public fecal datasets are smartphone/lab photography, not
-  footage from a barn camera on litter. Expect a domain gap (see [../PAPER.md](../PAPER.md)).
+- Field gap: reviewed fecal datasets are still images or manure-belt frames,
+  not end-to-end overhead footage of deposition and resulting feces on litter.
+  Big Broiler labels defecation actions but not the deposit; the 22-week Essien
+  overhead dataset has no health, behavior, fecal, or pathogen labels. Expect
+  a domain and task gap (see [../PAPER.md](../PAPER.md)).

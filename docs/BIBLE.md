@@ -125,14 +125,18 @@ intake, or determine whether a visible dropping change comes from disease,
 age, feed, or another flock-level factor. Sources:
 [research/observables/camera-visible-health-signals.md](research/observables/camera-visible-health-signals.md).
 
-**Dropping attribution.** This review found no peer-reviewed demonstration of
-reliable bird-level attribution in a crowded, free-moving floor pen. Working
-hypothesis (testable):
-detect a new dropping by temporal change/segmentation; look back over a
-short window in identity tracks; assign only when one tagged bird occupies
-the deposition footprint and a visible posture/event cue supports it;
-otherwise mark it unattributed. Status: **Working assumption** until the
-stage-5 experiment measures it.
+**Dropping attribution.** This review found no end-to-end demonstration of
+bird-to-resulting-dropping attribution in a crowded, free-moving floor pen.
+Big Broiler supplies human-labelled `Defecating` actions on short broiler
+tracklets, but not the resulting deposit, its location or appearance, or
+persistent identity across clips. Qin et al. traced manure to a cage, not a
+bird. Working hypothesis (testable): detect a new dropping by temporal
+change/segmentation; look back over a short window in identity tracks; assign
+only when one tagged bird occupies the deposition footprint and a visible
+event cue supports it; otherwise mark it unattributed. Status: **Working
+assumption** until the stage-5 experiment measures it. Sources:
+[Big Broiler](https://github.com/decide-ugent/big-broiler-dataset) and
+[Qin et al.](https://www.sciencedirect.com/science/article/pii/S0168169924003909).
 
 ## 5. Hardware inventory
 
@@ -344,6 +348,15 @@ bring-up plan: [03-open-questions.md](03-open-questions.md).
   display no explicit license, so do not assume permission to redistribute,
   modify, or use the data in a product
   ([research/datasets/machuve-fecal-datasets.md](research/datasets/machuve-fecal-datasets.md)).
+- The Nigerian collection provides 14,618 CC BY 4.0 images, but its labels are
+  visual, its 94 reported physical instances create grouped-split leakage risk,
+  and it is neither longitudinal nor pathogen ground truth. Zhou et al. is the
+  closest reviewed growth-cycle dropping-appearance collection, but it is a
+  manure-belt dataset and cannot support deposition or bird attribution.
+- Big Broiler labels tracked defecation actions but not the resulting deposit;
+  Essien et al. provides 22 weeks of overhead multimodal data with no manual
+  health, behavior, fecal, or pathogen labels and restricted raw access
+  ([research/datasets/abnormal-droppings-datasets.md](research/datasets/abnormal-droppings-datasets.md)).
 - Veterinary authorities support using visible signs as nonspecific warning
   signals; suspected high-consequence disease should be escalated promptly,
   and laboratory testing confirms the diagnosis
@@ -358,6 +371,13 @@ bring-up plan: [03-open-questions.md](03-open-questions.md).
   disease-warning features are individual vendor claims or roadmap items, not
   independent evidence
   ([research/systems/industry-landscape.md](research/systems/industry-landscape.md)).
+- Producer evidence suggests the grower may not be the sole buyer. In one
+  regional, low-response Tennessee survey, only 46% of a contract-grower-heavy
+  sample said they were the primary technology decision-maker. There is no
+  credible poultry-specific dollar willingness-to-pay estimate in this review.
+  Customer discovery must include growers and integrator/live-production
+  managers and map payment, approval, data rights, service, and economic benefit
+  ([research/practice/operator-needs-and-product-wedge.md](research/practice/operator-needs-and-product-wedge.md)).
 - Full synthesis: [research/PAPER.md](research/PAPER.md). Numbered findings:
   [01-key-findings.md](01-key-findings.md). Sources: [02-bibliography.md](02-bibliography.md). Gaps:
   [03-open-questions.md](03-open-questions.md).
@@ -382,7 +402,10 @@ Evaluation principles: split by the strongest available independent
 acquisition unit (bird, flock, farm, date, or session), and keep near-duplicate
 frames from one recording together;
 measure event-level alert value, identity coverage, false alarms per
-pen-day, latency, missed incidents, and operator follow-through. Prioritize
+house-day, trusted-data uptime, missing/duplicate/stale frames, clock integrity,
+maintenance interventions per flock, acknowledgement and inspection rate,
+action yield, persistence delay, latency, missed incidents, operator
+follow-through, and performance against the manual-record baseline. Prioritize
 data collection and label governance over model shopping. Model families at
 a high level only: object detection/segmentation, multi-object tracking,
 pose/activity estimation, temporal anomaly detection, embedding-based

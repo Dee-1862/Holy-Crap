@@ -52,6 +52,7 @@ vendor claims or roadmap items. See the table below and
 | Machuve v2/v3 datasets `[read]` | Smartphone fecal images, Tanzania | 6,812 farm-labeled; 1,255 PCR-annotated | Authors flag label errors; license unclear; 16% PCR-tested |
 | Droppings segmentation `[abstract only]` | 1,650 images, 60 broilers, 5 SPF cages | Reported mDice 79.43% for appearance labels | Random image split; not temporal deposition or pathogen evidence |
 | Nakrosis et al. `[read]` | 487 real-litter images from three farms; six visual classes | 91.78% classification; 92.41% detection; Dice 0.8875 | Small, imbalanced, visual labels; data by request |
+| Big Broiler `[read]` | Tracked broiler clips, including a 140-bird angled view and a small overhead setup | Human-labelled `Defecating` actions | No resulting-deposit label, persistent identity across clips, or end-to-end attribution proof |
 | UGA floor detection `[read]` | 800-hen research facility, ceiling/side cameras | Demonstrated hen detection/counting across locations | Not individual identity tracking; piling, uneven light, and equipment occlusion caused errors |
 
 ## Comparison: commercial systems
@@ -77,4 +78,11 @@ demonstrate individual identity in limited research settings, but dependable
 continuous identity at commercial density remains unproven. The defensible
 concept is an evidence-backed early-warning and triage workflow: shortlist
 birds/zones with clips, never label pathogens.
+
+A Tennessee producer survey `[read]` found that growers often are not the sole
+technology decision-maker, and no credible dollar willingness-to-pay estimate
+was found. Farm visits and longitudinal deployments make maintenance, data
+freshness, export, ownership, and integration with existing house records part
+of the product, not backend details. See
+[research/practice/operator-needs-and-product-wedge.md](research/practice/operator-needs-and-product-wedge.md).
 Next steps in [research/PAPER.md](research/PAPER.md) §8 and [03-open-questions.md](03-open-questions.md).

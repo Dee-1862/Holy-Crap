@@ -53,8 +53,9 @@ decreased locomotion, while IBV+APEC produced modest activity changes
 - whether a given dropping is illness-related. In a 73-sample study, age
   significantly affected color, texture, pH, dry matter, and chemical
   composition, so appearance needs an age/flock baseline
-  ([Mozuriene et al., 2024](https://pubmed.ncbi.nlm.nih.gov/38731394/),
-  `[abstract only]`).
+  ([Mozuriene et al., 2024](https://pmc.ncbi.nlm.nih.gov/articles/PMC11083088/),
+  `[read]`). Samples were visually grouped and chemically characterized, not
+  pathogen-confirmed disease cases.
 
 ## What the authorities say the visible signs are
 
@@ -112,8 +113,15 @@ flagged for review", not "dropping labeled with a pathogen".
   unknown until the camera inventory is resolved (see [../../BIBLE.md](../../BIBLE.md)).
 - Gait proxies from top view are plausible, but the reviewed evidence comes
   from small pens or controlled walkways; validate them in the mounted pen.
-- No source reviewed validates the specific color-appearance table in
-  [../../research.md](../../research.md); treat that table as unverified.
+- Dropping color and texture are differential clues, not diagnoses.
+  Veterinary diagnostic guidance distinguishes normal loose cecal droppings
+  from diarrhea and associates some appearances with conditions to
+  investigate, but directs confirmation through fecal parasitology or culture,
+  PCR, histology, or postmortem examination as appropriate. The product may
+  display measured appearance features and recommend review or sampling; it
+  must not translate a color directly into a disease label
+  ([University of Guelph Animal Health Laboratory](https://www.uoguelph.ca/ahl/content/diagnosing-enteric-disease-backyard-chickens),
+  `[read]`).
 
 ## Connects to
 
@@ -134,4 +142,4 @@ flagged for review", not "dropping labeled with a pathogen".
 - Yang et al. top-view gait proxies `[abstract only]`: [https://pubmed.ncbi.nlm.nih.gov/36584623/](https://pubmed.ncbi.nlm.nih.gov/36584623/)
 - Fodor et al. top-view gait features `[abstract only]`: [https://pubmed.ncbi.nlm.nih.gov/39793240/](https://pubmed.ncbi.nlm.nih.gov/39793240/)
 - Disease-challenge behavior `[abstract only]`: [https://pubmed.ncbi.nlm.nih.gov/42117450/](https://pubmed.ncbi.nlm.nih.gov/42117450/)
-- Dropping physical/chemical variation `[abstract only]`: [https://pubmed.ncbi.nlm.nih.gov/38731394/](https://pubmed.ncbi.nlm.nih.gov/38731394/)
+- Dropping physical/chemical variation `[read]`: [https://pmc.ncbi.nlm.nih.gov/articles/PMC11083088/](https://pmc.ncbi.nlm.nih.gov/articles/PMC11083088/)

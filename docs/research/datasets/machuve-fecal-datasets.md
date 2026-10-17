@@ -51,6 +51,11 @@
   healthy, because white coloring overlaps and texture distinctions can be
   subjective.
 - Never treat farm-labeled and PCR-labeled datasets as interchangeable.
+- Some downstream papers collapse v2 and v3 into 8,067 images and describe the
+  combined collection as PCR-positive. That conflicts with the primary record:
+  6,812 images are farm-labelled and 1,255 are PCR-annotated. Do not count such
+  downstream reuse as independent replication or laboratory confirmation
+  ([2026 example](https://doi.org/10.11975/j.issn.1002-6819.202601168)).
 - The reported training mixed label sources and used an 80/20 image split;
   the test set used farm labels. No held-out-farm, bird, or collection-session
   evaluation was reported. MobileNetV2/Xception results of 98.02–98.24%

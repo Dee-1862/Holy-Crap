@@ -1,10 +1,11 @@
 # Holy-Crap: poultry health research
 
 A Raspberry Pi Camera Module 3 mounted overhead watches chickens in a pen.
-The headless QNX Raspberry Pi 5 streams camera data over the project's
-reliable-Wi-Fi working assumption to a desktop primary UI. The system monitors
-the flock, tracks individuals when feasible, detects and associates newly
-deposited droppings when the evidence supports it, and surfaces
+The headless QNX Raspberry Pi 5 is intended to send a compressed/downsampled
+preview, clips, or events to a desktop primary UI over a Wi-Fi path that still
+needs field validation. The system monitors the flock, tracks individuals when
+feasible, detects and associates newly deposited droppings when the evidence
+supports it, and surfaces
 health/welfare anomalies for a farmer to review. It does not diagnose
 disease and it never makes culling decisions.
 

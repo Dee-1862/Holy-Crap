@@ -2,6 +2,7 @@
 
 Newest first. One line per change: date, what, why.
 
+- 2026-10-17: Added producer adoption and field-deployment evidence, a buyer map, operational validation metrics, Big Broiler defecation-action labels, the licensed Nigerian appearance dataset, the 43-day Zhou manure-belt collection, and the 22-week Essien overhead collection. Hardened Wi-Fi, raw-video, camera-geometry, enclosure, power, and StopWatch assumptions into measured gates.
 - 2026-10-17: Established the research knowledge base under docs/ (BIBLE.md, research/PAPER.md, subject nodes, landscape, findings, bibliography, and open questions). Reframed the product as explainable early warning/triage rather than camera diagnosis. Selected Raspberry Pi Camera Module 3 and QNX AI Camera App, made the desktop the primary UI over a reliable-Wi-Fi working assumption, and made the M5Stack StopWatch an optional wall client. Rewrote game-plan.md to match.
 - 2026-10-17: Corrected the target hardware to the verified Raspberry Pi 5 running QNX 8.0.0. Removed the Pi 4-specific camera claim and made CPU-only inference the working assumption until acceleration is verified. Added TARGET.md and AGENTS.md with target facts, connection steps, and operating rules.
 - 2026-10-17: Created docs/ with game-plan.md, research.md, changes.md, mistakes.md. Initial plan from user's idea (two-stage fecal classification on QNX Raspberry Pi). Hardware recommendation: one Pi 4 per camera zone; ESP32 only for sensors/alert display.

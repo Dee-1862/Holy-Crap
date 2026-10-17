@@ -46,6 +46,68 @@
   not validate pathogen detection, clinical outcomes, temporal detection of a
   newly deposited dropping, or generalization to another flock or farm.
 
+## Aworinde/Adebayo Nigeria collection (2023)
+
+`[read]` [paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC10477973/),
+[dataset](https://data.mendeley.com/datasets/8pnbzpt2k9/1)
+
+- 14,618 CC BY 4.0 smartphone images at 100×100 pixels: 7,991 labelled
+  healthy and 6,627 non-healthy.
+- Animal scientists and farmers verified the visual labels; there was no
+  laboratory or pathogen testing. Treat it only as binary visual-abnormality
+  data, not disease or health ground truth.
+- Burst capture and only 94 reported physical instances create serious
+  near-duplicate and grouped-split leakage risk. Separate evaluation by
+  physical instance, farm, and acquisition period where identifiers permit.
+- Morning, afternoon, and night folders do not identify individual birds or
+  repeated samples, so this is not a longitudinal dataset. The paper contains
+  a conflicting raw-image count; cite only the consistent 14,618 final total.
+
+## Zhou et al. manure-belt growth-cycle collection (2023)
+
+`[read]` [paper](https://www.ijabe.org/index.php/ijabe/article/download/7732/pdf),
+[DOI](https://doi.org/10.25165/j.ijabe.20231601.7732)
+
+- Video frames were collected at the end of a manure belt through one 43-day
+  broiler growth cycle: 2,098 raw images, augmented to 5,314, with 1,000
+  selected for train/validation/test (569 normal, 431 abnormal).
+- This is the closest reviewed longitudinal droppings collection, but it is a
+  belt-end appearance dataset, not an in-pen deposition-event dataset.
+- Labels were visual and veterinary-advised, not laboratory/pathogen
+  confirmed. The reported 98.8% should not be read as independent clinical
+  accuracy: augmentation preceded final selection, and the paper does not
+  describe grouped splits by source frame, session, or day.
+- It cannot support bird attribution, new-deposit detection, or disease
+  diagnosis.
+
+## Big Broiler defecation-action precursor (2025)
+
+`[read]` [repository](https://github.com/decide-ugent/big-broiler-dataset),
+[paper](https://biblio.ugent.be/publication/01K47TCM11DQFAY9ECSWKKV7C6/file/01K47TEMS4W9984XERQWHDHJHF.pdf),
+[dataset page](https://decide.ugent.be/datasets/big-broiler/)
+
+- Human-labelled `Defecating` actions are attached to tracked broilers,
+  including a 140-bird angled-view pen and a small overhead setup.
+- The released tracklets average about 73 seconds, and the paper notes
+  relatively low stocking density.
+- It does not label the resulting fecal deposit, its location or appearance,
+  or persistent identity across clips. It is a behavioral event-cue precursor,
+  not proof of bird-to-dropping attribution.
+
+## Essien et al. long-running overhead collection (2026)
+
+`[read]` [paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC13199025/),
+[restricted record](https://doi.org/10.5281/zenodo.18735885)
+
+- 150 floor-housed layers across five barns were recorded continuously for 22
+  weeks with overhead RGB video, audio, periodic thermal imaging, and
+  environmental sensors.
+- It may help with self-supervised pretraining, capture-system testing,
+  long-run reliability, and age/time baselines.
+- It has no manual behavior, health, welfare, fecal, or pathogen labels, and
+  raw access requires a Data Access Agreement. It is not supervised disease or
+  droppings ground truth.
+
 ## Project implication
 
 Reuse the annotation idea (normal appearance, abnormal shape, abnormal color,

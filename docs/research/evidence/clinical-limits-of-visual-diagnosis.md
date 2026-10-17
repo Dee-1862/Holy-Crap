@@ -56,6 +56,18 @@ MSD Veterinary Manual, coccidiosis `[read]`
   flock context; mixed infections are common, and some relevant lesions are
   internal and invisible to the camera.
 
+## Dropping appearance is a clue, not a diagnosis
+
+University of Guelph Animal Health Laboratory guidance `[read]`
+[https://www.uoguelph.ca/ahl/content/diagnosing-enteric-disease-backyard-chickens](https://www.uoguelph.ca/ahl/content/diagnosing-enteric-disease-backyard-chickens)
+
+- Diagnostic guidance distinguishes normal loose cecal droppings from
+  diarrhea and connects some appearances to conditions worth investigating.
+- Confirmation still uses fecal parasitology or culture, PCR, histology, or
+  postmortem examination as appropriate.
+- The product may display measured color or texture and recommend review or
+  sampling. It must never translate one color directly into a disease label.
+
 ## Rabies correction
 
 An earlier draft disease list for this project included rabies. WOAH `[read]`
@@ -87,4 +99,5 @@ laboratory testing confirms the diagnosis. See [../PAPER.md](../PAPER.md) and
 - USDA spotting sickness `[read]`: [https://www.aphis.usda.gov/livestock-poultry-disease/avian/defend-the-flock/how-to-spot-sickness](https://www.aphis.usda.gov/livestock-poultry-disease/avian/defend-the-flock/how-to-spot-sickness)
 - MSD coccidiosis `[read]`: [https://www.msdvetmanual.com/poultry/coccidiosis-in-poultry/coccidiosis-in-poultry?query=broiler](https://www.msdvetmanual.com/poultry/coccidiosis-in-poultry/coccidiosis-in-poultry?query=broiler)
 - MSD common infectious diseases `[read]`: [https://www.msdvetmanual.com/exotic-and-laboratory-animals/backyard-poultry/common-infectious-diseases-in-backyard-poultry](https://www.msdvetmanual.com/exotic-and-laboratory-animals/backyard-poultry/common-infectious-diseases-in-backyard-poultry)
+- University of Guelph enteric-disease guidance `[read]`: [https://www.uoguelph.ca/ahl/content/diagnosing-enteric-disease-backyard-chickens](https://www.uoguelph.ca/ahl/content/diagnosing-enteric-disease-backyard-chickens)
 - WOAH rabies `[read]`: [https://www.woah.org/en/disease/rabies/](https://www.woah.org/en/disease/rabies/)

@@ -141,18 +141,25 @@ handling as study variables.
 Droppings are also the easiest feature to overclaim. The tempting version,
 “classify droppings by pathogen,” is not supported by the evidence.
 
-Attribution first. We found no peer-reviewed demonstration of reliable
-bird-level dropping attribution in a crowded, free-moving floor pen. The
-closest result traced abnormal manure to a cage in a stacked-cage/manure-belt
-system with 91.6% correct tracing across 48 field tests; it did not identify
-an individual bird ([Qin et al., 2024](https://www.sciencedirect.com/science/article/pii/S0168169924003909)).
-We propose a testable hypothesis: detect a
-new dropping by temporal change/segmentation; look back over a short window
-in identity tracks; assign only when one tagged bird occupies the deposition
-footprint and a visible posture/event cue supports it; otherwise mark it
-unattributed. Unattributed must be a valid, first-class outcome, not an
-error state. Zone-level output ("zone X has abnormal droppings") remains
-useful on its own and is the fallback.
+Attribution first. We found no end-to-end demonstration of reliable
+bird-to-resulting-dropping attribution in a crowded, free-moving floor pen.
+Big Broiler `[read]` is the closest precursor: it attaches a human-labelled
+`Defecating` action to broiler tracklets, including a 140-bird angled-view pen
+and a small overhead setup. It does not label the resulting fecal deposit, its
+location or appearance, or persistent identity across clips; released
+tracklets average about 73 seconds, and the paper notes relatively low stocking
+density ([repository](https://github.com/decide-ugent/big-broiler-dataset),
+[paper](https://biblio.ugent.be/publication/01K47TCM11DQFAY9ECSWKKV7C6/file/01K47TEMS4W9984XERQWHDHJHF.pdf)).
+Qin et al. separately traced abnormal manure to a cage in a stacked-cage,
+manure-belt system with 91.6% correct tracing across 48 field tests; it did not
+identify an individual bird
+([Qin et al., 2024](https://www.sciencedirect.com/science/article/pii/S0168169924003909)).
+We therefore propose a testable hypothesis: detect a new dropping by temporal
+change/segmentation; look back over a short window in identity tracks; assign
+only when one tagged bird occupies the deposition footprint and a visible
+event cue supports it; otherwise mark it unattributed. Unattributed must be a
+valid, first-class outcome, not an error state. Zone-level output ("zone X has
+abnormal droppings") remains useful on its own and is the fallback.
 
 Classification second. The framing that survives the evidence is
 normal/abnormal triage, not pathogen diagnosis. A segmentation study
@@ -205,16 +212,33 @@ The paper's 80/20 image split did not hold out a farm, bird, or collection
 session; its reported 98.02–98.24% results measure agreement with the dataset
 labels, not lab-confirmed diagnostic accuracy or expected barn performance.
 
-A 2025 poultry CV survey `[skimmed]` also reports a Nigerian binary
-healthy/unhealthy fecal dataset of 14,618 images at 100x100 px, which we
-have not reviewed beyond the survey. Nakrosis et al. `[read]` collected 487
-real-litter images from three Lithuanian farms and used six veterinarian-
-defined appearance classes. Reported best results were 91.78% classification
-accuracy, 92.41% object-detection accuracy, and a 0.8875 K-means Dice score;
-the data are small, imbalanced, and available only by request, and the labels
-are visual rather than pathogen-confirmed. A 2026 SSRN paper `[found]` on feces
-weight and robotic floors is relevant to feces monitoring generally but does
-not support bird-specific disease attribution.
+The Aworinde/Adebayo Nigeria collection `[read]` contains 14,618 CC BY 4.0
+smartphone images at 100×100 pixels: 7,991 labelled healthy and 6,627
+non-healthy. Animal scientists and farmers verified the visual labels, not
+laboratory or pathogen testing. Burst capture and only 94 reported physical
+instances create serious near-duplicate and grouped-split leakage risk. The
+morning/afternoon/night folders do not identify birds or repeated samples, so
+this is not longitudinal data. Treat it only as binary visual-abnormality data
+([paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC10477973/),
+[dataset](https://data.mendeley.com/datasets/8pnbzpt2k9/1)).
+
+Nakrosis et al. `[read]` collected 487 real-litter images from three Lithuanian
+farms and used six veterinarian-defined appearance classes. Reported best
+results were 91.78% classification accuracy, 92.41% object-detection accuracy,
+and a 0.8875 K-means Dice score; the data are small, imbalanced, and available
+only by request, and the labels are visual rather than pathogen-confirmed.
+Zhou et al. `[read]` followed one 43-day broiler cycle at a manure-belt end,
+making it the closest reviewed longitudinal dropping-appearance collection,
+not an in-pen deposition dataset. Its visual, veterinary-advised labels and
+ungrouped augmentation/split reporting do not support clinical accuracy,
+bird attribution, or new-deposit detection. Essien et al. `[read]` supplies 22
+weeks of overhead multimodal data across five layer barns, but has no behavior,
+health, welfare, fecal, or pathogen labels and requires a Data Access Agreement.
+See [datasets/abnormal-droppings-datasets.md](datasets/abnormal-droppings-datasets.md).
+
+A 2026 SSRN paper `[found]` on feces weight and robotic floors is relevant to
+feces monitoring generally but does not support bird-specific disease
+attribution.
 
 ## 6. Prior academic and commercial work
 
@@ -257,12 +281,24 @@ independently establish adoption or willingness to pay.
 
 ## 7. Market and operator needs
 
-The provisional operator requirements are design hypotheses pending farmer
-interviews
-([practice/operator-needs-and-product-wedge.md](practice/operator-needs-and-product-wedge.md)): evidence clips/images with
-every alert; reason, confidence, and persistence; bird ID or zone;
-acknowledgement and an audit trail; offline tolerance; a low false-alarm
-burden; and fit with barn workflows.
+The market evidence supports an operational workflow, not a willingness-to-pay
+claim. A Tennessee broiler-producer survey `[read]` found widespread use of
+temperature, feed, and water automation but much lower reported use of video
+and data-management systems. Of this contract-grower-heavy sample, only 46%
+said they were the primary technology decision-maker; 41% consulted the
+integrator or had technology addressed by contract. Producers expressed more
+interest when a technology increased income, could be seen working on a farm,
+or came with cost sharing. The survey was regional and low-response, so it does
+not establish a price or paid demand.
+
+Farm visits and field deployments `[read]` make the adoption requirements more
+concrete: integrate readable data with existing records; keep direct human
+inspection; expose missing, stale, duplicate, and unrealistic data; let the
+operator access and export raw and derived records; state maintenance and
+cleaning needs; and show economic and time burden. Local interviews remain
+necessary for transfer validation. They must include growers and
+integrator/live-production managers, not only the person standing in the barn.
+See [practice/operator-needs-and-product-wedge.md](practice/operator-needs-and-product-wedge.md).
 
 The resulting product hypothesis is an evidence-backed bird
 shortlist and health anomaly workflow. The camera produces continuous
@@ -318,9 +354,12 @@ secondary status display. Inference placement remains benchmark-driven. See
 As project methodology, evaluation must split by the strongest available
 independent acquisition unit (bird, flock, farm, date, or session), and never
 place near-duplicate frames from one recording across train and test. It must
-measure operator-relevant quantities: event-level alert value,
-identity coverage, false alarms per pen-day, latency, missed incidents, and
-operator follow-through. Controlled-study accuracy numbers from the
+measure operator-relevant quantities: trusted-data uptime; missing, duplicate,
+and stale-frame rates; clock integrity; maintenance interventions per flock;
+identity coverage; false alarms per house-day; alert acknowledgement and
+inspection rate; action yield; latency; missed incidents; delay created by
+persistence rules; operator follow-through; and performance against the
+existing manual-record baseline. Controlled-study accuracy numbers from the
 literature are not deployment performance; our own barn data decides.
 
 Leakage deserves emphasis because the public datasets are small and
@@ -346,6 +385,16 @@ did the farmer act on the alert, and was that action useful?
 - Deployment risk: QNX documents the Sensor Framework/AICA path, but Camera
   Module 3 + Pi 5 + AICA and the ML runtimes have not been proved on this
   physical target; inference placement depends on benchmarks.
+- Field reliability risk: ammonia, dust, insects, bird contact, connectivity
+  loss, timestamp inconsistency, missing/duplicate/stale data, and slow
+  maintenance can make a technically accurate model operationally useless.
+- Commercial-domain risk: research-facility accuracy may not survive age,
+  density, occlusion, lighting, equipment, and full-grow-out conditions. Zone
+  occupancy must not be relabeled as a specific behavior such as drinking
+  without separate evidence.
+- Adoption risk: the grower may not control purchasing or data, and the party
+  paying may not capture the benefit. Buyer, approver, operator, data owner,
+  maintenance owner, and economic beneficiary must be mapped.
 - False-alarm risk: age and other flock context can change dropping color,
   texture, pH, dry matter, and composition; alert rules need flock baselines
   and persistence, not isolated frames.
@@ -363,8 +412,9 @@ did the farmer act on the alert, and was that action useful?
   data reviewed for this).
 - Marker pilot data under production-like density and handling.
 - Markerless identity in field settings (underdeveloped in the literature).
-- Operator workflow interviews: what a real farmer wants to review and how
-  often.
+- Operator workflow and buyer interviews: what growers and integrators need,
+  who approves and pays, who owns the data, who services the system, who
+  receives alerts, and who captures the benefit.
 
 The prioritized list with methods and the decisions each one unlocks is in
 [../03-open-questions.md](../03-open-questions.md); the condensed landscape with comparison tables is

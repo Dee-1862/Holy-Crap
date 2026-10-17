@@ -93,8 +93,9 @@ truth: [BIBLE.md](BIBLE.md).
    Unlocks: whether the droppings layer ships at all.
 
 10. **Can a detected dropping be attributed to a bird with useful precision?**
-    Why: no peer-reviewed result found in this pass demonstrates this in a
-    crowded, free-moving floor pen.
+    Why: Big Broiler labels defecation actions on short tracklets but not the
+    resulting deposit or persistent bird identity. No result found in this pass
+    demonstrates end-to-end attribution in a crowded, free-moving floor pen.
     Method: look backward through confident ArUco tracks at each deposition;
     require spatial footprint plus a visible event cue; measure correct,
     incorrect, and unattributed outcomes separately.
@@ -109,11 +110,17 @@ truth: [BIBLE.md](BIBLE.md).
 
 ## P3: interfaces and field operation
 
-12. **What does a farmer need in the desktop review workflow?**
-    Why: evidence clips, confidence, acknowledgement, history, and alert load
-    are provisional requirements, not validated customer needs.
-    Method: interview pilot-farm operators and test the UI against real alerts.
-    Unlocks: dashboard information architecture and false-alert budget.
+12. **Who buys, operates, owns, and benefits from the system?**
+    Why: producer evidence shows that a contract grower is often not the sole
+    technology decision-maker. Literature does not supply a universal poultry
+    false-alert budget or credible dollar willingness-to-pay estimate.
+    Method: interview growers and integrator/live-production managers. Ask who
+    approves, pays, owns raw and derived data, services hardware under
+    biosecurity rules, receives alerts, and benefits financially. Test evidence
+    clips, priority tiers, acknowledgement, history, export, and alert load with
+    real events; set the false-alert budget with pilot operators, not literature.
+    Unlocks: buyer map, data rights, dashboard information architecture,
+    maintenance model, ROI measurement, and false-alert budget.
 
 13. **What exact escalation language is required?**
     Why: duties for suspected Newcastle disease or avian influenza vary by

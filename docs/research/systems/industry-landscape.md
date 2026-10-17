@@ -33,6 +33,45 @@ Video-based poultry monitoring review `[skimmed]`
 - Calls for multi-farm/multi-view datasets and operator-interpretable
   indicators.
 
+## Producer adoption and field reality
+
+The strongest adoption evidence in this pass is not willingness to pay for an
+AI disease detector. It is evidence that producers already use environmental,
+feed, and water automation, and that adoption depends on demonstrated income,
+visible operation on a real farm, cost sharing, maintenance, and control of
+data.
+
+A Tennessee broiler-producer survey `[read]` had 77 respondents from 531
+contacts (14.5% response; 69% completion). Temperature monitoring, automated
+feed, and water meters were common; video was 25.0% and data-management
+software 24.6%. Of a sample dominated by contract growers, only 46% described
+themselves as the primary technology decision-maker, while 41% consulted the
+integrator or had technology addressed by contract. This is regional,
+self-reported evidence with a low response rate, not transaction-level demand
+or a dollar willingness-to-pay estimate.
+
+European PLF farm visits `[read]` found that farmers wanted integrated,
+readable data while retaining direct observation. Reported failures included
+high prices, slow maintenance, broken equipment, unrealistic values, inability
+to repair or adjust systems, and data kept by the vendor. A 31-month,
+8,100-bird monitoring study `[read]` discarded roughly 40–50% of records in
+early versions and still lost about 10–20% in later versions because of
+missing, duplicate, invariant, or inconsistent data, stalls, maintenance, and
+connectivity. A commercial-house CV study `[read]` found weaker performance
+than research-facility results; drinker-use F1 was 0.28 because presence in a
+drinker zone did not mean drinking. Dense commercial annotation, dust, and
+insects were practical constraints.
+
+A separate Pi-camera field prototype `[read]` reported bird contact with an
+exposed camera, a board failure in high ammonia, lens dust, acquisition gaps,
+and feeder-to-bird false detections. Different installations will fail
+differently, but the product requirements are clear: cleanable and protected
+hardware, explicit data freshness, exportable operator-owned records,
+maintainability, and full-grow-out field validation.
+
+Sources and limitations are summarized in
+[../practice/operator-needs-and-product-wedge.md](../practice/operator-needs-and-product-wedge.md).
+
 ## Commercial systems
 
 AGCO acquisition of Faromatics (ChickenBoy) `[read/company source]`

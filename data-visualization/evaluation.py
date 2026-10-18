@@ -433,30 +433,31 @@ def bench_table(farm: pd.DataFrame, pcr: pd.DataFrame) -> pd.DataFrame:
 def fig_benchmark(farm: pd.DataFrame, pcr: pd.DataFrame) -> pd.DataFrame:
     t = bench_table(farm, pcr)
     summary = t.groupby(["model", "set"]).agg(seeds=("seed", "nunique"), accuracy=("accuracy", "mean"), acc_min=("accuracy", "min"),
-                                              acc_max=("accuracy", "max"), macro_f1=("macro_f1", "mean"),
+                                              acc_max=("accuracy", "max"), ci_low=("ci_low", "mean"), ci_high=("ci_high", "mean"),
+                                              macro_f1=("macro_f1", "mean"),
                                               recall_ncd=("recall_ncd", "mean")).reset_index()
     models = [m for m in BENCH_LABEL if m in set(summary.model)]
     fig, ax = plt.subplots(figsize=(9.6, 1.25 * len(models) + 1.2))
     for k, key in enumerate(("farm", "pcr")):
         sub = summary[summary.set == key].set_index("model").reindex(models)
         y = np.arange(len(models)) + (-0.17 if k == 0 else 0.17)
-        ax.hlines(y, sub.acc_min, sub.acc_max, color=SET_COLOR[key], lw=6, alpha=0.35)
+        ax.hlines(y, sub.ci_low, sub.ci_high, color=SET_COLOR[key], lw=2)
         ax.scatter(sub.accuracy, y, s=52, color=SET_COLOR[key], edgecolor=hv.SURFACE, linewidth=2, zorder=3,
                    label=SET_LABEL[key], clip_on=False)
         for yy, (_, r) in zip(y, sub.iterrows()):
-            spread = f" (seeds {pct(r.acc_min)} to {pct(r.acc_max)})" if r.seeds > 1 else " (one run)"
-            ax.text(1.015, yy, f"{pct(r.accuracy)}{spread}", va="center", fontsize=8.8, color=hv.INK, transform=ax.get_yaxis_transform())
+            ax.text(1.015, yy, f"{pct(r.accuracy)}  ({pct(r.ci_low)} to {pct(r.ci_high)})", va="center", fontsize=8.8, color=hv.INK,
+                    transform=ax.get_yaxis_transform())
     ax.set_yticks(range(len(models)), [BENCH_LABEL[m] for m in models])
     ax.invert_yaxis()
     ax.set_xlim(0.4, 1)
     ax.xaxis.set_major_formatter(lambda v, _: f"{100 * v:.0f}%")
     ax.grid(axis="x")
     ax.tick_params(length=0)
-    ax.set_xlabel("share of photos called correctly. The dot is the mean over seeds, the band the range across seeds")
+    ax.set_xlabel("share of photos called correctly, with 95% Wilson interval. One training run per model")
     ax.legend(loc="lower left", bbox_to_anchor=(0, 1.0), ncol=2, fontsize=9)
     hv.headline(fig, "Every model scores high on the farm test and drops on the lab-confirmed photos",
                 "All models trained on the same 5,451 photos and tested on the same photos. The classifiers always answer. "
-                "The detector says\nno detection below 0.25, which counts as wrong here.", y=1.0 + 1.1 / fig.get_figheight())
+                "The detector says\nno detection below 0.25, which counts as wrong here.", y=1.0 + 0.75 / fig.get_figheight())
     save(fig, "13_benchmark", t.round(4))
     return summary
 

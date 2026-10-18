@@ -86,3 +86,9 @@ data-visualization/.venv/
 
 # grading work files: blinded images, queues and batches (rebuilt by dataset/grading/prepare.py)
 dataset/grading/work/
+
+# LaTeX build logs
+paper/*.log
+paper/*.blg
+paper/*.aux
+paper/*.bbl

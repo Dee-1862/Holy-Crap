@@ -18,7 +18,7 @@ NESTLER = {
     "license": "CC BY 4.0",
 }
 PIO = {
-    "name": "PIO poultry dataset, Universidade Federal da Grande Dourados",
+    "name": "PIO poultry dataset, Boniche, Cruz et al. 2025 (Veraguas, Panama)",
     "url": "https://zenodo.org/records/16686320",
     "download": "https://zenodo.org/api/records/16686320/files/0002.mp4/content",
     "file": "pio/0002.mp4",

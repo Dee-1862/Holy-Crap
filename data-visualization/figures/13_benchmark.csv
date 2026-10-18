@@ -1,4 +1,6 @@
 model,seed,set,photos,accuracy,ci_low,ci_high,macro_f1,recall_cocci,recall_healthy,recall_ncd,recall_salmo
+efficientnet_b0,0,farm,679,0.9897,0.9789,0.995,0.9862,1.0,0.9756,0.973,0.9956
+efficientnet_b0,0,pcr,1255,0.7825,0.7588,0.8044,0.795,0.6836,0.683,0.8817,0.9341
 mobilenet_v2,0,farm,679,0.9956,0.9871,0.9985,0.9965,1.0,0.9854,1.0,1.0
 mobilenet_v2,0,pcr,1255,0.7458,0.721,0.7691,0.7534,0.6756,0.6599,0.6989,0.9312
 yolo11n,0,farm,679,0.9794,0.9657,0.9877,0.9774,1.0,0.9756,0.9459,0.9692

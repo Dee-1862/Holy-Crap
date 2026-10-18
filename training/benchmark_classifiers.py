@@ -133,19 +133,19 @@ def predict(model, x, torch, dev):
     return np.concatenate(out)
 
 
-def train_one(name: str, seed: int, farm, pcr, torch, tv, dev):
+def train_one(name: str, seed: int, farm, pcr, torch, tv, dev, epochs: int = EPOCHS):
     torch.manual_seed(seed); np.random.seed(seed)
     x, y, split = farm["x"], farm["y"], farm["split"]
     tr, va = np.where(split == "train")[0], np.where(split == "val")[0]
     model = build(name, torch, tv).to(dev)
     opt = torch.optim.AdamW(model.parameters(), lr=1e-3 if name != "resnet50" else 5e-4, weight_decay=1e-4)
-    steps = EPOCHS * ((len(tr) + BATCH - 1) // BATCH)
+    steps = epochs * ((len(tr) + BATCH - 1) // BATCH)
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=opt.param_groups[0]["lr"], total_steps=steps, pct_start=0.1)
     scaler = torch.amp.GradScaler()
     lossf = torch.nn.CrossEntropyLoss()
     best, best_state, log = -1.0, None, []
     t0 = time.time()
-    for ep in range(1, EPOCHS + 1):
+    for ep in range(1, epochs + 1):
         model.train()
         order = np.random.permutation(tr)
         total = 0.0
@@ -157,7 +157,7 @@ def train_one(name: str, seed: int, farm, pcr, torch, tv, dev):
             scaler.step(opt); scaler.update(); sched.step()
             total += float(loss) * len(yb)
         acc = float((predict(model, x[va], torch, dev).argmax(1) == y[va]).mean())
-        log.append({"model": name, "seed": seed, "epoch": ep, "train_loss": total / len(tr), "val_acc": acc})
+        log.append({"model": name, "seed": seed, "epochs": epochs, "epoch": ep, "train_loss": total / len(tr), "val_acc": acc})
         if acc > best:
             best, best_state = acc, {k: v.detach().clone() for k, v in model.state_dict().items()}
         print(f"  {name} seed {seed} epoch {ep}: loss {total / len(tr):.3f} val {acc:.4f}", flush=True)
@@ -185,11 +185,11 @@ def cmd_train(args):
         old = pd.read_csv(pred_path)
         done = set(zip(old.model, old.seed))
     for name in args.models or MODELS:
-        for seed in SEEDS:
+        for seed in args.seeds:
             if (name, seed) in done:
                 print(name, seed, "already done", flush=True)
                 continue
-            rows, log = train_one(name, seed, farm, pcr, torch, tv, dev)
+            rows, log = train_one(name, seed, farm, pcr, torch, tv, dev, args.epochs)
             pd.DataFrame(rows).to_csv(pred_path, mode="a", header=not pred_path.exists(), index=False)
             pd.DataFrame(log).to_csv(log_path, mode="a", header=not log_path.exists(), index=False)
 
@@ -214,6 +214,8 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("job", choices=["cache", "train", "export", "all"])
     ap.add_argument("--models", nargs="*")
+    ap.add_argument("--seeds", type=int, nargs="*", default=SEEDS)
+    ap.add_argument("--epochs", type=int, default=EPOCHS)
     a = ap.parse_args()
     if a.job in ("cache", "all"):
         cmd_cache(a)

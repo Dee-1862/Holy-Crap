@@ -14,11 +14,26 @@ if ! python -c "import cv2" 2>/dev/null; then
 fi
 nvidia-smi -L; nproc; free -g | head -2; df -h "$PWD" /dev/shm
 
+NGPU=$(nvidia-smi -L | wc -l)
+if [ -n "${DDP_CLS:-}" ]; then
+  # Prove multi-GPU works in the sandbox before paying for the 33 GB download.
+  timeout 300 torchrun --standalone --nproc_per_node "$NGPU" ddp_check.py || exit 1
+fi
+
 python prepare_behavior.py --out "$WORK" --workers "${PREP_WORKERS:-32}" || exit 1
 
 HOURS=$(python -c "import time; left=(${BUDGET_MIN:-110}*60 - (time.time()-$JOB_START) - 600)/3600; print(round(max(left, 1/4), 3))")
 echo "training time cap: $HOURS h"
-NGPU=$(nvidia-smi -L | wc -l)
+
+if [ -n "${DDP_CLS:-}" ]; then
+  # Only the Pi behaviour classifier, on every GPU at once.
+  python train_behavior.py --task cls --data "$WORK/behaviour" --name cls_n_ddp --model yolo11n-cls.pt \
+    --gpus "$NGPU" --batch 128 --hours "$HOURS" --workers 10 2>&1 \
+    | tee cls_n_ddp.log | grep --line-buffered -E '^metrics|SUMMARY|export|Traceback|Error|epochs completed'
+  rc=${PIPESTATUS[0]}
+  cp cls_n_ddp.log "$WORK/stats_behaviour.json" "${VERI_OUTPUT_DIR:-.}/" 2>/dev/null
+  exit $rc
+fi
 
 CUDA_VISIBLE_DEVICES=0 python train_behavior.py --task cls --data "$WORK/behaviour" --name cls_n \
   --model yolo11n-cls.pt --hours "$HOURS" --workers 14 > cls_n.log 2>&1 &

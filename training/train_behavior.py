@@ -29,6 +29,7 @@ def main():
     ap.add_argument("--imgsz", type=int, default=None)
     ap.add_argument("--batch", type=int, default=None)
     ap.add_argument("--workers", type=int, default=12)
+    ap.add_argument("--gpus", type=int, default=1, help=">1 = multi-GPU (DDP); batch is per GPU")
     ap.add_argument("--export-sizes", default=None)
     ap.add_argument("--out", type=Path, default=Path(os.environ.get("VERI_OUTPUT_DIR", "outputs")))
     args = ap.parse_args()
@@ -52,12 +53,40 @@ def main():
 
     model = YOLO(args.model)
     model.add_callback("on_fit_epoch_end", on_epoch)
-    kw = dict(data=args.data, epochs=args.epochs, imgsz=imgsz, batch=batch, workers=args.workers,
-              patience=15, seed=0, project=str(out), name="train", exist_ok=True, plots=True)
+    kw = dict(data=args.data, epochs=args.epochs, imgsz=imgsz, batch=batch * max(1, args.gpus),
+              workers=args.workers, patience=15, seed=0, project=str(out), name="train", exist_ok=True, plots=True)
+    if args.gpus > 1:
+        kw["device"] = list(range(args.gpus))  # DDP; our callback doesn't run in the DDP workers
     if args.hours:
         kw["time"] = args.hours
-    print(f"[{args.name}] training {args.model} imgsz={imgsz} batch={batch} hours={args.hours}", flush=True)
+    print(f"[{args.name}] training {args.model} imgsz={imgsz} batch={kw['batch']} gpus={args.gpus} "
+          f"hours={args.hours}", flush=True)
+    stop = None
+    if args.gpus > 1:
+        import csv
+        import threading
+
+        stop = threading.Event()
+        rc, logged = out / "train" / "results.csv", set()
+
+        def follow():  # DDP workers don't run our callback; follow results.csv instead
+            while True:
+                if rc.exists():
+                    for row in csv.DictReader(open(rc)):
+                        row = {k.strip(): v for k, v in row.items()}
+                        e = int(float(row.pop("epoch")))
+                        if e not in logged:
+                            logged.add(e)
+                            base.log(step=e, **{f"{args.name}_{k}": float(v) for k, v in row.items() if v})
+                if stop.wait(20):
+                    break
+
+        t = threading.Thread(target=follow, daemon=True)
+        t.start()
     model.train(**kw)
+    if stop:
+        stop.set()
+        t.join()
 
     best = out / "train" / "weights" / "best.pt"
     model = YOLO(str(best))

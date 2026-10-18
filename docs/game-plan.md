@@ -6,7 +6,7 @@ controls if the two files ever diverge.
 ## Goal
 
 Build a fixed, overhead poultry-monitoring system that turns camera footage
-into explainable flock, zone, bird, and dropping anomalies for human review.
+into explainable flock, group, zone, and dropping anomalies for human review.
 It does not diagnose disease, prescribe treatment, or make culling decisions.
 
 ## Working architecture
@@ -18,7 +18,7 @@ Raspberry Pi Camera Module 3
   -> reliable high-bandwidth Wi-Fi (working assumption)
   -> desktop application (primary UI and authoritative review workflow)
        -> live/recorded video and evidence clips
-       -> flock/zone metrics and individual history when identity is reliable
+       -> flock/group/zone metrics and group history
        -> alert acknowledgement and audit trail
   -> optional M5Stack StopWatch wall display (summary/status only)
 ```
@@ -26,6 +26,18 @@ Raspberry Pi Camera Module 3
 Inference may run on the Pi, the desktop, or both. Benchmarking decides; it is
 not an architectural article of faith. MQTT, WebSocket, HTTP, and video codec
 choices remain open.
+
+## Unit of tracking: the group
+
+The core product does not identify individual birds. A group is a physically
+separated pen, section, or cage with a known head count. Each fixed camera view
+or region of interest maps detections to one `group_id`; alerts are normalized
+by group size and require persistence or a minimum event count. Small groups
+improve attribution, while large groups produce faster signals but weaker
+localization. Use farm-defined groups and welfare rules; never reshuffle birds
+for the monitoring system. See [vision-design-v2.md](vision-design-v2.md) for
+the group-first event design. Individual identity remains optional research,
+not an MVP dependency.
 
 ## Vision prototype note
 
@@ -73,17 +85,17 @@ remains authoritative.
    alert/status traffic over preview, define drop/backfill and local-retention
    policies, and fall back to wired Ethernet or local inference/recording if
    the Wi-Fi path has insufficient headroom.
-6. **Flock baseline.** Mount one camera over one representative pen with
+6. **Flock baseline.** Mount one camera over one representative group with
    controlled lighting. Build activity and zone-distribution baselines before
-   individual identity or disease-related work.
-7. **Identity pilot.** Test welfare-reviewed ArUco backpacks on a small flock.
-   Measure visible-time identity coverage, unknown-ID time, marker retention,
-   occlusion, cleaning, growth/fit, pecking, and handling burden.
+   disease-related work.
+7. **Group mapping.** Define fixed regions of interest for each pen, section,
+   or cage. Measure group-assignment coverage, boundary ambiguity, occupancy,
+   and the effect of occlusion and equipment on region confidence.
 8. **Dropping events.** Detect new deposits, then classify visible appearance
-   as normal/abnormal for review. Attribute to a bird only with strong temporal
-   and spatial evidence; `unattributed` is a valid result.
+   as normal/abnormal for review. Attribute each event to a group only when the
+   region mapping is reliable; `unattributed` is a valid result.
 9. **Optional wall display.** Add the M5Stack StopWatch after the authoritative
-   desktop/event path works. It shows state, alert count, affected bird/zone,
+   desktop/event path works. It shows state, alert count, affected group/zone,
    age, confidence/persistence, acknowledgement, and connectivity. It receives
    low-rate versioned summaries, never video; offline acknowledgement stays
    pending until the desktop accepts it.
@@ -103,9 +115,10 @@ validation, and a separately defined intended use. They are not an MVP output.
 
 - Split data by the strongest independent acquisition unit available (bird,
   flock, farm, date, or session), and keep near-duplicate video frames together.
-- Measure capture uptime, stream latency/freshness, identity coverage,
-  unknown-ID rate, new-dropping event recall/precision, attribution coverage,
-  false alerts per pen-day, missed incidents, and operator follow-through.
+- Measure capture uptime, stream latency/freshness, group-assignment coverage,
+  unknown-group rate, new-dropping event recall/precision, attribution
+  coverage, false alerts per group-day, missed incidents, and operator
+  follow-through.
 - Treat literature accuracy as study context, never as expected field
   performance.
 - Preserve an evidence clip and reason for every alert.

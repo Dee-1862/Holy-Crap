@@ -386,6 +386,10 @@ def cmd_build(args):
     names = f"names: {dict(enumerate(CLASSES))}\n"
     for tag, val in (("data", "val.txt"), ("closeup_test", "test.txt"), ("pen_test", "pen_test.txt"), ("pen_test_real", "pen_test_real.txt")):
         (y / f"{tag}.yaml").write_text(f"path: {y.as_posix()}\ntrain: {(y / 'train.txt').as_posix()}\nval: {(y / val).as_posix()}\n{names}")
+    if args.pen_train_extra:                                        # a second training list with more pen tiles
+        extra = build_pen_tiles("train", args.pen_train_extra, pen / "train_extra", True, SEED + 10)
+        (y / "train_more.txt").write_text("\n".join(lists["train"] + extra) + "\n")
+        (y / "data_more.yaml").write_text(f"path: {y.as_posix()}\ntrain: {(y / 'train_more.txt').as_posix()}\nval: {(y / 'val.txt').as_posix()}\n{names}")
     print({k: len(v) for k, v in lists.items()}, "entries with pen tiles", flush=True)
 
 
@@ -398,6 +402,7 @@ def main():
     ap.add_argument("--pen-val", type=int, default=600)
     ap.add_argument("--pen-test", type=int, default=600)
     ap.add_argument("--test-only", action="store_true", help="build only the test sets")
+    ap.add_argument("--pen-train-extra", type=int, default=0, help="also write data_more.yaml with this many more pen tiles")
     args = ap.parse_args()
     for step in (["bank", "frames", "build"] if args.cmd == "all" else [args.cmd]):
         globals()[f"cmd_{step}"](args)

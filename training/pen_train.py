@@ -34,17 +34,36 @@ def main():
     ap.add_argument("--cache", default="disk", help="disk, ram, or none")
     ap.add_argument("--name", default="pen1")
     ap.add_argument("--workers", type=int, default=2, help="each worker loads CUDA, on Windows more than 2 can exhaust the page file")
+    ap.add_argument("--start", default=str(START), help="weights to start from, e.g. yolo11s.pt for the larger model")
+    ap.add_argument("--imgsz", type=int, default=640)
+    ap.add_argument("--lr0", type=float, default=0.002, help="low because it starts from a trained dropping model")
+    ap.add_argument("--data", default="data.yaml", help="data.yaml, or data_more.yaml for the extra pen tiles")
+    ap.add_argument("--hours", type=float, default=None, help="wall clock cap on training, overrides epochs")
+    ap.add_argument("--resume", action="store_true", help="continue runs/NAME from its last.pt with its saved settings")
     args = ap.parse_args()
-    model = YOLO(str(START))
-    model.train(data=str(WORK / "yolo" / "data.yaml"), imgsz=640, epochs=args.epochs, batch=args.batch, workers=args.workers,
+    run = WORK / "runs" / args.name
+    if args.resume:
+        YOLO(str(run / "weights" / "last.pt")).train(resume=True)
+    else:
+        train(args)
+    evaluate(args, run)
+
+
+def train(args):
+    model = YOLO(args.start)
+    extra = {"time": args.hours} if args.hours else {}
+    model.train(data=str(WORK / "yolo" / args.data), imgsz=args.imgsz, epochs=args.epochs, batch=args.batch, workers=args.workers,
                 patience=args.patience, cache=False if args.cache == "none" else args.cache, project=str(WORK / "runs"), name=args.name, exist_ok=True,
-                lr0=0.002, cos_lr=True, seed=0, deterministic=True, plots=True)
-    best = WORK / "runs" / args.name / "weights" / "best.pt"
-    subprocess.run([sys.executable, str(HERE / "pen_eval.py"), str(START), str(best), "--out", str(WORK / "eval.json")], check=True)
-    for w, tag in ((START, "before"), (best, "after")):
-        subprocess.run([sys.executable, str(HERE / "pen_tweaks.py"), str(w), "--zooms", "1,2,3",
-                        "--out", str(WORK / f"tweaks_{tag}.json")], check=True, cwd=HERE)
-    print(json.dumps(json.loads((WORK / "eval.json").read_text()), indent=1))
+                lr0=args.lr0, cos_lr=True, seed=0, deterministic=True, plots=True, **extra)
+
+
+def evaluate(args, run):
+    best = run / "weights" / "best.pt"
+    subprocess.run([sys.executable, str(HERE / "pen_eval.py"), str(START), str(best), "--imgsz", str(args.imgsz), "--out", str(run / "eval.json")], check=True)
+    for w, tag, size in ((START, "before", 640), (best, "after", args.imgsz)):
+        subprocess.run([sys.executable, str(HERE / "pen_tweaks.py"), str(w), "--zooms", "1,2,3", "--imgsz", str(size),
+                        "--out", str(run / f"tweaks_{tag}.json")], check=True, cwd=HERE)
+    print(json.dumps(json.loads((run / "eval.json").read_text()), indent=1))
 
 
 if __name__ == "__main__":

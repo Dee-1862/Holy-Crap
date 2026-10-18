@@ -28,10 +28,10 @@ PEN = WORK / "yolo" / "pen"
 MAX_SIDE = 48                         # pixels in a 1280 wide frame, the largest pasted dropping is 30
 
 
-def predict(model: YOLO, tile: np.ndarray, zoom: int, conf: float) -> np.ndarray:
+def predict(model: YOLO, tile: np.ndarray, zoom: int, conf: float, imgsz: int = 640) -> np.ndarray:
     """Boxes [x1, y1, x2, y2, score] in tile pixels."""
     if zoom == 1:
-        r = model.predict(tile, imgsz=640, conf=conf, verbose=False)[0]
+        r = model.predict(tile, imgsz=imgsz, conf=conf, verbose=False)[0]
         return np.hstack([r.boxes.xyxy.cpu().numpy(), r.boxes.conf.cpu().numpy()[:, None]])
     size = 640 // zoom + 32
     starts = np.linspace(0, 640 - size, zoom).astype(int)
@@ -41,7 +41,7 @@ def predict(model: YOLO, tile: np.ndarray, zoom: int, conf: float) -> np.ndarray
             parts.append(cv2.resize(tile[y:y + size, x:x + size], (640, 640), interpolation=cv2.INTER_LINEAR))
             origins.append((x, y))
     out = []
-    for r, (x, y) in zip(model.predict(parts, imgsz=640, conf=conf, verbose=False), origins):
+    for r, (x, y) in zip(model.predict(parts, imgsz=imgsz, conf=conf, verbose=False), origins):
         b = r.boxes.xyxy.cpu().numpy() * size / 640 + np.array([x, y, x, y])
         out.append(np.hstack([b, r.boxes.conf.cpu().numpy()[:, None]]))
     b = np.vstack(out) if out else np.zeros((0, 5))
@@ -105,7 +105,7 @@ def ap_and_points(preds, n_gt):
     return round(ap, 4), points
 
 
-def run(model, variant, cache):
+def run(model, variant, cache, imgsz=640):
     zoom, size_on, litter_on = variant
     frames_dir = WORK / "frames" / "test"
     res = {}
@@ -117,7 +117,7 @@ def run(model, variant, cache):
             tile = cv2.imread(str(img))
             key = (split, img.stem, zoom)
             if key not in cache:
-                cache[key] = predict(model, tile, zoom, 0.1)
+                cache[key] = predict(model, tile, zoom, 0.1, imgsz)
             boxes = cache[key]
             if size_on and len(boxes):
                 side = np.maximum(boxes[:, 2] - boxes[:, 0], boxes[:, 3] - boxes[:, 1])
@@ -153,13 +153,14 @@ def main():
     ap.add_argument("weights")
     ap.add_argument("--out", type=Path, default=WORK / "tweaks.json")
     ap.add_argument("--zooms", default="1,2,3")
+    ap.add_argument("--imgsz", type=int, default=640)
     args = ap.parse_args()
     model = YOLO(args.weights)
     cache: dict = {}
     rows = []
     for zoom in map(int, args.zooms.split(",")):
         for size_on, litter_on in ((False, False), (True, False), (False, True), (True, True)):
-            r = run(model, (zoom, size_on, litter_on), cache)
+            r = run(model, (zoom, size_on, litter_on), cache, args.imgsz)
             row = {"zoom": zoom, "size_filter": size_on, "litter_filter": litter_on, **r}
             rows.append(row)
             print(json.dumps(row), flush=True)

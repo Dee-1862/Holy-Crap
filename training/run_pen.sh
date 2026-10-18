@@ -22,7 +22,7 @@ command -v bsdtar >/dev/null || (apt-get update -qq && apt-get install -y -qq li
 nvidia-smi || true; nproc; free -g || true; df -h "$PWD" || true
 
 python fetch_pen_data.py
-python pen_scale.py all --workers "$(nproc)"
+python pen_scale.py all --workers "$(nproc)" ${PEN_SCALE_ARGS:-}
 python pen_train.py --workers 8 --cache disk "$@" 2>&1 | tee "$OUT/train.log"
 
 cp -r "$PEN_WORK/runs" "$OUT/" || true

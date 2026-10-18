@@ -2,6 +2,8 @@
 
 Record anything that went wrong or was ruled out so we don't repeat it. Format: date, what happened, why, what to do instead.
 
+- 2026-10-18: Multi-GPU (DDP) classifier training failed three times on Veri: 3147bf094389 worker_failed after epoch 1; f72463aa0e9b DDP child crashed at the end; 99ccae870b12 killed with exit 137 (SIGKILL, likely OOM) ~10 min in with no epoch logged. DDP detection (2 GPUs) worked. Train classifiers single-GPU on Veri until the cause is known.
+- 2026-10-18: On this laptop (Modern Standby), the display timeout puts the whole system into standby even with sleep set to never; processes pause. Set the monitor timeout to never (AC and DC) for overnight runs; a SetThreadExecutionState keep-awake helper is a second safeguard.
 - 2026-10-18: Veri does not allow downloading outputs of a job whose status is failed. Job f72463aa0e9b finished and exported the chicken detector (test mAP50 0.956) but a DDP classifier crashed at the end, the script exited 1, and all outputs were lost. Entry scripts must always exit 0 after training and record per-model failures in their logs.
 - 2026-10-18: Stopping a Monitor does not kill background loops it started. A stray submit-retry loop later submitted a duplicate 4x A10G job (700a1cd0c7e2, cancelled). Kill retry loops by process, not just by stopping the monitor.
 - 2026-10-18: Monitors expire after 30 min; one expired while both behaviour jobs failed, and the failures went unreported until the user asked. Re-arm monitors on every expiry notice.

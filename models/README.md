@@ -30,7 +30,7 @@ Per BIBLE.md, the product shows **normal / abnormal**. Disease names are only a 
 - `dropping4_yolo11n_{640,416,320}.onnx`: ONNX opset 17, static batch 1, about 10.5 MB each. Use 640 for best accuracy and 320 for best speed on the Pi.
 - `dropping4_yolo11n.pt`: Ultralytics weights, 5.5 MB. Use it to re-export, e.g. to TFLite if ONNX Runtime does not run on QNX 8.0.0.
 - `test_metrics.json`: held-out test metrics, best epoch, and validation score at that epoch.
-- `results.png`: training curves. `confusion_matrix_normalized.png`: validation confusion matrix.
+- `results.png` / `results.csv` (laptop): training curves and per-epoch metrics. `confusion_matrix_normalized.png`: validation confusion matrix.
 - `SHA256SUMS`: checksums.
 
 ## Input / output (ONNX Runtime / C++)

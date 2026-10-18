@@ -2,6 +2,7 @@
 
 Newest first. One line per change: date, what, why.
 
+- 2026-10-18: Trained behaviour models on Veri (job 239ab41a5b75, Big Broiler, split by video). Chicken detector test mAP50 0.927; behaviour classifier YOLO11n-cls top-1 0.686 (panting recall 0.80, inactive 0.82), YOLO11s-cls top-1 0.701 (panting 0.83). Packaged in models/behaviour-v1/. Data prep moved to the laptop and uploaded as one tar via a Veri volume (Veri renames it data.jsonl). Multi-GPU classifier runs failed three times on Veri (see mistakes.md); single-GPU worked.
 - 2026-10-17: Trained 4-class YOLO11n dropping detector. Laptop RTX 3060: 69 epochs (best 49), test mAP50 0.873 / mAP50-95 0.573. Veri A10G (job abe1b30a56c4): 20 epochs, test 0.854 / 0.573. Both in models/ (ONNX 640/416/320 + .pt). Veri blockers hit and resolved: Vast has no docker (Veri added submit-time error), 64 MB /dev/shm (worked around with pipe-transport DataLoader; Veri now runs --shm-size 16g), worker_failed ~20 min in (Veri platform fix). NCD remains the weak class (mAP50-95 0.34).
 - 2026-10-17: Added docs/manure-grading.md: second product output, manure grades A/B/C/Hold per group per batch from camera-visible properties (wetness, contamination, group health); nutrients need NIR, not RGB. Manure research added to research.md.
 - 2026-10-17: Researched dropping quality grading (Nakrosis 2023 appearance classes; no public numeric score; no image-based fertilizer value work); added to research.md.

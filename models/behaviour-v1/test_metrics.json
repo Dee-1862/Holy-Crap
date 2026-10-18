@@ -1,0 +1,53 @@
+{
+  "det": {
+    "name": "det",
+    "model": "yolo11n.pt",
+    "task": "det",
+    "test": {
+      "mAP50": 0.9265810103084933,
+      "mAP50_95": 0.5621614936015413,
+      "precision": 0.828125,
+      "recall": 0.9299799465240641
+    }
+  },
+  "cls_s": {
+    "name": "cls_s",
+    "model": "yolo11s-cls.pt",
+    "task": "cls",
+    "test": {
+      "top1": 0.7006246447563171,
+      "top5": 0.9910767674446106,
+      "per_class_recall": {
+        "drinking": 0.874113475177305,
+        "eating": 0.7462809917355372,
+        "inactive": 0.7145144076840982,
+        "moving": 0.41735537190082644,
+        "other": 0.10588235294117647,
+        "panting": 0.8281938325991189,
+        "preening": 0.7133956386292835
+      },
+      "macro_recall": 0.6285337243810495
+    }
+  },
+  "cls_n": {
+    "name": "cls_n",
+    "model": "yolo11n-cls.pt",
+    "task": "cls",
+    "test": {
+      "top1": 0.6863474249839783,
+      "top5": 0.9883997440338135,
+      "per_class_recall": {
+        "drinking": 0.6879432624113475,
+        "eating": 0.45454545454545453,
+        "inactive": 0.8191035218783351,
+        "moving": 0.3512396694214876,
+        "other": 0.11764705882352941,
+        "panting": 0.801762114537445,
+        "preening": 0.7320872274143302
+      },
+      "macro_recall": 0.5663326155759899
+    }
+  },
+  "veri_job": "239ab41a5b75",
+  "dataset": "Big Broiler (Cardoen et al. 2025, AGPL-3.0); split by video, test = clips 092-101"
+}

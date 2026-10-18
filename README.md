@@ -1,4 +1,4 @@
-# Holy-Crap
+# Henomaly
 
 A pen camera, a QNX Raspberry Pi 5 and a detector that look at chicken droppings and tell a farmer when a pen needs a look. It flags appearance for review. It does not diagnose disease and never decides on treatment or culling.
 

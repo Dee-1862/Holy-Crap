@@ -23,7 +23,10 @@ fi
 if [ -n "${PREPARED:-}" ]; then
   # Prepared dataset uploaded as one tar (Veri volume -> dataset -> $VERI_DATA_DIR); skip the 33 GB video download.
   mkdir -p "$WORK"
-  TAR=$(find "${VERI_DATA_DIR:-/workspace/data}" -name '*.tar' | head -1)
+  DDIR="${VERI_DATA_DIR:-/workspace/data}"
+  ls -laR "$DDIR" | head -20
+  # Veri materializes the dataset under its own name; take the largest file, whatever it's called.
+  TAR=$(find "$DDIR" -type f -printf '%s\t%p\n' | sort -nr | head -1 | cut -f2-)
   echo "extracting $TAR"; tar -xf "$TAR" -C "$WORK" || exit 1
   printf 'path: %s\ntrain: images/train\nval: images/val\ntest: images/test\nnames: {0: chicken}\n' "$WORK/chickens" > "$WORK/chickens/data.yaml"
   find "$WORK/behaviour" -maxdepth 2 -type d | head -20

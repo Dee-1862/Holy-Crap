@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "id": "pio-growth-stages",
+  "title": "PIO growth-stages overhead broiler-house montage (Figure 3)",
+  "description": "Committed manifest for a tiny real-camera reference asset: the four-frame montage of overhead broiler-house imagery from Figure 3 of the PIO (Poultry Images with Offline annotations) dataset paper. The binary is not committed; it is fetched into the runtime home by scripts/fetch_demo_assets.py and verified against the sha256 recorded here.",
+  "source_url": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/206d/13223325/b30ebfd52771/41597_2026_7114_Fig3_HTML.jpg",
+  "dataset_url": "https://doi.org/10.5281/zenodo.16686320",
+  "doi": "10.1038/s41597-026-07114-5",
+  "creators": [
+    "Keyla Boniche",
+    "Edmanuel Cruz",
+    "José Carlos Rangel",
+    "Miguel Hidalgo-Rodríguez",
+    "Francisco Gómez-Donoso"
+  ],
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Figure 3 from the Scientific Data article at DOI 10.1038/s41597-026-07114-5, © The Authors 2026, licensed under CC BY 4.0.",
+  "sha256": "87bfcad1a0abb179a61e834ee00a80906780ddab6c7b2b2dd82d374517d1af25",
+  "media_type": "image/jpeg",
+  "width": 675,
+  "height": 375,
+  "filename": "pio-growth-stages.jpg",
+  "limitations": [
+    "reference imagery only",
+    "no disease labels",
+    "not spatially aligned with simulated birds"
+  ]
+}

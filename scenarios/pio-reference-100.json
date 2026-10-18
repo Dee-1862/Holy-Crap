@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "id": "pio-reference-100",
+  "name": "PIO reference backdrop — 100 birds",
+  "description": "Constructed 100-bird outbreak trajectory whose renderer uses the committed PIO overhead broiler-house imagery as a non-aligned visual reference. Outbreak timing and bird positions are simulated; this is not a clinical claim.",
+  "bird_count": 100,
+  "fps": 11,
+  "duration_s": 60,
+  "seed": 195053,
+  "mode": "outbreak",
+  "pen": {
+    "width_m": 12,
+    "height_m": 8
+  },
+  "observation": {
+    "sample_interval_s": 1,
+    "position_noise_m": 0.04,
+    "miss_probability": 0.03,
+    "false_positive_rate": 0.02,
+    "alert_threshold": 0.18,
+    "alert_persistence_s": 2,
+    "onset_s": 10,
+    "initial_affected_fraction": 0.03,
+    "movement_scale_after_onset": 0.75
+  },
+  "renderer": {
+    "kind": "mock",
+    "version": "1",
+    "observation_artifact": null,
+    "observation_sha256": null,
+    "metadata": {
+      "reference_asset_id": "pio-growth-stages",
+      "reference_asset_note": "Recorded PIO overhead broiler-house imagery is a non-aligned visual reference only; outbreak timing and bird positions are simulated.",
+      "reference_alignment": "none",
+      "reference_asset_sha256": "87bfcad1a0abb179a61e834ee00a80906780ddab6c7b2b2dd82d374517d1af25"
+    }
+  }
+}

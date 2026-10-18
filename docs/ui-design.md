@@ -73,3 +73,6 @@ Watch screens: Active, Overview (barn health ring and a bar per pen), Health boa
 
 ## Termination screen (2026-10-17)
 The red full screen flashing is gone. While B is held, the screen shows the pixel alien on a dark disc that bobs while a red ring grows around the edge. When the ring completes there is one short buzz and a calm finish screen with the alien, "Terminated", the pen name and what really happened (for example "Vet request saved" and "No phone service connected yet"). The alien sprite is 20 by 17 pixel art stored as text in the firmware.
+
+## Watch radar page (2026-10-17)
+The pen radar is back on the watch as the last page of every pen, after the plain language checklist. This pen is filled in the status color and the barn average is a dashed line, the same picture as the earlier web version. The web apps keep the checklist.

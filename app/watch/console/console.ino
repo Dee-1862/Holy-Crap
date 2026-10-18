@@ -133,8 +133,10 @@ static uint32_t lastInput = 0, toastUntil = 0, bStart = 0, splashUntil = 0;
 static int tx0, ty0, tlx, tly;
 
 static void loadPen(int p) { gcount = 0; for (int i = 0; i < NSP && gcount < MAXSPEC; i++) if (SP[i].pen == p) ge[gcount++] = i; }
-static int pages() { return 2 * gcount + 1; }            // photo and why for each specimen, then the summary
-static bool summaryPage() { return pg >= 2 * gcount; }
+static int pages() { return 2 * gcount + 2; }            // photo and why for each specimen, then the checklist, then the radar
+static bool specPage() { return pg < 2 * gcount; }
+static bool summaryPage() { return pg == 2 * gcount; }
+static bool radarPage() { return pg == 2 * gcount + 1; }
 static Spec& curSpec() { return SP[ge[min(pg / 2, gcount - 1)]]; }
 
 // ----- network -----
@@ -352,6 +354,45 @@ static void pageSummary() {
   char b[48];
   if (vetPen == pen) { snprintf(b, sizeof b, "Vet requested %d min ago", (int)vetAt); text(b, CX, 384, C_GOOD, &fonts::DejaVu12); }
 }
+// Pen radar: this pen filled in the status color, the barn average as a dashed line.
+static void dashedLine(int x0, int y0, int x1, int y1, uint16_t col) {
+  float len = sqrtf((float)((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)));
+  int n = max(1, (int)(len / 11));
+  for (int i = 0; i < n; i++) {
+    float a = (float)i / n, b = (i + 0.55f) / n;
+    M5.Display.drawLine(x0 + (x1 - x0) * a, y0 + (y1 - y0) * a, x0 + (x1 - x0) * b, y0 + (y1 - y0) * b, col);
+  }
+}
+static void pageRadar() {
+  M5.Display.fillScreen(C_BLK);
+  text(PEN_NAME[pen], CX, 46, C_TXT, &fonts::DejaVu24);
+  float v[5] = {0}, w[5] = {0}; int n = 0, nb = 0;
+  for (int i = 0; i < gcount; i++) { Spec& sp = SP[ge[i]]; if (!counts(sp)) continue; n++; for (int j = 0; j < 5; j++) v[j] += sp.sub[j]; }
+  for (int i = 0; i < NSP; i++) { if (!counts(SP[i])) continue; nb++; for (int j = 0; j < 5; j++) w[j] += SP[i].sub[j]; }
+  for (int j = 0; j < 5; j++) { v[j] = n ? v[j] / n : 0; w[j] = nb ? w[j] / nb : 0; }
+  const int cx = CX, cy = 222, R = 96; int lv = level(pen); int px[5], py[5], bx[5], by[5];
+  for (int g = 1; g <= 4; g++) {                                   // guide pentagons
+    for (int j = 0; j < 5; j++) {
+      float a = -PI / 2 + j * 2 * PI / 5, b2 = -PI / 2 + ((j + 1) % 5) * 2 * PI / 5, r = R * g / 4.0f;
+      M5.Display.drawLine(cx + cosf(a) * r, cy + sinf(a) * r, cx + cosf(b2) * r, cy + sinf(b2) * r, C_SEP);
+    }
+  }
+  for (int j = 0; j < 5; j++) {
+    float a = -PI / 2 + j * 2 * PI / 5;
+    M5.Display.drawLine(cx, cy, cx + cosf(a) * R, cy + sinf(a) * R, C_SEP);
+    px[j] = cx + cosf(a) * R * v[j] / 10.0f; py[j] = cy + sinf(a) * R * v[j] / 10.0f;
+    bx[j] = cx + cosf(a) * R * w[j] / 10.0f; by[j] = cy + sinf(a) * R * w[j] / 10.0f;
+  }
+  for (int j = 0; j < 5; j++) M5.Display.fillTriangle(cx, cy, px[j], py[j], px[(j + 1) % 5], py[(j + 1) % 5], levelDim(lv));
+  for (int j = 0; j < 5; j++) dashedLine(bx[j], by[j], bx[(j + 1) % 5], by[(j + 1) % 5], C_SEC);
+  for (int j = 0; j < 5; j++) { M5.Display.drawLine(px[j], py[j], px[(j + 1) % 5], py[(j + 1) % 5], levelColor(lv)); M5.Display.drawLine(px[j] + 1, py[j], px[(j + 1) % 5] + 1, py[(j + 1) % 5], levelColor(lv)); }
+  for (int j = 0; j < 5; j++) { M5.Display.fillSmoothCircle(px[j], py[j], 5, levelColor(lv)); M5.Display.fillSmoothCircle(px[j], py[j], 3, C_TXT); }
+  for (int j = 0; j < 5; j++) {                                     // labels just outside the pentagon
+    float a = -PI / 2 + j * 2 * PI / 5;
+    text(AXES[j], cx + cosf(a) * (R + 26), cy + sinf(a) * (R + 22), C_SEC, &fonts::DejaVu12);
+  }
+  if (vetPen == pen) { char b[40]; snprintf(b, sizeof b, "Vet requested %d min ago", (int)vetAt); text(b, CX, 396, C_GOOD, &fonts::DejaVu12); }
+}
 static void pageMenu() {
   M5.Display.fillScreen(C_BLK);
   text(PEN_NAME[pen], CX, 64, C_SEC, &fonts::DejaVu18);
@@ -427,6 +468,7 @@ static void render() {
   else if (scr == LIST) pageList();
   else if (scr == MENUSCR) pageMenu();
   else if (summaryPage()) pageSummary();
+  else if (radarPage()) pageRadar();
   else if (pg % 2 == 0) pagePhoto();
   else pageWhy();
   dirty = false; arcShown = false;
@@ -452,7 +494,7 @@ static void actNormal() { setState(ge[min(pg / 2, gcount - 1)], 2, "normal"); to
 static void actVet() {
   const char* line1 = "Vet request saved"; const char* line2 = where();
 #if LIVE
-  JsonDocument d; char body[48]; snprintf(body, sizeof body, "{\"specimenId\":\"%s\"}", summaryPage() ? "" : curSpec().id);
+  JsonDocument d; char body[48]; snprintf(body, sizeof body, "{\"specimenId\":\"%s\"}", specPage() ? curSpec().id : "");
   liveOk = http("POST", String("/api/pens/") + PEN_ID[pen] + "/vet", body, d);
   if (liveOk) {
     if (d["duplicate"] | false) { line1 = "Already requested"; line2 = "In the last minute"; }
@@ -524,7 +566,7 @@ void loop() {
     }
   } else if (scr == PEN) {
     if (M5.BtnA.wasClicked()) { pg = (pg + 1) % pages(); dirty = true; }
-    if (M5.BtnA.wasHold() && !summaryPage()) { menuSel = 0; scr = MENUSCR; dirty = true; }
+    if (M5.BtnA.wasHold() && specPage()) { menuSel = 0; scr = MENUSCR; dirty = true; }
     if (M5.BtnB.wasClicked()) { scr = LIST; dirty = true; }
     if (M5.BtnB.wasPressed()) { bStart = now; bFired = false; }
     if (M5.BtnB.isPressed() && !bFired) {                      // hold B to request the vet, with a progress ring
@@ -535,7 +577,7 @@ void loop() {
     if (M5.BtnB.wasReleased() && arcShown && !bFired) dirty = true;
     if (t.wasPressed()) { tx0 = t.x; ty0 = t.y; tlx = t.x; tly = t.y; }
     if (t.isPressed()) { tlx = t.x; tly = t.y; }
-    if (t.wasReleased() && abs(tlx - tx0) < 25 && abs(tly - ty0) < 25 && !summaryPage()) { pg ^= 1; dirty = true; }   // flip photo and why
+    if (t.wasReleased() && abs(tlx - tx0) < 25 && abs(tly - ty0) < 25 && specPage()) { pg ^= 1; dirty = true; }   // flip photo and why
   } else {
     if (M5.BtnA.wasClicked()) { menuSel = (menuSel + 1) % NMENU; dirty = true; }
     if (M5.BtnB.wasClicked()) {

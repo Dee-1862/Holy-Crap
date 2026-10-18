@@ -31,6 +31,68 @@ def log(step=None, **scalars):
     print("metrics", step, json.dumps(clean, default=float), flush=True)
 
 
+class _NP:
+    """A tensor travelling from a DataLoader worker as a plain numpy array (pickled through
+    the pipe) instead of a shared-memory tensor."""
+
+    def __init__(self, arr):
+        self.arr = arr
+
+
+def _to_np(x):
+    import torch
+
+    if isinstance(x, torch.Tensor):
+        return _NP(x.numpy())
+    if isinstance(x, dict):
+        return {k: _to_np(v) for k, v in x.items()}
+    if type(x) in (list, tuple):
+        return type(x)(_to_np(v) for v in x)
+    return x
+
+
+def _to_tensor(x):
+    import torch
+
+    if isinstance(x, _NP):
+        return torch.from_numpy(x.arr)
+    if isinstance(x, dict):
+        return {k: _to_tensor(v) for k, v in x.items()}
+    if type(x) in (list, tuple):
+        return type(x)(_to_tensor(v) for v in x)
+    return x
+
+
+def _np_collate(collate, batch):
+    return _to_np(collate(batch))
+
+
+def pipe_transport_loading():
+    """Keep multi-process DataLoader workers but bypass /dev/shm: workers return numpy
+    (sent through the pipe), the main process turns it back into tensors."""
+    import functools
+
+    import torch.utils.data
+    from torch.utils.data import dataloader as dl
+
+    init = torch.utils.data.DataLoader.__init__
+
+    def patched(self, *a, **kw):
+        if kw.get("num_workers", 0) > 0:
+            collate = kw.get("collate_fn") or dl.default_collate
+            kw["collate_fn"] = functools.partial(_np_collate, collate)
+            kw["pin_memory"] = False
+        init(self, *a, **kw)
+
+    torch.utils.data.DataLoader.__init__ = patched
+    process = dl._MultiProcessingDataLoaderIter._process_data
+
+    def process_data(self, *a, **kw):
+        return _to_tensor(process(self, *a, **kw))
+
+    dl._MultiProcessingDataLoaderIter._process_data = process_data
+
+
 def force_single_process_loading():
     """Make every torch DataLoader load in-process (val, test and INT8 calibration build their own)."""
     import torch.utils.data
@@ -119,14 +181,13 @@ def main():
         shm_gb = shutil.disk_usage("/dev/shm").total / 1e9
     except OSError:
         shm_gb = None
-    if shm_gb is not None and shm_gb < 1:
-        print(f"/dev/shm is only {shm_gb * 1000:.0f} MB; forcing num_workers=0 on every DataLoader", flush=True)
-        args.workers = 0
-        force_single_process_loading()
+    if (shm_gb is not None and shm_gb < 1) or os.environ.get("PIPE_LOADING"):
+        print(f"/dev/shm is {shm_gb} GB; DataLoader workers send numpy through pipes", flush=True)
+        pipe_transport_loading()
 
     import torch
 
-    ngpu = torch.cuda.device_count()
+    ngpu = 1 if os.environ.get("SINGLE_GPU") else torch.cuda.device_count()
     batch = args.batch if ngpu <= 1 else args.batch_per_gpu * ngpu
     model = YOLO(args.model)
     model.add_callback("on_fit_epoch_end", on_fit_epoch_end)

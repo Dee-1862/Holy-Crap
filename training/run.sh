@@ -19,7 +19,7 @@ nproc; free -g || true
 # Multi-GPU: NCCL normally talks through /dev/shm (64 MB in Veri's sandbox) and GPU P2P;
 # use sockets instead. Prove it works before paying for the download.
 NGPU=$(nvidia-smi -L 2>/dev/null | wc -l)
-if [ "$NGPU" -gt 1 ]; then
+if [ "$NGPU" -gt 1 ] && [ -z "${SINGLE_GPU:-}" ]; then
   export NCCL_SHM_DISABLE=1 NCCL_P2P_DISABLE=1 NCCL_IB_DISABLE=1
   timeout 300 torchrun --standalone --nproc_per_node "$NGPU" ddp_check.py
 fi

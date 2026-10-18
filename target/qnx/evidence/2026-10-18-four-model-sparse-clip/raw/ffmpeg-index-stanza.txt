@@ -1,0 +1,16 @@
+
+C:Q1lItUJqgNFuD+Ve4CRSVDfx5x0DY=
+P:ffmpeg
+V:8.0-r5
+A:aarch64
+S:250456
+I:627526
+T:Complete and free Internet live audio and video broadcasting solution for Linux/Unix
+U:https://ffmpeg.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:ffmpeg
+m:Felix Xing <fxing@qnx.com>
+t:1786337415
+c:a1b6b3440bdfc605bc426ba91e4c55485ed3ee93
+D:ffmpeg-libs=8.0-r5
+

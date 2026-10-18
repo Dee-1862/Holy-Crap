@@ -1,0 +1,1330 @@
+{
+  "duration_ms": 25196.447,
+  "result": {
+    "results": [
+      {
+        "load_processes": [],
+        "process": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-R",
+            "15",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/ncnn_bench",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.param",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.bin",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/input.raw",
+            "320",
+            "101",
+            "3",
+            "in0",
+            "out0",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ncnn-resource-idle-calls.csv"
+          ],
+          "duration_ms": 11053.574,
+          "finished_monotonic_ns": 3663800071926,
+          "pid": 14798894,
+          "returncode": 0,
+          "started_monotonic_ns": 3652746497444
+        },
+        "samples": [
+          {
+            "elapsed_ms": 20.187,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 24.5,
+              "finished_monotonic_ns": 3652815963407,
+              "returncode": 0,
+              "started_monotonic_ns": 3652791462926,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 proc/boot/on                  10r REPLY                      996K   92K    512K/512K\n             on                            @5404a65000                  24K  8192\n             ldqnx-64.so.2                 @2de4edd000                 228K   12K\n             libc.so.6                     @2de4f1a000                 668K  8192\n             libgcc_s.so.1                 @2de4fcd000                  76K  4096\n             **zero ELF**                  @2de4f19000 (       0)            4096\n             **zero ELF**                  @2de4fc1000 (       0)             16K\n             **zero ELF**                  @2de4fc7000 (       0)             24K\n             **zero ELF**                  @2de4fe0000 (       0)            4096\n             **heap**                      @3cbf3c4000 (       0)             12K\n"
+            },
+            "sampled_monotonic_ns": 3652766684611,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 24.722,
+              "finished_monotonic_ns": 3652791434704,
+              "returncode": 0,
+              "started_monotonic_ns": 3652766712389,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 proc/boot/on                 14798894 Oct 18 17:03  0.000  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 569.623,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 41.755,
+              "finished_monotonic_ns": 3653391393889,
+              "returncode": 0,
+              "started_monotonic_ns": 3653349638389,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3653316120926,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 33.459,
+              "finished_monotonic_ns": 3653349612222,
+              "returncode": 0,
+              "started_monotonic_ns": 3653316153296,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  0.497  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 1145.694,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 44.403,
+              "finished_monotonic_ns": 3653980984204,
+              "returncode": 0,
+              "started_monotonic_ns": 3653936581519,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3653892191444,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 44.296,
+              "finished_monotonic_ns": 3653936530333,
+              "returncode": 0,
+              "started_monotonic_ns": 3653892234037,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  1.081  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 1735.856,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 42.318,
+              "finished_monotonic_ns": 3654558733222,
+              "returncode": 0,
+              "started_monotonic_ns": 3654516414759,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3654482353463,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 33.959,
+              "finished_monotonic_ns": 3654516388407,
+              "returncode": 0,
+              "started_monotonic_ns": 3654482429481,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  1.659  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 2312.587,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 42.535,
+              "finished_monotonic_ns": 3655146146963,
+              "returncode": 0,
+              "started_monotonic_ns": 3655103612444,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3655059084704,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 44.443,
+              "finished_monotonic_ns": 3655103578889,
+              "returncode": 0,
+              "started_monotonic_ns": 3655059135815,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  2.244  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 2900.713,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 43.126,
+              "finished_monotonic_ns": 3655723907204,
+              "returncode": 0,
+              "started_monotonic_ns": 3655680781000,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3655647210278,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 33.446,
+              "finished_monotonic_ns": 3655680746370,
+              "returncode": 0,
+              "started_monotonic_ns": 3655647300389,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  2.819  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 3477.65,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 39.626,
+              "finished_monotonic_ns": 3656310661222,
+              "returncode": 0,
+              "started_monotonic_ns": 3656271035537,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3656224147370,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 46.79,
+              "finished_monotonic_ns": 3656270980333,
+              "returncode": 0,
+              "started_monotonic_ns": 3656224190370,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  3.406  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 4064.609,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 41.715,
+              "finished_monotonic_ns": 3656888980296,
+              "returncode": 0,
+              "started_monotonic_ns": 3656847265278,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3656811106537,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 36.025,
+              "finished_monotonic_ns": 3656847165481,
+              "returncode": 0,
+              "started_monotonic_ns": 3656811140407,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  3.981  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 4643.578,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 34.194,
+              "finished_monotonic_ns": 3657474475796,
+              "returncode": 0,
+              "started_monotonic_ns": 3657440281815,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3657390075278,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 50.138,
+              "finished_monotonic_ns": 3657440246463,
+              "returncode": 0,
+              "started_monotonic_ns": 3657390108722,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  4.572  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 5228.597,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 43.064,
+              "finished_monotonic_ns": 3658058821759,
+              "returncode": 0,
+              "started_monotonic_ns": 3658015757296,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3657975094500,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 40.599,
+              "finished_monotonic_ns": 3658015730000,
+              "returncode": 0,
+              "started_monotonic_ns": 3657975131093,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  5.145  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 5812.736,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 32.92,
+              "finished_monotonic_ns": 3658635754759,
+              "returncode": 0,
+              "started_monotonic_ns": 3658602834463,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3658559233074,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 43.456,
+              "finished_monotonic_ns": 3658602784352,
+              "returncode": 0,
+              "started_monotonic_ns": 3658559328222,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  5.729  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 6389.686,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 45.992,
+              "finished_monotonic_ns": 3659225245500,
+              "returncode": 0,
+              "started_monotonic_ns": 3659179253167,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3659136183000,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 42.932,
+              "finished_monotonic_ns": 3659179179796,
+              "returncode": 0,
+              "started_monotonic_ns": 3659136247981,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  6.303  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 6979.72,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 34.889,
+              "finished_monotonic_ns": 3659803134444,
+              "returncode": 0,
+              "started_monotonic_ns": 3659768245315,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3659726217815,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 41.902,
+              "finished_monotonic_ns": 3659768215556,
+              "returncode": 0,
+              "started_monotonic_ns": 3659726313704,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  6.891  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 7557.637,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 50.116,
+              "finished_monotonic_ns": 3660396800204,
+              "returncode": 0,
+              "started_monotonic_ns": 3660346684074,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3660304134333,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 42.495,
+              "finished_monotonic_ns": 3660346661870,
+              "returncode": 0,
+              "started_monotonic_ns": 3660304167333,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  7.467  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 8150.62,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 36.454,
+              "finished_monotonic_ns": 3660969409389,
+              "returncode": 0,
+              "started_monotonic_ns": 3660932955019,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3660897117889,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 35.753,
+              "finished_monotonic_ns": 3660932925519,
+              "returncode": 0,
+              "started_monotonic_ns": 3660897172241,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  8.051  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 8723.671,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 49.256,
+              "finished_monotonic_ns": 3661559481537,
+              "returncode": 0,
+              "started_monotonic_ns": 3661510225611,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3661470168407,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 39.973,
+              "finished_monotonic_ns": 3661510203167,
+              "returncode": 0,
+              "started_monotonic_ns": 3661470230056,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  8.625  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 9313.589,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 40.542,
+              "finished_monotonic_ns": 3662134473537,
+              "returncode": 0,
+              "started_monotonic_ns": 3662093931556,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3662060086500,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 33.775,
+              "finished_monotonic_ns": 3662093905796,
+              "returncode": 0,
+              "started_monotonic_ns": 3662060131130,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  9.208  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 9888.593,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 43.529,
+              "finished_monotonic_ns": 3662723414667,
+              "returncode": 0,
+              "started_monotonic_ns": 3662679885741,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3662635090000,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 44.719,
+              "finished_monotonic_ns": 3662679849333,
+              "returncode": 0,
+              "started_monotonic_ns": 3662635130667,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03  9.791  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 10477.788,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "memory"
+              ],
+              "duration_ms": 42.339,
+              "finished_monotonic_ns": 3663299203352,
+              "returncode": 0,
+              "started_monotonic_ns": 3663256864426,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14798894   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3bc0c3b000                3776K   32K\n             ldqnx-64.so.2                 @4a65243000                 228K   12K\n             libm.so.3                     @4a65280000                 248K  4096\n             libc.so.6                     @4a652c0000                 668K  8192\n             libregex.so.1                 @4a65373000                  60K  4096\n             libgcc_s.so.1                 @4a65384000                  76K  4096\n             libc++.so.1.0                 @4a65399000                1008K  4096\n             libc++abi.so.1.0              @4a654a7000                 220K  4096\n             libunwind.so.1.0              @4a654e4000                  48K  4096\n             libcatalog.so.1               @4a654f2000                 8192  4096\n             **heap**                      @2ace4e1000 (       0)           3168K\n             **heap**                      @2ace839000 (       0)           1292K\n             **heap**                      @2ace98d000 (       0)            452K\n             **heap**                      @2acea2f000 (       0)           1028K\n             **heap**                      @2aceb8e000 (       0)           5012K\n             **heap**                      @2acf094000 (       0)           1416K\n             **heap**                      @2acf1f7000 (       0)            260K\n             **heap**                      @2acf299000 (       0)           1736K\n             **heap**                      @2acf46c000 (       0)           1032K\n             **heap**                      @2acf5cf000 (       0)            388K\n             **heap**                      @2acf690000 (       0)           7136K\n             **heap**                      @2acfe49000 (       0)           3080K\n             **heap**                      @2ad0224000 (       0)             23M\n             **zero ELF**                  @4a6527f000 (       0)            4096\n             **zero ELF**                  @4a652be000 (       0)            4096\n             **zero ELF**                  @4a65367000 (       0)             16K\n             **zero ELF**                  @4a6536d000 (       0)             24K\n             **zero ELF**                  @4a65382000 (       0)            4096\n             **zero ELF**                  @4a65397000 (       0)            4096\n             **zero ELF**                  @4a65495000 (       0)             28K\n             **zero ELF**                  @4a6549d000 (       0)             40K\n             **zero ELF**                  @4a654de000 (       0)             20K\n             **zero ELF**                  @4a654f0000 (       0)            4096\n             **zero ELF**                  @4a654f4000 (       0)            4096\n"
+            },
+            "sampled_monotonic_ns": 3663224285148,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "14798894",
+                "times"
+              ],
+              "duration_ms": 32.467,
+              "finished_monotonic_ns": 3663256840444,
+              "returncode": 0,
+              "started_monotonic_ns": 3663224373130,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n14798894 1018-1655-7778ee0/ncnn_bench 14798894 Oct 18 17:03 10.365  0.000  0.000  0.000\n"
+            }
+          }
+        ],
+        "scenario": "idle",
+        "thermal_after": {
+          "thermal": "57.06",
+          "thermal_ext": "temp_in_c: 58.16\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "thermal_before": {
+          "thermal": "58.16",
+          "thermal_ext": "temp_in_c: 58.16\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        }
+      },
+      {
+        "load_processes": [
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "0",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "14.0"
+            ],
+            "duration_ms": 14085.343,
+            "finished_monotonic_ns": 3677897046852,
+            "pid": 15122478,
+            "returncode": 0,
+            "started_monotonic_ns": 3663811704037
+          },
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "1",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "14.0"
+            ],
+            "duration_ms": 14064.232,
+            "finished_monotonic_ns": 3677897229611,
+            "pid": 15126576,
+            "returncode": 0,
+            "started_monotonic_ns": 3663832997167
+          },
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "2",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "14.0"
+            ],
+            "duration_ms": 14043.37,
+            "finished_monotonic_ns": 3677897350296,
+            "pid": 15134769,
+            "returncode": 0,
+            "started_monotonic_ns": 3663853980704
+          }
+        ],
+        "process": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-R",
+            "15",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/ncnn_bench",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.param",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.bin",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/input.raw",
+            "320",
+            "101",
+            "3",
+            "in0",
+            "out0",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ncnn-resource-bounded-load-calls.csv"
+          ],
+          "duration_ms": 10985.963,
+          "finished_monotonic_ns": 3675125075685,
+          "pid": 15147058,
+          "returncode": 0,
+          "started_monotonic_ns": 3664139112889
+        },
+        "samples": [
+          {
+            "elapsed_ms": 21.144,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 42.63,
+              "finished_monotonic_ns": 3664228737037,
+              "returncode": 0,
+              "started_monotonic_ns": 3664186107352,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K 5980K    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            260K\n             **heap**                      @54984bd000 (       0)           1028K\n"
+            },
+            "sampled_monotonic_ns": 3664160257167,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 25.8,
+              "finished_monotonic_ns": 3664186085037,
+              "returncode": 0,
+              "started_monotonic_ns": 3664160284574,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  0.000  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 590.133,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 55.769,
+              "finished_monotonic_ns": 3664839606685,
+              "returncode": 0,
+              "started_monotonic_ns": 3664783838130,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3664729246315,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 54.425,
+              "finished_monotonic_ns": 3664783772500,
+              "returncode": 0,
+              "started_monotonic_ns": 3664729347833,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  0.547  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 1202.933,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 57.433,
+              "finished_monotonic_ns": 3665451510833,
+              "returncode": 0,
+              "started_monotonic_ns": 3665394078167,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3665342045704,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 51.966,
+              "finished_monotonic_ns": 3665394050537,
+              "returncode": 0,
+              "started_monotonic_ns": 3665342084185,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  1.141  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 1813.009,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 51.18,
+              "finished_monotonic_ns": 3666050543056,
+              "returncode": 0,
+              "started_monotonic_ns": 3665999362759,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3665952122389,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 47.156,
+              "finished_monotonic_ns": 3665999325796,
+              "returncode": 0,
+              "started_monotonic_ns": 3665952170278,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  1.732  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 2414.93,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 51.083,
+              "finished_monotonic_ns": 3666670497944,
+              "returncode": 0,
+              "started_monotonic_ns": 3666619415185,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3666554043333,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 65.312,
+              "finished_monotonic_ns": 3666619390870,
+              "returncode": 0,
+              "started_monotonic_ns": 3666554078685,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  2.322  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 3032.984,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 46.722,
+              "finished_monotonic_ns": 3667278599778,
+              "returncode": 0,
+              "started_monotonic_ns": 3667231878056,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3667172097167,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 59.696,
+              "finished_monotonic_ns": 3667231839148,
+              "returncode": 0,
+              "started_monotonic_ns": 3667172143222,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  2.917  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 3640.909,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 77.532,
+              "finished_monotonic_ns": 3667906195222,
+              "returncode": 0,
+              "started_monotonic_ns": 3667828663667,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3667780022056,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 48.581,
+              "finished_monotonic_ns": 3667828636444,
+              "returncode": 0,
+              "started_monotonic_ns": 3667780055759,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  3.499  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 4268.053,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 45.211,
+              "finished_monotonic_ns": 3668495030333,
+              "returncode": 0,
+              "started_monotonic_ns": 3668449819704,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3668407165630,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 42.454,
+              "finished_monotonic_ns": 3668449654926,
+              "returncode": 0,
+              "started_monotonic_ns": 3668407201037,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  4.101  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 4860.909,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 46.991,
+              "finished_monotonic_ns": 3669104564907,
+              "returncode": 0,
+              "started_monotonic_ns": 3669057573667,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3669000022185,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 57.491,
+              "finished_monotonic_ns": 3669057546852,
+              "returncode": 0,
+              "started_monotonic_ns": 3669000056093,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  4.689  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 5466.068,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 58.136,
+              "finished_monotonic_ns": 3669717724463,
+              "returncode": 0,
+              "started_monotonic_ns": 3669659588000,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3669605180926,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 54.314,
+              "finished_monotonic_ns": 3669659562148,
+              "returncode": 0,
+              "started_monotonic_ns": 3669605248463,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  5.276  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 6078.97,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 69.457,
+              "finished_monotonic_ns": 3670333411185,
+              "returncode": 0,
+              "started_monotonic_ns": 3670263954444,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3670218082444,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 45.81,
+              "finished_monotonic_ns": 3670263924537,
+              "returncode": 0,
+              "started_monotonic_ns": 3670218114907,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  5.862  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 6694.985,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 42.55,
+              "finished_monotonic_ns": 3670924342981,
+              "returncode": 0,
+              "started_monotonic_ns": 3670881793407,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3670834097796,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 47.635,
+              "finished_monotonic_ns": 3670881769222,
+              "returncode": 0,
+              "started_monotonic_ns": 3670834134093,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  6.461  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 7286.044,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 59.515,
+              "finished_monotonic_ns": 3671560965852,
+              "returncode": 0,
+              "started_monotonic_ns": 3671501450407,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3671425156593,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 76.186,
+              "finished_monotonic_ns": 3671501403556,
+              "returncode": 0,
+              "started_monotonic_ns": 3671425218056,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  7.049  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 7922.958,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 69.823,
+              "finished_monotonic_ns": 3672190903296,
+              "returncode": 0,
+              "started_monotonic_ns": 3672121080407,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3672062071056,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 58.856,
+              "finished_monotonic_ns": 3672120976241,
+              "returncode": 0,
+              "started_monotonic_ns": 3672062120593,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  7.664  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 8553.994,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 46.562,
+              "finished_monotonic_ns": 3672791074963,
+              "returncode": 0,
+              "started_monotonic_ns": 3672744512481,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3672693106722,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 51.328,
+              "finished_monotonic_ns": 3672744481926,
+              "returncode": 0,
+              "started_monotonic_ns": 3672693153889,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  8.272  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 9155.932,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 70.187,
+              "finished_monotonic_ns": 3673409592648,
+              "returncode": 0,
+              "started_monotonic_ns": 3673339406019,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3673295044833,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 44.284,
+              "finished_monotonic_ns": 3673339373278,
+              "returncode": 0,
+              "started_monotonic_ns": 3673295089722,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  8.843  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 9770.976,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 72.953,
+              "finished_monotonic_ns": 3674029196593,
+              "returncode": 0,
+              "started_monotonic_ns": 3673956243685,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3673910089093,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 46.085,
+              "finished_monotonic_ns": 3673956209704,
+              "returncode": 0,
+              "started_monotonic_ns": 3673910125037,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03  9.445  0.000  0.000  0.000\n"
+            }
+          },
+          {
+            "elapsed_ms": 10391.177,
+            "memory": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "memory"
+              ],
+              "duration_ms": 43.934,
+              "finished_monotonic_ns": 3674624167241,
+              "returncode": 0,
+              "started_monotonic_ns": 3674580233481,
+              "stderr": "",
+              "stdout": "     pid tid name                         prio STATE                      code  data        stack\n15147058   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1840c02000                3776K   32K\n             ldqnx-64.so.2                 @2cf0e7c000                 228K   12K\n             libm.so.3                     @2cf0eb9000                 248K  4096\n             libc.so.6                     @2cf0ef9000                 668K  8192\n             libregex.so.1                 @2cf0fac000                  60K  4096\n             libgcc_s.so.1                 @2cf0fbd000                  76K  4096\n             libc++.so.1.0                 @2cf0fd2000                1008K  4096\n             libc++abi.so.1.0              @2cf10e0000                 220K  4096\n             libunwind.so.1.0              @2cf111d000                  48K  4096\n             libcatalog.so.1               @2cf112b000                 8192  4096\n             **zero ELF**                  @2cf0eb8000 (       0)            4096\n             **zero ELF**                  @2cf0ef7000 (       0)            4096\n             **zero ELF**                  @2cf0fa0000 (       0)             16K\n             **zero ELF**                  @2cf0fa6000 (       0)             24K\n             **zero ELF**                  @2cf0fbb000 (       0)            4096\n             **zero ELF**                  @2cf0fd0000 (       0)            4096\n             **zero ELF**                  @2cf10ce000 (       0)             28K\n             **zero ELF**                  @2cf10d6000 (       0)             40K\n             **zero ELF**                  @2cf1117000 (       0)             20K\n             **zero ELF**                  @2cf1129000 (       0)            4096\n             **zero ELF**                  @2cf112d000 (       0)            4096\n             **heap**                      @5497f6f000 (       0)           3168K\n             **heap**                      @54982c7000 (       0)           1292K\n             **heap**                      @549841b000 (       0)            452K\n             **heap**                      @54984bd000 (       0)           1028K\n             **heap**                      @549861c000 (       0)           5012K\n             **heap**                      @5498b22000 (       0)           1416K\n             **heap**                      @5498c85000 (       0)            260K\n             **heap**                      @5498d27000 (       0)           1736K\n             **heap**                      @5498efa000 (       0)           1032K\n             **heap**                      @549905d000 (       0)            388K\n             **heap**                      @549911e000 (       0)           7136K\n             **heap**                      @54998d7000 (       0)           3080K\n             **heap**                      @5499cb2000 (       0)             23M\n"
+            },
+            "sampled_monotonic_ns": 3674530289907,
+            "times": {
+              "argv": [
+                "pidin",
+                "-p",
+                "15147058",
+                "times"
+              ],
+              "duration_ms": 49.775,
+              "finished_monotonic_ns": 3674580209500,
+              "returncode": 0,
+              "started_monotonic_ns": 3674530434389,
+              "stderr": "",
+              "stdout": "     pid name                             sid  start time   utime  stime cutime cstime\n15147058 1018-1655-7778ee0/ncnn_bench 15147058 Oct 18 17:03 10.058  0.000  0.000  0.000\n"
+            }
+          }
+        ],
+        "scenario": "bounded-load",
+        "thermal_after": {
+          "thermal": "58.71",
+          "thermal_ext": "temp_in_c: 59.26\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "thermal_before": {
+          "thermal": "59.81",
+          "thermal_ext": "temp_in_c: 59.26\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        }
+      }
+    ],
+    "suite": "ncnn_resource_profile"
+  },
+  "schema": "holy-crap-qnx-native-eval-v1",
+  "source_commit": "7778ee028347acb8793b7fd81d3d92f63ff57d37",
+  "suite": "resource",
+  "target": "QNX 8.0 RaspberryPi5 aarch64le",
+  "thermal_after": {
+    "thermal": "59.26",
+    "thermal_ext": "temp_in_c: 59.81\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+  },
+  "thermal_before": {
+    "thermal": "57.61",
+    "thermal_ext": "temp_in_c: 57.06\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+  },
+  "virtual_memory_soft_limit_kib": 8388608
+}

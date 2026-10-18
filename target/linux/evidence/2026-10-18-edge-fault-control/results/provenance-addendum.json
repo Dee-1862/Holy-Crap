@@ -1,0 +1,25 @@
+{
+  "origin_main_commit": "7778ee028347acb8793b7fd81d3d92f63ff57d37",
+  "model_matches_origin_main": true,
+  "model_sha256": "3906fe0ffd3d9f1351a854fce4df731356a2e4aab26477bbae996e674e69053e",
+  "production_code_claim": false,
+  "execution_boundary": "Linux TCP fallback and application-level supervisor control benchmark; not QNX evidence",
+  "disposable_linux_fallback_changes": [
+    "Python onnxruntime adapter replaces the QNX libhcort.so bridge",
+    "temporary shared-memory and HTTP/TCP namespaces isolate the run",
+    "CRC32 TCP port assignment avoids the production byte-sum collision between hc/cloud and hc/watch",
+    "thread-per-connection TCP serving avoids the production fallback's single persistent client starvation"
+  ],
+  "clip_lineage": {
+    "original_600s_source_sha256": "b7338a9d4b9cf93f1568769414d80b8c82fe3b8627f86070b5478b8d3e9b44eb",
+    "same_source_and_segment_as_full_pipeline_baseline": true,
+    "segment": "0-20 seconds by stream copy",
+    "regenerated_clip_sha256": "9dbbfef9127cc466fb274ab47e5f8f8eed50b41fb8fb906fcdac01b1e628aee0",
+    "reference_clip_sha256": "13e82b2a07f0d7e6ba2659d2da8c196cbb9ec6af3fda94502f4c3997f1d340e4",
+    "byte_identical_to_reference": false,
+    "container_version_drift": true,
+    "duration_s": 20.08,
+    "frames": 502,
+    "size_bytes": 6061986
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "schema": "holy-crap-qnx-four-model-sparse-clip-v1",
+  "source_commit": "7778ee028347acb8793b7fd81d3d92f63ff57d37",
+  "target": {
+    "os": "QNX 8.0.0",
+    "board": "RaspberryPi5",
+    "architecture": "aarch64le",
+    "ram_mib_reported": 8128,
+    "staging_directory": "/data/home/qnxuser/hc-four-model-20261018-7778ee0",
+    "address_space_limit_bytes": 8589934592
+  },
+  "ffmpeg_package": {
+    "package": "ffmpeg-8.0-r5",
+    "official_url": "https://repo.oss.qnx.com/8.0.5/extra/aarch64/ffmpeg-8.0-r5.apk",
+    "bytes": 250456,
+    "sha256": "92e1d40d4b821b464a0827245b3f9cb61de2eca4cbb3dee6120215b9fcc7de2e",
+    "simulation_exit_code": 0,
+    "simulated_new_installs": 1,
+    "simulated_upgrades": 0,
+    "simulated_downgrades": 0,
+    "simulated_removals": 0,
+    "installed_packages_before": 756,
+    "installed_packages_after": 757,
+    "installed_new_exact_entries": [
+      "ffmpeg-8.0-r5 aarch64 {ffmpeg} (GPL-2.0-or-later AND LGPL-2.1-or-later) [installed]"
+    ],
+    "preexisting_entries_removed": 0,
+    "install_runner_job": "job-20261018-102801-4fa462ad"
+  },
+  "video": {
+    "catalog_id": "big-broiler-090",
+    "bounded_source_kind": "existing_pi_balanced_30_second_segment",
+    "source_h264": {
+      "sha256": "92a5c5124d9d6708ea66631b48f2c38fa39ed044f9175fcbb3014510c007e653",
+      "bytes": 2675019,
+      "duration_s": 30.0,
+      "width": 960,
+      "height": 540,
+      "fps": 11.0,
+      "frame_count": 330,
+      "codec": "h264",
+      "qnx_decode_succeeded": false,
+      "qnx_decode_error": "Decoding requested, but no decoder found for: h264",
+      "qnx_decode_runner_job": "job-20261018-102912-fdf2a581"
+    },
+    "compatibility_transcode": {
+      "performed_on": "Mac",
+      "codec": "mpeg4",
+      "sha256": "3e7eac34c28fdc8c4382191a2ee70d681c736cf04afce69b4efa90be52578efc",
+      "bytes": 4041146,
+      "duration_s": 30.0,
+      "width": 960,
+      "height": 540,
+      "fps": 11.0
+    },
+    "qnx_sparse_decode": {
+      "runner_job": "job-20261018-102933-3a598faf",
+      "filter": "fps=1/10",
+      "frames": 3,
+      "pixel_format": "rgb24",
+      "raw_bytes": 4665600,
+      "raw_sha256": "c045d24122f9c00161c78f4adc6a6e1b57013f28cec3e7f44f4f32475e638569",
+      "user_cpu_s": 1.03,
+      "system_cpu_s": 0.0,
+      "wall_s": 0.493,
+      "succeeded": true
+    }
+  },
+  "four_model_sparse_run": {
+    "runner_job": "job-20261018-103626-5a0dd151",
+    "harness_sha256": "3002d8c2c12a9c477b04c85712255da7df329d0cb9a3616fe9e8d3693d2770f0",
+    "threads_per_session": 2,
+    "frames": 3,
+    "model_calls": 12,
+    "total_wall_ms_including_session_load_and_preprocessing": 6314.701686,
+    "total_process_cpu_ms": 8321.893297,
+    "process_cpu_seconds_per_wall_second": 1.31786,
+    "memory_snapshot_available": false,
+    "memory_snapshot_limitation": "Target disconnected before the reviewed rerun and pidin memory capture; no memory number is inferred.",
+    "models": {
+      "chicken_detector": {
+        "sha256": "fdb0a991da9ae0990520d1e66724274d4e21440e9540f5d8d05be34e91dfb848",
+        "input_shape": [1, 3, 640, 640],
+        "output_shape": [1, 5, 8400],
+        "session_load_ms": 870.402518,
+        "calls": 3,
+        "mean_inference_ms": 356.010623,
+        "median_inference_ms": 357.968111,
+        "max_inference_ms": 358.048518
+      },
+      "behaviour_classifier": {
+        "sha256": "7d9765fcaebea13aebba20b3797a68ee127cd8f8f16daf3677ea008fc4e1f8b7",
+        "input_shape": [1, 3, 224, 224],
+        "output_shape": [1, 7],
+        "session_load_ms": 53.191018,
+        "calls": 3,
+        "mean_inference_ms": 19.911481,
+        "median_inference_ms": 19.87474,
+        "max_inference_ms": 19.997888,
+        "top_indices_by_frame": [0, 4, 6],
+        "class_order": ["drinking", "eating", "inactive", "moving", "other", "panting", "preening"]
+      },
+      "pen_feces_detector": {
+        "sha256": "bfe181bdfc8080f6d4ca17159c87fa12bf1fb59d135288b1487c82147653ba18",
+        "input_shape": [1, 3, 640, 640],
+        "output_shape": [1, 8, 8400],
+        "session_load_ms": 112.091037,
+        "calls": 3,
+        "mean_inference_ms": 358.403796,
+        "median_inference_ms": 360.129333,
+        "max_inference_ms": 360.448889
+      },
+      "feces_crop_model": {
+        "sha256": "3906fe0ffd3d9f1351a854fce4df731356a2e4aab26477bbae996e674e69053e",
+        "input_shape": [1, 3, 640, 640],
+        "output_shape": [1, 8, 8400],
+        "session_load_ms": 107.266982,
+        "calls": 3,
+        "mean_inference_ms": 356.767679,
+        "median_inference_ms": 357.704945,
+        "max_inference_ms": 362.203129,
+        "class_order": ["cocci", "healthy", "ncd", "salmo"]
+      }
+    },
+    "limitations": [
+      "This is three sparse frames, not a complete clip assessment.",
+      "Only the highest-scoring chicken and feces candidate in each frame was used; candidates were not thresholded, NMS-filtered, or visually validated.",
+      "The crop model outputs are execution evidence, not disease evidence or a diagnosis.",
+      "The run performs no temporal association, stationary-feces confirmation, aggregate pen assessment, or recovery test.",
+      "The executed harness mistakenly re-applied softmax to behaviour outputs that already sum to one; raw_output is authoritative and summary top indices use that raw output.",
+      "A reviewed harness correction could not be rerun because the QNX Pi disconnected."
+    ]
+  },
+  "next_blocker": "The official QNX FFmpeg build disables H.264 decoding. Production needs an upstream MPEG-4-compatible feed/transcode, an approved H.264 decoder path, or QNX camera frames delivered without H.264. A rerun is also needed for pidin memory capture and the corrected behaviour-output presentation."
+}

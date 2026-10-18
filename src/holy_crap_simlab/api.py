@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 from typing import Literal
 
-from fastapi import FastAPI, File, Form, Query, Request, UploadFile
+from fastapi import FastAPI, File, Form, Header, Query, Request, UploadFile
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
@@ -16,6 +16,7 @@ from .catalog import CatalogConflict
 from .clip_assessment import ClipValidationError
 from .models import (
     AdapterCapability,
+    BenchmarkEvidenceResponse,
     ClipAssessment,
     ClipAssessmentJob,
     CreateRunRequest,
@@ -28,6 +29,8 @@ from .models import (
     PenSnapshot,
     ProxySpecimenPoolSummary,
     QnxEvidenceResponse,
+    QnxFaultTestResponse,
+    QnxRuntimeResponse,
     RunResult,
     Scenario,
     SimulationRun,
@@ -35,7 +38,11 @@ from .models import (
     TimelinePoint,
     VeriImportRequest,
 )
-from .service import NotFoundError, SimulationService
+from .service import NotFoundError, QnxFaultTestError, SimulationService
+
+
+FAULT_TEST_CONFIRMATION_HEADER = "X-Holy-Crap-Fault-Test"
+FAULT_TEST_CONFIRMATION_VALUE = "confirm"
 
 
 def _error(status: int, code: str, message: str, details: list[dict] | None = None) -> JSONResponse:
@@ -53,6 +60,8 @@ def create_app(
     proxy_specimens_directory: Path | None = None,
     qnx_evidence_path: Path | None = None,
     dataset_videos_directory: Path | None = None,
+    qnx_benchmark_evidence_path: Path | None = None,
+    linux_benchmark_evidence_path: Path | None = None,
 ) -> FastAPI:
     resolved_home = home or Path(os.getenv("HOLY_CRAP_HOME", ".simlab"))
     service = SimulationService(
@@ -65,6 +74,8 @@ def create_app(
         qnx_runner=qnx_runner,
         qnx_prober=qnx_prober,
         dataset_videos_directory=dataset_videos_directory,
+        qnx_benchmark_evidence_path=qnx_benchmark_evidence_path,
+        linux_benchmark_evidence_path=linux_benchmark_evidence_path,
     )
     application = FastAPI(title="Holy Crap Simulation Lab", version="0.1.0")
     application.state.service = service
@@ -75,7 +86,7 @@ def create_app(
         allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$",
         allow_credentials=False,
         allow_methods=["GET", "POST", "OPTIONS"],
-        allow_headers=["Content-Type"],
+        allow_headers=["Content-Type", FAULT_TEST_CONFIRMATION_HEADER],
     )
 
     @application.exception_handler(NotFoundError)
@@ -95,6 +106,17 @@ def create_app(
         _request: Request, exc: ClipValidationError
     ) -> JSONResponse:
         return _error(422, "clip_validation_error", str(exc))
+
+    @application.exception_handler(QnxFaultTestError)
+    async def fault_test_error_handler(
+        _request: Request, exc: QnxFaultTestError
+    ) -> JSONResponse:
+        codes = {
+            403: "fault_tests_disabled",
+            422: "fault_test_invalid_process",
+            502: "fault_test_target_error",
+        }
+        return _error(exc.status_code, codes.get(exc.status_code, "fault_test_error"), str(exc))
 
     @application.exception_handler(RequestValidationError)
     async def validation_error_handler(_request: Request, exc: RequestValidationError) -> JSONResponse:
@@ -118,6 +140,28 @@ def create_app(
     @application.post("/api/v1/system/qnx/probe", response_model=AdapterCapability)
     def qnx_probe() -> AdapterCapability:
         return service.qnx_capability()
+
+    @application.get("/api/v1/system/qnx/runtime", response_model=QnxRuntimeResponse)
+    def qnx_runtime() -> QnxRuntimeResponse:
+        return service.qnx_runtime()
+
+    @application.post(
+        "/api/v1/system/qnx/fault-tests/{process_name}",
+        response_model=QnxFaultTestResponse,
+    )
+    def qnx_fault_test(
+        process_name: str,
+        confirmation: str | None = Header(
+            default=None, alias=FAULT_TEST_CONFIRMATION_HEADER
+        ),
+    ) -> QnxFaultTestResponse:
+        if confirmation != FAULT_TEST_CONFIRMATION_VALUE:
+            raise QnxFaultTestError(
+                "%s: %s is required for a deliberate fault test"
+                % (FAULT_TEST_CONFIRMATION_HEADER, FAULT_TEST_CONFIRMATION_VALUE),
+                status_code=403,
+            )
+        return service.qnx_fault_test(process_name)
 
     @application.get("/api/v1/scenarios", response_model=list[Scenario])
     def scenarios() -> list[Scenario]:
@@ -342,5 +386,12 @@ def create_app(
     @application.get("/api/v1/system/qnx/evidence", response_model=QnxEvidenceResponse)
     def qnx_evidence() -> QnxEvidenceResponse:
         return service.qnx_evidence()
+
+    @application.get(
+        "/api/v1/system/benchmark-evidence",
+        response_model=BenchmarkEvidenceResponse,
+    )
+    def benchmark_evidence() -> BenchmarkEvidenceResponse:
+        return service.benchmark_evidence()
 
     return application

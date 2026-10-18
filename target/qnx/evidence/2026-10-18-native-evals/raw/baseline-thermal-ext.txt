@@ -1,0 +1,4 @@
+temp_in_c: 56.52
+fan_control: resmgr
+fan_speed_pct: 30.20
+fan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)

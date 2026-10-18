@@ -1,0 +1,537 @@
+{
+  "duration_ms": 80930.768,
+  "result": {
+    "results": [
+      {
+        "independent_high_priority_timer": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "3",
+            "-p",
+            "40f",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/jitter_bench",
+            "16000",
+            "1000",
+            "100",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial1-jitter.csv"
+          ],
+          "duration_ms": 16168.906,
+          "finished_monotonic_ns": 3585758045648,
+          "pid": 14155822,
+          "returncode": 0,
+          "started_monotonic_ns": 3569589139778
+        },
+        "supervisor": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "0",
+            "/system/bin/python3",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/fault_supervisor.py",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial1-worker"
+          ],
+          "duration_ms": 12920.477,
+          "finished_monotonic_ns": 3582782081889,
+          "pid": 14164016,
+          "returncode": 0,
+          "started_monotonic_ns": 3569861605074
+        },
+        "supervisor_observed_process": {
+          "memory": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14164016",
+              "memory"
+            ],
+            "duration_ms": 23.551,
+            "finished_monotonic_ns": 3570473576074,
+            "returncode": 0,
+            "started_monotonic_ns": 3570450025278,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14164016   1 system/bin/python3            10r RUNNING                   5604K 4864K  8192K/8192K\n             python3.14                    @5990df7000                 4096  8192\n             ldqnx-64.so.2                 @2ed3ae9000                 228K   12K\n             libsocket.so.4                @2ed3b26000                 268K  4096\n             libm.so.3                     @2ed3b72000                 248K  4096\n             libgcc_s.so.1                 @2ed3bb2000                  76K  4096\n             libregex.so.1                 @2ed3bc7000                  60K  4096\n             libpython3.14.so              @2ed3bd8000                4052K  548K\n             libc.so.6                     @2ed4120000                 668K  8192\n             **zero ELF**                  @2ed3b25000 (       0)            4096\n             **zero ELF**                  @2ed3b69000 (       0)            8192\n             **zero ELF**                  @2ed3b6c000 (       0)             24K\n             **zero ELF**                  @2ed3bb0000 (       0)            4096\n             **zero ELF**                  @2ed3bc5000 (       0)            4096\n             **zero ELF**                  @2ed3bd6000 (       0)            4096\n             **zero ELF**                  @2ed3fcd000 (       0)            352K\n             **zero ELF**                  @2ed40ae000 (       0)            456K\n             **zero ELF**                  @2ed41c7000 (       0)             16K\n             **zero ELF**                  @2ed41cd000 (       0)             24K\n             **heap**                      @4655ea7000 (       0)           3376K\n"
+          },
+          "rlimits": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14164016",
+              "rlimits"
+            ],
+            "duration_ms": 22.533,
+            "finished_monotonic_ns": 3570449996556,
+            "returncode": 0,
+            "started_monotonic_ns": 3570427463741,
+            "stderr": "",
+            "stdout": "\n\nResource limits:                        soft : hard                 \nCPU (seconds)                       infinity : infinity             \nFile size (blocks)                  infinity : infinity             \nCore dump (blocks)                  infinity : infinity             \nData segment size (kB)              infinity : infinity             \nStack size (kB)                     infinity : infinity             \nLocked memory (kB)                  infinity : infinity             \nVirtual memory (kB)                  8388608 : infinity             \nOpen file descriptors                   2000 : 2000                 \nProcesses                           infinity : infinity             \nThreads                             infinity : infinity             \nMemory usage (.1% RAM)              infinity : infinity             \nOpen connections                    infinity : infinity             \nRegistered events                        256 : 256                  \nTimers created                      infinity : infinity             \nChannel limit                            100 : 100                  \n\n"
+          },
+          "rmasks": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14164016",
+              "rmasks"
+            ],
+            "duration_ms": 22.665,
+            "finished_monotonic_ns": 3570427440556,
+            "returncode": 0,
+            "started_monotonic_ns": 3570404775926,
+            "stderr": "",
+            "stdout": "     pid tid name                         \n14164016   1 system/bin/python3           \n\tRunmask     : 0x00000001\n\tInherit Mask: 0x00000001\n\n"
+          },
+          "sched": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14164016",
+              "sched"
+            ],
+            "duration_ms": 22.712,
+            "finished_monotonic_ns": 3570404749796,
+            "returncode": 0,
+            "started_monotonic_ns": 3570382038056,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE          cpu ExtSched            \n14164016   1 system/bin/python3            10r RUNNING          0                     \n"
+          }
+        },
+        "thermal_after": {
+          "thermal": "58.16",
+          "thermal_ext": "temp_in_c: 56.52\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 1
+      },
+      {
+        "independent_high_priority_timer": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "3",
+            "-p",
+            "40f",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/jitter_bench",
+            "16000",
+            "1000",
+            "100",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial2-jitter.csv"
+          ],
+          "duration_ms": 16165.851,
+          "finished_monotonic_ns": 3601940054352,
+          "pid": 14229550,
+          "returncode": 0,
+          "started_monotonic_ns": 3585774203315
+        },
+        "supervisor": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "0",
+            "/system/bin/python3",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/fault_supervisor.py",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial2-worker"
+          ],
+          "duration_ms": 13021.567,
+          "finished_monotonic_ns": 3599066051111,
+          "pid": 14237744,
+          "returncode": 0,
+          "started_monotonic_ns": 3586044484444
+        },
+        "supervisor_observed_process": {
+          "memory": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14237744",
+              "memory"
+            ],
+            "duration_ms": 22.185,
+            "finished_monotonic_ns": 3586655613519,
+            "returncode": 0,
+            "started_monotonic_ns": 3586633428759,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14237744   1 system/bin/python3            10r READY                     5604K 4672K  8192K/8192K\n             python3.14                    @2e4e688000                 4096  8192\n             ldqnx-64.so.2                 @19927e8000                 228K   12K\n             libsocket.so.4                @1992825000                 268K  4096\n             libm.so.3                     @1992871000                 248K  4096\n             libgcc_s.so.1                 @19928b1000                  76K  4096\n             libregex.so.1                 @19928c6000                  60K  4096\n             libpython3.14.so              @19928d7000                4052K  548K\n             libc.so.6                     @1992e1f000                 668K  8192\n             **zero ELF**                  @1992824000 (       0)            4096\n             **zero ELF**                  @1992868000 (       0)            8192\n             **zero ELF**                  @199286b000 (       0)             24K\n             **zero ELF**                  @19928af000 (       0)            4096\n             **zero ELF**                  @19928c4000 (       0)            4096\n             **zero ELF**                  @19928d5000 (       0)            4096\n             **zero ELF**                  @1992ccc000 (       0)            352K\n             **zero ELF**                  @1992dad000 (       0)            456K\n             **zero ELF**                  @1992ec6000 (       0)             16K\n             **zero ELF**                  @1992ecc000 (       0)             24K\n             **heap**                      @366804d000 (       0)           3184K\n"
+          },
+          "rlimits": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14237744",
+              "rlimits"
+            ],
+            "duration_ms": 22.531,
+            "finished_monotonic_ns": 3586633406870,
+            "returncode": 0,
+            "started_monotonic_ns": 3586610875407,
+            "stderr": "",
+            "stdout": "\n\nResource limits:                        soft : hard                 \nCPU (seconds)                       infinity : infinity             \nFile size (blocks)                  infinity : infinity             \nCore dump (blocks)                  infinity : infinity             \nData segment size (kB)              infinity : infinity             \nStack size (kB)                     infinity : infinity             \nLocked memory (kB)                  infinity : infinity             \nVirtual memory (kB)                  8388608 : infinity             \nOpen file descriptors                   2000 : 2000                 \nProcesses                           infinity : infinity             \nThreads                             infinity : infinity             \nMemory usage (.1% RAM)              infinity : infinity             \nOpen connections                    infinity : infinity             \nRegistered events                        256 : 256                  \nTimers created                      infinity : infinity             \nChannel limit                            100 : 100                  \n\n"
+          },
+          "rmasks": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14237744",
+              "rmasks"
+            ],
+            "duration_ms": 22.586,
+            "finished_monotonic_ns": 3586610853981,
+            "returncode": 0,
+            "started_monotonic_ns": 3586588267722,
+            "stderr": "",
+            "stdout": "     pid tid name                         \n14237744   1 system/bin/python3           \n\tRunmask     : 0x00000001\n\tInherit Mask: 0x00000001\n\n"
+          },
+          "sched": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14237744",
+              "sched"
+            ],
+            "duration_ms": 22.195,
+            "finished_monotonic_ns": 3586588245778,
+            "returncode": 0,
+            "started_monotonic_ns": 3586566050389,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE          cpu ExtSched            \n14237744   1 system/bin/python3            10r RUNNING          0                     \n"
+          }
+        },
+        "thermal_after": {
+          "thermal": "58.16",
+          "thermal_ext": "temp_in_c: 57.61\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 2
+      },
+      {
+        "independent_high_priority_timer": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "3",
+            "-p",
+            "40f",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/jitter_bench",
+            "16000",
+            "1000",
+            "100",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial3-jitter.csv"
+          ],
+          "duration_ms": 16168.107,
+          "finished_monotonic_ns": 3618122162352,
+          "pid": 14303278,
+          "returncode": 0,
+          "started_monotonic_ns": 3601954054981
+        },
+        "supervisor": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "0",
+            "/system/bin/python3",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/fault_supervisor.py",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial3-worker"
+          ],
+          "duration_ms": 13480.576,
+          "finished_monotonic_ns": 3615707069907,
+          "pid": 14311472,
+          "returncode": 0,
+          "started_monotonic_ns": 3602226493630
+        },
+        "supervisor_observed_process": {
+          "memory": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14311472",
+              "memory"
+            ],
+            "duration_ms": 22.039,
+            "finished_monotonic_ns": 3602837341778,
+            "returncode": 0,
+            "started_monotonic_ns": 3602815303259,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14311472   1 system/bin/python3            10r RUNNING                   5604K 4928K  8192K/8192K\n             python3.14                    @1a79d5a000                 4096  8192\n             ldqnx-64.so.2                 @3ebea77000                 228K   12K\n             libsocket.so.4                @3ebeab4000                 268K  4096\n             libm.so.3                     @3ebeb00000                 248K  4096\n             libgcc_s.so.1                 @3ebeb40000                  76K  4096\n             libregex.so.1                 @3ebeb55000                  60K  4096\n             libpython3.14.so              @3ebeb66000                4052K  548K\n             libc.so.6                     @3ebf0ae000                 668K  8192\n             **heap**                      @26608b8000 (       0)           3440K\n             **zero ELF**                  @3ebeab3000 (       0)            4096\n             **zero ELF**                  @3ebeaf7000 (       0)            8192\n             **zero ELF**                  @3ebeafa000 (       0)             24K\n             **zero ELF**                  @3ebeb3e000 (       0)            4096\n             **zero ELF**                  @3ebeb53000 (       0)            4096\n             **zero ELF**                  @3ebeb64000 (       0)            4096\n             **zero ELF**                  @3ebef5b000 (       0)            352K\n             **zero ELF**                  @3ebf03c000 (       0)            456K\n             **zero ELF**                  @3ebf155000 (       0)             16K\n             **zero ELF**                  @3ebf15b000 (       0)             24K\n"
+          },
+          "rlimits": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14311472",
+              "rlimits"
+            ],
+            "duration_ms": 22.823,
+            "finished_monotonic_ns": 3602815282537,
+            "returncode": 0,
+            "started_monotonic_ns": 3602792459759,
+            "stderr": "",
+            "stdout": "\n\nResource limits:                        soft : hard                 \nCPU (seconds)                       infinity : infinity             \nFile size (blocks)                  infinity : infinity             \nCore dump (blocks)                  infinity : infinity             \nData segment size (kB)              infinity : infinity             \nStack size (kB)                     infinity : infinity             \nLocked memory (kB)                  infinity : infinity             \nVirtual memory (kB)                  8388608 : infinity             \nOpen file descriptors                   2000 : 2000                 \nProcesses                           infinity : infinity             \nThreads                             infinity : infinity             \nMemory usage (.1% RAM)              infinity : infinity             \nOpen connections                    infinity : infinity             \nRegistered events                        256 : 256                  \nTimers created                      infinity : infinity             \nChannel limit                            100 : 100                  \n\n"
+          },
+          "rmasks": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14311472",
+              "rmasks"
+            ],
+            "duration_ms": 22.488,
+            "finished_monotonic_ns": 3602792438889,
+            "returncode": 0,
+            "started_monotonic_ns": 3602769950926,
+            "stderr": "",
+            "stdout": "     pid tid name                         \n14311472   1 system/bin/python3           \n\tRunmask     : 0x00000001\n\tInherit Mask: 0x00000001\n\n"
+          },
+          "sched": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14311472",
+              "sched"
+            ],
+            "duration_ms": 21.896,
+            "finished_monotonic_ns": 3602769930889,
+            "returncode": 0,
+            "started_monotonic_ns": 3602748034963,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE          cpu ExtSched            \n14311472   1 system/bin/python3            10r READY            0                     \n"
+          }
+        },
+        "thermal_after": {
+          "thermal": "57.61",
+          "thermal_ext": "temp_in_c: 58.16\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 3
+      },
+      {
+        "independent_high_priority_timer": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "3",
+            "-p",
+            "40f",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/jitter_bench",
+            "16000",
+            "1000",
+            "100",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial4-jitter.csv"
+          ],
+          "duration_ms": 16170.691,
+          "finished_monotonic_ns": 3634308058741,
+          "pid": 14508078,
+          "returncode": 0,
+          "started_monotonic_ns": 3618137367963
+        },
+        "supervisor": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "0",
+            "/system/bin/python3",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/fault_supervisor.py",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial4-worker"
+          ],
+          "duration_ms": 12968.502,
+          "finished_monotonic_ns": 3631383066667,
+          "pid": 14528560,
+          "returncode": 0,
+          "started_monotonic_ns": 3618414565037
+        },
+        "supervisor_observed_process": {
+          "memory": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14528560",
+              "memory"
+            ],
+            "duration_ms": 22.802,
+            "finished_monotonic_ns": 3619023769315,
+            "returncode": 0,
+            "started_monotonic_ns": 3619000967741,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14528560   1 system/bin/python3            10r READY                     5604K 5056K  8192K/8192K\n             python3.14                    @395d12d000                 4096  8192\n             ldqnx-64.so.2                 @17455c0000                 228K   12K\n             libsocket.so.4                @17455fd000                 268K  4096\n             libm.so.3                     @1745649000                 248K  4096\n             libgcc_s.so.1                 @1745689000                  76K  4096\n             libregex.so.1                 @174569e000                  60K  4096\n             libpython3.14.so              @17456af000                4052K  548K\n             libc.so.6                     @1745bf7000                 668K  8192\n             **zero ELF**                  @17455fc000 (       0)            4096\n             **zero ELF**                  @1745640000 (       0)            8192\n             **zero ELF**                  @1745643000 (       0)             24K\n             **zero ELF**                  @1745687000 (       0)            4096\n             **zero ELF**                  @174569c000 (       0)            4096\n             **zero ELF**                  @17456ad000 (       0)            4096\n             **zero ELF**                  @1745aa4000 (       0)            352K\n             **zero ELF**                  @1745b85000 (       0)            456K\n             **zero ELF**                  @1745c9e000 (       0)             16K\n             **zero ELF**                  @1745ca4000 (       0)             24K\n             **heap**                      @5ea161c000 (       0)           3568K\n"
+          },
+          "rlimits": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14528560",
+              "rlimits"
+            ],
+            "duration_ms": 21.839,
+            "finished_monotonic_ns": 3619000948426,
+            "returncode": 0,
+            "started_monotonic_ns": 3618979109111,
+            "stderr": "",
+            "stdout": "\n\nResource limits:                        soft : hard                 \nCPU (seconds)                       infinity : infinity             \nFile size (blocks)                  infinity : infinity             \nCore dump (blocks)                  infinity : infinity             \nData segment size (kB)              infinity : infinity             \nStack size (kB)                     infinity : infinity             \nLocked memory (kB)                  infinity : infinity             \nVirtual memory (kB)                  8388608 : infinity             \nOpen file descriptors                   2000 : 2000                 \nProcesses                           infinity : infinity             \nThreads                             infinity : infinity             \nMemory usage (.1% RAM)              infinity : infinity             \nOpen connections                    infinity : infinity             \nRegistered events                        256 : 256                  \nTimers created                      infinity : infinity             \nChannel limit                            100 : 100                  \n\n"
+          },
+          "rmasks": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14528560",
+              "rmasks"
+            ],
+            "duration_ms": 22.359,
+            "finished_monotonic_ns": 3618979087648,
+            "returncode": 0,
+            "started_monotonic_ns": 3618956728426,
+            "stderr": "",
+            "stdout": "     pid tid name                         \n14528560   1 system/bin/python3           \n\tRunmask     : 0x00000001\n\tInherit Mask: 0x00000001\n\n"
+          },
+          "sched": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14528560",
+              "sched"
+            ],
+            "duration_ms": 21.674,
+            "finished_monotonic_ns": 3618956707481,
+            "returncode": 0,
+            "started_monotonic_ns": 3618935033185,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE          cpu ExtSched            \n14528560   1 system/bin/python3            10r READY            0                     \n"
+          }
+        },
+        "thermal_after": {
+          "thermal": "56.52",
+          "thermal_ext": "temp_in_c: 57.61\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 4
+      },
+      {
+        "independent_high_priority_timer": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "3",
+            "-p",
+            "40f",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/jitter_bench",
+            "16000",
+            "1000",
+            "100",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial5-jitter.csv"
+          ],
+          "duration_ms": 16164.402,
+          "finished_monotonic_ns": 3650486046370,
+          "pid": 14716974,
+          "returncode": 0,
+          "started_monotonic_ns": 3634321644185
+        },
+        "supervisor": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "0",
+            "/system/bin/python3",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/fault_supervisor.py",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial5-worker"
+          ],
+          "duration_ms": 12866.58,
+          "finished_monotonic_ns": 3647459056259,
+          "pid": 14725168,
+          "returncode": 0,
+          "started_monotonic_ns": 3634592475778
+        },
+        "supervisor_observed_process": {
+          "memory": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14725168",
+              "memory"
+            ],
+            "duration_ms": 22.733,
+            "finished_monotonic_ns": 3635201554648,
+            "returncode": 0,
+            "started_monotonic_ns": 3635178822000,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE                      code  data        stack\n14725168   1 system/bin/python3            10r RUNNING                   5604K 5056K  8192K/8192K\n             python3.14                    @44327af000                 4096  8192\n             ldqnx-64.so.2                 @3671de9000                 228K   12K\n             libsocket.so.4                @3671e26000                 268K  4096\n             libm.so.3                     @3671e72000                 248K  4096\n             libgcc_s.so.1                 @3671eb2000                  76K  4096\n             libregex.so.1                 @3671ec7000                  60K  4096\n             libpython3.14.so              @3671ed8000                4052K  548K\n             libc.so.6                     @3672420000                 668K  8192\n             **zero ELF**                  @3671e25000 (       0)            4096\n             **zero ELF**                  @3671e69000 (       0)            8192\n             **zero ELF**                  @3671e6c000 (       0)             24K\n             **zero ELF**                  @3671eb0000 (       0)            4096\n             **zero ELF**                  @3671ec5000 (       0)            4096\n             **zero ELF**                  @3671ed6000 (       0)            4096\n             **zero ELF**                  @36722cd000 (       0)            352K\n             **zero ELF**                  @36723ae000 (       0)            456K\n             **zero ELF**                  @36724c7000 (       0)             16K\n             **zero ELF**                  @36724cd000 (       0)             24K\n             **heap**                      @5aec21b000 (       0)           3568K\n"
+          },
+          "rlimits": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14725168",
+              "rlimits"
+            ],
+            "duration_ms": 22.008,
+            "finished_monotonic_ns": 3635178801296,
+            "returncode": 0,
+            "started_monotonic_ns": 3635156793315,
+            "stderr": "",
+            "stdout": "\n\nResource limits:                        soft : hard                 \nCPU (seconds)                       infinity : infinity             \nFile size (blocks)                  infinity : infinity             \nCore dump (blocks)                  infinity : infinity             \nData segment size (kB)              infinity : infinity             \nStack size (kB)                     infinity : infinity             \nLocked memory (kB)                  infinity : infinity             \nVirtual memory (kB)                  8388608 : infinity             \nOpen file descriptors                   2000 : 2000                 \nProcesses                           infinity : infinity             \nThreads                             infinity : infinity             \nMemory usage (.1% RAM)              infinity : infinity             \nOpen connections                    infinity : infinity             \nRegistered events                        256 : 256                  \nTimers created                      infinity : infinity             \nChannel limit                            100 : 100                  \n\n"
+          },
+          "rmasks": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14725168",
+              "rmasks"
+            ],
+            "duration_ms": 22.566,
+            "finished_monotonic_ns": 3635156772019,
+            "returncode": 0,
+            "started_monotonic_ns": 3635134206519,
+            "stderr": "",
+            "stdout": "     pid tid name                         \n14725168   1 system/bin/python3           \n\tRunmask     : 0x00000001\n\tInherit Mask: 0x00000001\n\n"
+          },
+          "sched": {
+            "argv": [
+              "pidin",
+              "-p",
+              "14725168",
+              "sched"
+            ],
+            "duration_ms": 22.151,
+            "finished_monotonic_ns": 3635134184759,
+            "returncode": 0,
+            "started_monotonic_ns": 3635112033278,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE          cpu ExtSched            \n14725168   1 system/bin/python3            10r RUNNING          0                     \n"
+          }
+        },
+        "thermal_after": {
+          "thermal": "58.16",
+          "thermal_ext": "temp_in_c: 56.52\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 5
+      }
+    ],
+    "suite": "fault_isolation",
+    "trials": 5
+  },
+  "schema": "holy-crap-qnx-native-eval-v1",
+  "source_commit": "7778ee028347acb8793b7fd81d3d92f63ff57d37",
+  "suite": "fault",
+  "target": "QNX 8.0 RaspberryPi5 aarch64le",
+  "thermal_after": {
+    "thermal": "57.61",
+    "thermal_ext": "temp_in_c: 57.61\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+  },
+  "thermal_before": {
+    "thermal": "58.71",
+    "thermal_ext": "temp_in_c: 57.61\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+  },
+  "virtual_memory_soft_limit_kib": 8388608
+}

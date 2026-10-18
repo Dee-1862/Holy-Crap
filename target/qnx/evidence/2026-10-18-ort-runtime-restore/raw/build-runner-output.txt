@@ -1,0 +1,37 @@
+submitted job-20261018-101459-fbf379d5 (13 argv elements) to qnxpi
+{
+  "id": "job-20261018-101459-fbf379d5",
+  "argv": [
+    "/proc/boot/on",
+    "-L",
+    "vmem:8589934592",
+    "clang",
+    "-O2",
+    "-shared",
+    "-fPIC",
+    "hc_ort.c",
+    "-I",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/stage/include-root/usr/include/onnxruntime",
+    "-l:libonnxruntime.so.1",
+    "-o",
+    "libhcort.so"
+  ],
+  "cwd": "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/stage/ortlite",
+  "timeout": 180,
+  "status": "done",
+  "started_at": "2026-10-18T17:15:01Z",
+  "finished_at": "2026-10-18T17:15:04Z",
+  "exit_code": 0,
+  "timed_out": false,
+  "error": null,
+  "stdout_log": "logs/job-20261018-101459-fbf379d5.out",
+  "stderr_log": "logs/job-20261018-101459-fbf379d5.err"
+}
+--- stderr ---
+hc_ort.c:57:3: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
+   57 |   api->AllocatorFree(al, name);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+hc_ort.c:60:3: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
+   60 |   api->AllocatorFree(al, name);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings generated.

@@ -1,0 +1,1 @@
+{"model": "dropping4_yolo11n_320.onnx", "on": "pi", "side": 320, "boxes": [{"box": [0.303, 0.328, 0.706, 0.727], "cls": "cocci", "score": 0.874}], "best": {"cocci": 0.874, "healthy": 0.0, "ncd": 0.0, "salmo": 0.0}, "ms": 111.4}

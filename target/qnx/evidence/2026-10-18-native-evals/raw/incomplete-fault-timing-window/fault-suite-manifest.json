@@ -1,0 +1,252 @@
+{
+  "duration_ms": 59860.294,
+  "result": {
+    "results": [
+      {
+        "independent_high_priority_timer": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "3",
+            "-p",
+            "40f",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/jitter_bench",
+            "3000",
+            "1000",
+            "100",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial1-jitter.csv"
+          ],
+          "duration_ms": 12288.974,
+          "finished_monotonic_ns": 3336707104315,
+          "pid": 10739758,
+          "returncode": 0,
+          "started_monotonic_ns": 3324418130407
+        },
+        "supervisor": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "0",
+            "/system/bin/python3",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/fault_supervisor.py",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial1-worker"
+          ],
+          "duration_ms": 12009.508,
+          "finished_monotonic_ns": 3336698658333,
+          "returncode": 0,
+          "started_monotonic_ns": 3324689150593,
+          "stderr": "",
+          "stdout": "{\"fault\": {\"death_observed_ns\": 3331495074407, \"kill_requested_ns\": 3331481019481, \"returncode\": -9, \"target_pid\": 10756145}, \"fault_signal\": \"SIGKILL\", \"initial\": {\"first_result_observed_ns\": 3331223146148, \"first_result_payload_ns\": 3331195801759, \"pid\": 10756145, \"ready_observed_ns\": 3331212453889, \"ready_payload_ns\": 3331176023963, \"spawn_requested_ns\": 3327433030167}, \"poll_interval_ms\": 1.0, \"recovery\": {\"detect_ms\": 14.055, \"first_result_from_fault_ms\": 4125.026, \"first_result_observed_ns\": 3335606045907, \"first_result_payload_ns\": 3335555180093, \"ready_from_fault_ms\": 4097.157, \"ready_observed_ns\": 3335578176185, \"ready_payload_ns\": 3335536127241, \"replacement_pid\": 10764337, \"spawn_call_gap_ms\": 0.008, \"spawn_requested_ns\": 3331495082407}, \"supervisor_pid\": 10747952, \"tool\": \"disposable_process_isolation_eval\"}\n"
+        },
+        "thermal_after": {
+          "thermal": "58.71",
+          "thermal_ext": "temp_in_c: 59.26\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 1
+      },
+      {
+        "independent_high_priority_timer": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "3",
+            "-p",
+            "40f",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/jitter_bench",
+            "3000",
+            "1000",
+            "100",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial2-jitter.csv"
+          ],
+          "duration_ms": 12224.462,
+          "finished_monotonic_ns": 3348945124815,
+          "pid": 10874926,
+          "returncode": 0,
+          "started_monotonic_ns": 3336720662389
+        },
+        "supervisor": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "0",
+            "/system/bin/python3",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/fault_supervisor.py",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial2-worker"
+          ],
+          "duration_ms": 11954.025,
+          "finished_monotonic_ns": 3348944220870,
+          "returncode": 0,
+          "started_monotonic_ns": 3336990195815,
+          "stderr": "",
+          "stdout": "{\"fault\": {\"death_observed_ns\": 3343449024222, \"kill_requested_ns\": 3343440028519, \"returncode\": -9, \"target_pid\": 10891313}, \"fault_signal\": \"SIGKILL\", \"initial\": {\"first_result_observed_ns\": 3343187062611, \"first_result_payload_ns\": 3343155029852, \"pid\": 10891313, \"ready_observed_ns\": 3343179061741, \"ready_payload_ns\": 3343124096481, \"spawn_requested_ns\": 3339583042222}, \"poll_interval_ms\": 1.0, \"recovery\": {\"detect_ms\": 8.996, \"first_result_from_fault_ms\": 4413.027, \"first_result_observed_ns\": 3347853055037, \"first_result_payload_ns\": 3347809017778, \"ready_from_fault_ms\": 4390.718, \"ready_observed_ns\": 3347830746907, \"ready_payload_ns\": 3347793055481, \"replacement_pid\": 10899505, \"spawn_call_gap_ms\": 0.986, \"spawn_requested_ns\": 3343450009944}, \"supervisor_pid\": 10883120, \"tool\": \"disposable_process_isolation_eval\"}\n"
+        },
+        "thermal_after": {
+          "thermal": "57.61",
+          "thermal_ext": "temp_in_c: 57.06\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 2
+      },
+      {
+        "independent_high_priority_timer": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "3",
+            "-p",
+            "40f",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/jitter_bench",
+            "3000",
+            "1000",
+            "100",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial3-jitter.csv"
+          ],
+          "duration_ms": 11576.301,
+          "finished_monotonic_ns": 3360534874185,
+          "pid": 10915886,
+          "returncode": 0,
+          "started_monotonic_ns": 3348958573370
+        },
+        "supervisor": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "0",
+            "/system/bin/python3",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/fault_supervisor.py",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial3-worker"
+          ],
+          "duration_ms": 11302.037,
+          "finished_monotonic_ns": 3360531186019,
+          "returncode": 0,
+          "started_monotonic_ns": 3349229148833,
+          "stderr": "",
+          "stdout": "{\"fault\": {\"death_observed_ns\": 3355402028074, \"kill_requested_ns\": 3355391016278, \"returncode\": -9, \"target_pid\": 10932273}, \"fault_signal\": \"SIGKILL\", \"initial\": {\"first_result_observed_ns\": 3355137163352, \"first_result_payload_ns\": 3355095117000, \"pid\": 10932273, \"ready_observed_ns\": 3355126009667, \"ready_payload_ns\": 3355080024685, \"spawn_requested_ns\": 3351678386722}, \"poll_interval_ms\": 1.0, \"recovery\": {\"detect_ms\": 11.012, \"first_result_from_fault_ms\": 4141.12, \"first_result_observed_ns\": 3359532136722, \"first_result_payload_ns\": 3359504445315, \"ready_from_fault_ms\": 4130.079, \"ready_observed_ns\": 3359521095389, \"ready_payload_ns\": 3359474084019, \"replacement_pid\": 10940465, \"spawn_call_gap_ms\": 0.007, \"spawn_requested_ns\": 3355402035407}, \"supervisor_pid\": 10924080, \"tool\": \"disposable_process_isolation_eval\"}\n"
+        },
+        "thermal_after": {
+          "thermal": "58.71",
+          "thermal_ext": "temp_in_c: 57.06\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 3
+      },
+      {
+        "independent_high_priority_timer": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "3",
+            "-p",
+            "40f",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/jitter_bench",
+            "3000",
+            "1000",
+            "100",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial4-jitter.csv"
+          ],
+          "duration_ms": 11470.416,
+          "finished_monotonic_ns": 3372015958593,
+          "pid": 11051054,
+          "returncode": 0,
+          "started_monotonic_ns": 3360545542204
+        },
+        "supervisor": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "0",
+            "/system/bin/python3",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/fault_supervisor.py",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial4-worker"
+          ],
+          "duration_ms": 11196.304,
+          "finished_monotonic_ns": 3372012459444,
+          "returncode": 0,
+          "started_monotonic_ns": 3360816155500,
+          "stderr": "",
+          "stdout": "{\"fault\": {\"death_observed_ns\": 3367059072889, \"kill_requested_ns\": 3367052020944, \"returncode\": -9, \"target_pid\": 11096113}, \"fault_signal\": \"SIGKILL\", \"initial\": {\"first_result_observed_ns\": 3366801014278, \"first_result_payload_ns\": 3366740004778, \"pid\": 11096113, \"ready_observed_ns\": 3366764133148, \"ready_payload_ns\": 3366715005093, \"spawn_requested_ns\": 3363279167167}, \"poll_interval_ms\": 1.0, \"recovery\": {\"detect_ms\": 7.052, \"first_result_from_fault_ms\": 3874.05, \"first_result_observed_ns\": 3370926071315, \"first_result_payload_ns\": 3370897012500, \"ready_from_fault_ms\": 3852.055, \"ready_observed_ns\": 3370904076389, \"ready_payload_ns\": 3370874013944, \"replacement_pid\": 11104305, \"spawn_call_gap_ms\": 0.933, \"spawn_requested_ns\": 3367060005815}, \"supervisor_pid\": 11059248, \"tool\": \"disposable_process_isolation_eval\"}\n"
+        },
+        "thermal_after": {
+          "thermal": "57.61",
+          "thermal_ext": "temp_in_c: 59.26\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 4
+      },
+      {
+        "independent_high_priority_timer": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "3",
+            "-p",
+            "40f",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/jitter_bench",
+            "3000",
+            "1000",
+            "100",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial5-jitter.csv"
+          ],
+          "duration_ms": 12207.876,
+          "finished_monotonic_ns": 3384238448111,
+          "pid": 11182126,
+          "returncode": 0,
+          "started_monotonic_ns": 3372030571889
+        },
+        "supervisor": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-C",
+            "0",
+            "/system/bin/python3",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/fault_supervisor.py",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial5-worker"
+          ],
+          "duration_ms": 11932.963,
+          "finished_monotonic_ns": 3384235139796,
+          "returncode": 0,
+          "started_monotonic_ns": 3372302176296,
+          "stderr": "",
+          "stdout": "{\"fault\": {\"death_observed_ns\": 3379009432722, \"kill_requested_ns\": 3378999029741, \"returncode\": -9, \"target_pid\": 11399216}, \"fault_signal\": \"SIGKILL\", \"initial\": {\"first_result_observed_ns\": 3378747169630, \"first_result_payload_ns\": 3378704146130, \"pid\": 11399216, \"ready_observed_ns\": 3378738067630, \"ready_payload_ns\": 3378690158667, \"spawn_requested_ns\": 3374975035704}, \"poll_interval_ms\": 1.0, \"recovery\": {\"detect_ms\": 10.403, \"first_result_from_fault_ms\": 4299.031, \"first_result_observed_ns\": 3383298060333, \"first_result_payload_ns\": 3383278296611, \"ready_from_fault_ms\": 4294.128, \"ready_observed_ns\": 3383293157852, \"ready_payload_ns\": 3383256080333, \"replacement_pid\": 11411504, \"spawn_call_gap_ms\": 0.076, \"spawn_requested_ns\": 3379009509019}, \"supervisor_pid\": 11194417, \"tool\": \"disposable_process_isolation_eval\"}\n"
+        },
+        "thermal_after": {
+          "thermal": "58.71",
+          "thermal_ext": "temp_in_c: 58.71\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 5
+      }
+    ],
+    "suite": "fault_isolation",
+    "trials": 5
+  },
+  "schema": "holy-crap-qnx-native-eval-v1",
+  "source_commit": "7778ee028347acb8793b7fd81d3d92f63ff57d37",
+  "suite": "fault",
+  "target": "QNX 8.0 RaspberryPi5 aarch64le",
+  "thermal_after": {
+    "thermal": "58.16",
+    "thermal_ext": "temp_in_c: 58.16\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+  },
+  "thermal_before": {
+    "thermal": "59.81",
+    "thermal_ext": "temp_in_c: 58.16\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+  },
+  "virtual_memory_soft_limit_kib": 8388608
+}

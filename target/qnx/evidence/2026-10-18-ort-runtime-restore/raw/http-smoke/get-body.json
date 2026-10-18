@@ -1,0 +1,1 @@
+{"model": "dropping4_yolo11n_320.onnx", "on": "pi", "side": 320, "classes": ["cocci", "healthy", "ncd", "salmo"]}

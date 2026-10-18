@@ -186,6 +186,122 @@ export interface ClipAssessmentJob {
   telemetry_history?: ClipTelemetrySample[];
 }
 
+export type QnxRuntimeStatus = "ready" | "partial" | "unreachable" | "not_configured";
+
+export interface QnxRuntimeProcess {
+  name: string;
+  pid: number | null;
+  configured_priority: number | null;
+  observed_priority: number | null;
+  scheduling_policy: string | null;
+  runmask: string | null;
+  observation_detail: string | null;
+  restarts: number | null;
+  started_at: string | null;
+  last_exit: number | null;
+  respawn_ms: number | null;
+  ready: boolean | null;
+}
+
+export interface QnxRuntimeCorrelation {
+  job_id: string | null;
+  clip_sha256: string | null;
+  model_sha256: string | null;
+  worker_sha256: string | null;
+}
+
+export interface QnxRuntimeModelTiming {
+  sample_count: number | null;
+  last_ms: number | null;
+  p50_ms: number | null;
+  p95_ms: number | null;
+  p99_ms: number | null;
+  max_ms: number | null;
+  failed_sample_count: number | null;
+  failed_last_ms: number | null;
+  failed_p50_ms: number | null;
+  failed_p95_ms: number | null;
+  failed_p99_ms: number | null;
+  failed_max_ms: number | null;
+  checked: number | null;
+  unreachable: number | null;
+  worker_errors: number | null;
+  evicted: number | null;
+  dropped: number | null;
+}
+
+export interface QnxRuntimeCapture {
+  frames: number | null;
+  fps: number | null;
+  dropped: number | null;
+  warm: boolean | null;
+  last_frame_age_s: number | null;
+  target_period_ms: number | null;
+  period_p50_ms: number | null;
+  period_p95_ms: number | null;
+  period_p99_ms: number | null;
+  period_max_ms: number | null;
+  deadline_misses: number | null;
+  deadline_miss_percent: number | null;
+  sample_count: number | null;
+}
+
+export interface QnxRuntimeResources {
+  captured_at?: string | null;
+  source?: AssessmentExecutor | null;
+  cpu_percent?: number | null;
+  ram_used_bytes?: number | null;
+  ram_total_bytes?: number | null;
+  process_cpu_percent?: number | null;
+  process_ram_bytes?: number | null;
+  detail?: string | null;
+}
+
+export interface QnxFaultEvent {
+  process: string;
+  old_pid: number | null;
+  new_pid: number | null;
+  requested_at: string | null;
+  detected_at: string | null;
+  spawned_at: string | null;
+  ready_at: string | null;
+  first_result_at: string | null;
+  respawn_ms: number | null;
+  recovery_ms: number | null;
+  state: string;
+}
+
+export interface QnxRuntimeResponse {
+  schema_version: 1;
+  runtime_scope?: string;
+  status: QnxRuntimeStatus;
+  captured_at: string;
+  detail: string;
+  target: ClipAssessmentTarget | null;
+  native_ipc: boolean | null;
+  source_mode: string | null;
+  scheduler_profile: string | null;
+  qnx_priorities_active: boolean | null;
+  target_status_schema?: string | null;
+  target_status_version?: number | string | null;
+  correlation?: QnxRuntimeCorrelation | null;
+  capture: QnxRuntimeCapture | null;
+  model_timing?: QnxRuntimeModelTiming | null;
+  processes: QnxRuntimeProcess[];
+  resources: QnxRuntimeResources | null;
+  fault_tests_enabled: boolean;
+  target_fault_tests_enabled: boolean | null;
+  latest_fault: QnxFaultEvent | null;
+}
+
+export interface QnxFaultTestResponse {
+  schema_version: 1;
+  process: string;
+  accepted: boolean;
+  pid: number | null;
+  detail: string | null;
+}
+
 export interface NormalizedBBox {
   x: number;
   y: number;
@@ -585,4 +701,71 @@ export interface RunResult {
   metrics: RunMetrics | null;
   artifacts: RunArtifact[];
   error?: { code?: string; message?: string } | null;
+}
+
+export type BenchmarkEvidenceStatus = "available" | "unavailable" | "invalid";
+
+export interface QnxBenchmarkSourceIdentity {
+  source_commit: string | null;
+  os: string | null;
+  board: string | null;
+  architecture: string | null;
+  cpu: string | null;
+}
+
+export interface QnxBenchmarkJitter {
+  same_core_control_p50_us: number | null;
+  fifo40_p50_us: number | null;
+  fifo40_deadline_miss_rate: number | null;
+  deadline_threshold_us: number | null;
+  same_core_control_to_fifo_p50_ratio: number | null;
+}
+
+export interface QnxBenchmarkIpc {
+  mechanism: string | null;
+  payload_bytes: number | null;
+  p50_us: number | null;
+}
+
+export interface QnxBenchmarkNcnn {
+  idle_calls_per_second: number | null;
+  observed_data_memory_mb: number | null;
+}
+
+export interface QnxBenchmarkFaultIsolation {
+  subject: string | null;
+  detect_mean_ms: number | null;
+  first_result_mean_ms: number | null;
+}
+
+export interface QnxVerifiedBenchmarkEvidence {
+  status: BenchmarkEvidenceStatus;
+  source_identity: QnxBenchmarkSourceIdentity | null;
+  jitter: QnxBenchmarkJitter | null;
+  ipc: QnxBenchmarkIpc | null;
+  ncnn: QnxBenchmarkNcnn | null;
+  fault_isolation: QnxBenchmarkFaultIsolation | null;
+}
+
+export interface LinuxBenchmarkFifoScenario {
+  p50_lateness_us: number | null;
+  deadline_misses: number | null;
+  total_wakes: number | null;
+}
+
+export interface LinuxBenchmarkComparator {
+  status: BenchmarkEvidenceStatus;
+  deadline_threshold_us: number | null;
+  idle: LinuxBenchmarkFifoScenario | null;
+  cross_core_load: LinuxBenchmarkFifoScenario | null;
+  same_core_load: LinuxBenchmarkFifoScenario | null;
+}
+
+export interface BenchmarkEvidenceResponse {
+  schema_version: 1;
+  qnx: QnxVerifiedBenchmarkEvidence;
+  linux: LinuxBenchmarkComparator;
+  test_context: { qnx: string; linux: string };
+  full_qnx_pipeline_status: "not_run";
+  full_qnx_pipeline_models_completed: 0;
 }

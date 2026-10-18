@@ -1,4 +1,4 @@
-# Holy-Crap
+# Henomaly
 
 A pen camera, a QNX Raspberry Pi 5 and a detector that look at chicken droppings and tell a farmer when a pen needs a look. It flags appearance for review. It does not diagnose disease and never decides on treatment or culling.
 
@@ -8,7 +8,7 @@ Live site: https://aremyhens.fit (dashboard, Pi status, privacy and terms)
 |---|---|---|---|
 | <img src="images/raspberrypi.jpeg" width="190"> | <img src="images/watch1.jpeg" width="190"> | <img src="images/dashboard.png" width="320"> | <img src="images/chat.png" width="150"> |
 
-The watch and dashboard show demo pen readings, labelled as such in the app. The chat photo is a sample image.
+The dashboard reads the analysed recorded clips. Test droppings were pasted into the Pen A1 clip at known times. The watch photos were taken with an earlier demo data stream, and the chat photo is a sample image.
 
 ## Paper
 
@@ -103,5 +103,7 @@ Secrets (Wi-Fi, site tokens, API keys) never go in the repository. They live in 
 ## Data and licences
 
 Machuve et al. farm and PCR photos (Zenodo 4628934, 5801834), PIO broiler videos (Zenodo 16686320) and NESTLER poultry videos (Zenodo 15063494) are CC BY 4.0. Big Broiler clips and the behaviour models trained on them are AGPL-3.0. Sources and checks are in [paper/citation-check.md](paper/citation-check.md).
+
+Our code, models and results are released under the [AGPL-3.0](LICENSE). Cite with [CITATION.cff](CITATION.cff).
 
 Built at LA Hacks with the QNX and Veri tracks.

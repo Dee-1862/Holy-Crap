@@ -31,9 +31,8 @@ function proxyId(proxy: ProxySpecimenReference): string {
   return proxy.id ?? proxy.asset_id ?? proxy.sample_id ?? "";
 }
 
-function deriveSampleStats(assessment: ClipAssessment): AssessmentSampleStats | null {
+function deriveSampleStats(assessment: ClipAssessment): AssessmentSampleStats {
   const candidates = assessment.summary.feces.candidates;
-  if (!candidates.length) return null;
   const ids = new Set<string>();
   const datasets = new Map<string, number>();
   const classCounts: Partial<Record<DemoSpecimenClass, number>> = {};
@@ -119,7 +118,7 @@ function SampleView({ stats }: { stats: AssessmentSampleStats }) {
   return (
     <section className="pool-summary" aria-labelledby="pool-summary-title">
       <div className="subheading">
-        <div><span className="eyebrow">Evidence context</span><h3 id="pool-summary-title">Proxy specimen pool</h3></div>
+        <div><span className="eyebrow">Evidence context</span><h3 id="pool-summary-title">Assessment specimen evidence</h3></div>
         <span className="pool-badge pool-badge--sample">ASSESSMENT SAMPLE</span>
       </div>
       <dl className="pool-stat-grid">
@@ -137,10 +136,7 @@ function SampleView({ stats }: { stats: AssessmentSampleStats }) {
 }
 
 export function SpecimenPoolSummary({ summary, assessment }: SpecimenPoolSummaryProps) {
+  if (assessment) return <SampleView stats={deriveSampleStats(assessment)} />;
   if (summary) return <PoolView summary={summary} />;
-  if (assessment) {
-    const stats = deriveSampleStats(assessment);
-    if (stats) return <SampleView stats={stats} />;
-  }
   return null;
 }

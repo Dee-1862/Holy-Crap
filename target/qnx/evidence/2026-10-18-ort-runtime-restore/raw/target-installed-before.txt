@@ -1,0 +1,649 @@
+abuild-3.16.0_p2-r0 - APK build toolchain, adapted for QNX
+abuild-cmake-4.4.2-r0 - Cross-platform, open-source make system (abuild wrapper)
+abuild-doc-3.16.0_p2-r0 - APK build toolchain, adapted for QNX (documentation)
+abuild-meson-1.10.0-r0 - The Meson Build System (abuild wrapper)
+adwaita-fonts-49.0-r0 - The typefaces for GNOME
+adwaita-fonts-mono-49.0-r0 - The typefaces for GNOME (Mono)
+adwaita-fonts-sans-49.0-r0 - The typefaces for GNOME (Sans)
+adwaita-icon-theme-50.0-r0 - Adwaita icon theme
+adwaita-icon-theme-doc-50.0-r0 - Adwaita icon theme (documentation)
+aom-libs-3.13.1-r2 - Alliance for Open Media (AOM) AV1 codec SDK (libraries)
+apk-tools-3.0.6-r0 - Alpine Package Keeper - package manager for alpine
+apk-tools-doc-3.0.6-r0 - Alpine Package Keeper - package manager for alpine (documentation)
+aspell-libs-0.60.8.1-r0 - A spell checker designed to eventually replace Ispell (libraries)
+at-spi2-core-2.58.0-r1 - Protocol definitions and daemon for D-Bus at-spi
+at-spi2-core-libs-2.58.0-r1 - Protocol definitions and daemon for D-Bus at-spi (libraries)
+autoconf-2.72-r0 - GNU tool for automatically configuring source code
+autoconf-doc-2.72-r0 - GNU tool for automatically configuring source code (documentation)
+automake-1.18-r0 - GNU tool for automatically creating Makefiles
+automake-doc-1.18-r0 - GNU tool for automatically creating Makefiles (documentation)
+bash-5.3.3-r5 - The GNU Bourne Again shell
+bash-doc-5.3.3-r5 - The GNU Bourne Again shell (documentation)
+bc-1.08.2-r0 - Arbitrary precision numeric processing language (calculator)
+bc-doc-1.08.2-r0 - Arbitrary precision numeric processing language (calculator) (documentation)
+binutils-2.43-r0 - Tools necessary to build programs
+binutils-doc-2.43-r0 - Tools necessary to build programs (documentation)
+brotli-1.1.0-r1 - Brotli compression format
+brotli-dev-1.1.0-r1 - Brotli compression format (development files)
+build-base-0.1-r1 - Meta package for build base
+busybox-1.36.1_p0-r1 - Size optimized toolbox of many common UNIX utilities
+busybox-doc-1.36.1_p0-r1 - Size optimized toolbox of many common UNIX utilities (documentation)
+bzip2-1.0.8-r8 - A high-quality data compression program
+bzip2-dev-1.0.8-r8 - A high-quality data compression program (development files)
+bzip2-doc-1.0.8-r8 - A high-quality data compression program (documentation)
+ca-certificates-1-r5 - CA certificates provider
+ca-certificates-mozilla-3.117-r5 - Mozilla's set of trusted CA certificates
+cairo-1.18.4-r1 - A vector graphics library
+cairo-dev-1.18.4-r1 - A vector graphics library (development files)
+cairo-gobject-1.18.4-r1 - A vector graphics library (gobject bindings)
+clang-22-r0 - C language family frontend for LLVM, default version
+clang-dev-22-r0 - C language family frontend for LLVM, default version (development files)
+clang-libs-21.1.3-r5 - Low Level Virtual Machine compiler system.
+clang22-22.1.8_p1-r0 - C language family front-end for LLVM
+clang22-dev-22.1.8_p1-r0 - C language family front-end for LLVM (development files for linking to libclang)
+clang22-doc-22.1.8_p1-r0 - C language family front-end for LLVM (documentation)
+cmake-4.4.2-r0 - Cross-platform, open-source make system
+cmake-bash-completion-4.4.2-r0 - Bash completions for cmake
+cmake-doc-4.4.2-r0 - Cross-platform, open-source make system (documentation)
+curl-8.15.0-r2 - command line tool and library for transferring data with URLs
+curl-doc-8.15.0-r2 - command line tool and library for transferring data with URLs (documentation)
+dbus-1.16.2-r2 - Freedesktop.org message bus system
+dbus-doc-1.16.2-r2 - Freedesktop.org message bus system (documentation)
+desktop-file-utils-0.28-r0 - Command line utilities for working with desktop entries
+desktop-file-utils-doc-0.28-r0 - Command line utilities for working with desktop entries (documentation)
+desktop-file-utils-emacs-0.28-r0 - Emacs mode for desktop-file-utils
+docs-0.2-r0 - Meta package for pulling in all documentation
+duktape-libs-2.7.0-r0 - Embeddable Javascript engine with a focus on portability and compact footprint (libraries)
+emacs-30.2-r2 - Extensible, customizable, self-documenting real-time display editor (common files)
+emacs-doc-30.2-r2 - Extensible, customizable, self-documenting real-time display editor (documentation)
+emacs-pgtk-30.2-r2 - Extensible, customizable, self-documenting real-time display editor - with pure GTK
+enca-1.20-r0 - Charset analyser and converter
+enca-doc-1.20-r0 - Charset analyser and converter (documentation)
+enchant-libs-2.8.12-r0 - wrapper library for generic spell checking (v2) (libraries)
+encodings-1.1.0-r0 - X.org font encoding files
+epiphany-43.1-r3 - A simple, clean, beautiful view of the web
+epiphany-doc-43.1-r3 - A simple, clean, beautiful view of the web (documentation)
+exiv2-libs-0.28.7-r1 - Exif and Iptc metadata manipulation library and tools. (libraries)
+exo-4.21.0-r0 - Extensions to Xfce by os-cillation
+exo-doc-4.21.0-r0 - Extensions to Xfce by os-cillation (documentation)
+exo-libs-4.21.0-r0 - Extensions to Xfce by os-cillation (libraries)
+expat-2.7.3-r0 - XML Parser library written in C
+expat-dev-2.7.3-r0 - XML Parser library written in C (development files)
+expat-doc-2.7.3-r0 - XML Parser library written in C (documentation)
+fakeroot-1.38.1-r1 - Tool for simulating superuser privileges
+fakeroot-doc-1.38.1-r1 - Tool for simulating superuser privileges (documentation)
+ffmpeg-libavcodec-8.0-r5 - Complete and free Internet live audio and video broadcasting solution for Linux/Unix (libavcodec library)
+ffmpeg-libavdevice-8.0-r5 - Complete and free Internet live audio and video broadcasting solution for Linux/Unix (libavdevice library)
+ffmpeg-libavfilter-8.0-r5 - Complete and free Internet live audio and video broadcasting solution for Linux/Unix (libavfilter library)
+ffmpeg-libavformat-8.0-r5 - Complete and free Internet live audio and video broadcasting solution for Linux/Unix (libavformat library)
+ffmpeg-libavutil-8.0-r5 - Complete and free Internet live audio and video broadcasting solution for Linux/Unix (libavutil library)
+ffmpeg-libs-8.0-r5 - compat hack for all ffmpeg libs
+ffmpeg-libswresample-8.0-r5 - Complete and free Internet live audio and video broadcasting solution for Linux/Unix (libswresample library)
+ffmpeg-libswscale-8.0-r5 - Complete and free Internet live audio and video broadcasting solution for Linux/Unix (libswscale library)
+ffmpegthumbnailer-2.2.3-r0 - Lightweight video thumbnailer that can be used by file managers
+ffmpegthumbnailer-doc-2.2.3-r0 - Lightweight video thumbnailer that can be used by file managers (documentation)
+file-5.46-r1 - File type identification utility
+file-doc-5.46-r1 - File type identification utility (documentation)
+filesystem-1-r3 - Base file system layout and files
+font-cantarell-0.303.1-r0 - Humanist sans-serif font designed for on-screen reading
+font-dejavu-2.37-r0 - Font family based on the Bitstream Vera Fonts with a wider range of characters
+font-hack-3.003-r0 - A typeface designed for source code
+font-inter-4.1-r0 - A typeface carefully crafted & designed for computer screens
+font-liberation-2.1.5-r0 - Fonts to replace commonly used Microsoft Windows fonts
+font-noto-emoji-2.048-r0 - Google Noto emoji fonts
+font-noto-sans-cjk-2.004-r0 - Google Noto Sans CJK fonts
+font-noto-sans-cjk-extra-2.004-r0 - Google Noto Sans CJK fonts
+font-noto-serif-cjk-2.003-r0 - Google Noto Serif CJK fonts
+font-noto-serif-cjk-extra-2.003-r0 - Google Noto Serif CJK fonts
+font-util-1.4.1-r0 - X.org font utilities
+font-util-doc-1.4.1-r0 - X.org font utilities (documentation)
+fontconfig-2.17.1-r1 - Library for configuring and customizing font access
+fontconfig-dev-2.17.1-r1 - Library for configuring and customizing font access (development files)
+freetype-2.14.1-r1 - TrueType font rendering library
+freetype-dev-2.14.1-r1 - TrueType font rendering library (development files)
+fribidi-1.0.16-r0 - Free Implementation of the Unicode Bidirectional Algorithm
+fribidi-doc-1.0.16-r0 - Free Implementation of the Unicode Bidirectional Algorithm (documentation)
+garcon-4.21.0-r2 - a freedesktop.org compliant menu implementation based on GLib and GIO
+gawk-5.3.2-r0 - GNU awk pattern-matching language
+gawk-doc-5.3.2-r0 - GNU awk pattern-matching language (documentation)
+gcc-zsh-completion-5.9-r5 - Zsh completions for gcc
+gcr-3.41.2-r0 - library for bits of crypto UI and parsing
+gcr-base-3.41.2-r0 - library for bits of crypto UI and parsing (base libraries)
+gdb-14.2-r1 - The GNU Debugger
+gdb-doc-14.2-r1 - The GNU Debugger (documentation)
+gdbm-1.26-r0 - GNU dbm is a set of database routines that use extensible hashing
+gdbm-doc-1.26-r0 - GNU dbm is a set of database routines that use extensible hashing (documentation)
+gdk-pixbuf-2.43.3-r2 - GTK+ image loading library
+gdk-pixbuf-loaders-2.43.3-r2 - Metapackage to pull in gdk-pixbuf loaders
+geany-2.1-r1 - fast and lightweight IDE
+geany-dev-2.1-r1 - fast and lightweight IDE (development files)
+geany-doc-2.1-r1 - fast and lightweight IDE (documentation)
+geany-plugins-2.1-r2 - Plugins for Geany
+geany-plugins-addons-2.1-r2 - Miscellaneous Addons for Geany
+geany-plugins-autoclose-2.1-r2 - Auto-closing features for Geany
+geany-plugins-automark-2.1-r2 - Highlights all words that match current word
+geany-plugins-codenav-2.1-r2 - Navigate through your source code easily
+geany-plugins-commander-2.1-r2 - Control Geany using commands from a command panel
+geany-plugins-defineformat-2.1-r2 - Plugin to write multiline defines with aligned backslash
+geany-plugins-doc-2.1-r2 - Plugins for Geany (documentation)
+geany-plugins-geanyctags-2.1-r2 - Generate and query ctags files for a Geany project
+geany-plugins-geanydoc-2.1-r2 - Call documentation from within Geany
+geany-plugins-geanyextrasel-2.1-r2 - Additional features for selecting code
+geany-plugins-geanyinsertnum-2.1-r2 - Insert huge number ranges with small efforts
+geany-plugins-geanylua-2.1-r2 - Lua Scripting for Geany
+geany-plugins-geanymacro-2.1-r2 - User defined Macros for Geany
+geany-plugins-geanyminiscript-2.1-r2 - Geany Mini-Script filter plugin
+geany-plugins-geanynumberedbookmarks-2.1-r2 - Provide users 10 numbered Bookmarks
+geany-plugins-geanyprj-2.1-r2 - Alternate project management tool for Geany
+geany-plugins-geanyvc-2.1-r2 - Version Control for Geany
+geany-plugins-keyrecord-2.1-r2 - Record a sequence of keystrokes and replay it
+geany-plugins-lang-2.1-r2 - Languages for package geany-plugins
+geany-plugins-latex-2.1-r2 - LaTeX support for Geany
+geany-plugins-lineoperations-2.1-r2 - Assortment of simple line functions that can be applied to an open file
+geany-plugins-lipsum-2.1-r2 - Lorem Ipsum generator for Inserting Placeholder Text
+geany-plugins-lsp-2.1-r2 - LSP plugin for the Geany editor
+geany-plugins-overview-2.1-r2 - Overview over the code in a sidebar
+geany-plugins-pairtaghighlighter-2.1-r2 - Finds and highlights matching HTML tag
+geany-plugins-pohelper-2.1-r2 - A plugin for Geany that improves the support for GetText translation files
+geany-plugins-pretty-printer-2.1-r2 - XML pretty printing plugin for Geany
+geany-plugins-projectorganizer-2.1-r2 - Extension of Geany's project management
+geany-plugins-scope-2.1-r2 - Graphical GDB front-end
+geany-plugins-sendmail-2.1-r2 - Send E-Mails from within Geany
+geany-plugins-shiftcolumn-2.1-r2 - Move Blocks of Text horizontally
+geany-plugins-tableconvert-2.1-r2 - Helps on converting a tabulator separated selection into a table
+geany-plugins-treebrowser-2.1-r2 - Alternate file browser plugin
+geany-plugins-utils-2.1-r2 - Reusable shared library used by geany-plugins
+geany-plugins-vimode-2.1-r2 - A Vim mode for Geany
+geany-plugins-xmlsnippets-2.1-r2 - Extends XML/HTML tag autocompletion provided by Geany
+gettext-0.26-r1 - GNU locale utilities
+gettext-dev-0.26-r1 - GNU locale utilities (development files)
+gettext-doc-0.26-r1 - GNU locale utilities (documentation)
+gettext-envsubst-0.26-r1 - GNU gettext envsubst binary
+gettext-libs-0.26-r1 - GNU locale utilities (libraries)
+giflib-5.2.2-r0 - A library for reading and writing GIF images
+giflib-doc-5.2.2-r0 - A library for reading and writing GIF images (documentation)
+git-2.51.0-r1 - Distributed version control system
+git-bash-completion-2.51.0-r1 - Bash completions for git
+git-doc-2.51.0-r1 - Distributed version control system (documentation)
+git-perl-2.51.0-r1 - Additional Git commands that requires perl
+git-prompt-2.51.0-r1 - bash and zsh prompt integration for Git
+git-zsh-completion-5.9-r5 - Zsh completions for git
+glib-2.88.1-r0 - Low-level core library that forms the basis for projects such as GTK+ and GNOME.
+glib-dev-2.88.1-r0 - Low-level core library that forms the basis for projects such as GTK+ and GNOME. (development files)
+glib-networking-2.80.1-r2 - Networking support for GLib
+gmp-6.3.0-r5 - free library for arbitrary precision arithmetic
+gmp-doc-6.3.0-r5 - free library for arbitrary precision arithmetic (documentation)
+gnutls-3.8.10-r0 - TLS protocol implementation
+gnutls-doc-3.8.10-r0 - TLS protocol implementation (documentation)
+gobject-introspection-1.86.0-r0 - Introspection system for GObject-based libraries
+gobject-introspection-dev-1.86.0-r0 - Introspection system for GObject-based libraries (development files)
+gobject-introspection-doc-1.86.0-r0 - Introspection system for GObject-based libraries (documentation)
+godot-templates-4.4.1-r1 - Multi-platform 2D and 3D game engine (templates)
+gperf-3.1-r1 - Perfect hash function generator.
+gperf-doc-3.1-r1 - Perfect hash function generator. (documentation)
+graphene-1.10.8-r0 - A thin layer of graphic data types
+graphite-1.3.14-r1 - reimplementation of the SIL Graphite text processing engine
+grep-3.11-r1 - Searches input files for lines containing a match to a specified pattern
+grep-doc-3.11-r1 - Searches input files for lines containing a match to a specified pattern (documentation)
+groff-1.23.0-r0 - GNU troff text-formatting system
+groff-doc-1.23.0-r0 - GNU troff text-formatting system (documentation)
+gsettings-desktop-schemas-49.0-r0 - A collection of GSettings schemas
+gsm-1.0.23-r0 - Shared libraries for GSM speech compressor
+gsm-doc-1.0.23-r0 - Shared libraries for GSM speech compressor (documentation)
+gst-libav-1.26.8-r0 - GStreamer streaming media framework libav plugin
+gst-plugins-bad-1.26.8-r1 - GStreamer streaming media framework bad plug-ins
+gst-plugins-base-1.26.8-r1 - GStreamer streaming media framework base plug-ins
+gst-plugins-base-doc-1.26.8-r1 - GStreamer streaming media framework base plug-ins (documentation)
+gst-plugins-good-1.26.8-r0 - GStreamer streaming media framework good plugins
+gstreamer-1.26.8-r2 - GStreamer streaming media framework
+gstreamer-doc-1.26.8-r2 - GStreamer streaming media framework (documentation)
+gthumb-3.12.8.2-r1 - Image viewer and browser from GNOME
+gthumb-doc-3.12.8.2-r1 - Image viewer and browser from GNOME (documentation)
+gtk-layer-shell-0.9.2-r0 - Create panels and other desktop components in Wayland using the Layer Shell protocol
+gtk-update-icon-cache-3.24.52-r0 - The GTK+ Toolkit (v3)
+gtk3-3.24.52-r0 - The GTK+ Toolkit (v3)
+gtk3-demo-3.24.52-r0 - The GTK+ Toolkit (v3) (demonstration application)
+gtk4-4.13.6-r7 - The GTK Toolkit (v4)
+gtk4-demo-4.13.6-r7 - The GTK Toolkit (v4) (demonstration application)
+gtk4-qnx-demos-4.13.6-r7 - The GTK Toolkit (v4) (QNX-specific demonstration applications)
+gzip-1.14-r1 - Popular data compression program
+gzip-doc-1.14-r1 - Popular data compression program (documentation)
+harfbuzz-11.3.3-r1 - Text shaping library
+harfbuzz-gobject-11.3.3-r1 - Harfbuzz gobject library
+harfbuzz-icu-11.3.3-r1 - Harfbuzz ICU support library
+heif-thumbnailer-1.20.2-r1 - ISO/IEC 23008-12:2017 HEIF file format decoder and encoder (thumbnailer)
+hicolor-icon-theme-0.18-r0 - Freedesktop.org Hicolor icon theme
+hyphen-2.8.8-r0 - Library for high quality hyphenation and justification
+icu-76.1-r7 - International Components for Unicode library
+icu-data-76.1-r7 - Full ICU data
+icu-doc-76.1-r7 - International Components for Unicode library (documentation)
+icu-libs-76.1-r7 - International Components for Unicode library (libraries)
+inih-62-r0 - Simple .INI file parser for embedded systems
+inih-inireader-62-r0 - C++ library and API for inih
+itstool-2.0.7-r4 - ITS-based XML translation tool
+itstool-doc-2.0.7-r4 - ITS-based XML translation tool (documentation)
+jansson-2.14.1-r0 - lightweight JSON library
+jq-1.8.1-r0 - A lightweight and flexible command-line JSON processor
+jq-doc-1.8.1-r0 - A lightweight and flexible command-line JSON processor (documentation)
+json-glib-1.10.6-r0 - JSON library built on GLib
+jsoncpp-1.8.4-r0 - A C++ library for interacting with JSON.
+jsoncpp-doc-1.8.4-r0 - A C++ library for interacting with JSON. (documentation)
+lame-libs-3.100-r0 - An MP3 encoder and graphical frame analyzer (libraries)
+lcms2-2.17-r0 - Color Management Engine
+lcms2-doc-2.17-r0 - Color Management Engine (documentation)
+less-691-r0 - File pager
+less-doc-691-r0 - File pager (documentation)
+libarchive-3.8.9-r0 - Multi-format archive and compression library
+libarchive-doc-3.8.9-r0 - Multi-format archive and compression library (documentation)
+libass-0.17.4-r0 - Portable library for SSA/ASS subtitle rendering
+libavif-1.3.0-r1 - Library for encoding and decoding .avif files
+libavif-pixbuf-loader-1.3.0-r1 - Library for encoding and decoding .avif files (pixbuf loader)
+libbz2-1.0.8-r8 - Shared library for bz2
+libc++-22.1.8_p0-r0 - LLVM libc++ library
+libc++-dev-22.1.8_p0-r0 - LLVM libc++ library (development files)
+libcrypto3-3.6.3-r0 - Crypto library from openssl
+libcurl-8.15.0-r2 - The multiprotocol file transfer library
+libdatrie-0.2.13-r0 - library for double-array trie
+libdatrie-doc-0.2.13-r0 - library for double-array trie (documentation)
+libdatrie-libs-0.2.13-r0 - library for double-array trie (libraries)
+libdav1d-1.5.1-r0 - small and fast AV1 Decoder (libraries)
+libdazzle-3.44.0-r0 - Library to delight your users with fancy features
+libdecor-0.2.4-r0 - Client-side decorations library for Wayland clients
+libdisplay-info-0.3.0-r0 - EDID and DisplayID library
+libepoxy-1.5.10-r2 - Direct Rendering Manager runtime library
+libexpat-2.7.3-r0 - XML Parser library written in C (libraries)
+libffi-3.4.7-r0 - A portable foreign-function interface library.
+libffi-dev-3.4.7-r0 - A portable foreign-function interface library. (development files)
+libffi-doc-3.4.7-r0 - A portable foreign-function interface library. (documentation)
+libflac-1.5.0-r0 - Free Lossless Audio Codec (libFLAC)
+libfontenc-1.1.8-r0 - X11 font encoding library
+libgcrypt-1.10.3-r0 - General purpose crypto library based on the code used in GnuPG
+libgcrypt-doc-1.10.3-r0 - General purpose crypto library based on the code used in GnuPG (documentation)
+libgpg-error-1.55-r1 - Support library for libgcrypt
+libgpg-error-doc-1.55-r1 - Support library for libgcrypt (documentation)
+libgsf-1.14.53-r1 - Utility library for reading and writing structured file formats
+libgsf-doc-1.14.53-r1 - Utility library for reading and writing structured file formats (documentation)
+libhandy-1.8.3-r0 - Library full of GTK+ widgets for mobile phones
+libheif-1.20.2-r1 - ISO/IEC 23008-12:2017 HEIF file format decoder and encoder
+libheif-doc-1.20.2-r1 - ISO/IEC 23008-12:2017 HEIF file format decoder and encoder (documentation)
+libheif-pixbuf-loader-1.20.2-r1 - ISO/IEC 23008-12:2017 HEIF file format decoder and encoder (pixbuf loader)
+libhwy-1.3.0-r0 - Performance-portable, length-agnostic SIMD with runtime dispatch
+libiconv-1.18-r0 - GNU charset conversion library
+libiconv-dev-1.18-r0 - GNU charset conversion library (development files)
+libiconv-doc-1.18-r0 - GNU charset conversion library (documentation)
+libidn2-2.3.8-r0 - Free software implementation of IDNA2008, Punycode and TR46
+libidn2-doc-2.3.8-r0 - Free software implementation of IDNA2008, Punycode and TR46 (documentation)
+libintl-0.26-r1 - GNU gettext runtime library
+libjpeg-turbo-3.1.1-r1 - Accelerated baseline JPEG compression and decompression library
+libjpeg-turbo-doc-3.1.1-r1 - Accelerated baseline JPEG compression and decompression library (documentation)
+libjxl-0.11.1-r0 - JPEG XL image format reference implementation
+libjxl-doc-0.11.1-r0 - JPEG XL image format reference implementation (documentation)
+libjxl-pixbuf-loader-0.11.1-r0 - JPEG XL image format reference implementation (pixbuf loader)
+liblocale-shim-dev-0.1.0-r2 - Felix's locale.h shim (development files)
+libltdl-2.5.4-r3 - Runtime libraries for GNU Libtool Dynamic Module Loader
+libluv-1.51.0.1-r0 - Bare libuv bindings for Lua (shared library)
+libmagic-5.46-r1 - File type identification library
+libnotify-0.8.6-r0 - Desktop notification library
+libogg-1.3.6-r0 - Ogg bitstream and framing library
+libogg-doc-1.3.6-r0 - Ogg bitstream and framing library (documentation)
+libpcre2-16-10.44-r0 - PCRE2 with 16 bit character support
+libpcre2-32-10.44-r0 - PCRE2 with 32 bit character support
+libpipeline-1.5.8-r0 - C pipeline manipulation library
+libpipeline-doc-1.5.8-r0 - C pipeline manipulation library (documentation)
+libpng-1.6.50-r2 - Portable Network Graphics library
+libpng-dev-1.6.50-r2 - Portable Network Graphics library (development files)
+libpng-doc-1.6.50-r2 - Portable Network Graphics library (documentation)
+libportal-0.8.1-r0 - GIO-style async APIs for most Flatpak portals
+libportal-gtk3-0.8.1-r0 - GIO-style async APIs for most Flatpak portals (GTK3 backend)
+libproxy-0.5.11-r0 - Library handling all the details of proxy configuration
+libproxy-doc-0.5.11-r0 - Library handling all the details of proxy configuration (documentation)
+libpsl-0.21.5-r1 - C library for the Publix Suffix List
+libpsl-doc-0.21.5-r1 - C library for the Publix Suffix List (documentation)
+libsecret-0.21.7-r0 - Library for storing and retrieving passwords and other secrets
+libsecret-doc-0.21.7-r0 - Library for storing and retrieving passwords and other secrets (documentation)
+libsharpyuv-1.6.0-r0 - Libraries for working with WebP images (libsharpyuv library)
+libsoup3-3.6.5-r0 - Gnome HTTP client/server Library
+libssl3-3.6.3-r0 - SSL shared libraries
+libSvtAv1Enc-3.1.2-r1 - Scalable Vector Technology for AV1 encoder (SVT-AV1 Encoder)
+libsysv-ipc-shim-0.1.0-r4 - QNX ipc.h shim
+libtasn1-4.20.0-r0 - The ASN.1 library used in GNUTLS
+libtasn1-doc-4.20.0-r0 - The ASN.1 library used in GNUTLS (documentation)
+libthai-0.1.29-r1 - Thai language library
+libtheora-1.2.0-r0 - An open video codec developed by the Xiph.org
+libtheora-doc-1.2.0-r0 - An open video codec developed by the Xiph.org (documentation)
+libtool-2.5.4-r2 - A generic library support script
+libtool-doc-2.5.4-r2 - A generic library support script (documentation)
+libturbojpeg-3.1.1-r1 - Accelerated baseline JPEG compression and decompression library
+libunibreak-6.1-r0 - Implementation of the line breaking and word breaking algorithms
+libunistring-1.3-r0 - Library for manipulating Unicode strings and C strings
+libunistring-doc-1.3-r0 - Library for manipulating Unicode strings and C strings (documentation)
+libunwind-22.1.8_p0-r1 - LLVM libunwind library
+libunwind-dev-22.1.8_p0-r1 - LLVM libunwind library (development files)
+libuv-1.51.0-r0 - Cross-platform asychronous I/O
+libvorbis-1.3.7-r0 - Vorbis codec library
+libvorbis-doc-1.3.7-r0 - Vorbis codec library (documentation)
+libvpx-1.15.2-r1 - Library for the vp8/vp9 codecs
+libwebp-1.6.0-r0 - Libraries for working with WebP images
+libwebp-doc-1.6.0-r0 - Libraries for working with WebP images (documentation)
+libwebpdecoder-1.6.0-r0 - Libraries for working with WebP images (libwebpdecoder library)
+libwebpdemux-1.6.0-r0 - Libraries for working with WebP images (libwebpdemux library)
+libwebpmux-1.6.0-r0 - Libraries for working with WebP images (libwebpmux library)
+libweston-14.0.2-r12 - Reference Wayland server (libraries)
+libwoff2common-1.0.2-r1 - Web Open Font Format 2 reference implementation (common library)
+libwoff2dec-1.0.2-r1 - Web Open Font Format 2 reference implementation (encoder library)
+libx11-1.8.13-r0 - X11 client-side library
+libx11-doc-1.8.13-r0 - X11 client-side library (documentation)
+libxau-1.0.12-r0 - X11 authorisation library
+libxau-doc-1.0.12-r0 - X11 authorisation library (documentation)
+libxcb-1.17.0-r0 - X11 client-side library
+libxcb-doc-1.17.0-r0 - X11 client-side library (documentation)
+libxcrypt-4.4.38-r1 - Extended crypt library for descrypt, md5crypt, bcrypt, and others
+libxcrypt-doc-4.4.38-r1 - Extended crypt library for descrypt, md5crypt, bcrypt, and others (documentation)
+libxdmcp-1.1.5-r0 - X11 Display Manager Control Protocol library
+libxdmcp-doc-1.1.5-r0 - X11 Display Manager Control Protocol library (documentation)
+libxfce4panel-4.21.0-r2 - Panel for the Xfce desktop environment (libraries)
+libxfce4ui-4.21.2-r0 - Widgets library for the Xfce desktop environment
+libxfce4util-4.20.1-r0 - Basic utility non-GUI functions for Xfce
+libxfce4util-doc-4.20.1-r0 - Basic utility non-GUI functions for Xfce (documentation)
+libxfce4windowing-4.20.4-r0 - Windowing concept abstraction library for Wayland
+libxkbcommon-1.8.0-r3 - keyboard handling library
+libxkbcommon-doc-1.8.0-r3 - keyboard handling library (documentation)
+libxml2-2.15.3-r0 - XML parsing library, version 2
+libxml2-dev-2.15.3-r0 - XML parsing library, version 2 (development files)
+libxml2-doc-2.15.3-r0 - XML parsing library, version 2 (documentation)
+libxml2-utils-2.15.3-r0 - XML utilities
+libxslt-1.1.45-r0 - XML stylesheet transformation library
+libxslt-doc-1.1.45-r0 - XML stylesheet transformation library (documentation)
+libxxhash-0.8.3-r0 - Extremely fast non-cryptographic hash algorithm (libraries)
+libyuv-0.0.1887.20251502-r2 - Library for YUV scaling
+llvm-22-r0 - Low Level Virtual Machine compiler system, default version.
+llvm-libs-21.1.3-r5 - Low Level Virtual Machine compiler system.
+llvm22-22.1.8_p1-r0 - Low Level Virtual Machine compiler system.
+llvm22-libs-22.1.8_p1-r0 - LLVM 22 runtime library
+lua5.1-5.1.5-r0 - A powerful light-weight programming language designed for extending applications.
+lua5.1-doc-5.1.5-r0 - A powerful light-weight programming language designed for extending applications. (documentation)
+lua5.1-lpeg-1.1.0-r0 - Pattern-matching library for Lua 5.1
+luajit-2.1.1753364724-r1 - Just-in-time compiler and drop-in replacement for Lua 5.1
+luajit-doc-2.1.1753364724-r1 - Just-in-time compiler and drop-in replacement for Lua 5.1 (documentation)
+lxde-icon-theme-0.5.2-r0 - lxde icon theme
+lz4-1.10.0-r0 - LZ4 is lossless compression algorithm with fast decoder @ multiple GB/s per core.
+lz4-doc-1.10.0-r0 - LZ4 is lossless compression algorithm with fast decoder @ multiple GB/s per core. (documentation)
+lz4-libs-1.10.0-r0 - LZ4 is lossless compression algorithm with fast decoder @ multiple GB/s per core. (libraries)
+lzip-1.26-r0 - Lzip is a lossless data compressor
+lzip-doc-1.26-r0 - Lzip is a lossless data compressor (documentation)
+m4-1.4.19-r0 - GNU macro processor
+m4-doc-1.4.19-r0 - GNU macro processor (documentation)
+make-4.4.1-r3 - GNU make utility to maintain groups of programs
+make-doc-4.4.1-r3 - GNU make utility to maintain groups of programs (documentation)
+man-db-2.13.1-r0 - The man command and related utilities for examining on-line help files
+man-db-doc-2.13.1-r0 - The man command and related utilities for examining on-line help files (documentation)
+mate-calc-1.28.0-r1 - Calculator for MATE
+mate-calc-doc-1.28.0-r1 - Calculator for MATE (documentation)
+meson-1.10.0-r0 - The Meson Build System
+meson-bash-completion-1.10.0-r0 - Bash completions for meson
+meson-doc-1.10.0-r0 - The Meson Build System (documentation)
+meson-zsh-completion-1.10.0-r0 - Zsh completions for meson
+mkfontscale-1.2.3-r0 - Scalable font index generator for X
+mkfontscale-doc-1.2.3-r0 - Scalable font index generator for X (documentation)
+mpc1-1.3.1-r0 - Multiple precision complex arithmetic library
+mpc1-doc-1.3.1-r0 - Multiple precision complex arithmetic library (documentation)
+mpfr-4.2.2-r1 - multiple-precision floating-point library
+mpfr-doc-4.2.2-r1 - multiple-precision floating-point library (documentation)
+nano-8.3-r0 - Enhanced clone of the Pico text editor
+nano-doc-8.3-r0 - Enhanced clone of the Pico text editor (documentation)
+ncurses-6.6-r1 - Console display library
+ncurses-doc-6.6-r1 - Console display library (documentation)
+neovim-0.12.3-r0 - Vim-fork focused on extensibility and agility
+neovim-doc-0.12.3-r0 - Vim-fork focused on extensibility and agility (documentation)
+nettle-3.10.2-r1 - Low-level cryptographic library
+nghttp2-1.65.0-r1 - HTTP/2 C Library
+nghttp2-doc-1.65.0-r1 - HTTP/2 C Library (documentation)
+ninja-1.13.1-r2 - A small build system with a focus on speed
+nproc-0-r0 - nproc for QNX
+oniguruma-6.9.10-r0 - a regular expressions library
+openjpeg-2.5.4-r0 - Open-source implementation of JPEG2000 image codec
+openssh-10.3_p1-r0 - Port of OpenBSD's free SSH release
+openssh-doc-10.3_p1-r0 - Port of OpenBSD's free SSH release (documentation)
+openssl-3.6.3-r0 - Toolkit for Transport Layer Security (TLS)
+openssl-dev-3.6.3-r0 - Toolkit for Transport Layer Security (TLS) (development files)
+opus-1.5.2-r1 - Codec designed for interactive speech and audio transmission over the Internet
+opus-doc-1.5.2-r1 - Codec designed for interactive speech and audio transmission over the Internet (documentation)
+orc-0.4.41-r1 - Oil Run-time Compiler
+p11-kit-0.25.5-r1 - Library to load and enumerate PKCS#11 modules
+pango-1.56.4-r2 - library for layout and rendering of text
+patch-2.8-r2 - Utility to apply diffs to files
+patch-doc-2.8-r2 - Utility to apply diffs to files (documentation)
+pax-utils-1.3.8-r1 - ELF utils that can check files for security relevant properties
+pax-utils-doc-1.3.8-r1 - ELF utils that can check files for security relevant properties (documentation)
+pcre-8.45-r0 - Perl-compatible regular expression library
+pcre-doc-8.45-r0 - Perl-compatible regular expression library (documentation)
+pcre2-10.44-r0 - Perl-compatible regular expression library
+pcre2-dev-10.44-r0 - Perl-compatible regular expression library (development files)
+pcre2-doc-10.44-r0 - Perl-compatible regular expression library (documentation)
+perl-5.40.2-r5 - The Perl programming language
+perl-error-0.17030-r0 - Perl module error/exception handling in an OO-ish way
+perl-git-2.51.0-r1 - Perl interface to Git
+pixman-0.46.4-r4 - Image processing and manipulation library
+pixman-dev-0.46.4-r4 - Image processing and manipulation library (development files)
+pkgconf-2.3.0-r0 - development framework configuration tools
+pkgconf-doc-2.3.0-r0 - development framework configuration tools (documentation)
+pqiv-2.13.2-r3 - powerful image viewer with minimal UI
+pqiv-doc-2.13.2-r3 - powerful image viewer with minimal UI (documentation)
+python3-3.14.0-r4 - High-level scripting language
+python3-doc-3.14.0-r4 - High-level scripting language (documentation)
+python3-libxml2-2.15.3-r0 - libxml2 python3 bindings
+python3-packaging-25.0-r1 - Core utilities for Python3 packages
+python3-pip-25.1.1-r2 - Tool for installing and managing Python packages
+python3-pip-bash-completion-25.1.1-r2 - Bash completions for python3-pip
+python3-pip-zsh-completion-25.1.1-r2 - Zsh completions for python3-pip
+python3-setuptools-80.8.0-r2 - Collection of enhancements to the Python3 distutils
+python3-wheel-0.46.1-r1 - built-package format for Python
+qnx-alsa-8.0.5-r0 - QNX implementation of the Small Advanced Linux Sound Architecture (SALSA) application library.
+qnx-base-8.0.5-r1 - QNX build support files for various build systems
+qnx-crypto-8.0.5-r1 - QNX crypto library
+qnx-crypto-dev-8.0.5-r1 - QNX crypto library (development files)
+qnx-crypto-openssl3-8.0.5-r1 - qcrypto provider - OpenSSL 3
+qnx-devh-8.0.5-r1 - QNX800 Device Input - HID Drivers
+qnx-devu-hcd-dwc3-xhci-8.0.5-r0 - QNX XHCI-based USB host controller driver for DWC3
+qnx-egl-8.0.5-r6 - QNX800 Screen Board Support - EGL
+qnx-fd-notify-8.0.5-r0 - QNX800 supports for various Linux-type Notification File Descriptor Interfaces
+qnx-fdk-aac-8.0.5-r0 - Opencore Fraunhofer FDK AAC Codec Library
+qnx-fdk-aac-utils-8.0.5-r0 - Opencore Fraunhofer FDK AAC Codec Library
+qnx-gcc-8.0.5-r0 - Self-hosted QNX toolchain
+qnx-gcc-libs-8.0.5-r0 - Self-hosted QNX toolchain (libraries)
+qnx-gles-8.0.5-r6 - QNX800 Screen Board Support - GLES
+qnx-hid-8.0.5-r1 - QNX io Hid
+qnx-icu-libs-8.0.5-r0 - QNX libiconv
+qnx-io-sock-8.0.5-r0 - QNX high performance socket stack baed on FreeBSD
+qnx-io-sock-dev-8.0.5-r0 - QNX high performance socket stack baed on FreeBSD (development files)
+qnx-io-usb-otg-8.0.5-r0 - QNX usb support
+qnx-keyboard-8.0.5-r0 - QNX Keyboard Layout Files
+qnx-libdrm-8.0.5-r0 - QNX screen libdrm
+qnx-libdrm-dev-8.0.5-r0 - QNX screen libdrm (development files)
+qnx-libdrm-utils-8.0.5-r0 - QNX screen libdrm
+qnx-libgbm-8.0.5-r0 - QNX screen libgbm
+qnx-libpci-8.0.5-r0 - QNX PCI Library
+qnx-libslog2-8.0.5-r0 - QNX System Logger 2 Library
+qnx-libyuv-8.0.5-r0 - QNX libyuv compatability
+qnx-memstream-8.0.5-r0 - QNX800 support for Linux-style memstream dynamic memory buffer streams
+qnx-microkernel-8.0.5-r1 - QNX Microkernel and core libraries
+qnx-microkernel-dev-8.0.5-r1 - QNX Microkernel and core libraries (development files)
+qnx-mm-aoi-8.0.5-r0 - qnx-mm-aoi
+qnx-mm-aoi-utils-8.0.5-r0 - qnx-mm-aoi utilities
+qnx-mm-codec-sw-8.0.5-r0 - qnx-mm-codec-sw
+qnx-mm-curl-support-8.0.5-r0 - qnx-mm-curl-support
+qnx-mm-encode-cast-group-8.0.5-r0 - qnx-mm-encode-cast-group group packages
+qnx-mm-encode-mp2ts-container-8.0.5-r0 - qnx-mm-encode-mp2ts-container
+qnx-mm-encode-mp4-container-8.0.5-r0 - qnx-mm-encode-mp4-container
+qnx-mm-encode-raw-container-8.0.5-r0 - qnx-mm-encode-raw-container
+qnx-mm-input-file-8.0.5-r0 - qnx-mm-input-file
+qnx-mm-input-rtp-8.0.5-r0 - qnx-mm-input-rtp
+qnx-mm-input-rtsp-8.0.5-r0 - qnx-mm-input-rtsp
+qnx-mm-mmf-core-8.0.5-r0 - qnx-mm-mmf-core
+qnx-mm-mmf-testing-8.0.5-r0 - qnx-mm-mmf-testing
+qnx-mm-omxil-support-8.0.5-r0 - qnx-mm-omxil-support
+qnx-mm-openmaxal-core-8.0.5-r0 - qnx-mm-openmaxal-core
+qnx-mm-openmaxal-testing-8.0.5-r0 - qnx-mm-openmaxal-testing
+qnx-mm-openmaxil-comp-vp9-8.0.5-r0 - qnx-mm-openmaxil-comp-vp9
+qnx-mm-openmaxil-core-8.0.5-r0 - qnx-mm-openmaxil-core
+qnx-mm-output-screen-8.0.5-r0 - qnx-mm-output-screen
+qnx-mm-output-sound-8.0.5-r0 - qnx-mm-output-sound
+qnx-mm-playback-aac-codec-8.0.5-r0 - qnx-mm-playback-aac-codec
+qnx-mm-playback-aac-container-8.0.5-r0 - qnx-mm-playback-aac-container
+qnx-mm-playback-buffering-8.0.5-r0 - qnx-mm-playback-buffering
+qnx-mm-playback-group-8.0.5-r0 - qnx-mm-playback-group group packages
+qnx-mm-playback-mp2ts-container-8.0.5-r0 - qnx-mm-playback-mp2ts-container
+qnx-mm-playback-mp4-container-8.0.5-r0 - qnx-mm-playback-mp4-container
+qnx-mm-playback-streaming-8.0.5-r0 - qnx-mm-playback-streaming
+qnx-mm-playback-wav-container-8.0.5-r0 - qnx-mm-playback-wav-container
+qnx-mm-renderer-core-8.0.5-r0 - qnx-mm-renderer-core
+qnx-mm-renderer-testing-8.0.5-r0 - qnx-mm-renderer-testing
+qnx-mm-resarb-core-8.0.5-r0 - qnx-mm-resarb-core
+qnx-mm-rtp-support-8.0.5-r0 - qnx-mm-rtp-support
+qnx-mm-stream-core-8.0.5-r0 - qnx-mm-stream-core
+qnx-mm-stream-core-utils-8.0.5-r0 - qnx-mm-stream-core utilities
+qnx-mm-strm-8.0.5-r0 - qnx-mm-strm
+qnx-mm-sw-codecs-group-8.0.5-r0 - qnx-mm-sw-codecs-group group packages
+qnx-multimedia-framework-8.0.5-r0 - QNX Multimedia Framework
+qnx-multimedia-framework-utils-8.0.5-r0 - qnx-multimedia-framework utilities
+qnx-packaging-0.1-r0 - QNX Meta Package for Package Development
+qnx-rpi-camera-ipa-8.0.5-r0 - QNX RPi camera image processing algorithm library
+qnx-screen-8.0.5-r6 - QNX800 Screen Board Support
+qnx-screen-demos-8.0.5-r6 - QNX800 Screen Board Support (demonstration applications)
+qnx-screen-rpi-8.0.5-r1 - QNX screen rpi 4 & 5 board support
+qnx-secpol-8.0.5-r0 - QNX Securitly Policy Libraries
+qnx-security-8.0.5-r0 - QNX's PAM and friends
+qnx-sensor-framework-8.0.5-r0 - QNX Sensor Framework
+qnx-sensor-framework-example-config-qemu-8.0.5-r0 - QNX Sensor Framework Example Configuration
+qnx-sensor-framework-example-config-rpi4-8.0.5-r0 - QNX Sensor Framework Example Configuration
+qnx-sensor-framework-example-config-rpi5-8.0.5-r0 - QNX Sensor Framework Example Configuration
+qnx-sensor-framework-example-config-usb-8.0.5-r0 - QNX Sensor Framework Example Configuration
+qnx-sensor-framework-example-configs-8.0.5-r0 - QNX Sensor Framework Example Configuration
+qnx-sensor-framework-utils-8.0.5-r0 - qnx-sensor-framework utilities
+qnx-sf-base-8.0.5-r0 - qnx-sf-base
+qnx-sf-base-utils-8.0.5-r0 - qnx-sf-base utilities
+qnx-sf-camapi-8.0.5-r0 - qnx-sf-camapi
+qnx-sf-camapi-examples-8.0.5-r0 - qnx-sf-camapi-examples
+qnx-sf-camera-imx708-8.0.5-r0 - qnx-sf-camera-imx708
+qnx-sf-camera-usb-8.0.5-r0 - qnx-sf-camera-usb
+qnx-sf-hw-rpi5-8.0.5-r0 - qnx-sf-hw-rpi5 group packages
+qnx-sf-platform-broadcom-rpi5-8.0.5-r0 - qnx-sf-platform-broadcom-rpi5
+qnx-sf-rpi-isp-tuning-example-8.0.5-r0 - qnx-sf-rpi-isp-tuning-example
+qnx-sf-sensor-8.0.5-r0 - qnx-sf-sensor
+qnx-sf-sfc-libyuv-8.0.5-r0 - qnx-sf-sfc-libyuv
+qnx-usb-8.0.5-r0 - QNX usb support
+qnx-usb-utils-8.0.5-r0 - QNX usb support
+qnx-utils-8.0.5-r1 - QNX System Utilities
+qnx-vncserv-8.0.5-r0 - QNX screen libdrm
+qnx-vpx-8.0.5-r0 - QNX VP9 Library for software decoder and encoder
+qnx-vulkan-8.0.5-r6 - QNX800 Screen Board Support - Vulkan
+qnx-zlib-8.0.5-r0 - QNX's own zlib port, DO NOT USE FOR PORTING
+readline-8.3.001-r1 - GNU readline library
+readline-doc-8.3.001-r1 - GNU readline library (documentation)
+rsync-3.4.1-r0 - A file transfer program to keep remote files in sync
+rsync-doc-3.4.1-r0 - A file transfer program to keep remote files in sync (documentation)
+rsync-zsh-completion-5.9-r5 - Zsh completions for rsync
+sdl2-compat-2.32.60-r0 - An SDL2 compatibility layer that uses SDL3 behind the scenes.
+sdl2-compat-dbg-2.32.60-r0 - An SDL2 compatibility layer that uses SDL3 behind the scenes. (debug symbols)
+sdl2-compat-dev-2.32.60-r0 - An SDL2 compatibility layer that uses SDL3 behind the scenes. (development files)
+sdl2-compat-doc-2.32.60-r0 - An SDL2 compatibility layer that uses SDL3 behind the scenes. (documentation)
+sdl2-compat-static-2.32.60-r0 - An SDL2 compatibility layer that uses SDL3 behind the scenes. (static library)
+sdl2-image-2.8.8-r0 - A simple library to load images of various formats as SDL surfaces
+sdl2-image-dbg-2.8.8-r0 - A simple library to load images of various formats as SDL surfaces (debug symbols)
+sdl2-image-dev-2.8.8-r0 - A simple library to load images of various formats as SDL surfaces (development files)
+sdl2-image-doc-2.8.8-r0 - A simple library to load images of various formats as SDL surfaces (documentation)
+sdl2-net-2.2.0-r0 - A simple, cross-platform wrapper over TCP/IP sockets.
+sdl2-net-dbg-2.2.0-r0 - A simple, cross-platform wrapper over TCP/IP sockets. (debug symbols)
+sdl2-net-dev-2.2.0-r0 - A simple, cross-platform wrapper over TCP/IP sockets. (development files)
+sdl2-net-doc-2.2.0-r0 - A simple, cross-platform wrapper over TCP/IP sockets. (documentation)
+sdl2-net-static-2.2.0-r0 - A simple, cross-platform wrapper over TCP/IP sockets. (static library)
+sdl2-ttf-2.0.18-r1 - Support for TrueType (.ttf) font files with Simple Directmedia Layer.
+sdl2-ttf-dbg-2.0.18-r1 - Support for TrueType (.ttf) font files with Simple Directmedia Layer. (debug symbols)
+sdl2-ttf-dev-2.0.18-r1 - Support for TrueType (.ttf) font files with Simple Directmedia Layer. (development files)
+sdl2-ttf-static-2.0.18-r1 - Support for TrueType (.ttf) font files with Simple Directmedia Layer. (static library)
+sdl3-3.2.28-r4 - Simple Directmedia Layer
+sdl3-dbg-3.2.28-r4 - Simple Directmedia Layer (debug symbols)
+sdl3-dev-3.2.28-r4 - Simple Directmedia Layer (development files)
+sdl3-doc-3.2.28-r4 - Simple Directmedia Layer (documentation)
+sdl3-static-3.2.28-r4 - Simple Directmedia Layer (static library)
+shared-mime-info-2.4-r1 - Freedesktop.org Shared MIME Info
+shared-mime-info-doc-2.4-r1 - Freedesktop.org Shared MIME Info (documentation)
+simdutf-7.3.6-r1 - Unicode validation and transcoding at billions of characters per second
+soxr-0.1.3-r0 - High quality, one-dimensional sample-rate conversion library
+sqlite-3.51.0-r1 - C library that implements an SQL database engine
+sqlite-doc-3.51.0-r1 - C library that implements an SQL database engine (documentation)
+sqlite-libs-3.51.0-r1 - C library that implements an SQL database engine (libraries)
+sudo-1.9.17_p2-r4 - Give certain users the ability to run some commands as root
+sudo-doc-1.9.17_p2-r4 - Give certain users the ability to run some commands as root (documentation)
+tar-1.35-r0 - Utility used to store, backup, and transport files
+tar-doc-1.35-r0 - Utility used to store, backup, and transport files (documentation)
+thunar-4.21.2-r1 - File manager for Xfce
+tiff-4.7.0-r2 - Provides support for the Tag Image File Format or TIFF
+tiff-doc-4.7.0-r2 - Provides support for the Tag Image File Format or TIFF (documentation)
+tree-sitter-0.25.10-r2 - Incremental parsing system for programming tools
+tree-sitter-c-0.24.1-r2 - C grammar for tree-sitter
+tree-sitter-lua-0.5.0-r0 - Lua grammar for tree-sitter
+tree-sitter-markdown-0.5.1-r2 - A markdown grammar for tree-sitter
+tree-sitter-markdown-doc-0.5.1-r2 - A markdown grammar for tree-sitter (documentation)
+tree-sitter-query-0.7.0-r2 - A tree-sitter parser for tree-sitter query files (scheme-like)
+tree-sitter-query-doc-0.7.0-r2 - A tree-sitter parser for tree-sitter query files (scheme-like) (documentation)
+tree-sitter-vim-0.8.1-r0 - A tree-sitter parser for Vimscript files
+tree-sitter-vim-doc-0.8.1-r0 - A tree-sitter parser for Vimscript files (documentation)
+tree-sitter-vimdoc-4.0.0-r2 - tree-sitter grammar that implements the vimdoc spec
+tree-sitter-vimdoc-doc-4.0.0-r2 - tree-sitter grammar that implements the vimdoc spec (documentation)
+tumbler-4.21.0-r0 - D-Bus thumbnail service
+unibilium-2.1.1-r0 - Terminfo parsing library
+unibilium-doc-2.1.1-r0 - Terminfo parsing library (documentation)
+utf8proc-2.10.0-r0 - Clean C library for processing UTF-8 Unicode data
+vidstab-1.1.1-r0 - Video stabilization library
+vim-9.1.0707-r1 - Improved vi-style text editor
+vim-common-9.1.0707-r1 - Improved vi-style text editor
+vim-doc-9.1.0707-r1 - Improved vi-style text editor (documentation)
+vte3-0.82.2-r1 - Virtual Terminal Emulator library
+wayland-1.26.0-r0 - A computer display server protocol
+wayland-dev-1.26.0-r0 - A computer display server protocol (development files)
+wayland-protocols-1.49-r0 - Protocols and protocol extensions complementing the Wayland core protocol
+webkit2gtk-4.1-2.51.1-r8 - Portable web rendering engine WebKit for GTK+ - GTK+3 libsoup3 version
+weston-14.0.2-r12 - Reference Wayland server
+weston-backend-headless-14.0.2-r12 - Weston backend: headless
+weston-backend-qnx-screen-14.0.2-r12 - Weston backend: qnx-screen
+weston-backend-wayland-14.0.2-r12 - Weston backend: wayland
+weston-clients-14.0.2-r12 - Weston example clients
+weston-dev-14.0.2-r12 - Reference Wayland server (development files)
+weston-doc-14.0.2-r12 - Reference Wayland server (documentation)
+weston-shell-desktop-14.0.2-r12 - Weston shell: desktop
+weston-shell-fullscreen-14.0.2-r12 - Weston shell: fullscreen
+weston-shell-ivi-14.0.2-r12 - Weston shell: ivi
+weston-shell-qnx-desktop-14.0.2-r12 - Weston shell: qnx-desktop
+weston-terminal-14.0.2-r12 - Weston client: weston-terminal
+weston-wcap-decode-14.0.2-r12 - Weston client: wcap-decode
+wlr-protocols-0_git20250702-r0 - Wayland protocol extensions for wlroots and other compositors
+xdg-utils-1.2.1-r0 - Basic desktop integration functions
+xdg-utils-doc-1.2.1-r0 - Basic desktop integration functions (documentation)
+xfce4-4.21-r0 - XFCE 4 meta package
+xfce4-appfinder-4.21.0-r0 - Xfce application finder
+xfce4-panel-4.21.0-r2 - Panel for the Xfce desktop environment
+xfce4-session-4.21.0-r2 - Session manager for Xfce
+xfce4-session-doc-4.21.0-r2 - Session manager for Xfce (documentation)
+xfce4-settings-4.21.0-r1 - Settings manager for xfce
+xfce4-terminal-1.1.5-r0 - Lightweight and easy to use terminal emulator
+xfconf-4.21.0-r0 - Hierarchical configuration system for Xfce
+xkeyboard-config-2.44-r0 - X keyboard configuration files
+xkeyboard-config-doc-2.44-r0 - X keyboard configuration files (documentation)
+xvidcore-1.3.7-r0 - XviD is an open source MPEG-4 video codec
+xxd-9.1.0707-r1 - tool to make (or reverse) a hex dump
+xz-5.8.1-r1 - Library and CLI tools for XZ and LZMA compressed files
+xz-dev-5.8.1-r1 - Library and CLI tools for XZ and LZMA compressed files (development files)
+xz-doc-5.8.1-r1 - Library and CLI tools for XZ and LZMA compressed files (documentation)
+xz-libs-5.8.1-r1 - Library and CLI tools for XZ and LZMA compressed files (libraries)
+yaml-0.2.5-r0 - YAML 1.1 parser and emitter written in C
+zimg-3.0.6-r0 - Scaling, colorspace conversion and dithering library
+zimg-doc-3.0.6-r0 - Scaling, colorspace conversion and dithering library (documentation)
+zlib-ng-2.2.5-r0 - zlib replacement with optimizations for next generation systems
+zlib-ng-dev-2.2.5-r0 - zlib replacement with optimizations for next generation systems (development files)
+zlib-ng-doc-2.2.5-r0 - zlib replacement with optimizations for next generation systems (documentation)
+zsh-5.9-r5 - Very advanced and programmable command interpreter (shell)
+zsh-doc-5.9-r5 - Very advanced and programmable command interpreter (shell) (documentation)
+zstd-1.5.6-r4 - Zstandard - Fast real-time compression algorithm
+zstd-doc-1.5.6-r4 - Zstandard - Fast real-time compression algorithm (documentation)
+zstd-libs-1.5.6-r4 - Zstandard - Fast real-time compression algorithm (libraries)

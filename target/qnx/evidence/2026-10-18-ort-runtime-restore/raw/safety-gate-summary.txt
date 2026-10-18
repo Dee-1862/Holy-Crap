@@ -1,0 +1,8 @@
+simulate_exit_code=0
+installing=107
+upgrading=0
+downgrading=0
+removing=0
+purging=0
+preexisting_changed_or_removed=0
+new_exact_entries=107

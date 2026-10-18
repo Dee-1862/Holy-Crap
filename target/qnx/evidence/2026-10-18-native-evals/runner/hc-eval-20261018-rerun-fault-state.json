@@ -1,0 +1,18 @@
+{
+  "id": "hc-eval-20261018-rerun-fault",
+  "argv": [
+    "/system/bin/python3",
+    "src/run_native_suite.py",
+    "fault"
+  ],
+  "cwd": "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0",
+  "timeout": 180,
+  "status": "done",
+  "started_at": "2026-10-18T16:58:18Z",
+  "finished_at": "2026-10-18T16:59:19Z",
+  "exit_code": 0,
+  "timed_out": false,
+  "error": null,
+  "stdout_log": "logs/hc-eval-20261018-rerun-fault.out",
+  "stderr_log": "logs/hc-eval-20261018-rerun-fault.err"
+}

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import ctypes
 import os
+import threading
 from pathlib import Path
 
 import numpy as np
@@ -38,6 +39,7 @@ def _lib():
 
 class Session:
     def __init__(self, model: str, threads: int = 4, max_out: int = 1 << 22):
+        self._run_lock = threading.Lock()
         self.lib = _lib()
         self.h = self.lib.hc_open(str(model).encode(), threads)
         if not self.h:
@@ -49,13 +51,22 @@ class Session:
         shape = (ctypes.c_int64 * x.ndim)(*x.shape)
         out_shape = (ctypes.c_int64 * 8)()
         out_ndim = ctypes.c_int(0)
-        n = self.lib.hc_run(self.h, x.ctypes.data, shape, x.ndim, self.out.ctypes.data, self.out.size,
-                            out_shape, ctypes.byref(out_ndim))
-        if n < 0:
-            raise RuntimeError(self.lib.hc_error().decode())
-        return self.out[:n].reshape([out_shape[i] for i in range(out_ndim.value)]).copy()
+        # Both the native session handle and output array are shared. The inference HTTP server is threaded,
+        # so the entire native call through the defensive copy must be one critical section.
+        with self._run_lock:
+            if not self.h:
+                raise RuntimeError("ONNX Runtime session is closed")
+            n = self.lib.hc_run(self.h, x.ctypes.data, shape, x.ndim, self.out.ctypes.data, self.out.size,
+                                out_shape, ctypes.byref(out_ndim))
+            if n < 0:
+                raise RuntimeError(self.lib.hc_error().decode())
+            return self.out[:n].reshape([out_shape[i] for i in range(out_ndim.value)]).copy()
 
     def __del__(self):
-        if getattr(self, "h", None):
-            self.lib.hc_close(self.h)
-            self.h = None
+        lock = getattr(self, "_run_lock", None)
+        if lock is None:
+            return
+        with lock:
+            if getattr(self, "h", None):
+                self.lib.hc_close(self.h)
+                self.h = None

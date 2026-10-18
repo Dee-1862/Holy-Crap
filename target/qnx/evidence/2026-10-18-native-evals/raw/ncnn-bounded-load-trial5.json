@@ -1,0 +1,1 @@
+{"tool":"ncnn_native_bench","precision":"fp32","size":320,"threads":3,"iterations":21,"load_ms":46.452148,"cold_first_inference_ms":100.417963,"steady_ms":{"count":20,"mean":102.477590,"p50":99.655518,"p95":125.509531,"p99":129.674247,"max":130.715426},"output_elements":16800,"output_finite":true}

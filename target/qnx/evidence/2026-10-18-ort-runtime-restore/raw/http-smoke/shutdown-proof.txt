@@ -1,0 +1,19 @@
+checked_at=2026-10-18T17:25:05Z
+process_4771884_after_shutdown
+     pid Arguments
+loopback_probe_after_shutdown
+curl: (7) Failed to connect to 127.0.0.1 port 18771 after 0 ms: Could not connect to server
+curl_exit=7
+runner_status
+spool: /data/home/qnxuser/qnx-runner
+runner: running (pid 1097738)
+inbox: 0
+running: 0
+done: 28
+failed: 6
+--- last runner.log lines ---
+2026-10-18T17:15:15Z job job-20261018-101511-24295379 finished: status=done exit=0
+2026-10-18T17:22:41Z job job-20261018-102241-b01898cd started: /proc/boot/on -L vmem:8589934592 /system/bin/python3 infer.py
+2026-10-18T17:22:58Z job job-20261018-102241-b01898cd finished: status=failed exit=-15
+2026-10-18T17:24:48Z job job-20261018-102446-dbc22f46 started: /proc/boot/on -L vmem:8589934592 /system/bin/python3 infer.py
+2026-10-18T17:25:03Z job job-20261018-102446-dbc22f46 finished: status=failed exit=-15

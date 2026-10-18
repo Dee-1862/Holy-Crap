@@ -63,24 +63,20 @@ are produced by \texttt{data-visualization/evaluation.py}, the baselines by
 This study used only published photographs and videos. No animals were handled and no new data were collected.
 
 \section*{Compute}
-The detector, the pen-scale fine-tune and the baselines were trained on a local laptop GPU. The pen-scale fine-tune,
-the two baselines and every evaluation in this paper ran on an NVIDIA GeForce RTX 4060 Laptop GPU with 8\,GB of memory.
-The replicate detector run was trained on the Veri cloud platform on one NVIDIA A10G GPU (job \texttt{abe1b30a56c4}).
-All on-device timings were measured on a Raspberry Pi 5 running QNX 8.0.
+The detector was trained on a local laptop GPU. The pen-scale fine-tune, the baselines and every evaluation ran on an
+NVIDIA GeForce RTX 4060 Laptop GPU (8\,GB). The replicate detector was trained on one NVIDIA A10G on the Veri cloud
+platform (job \texttt{abe1b30a56c4}). On-device timings are from a Raspberry Pi 5 running QNX 8.0.
 
 \section*{Use of AI tools}
-The appearance grades in Section~\ref{sec:grades} were produced by three AI models, as described there. AI coding
-and writing assistants were used to write analysis code and to draft and edit the text. The authors checked every
-number against the released result files and every reference against its source, and take responsibility for the
-content.
+Three AI models produced the appearance grades (Section~\ref{sec:grades}). AI assistants helped write analysis code
+and draft the text. The authors checked every number against the result files and every reference against its
+source, and take responsibility for the content.
 
 \section*{Acknowledgements}
-We thank Machuve and colleagues for releasing the farm and PCR-confirmed photographs, and the authors of the PIO and
-NESTLER datasets for releasing their barn videos, all under open licences. We thank the QNX team for the QNX
-Everywhere program and the open-source package repository at \url{https://oss.qnx.com}, whose ONNX Runtime, Python
-and numpy builds made on-device inference possible, and Veri for the cloud GPU time used for the replicate training
-run. This work was carried out at LA Hacks, in its QNX and Veri tracks. We also thank the developers of Ultralytics
-YOLO, PyTorch and ONNX Runtime.
+We thank Machuve and colleagues and the authors of the PIO and NESTLER datasets for releasing their photographs and
+videos under open licences, the QNX team for the QNX Everywhere program and the package repository at
+\url{https://oss.qnx.com}, whose ONNX Runtime, Python and numpy builds made on-device inference possible, and Veri for
+GPU time. This work was carried out at LA Hacks, in its QNX and Veri tracks.
 
 \clearpage
 \bibliographystyle{plainnat}

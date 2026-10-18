@@ -1,0 +1,121 @@
+{
+  "schema": "holy-crap-qnx-native-eval-summary-v1",
+  "source_commit": "7778ee028347acb8793b7fd81d3d92f63ff57d37",
+  "target": {
+    "os": "QNX 8.0.0",
+    "board": "RaspberryPi5",
+    "architecture": "aarch64le",
+    "cpu": "4x Cortex-A76 at 1500 MHz",
+    "memory_total_mb": 8128,
+    "memory_available_baseline_mb": 7447
+  },
+  "jitter": {
+    "period_us": 1000,
+    "deadline_us": 100,
+    "trials_per_scenario": 5,
+    "samples_per_scenario": 25000,
+    "scenarios": {
+      "idle-control": {
+        "mean_us": 467.878,
+        "p50_us": 336.315,
+        "p95_us": 753.074,
+        "p99_us": 1768.314,
+        "max_us": 33565.833,
+        "deadline_miss_rate": 0.9998
+      },
+      "idle-fifo40": {
+        "mean_us": 579.828,
+        "p50_us": 414.389,
+        "p95_us": 854.556,
+        "p99_us": 861.463,
+        "max_us": 29470.463,
+        "deadline_miss_rate": 0.80132
+      },
+      "cross-core-load-control": {
+        "mean_us": 733.08,
+        "p50_us": 632.639,
+        "p95_us": 693.001,
+        "p99_us": 5966.191,
+        "max_us": 45058.666,
+        "deadline_miss_rate": 0.99976
+      },
+      "cross-core-load-fifo40": {
+        "mean_us": 710.27,
+        "p50_us": 725.371,
+        "p95_us": 814.129,
+        "p99_us": 1535.728,
+        "max_us": 54659.851,
+        "deadline_miss_rate": 0.99996
+      },
+      "same-core-load-control": {
+        "mean_us": 2545452.57,
+        "p50_us": 2564530.037,
+        "p95_us": 4274123.134,
+        "p99_us": 4425903.593,
+        "max_us": 4475030.796,
+        "deadline_miss_rate": 1.0
+      },
+      "same-core-load-fifo40": {
+        "mean_us": 517.059,
+        "p50_us": 335.658,
+        "p95_us": 907.611,
+        "p99_us": 914.667,
+        "max_us": 41823.222,
+        "deadline_miss_rate": 0.99996
+      }
+    },
+    "comparisons": {
+      "same_core_control_to_fifo_p50_ratio": 7640.307,
+      "same_core_control_to_fifo_p50_ratio_formula": "round(scenarios['same-core-load-control'].p50_us / scenarios['same-core-load-fifo40'].p50_us, 3)"
+    }
+  },
+  "ipc": {
+    "mechanism": "native QNX MsgSend/MsgReceive/MsgReply",
+    "payload_bytes": 57600,
+    "reply_bytes": 16,
+    "trials": 5,
+    "samples": 5000,
+    "mean_us": 95.363,
+    "p50_us": 89.695,
+    "p95_us": 133.682,
+    "p99_us": 185.888,
+    "max_us": 206.315
+  },
+  "ncnn_feces_320_fp32": {
+    "threads_requested": 3,
+    "trials_per_scenario": 5,
+    "steady_calls_per_scenario": 100,
+    "idle": {
+      "cold_first_mean_ms": 104.722,
+      "steady_mean_ms": 102.504,
+      "steady_p50_ms": 100.134,
+      "steady_p95_ms": 109.385,
+      "steady_p99_ms": 150.145,
+      "steady_max_ms": 151.196,
+      "calls_per_second": 9.756
+    },
+    "bounded_load": {
+      "cold_first_mean_ms": 99.853,
+      "steady_mean_ms": 103.58,
+      "steady_p50_ms": 100.017,
+      "steady_p95_ms": 129.212,
+      "steady_p99_ms": 144.128,
+      "steady_max_ms": 147.014,
+      "calls_per_second": 9.654
+    },
+    "observed_data_memory_mb": 48,
+    "max_recorded_temperature_c": 60.91
+  },
+  "fault_isolation": {
+    "fault": "SIGKILL sent only to a disposable supervised Python worker",
+    "trials": 5,
+    "detect_mean_ms": 11.518,
+    "detect_max_ms": 16.995,
+    "replacement_ready_mean_ms": 4388.462,
+    "first_result_mean_ms": 4398.116,
+    "first_result_max_ms": 4679.311,
+    "independent_timer_iterations_per_trial": 16000,
+    "independent_timer_spanned_full_recovery_trials": 5,
+    "independent_timer_max_observed_gap_ms_range": [25.094, 31.351]
+  }
+}

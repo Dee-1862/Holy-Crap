@@ -1,0 +1,9 @@
+scenario=cross-core-load-default
+trial=5
+fixed_priority_requested=false
+load_cpus=0,1,2
+benchmark_cpu=3
+returncode=0
+started_epoch_ns=1792342850742814319
+finished_epoch_ns=1792342855846470650
+duration_ns=5103656331

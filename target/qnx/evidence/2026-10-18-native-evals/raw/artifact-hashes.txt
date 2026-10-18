@@ -1,0 +1,7 @@
+154407ca791330b8d6fd4ab94e5f683beceaa6ded79d34e24d05b379fe0634f8  /data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/source.onnx
+064220842481ac84c4736ab11012129ddb7191412b69bbfde8fee261b620b4c3  /data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.param
+6488047efa463cef88932edfa720ec796867f14257fe0eda2f6117b0946ed3c0  /data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.bin
+5177454eaba3d75b01dc7e9336e5250dd8fcffd55a1fcdb971086df90bebbfb7  /data/home/qnxuser/hc-eval-20261018-1655-7778ee0/input.raw
+03311a67eeae40f2e392788217a8e18c73cc05e58ddacddf6b06de930fbb3f30  /data/home/qnxuser/hc-eval-20261018-1655-7778ee0/jitter_bench
+52e678aa65d8400624c21d8e7fb16edaf9cc7d4b39b8e2906f32925980a01dd2  /data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress
+c45933de5befd387065bc921e9766073297cc76e34c297c0e874a6413009eb82  /data/home/qnxuser/hc-eval-20261018-1655-7778ee0/ncnn_bench

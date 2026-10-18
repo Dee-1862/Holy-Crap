@@ -712,3 +712,234 @@ class QnxEvidenceResponse(StrictModel):
 
     evidence: QnxEvidenceDocument
     claims: list[QnxEvidenceClaim]
+
+
+class QnxRuntimeStatus(StrEnum):
+    READY = "ready"
+    PARTIAL = "partial"
+    UNREACHABLE = "unreachable"
+    NOT_CONFIGURED = "not_configured"
+
+
+class QnxRuntimeProcess(StrictModel):
+    """One supervised edge process as reported by the target status endpoint.
+
+    ``configured_priority`` is the launch priority the supervisor reports.
+    ``observed_priority``, ``scheduling_policy``, and ``runmask`` stay null
+    until target scheduling inspection actually proves them.
+    """
+
+    name: str = Field(max_length=128)
+    pid: int | None = Field(default=None, gt=0)
+    configured_priority: int | None = None
+    observed_priority: int | None = None
+    scheduling_policy: str | None = None
+    runmask: str | None = None
+    observation_detail: str | None = Field(default=None, max_length=512)
+    restarts: int | None = Field(default=None, ge=0)
+    started_at: datetime | None = None
+    last_exit: int | None = None
+    respawn_ms: float | None = Field(default=None, ge=0)
+    ready: bool | None = None
+
+
+class QnxRuntimeCapture(StrictModel):
+    """Capture-side frame accounting and interval timing from the edge pipeline."""
+
+    frames: int | None = Field(default=None, ge=0)
+    fps: float | None = Field(default=None, ge=0)
+    dropped: int | None = Field(default=None, ge=0)
+    warm: bool | None = None
+    last_frame_age_s: float | None = Field(default=None, ge=0)
+    target_period_ms: float | None = Field(default=None, gt=0)
+    period_p50_ms: float | None = Field(default=None, ge=0)
+    period_p95_ms: float | None = Field(default=None, ge=0)
+    period_p99_ms: float | None = Field(default=None, ge=0)
+    period_max_ms: float | None = Field(default=None, ge=0)
+    deadline_misses: int | None = Field(default=None, ge=0)
+    deadline_miss_percent: float | None = Field(default=None, ge=0)
+    sample_count: int | None = Field(default=None, ge=0)
+
+
+class QnxRuntimeModelTiming(StrictModel):
+    """Target model outcomes with successful and failed latency kept separate."""
+
+    sample_count: int | None = Field(default=None, ge=0)
+    last_ms: float | None = Field(default=None, ge=0)
+    p50_ms: float | None = Field(default=None, ge=0)
+    p95_ms: float | None = Field(default=None, ge=0)
+    p99_ms: float | None = Field(default=None, ge=0)
+    max_ms: float | None = Field(default=None, ge=0)
+    failed_sample_count: int | None = Field(default=None, ge=0)
+    failed_last_ms: float | None = Field(default=None, ge=0)
+    failed_p50_ms: float | None = Field(default=None, ge=0)
+    failed_p95_ms: float | None = Field(default=None, ge=0)
+    failed_p99_ms: float | None = Field(default=None, ge=0)
+    failed_max_ms: float | None = Field(default=None, ge=0)
+    checked: int | None = Field(default=None, ge=0)
+    unreachable: int | None = Field(default=None, ge=0)
+    worker_errors: int | None = Field(default=None, ge=0)
+    evicted: int | None = Field(default=None, ge=0)
+    dropped: int | None = Field(default=None, ge=0)
+
+
+class QnxRuntimeCorrelation(StrictModel):
+    """Optional identifiers proving which assessment artifacts produced a stream."""
+
+    job_id: str | None = Field(default=None, max_length=128)
+    clip_sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    model_sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    worker_sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+
+
+class QnxFaultEvent(StrictModel):
+    """One supervised crash/respawn event; unproven timestamps stay null."""
+
+    process: str = Field(max_length=128)
+    old_pid: int | None = Field(default=None, gt=0)
+    new_pid: int | None = Field(default=None, gt=0)
+    requested_at: datetime | None = None
+    detected_at: datetime | None = None
+    spawned_at: datetime | None = None
+    ready_at: datetime | None = None
+    first_result_at: datetime | None = None
+    respawn_ms: float | None = Field(default=None, ge=0)
+    recovery_ms: float | None = Field(default=None, ge=0)
+    state: str
+
+
+class QnxRuntimeResponse(StrictModel):
+    """Typed, always-available QNX runtime status snapshot.
+
+    Every field is either proven by the target status output or left as an
+    honest null; the API never synthesizes metrics, priorities, or identity.
+    """
+
+    schema_version: Literal[1] = 1
+    runtime_scope: Literal["edge_stream"] = "edge_stream"
+    status: QnxRuntimeStatus
+    captured_at: datetime = Field(default_factory=utc_now)
+    detail: str = ""
+    target: ClipAssessmentTarget | None = None
+    native_ipc: bool | None = None
+    source_mode: str | None = None
+    scheduler_profile: str | None = None
+    qnx_priorities_active: bool | None = None
+    target_status_schema: str | None = None
+    target_status_version: int | str | None = None
+    correlation: QnxRuntimeCorrelation | None = None
+    capture: QnxRuntimeCapture | None = None
+    model_timing: QnxRuntimeModelTiming | None = None
+    processes: list[QnxRuntimeProcess] = Field(default_factory=list)
+    resources: ResourceTelemetrySample | None = None
+    fault_tests_enabled: bool = False
+    target_fault_tests_enabled: bool | None = None
+    latest_fault: QnxFaultEvent | None = None
+
+
+class QnxFaultTestResponse(StrictModel):
+    """Normalized result of one supervised edge fault test request."""
+
+    schema_version: Literal[1] = 1
+    process: str
+    accepted: bool
+    pid: int | None = Field(default=None, gt=0)
+    detail: str | None = None
+
+
+BenchmarkEvidenceStatus = Literal["available", "unavailable", "invalid"]
+
+
+class QnxBenchmarkSourceIdentity(StrictModel):
+    """Source-measured QNX target identity copied from the summary file."""
+
+    source_commit: str | None = None
+    os: str | None = None
+    board: str | None = None
+    architecture: str | None = None
+    cpu: str | None = None
+
+
+class QnxBenchmarkJitter(StrictModel):
+    """Same-core jitter scenarios under load; the ratio is passed through
+    only when the summary file explicitly reports it."""
+
+    same_core_control_p50_us: float | None = Field(default=None, ge=0)
+    fifo40_p50_us: float | None = Field(default=None, ge=0)
+    fifo40_deadline_miss_rate: float | None = Field(default=None, ge=0, le=1)
+    deadline_threshold_us: float | None = Field(default=None, ge=0)
+    same_core_control_to_fifo_p50_ratio: float | None = Field(default=None, ge=0)
+
+
+class QnxBenchmarkIpc(StrictModel):
+    mechanism: str | None = None
+    payload_bytes: int | None = Field(default=None, ge=0)
+    p50_us: float | None = Field(default=None, ge=0)
+
+
+class QnxBenchmarkNcnn(StrictModel):
+    idle_calls_per_second: float | None = Field(default=None, ge=0)
+    observed_data_memory_mb: int | None = Field(default=None, ge=0)
+
+
+class QnxBenchmarkFaultIsolation(StrictModel):
+    subject: str | None = None
+    detect_mean_ms: float | None = Field(default=None, ge=0)
+    first_result_mean_ms: float | None = Field(default=None, ge=0)
+
+
+class QnxVerifiedBenchmarkEvidence(StrictModel):
+    """Read-only, source-derived QNX benchmark evidence.
+
+    ``available`` carries only numbers copied from the summary file; every
+    metric is null for ``unavailable`` (file missing) or ``invalid``
+    (unparsable or unknown schema). No metric is ever synthesized.
+    """
+
+    status: BenchmarkEvidenceStatus
+    source_identity: QnxBenchmarkSourceIdentity | None = None
+    jitter: QnxBenchmarkJitter | None = None
+    ipc: QnxBenchmarkIpc | None = None
+    ncnn: QnxBenchmarkNcnn | None = None
+    fault_isolation: QnxBenchmarkFaultIsolation | None = None
+
+
+class LinuxBenchmarkFifoScenario(StrictModel):
+    """One SCHED_FIFO 40 scenario from the Linux control run."""
+
+    p50_lateness_us: float | None = Field(default=None, ge=0)
+    deadline_misses: int | None = Field(default=None, ge=0)
+    total_wakes: int | None = Field(default=None, ge=0)
+
+
+class LinuxBenchmarkComparator(StrictModel):
+    """Linux scheduler-control comparator with the three FIFO scenarios kept
+    as separate fields; the API never derives a range from them."""
+
+    status: BenchmarkEvidenceStatus
+    deadline_threshold_us: float | None = Field(default=None, ge=0)
+    idle: LinuxBenchmarkFifoScenario | None = None
+    cross_core_load: LinuxBenchmarkFifoScenario | None = None
+    same_core_load: LinuxBenchmarkFifoScenario | None = None
+
+
+class BenchmarkTestContext(StrictModel):
+    """Fixed test-context labels; descriptive metadata, never a metric."""
+
+    qnx: str
+    linux: str
+
+
+class BenchmarkEvidenceResponse(StrictModel):
+    """Typed, read-only benchmark evidence from committed summary files.
+
+    Numeric metrics are exclusively source-derived; the pipeline status is an
+    explicit fixed project status, not a benchmark result.
+    """
+
+    schema_version: Literal[1] = 1
+    qnx: QnxVerifiedBenchmarkEvidence
+    linux: LinuxBenchmarkComparator
+    test_context: BenchmarkTestContext
+    full_qnx_pipeline_status: Literal["not_run"] = "not_run"
+    full_qnx_pipeline_models_completed: Literal[0] = 0

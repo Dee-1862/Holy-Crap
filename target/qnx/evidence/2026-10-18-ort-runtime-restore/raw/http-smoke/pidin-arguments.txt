@@ -1,0 +1,2 @@
+     pid Arguments
+ 4771884 /system/bin/python3 infer.py 

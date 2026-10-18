@@ -1,0 +1,20 @@
+{
+  "id": "job-20261018-102446-dbc22f46",
+  "argv": [
+    "/proc/boot/on",
+    "-L",
+    "vmem:8589934592",
+    "/system/bin/python3",
+    "infer.py"
+  ],
+  "cwd": "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/stage",
+  "timeout": 120,
+  "status": "failed",
+  "started_at": "2026-10-18T17:24:48Z",
+  "finished_at": "2026-10-18T17:25:03Z",
+  "exit_code": -15,
+  "timed_out": false,
+  "error": null,
+  "stdout_log": "logs/job-20261018-102446-dbc22f46.out",
+  "stderr_log": "logs/job-20261018-102446-dbc22f46.err"
+}

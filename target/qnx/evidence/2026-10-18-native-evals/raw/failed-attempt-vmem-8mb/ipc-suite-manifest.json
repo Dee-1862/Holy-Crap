@@ -1,0 +1,112 @@
+{
+  "duration_ms": 140.756,
+  "result": {
+    "results": [
+      {
+        "argv": [
+          "/proc/boot/on",
+          "-L",
+          "vmem:8388608",
+          "/system/bin/python3",
+          "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/tools/ipc_eval.py",
+          "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ipc-trial1.csv",
+          "1000",
+          "57600"
+        ],
+        "duration_ms": 22.343,
+        "finished_monotonic_ns": 3103176600093,
+        "returncode": 1,
+        "started_monotonic_ns": 3103154257444,
+        "stderr": "on: Not enough memory (/system/bin/python3)\n",
+        "stdout": ""
+      },
+      {
+        "argv": [
+          "/proc/boot/on",
+          "-L",
+          "vmem:8388608",
+          "/system/bin/python3",
+          "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/tools/ipc_eval.py",
+          "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ipc-trial2.csv",
+          "1000",
+          "57600"
+        ],
+        "duration_ms": 23.645,
+        "finished_monotonic_ns": 3103203634037,
+        "returncode": 1,
+        "started_monotonic_ns": 3103179988889,
+        "stderr": "on: Not enough memory (/system/bin/python3)\n",
+        "stdout": ""
+      },
+      {
+        "argv": [
+          "/proc/boot/on",
+          "-L",
+          "vmem:8388608",
+          "/system/bin/python3",
+          "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/tools/ipc_eval.py",
+          "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ipc-trial3.csv",
+          "1000",
+          "57600"
+        ],
+        "duration_ms": 22.921,
+        "finished_monotonic_ns": 3103227330000,
+        "returncode": 1,
+        "started_monotonic_ns": 3103204409222,
+        "stderr": "on: Not enough memory (/system/bin/python3)\n",
+        "stdout": ""
+      },
+      {
+        "argv": [
+          "/proc/boot/on",
+          "-L",
+          "vmem:8388608",
+          "/system/bin/python3",
+          "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/tools/ipc_eval.py",
+          "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ipc-trial4.csv",
+          "1000",
+          "57600"
+        ],
+        "duration_ms": 22.062,
+        "finished_monotonic_ns": 3103250175741,
+        "returncode": 1,
+        "started_monotonic_ns": 3103228113556,
+        "stderr": "on: Not enough memory (/system/bin/python3)\n",
+        "stdout": ""
+      },
+      {
+        "argv": [
+          "/proc/boot/on",
+          "-L",
+          "vmem:8388608",
+          "/system/bin/python3",
+          "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/tools/ipc_eval.py",
+          "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ipc-trial5.csv",
+          "1000",
+          "57600"
+        ],
+        "duration_ms": 22.876,
+        "finished_monotonic_ns": 3103273759000,
+        "returncode": 1,
+        "started_monotonic_ns": 3103250882796,
+        "stderr": "on: Not enough memory (/system/bin/python3)\n",
+        "stdout": ""
+      }
+    ],
+    "suite": "ipc",
+    "trials": 5
+  },
+  "schema": "holy-crap-qnx-native-eval-v1",
+  "source_commit": "7778ee028347acb8793b7fd81d3d92f63ff57d37",
+  "suite": "ipc",
+  "target": "QNX 8.0 RaspberryPi5 aarch64le",
+  "thermal_after": {
+    "thermal": "58.16",
+    "thermal_ext": "temp_in_c: 57.06\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+  },
+  "thermal_before": {
+    "thermal": "57.06",
+    "thermal_ext": "temp_in_c: 56.52\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+  },
+  "virtual_memory_soft_limit_kib": 8388608
+}

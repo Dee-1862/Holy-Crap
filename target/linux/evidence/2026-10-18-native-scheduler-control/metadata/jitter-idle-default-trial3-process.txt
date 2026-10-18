@@ -1,0 +1,107 @@
+captured_at=2026-10-18T12:59:44-04:00
+    PID    PPID PSR CLS RTPRIO PRI  NI %CPU %MEM   RSS    VSZ ELAPSED COMMAND         COMMAND
+  60466   60411   3  TS      -  19   0  0.0  0.0  1504   2368       0 wakeup_jitter_b /tmp/holy-crap-native-scheduler-control/wakeup_jitter_bench 5000 1000 100 /tmp/holy-crap-native-scheduler-control/raw/jitter-idle-default-trial3.csv
+affinity=pid 60466's current affinity list: 3
+status_begin
+Name:	wakeup_jitter_b
+Umask:	0002
+State:	S (sleeping)
+Tgid:	60466
+Ngid:	0
+Pid:	60466
+PPid:	60411
+TracerPid:	0
+Uid:	1000	1000	1000	1000
+Gid:	1000	1000	1000	1000
+FDSize:	256
+Groups:	4 20 24 27 29 44 46 60 100 102 108 984 986 988 989 992 996 1000 
+NStgid:	60466
+NSpid:	60466
+NSpgid:	60411
+NSsid:	60411
+Kthread:	0
+VmPeak:	    2368 kB
+VmSize:	    2368 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	    1504 kB
+VmRSS:	    1504 kB
+RssAnon:	     224 kB
+RssFile:	    1264 kB
+RssShmem:	      16 kB
+VmData:	     240 kB
+VmStk:	     144 kB
+VmExe:	      16 kB
+VmLib:	    1840 kB
+VmPTE:	      96 kB
+VmSwap:	       0 kB
+CoreDumping:	0
+THP_enabled:	0
+untag_mask:	0xffffffffffffff
+Threads:	1
+SigQ:	1/64542
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000000006
+SigCgt:	0000000000000000
+CapInh:	0000000000000000
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	000001ffffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Seccomp_filters:	0
+Speculation_Store_Bypass:	thread vulnerable
+SpeculationIndirectBranch:	unknown
+Cpus_allowed:	8
+Cpus_allowed_list:	3
+Mems_allowed:	00ff
+Mems_allowed_list:	0-7
+voluntary_ctxt_switches:	422
+nonvoluntary_ctxt_switches:	6
+status_end
+limits_begin
+Limit                     Soft Limit           Hard Limit           Units     
+Max cpu time              unlimited            unlimited            seconds   
+Max file size             unlimited            unlimited            bytes     
+Max data size             unlimited            unlimited            bytes     
+Max stack size            8388608              unlimited            bytes     
+Max core file size        0                    unlimited            bytes     
+Max resident set          unlimited            unlimited            bytes     
+Max processes             64542                64542                processes 
+Max open files            1024                 524288               files     
+Max locked memory         8388608              8388608              bytes     
+Max address space         8589934592           8589934592           bytes     
+Max file locks            unlimited            unlimited            locks     
+Max pending signals       64542                64542                signals   
+Max msgqueue size         819200               819200               bytes     
+Max nice priority         0                    0                    
+Max realtime priority     0                    0                    
+Max realtime timeout      unlimited            unlimited            us        
+limits_end
+sched_begin
+wakeup_jitter_b (60466, #threads: 1)
+-------------------------------------------------------------------
+se.exec_start                                :       3408728.951514
+se.vruntime                                  :           103.649055
+se.sum_exec_runtime                          :             3.617067
+se.nr_migrations                             :                    0
+nr_switches                                  :                  429
+nr_voluntary_switches                        :                  423
+nr_involuntary_switches                      :                    6
+se.load.weight                               :              1048576
+se.avg.load_sum                              :                  302
+se.avg.runnable_sum                          :               331034
+se.avg.util_sum                              :               195501
+se.avg.load_avg                              :                    6
+se.avg.runnable_avg                          :                    6
+se.avg.util_avg                              :                    3
+se.avg.last_update_time                      :        3408440242176
+se.avg.util_est                              :                   12
+policy                                       :                    0
+prio                                         :                  120
+se.slice                                     :              2100000
+clock-delta                                  :                   37
+sched_end

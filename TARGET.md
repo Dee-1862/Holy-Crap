@@ -176,6 +176,48 @@ ssh qnxpi /data/home/qnxuser/qnx-runner-app/status-runner.sh
 
 The runner executes argv directly without a shell and does not run as root.
 
+## Current inference runtime inventory
+
+The directly connected target was restored and rechecked on 2026-10-18:
+
+- QNX's official `onnxruntime 1.24.4-r0` and `python3-numpy 2.4.1-r0`
+  packages are installed. The offline transaction added 107 packages and did
+  not replace, downgrade, upgrade, or remove any of the 649 packages that were
+  already installed.
+- `python3` can import NumPy 2.4.1. `python3-onnxruntime` was intentionally
+  left uninstalled because QNX's package omits its compiled binding, so a
+  direct `import onnxruntime` remains unavailable. Use the checked-in
+  `ortlite` ctypes bridge instead.
+- `/usr/lib/libonnxruntime.so.1.24.4` is installed. The checked-in bridge was
+  built natively and smoke-tested from
+  `/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/stage`.
+- The pinned 320 feces model, SHA-256
+  `154407ca791330b8d6fd4ab94e5f683beceaa6ded79d34e24d05b379fe0634f8`,
+  produced a `[1, 8, 2100]` output from a real specimen tensor. Five warm
+  model calls averaged 129.2 ms under an 8 GiB virtual-memory limit. The QNX
+  output matched the Mac ONNX Runtime reference at `rtol=1e-4, atol=1e-5`.
+
+This restores model execution, not the full clip worker. `infer.py` now reads
+and validates `HC_MODEL_SIDE` (default 640; 320 for the pinned model) before it
+opens the server. A loopback-only QNX smoke returned model metadata and one
+real 320-pixel inference successfully: 111.4 ms inside the service and 115.6
+ms end to end. The process ran under an 8 GiB virtual-memory limit and was then
+stopped; no service, autostart entry, camera setting, or boot configuration was
+changed. Full evidence is in
+`target/qnx/evidence/2026-10-18-ort-runtime-restore/REPORT.md`.
+
+The official `ffmpeg 8.0-r5` CLI package is also installed. Its no-network
+simulation and installation added exactly that one package, taking the target
+from 756 to 757 packages without replacing or removing an existing entry. This
+build can inspect the project's H.264 MP4 files but explicitly disables H.264
+decoding. A temporary MPEG-4 Part 2 transcode of the approved 30-second Big
+Broiler 090 segment decoded three sparse RGB frames on QNX, and all four pinned
+ONNX stages ran over those frames/crops. That 6.315-second bounded run proves
+execution and handoffs, not the full clip contract. H.264 strategy, a corrected
+behavior-output presentation rerun, and a `pidin` memory capture remain open.
+Evidence is in
+`target/qnx/evidence/2026-10-18-four-model-sparse-clip/REPORT.md`.
+
 ## Clip-assessment worker contract
 
 Selecting `qnx` for a dashboard clip job is fail-closed. It does not run the

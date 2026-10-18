@@ -1,0 +1,2 @@
+ 3366956 bash -c pidin ar | grep -F infer.py || true 
+ 3371056 grep -F infer.py 

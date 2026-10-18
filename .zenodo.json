@@ -1,0 +1,17 @@
+{
+  "title": "Holy-Crap: poultry dropping detection on a QNX Raspberry Pi 5 (code, models, results and paper)",
+  "upload_type": "software",
+  "description": "Code, trained models, per-photograph predictions, appearance grades, figures and the paper for: Held-out Accuracy Is Not New-Collection Accuracy: A Cross-Collection Benchmark of Poultry Dropping Classifiers and a Process-Isolated Pen-Camera Pipeline on a QNX Raspberry Pi 5. Every model trained on the same split of the Machuve et al. farm photographs scores 98.5 to 99.6% on the farm test and 75 to 78% on a separate PCR-labelled collection. The repository also contains a pen-scale detector fine-tuned on public barn video, a multi-process pipeline running on a Raspberry Pi 5 under QNX 8.0, a dashboard, a wrist display client and a farmer messaging agent. Third-party datasets are not included and must be downloaded from their own Zenodo records.",
+  "creators": [
+    {"name": "Bhoomireddy, Deekshith Reddy"},
+    {"name": "Rai, Rishit"},
+    {"name": "Streuber, Lance"}
+  ],
+  "license": "AGPL-3.0-only",
+  "keywords": ["poultry health", "object detection", "YOLO11", "distribution shift", "QNX", "Raspberry Pi", "edge AI"],
+  "related_identifiers": [
+    {"identifier": "10.5281/zenodo.4628934", "relation": "references", "scheme": "doi"},
+    {"identifier": "10.5281/zenodo.5801834", "relation": "references", "scheme": "doi"},
+    {"identifier": "10.3389/frai.2022.733345", "relation": "references", "scheme": "doi"}
+  ]
+}

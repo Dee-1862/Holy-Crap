@@ -1,0 +1,2 @@
+c455646ff9ec0cf3c8b745fb49c850ba29257845237d0256707af6fbb0925278  /Users/lancestreuber/worktrees/Holy-Crap/20261018-qnx-main-eval/target/qnx/evals/jitter_bench.c
+f1bdfb755758cd7de80bf1b2c8a55eb1a84883b8c474441dc73ccee4c020b76e  /Users/lancestreuber/worktrees/Holy-Crap/20261018-qnx-main-eval/target/qnx/evals/cpu_stress.c

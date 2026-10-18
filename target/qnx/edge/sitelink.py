@@ -29,6 +29,7 @@ FPS = float(os.environ.get("HC_FRAME_FPS", "4"))     # camera view pictures a se
 BUNDLE = 1.0                                        # seconds between uploads
 IDLE_EVERY = 5.0                                    # seconds between pictures while nobody watches
 GREY = os.environ.get("HC_FRAME_GREY", "0") == "1"    # HC_FRAME_GREY=1 for a grey live view: no colour conversion, smaller JPEGs (models keep colour)
+ENHANCE = os.environ.get("HC_FRAME_ENHANCE", "1") != "0"  # auto levels + light sharpening, for the viewer only
 
 
 def request(url: str, body: dict | None = None, headers: dict | None = None, timeout: float = 5) -> dict:
@@ -80,7 +81,7 @@ class Picture:
             from shm import Frames
             if self.frames is None:
                 self.frames = Frames()
-            got = livejpeg.snapshot(self.frames, step=6, quality=70, grey=GREY)
+            got = livejpeg.snapshot(self.frames, step=6, quality=70, grey=GREY, enhanced=ENHANCE)
         except Exception:                                # no frame ring yet (camera starting) or it was recreated
             self.frames = None
             return None

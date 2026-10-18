@@ -1,0 +1,54 @@
+{
+  "aggregateAbortBytes": 8053063680,
+  "aggregateGuardIncludes": "process-tree RSS plus all regular-file logical bytes under the tmpfs stage",
+  "claimBoundary": "Linux TCP fallback and application supervisor; not QNX evidence",
+  "containerVersionDrift": {
+    "byteIdenticalToReference": false,
+    "derivation": "ffmpeg 8.0.1 source-copy of 0-20s; 20.08s, 502 frames, 6,061,986 bytes",
+    "sameSourceAndSegment": true
+  },
+  "edgeFiles": {
+    "edge/camera.py": "0363d5fdac8a08f9b9ef442ef3e665dbf5369a22020aa6654f79a57874036321",
+    "edge/cloudlink.py": "e77e67579f81034527c6bc95cfc0af4b4a13dbc300722c45664c1000f9efb030",
+    "edge/explain.py": "b6d3946359c722d7c44d6a96e78e247279fd47b940a59059409a4cc45f266885",
+    "edge/infer.py": "98e09ff1f3090accb4c314b52c9951a0c6620ce7c1504c640e4ab883e1cd118a",
+    "edge/laptop/infer_server.py": "7e16a40373de1df933dcbb573f2c33f1cfdb0ca746e4a08dfd548aa1ae1cb3ce",
+    "edge/model.py": "37ada4c6e1b8eea9f84e18b409b37357269718035a36795da6ec0d44cb035b21",
+    "edge/ortlite/ortlite.py": "7d73d77900ffced870301d386469ed1d01284464704521dcdefbaa69fac06de8",
+    "edge/qnxipc.py": "e21104be7e9268b83923414b49cb837b30c1e2c514794e27f654bba907ddee76",
+    "edge/shm.py": "2120db360e862d5dbb50f933a2be37b8f5e256153198d7b15816faedd2879bdd",
+    "edge/sitelink.py": "b405259f7088a283afa30de5b8ba364842be676b64b230399b9b6b9e4caca37a",
+    "edge/spotter.py": "071b098fc52533958f95059221ff3ae18a07add3c62d09cd1d7782c080154174",
+    "edge/stillspot.py": "75bfe3d2a7aeb471b86aa18adec56a1e0b4a31610b74460b071b5bdc1db254d9",
+    "edge/supervisor.py": "067bb099d10f8c4268b26f674095c8c891b1f611ad086dbdc0ec00685c24d54b",
+    "edge/tools/bench_spots.py": "ba3749083ced2bcb9ce33268f8db47c954deaf3363733512dbd90a5eb73cfa42",
+    "edge/tools/ipc_bench.py": "1f5cda8e047d2c966e79f2653067296112385e2254f011cacc8f3c5021d8149a",
+    "edge/tools/make_gray.py": "12d4fc99ed6e8d7cdd66e720b421559167e370938362cfd3923f3b6c891ddd66",
+    "edge/tools/snapshot.py": "5d0af4a3856ef9967a254d44e9e7019fb3311f55e2b425b1dc2822f6485722a5",
+    "edge/uplink.py": "ba2601a1f8a54c49c7bda6f619b7ab094df2ad6e0dd38f34ba31371c71251c51",
+    "edge/watchlink.py": "b3159f35862c0a7ebaa8b95ffe5de7d86fdd2bb37d8397f7964c704890f5e6c8"
+  },
+  "model": {
+    "path": "/tmp/hc-edge-fault-bench-run-20261018/edge/dropping4_yolo11n_640.onnx",
+    "sha256": "3906fe0ffd3d9f1351a854fce4df731356a2e4aab26477bbae996e674e69053e"
+  },
+  "originalDatasetSourceSha256": "b7338a9d4b9cf93f1568769414d80b8c82fe3b8627f86070b5478b8d3e9b44eb",
+  "perProcessAddressSpaceLimitBytes": 8589934592,
+  "python": "3.13.5 (main, Jun 25 2025, 18:55:22) [GCC 14.2.0]",
+  "referenceBaselineClipSha256": "13e82b2a07f0d7e6ba2659d2da8c196cbb9ec6af3fda94502f4c3997f1d340e4",
+  "replayMov": {
+    "path": "/tmp/hc-edge-fault-bench-run-20261018/replay-argb.mov",
+    "sha256": "1633f7677c73f50f2bf7d6d85f0c3d038a2af78df641bd954bf3bd6821c67309"
+  },
+  "sourceMp4": {
+    "path": "/tmp/hc-edge-fault-bench-run-20261018/source.mp4",
+    "sha256": "9dbbfef9127cc466fb274ab47e5f8f8eed50b41fb8fb906fcdac01b1e628aee0"
+  },
+  "startedWallTime": 1792342154.4009743,
+  "temporaryCompatibilityChanges": [
+    "ortlite Session is backed by Linux onnxruntime Python instead of QNX libhcort.so",
+    "shared-memory file and HTTP/TCP ports are redirected into the isolated benchmark namespace",
+    "TCP fallback uses CRC32 port assignment because the production byte-sum mapping collides for hc/cloud and hc/watch",
+    "TCP fallback serves each persistent client in a thread because the production single-connection loop starves supervisor health behind spotter"
+  ]
+}

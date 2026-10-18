@@ -1,0 +1,2 @@
+package	version	architecture	bytes	sha256	official_url	index_file	index_sha256
+ffmpeg	8.0-r5	aarch64	250456	92e1d40d4b821b464a0827245b3f9cb61de2eca4cbb3dee6120215b9fcc7de2e	https://repo.oss.qnx.com/8.0.5/extra/aarch64/ffmpeg-8.0-r5.apk	805-extra.APKINDEX	2c40ae459c0cec10efbb0fabdbc4314bd6679fb74d13f97ea9d80b0bb317009f

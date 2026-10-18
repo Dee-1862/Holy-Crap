@@ -123,9 +123,7 @@ al.~\cite{guo2017} and Geifman and El-Yaniv~\cite{geifman2017}.
 model, for example by up to 270 times for microcontrollers~\cite{zhang2026tinyml}. Published dropping systems run on a
 phone, a server or a laptop~\cite{degu2023,sakib2026,dhungana2025}. None that we found addresses what happens when part
 of the software fails on an unattended device. Microkernels move drivers and services into isolated processes, so a
-fault stays in one process~\cite{klein2009sel4,qnx8sysarch}. A vendor white paper compares QNX 8 with real-time Linux
-on a Raspberry Pi 5 with a neural accelerator and reports similar throughput with less variation~\cite{qnx2026hailo}.
-It is not peer reviewed and does not measure fault recovery. We measure recovery directly.
+fault stays in one process~\cite{klein2009sel4,qnx8sysarch}. We measure recovery directly.
 
 \section{Methods}
 \label{sec:methods}
@@ -277,18 +275,14 @@ evaluate it here. Figures~\ref{fig:hardware} and~\ref{fig:interfaces} show the h
 \caption{The deployed hardware. (a) Raspberry Pi 5 running QNX 8.0 with a Camera Module 3 on its ribbon cable and an
 active cooler. (b to d) The wrist-worn display (M5Stack StopWatch) on its charging cable, showing a pen's newest
 specimen with its photograph and numbered evidence markers (b), the evidence in words (c), and the pen's five
-appearance checks against the barn average (d). The display is shown with the dashboard's demonstration data, not a
-field reading.}
+appearance checks against the barn average (d). These photographs were taken with an earlier demonstration data stream, not a field reading.}
 \label{fig:hardware}
 \end{figure*}
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/system_interfaces.jpg}
-\caption{The two other interfaces. (a) The dashboard with the held-out Pen A1 test clip, in which test droppings were
-pasted at known times. A green ring marks a flagged spot and the strip below lists the seven spots found. Pen
-readings on the dashboard are demonstration data, as its header states. (b) The farmer messaging service in a test
-conversation. The attached photograph is a sample image, as the agent itself says, not a live camera frame.}
+\caption{The two other interfaces. (a) The dashboard on the recorded, held-out Pen A1 clip, into which test droppings were pasted at known times. Its droppings, scores and bird counts come from the analysed clips. Each flagged spot is numbered as in the strip below it and scored by the close-up model on the original photograph of that dropping. (b) The farmer messaging service in a test conversation. The attached photograph is a sample image, as the agent itself says, not a live camera frame.}
 \label{fig:interfaces}
 \end{figure*}
 
@@ -320,7 +314,7 @@ accuracies of 97.8 to 99.3\% describe photographs like the training photographs,
 \centering
 \caption{Accuracy and macro-F1 on the held-out farm test (679 photographs) and the lab-confirmed photographs (1,255),
 for models trained on the same 5,451 photographs. One training run per model. The detector is scored with its best class in each photograph (always answers) and with the deployed 0.25
-confidence threshold (below it the photograph counts as wrong).}
+confidence threshold (below it the photograph counts as wrong). Bold marks the best value in each column.}
 \label{tab:bench}
 \small
 \resizebox{\columnwidth}{!}{%
@@ -329,8 +323,8 @@ confidence threshold (below it the photograph counts as wrong).}
 & \multicolumn{2}{c}{Farm test} & \multicolumn{2}{c}{Lab-confirmed} \\
 Model & Accuracy & Macro-F1 & Accuracy & Macro-F1 \\
 \midrule
-MobileNetV2~\cite{machuve2022} & 99.6 & 99.7 & 74.6 & 75.3 \\
-EfficientNet-B0~\cite{dhungana2025} & 99.0 & 98.6 & 78.2 & 79.5 \\
+MobileNetV2~\cite{machuve2022} & \textbf{99.6} & \textbf{99.7} & 74.6 & 75.3 \\
+EfficientNet-B0~\cite{dhungana2025} & 99.0 & 98.6 & \textbf{78.2} & \textbf{79.5} \\
 YOLO11n (ours), always answers & 98.5 & 98.3 & 76.3 & 75.1 \\
 YOLO11n (ours), 0.25 threshold & 97.9 & 97.7 & 67.1 & 70.3 \\
 \bottomrule
@@ -429,8 +423,7 @@ note and these agreement figures are released with the paper.
 \begin{table}[t]
 \centering
 \caption{Appearance grade and model accuracy (top class equals the PCR class) on the lab-confirmed photographs. Normal looking means grade 9 or 10.
-$n$ excludes the nine photographs no rater could judge. Detector is our YOLO11n scored on its top class (always
-answers).}
+$n$ excludes the nine photographs no rater could judge. Detector is our YOLO11n scored on its top class (always answers). Bold marks the values discussed in the text. $^{*}$Only one Newcastle photograph looks normal.}
 \label{tab:grades}
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{lrrrrr}
@@ -439,9 +432,9 @@ PCR class & $n$ & Mean & Normal & \multicolumn{2}{c}{Acc. on normal looking} \\
  & & grade & looking & Detector & MobileNetV2 \\
 \midrule
 Healthy & 347 & 8.6 & 62\% & 84\% & 66\% \\
-Salmonella & 347 & 8.0 & 47\% & 93\% & 98\% \\
-Coccidiosis & 366 & 5.6 & 7\% & 23\% & 23\% \\
-Newcastle & 186 & 4.6 & 1\% & \multicolumn{2}{c}{1 photograph} \\
+Salmonella & 347 & 8.0 & 47\% & \textbf{93\%} & \textbf{98\%} \\
+Coccidiosis & 366 & 5.6 & 7\% & \textbf{23\%} & \textbf{23\%} \\
+Newcastle & 186 & 4.6 & 1\% & 0\%$^{*}$ & 0\%$^{*}$ \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -499,8 +492,7 @@ we killed a section with \texttt{SIGKILL}, the supervisor started a new copy of 
 the supervisor noticing the exit to the new process being launched. The supervisor checks its children every 100\,ms,
 so a stage can be down for up to about 130\,ms in total, plus the time the new process needs to start serving. We ran these kills by hand on each section during
 development and did not keep a count per section. Killing the spot finder cost the camera one frame and the other
-sections none. These kills test our process structure and supervisor, which would work the same way on Linux. We did
-not kill a QNX driver or system service, such as the camera service or the network stack.
+sections none. These kills test our process structure and supervisor. We did not kill a QNX driver or service, such as the camera service or network stack.
 
 \begin{figure}[t]
 \centering
@@ -544,11 +536,7 @@ alarms on white birds the explanation step filters out.
 
 \paragraph{Why a microkernel.} A monitor in a barn runs unattended, and a crash in a camera driver or a model runtime
 should cost a few frames, not the device. On QNX each stage of our pipeline is an ordinary process, and the
-supervisor relaunched any stage we killed within 20 to 33\,ms of noticing the exit while the others kept running. The
-same structure is possible on Linux with process supervision. What QNX adds is that the drivers, the file system and
-the network stack are also user processes that can fail and restart the same way~\cite{qnx8sysarch}, but our tests
-killed only our own stages, not a QNX driver or service. We did not compare fault recovery against Linux on the same
-board, so we do not claim QNX recovers faster. Running the model on QNX also needed one fix in the platform's
+supervisor relaunched any stage we killed within 20 to 33\,ms of noticing the exit while the others kept running. On QNX the drivers, the file system and the network stack are also user processes that can fail and restart the same way~\cite{qnx8sysarch}, but our tests killed only our own stages, not a QNX driver or service. Running the model on QNX also needed one fix in the platform's
 packages. The Python binding of ONNX Runtime in the QNX open-source repository does not load, because its build
 script treats QNX as Windows and looks for the wrong extension module. We worked around it with a 111-line C bridge
 to the runtime's C library and have prepared a patch for the package recipe.
@@ -571,8 +559,7 @@ rubric is new and has not been validated against expert grading.
 \paragraph{Future work.} The most useful next step is labelled droppings from fixed pen cameras on more than one
 farm, split by farm. Short of that, the farm collection could be re-split with near-duplicate removal before
 splitting, the size shortcut could be tested by cropping every class to the same framing, and the setting shortcut by
-testing on salmonella and Newcastle photographs taken on farms. On the device, the next steps are a Linux baseline on
-the same Raspberry Pi 5 and fault tests that kill QNX services, not only our own stages. The box score needs
+testing on salmonella and Newcastle photographs taken on farms. On the device, the next step is fault tests that kill QNX services, not only our own stages. The box score needs
 calibration before it is shown to a farmer, and the 0.25 threshold should be chosen from a risk-coverage curve on
 validation data rather than fixed.
 
@@ -600,24 +587,20 @@ are produced by \texttt{data-visualization/evaluation.py}, the baselines by
 This study used only published photographs and videos. No animals were handled and no new data were collected.
 
 \section*{Compute}
-The detector, the pen-scale fine-tune and the baselines were trained on a local laptop GPU. The pen-scale fine-tune,
-the two baselines and every evaluation in this paper ran on an NVIDIA GeForce RTX 4060 Laptop GPU with 8\,GB of memory.
-The replicate detector run was trained on the Veri cloud platform on one NVIDIA A10G GPU (job \texttt{abe1b30a56c4}).
-All on-device timings were measured on a Raspberry Pi 5 running QNX 8.0.
+The detector was trained on a local laptop GPU. The pen-scale fine-tune, the baselines and every evaluation ran on an
+NVIDIA GeForce RTX 4060 Laptop GPU (8\,GB). The replicate detector was trained on one NVIDIA A10G on the Veri cloud
+platform (job \texttt{abe1b30a56c4}). On-device timings are from a Raspberry Pi 5 running QNX 8.0.
 
 \section*{Use of AI tools}
-The appearance grades in Section~\ref{sec:grades} were produced by three AI models, as described there. AI coding
-and writing assistants were used to write analysis code and to draft and edit the text. The authors checked every
-number against the released result files and every reference against its source, and take responsibility for the
-content.
+Three AI models produced the appearance grades (Section~\ref{sec:grades}). AI assistants helped write analysis code
+and draft the text. The authors checked every number against the result files and every reference against its
+source, and take responsibility for the content.
 
 \section*{Acknowledgements}
-We thank Machuve and colleagues for releasing the farm and PCR-confirmed photographs, and the authors of the PIO and
-NESTLER datasets for releasing their barn videos, all under open licences. We thank the QNX team for the QNX
-Everywhere program and the open-source package repository at \url{https://oss.qnx.com}, whose ONNX Runtime, Python
-and numpy builds made on-device inference possible, and Veri for the cloud GPU time used for the replicate training
-run. This work was carried out at LA Hacks, in its QNX and Veri tracks. We also thank the developers of Ultralytics
-YOLO, PyTorch and ONNX Runtime.
+We thank Machuve and colleagues and the authors of the PIO and NESTLER datasets for releasing their photographs and
+videos under open licences, the QNX team for the QNX Everywhere program and the package repository at
+\url{https://oss.qnx.com}, whose ONNX Runtime, Python and numpy builds made on-device inference possible, and Veri for
+GPU time. This work was carried out at LA Hacks, in its QNX and Veri tracks.
 
 \clearpage
 \bibliographystyle{plainnat}

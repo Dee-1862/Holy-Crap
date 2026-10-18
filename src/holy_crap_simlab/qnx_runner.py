@@ -20,17 +20,35 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
 import re
 import shlex
 import subprocess
 import tempfile
 import time
+import urllib.parse
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable, Sequence
 
-from .models import AdapterCapability
+from pydantic import ValidationError
+
+from .models import (
+    AdapterCapability,
+    ClipAssessmentTarget,
+    QnxFaultEvent,
+    QnxFaultTestResponse,
+    QnxRuntimeCapture,
+    QnxRuntimeCorrelation,
+    QnxRuntimeModelTiming,
+    QnxRuntimeProcess,
+    QnxRuntimeResponse,
+    QnxRuntimeStatus,
+    ResourceTelemetrySample,
+    utc_now,
+)
 
 RUN_ID_RE = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
 CLIP_JOB_ID_RE = re.compile(
@@ -40,6 +58,12 @@ SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 NAME_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 
 DEFAULT_SUBMIT_JOB = Path(__file__).resolve().parents[2] / "scripts" / "qnx_submit_job.py"
+
+DEFAULT_EDGE_STATUS_URL = "http://127.0.0.1:8088/telemetry"
+DEFAULT_EDGE_CRASH_URL = "http://127.0.0.1:8088/crash"
+MAX_EDGE_STATUS_BYTES = 1024 * 1024
+
+EDGE_FAULT_TEST_PROCESSES = ("infer", "model", "cloud", "site")
 
 _BEGIN_PYTHON = "SIMLAB_PROBE_PYTHON_BEGIN"
 _END_PYTHON = "SIMLAB_PROBE_PYTHON_END"
@@ -53,6 +77,16 @@ PROBE_RUNTIME_MODULES = ("tflite_runtime", "onnxruntime", "cv2", "numpy")
 
 class QnxRunnerError(RuntimeError):
     """A QNX transport step failed, was rejected, or timed out."""
+
+
+def _require_local_http_url(name: str, value: str) -> str:
+    """Edge endpoints are fetched by target-localhost Python; never allow anything else."""
+    parsed = urllib.parse.urlparse(value)
+    if parsed.scheme != "http" or parsed.hostname not in ("127.0.0.1", "localhost"):
+        raise QnxRunnerError(
+            "%s must be an http:// URL on 127.0.0.1 or localhost, got %r" % (name, value)
+        )
+    return value
 
 
 @dataclass(frozen=True)
@@ -76,6 +110,10 @@ class QnxRunnerConfig:
     clip_worker_manifest: str | None = None  # QNX_CLIP_WORKER_MANIFEST
     clip_worker_manifest_sha256: str | None = None  # QNX_CLIP_WORKER_MANIFEST_SHA256
     clip_wrapper_path: Path | None = None  # QNX_CLIP_WRAPPER_PATH
+    edge_status_url: str = DEFAULT_EDGE_STATUS_URL  # QNX_EDGE_STATUS_URL
+    edge_crash_url: str = DEFAULT_EDGE_CRASH_URL  # QNX_EDGE_CRASH_URL
+    edge_status_timeout: int = 10  # QNX_EDGE_STATUS_TIMEOUT
+    edge_fault_tests: bool = False  # QNX_EDGE_FAULT_TESTS ("1" enables)
 
     @classmethod
     def from_env(cls, environ: dict[str, str] | None = None) -> QnxRunnerConfig:
@@ -104,6 +142,13 @@ class QnxRunnerConfig:
             )
         worker_raw = text("QNX_WORKER_PATH", "")
         wrapper_raw = text("QNX_CLIP_WRAPPER_PATH", "")
+        edge_status_url = text("QNX_EDGE_STATUS_URL", DEFAULT_EDGE_STATUS_URL)
+        edge_crash_url = text("QNX_EDGE_CRASH_URL", DEFAULT_EDGE_CRASH_URL)
+        _require_local_http_url("QNX_EDGE_STATUS_URL", edge_status_url)
+        _require_local_http_url("QNX_EDGE_CRASH_URL", edge_crash_url)
+        # This destructive-test gate deliberately follows the documented
+        # contract exactly: only the literal string ``1`` enables it.
+        fault_flag = env.get("QNX_EDGE_FAULT_TESTS")
         return cls(
             mode=mode,
             ssh_alias=text("QNX_SSH_ALIAS", "qnxpi"),
@@ -122,6 +167,10 @@ class QnxRunnerConfig:
             clip_worker_manifest=text("QNX_CLIP_WORKER_MANIFEST", "") or None,
             clip_worker_manifest_sha256=text("QNX_CLIP_WORKER_MANIFEST_SHA256", "") or None,
             clip_wrapper_path=Path(wrapper_raw) if wrapper_raw else None,
+            edge_status_url=edge_status_url,
+            edge_crash_url=edge_crash_url,
+            edge_status_timeout=integer("QNX_EDGE_STATUS_TIMEOUT", 10),
+            edge_fault_tests=fault_flag == "1",
         )
 
     @property
@@ -189,6 +238,21 @@ class QnxClipAssessmentOutcome:
     assessment: dict | None
     helper_output: str
     remote_run_dir: str
+
+
+@dataclass(frozen=True)
+class QnxEdgeStatusOutcome:
+    """Raw stdout of a successful remote edge status fetch; parsed by normalization."""
+
+    output: str
+
+
+@dataclass(frozen=True)
+class QnxEdgeCrashOutcome:
+    """Raw output of a successful remote edge fault-test request."""
+
+    output: str
+    payload: dict | None
 
 
 RunnerCallable = Callable[..., "subprocess.CompletedProcess[str]"]
@@ -371,6 +435,141 @@ class QnxRunner:
             if current:
                 sections.setdefault(current, []).append(line)
         return sections
+
+    # --- edge runtime status -------------------------------------------------
+
+    def _edge_fetch_timeout(self) -> float:
+        return float(self.config.edge_status_timeout + self.config.ssh_timeout)
+
+    def _require_local_edge_urls(self) -> None:
+        _require_local_http_url("QNX_EDGE_STATUS_URL", self.config.edge_status_url)
+        _require_local_http_url("QNX_EDGE_CRASH_URL", self.config.edge_crash_url)
+
+    def _edge_status_remote_code(self) -> str:
+        """Python source that fetches the edge status endpoint on the target.
+
+        The URL is embedded with json.dumps and the whole source travels as one
+        shlex-quoted argv element, so target-localhost only is reachable and no
+        local or remote shell ever interpolates it.
+        """
+        self._require_local_edge_urls()
+        url = json.dumps(self.config.edge_status_url)
+        timeout = self.config.edge_status_timeout
+        maximum = MAX_EDGE_STATUS_BYTES
+        return (
+            "import sys, urllib.request as _u\n"
+            "try:\n"
+            f"    with _u.urlopen({url}, timeout={timeout}) as _r:\n"
+            "        _cl = _r.headers.get('Content-Length')\n"
+            "        if _cl is not None:\n"
+            "            try:\n"
+            "                _declared = int(_cl)\n"
+            "            except ValueError:\n"
+            "                raise ValueError('invalid Content-Length')\n"
+            f"            if _declared < 0 or _declared > {maximum}:\n"
+            "                raise ValueError('edge telemetry Content-Length exceeds limit')\n"
+            f"        _b = _r.read({maximum + 1})\n"
+            f"        if len(_b) > {maximum}:\n"
+            "            raise ValueError('edge telemetry body exceeds limit')\n"
+            "        if _cl is not None and len(_b) != _declared:\n"
+            "            raise ValueError('truncated edge telemetry body')\n"
+            "except Exception as _e:\n"
+            '    sys.stderr.write("SIMLAB_EDGE_FETCH_ERROR: %s: %s\\n" % (type(_e).__name__, _e))\n'
+            "    raise SystemExit(1)\n"
+            'sys.stdout.write(_b.decode("utf-8", "replace"))\n'
+        )
+
+    def _edge_crash_remote_code(self, process_name: str) -> str:
+        """Python source that POSTs one allowlisted fault test to the edge."""
+        self._require_local_edge_urls()
+        query = urllib.parse.urlencode({"proc": process_name})
+        url = json.dumps(self.config.edge_crash_url + "?" + query)
+        timeout = self.config.edge_status_timeout
+        return (
+            "import sys, json as _j, urllib.request as _u, urllib.error as _ue\n"
+            f'_req = _u.Request({url}, data=_j.dumps({{}}).encode("utf-8"), method="POST")\n'
+            "try:\n"
+            f"    with _u.urlopen(_req, timeout={timeout}) as _r:\n"
+            "        _b = _r.read()\n"
+            "except _ue.HTTPError as _e:\n"
+            '    sys.stdout.write(_e.read().decode("utf-8", "replace"))\n'
+            "    raise SystemExit(2)\n"
+            "except Exception as _e:\n"
+            '    sys.stderr.write("SIMLAB_EDGE_CRASH_ERROR: %s: %s\\n" % (type(_e).__name__, _e))\n'
+            "    raise SystemExit(1)\n"
+            'sys.stdout.write(_b.decode("utf-8", "replace"))\n'
+        )
+
+    def edge_status(self, runner: RunnerCallable | None = None) -> QnxEdgeStatusOutcome:
+        """Fetch the target edge status with the configured target Python over SSH.
+
+        Transport failures raise QnxRunnerError; interpreting the returned text
+        is the caller's job (see normalize_edge_status).
+        """
+        if not self.config.enabled:
+            raise QnxRunnerError(
+                "QNX runtime status is not configured (QNX_EXECUTOR_MODE=%r); no Pi contact"
+                % self.config.mode
+            )
+        code = self._edge_status_remote_code()
+        argv = self._ssh_argv(
+            shlex.quote(self.config.remote_python), "-c", shlex.quote(code)
+        )
+        proc = self._run(argv, self._edge_fetch_timeout(), runner)
+        if proc.returncode != 0:
+            detail = (proc.stderr or proc.stdout or "").strip()
+            raise QnxRunnerError(
+                "edge status fetch failed (%d): %s" % (proc.returncode, detail or "no output")
+            )
+        return QnxEdgeStatusOutcome(output=proc.stdout or "")
+
+    def edge_crash(
+        self, process_name: str, runner: RunnerCallable | None = None
+    ) -> QnxEdgeCrashOutcome:
+        """Ask the target edge to SIGKILL one allowlisted supervised process.
+
+        The allowlist is enforced here and again in the service layer, before
+        any subprocess starts. The process name is embedded only into the
+        argv-passed Python source; nothing reaches a shell.
+        """
+        if process_name not in EDGE_FAULT_TEST_PROCESSES:
+            raise QnxRunnerError(
+                "fault test process %r is not allowlisted; expected one of %s"
+                % (process_name, ", ".join(EDGE_FAULT_TEST_PROCESSES))
+            )
+        if not self.config.edge_fault_tests:
+            raise QnxRunnerError(
+                "fault tests are disabled (QNX_EDGE_FAULT_TESTS is not enabled)"
+            )
+        if not self.config.enabled:
+            raise QnxRunnerError(
+                "QNX executor is disabled (QNX_EXECUTOR_MODE=%r); fault tests need a reachable target"
+                % self.config.mode
+            )
+        code = self._edge_crash_remote_code(process_name)
+        argv = self._ssh_argv(
+            shlex.quote(self.config.remote_python), "-c", shlex.quote(code)
+        )
+        proc = self._run(argv, self._edge_fetch_timeout(), runner)
+        output = (proc.stdout or "").strip()
+        if proc.returncode == 2:
+            raise QnxRunnerError(
+                "target rejected the fault test for %r: %s"
+                % (process_name, output or "no response body")
+            )
+        if proc.returncode != 0:
+            detail = (proc.stderr or "").strip() or output or "no output"
+            raise QnxRunnerError(
+                "fault test request failed (%d): %s" % (proc.returncode, detail)
+            )
+        try:
+            payload = json.loads(output or "null")
+        except ValueError:
+            payload = None
+        return QnxEdgeCrashOutcome(
+            output=output,
+            payload=payload if isinstance(payload, dict) else None,
+        )
 
     # --- target validation ---------------------------------------------------
 
@@ -907,3 +1106,716 @@ class QnxRunner:
             raise QnxRunnerError("receipt scenario hash does not match the staged scenario")
         if receipt.get("inference_performed") is not False:
             raise QnxRunnerError("receipt must report inference_performed=false")
+
+
+# --- edge status normalization ------------------------------------------------
+#
+# The edge pipeline's status JSON is untrusted target output. Everything below
+# converts it into the typed QnxRuntimeResponse without ever raising: malformed
+# or unrecognized payloads become status=partial with a concise truthful
+# detail, and wrongly typed fields are dropped with a warning instead of
+# crashing the API.
+
+
+class _EdgeFieldReader:
+    """Strict type checks that never raise; collects what was ignored."""
+
+    def __init__(self) -> None:
+        self.warnings: list[str] = []
+
+    def warn(self, text: str) -> None:
+        if len(self.warnings) < 20:
+            self.warnings.append(text)
+
+    def _bad(self, label: str, value: object) -> None:
+        self.warn("ignored malformed %s %r" % (label, repr(value)[:80]))
+
+    def integer(self, value: object, label: str) -> int | None:
+        if value is None:
+            return None
+        if isinstance(value, bool) or not isinstance(value, int):
+            self._bad(label, value)
+            return None
+        return value
+
+    def number(self, value: object, label: str) -> float | None:
+        if value is None:
+            return None
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            self._bad(label, value)
+            return None
+        if not math.isfinite(value):
+            self._bad(label, value)
+            return None
+        return float(value)
+
+    def flag(self, value: object, label: str) -> bool | None:
+        if value is None:
+            return None
+        if not isinstance(value, bool):
+            self._bad(label, value)
+            return None
+        return value
+
+    def text(self, value: object, label: str) -> str | None:
+        if value is None:
+            return None
+        if not isinstance(value, str):
+            self._bad(label, value)
+            return None
+        if not value.strip():
+            return None
+        return value[:256]
+
+
+def _pick(documents: Sequence[dict], keys: Sequence[str]) -> object:
+    """First present key across documents; target blocks are merged caller-side."""
+    for document in documents:
+        for key in keys:
+            if key in document:
+                return document[key]
+    return None
+
+
+def _safe_model(factory: Callable[[], object], reader: _EdgeFieldReader, label: str,
+                fallback: object = None) -> object:
+    try:
+        return factory()
+    except (ValidationError, ValueError, TypeError) as exc:
+        reader.warn("%s were rejected: %s" % (label, exc))
+        return fallback
+
+
+def _read_datetime(value: object) -> datetime | None:
+    """Accept ISO strings or numeric epoch seconds; unknown formats stay null."""
+    if isinstance(value, bool) or value is None:
+        return None
+    if isinstance(value, str):
+        try:
+            return datetime.fromisoformat(value.replace("Z", "+00:00"))
+        except ValueError:
+            return None
+    if isinstance(value, (int, float)):
+        if not math.isfinite(value):
+            return None
+        try:
+            return datetime.fromtimestamp(value, tz=timezone.utc)
+        except (OSError, OverflowError, ValueError):
+            return None
+    return None
+
+
+def _runtime_target(ssh_alias: str) -> ClipAssessmentTarget:
+    """The configured transport identity, explicitly unverified by status."""
+    return ClipAssessmentTarget(
+        executor="qnx",
+        hostname=ssh_alias,
+        verified=False,
+        detail="target identity is not proven by the edge status endpoint",
+    )
+
+
+def _runtime_partial(
+    detail: str, ssh_alias: str, fault_tests_enabled: bool
+) -> QnxRuntimeResponse:
+    return QnxRuntimeResponse(
+        status=QnxRuntimeStatus.PARTIAL,
+        detail="edge-stream runtime only; not the clip-assessment worker. " + detail,
+        target=_runtime_target(ssh_alias),
+        # A malformed or legacy payload cannot prove the independent target
+        # gate, so the effective gate always fails closed.
+        fault_tests_enabled=False,
+        target_fault_tests_enabled=None,
+    )
+
+
+def _normalize_processes(source: object, reader: _EdgeFieldReader) -> list[QnxRuntimeProcess]:
+    entries: list[tuple[str, object]] = []
+    if isinstance(source, dict):
+        entries = [(str(key)[:128], value) for key, value in source.items()]
+    elif isinstance(source, list):
+        for item in source:
+            if isinstance(item, dict) and isinstance(item.get("name"), str):
+                entries.append((item["name"][:128], item))
+            else:
+                reader.warn("ignored a malformed process entry")
+    processes: list[QnxRuntimeProcess] = []
+    for name, raw in entries:
+        if not isinstance(raw, dict):
+            reader.warn("ignored malformed process entry %r" % name)
+            continue
+        entry: dict = raw
+        pid = reader.integer(entry.get("pid"), "pid")
+        configured = reader.integer(entry.get("priority"), "configured priority")
+        observed_priority = reader.integer(
+            _pick([entry], ("observedPriority", "observed_priority")), "observed priority"
+        )
+        policy = reader.text(
+            _pick([entry], ("policy", "schedulingPolicy", "scheduling_policy")),
+            "scheduling policy",
+        )
+        runmask = reader.text(_pick([entry], ("runmask",)), "runmask")
+        observation_detail = reader.text(
+            _pick([entry], ("observedDetail", "observation_detail")),
+            "observation detail",
+        )
+        observed_block = entry.get("observed")
+        if isinstance(observed_block, dict):
+            if observed_priority is None:
+                observed_priority = reader.integer(
+                    observed_block.get("priority"), "observed priority"
+                )
+            if policy is None:
+                policy = reader.text(observed_block.get("policy"), "scheduling policy")
+            if runmask is None:
+                runmask = reader.text(observed_block.get("runmask"), "runmask")
+        restarts = reader.integer(entry.get("restarts"), "restarts")
+        started = _read_datetime(_pick([entry], ("startedAt", "started_at", "started")))
+        last_exit_raw = _pick([entry], ("lastExit", "last_exit"))
+        last_exit = (
+            reader.integer(last_exit_raw, "lastExit") if last_exit_raw is not None else None
+        )
+        respawn = reader.number(
+            _pick([entry], ("downFor", "respawnMs", "respawn_ms")), "respawn ms"
+        )
+        ready = reader.flag(_pick([entry], ("ready",)), "ready")
+        process = _safe_model(
+            lambda: QnxRuntimeProcess(
+                name=name,
+                pid=pid,
+                configured_priority=configured,
+                observed_priority=observed_priority,
+                scheduling_policy=policy,
+                runmask=runmask,
+                observation_detail=observation_detail,
+                restarts=restarts,
+                started_at=started,
+                last_exit=last_exit,
+                respawn_ms=respawn,
+                ready=ready,
+            ),
+            reader,
+            "process %s" % name,
+            fallback=QnxRuntimeProcess(name=name),
+        )
+        processes.append(process)
+    return processes
+
+
+def _normalize_capture(
+    capture_block: dict, timing_block: dict, data: dict, reader: _EdgeFieldReader
+) -> QnxRuntimeCapture | None:
+    sources = [capture_block, timing_block, data]
+    frames = reader.integer(_pick(sources, ("frames",)), "frames")
+    fps = reader.number(_pick(sources, ("fps",)), "fps")
+    dropped = reader.integer(_pick(sources, ("dropped",)), "dropped")
+    warm = reader.flag(_pick(sources, ("warm",)), "warm")
+    last_frame_age = reader.number(
+        _pick(sources, ("lastFrameAgeS", "last_frame_age_s")), "lastFrameAgeS"
+    )
+    if last_frame_age is None:
+        last_frame = reader.number(
+            _pick(sources, ("lastFrame", "last_frame")), "lastFrame"
+        )
+        captured = reader.number(
+            _pick(sources, ("now", "capturedAt", "captured_at")), "capture timestamp"
+        )
+        if last_frame is not None and captured is not None and captured >= last_frame:
+            last_frame_age = captured - last_frame
+    target_period = reader.number(
+        _pick(sources, ("targetPeriodMs", "target_period_ms")), "targetPeriodMs"
+    )
+    if target_period is None:
+        rate = reader.number(
+            _pick(sources, ("rate", "targetRate", "target_rate")), "capture rate"
+        )
+        if rate is not None and rate > 0:
+            target_period = 1000.0 / rate
+    period_p50 = reader.number(
+        _pick(sources, ("periodP50Ms", "period_p50_ms")), "periodP50Ms"
+    )
+    period_p95 = reader.number(
+        _pick(sources, ("periodP95Ms", "period_p95_ms")), "periodP95Ms"
+    )
+    period_p99 = reader.number(
+        _pick(sources, ("periodP99Ms", "period_p99_ms")), "periodP99Ms"
+    )
+    period_max = reader.number(
+        _pick(sources, ("periodMaxMs", "period_max_ms")), "periodMaxMs"
+    )
+    deadline_misses = reader.integer(
+        _pick(sources, ("deadlineMisses", "deadline_misses")), "deadlineMisses"
+    )
+    deadline_miss_percent = reader.number(
+        _pick(sources, ("deadlineMissPercent", "deadline_miss_percent")),
+        "deadlineMissPercent",
+    )
+    sample_count = reader.integer(
+        _pick(sources, ("sampleCount", "sample_count")), "sampleCount"
+    )
+    return _safe_model(
+        lambda: QnxRuntimeCapture(
+            frames=frames,
+            fps=fps,
+            dropped=dropped,
+            warm=warm,
+            last_frame_age_s=last_frame_age,
+            target_period_ms=target_period,
+            period_p50_ms=period_p50,
+            period_p95_ms=period_p95,
+            period_p99_ms=period_p99,
+            period_max_ms=period_max,
+            deadline_misses=deadline_misses,
+            deadline_miss_percent=deadline_miss_percent,
+            sample_count=sample_count,
+        ),
+        reader,
+        "capture metrics",
+    )
+
+
+def _normalize_resources(
+    data: dict, reader: _EdgeFieldReader
+) -> ResourceTelemetrySample | None:
+    resources_block = data.get("resources")
+    model_stats = data.get("modelStats")
+    if not isinstance(model_stats, dict):
+        model_stats = data.get("model_stats")
+    model_resources = model_stats.get("resources") if isinstance(model_stats, dict) else None
+    sources = []
+    if isinstance(resources_block, dict):
+        sources.append(resources_block)
+    if isinstance(model_resources, dict):
+        sources.append(model_resources)
+    if isinstance(model_stats, dict):
+        sources.append(model_stats)
+    sources.append(data)
+    cpu = reader.number(_pick(sources, ("cpuPercent", "cpu_percent")), "cpuPercent")
+    ram_used = reader.integer(
+        _pick(sources, ("ramUsedBytes", "ram_used_bytes")), "ramUsedBytes"
+    )
+    ram_total = reader.integer(
+        _pick(sources, ("ramTotalBytes", "ram_total_bytes")), "ramTotalBytes"
+    )
+    proc_cpu = reader.number(
+        _pick(sources, ("processCpuPercent", "process_cpu_percent")), "processCpuPercent"
+    )
+    proc_ram = reader.integer(
+        _pick(sources, ("processRamBytes", "process_ram_bytes")), "processRamBytes"
+    )
+    detail = reader.text(_pick(sources, ("detail",)), "resource detail")
+    if all(value is None for value in (cpu, ram_used, ram_total, proc_cpu, proc_ram)):
+        return None
+    return _safe_model(
+        lambda: ResourceTelemetrySample(
+            captured_at=utc_now(),
+            source="qnx",
+            cpu_percent=cpu,
+            ram_used_bytes=ram_used,
+            ram_total_bytes=ram_total,
+            process_cpu_percent=proc_cpu,
+            process_ram_bytes=proc_ram,
+            detail=detail or "normalized from the edge status resource fields",
+        ),
+        reader,
+        "resource fields",
+    )
+
+
+def _normalize_model_timing(
+    data: dict, reader: _EdgeFieldReader
+) -> QnxRuntimeModelTiming | None:
+    direct = data.get("modelTiming")
+    if not isinstance(direct, dict):
+        direct = data.get("model_timing")
+    stats = data.get("modelStats")
+    if not isinstance(stats, dict):
+        stats = data.get("model_stats")
+    if isinstance(direct, dict):
+        timing = direct
+    elif isinstance(stats, dict):
+        timing = stats.get("successfulInferenceTiming")
+        if not isinstance(timing, dict):
+            timing = stats.get("successful_inference_timing")
+        if not isinstance(timing, dict):
+            timing = stats.get("inferenceTiming")
+        if not isinstance(timing, dict):
+            timing = stats.get("inference_timing")
+        if not isinstance(timing, dict):
+            # Some status implementations expose the timing object directly.
+            timing = stats
+    else:
+        return None
+    sample_count = reader.integer(
+        _pick([timing], ("sampleCount", "sample_count")), "model timing sampleCount"
+    )
+    last_ms = reader.number(_pick([timing], ("lastMs", "last_ms")), "model timing lastMs")
+    p50_ms = reader.number(_pick([timing], ("p50Ms", "p50_ms")), "model timing p50Ms")
+    p95_ms = reader.number(_pick([timing], ("p95Ms", "p95_ms")), "model timing p95Ms")
+    p99_ms = reader.number(_pick([timing], ("p99Ms", "p99_ms")), "model timing p99Ms")
+    max_ms = reader.number(_pick([timing], ("maxMs", "max_ms")), "model timing maxMs")
+    failed = None
+    if isinstance(stats, dict):
+        failed = stats.get("failedAttemptTiming")
+        if not isinstance(failed, dict):
+            failed = stats.get("failed_attempt_timing")
+    failed = failed if isinstance(failed, dict) else {}
+    failed_sample_count = reader.integer(
+        _pick([failed], ("sampleCount", "sample_count")), "failed model timing sampleCount"
+    )
+    failed_last_ms = reader.number(_pick([failed], ("lastMs", "last_ms")), "failed model timing lastMs")
+    failed_p50_ms = reader.number(_pick([failed], ("p50Ms", "p50_ms")), "failed model timing p50Ms")
+    failed_p95_ms = reader.number(_pick([failed], ("p95Ms", "p95_ms")), "failed model timing p95Ms")
+    failed_p99_ms = reader.number(_pick([failed], ("p99Ms", "p99_ms")), "failed model timing p99Ms")
+    failed_max_ms = reader.number(_pick([failed], ("maxMs", "max_ms")), "failed model timing maxMs")
+    counter_source = stats if isinstance(stats, dict) else direct if isinstance(direct, dict) else {}
+    checked = reader.integer(_pick([counter_source], ("checked",)), "model checked")
+    unreachable = reader.integer(_pick([counter_source], ("unreachable",)), "model unreachable")
+    worker_errors = reader.integer(
+        _pick([counter_source], ("workerErrors", "worker_errors")), "model workerErrors"
+    )
+    evicted = reader.integer(_pick([counter_source], ("evicted",)), "model evicted")
+    dropped = reader.integer(_pick([counter_source], ("dropped",)), "model dropped")
+    all_values = (
+        sample_count, last_ms, p50_ms, p95_ms, p99_ms, max_ms,
+        failed_sample_count, failed_last_ms, failed_p50_ms, failed_p95_ms,
+        failed_p99_ms, failed_max_ms, checked, unreachable, worker_errors, evicted, dropped,
+    )
+    if all(value is None for value in all_values):
+        return None
+    return _safe_model(
+        lambda: QnxRuntimeModelTiming(
+            sample_count=sample_count,
+            last_ms=last_ms,
+            p50_ms=p50_ms,
+            p95_ms=p95_ms,
+            p99_ms=p99_ms,
+            max_ms=max_ms,
+            failed_sample_count=failed_sample_count,
+            failed_last_ms=failed_last_ms,
+            failed_p50_ms=failed_p50_ms,
+            failed_p95_ms=failed_p95_ms,
+            failed_p99_ms=failed_p99_ms,
+            failed_max_ms=failed_max_ms,
+            checked=checked,
+            unreachable=unreachable,
+            worker_errors=worker_errors,
+            evicted=evicted,
+            dropped=dropped,
+        ),
+        reader,
+        "model timing",
+    )
+
+
+def _normalize_correlation(
+    data: dict, reader: _EdgeFieldReader
+) -> QnxRuntimeCorrelation | None:
+    block = data.get("correlation")
+    sources = [block, data] if isinstance(block, dict) else [data]
+    job_id = reader.text(_pick(sources, ("jobId", "job_id")), "correlation job id")
+
+    def digest(keys: tuple[str, ...], label: str) -> str | None:
+        value = reader.text(_pick(sources, keys), label)
+        if value is None:
+            return None
+        if SHA256_RE.fullmatch(value) is None:
+            reader.warn("ignored malformed %s" % label)
+            return None
+        return value
+
+    clip_sha256 = digest(("clipSha256", "clip_sha256"), "clip sha256")
+    model_sha256 = digest(("modelSha256", "model_sha256"), "model sha256")
+    worker_sha256 = digest(("workerSha256", "worker_sha256"), "worker sha256")
+    if all(value is None for value in (job_id, clip_sha256, model_sha256, worker_sha256)):
+        return None
+    return _safe_model(
+        lambda: QnxRuntimeCorrelation(
+            job_id=job_id,
+            clip_sha256=clip_sha256,
+            model_sha256=model_sha256,
+            worker_sha256=worker_sha256,
+        ),
+        reader,
+        "runtime correlation",
+    )
+
+
+def _normalize_latest_fault(data: dict, reader: _EdgeFieldReader) -> QnxFaultEvent | None:
+    events = data.get("faults")
+    if not isinstance(events, list) or not events:
+        events = data.get("crashes")
+    if not isinstance(events, list) or not events:
+        return None
+    event = events[-1]
+    if not isinstance(event, dict):
+        reader.warn("the latest fault event is not an object")
+        return None
+    process = reader.text(
+        _pick([event], ("proc", "process", "name")), "fault process"
+    )
+    if not process:
+        reader.warn("the latest fault event is missing its process name")
+        return None
+    old_pid = reader.integer(_pick([event], ("oldPid", "old_pid", "pid")), "fault old pid")
+    new_pid = reader.integer(_pick([event], ("newPid", "new_pid")), "fault new pid")
+    requested_at = _read_datetime(_pick([event], ("requestedAt", "requested_at", "t")))
+    detected_at = _read_datetime(_pick([event], ("detectedAt", "detected_at")))
+    spawned_at = _read_datetime(_pick([event], ("spawnedAt", "spawned_at")))
+    ready_at = _read_datetime(_pick([event], ("readyAt", "ready_at")))
+    first_result_at = _read_datetime(_pick([event], ("firstResultAt", "first_result_at")))
+    respawn_ms = reader.number(_pick([event], ("respawnMs", "respawn_ms")), "respawn ms")
+    recovery_ms = reader.number(
+        _pick([event], ("recoveryMs", "recovery_ms")), "recovery ms"
+    )
+    state = reader.text(_pick([event], ("state",)), "fault state")
+    if state is None:
+        state = "respawned" if new_pid is not None else "requested"
+    return _safe_model(
+        lambda: QnxFaultEvent(
+            process=process[:128],
+            old_pid=old_pid,
+            new_pid=new_pid,
+            requested_at=requested_at,
+            detected_at=detected_at,
+            spawned_at=spawned_at,
+            ready_at=ready_at,
+            first_result_at=first_result_at,
+            respawn_ms=respawn_ms,
+            recovery_ms=recovery_ms,
+            state=state[:64],
+        ),
+        reader,
+        "the latest fault event",
+    )
+
+
+def normalize_edge_status_payload(
+    payload: object,
+    *,
+    ssh_alias: str,
+    fault_tests_enabled: bool,
+) -> QnxRuntimeResponse:
+    """Normalize an untrusted edge status payload; never raises."""
+    reader = _EdgeFieldReader()
+    target = _runtime_target(ssh_alias)
+    if not isinstance(payload, dict):
+        return _runtime_partial(
+            "target edge status is not a JSON object",
+            ssh_alias,
+            fault_tests_enabled,
+        )
+    data = dict(payload)
+    block = data.get("runtime")
+    if isinstance(block, dict):
+        data.update(block)
+    procs = data.get("procs")
+    processes_source: object = procs if isinstance(procs, dict) else data.get("processes")
+    native_ipc = reader.flag(_pick([data], ("nativeIpc", "native_ipc")), "nativeIpc")
+    recognized = (
+        isinstance(procs, dict)
+        or isinstance(processes_source, list)
+        or native_ipc is not None
+    )
+    if not recognized:
+        return _runtime_partial(
+            (
+                "target edge status is missing expected fields (procs/nativeIpc); "
+                "the target may be running an older pipeline"
+            ),
+            ssh_alias,
+            fault_tests_enabled,
+        )
+    capture_block = data.get("capture")
+    capture_block = capture_block if isinstance(capture_block, dict) else {}
+    timing_block = data.get("captureTiming")
+    if not isinstance(timing_block, dict):
+        timing_block = data.get("capture_timing", {})
+    timing_block = timing_block if isinstance(timing_block, dict) else {}
+    processes = _normalize_processes(processes_source, reader)
+    capture = _normalize_capture(capture_block, timing_block, data, reader)
+    resources = _normalize_resources(data, reader)
+    model_timing = _normalize_model_timing(data, reader)
+    correlation = _normalize_correlation(data, reader)
+    latest_fault = _normalize_latest_fault(data, reader)
+    source_mode = reader.text(
+        _pick([data], ("source", "sourceMode", "source_mode")), "source"
+    )
+    scheduler_profile = reader.text(
+        _pick([data], ("schedulerProfile", "scheduler_profile")), "schedulerProfile"
+    )
+    qnx_priorities_active = reader.flag(
+        _pick([data], ("qnxPrioritiesActive", "qnx_priorities_active")),
+        "qnxPrioritiesActive",
+    )
+    target_status_schema = reader.text(
+        _pick([data], ("statusSchema", "status_schema", "schema", "contract")),
+        "target status schema",
+    )
+    version_raw = _pick(
+        [data],
+        ("statusVersion", "status_version", "schemaVersion", "schema_version", "version"),
+    )
+    target_status_version: int | str | None
+    if version_raw is None:
+        target_status_version = None
+    elif isinstance(version_raw, bool) or not isinstance(version_raw, (int, str)):
+        reader.warn("ignored malformed target status version %r" % repr(version_raw)[:80])
+        target_status_version = None
+    elif isinstance(version_raw, str) and not version_raw.strip():
+        target_status_version = None
+    else:
+        target_status_version = version_raw
+    target_fault_tests_enabled = reader.flag(
+        _pick([data], ("faultTestsEnabled", "fault_tests_enabled")),
+        "target faultTestsEnabled",
+    )
+
+    missing: list[str] = []
+    if native_ipc is None:
+        missing.append("nativeIpc")
+    if not processes:
+        missing.append("processes")
+    elif not any(process.pid is not None and process.pid > 0 for process in processes):
+        missing.append("live process PID")
+    if source_mode is None:
+        missing.append("source")
+    if capture is None or capture.frames is None:
+        missing.append("capture.frames")
+    if capture is None or capture.fps is None:
+        missing.append("capture.fps")
+    if capture is None or capture.dropped is None:
+        missing.append("capture.dropped")
+    schema_pairs = {
+        ("holy-crap.edge-telemetry", 1),
+        ("holy-crap.edge-status", 2),
+    }
+    if target_status_schema is None:
+        missing.append("status schema")
+    if target_status_version is None:
+        missing.append("status version")
+    if (target_status_schema is not None and target_status_version is not None
+            and (target_status_schema, target_status_version) not in schema_pairs):
+        reader.warn(
+            "unsupported target status contract %r v%r"
+            % (target_status_schema, target_status_version)
+        )
+
+    status = (
+        QnxRuntimeStatus.PARTIAL
+        if reader.warnings or missing
+        else QnxRuntimeStatus.READY
+    )
+    detail = (
+        "edge-stream runtime normalized from the target; this is not the "
+        "clip-assessment worker"
+    )
+    if missing:
+        detail += " (missing essential fields: %s)" % ", ".join(missing)
+    if reader.warnings:
+        shown = "; ".join(reader.warnings[:3])
+        if len(reader.warnings) > 3:
+            shown += "; and %d more" % (len(reader.warnings) - 3)
+        detail += " (normalization warnings: %s)" % shown
+    return QnxRuntimeResponse(
+        status=status,
+        captured_at=utc_now(),
+        detail=detail,
+        target=target,
+        native_ipc=native_ipc,
+        source_mode=source_mode,
+        scheduler_profile=scheduler_profile,
+        qnx_priorities_active=qnx_priorities_active,
+        target_status_schema=target_status_schema,
+        target_status_version=target_status_version,
+        correlation=correlation,
+        capture=capture,
+        model_timing=model_timing,
+        processes=processes,
+        resources=resources,
+        fault_tests_enabled=(
+            fault_tests_enabled and target_fault_tests_enabled is True
+        ),
+        target_fault_tests_enabled=target_fault_tests_enabled,
+        latest_fault=latest_fault,
+    )
+
+
+def normalize_edge_status(
+    output: str,
+    *,
+    ssh_alias: str,
+    fault_tests_enabled: bool,
+) -> QnxRuntimeResponse:
+    """Normalize untrusted edge status text into the typed runtime response.
+
+    Transport failures belong to the caller; this function turns anything else
+    into an honest ready/partial snapshot and never raises.
+    """
+    if not output or not output.strip():
+        return _runtime_partial(
+            "the target edge status endpoint returned empty output",
+            ssh_alias,
+            fault_tests_enabled,
+        )
+    try:
+        payload = json.loads(output)
+    except ValueError as exc:
+        return _runtime_partial(
+            "target edge status is not valid JSON: %s" % exc,
+            ssh_alias,
+            fault_tests_enabled,
+        )
+    return normalize_edge_status_payload(
+        payload, ssh_alias=ssh_alias, fault_tests_enabled=fault_tests_enabled
+    )
+
+
+def normalize_edge_crash_response(
+    process_name: str, payload: object, output: str = ""
+) -> QnxFaultTestResponse:
+    """Normalize an untrusted edge /crash response; never raises."""
+    if isinstance(payload, dict):
+        if "accepted" in payload and payload.get("accepted") is not True:
+            detail = payload.get("error") or payload.get("detail")
+            return QnxFaultTestResponse(
+                process=process_name,
+                accepted=False,
+                detail=(
+                    str(detail)[:256]
+                    if detail
+                    else "target explicitly rejected the fault test"
+                ),
+            )
+        killed = payload.get("killed")
+        pid = payload.get("pid")
+        if (
+            killed == process_name
+            and isinstance(pid, int)
+            and not isinstance(pid, bool)
+            and pid > 0
+        ):
+            return QnxFaultTestResponse(process=process_name, accepted=True, pid=pid)
+        if isinstance(killed, str):
+            reasons = []
+            if killed != process_name:
+                reasons.append(
+                    "target reported process %r instead of %r" % (killed, process_name)
+                )
+            if isinstance(pid, bool) or not isinstance(pid, int) or pid <= 0:
+                reasons.append("target did not report a positive pid")
+            return QnxFaultTestResponse(
+                process=process_name,
+                accepted=False,
+                detail="; ".join(reasons) or "unrecognized target response",
+            )
+        if payload.get("error"):
+            return QnxFaultTestResponse(
+                process=process_name,
+                accepted=False,
+                detail=str(payload.get("error"))[:256],
+            )
+    detail = "unrecognized target response"
+    if output:
+        detail += ": %s" % output[:200]
+    return QnxFaultTestResponse(process=process_name, accepted=False, detail=detail)

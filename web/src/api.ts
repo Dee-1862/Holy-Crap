@@ -1,6 +1,7 @@
 import type {
   AdapterCapability,
   AssessmentExecutor,
+  BenchmarkEvidenceResponse,
   ClipAssessment,
   ClipAssessmentJob,
   DatasetClip,
@@ -8,6 +9,8 @@ import type {
   MediaAssetInfo,
   ModelArtifact,
   QnxEvidencePayload,
+  QnxFaultTestResponse,
+  QnxRuntimeResponse,
   ProxySpecimenPoolSummary,
   RunResult,
   RunSummary,
@@ -102,6 +105,13 @@ export const api = {
   },
   clipAssessmentJob: (id: string) => request<ClipAssessmentJob>(`/clip-assessment-jobs/${encodeURIComponent(id)}`),
   qnxEvidence: () => request<QnxEvidencePayload>("/system/qnx/evidence"),
+  benchmarkEvidence: () => request<BenchmarkEvidenceResponse>("/system/benchmark-evidence"),
+  qnxRuntime: () => request<QnxRuntimeResponse>("/system/qnx/runtime"),
+  runQnxFaultTest: (process: "infer" | "model" | "cloud" | "site") =>
+    request<QnxFaultTestResponse>(`/system/qnx/fault-tests/${process}`, {
+      method: "POST",
+      headers: { "X-Holy-Crap-Fault-Test": "confirm" },
+    }),
   proxySpecimens: () => request<ProxySpecimenPoolSummary>("/proxy-specimens"),
   uploadModel: (file: File, name: string, version: string, source?: string) => {
     const body = new FormData();

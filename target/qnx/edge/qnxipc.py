@@ -16,12 +16,15 @@ import os
 import socket
 import struct
 import sys
+import threading
 import time
+import zlib
 
 ON_QNX = sys.platform.startswith("qnx") or os.uname().sysname == "QNX" if hasattr(os, "uname") else False
 MSG_TYPE = 0x4843             # our own message type, outside the 0..0x1FF range QNX reserves for I/O messages
 IO_CONNECT = 0x100            # sent by name_open, must be answered with EOK
-MAX = 1 << 17
+MAX = 1 << 17                 # largest frame, 128 KiB; larger frames are rejected, never buffered
+MAX_CLIENTS = 16              # bound on concurrent persistent Linux clients: one daemon thread each
 
 
 if ON_QNX:
@@ -59,6 +62,11 @@ class Server:
             self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             self.sock.bind(("127.0.0.1", _port(name)))
             self.sock.listen()
+            self._clients: set[socket.socket] = set()
+            self._threads: set[threading.Thread] = set()
+            self._clients_guard = threading.Lock()
+            self._slots = threading.BoundedSemaphore(MAX_CLIENTS)
+            self._closed = False
 
     def serve(self, handler) -> None:
         if ON_QNX:
@@ -79,15 +87,97 @@ class Server:
                 out = handler(self.buf.raw[8:8 + n]) or b""
                 _c.MsgReply(rcvid, len(out), out, len(out))   # the status MsgSend returns is the reply length
         else:
-            while True:
+            self._serve_linux(handler)
+
+    def _serve_linux(self, handler) -> None:
+        """Accept persistent clients and answer each one on its own daemon thread.
+
+        Concurrency is bounded: one thread per client, at most MAX_CLIENTS of
+        them at once, via a semaphore, so a flood of connections or a wedged
+        peer can never grow the thread count without limit. When every slot is
+        busy the extra connection is closed and the client's existing reconnect
+        logic retries later. close() from any thread unblocks this loop.
+        """
+        self.sock.settimeout(0.5)               # wake up regularly, so close() always ends this loop
+        while True:
+            try:
                 conn, _ = self.sock.accept()
-                with conn:
-                    while True:
-                        data = _recv(conn)
-                        if data is None:
-                            break
-                        out = handler(data) or b""
-                        conn.sendall(struct.pack("<I", len(out)) + out)
+            except socket.timeout:
+                if self._closed:
+                    return
+                continue
+            except OSError:
+                if self._closed:
+                    return
+                raise
+            conn.settimeout(None)               # accepted sockets stay blocking
+            thread = threading.Thread(
+                target=self._client_loop, args=(conn, handler),
+                daemon=True, name=f"qnxipc/{self.name}")
+            with self._clients_guard:
+                if self._closed:
+                    conn.close()
+                    return
+                if not self._slots.acquire(blocking=False):
+                    conn.close()                # at the concurrency bound; the client reconnects
+                    continue
+                self._clients.add(conn)
+                self._threads.add(thread)
+            thread.start()
+
+    def _client_loop(self, conn: socket.socket, handler) -> None:
+        try:
+            with conn:
+                while True:
+                    data = _recv(conn)
+                    if data is None:
+                        break
+                    out = handler(data) or b""
+                    conn.sendall(struct.pack("<I", len(out)) + out)
+        except OSError:
+            pass                                # peer hung up, sent a bad frame, or we are closing
+        finally:
+            with self._clients_guard:
+                self._clients.discard(conn)
+                self._threads.discard(threading.current_thread())
+            self._slots.release()
+
+    def close(self) -> None:
+        """Idempotently tear down a Linux server (native QNX servers are torn down by the kernel).
+
+        Closes the listening socket so serve() returns, closes every accepted
+        client socket so the client loops unwind, and joins the client threads.
+        Calling it again, or on a server that never served, is a no-op.
+        """
+        if ON_QNX:
+            raise NotImplementedError("native QNX servers are torn down by the kernel when the process exits")
+        if self._closed:
+            return
+        self._closed = True
+        try:
+            self.sock.shutdown(socket.SHUT_RDWR)  # on Linux, close() alone does not wake a thread blocked in accept()
+        except OSError:
+            pass
+        try:
+            self.sock.close()
+        except OSError:
+            pass
+        with self._clients_guard:
+            clients, threads = list(self._clients), list(self._threads)
+        for conn in clients:
+            try:
+                conn.shutdown(socket.SHUT_RDWR)
+            except OSError:
+                pass
+            try:
+                conn.close()
+            except OSError:
+                pass
+        for thread in threads:
+            try:
+                thread.join(timeout=5.0)
+            except RuntimeError:
+                pass
 
 
 class Client:
@@ -96,6 +186,11 @@ class Client:
     def __init__(self, name: str, wait: float = 30.0):
         self.name, self.wait = name, wait
         self.reply = ctypes.create_string_buffer(MAX) if ON_QNX else None
+        # A request and its reply are one transaction on both transports.  In
+        # particular, two Linux callers must never interleave frames on the
+        # persistent socket or consume one another's replies.  The same lock
+        # also keeps close/reconnect from replacing a connection mid-send.
+        self._lifecycle_lock = threading.Lock()
         self._connect()
 
     def _connect(self) -> None:
@@ -115,14 +210,15 @@ class Client:
                 time.sleep(0.2)
 
     def send(self, data: bytes) -> bytes:
-        for attempt in (1, 2):
-            try:
-                return self._send(data)
-            except OSError:
-                if attempt == 2:
-                    raise
-                self.close()
-                self._connect()                        # the server died and came back, find it again
+        with self._lifecycle_lock:
+            for attempt in (1, 2):
+                try:
+                    return self._send(data)
+                except OSError:
+                    if attempt == 2:
+                        raise
+                    self._close_unlocked()
+                    self._connect()                    # the server died and came back, find it again
         return b""
 
     def _send(self, data: bytes) -> bytes:
@@ -139,6 +235,11 @@ class Client:
         return out
 
     def close(self) -> None:
+        with self._lifecycle_lock:
+            self._close_unlocked()
+
+    def _close_unlocked(self) -> None:
+        """Close the current connection while the lifecycle lock is held."""
         try:
             if ON_QNX:
                 _c.name_close(self.coid)
@@ -149,12 +250,26 @@ class Client:
 
 
 def _port(name: str) -> int:
-    return 40000 + sum(name.encode()) % 2000
+    """Map a service name to a fixed localhost TCP port for the Linux fallback.
+
+    Deterministic and stable: zlib.crc32 spreads the name over the same
+    2000-port slice the old byte-sum mapping used, so a server and its clients
+    keep finding each other after restarts, but names that used to collide
+    (hc/cloud and hc/watch share a byte sum) now get distinct ports. The
+    result is always in [40000, 41999]: unprivileged (>= 1024), well under
+    65535, and only ever bound to 127.0.0.1.
+    """
+    return 40000 + zlib.crc32(name.encode()) % 2000
 
 
 def _recv(sock) -> bytes | None:
     head = _exact(sock, 4)
-    return None if head is None else _exact(sock, struct.unpack("<I", head)[0])
+    if head is None:
+        return None
+    n = struct.unpack("<I", head)[0]
+    if n > MAX:
+        raise OSError(f"frame of {n} bytes exceeds the {MAX} byte limit")
+    return _exact(sock, n)
 
 
 def _exact(sock, n: int) -> bytes | None:

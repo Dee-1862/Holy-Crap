@@ -1,0 +1,25 @@
+{
+  "id": "hc-eval-20261018-compile-jitter",
+  "argv": [
+    "clang",
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-pedantic",
+    "src/jitter_bench.c",
+    "-lm",
+    "-o",
+    "jitter_bench"
+  ],
+  "cwd": "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0",
+  "timeout": 120,
+  "status": "done",
+  "started_at": "2026-10-18T16:52:46Z",
+  "finished_at": "2026-10-18T16:52:49Z",
+  "exit_code": 0,
+  "timed_out": false,
+  "error": null,
+  "stdout_log": "logs/hc-eval-20261018-compile-jitter.out",
+  "stderr_log": "logs/hc-eval-20261018-compile-jitter.err"
+}

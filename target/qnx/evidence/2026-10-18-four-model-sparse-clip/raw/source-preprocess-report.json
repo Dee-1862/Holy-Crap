@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "evaluation_kind": "media_preprocessing",
+  "source": {
+    "path": ".simlab/review/big-broiler-090-whole-pen-quicktime.mp4",
+    "size_bytes": 8969964,
+    "duration_seconds": 30.0,
+    "calculated_bitrate_bps": 2391990,
+    "width": 1920,
+    "height": 1080,
+    "fps": 25.0,
+    "frame_count": 750,
+    "codec": "h264",
+    "pixel_format": "yuv420p"
+  },
+  "output": {
+    "path": ".simlab/preprocessed/big-broiler-090-pi-balanced.mp4",
+    "size_bytes": 2675019,
+    "duration_seconds": 30.0,
+    "calculated_bitrate_bps": 713338,
+    "width": 960,
+    "height": 540,
+    "fps": 11.0,
+    "frame_count": 330,
+    "codec": "h264",
+    "pixel_format": "yuv420p"
+  },
+  "transform": {
+    "width": 960,
+    "height": 540,
+    "fps": 11.0,
+    "color_mode": "color",
+    "codec": "h264",
+    "quality": 23,
+    "preset": "medium"
+  },
+  "storage": {
+    "size_ratio": 0.29821959151675526,
+    "size_reduction_percent": 70.17804084832447,
+    "bitrate_reduction_percent": 70.17805258383187
+  },
+  "model_input_planning": {
+    "pixels_per_frame": 518400,
+    "intended_model_channels": 3,
+    "nominal_model_samples_per_second": 17107200,
+    "note": "A planning estimate only; grayscale assumes the inference pipeline extracts one luma channel from the compatible yuv420p video. This is not measured Pi inference time."
+  },
+  "command": [
+    "/opt/homebrew/bin/ffmpeg",
+    "-hide_banner",
+    "-loglevel",
+    "error",
+    "-nostdin",
+    "-y",
+    "-i",
+    ".simlab/review/big-broiler-090-whole-pen-quicktime.mp4",
+    "-map",
+    "0:v:0",
+    "-an",
+    "-vf",
+    "scale=960:540:force_original_aspect_ratio=decrease,pad=960:540:(ow-iw)/2:(oh-ih)/2,fps=11",
+    "-c:v",
+    "libx264",
+    "-crf",
+    "23",
+    "-preset",
+    "medium",
+    "-pix_fmt",
+    "yuv420p",
+    "-movflags",
+    "+faststart",
+    ".simlab/preprocessed/big-broiler-090-pi-balanced.mp4"
+  ],
+  "claims": {
+    "storage_and_transfer_measured": true,
+    "decode_latency_measured": false,
+    "inference_latency_measured": false,
+    "model_accuracy_measured": false
+  },
+  "notes": [
+    "Encoded file size and bitrate measure storage/transfer cost, not inference compute.",
+    "Resolution, sampled FPS, channel count, preprocessing, model shape, and runtime affect inference cost.",
+    "Keep a full-color path for appearance, injury, and dropping review; grayscale is intended for motion gating."
+  ]
+}

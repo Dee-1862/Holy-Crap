@@ -1,0 +1,5 @@
+source_commit=7778ee028347acb8793b7fd81d3d92f63ff57d37
+154407ca791330b8d6fd4ab94e5f683beceaa6ded79d34e24d05b379fe0634f8  /Users/lancestreuber/worktrees/Holy-Crap/20261018-qnx-main-eval/models/dropping4-laptop/dropping4_yolo11n_320.onnx
+98e09ff1f3090accb4c314b52c9951a0c6620ce7c1504c640e4ab883e1cd118a  /Users/lancestreuber/worktrees/Holy-Crap/20261018-qnx-main-eval/target/qnx/edge/infer.py
+0e78489d984567d24cef0edecc371516bd1b65aeead3e83630109c12005390c0  /Users/lancestreuber/worktrees/Holy-Crap/20261018-qnx-main-eval/target/qnx/edge/ortlite/hc_ort.c
+396d104833163145b05b0f1c3c4c790188af8726c8acdef8fdcbeb85e24c5702  /Users/lancestreuber/worktrees/Holy-Crap/20261018-qnx-main-eval/target/qnx/edge/ortlite/ortlite.py

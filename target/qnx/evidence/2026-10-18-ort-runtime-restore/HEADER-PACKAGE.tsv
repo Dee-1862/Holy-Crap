@@ -1,0 +1,2 @@
+name	version	repository	bytes	sha256	url	filename
+onnxruntime-dev	1.24.4-r0	805-extra	168191	4c635df2d6accf217158c8e68d8c3a7e4bb415d9c159c840fa114a053c6ba741	https://repo.oss.qnx.com/8.0.5/extra/aarch64/onnxruntime-dev-1.24.4-r0.apk	onnxruntime-dev-1.24.4-r0.apk

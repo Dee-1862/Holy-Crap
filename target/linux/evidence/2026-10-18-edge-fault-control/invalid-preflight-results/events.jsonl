@@ -1,0 +1,1 @@
+{"argv":["/tmp/hc-edge-fault-bench-run-20261018/venv/bin/python","/tmp/hc-edge-fault-bench-run-20261018/edge/supervisor.py","--camera","replay","--mov","/tmp/hc-edge-fault-bench-run-20261018/replay-argb.mov","--rate","5","--scheduling","control"],"kind":"pipeline-start","monotonicNs":2690581344474,"pid":6943,"wallTime":1792342065.94417}

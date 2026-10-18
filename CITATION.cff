@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite the paper below."
+title: "Holy-Crap: poultry dropping detection on a QNX Raspberry Pi 5"
+type: software
+license: AGPL-3.0-only
+repository-code: "https://github.com/RishitRai/Henomaly"
+url: "https://aremyhens.fit"
+authors:
+  - given-names: Deekshith Reddy
+    family-names: Bhoomireddy
+  - given-names: Rishit
+    family-names: Rai
+  - given-names: Lance
+    family-names: Streuber
+keywords:
+  - poultry health
+  - object detection
+  - YOLO11
+  - distribution shift
+  - QNX
+  - Raspberry Pi
+  - edge AI
+preferred-citation:
+  type: article
+  title: "Held-out Accuracy Is Not New-Collection Accuracy: A Cross-Collection Benchmark of Poultry Dropping Classifiers and a Process-Isolated Pen-Camera Pipeline on a QNX Raspberry Pi 5"
+  authors:
+    - given-names: Deekshith Reddy
+      family-names: Bhoomireddy
+    - given-names: Rishit
+      family-names: Rai
+    - given-names: Lance
+      family-names: Streuber
+  year: 2026
+  status: preprint

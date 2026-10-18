@@ -9,7 +9,6 @@ LaTeX source of the Holy-Crap paper. Build it on Overleaf (upload this folder as
 | `sections/*.tex` | introduction, related work, methods, results, discussion and conclusion |
 | `references.bib` | only references that were checked against the source |
 | `citation-check.md` | how each reference was checked, corrections, and claims that must not be cited yet |
-| `reading-list.md`, `notes-machuve2022.md`, `frai-05-733345.pdf` | papers we are reading and notes on them |
 | `figures/` | copies of the PDF figures from `data-visualization/figures`, made by `data-visualization/evaluation.py` |
 
 To refresh the figures after new results: `cd data-visualization && python evaluation.py`, then copy

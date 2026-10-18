@@ -1,0 +1,3100 @@
+C:Q1PROdNxjsp1wIj8i/GiFNCxU9iSU=
+P:egl-headers
+V:8.0.5-r3
+A:aarch64
+S:21208
+I:99288
+T:QNX800 Screen Board Support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen
+m:Aaron Bassett <abassett@qnx.com>
+t:1784221014
+c:5ea9b2ebf73b1bd05cbb7ea345c4427a5ce91a13
+D:qnx-khr-dev
+
+C:Q1xAwHxEKKTdcLrg3UIfYEqrXvbSQ=
+P:gles-headers
+V:8.0.5-r3
+A:aarch64
+S:91086
+I:605913
+T:QNX800 Screen Board Support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen
+m:Aaron Bassett <abassett@qnx.com>
+t:1784221014
+c:5ea9b2ebf73b1bd05cbb7ea345c4427a5ce91a13
+D:qnx-khr-dev
+
+C:Q11jU1NvDpvi1Q/PhhJ68h/xS7j9Q=
+P:opencl-headers
+V:8.0.5-r3
+A:aarch64
+S:100904
+I:666384
+T:QNX800 Screen Board Support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen
+m:Aaron Bassett <abassett@qnx.com>
+t:1784221014
+c:5ea9b2ebf73b1bd05cbb7ea345c4427a5ce91a13
+D:qnx-khr-dev
+
+C:Q1ArS8fb3ymESKpZNzYD64/R85WYM=
+P:openvg-headers
+V:8.0.5-r3
+A:aarch64
+S:13600
+I:52847
+T:QNX800 Screen Board Support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen
+m:Aaron Bassett <abassett@qnx.com>
+t:1784221014
+c:5ea9b2ebf73b1bd05cbb7ea345c4427a5ce91a13
+D:qnx-khr-dev
+
+C:Q1nkSE7boHZZ6M3UyP1u/ouGxLlH4=
+P:qnx-devu-hcd-echi
+V:8.0.5-r0
+A:aarch64
+S:34743
+I:69088
+T:QNX usb support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-usb
+m:Terence Ang <taang@qnx.com>
+t:1784659686
+c:c0cb005a61c4b5e8b31bdea9a5c178fb7cc3f90e
+D:qnx-usb=8.0.5-r0 qnx-libslog2
+
+C:Q1Ya/wL5zNI+aN6NBTxSsbG/zTyBo=
+P:qnx-devu-hcd-ohci
+V:8.0.5-r0
+A:aarch64
+S:26701
+I:63752
+T:QNX usb support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-usb
+m:Terence Ang <taang@qnx.com>
+t:1784659686
+c:c0cb005a61c4b5e8b31bdea9a5c178fb7cc3f90e
+D:qnx-usb=8.0.5-r0 qnx-libslog2
+
+C:Q1izmCAGAhUa1K3rsvZkBZD08gw9Q=
+P:qnx-devu-hcd-uhci
+V:8.0.5-r0
+A:aarch64
+S:23510
+I:44752
+T:QNX usb support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-usb
+m:Terence Ang <taang@qnx.com>
+t:1784659686
+c:c0cb005a61c4b5e8b31bdea9a5c178fb7cc3f90e
+D:qnx-usb=8.0.5-r0 qnx-libslog2
+
+C:Q1Cbs+d32+WFXex7izwDgTqZ1TMcU=
+P:qnx-devu-hcd-xhci
+V:8.0.5-r0
+A:aarch64
+S:64042
+I:138000
+T:QNX usb support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-usb
+m:Terence Ang <taang@qnx.com>
+t:1784659686
+c:c0cb005a61c4b5e8b31bdea9a5c178fb7cc3f90e
+D:qnx-usb=8.0.5-r0 qnx-libslog2
+
+C:Q1y7IuaxeQpjnNrlPXndx029ftDBE=
+P:qnx-egl
+V:8.0.5-r3
+A:aarch64
+S:70078
+I:220672
+T:QNX800 Screen Board Support - EGL
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen
+m:Aaron Bassett <abassett@qnx.com>
+t:1784221014
+c:5ea9b2ebf73b1bd05cbb7ea345c4427a5ce91a13
+D:qnx-keyboard
+
+C:Q1Yac4eDfwo2BcCfUUMf0r6S8BZfc=
+P:qnx-fdk-aac
+V:8.0.5-r0
+A:aarch64
+S:749725
+I:1343432
+T:Opencore Fraunhofer FDK AAC Codec Library
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-fdk-aac
+m:Terence Ang <taang@qnx.com>
+t:1787803817
+c:9a784d346ccfc376e6aa31e56fe59bf7aa007b46
+
+C:Q11MVUTxv18ER1ApTxu+vmB7E3wow=
+P:qnx-fdk-aac-dbg
+V:8.0.5-r0
+A:aarch64
+S:3290285
+I:7155448
+T:Opencore Fraunhofer FDK AAC Codec Library debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-fdk-aac
+m:Terence Ang <taang@qnx.com>
+t:1787803817
+c:9a784d346ccfc376e6aa31e56fe59bf7aa007b46
+D:qnx-fdk-aac=8.0.5-r0
+
+C:Q1kQu9v85Xn0pmKuyrwpNOTWQEXkk=
+P:qnx-fdk-aac-utils
+V:8.0.5-r0
+A:aarch64
+S:22129
+I:40416
+T:Opencore Fraunhofer FDK AAC Codec Library
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-fdk-aac
+m:Terence Ang <taang@qnx.com>
+t:1787803817
+c:9a784d346ccfc376e6aa31e56fe59bf7aa007b46
+D:qnx-fdk-aac=8.0.5-r0
+
+C:Q1JVvIb14a4e2f+SVa6kc+h9T9fD4=
+P:qnx-gles
+V:8.0.5-r3
+A:aarch64
+S:117682
+I:473472
+T:QNX800 Screen Board Support - GLES
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen
+m:Aaron Bassett <abassett@qnx.com>
+t:1784221014
+c:5ea9b2ebf73b1bd05cbb7ea345c4427a5ce91a13
+D:qnx-keyboard
+
+C:Q1EnK+qpBx08v1Oy2fOC27g4f699M=
+P:qnx-io-usb-otg
+V:8.0.5-r0
+A:aarch64
+S:195255
+I:484736
+T:QNX usb support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-usb
+m:Terence Ang <taang@qnx.com>
+t:1784659686
+c:c0cb005a61c4b5e8b31bdea9a5c178fb7cc3f90e
+D:qnx-usb=8.0.5-r0 qnx-libpci qnx-libslog2 qnx-secpol
+
+C:Q1QknchW5OtiV8wr2IXjYqCdKOn7A=
+P:qnx-khr-dev
+V:8.0.5-r3
+A:aarch64
+S:7533
+I:11322
+T:QNX800 Screen Board Support - KHR headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen
+m:Aaron Bassett <abassett@qnx.com>
+t:1784221014
+c:5ea9b2ebf73b1bd05cbb7ea345c4427a5ce91a13
+D:qnx-keyboard
+
+C:Q1du9QzjrommvTNL4VjwYnM7G6qDM=
+P:qnx-libdrm
+V:8.0.5-r0
+A:aarch64
+S:319511
+I:797968
+T:QNX screen libdrm
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-libdrm
+m:Aaron Bassett <abassett@qnx.com>
+t:1784385227
+c:-dirty
+
+C:Q1kthsi0i/CZuBrnvG4HIPmAs/xns=
+P:qnx-libdrm-dev
+V:8.0.5-r0
+A:aarch64
+S:2094125
+I:6112158
+T:QNX screen libdrm (development files)
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-libdrm
+m:Aaron Bassett <abassett@qnx.com>
+t:1784385227
+c:-dirty
+D:pkgconfig
+
+C:Q10PR9x8tKBpotPhNkhnGDQN+mReI=
+P:qnx-libdrm-utils
+V:8.0.5-r0
+A:aarch64
+S:2156820
+I:5763340
+T:QNX screen libdrm
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-libdrm
+m:Aaron Bassett <abassett@qnx.com>
+t:1784385227
+c:-dirty
+
+C:Q1sjFXk4caYaGu5lvUg+M4GC+tdGI=
+P:qnx-libgbm
+V:8.0.5-r0
+A:aarch64
+S:181506
+I:500947
+T:QNX screen libgbm
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-libgbm
+m:Aaron Bassett <abassett@qnx.com>
+t:1784387265
+c:-dirty
+D:qnx-libdrm
+
+C:Q13r2MM7dkyhA5f1j7LtGX7W8iqvE=
+P:qnx-libgbm-dbg
+V:8.0.5-r0
+A:aarch64
+S:938097
+I:2532312
+T:QNX screen libgbm
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-libgbm
+m:Aaron Bassett <abassett@qnx.com>
+t:1784387265
+c:-dirty
+D:qnx-libdrm
+
+C:Q1q54cc6cwlx8+SgMvSBNcQNhMC5E=
+P:qnx-libgbm-dev
+V:8.0.5-r0
+A:aarch64
+S:9011
+I:19629
+T:QNX screen libgbm (development files)
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-libgbm
+m:Aaron Bassett <abassett@qnx.com>
+t:1784387265
+c:-dirty
+D:pkgconfig
+
+C:Q1LCESTZlH4I7YQqonsvHsGkQnQi8=
+P:qnx-libyuv
+V:8.0.5-r0
+A:aarch64
+S:142887
+I:410544
+T:QNX libyuv compatability
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-libyuv
+m:Terence Ang <taang@qnx.com>
+t:1787774163
+c:5669950b97aec18602b28bb45ad1ae6d8bc0005a
+
+C:Q1pG5MBr2FslvCgbwfL3lpspqp7FI=
+P:qnx-mm-aoi
+V:8.0.5-r0
+A:aarch64
+S:34603
+I:69512
+T:qnx-mm-aoi
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+
+C:Q1MUg1VVqrxt+YbCCJuHs+v9cTzUs=
+P:qnx-mm-aoi-dbg
+V:8.0.5-r0
+A:aarch64
+S:127579
+I:276544
+T:qnx-mm-aoi debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-aoi=8.0.5-r0
+
+C:Q1w6tO7LwxgP+GjLMwMmFY3KfUbrY=
+P:qnx-mm-aoi-dev
+V:8.0.5-r0
+A:aarch64
+S:12669
+I:28847
+T:qnx-mm-aoi headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-aoi=8.0.5-r0
+
+C:Q1Vb66U3AJvwOScMbpuRe7RvFB4qw=
+P:qnx-mm-aoi-static
+V:8.0.5-r0
+A:aarch64
+S:309048
+I:965536
+T:qnx-mm-aoi static libraries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+
+C:Q1FW4128xwDoWcGl3HPkMbj5Jp/UQ=
+P:qnx-mm-aoi-utils
+V:8.0.5-r0
+A:aarch64
+S:9003
+I:14560
+T:qnx-mm-aoi utilities
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-aoi=8.0.5-r0
+
+C:Q1uV/nIEk7jiP0yXpDO9kEkPzCReQ=
+P:qnx-mm-charconv-management
+V:8.0.5-r0
+A:aarch64
+S:11380
+I:19845
+T:qnx-mm-charconv-management
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-aoi
+
+C:Q1jVHtrVrn0i7Tlfya1hUIzlnQoI0=
+P:qnx-mm-charconv-management-dbg
+V:8.0.5-r0
+A:aarch64
+S:24091
+I:48056
+T:qnx-mm-charconv-management debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-charconv-management=8.0.5-r0
+
+C:Q1keRnyEC8/Ul7Le5aHIpTzpJ9ouA=
+P:qnx-mm-charconv-management-dev
+V:8.0.5-r0
+A:aarch64
+S:8130
+I:11072
+T:qnx-mm-charconv-management headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-charconv-management=8.0.5-r0
+
+C:Q1JVVdNudfYEp3KpG/IuaQJm1nJ9g=
+P:qnx-mm-codec-sw
+V:8.0.5-r0
+A:aarch64
+S:134722
+I:360608
+T:qnx-mm-codec-sw
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-screen qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0 qnx-mm-openmaxil-core=8.0.5-r0 qnx-mm-omxil-support=8.0.5-r0 qnx-mm-resarb-core=8.0.5-r0
+
+C:Q14YCGOyoqauzgRT4K/jjLwPSOhmM=
+P:qnx-mm-codec-sw-dbg
+V:8.0.5-r0
+A:aarch64
+S:1375659
+I:3927728
+T:qnx-mm-codec-sw debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-codec-sw=8.0.5-r0
+
+C:Q1kZQcDRFqSrVlok7SRvAa2FtbeNw=
+P:qnx-mm-curl-support
+V:8.0.5-r0
+A:aarch64
+S:6773
+I:8288
+T:qnx-mm-curl-support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:libcurl
+
+C:Q17ZaOC0rMk1hIUeHHLb8P1c+WnDQ=
+P:qnx-mm-curl-support-dbg
+V:8.0.5-r0
+A:aarch64
+S:12286
+I:22832
+T:qnx-mm-curl-support debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-curl-support=8.0.5-r0
+
+C:Q13wlPP4W52m+5CKMqmLZ/VODfK8U=
+P:qnx-mm-encode-cast-group
+V:8.0.5-r0
+A:aarch64
+S:4407
+I:1
+T:qnx-mm-encode-cast-group group packages
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-curl-support=8.0.5-r0 qnx-mm-encode-mp2ts-container=8.0.5-r0 qnx-mm-encode-mp4-container=8.0.5-r0 qnx-mm-input-file=8.0.5-r0 qnx-mm-input-rtp=8.0.5-r0 qnx-mm-input-rtsp=8.0.5-r0 qnx-mm-mmf-core=8.0.5-r0 qnx-mm-openmaxal-core=8.0.5-r0 qnx-mm-openmaxil-core=8.0.5-r0 qnx-mm-output-screen=8.0.5-r0 qnx-mm-playback-aac-codec=8.0.5-r0 qnx-mm-playback-mp2ts-container=8.0.5-r0 qnx-mm-playback-mp4-container=8.0.5-r0 qnx-mm-playback-wav-container=8.0.5-r0 qnx-mm-encode-raw-container=8.0.5-r0 qnx-mm-resarb-core=8.0.5-r0 qnx-mm-rtp-support=8.0.5-r0 qnx-mm-stream-core=8.0.5-r0 qnx-mm-stream-core-utils=8.0.5-r0
+
+C:Q1sb19CW/BcPbiBLx/PUzggVaN5xk=
+P:qnx-mm-encode-mp2ts-container
+V:8.0.5-r0
+A:aarch64
+S:35782
+I:86936
+T:qnx-mm-encode-mp2ts-container
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0
+
+C:Q1Kp6D0lZzMIoGWiSbtVWCW/nSokc=
+P:qnx-mm-encode-mp2ts-container-dbg
+V:8.0.5-r0
+A:aarch64
+S:336483
+I:907296
+T:qnx-mm-encode-mp2ts-container debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-encode-mp2ts-container=8.0.5-r0
+
+C:Q1vsIt+QJhd0zRpFMp0Q+SLlMGZl4=
+P:qnx-mm-encode-mp4-container
+V:8.0.5-r0
+A:aarch64
+S:33667
+I:67496
+T:qnx-mm-encode-mp4-container
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0
+
+C:Q1mdqYa2X4GA41T1IUicqTVO1qWGY=
+P:qnx-mm-encode-mp4-container-dbg
+V:8.0.5-r0
+A:aarch64
+S:130805
+I:299176
+T:qnx-mm-encode-mp4-container debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-encode-mp4-container=8.0.5-r0
+
+C:Q1RtHwF8vdln4lNNJe5Tg24hL3eAU=
+P:qnx-mm-encode-raw-container
+V:8.0.5-r0
+A:aarch64
+S:13505
+I:23736
+T:qnx-mm-encode-raw-container
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0
+
+C:Q1NoCmaQOBMgIi/J5K4OTy5c0yRPs=
+P:qnx-mm-encode-raw-container-dbg
+V:8.0.5-r0
+A:aarch64
+S:39494
+I:78536
+T:qnx-mm-encode-raw-container debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-encode-raw-container=8.0.5-r0
+
+C:Q1yFJfFUVn89XeTwXVn+3pvLdjA+s=
+P:qnx-mm-input-file
+V:8.0.5-r0
+A:aarch64
+S:14454
+I:27312
+T:qnx-mm-input-file
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-aoi=8.0.5-r0
+
+C:Q1GyS6YOREvbgjYgAc1GSaxsT3Dso=
+P:qnx-mm-input-file-dbg
+V:8.0.5-r0
+A:aarch64
+S:41208
+I:80808
+T:qnx-mm-input-file debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-input-file=8.0.5-r0
+
+C:Q1pil5VzjyNF9A5Q8seZU/7UTYOlc=
+P:qnx-mm-input-rtp
+V:8.0.5-r0
+A:aarch64
+S:135056
+I:399744
+T:qnx-mm-input-rtp
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0 qnx-mm-rtp-support=8.0.5-r0 qnx-mm-input-rtsp=8.0.5-r0
+
+C:Q1Jnm0VYoVZ8Bo2zuN5DwrSC5eH9c=
+P:qnx-mm-input-rtp-dbg
+V:8.0.5-r0
+A:aarch64
+S:2443680
+I:6928336
+T:qnx-mm-input-rtp debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-input-rtp=8.0.5-r0
+
+C:Q1NCOx4iuhNummzlC3RVwB1e1SApU=
+P:qnx-mm-input-rtsp
+V:8.0.5-r0
+A:aarch64
+S:275216
+I:956328
+T:qnx-mm-input-rtsp
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:libcurl qnx-mm-mmf-core=8.0.5-r0 qnx-mm-curl-support=8.0.5-r0 qnx-mm-rtp-support=8.0.5-r0
+
+C:Q1XO/dxgpNEE4futQu3p3UAXWpnC4=
+P:qnx-mm-input-rtsp-dbg
+V:8.0.5-r0
+A:aarch64
+S:9454195
+I:26461240
+T:qnx-mm-input-rtsp debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-input-rtsp=8.0.5-r0
+
+C:Q1F1oFi5LyPtr+iZpU2aHxLglNzRk=
+P:qnx-mm-mmf-core
+V:8.0.5-r0
+A:aarch64
+S:81341
+I:176896
+T:qnx-mm-mmf-core
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-aoi=8.0.5-r0
+
+C:Q10YILOSdOiehmegiTgglzrTk6tJ4=
+P:qnx-mm-mmf-core-dbg
+V:8.0.5-r0
+A:aarch64
+S:332222
+I:720208
+T:qnx-mm-mmf-core debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0
+
+C:Q1Hw6VUvwLYwgy2hU2ypOLevRHnyw=
+P:qnx-mm-mmf-core-dev
+V:8.0.5-r0
+A:aarch64
+S:16150
+I:42571
+T:qnx-mm-mmf-core headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0
+
+C:Q1pIRqUZXGrruhxEAD7GZKdLY5Hlo=
+P:qnx-mm-mmf-testing
+V:8.0.5-r0
+A:aarch64
+S:10513
+I:19152
+T:qnx-mm-mmf-testing
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0
+
+C:Q1Yvon0jvJACWpLitZEKCGScEZ04o=
+P:qnx-mm-mmf-testing-dbg
+V:8.0.5-r0
+A:aarch64
+S:22513
+I:45864
+T:qnx-mm-mmf-testing debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-testing=8.0.5-r0
+
+C:Q1n84UNog42Femqji9u2wn6lQj9Bs=
+P:qnx-mm-omxil-support
+V:8.0.5-r0
+A:aarch64
+S:6743
+I:8240
+T:qnx-mm-omxil-support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+
+C:Q1MgXL11zfmY01+1j3pAbDiSwrhZ4=
+P:qnx-mm-omxil-support-dbg
+V:8.0.5-r0
+A:aarch64
+S:10756
+I:19016
+T:qnx-mm-omxil-support debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-omxil-support=8.0.5-r0
+
+C:Q1vhLzyh4jHJ+rZYpK1eXIBbGI+Sg=
+P:qnx-mm-openmaxal-core
+V:8.0.5-r0
+A:aarch64
+S:128130
+I:322248
+T:qnx-mm-openmaxal-core
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-screen qnx-alsa qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0 qnx-mm-strm=8.0.5-r0
+
+C:Q1lnXYgCdwT+taCg0z7DDQJhjIyIg=
+P:qnx-mm-openmaxal-core-dbg
+V:8.0.5-r0
+A:aarch64
+S:507436
+I:1154360
+T:qnx-mm-openmaxal-core debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-openmaxal-core=8.0.5-r0
+
+C:Q1AqsJNeP2IwiixjtruhgK2hFU2EI=
+P:qnx-mm-openmaxal-core-dev
+V:8.0.5-r0
+A:aarch64
+S:29205
+I:153021
+T:qnx-mm-openmaxal-core headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-openmaxal-core=8.0.5-r0
+
+C:Q1wYZpWSFvT0PEAcHnlg1Ec0PVH8Y=
+P:qnx-mm-openmaxal-testing
+V:8.0.5-r0
+A:aarch64
+S:88078
+I:270272
+T:qnx-mm-openmaxal-testing
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:libxml2 qnx-screen qnx-mm-aoi=8.0.5-r0 qnx-mm-openmaxal-core=8.0.5-r0
+
+C:Q1/xH5hZaAcNs1mEq7sX5e2mnfwok=
+P:qnx-mm-openmaxal-testing-dbg
+V:8.0.5-r0
+A:aarch64
+S:265253
+I:653376
+T:qnx-mm-openmaxal-testing debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-openmaxal-testing=8.0.5-r0
+
+C:Q1D7mGEEojyYT8EpmlKw2oxYOq4DE=
+P:qnx-mm-openmaxil-comp-vp9
+V:8.0.5-r0
+A:aarch64
+S:32112
+I:75480
+T:qnx-mm-openmaxil-comp-vp9
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-libyuv qnx-vpx libyuv qnx-mm-openmaxil-core=8.0.5-r0
+
+C:Q1FHwEpDaM62b2ceTV0e/cWhDOq/8=
+P:qnx-mm-openmaxil-comp-vp9-dbg
+V:8.0.5-r0
+A:aarch64
+S:97583
+I:232440
+T:qnx-mm-openmaxil-comp-vp9 debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-openmaxil-comp-vp9=8.0.5-r0
+
+C:Q1hkbW7tnZ46s4lQFotqh3q+CwkPM=
+P:qnx-mm-openmaxil-core
+V:8.0.5-r0
+A:aarch64
+S:17879
+I:40456
+T:qnx-mm-openmaxil-core
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+
+C:Q1g/rUACKZv5d3OtNEQmlMEFrtYgI=
+P:qnx-mm-openmaxil-core-dbg
+V:8.0.5-r0
+A:aarch64
+S:50911
+I:116088
+T:qnx-mm-openmaxil-core debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-openmaxil-core=8.0.5-r0
+
+C:Q19RfdQh9KQ6/s4NTh1sX/ZKIdjmc=
+P:qnx-mm-openmaxil-core-dev
+V:8.0.5-r0
+A:aarch64
+S:6346
+I:7664
+T:qnx-mm-openmaxil-core headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-openmaxil-core=8.0.5-r0
+
+C:Q1olNte8wCwSM8l/Uew0/nVRGEvUs=
+P:qnx-mm-output-screen
+V:8.0.5-r0
+A:aarch64
+S:47486
+I:103592
+T:qnx-mm-output-screen
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-screen qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0 qnx-mm-resarb-core=8.0.5-r0
+
+C:Q1UORsoWdryeayToTR75j3bWGcFqU=
+P:qnx-mm-output-screen-dbg
+V:8.0.5-r0
+A:aarch64
+S:156158
+I:341648
+T:qnx-mm-output-screen debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-output-screen=8.0.5-r0
+
+C:Q1/mF2vkug6vukQAVt1AlaMwSW80g=
+P:qnx-mm-output-sound
+V:8.0.5-r0
+A:aarch64
+S:28867
+I:66632
+T:qnx-mm-output-sound
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-alsa qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0
+
+C:Q1Y+hrl6KfdCyl7w1mppvRXo1NVOc=
+P:qnx-mm-output-sound-dbg
+V:8.0.5-r0
+A:aarch64
+S:110318
+I:237592
+T:qnx-mm-output-sound debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-output-sound=8.0.5-r0
+
+C:Q1yot6O95F9XHUd3H8h0uOmzts6Lo=
+P:qnx-mm-playback-aac-codec
+V:8.0.5-r0
+A:aarch64
+S:22368
+I:47456
+T:qnx-mm-playback-aac-codec
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-fdk-aac qnx-mm-mmf-core=8.0.5-r0
+
+C:Q1c5B2A04biwS+fFuKsZZoghRMjgY=
+P:qnx-mm-playback-aac-codec-dbg
+V:8.0.5-r0
+A:aarch64
+S:64517
+I:133504
+T:qnx-mm-playback-aac-codec debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-playback-aac-codec=8.0.5-r0
+
+C:Q1Flmrzs/RO8sYFaBKgCcFPv+ay3g=
+P:qnx-mm-playback-aac-container
+V:8.0.5-r0
+A:aarch64
+S:43158
+I:84248
+T:qnx-mm-playback-aac-container
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0
+
+C:Q1rAXsAd8KxBqT/Mn2yySNECpWnpA=
+P:qnx-mm-playback-aac-container-dbg
+V:8.0.5-r0
+A:aarch64
+S:130859
+I:261368
+T:qnx-mm-playback-aac-container debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-playback-aac-container=8.0.5-r0
+
+C:Q1DF3x7N6L1/wGLBeR2HeozYJoBE4=
+P:qnx-mm-playback-buffering
+V:8.0.5-r0
+A:aarch64
+S:15997
+I:33712
+T:qnx-mm-playback-buffering
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0
+
+C:Q15lktZjIwGmp8l4VqGnGCA1RQ7EU=
+P:qnx-mm-playback-buffering-dbg
+V:8.0.5-r0
+A:aarch64
+S:44710
+I:93144
+T:qnx-mm-playback-buffering debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-playback-buffering=8.0.5-r0
+
+C:Q12jBJxCj+cgRWKlxXWyqCkz54p14=
+P:qnx-mm-playback-group
+V:8.0.5-r0
+A:aarch64
+S:4423
+I:1
+T:qnx-mm-playback-group group packages
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-aoi=8.0.5-r0 qnx-mm-aoi-utils=8.0.5-r0 qnx-mm-curl-support=8.0.5-r0 qnx-mm-input-file=8.0.5-r0 qnx-mm-input-rtp=8.0.5-r0 qnx-mm-input-rtsp=8.0.5-r0 qnx-mm-mmf-core=8.0.5-r0 qnx-mm-openmaxal-core=8.0.5-r0 qnx-mm-openmaxil-core=8.0.5-r0 qnx-mm-omxil-support=8.0.5-r0 qnx-mm-output-screen=8.0.5-r0 qnx-mm-output-sound=8.0.5-r0 qnx-mm-playback-aac-codec=8.0.5-r0 qnx-mm-playback-aac-container=8.0.5-r0 qnx-mm-playback-buffering=8.0.5-r0 qnx-mm-playback-mp2ts-container=8.0.5-r0 qnx-mm-playback-mp4-container=8.0.5-r0 qnx-mm-playback-streaming=8.0.5-r0 qnx-mm-playback-wav-container=8.0.5-r0 qnx-mm-renderer-core=8.0.5-r0 qnx-mm-resarb-core=8.0.5-r0 qnx-mm-rtp-support=8.0.5-r0 qnx-mm-strm=8.0.5-r0
+
+C:Q1J3RlVY7vp1PYElZ3/2BcFy4D1Zk=
+P:qnx-mm-playback-mkv-container
+V:8.0.5-r0
+A:aarch64
+S:52912
+I:103192
+T:qnx-mm-playback-mkv-container
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-zlib qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0
+
+C:Q1gxdRbHypACEBQWqqN5mOWG+lP/M=
+P:qnx-mm-playback-mkv-container-dbg
+V:8.0.5-r0
+A:aarch64
+S:178447
+I:377552
+T:qnx-mm-playback-mkv-container debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-playback-mkv-container=8.0.5-r0
+
+C:Q1/qC1R5YaXyft41Kt/UO/h1Oa3EU=
+P:qnx-mm-playback-mp2ts-container
+V:8.0.5-r0
+A:aarch64
+S:42111
+I:79224
+T:qnx-mm-playback-mp2ts-container
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0
+
+C:Q1gJLXWtgx5qOFAOuHfgPsjIBR8FM=
+P:qnx-mm-playback-mp2ts-container-dbg
+V:8.0.5-r0
+A:aarch64
+S:141256
+I:281504
+T:qnx-mm-playback-mp2ts-container debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-playback-mp2ts-container=8.0.5-r0
+
+C:Q1NDuU6HIwNLOLiWTW72av5U4aMxU=
+P:qnx-mm-playback-mp4-container
+V:8.0.5-r0
+A:aarch64
+S:94760
+I:195648
+T:qnx-mm-playback-mp4-container
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0
+
+C:Q1RpM7iGZliQVasP8VZHVQNPXQUtM=
+P:qnx-mm-playback-mp4-container-dbg
+V:8.0.5-r0
+A:aarch64
+S:309070
+I:663488
+T:qnx-mm-playback-mp4-container debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-playback-mp4-container=8.0.5-r0
+
+C:Q17cSNHOrn9btUlPty5l4WbDfafvU=
+P:qnx-mm-playback-mpega-codec
+V:8.0.5-r0
+A:aarch64
+S:54654
+I:125248
+T:qnx-mm-playback-mpega-codec
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0
+
+C:Q1r/dkiwSr8/Ct74Cr/NumV2iECtU=
+P:qnx-mm-playback-mpega-codec-dbg
+V:8.0.5-r0
+A:aarch64
+S:160144
+I:378624
+T:qnx-mm-playback-mpega-codec debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-playback-mpega-codec=8.0.5-r0
+
+C:Q1H5ry5cfNAjqdUGjstRyzFfbw13A=
+P:qnx-mm-playback-mpega-container
+V:8.0.5-r0
+A:aarch64
+S:51126
+I:97216
+T:qnx-mm-playback-mpega-container
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0
+
+C:Q1bqDAtkgksYKMYirdxFks+lkRnTE=
+P:qnx-mm-playback-mpega-container-dbg
+V:8.0.5-r0
+A:aarch64
+S:155084
+I:310152
+T:qnx-mm-playback-mpega-container debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-playback-mpega-container=8.0.5-r0
+
+C:Q1d3GRDfHVT6u0gMYkQhv4HD9oHqA=
+P:qnx-mm-playback-streaming
+V:8.0.5-r0
+A:aarch64
+S:15560
+I:28288
+T:qnx-mm-playback-streaming
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0
+
+C:Q1KOjP7j3sLEYmZbjsa03qj443BBo=
+P:qnx-mm-playback-streaming-dbg
+V:8.0.5-r0
+A:aarch64
+S:49253
+I:96800
+T:qnx-mm-playback-streaming debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-playback-streaming=8.0.5-r0
+
+C:Q19BtLZSUYyu7GwXFPxb9ge9trnu4=
+P:qnx-mm-playback-wav-container
+V:8.0.5-r0
+A:aarch64
+S:25116
+I:48080
+T:qnx-mm-playback-wav-container
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0
+
+C:Q1dIxAQSyFxRrpREVnsdkADBXqLwE=
+P:qnx-mm-playback-wav-container-dbg
+V:8.0.5-r0
+A:aarch64
+S:72212
+I:146656
+T:qnx-mm-playback-wav-container debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-playback-wav-container=8.0.5-r0
+
+C:Q1Zmpoy9ySYkLOICdhM20axwYlsoA=
+P:qnx-mm-renderer-core
+V:8.0.5-r0
+A:aarch64
+S:150228
+I:361016
+T:qnx-mm-renderer-core
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0 qnx-mm-strm=8.0.5-r0
+
+C:Q1BMiWgM9TBko1+X0X3tgzlQrCEvY=
+P:qnx-mm-renderer-core-dbg
+V:8.0.5-r0
+A:aarch64
+S:604795
+I:1327888
+T:qnx-mm-renderer-core debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-renderer-core=8.0.5-r0
+
+C:Q1GfLm8ePTP8aC7ybGUhAfQv4XEkg=
+P:qnx-mm-renderer-core-dev
+V:8.0.5-r0
+A:aarch64
+S:22518
+I:62516
+T:qnx-mm-renderer-core headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-renderer-core=8.0.5-r0
+
+C:Q1/jIX4s+h6AW0p0/7IDQ5W8xYr9E=
+P:qnx-mm-renderer-testing
+V:8.0.5-r0
+A:aarch64
+S:41161
+I:100504
+T:qnx-mm-renderer-testing
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0 qnx-mm-renderer-core=8.0.5-r0 qnx-mm-strm=8.0.5-r0
+
+C:Q1Vg1frmP/S+OQR61cZkdB0+ZxtKc=
+P:qnx-mm-renderer-testing-dbg
+V:8.0.5-r0
+A:aarch64
+S:125361
+I:280872
+T:qnx-mm-renderer-testing debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-renderer-testing=8.0.5-r0
+
+C:Q1tRn2D8XIEx+vjyITSbKzhuJo8QA=
+P:qnx-mm-resarb-core
+V:8.0.5-r0
+A:aarch64
+S:22761
+I:52496
+T:qnx-mm-resarb-core
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+
+C:Q1P44ubb8OgsPzURoCCUTRE7ZmcfU=
+P:qnx-mm-resarb-core-dbg
+V:8.0.5-r0
+A:aarch64
+S:79665
+I:176920
+T:qnx-mm-resarb-core debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-resarb-core=8.0.5-r0
+
+C:Q1BwN+VjW7oHxFkGcNvqLVYe2I0Yw=
+P:qnx-mm-rtp-support
+V:8.0.5-r0
+A:aarch64
+S:129154
+I:307368
+T:qnx-mm-rtp-support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-aoi=8.0.5-r0
+
+C:Q1W9Y+nveAnEORHXj14CdPk5lKOZs=
+P:qnx-mm-rtp-support-dbg
+V:8.0.5-r0
+A:aarch64
+S:479168
+I:1133696
+T:qnx-mm-rtp-support debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-rtp-support=8.0.5-r0
+
+C:Q1e2kEGCcby49Fcg8sNzeAgYTlgNo=
+P:qnx-mm-stream-core
+V:8.0.5-r0
+A:aarch64
+S:265075
+I:860616
+T:qnx-mm-stream-core
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-sf-camapi qnx-mm-rtp-support=8.0.5-r0
+
+C:Q1FNvyPOmvzRbw6IzPqRJPlj5YK9g=
+P:qnx-mm-stream-core-dbg
+V:8.0.5-r0
+A:aarch64
+S:6890679
+I:21912240
+T:qnx-mm-stream-core debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-stream-core=8.0.5-r0 jsoncpp qnx-screen qnx-mm-openmaxal-core=8.0.5-r0
+
+C:Q14c4ST45jMrNj3VuJMNuA1U41mAI=
+P:qnx-mm-stream-core-dev
+V:8.0.5-r0
+A:aarch64
+S:7691
+I:13022
+T:qnx-mm-stream-core headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-stream-core=8.0.5-r0
+
+C:Q1DQHleesiAUK7nORnwptOLo8aHdA=
+P:qnx-mm-stream-core-utils
+V:8.0.5-r0
+A:aarch64
+S:117954
+I:378512
+T:qnx-mm-stream-core utilities
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-stream-core=8.0.5-r0 jsoncpp qnx-screen qnx-mm-openmaxal-core=8.0.5-r0
+
+C:Q1F5WjxmegeHm/XgeqS3mx717sCJc=
+P:qnx-mm-strm
+V:8.0.5-r0
+A:aarch64
+S:12430
+I:22168
+T:qnx-mm-strm
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+
+C:Q1uyNqmCPWy6mrkZv0FFJr68J8Avs=
+P:qnx-mm-strm-dbg
+V:8.0.5-r0
+A:aarch64
+S:33268
+I:67416
+T:qnx-mm-strm debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-strm=8.0.5-r0
+
+C:Q1mGraUXT6fJQjgQyWGg3liO7fpDE=
+P:qnx-mm-strm-dev
+V:8.0.5-r0
+A:aarch64
+S:10455
+I:28435
+T:qnx-mm-strm headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-strm=8.0.5-r0
+
+C:Q1nkxuB3AGXiG6/DtskhlTHET3068=
+P:qnx-mm-sw-codecs-group
+V:8.0.5-r0
+A:aarch64
+S:4309
+I:1
+T:qnx-mm-sw-codecs-group group packages
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-codec-sw=8.0.5-r0 qnx-mm-openmaxil-comp-vp9=8.0.5-r0
+
+C:Q13NC+KUOKlqe1zPuhYPsrUCQvrE4=
+P:qnx-multimedia-framework
+V:8.0.5-r0
+A:aarch64
+S:4173
+I:1
+T:QNX Multimedia Framework
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-mm-mmf-core=8.0.5-r0 qnx-mm-aoi=8.0.5-r0
+
+C:Q1uoov6AL0uELnym3dhWl6vkc/jVA=
+P:qnx-multimedia-framework-utils
+V:8.0.5-r0
+A:aarch64
+S:4290
+I:1
+T:qnx-multimedia-framework utilities
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-multimedia-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774859
+c:437283e735c1b342a1b629280fdcabf19f1a847d
+D:qnx-multimedia-framework=8.0.5-r0 qnx-mm-aoi-utils=8.0.5-r0
+
+C:Q1XgNVl9EFOjKP81n4crvQ+n0DZqE=
+P:qnx-opencl
+V:8.0.5-r3
+A:aarch64
+S:82725
+I:229592
+T:QNX800 Screen Board Support - OpenCL
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen
+m:Aaron Bassett <abassett@qnx.com>
+t:1784221014
+c:5ea9b2ebf73b1bd05cbb7ea345c4427a5ce91a13
+D:qnx-keyboard
+
+C:Q1V8ycuM769VAkVaZn31Abto4GfbQ=
+P:qnx-openvg
+V:8.0.5-r3
+A:aarch64
+S:28188
+I:70008
+T:QNX800 Screen Board Support - OpenVG and OpenVGU
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen
+m:Aaron Bassett <abassett@qnx.com>
+t:1784221014
+c:5ea9b2ebf73b1bd05cbb7ea345c4427a5ce91a13
+D:qnx-keyboard
+
+C:Q1sC9+LsnBSStBNVh7nzd19nfrn4k=
+P:qnx-rpi-camera-ipa
+V:8.0.5-r0
+A:aarch64
+S:178338
+I:493976
+T:QNX RPi camera image processing algorithm library
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-rpi-camera-ipa
+m:Terence Ang <taang@qnx.com>
+t:1787773409
+c:20864990e32af7b532ec8f8765c5f77eecb29d7a
+
+C:Q1238cYoS2bCsApZp2d+rJy/63Wjs=
+P:qnx-rpi-camera-ipa-dbg
+V:8.0.5-r0
+A:aarch64
+S:178351
+I:494896
+T:QNX RPi camera image processing algorithm library debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-rpi-camera-ipa
+m:Terence Ang <taang@qnx.com>
+t:1787773409
+c:20864990e32af7b532ec8f8765c5f77eecb29d7a
+D:qnx-rpi-camera-ipa=8.0.5-r0
+
+C:Q1j1e7FCOtyHLeS6uod9jBz6SVot8=
+P:qnx-rpi-camera-ipa-dev
+V:8.0.5-r0
+A:aarch64
+S:5453
+I:2538
+T:QNX RPi camera image processing algorithm library (development files)
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-rpi-camera-ipa
+m:Terence Ang <taang@qnx.com>
+t:1787773409
+c:20864990e32af7b532ec8f8765c5f77eecb29d7a
+D:qnx-rpi-camera-ipa=8.0.5-r0
+
+C:Q1VK+9VdPRtRBaz7sr8/dgm5MOYKU=
+P:qnx-screen
+V:8.0.5-r3
+A:aarch64
+S:605411
+I:1557472
+T:QNX800 Screen Board Support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen
+m:Aaron Bassett <abassett@qnx.com>
+t:1784221014
+c:5ea9b2ebf73b1bd05cbb7ea345c4427a5ce91a13
+D:qnx-screen-backend
+
+C:Q1mdLQ+EbD6SE5IOEs/RFHaThFiSQ=
+P:qnx-screen-dbg
+V:8.0.5-r3
+A:aarch64
+S:156004383
+I:458474416
+T:debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen
+m:Aaron Bassett <abassett@qnx.com>
+t:1784221014
+c:5ea9b2ebf73b1bd05cbb7ea345c4427a5ce91a13
+D:qnx-screen=8.0.5-r3
+
+C:Q1Q/ztPnuicxj8BENmGuKbUsgvJXU=
+P:qnx-screen-demos
+V:8.0.5-r3
+A:aarch64
+S:2062809
+I:3380392
+T:QNX800 Screen Board Support (demonstration applications)
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen
+m:Aaron Bassett <abassett@qnx.com>
+t:1784221014
+c:5ea9b2ebf73b1bd05cbb7ea345c4427a5ce91a13
+D:qnx-screen=8.0.5-r3
+
+C:Q1KGcG4Z/M90QLI3VYjJW9mSZIy4g=
+P:qnx-screen-dev
+V:8.0.5-r3
+A:aarch64
+S:103531
+I:21381243
+T:QNX800 Screen Board Support (development files)
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen
+m:Aaron Bassett <abassett@qnx.com>
+t:1784221014
+c:5ea9b2ebf73b1bd05cbb7ea345c4427a5ce91a13
+D:pkgconfig
+
+C:Q16bqFpnF6k8pYbwB3e15sNAX1Xic=
+P:qnx-screen-rpi
+V:8.0.5-r0
+A:aarch64
+S:97852336
+I:291287522
+T:QNX screen rpi 4 & 5 board support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen-rpi
+t:1784387329
+c:-dirty
+D:qnx-screen qnx-egl qnx-gles qnx-libdrm qnx-libgbm
+p:qnx-screen-backend
+
+C:Q1EzKZCgZ5U1vHwbv5tFdGcjwai2k=
+P:qnx-screen-rpi
+V:8.0.5-r1
+A:aarch64
+S:97853375
+I:291287494
+T:QNX screen rpi 4 & 5 board support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen-rpi
+t:1787340826
+c:9727b39a4461958e3edab0a02f2141a847e2af06
+D:qnx-screen qnx-egl qnx-gles qnx-libdrm qnx-libgbm
+p:qnx-screen-backend
+
+C:Q11jpnmpXUG+tjPnmUY7Q4c6G+DAw=
+P:qnx-screen-rpi-dbg
+V:8.0.5-r0
+A:aarch64
+S:186325495
+I:495304472
+T:QNX screen rpi 4 & 5 board support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen-rpi
+t:1784387329
+c:-dirty
+D:qnx-egl qnx-gles qnx-libdrm qnx-libgbm
+
+C:Q1GfEAi3qKmonEhYiXaA/BS4fe250=
+P:qnx-screen-rpi-dbg
+V:8.0.5-r1
+A:aarch64
+S:186326489
+I:495304472
+T:QNX screen rpi 4 & 5 board support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen-rpi
+t:1787340826
+c:9727b39a4461958e3edab0a02f2141a847e2af06
+D:qnx-egl qnx-gles qnx-libdrm qnx-libgbm
+
+C:Q1hmsCnj2XkT8zfLcyn/0wQLBPJVI=
+P:qnx-screen-virtio
+V:8.0.5-r0
+A:aarch64
+S:100144181
+I:294793687
+T:QNX screen virtio board support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen-virtio
+m:Aaron Bassett <abassett@qnx.com>
+t:1784387685
+c:007d25c9dbaea0dda501e4d432289978f62dcc25
+D:qnx-screen qnx-egl qnx-gles qnx-libdrm qnx-vulkan
+p:qnx-screen-backend
+
+C:Q1GbGkMYh6fCPARAIxLJb4QFCc/HU=
+P:qnx-screen-virtio
+V:8.0.5-r1
+A:aarch64
+S:100145100
+I:294793687
+T:QNX screen virtio board support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen-virtio
+m:Aaron Bassett <abassett@qnx.com>
+t:1786480559
+c:f84c24661a7aff16fef811eb43162156810d9d72
+k:1
+D:qnx-screen qnx-egl qnx-gles qnx-libdrm qnx-vulkan
+p:qnx-screen-backend
+
+C:Q1AAYVvSru2Lf0Vo1Al2kKWJqR8fE=
+P:qnx-screen-virtio
+V:8.0.5-r2
+A:aarch64
+S:100148658
+I:294793666
+T:QNX screen virtio board support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen-virtio
+m:Aaron Bassett <abassett@qnx.com>
+t:1787340335
+c:7c691f7d335aeb64679df43685dcbe44139a047c-dirty
+k:1
+D:qnx-screen qnx-egl qnx-gles qnx-libdrm qnx-vulkan
+p:qnx-screen-backend
+
+C:Q1eZWKORNouhee+LmBlhGFmRaCUrI=
+P:qnx-screen-virtio-dbg
+V:8.0.5-r0
+A:aarch64
+S:276233751
+I:734122752
+T:QNX screen virtio board support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen-virtio
+m:Aaron Bassett <abassett@qnx.com>
+t:1784387685
+c:007d25c9dbaea0dda501e4d432289978f62dcc25
+D:qnx-egl qnx-gles qnx-libdrm qnx-vulkan
+
+C:Q15BIJPbdrESO9L4jScSzy6hj5Ru4=
+P:qnx-screen-virtio-dbg
+V:8.0.5-r1
+A:aarch64
+S:276235912
+I:734122752
+T:QNX screen virtio board support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen-virtio
+m:Aaron Bassett <abassett@qnx.com>
+t:1786480559
+c:f84c24661a7aff16fef811eb43162156810d9d72
+k:1
+D:qnx-egl qnx-gles qnx-libdrm qnx-vulkan
+
+C:Q1bcGJw/RZx6WFVLU3A2dlveLjSck=
+P:qnx-screen-virtio-dbg
+V:8.0.5-r2
+A:aarch64
+S:276236066
+I:734122752
+T:QNX screen virtio board support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen-virtio
+m:Aaron Bassett <abassett@qnx.com>
+t:1787340335
+c:7c691f7d335aeb64679df43685dcbe44139a047c-dirty
+k:1
+D:qnx-egl qnx-gles qnx-libdrm qnx-vulkan
+
+C:Q1lgH0loc415vAD702tMB8QPj/VLc=
+P:qnx-sensor-framework
+V:8.0.5-r0
+A:aarch64
+S:4256
+I:1
+T:QNX Sensor Framework
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-mm-encode-mp4-container qnx-mm-input-file qnx-mm-mmf-core qnx-mm-playback-mp4-container qnx-mm-resarb-core qnx-sf-base=8.0.5-r0 qnx-sf-camapi=8.0.5-r0 qnx-sf-sensor=8.0.5-r0 qnx-sf-sfc-libyuv=8.0.5-r0
+
+C:Q1r77rgAU3TB4CZsasjANeoze8yb8=
+P:qnx-sensor-framework-example-config-qemu
+V:8.0.5-r0
+A:aarch64
+S:4704
+I:345
+T:QNX Sensor Framework Example Configuration
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework-example-configs
+m:Terence Ang <taang@qnx.com>
+t:1787775254
+c:6f7d57b0096b340958c8ed52cf5f833cead756f2
+
+C:Q1TnS55FF8sTGx6Vgxq6h7K5C6/u0=
+P:qnx-sensor-framework-example-config-rpi4
+V:8.0.5-r0
+A:aarch64
+S:4897
+I:1075
+T:QNX Sensor Framework Example Configuration
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework-example-configs
+m:Terence Ang <taang@qnx.com>
+t:1787775254
+c:6f7d57b0096b340958c8ed52cf5f833cead756f2
+
+C:Q1Rr9doaUR/2ly1pKgSZkIuuTlcRM=
+P:qnx-sensor-framework-example-config-rpi5
+V:8.0.5-r0
+A:aarch64
+S:4795
+I:699
+T:QNX Sensor Framework Example Configuration
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework-example-configs
+m:Terence Ang <taang@qnx.com>
+t:1787775254
+c:6f7d57b0096b340958c8ed52cf5f833cead756f2
+
+C:Q1noJCgjMP0zaDeO03R3Ggvkmq6U4=
+P:qnx-sensor-framework-example-config-usb
+V:8.0.5-r0
+A:aarch64
+S:4966
+I:1714
+T:QNX Sensor Framework Example Configuration
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework-example-configs
+m:Terence Ang <taang@qnx.com>
+t:1787775254
+c:6f7d57b0096b340958c8ed52cf5f833cead756f2
+
+C:Q1256qwWQpvmmERPO8r4ioERu7w6g=
+P:qnx-sensor-framework-example-configs
+V:8.0.5-r0
+A:aarch64
+S:4135
+T:QNX Sensor Framework Example Configuration
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework-example-configs
+m:Terence Ang <taang@qnx.com>
+t:1787775254
+c:6f7d57b0096b340958c8ed52cf5f833cead756f2
+D:qnx-sensor-framework-example-config-qemu=8.0.5-r0 qnx-sensor-framework-example-config-usb=8.0.5-r0 qnx-sensor-framework-example-config-rpi4=8.0.5-r0 qnx-sensor-framework-example-config-rpi5=8.0.5-r0
+
+C:Q1kg/z8arSYo9UvcPEhfkQ/IjyKFY=
+P:qnx-sensor-framework-utils
+V:8.0.5-r0
+A:aarch64
+S:4339
+I:1
+T:qnx-sensor-framework utilities
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sensor-framework=8.0.5-r0 qnx-sf-base-utils=8.0.5-r0
+
+C:Q10Cmk1AiYMaDs6Rp8y9u2Vl3BZT4=
+P:qnx-sf-base
+V:8.0.5-r0
+A:aarch64
+S:33118
+I:83800
+T:qnx-sf-base
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+
+C:Q1cvXbxBQBTJotHmDQMdxaYQ5gbrA=
+P:qnx-sf-base-dbg
+V:8.0.5-r0
+A:aarch64
+S:3060743
+I:7739088
+T:qnx-sf-base debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-base=8.0.5-r0
+
+C:Q11UaEXwo8qw8WQhasjlSVXmbnjZI=
+P:qnx-sf-base-dev
+V:8.0.5-r0
+A:aarch64
+S:80510
+I:484740
+T:qnx-sf-base headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-base=8.0.5-r0
+
+C:Q1cHFL21yQD+xz31n8mLzKtVoTQXM=
+P:qnx-sf-base-utils
+V:8.0.5-r0
+A:aarch64
+S:413408
+I:1375384
+T:qnx-sf-base utilities
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-base=8.0.5-r0
+
+C:Q1LNqxQT8tCYWeZ7+U1R1aDLVmiCs=
+P:qnx-sf-camapi
+V:8.0.5-r0
+A:aarch64
+S:189064
+I:520576
+T:qnx-sf-camapi
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-screen qnx-mm-mmf-core qnx-mm-aoi
+
+C:Q1296TY1588xKMOXxzHDmMSBDNmX4=
+P:qnx-sf-camapi-dbg
+V:8.0.5-r0
+A:aarch64
+S:708265
+I:1727744
+T:qnx-sf-camapi debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-camapi=8.0.5-r0
+
+C:Q1eSSi1PFJsuebqK37xzHf+3dESao=
+P:qnx-sf-camapi-examples
+V:8.0.5-r0
+A:aarch64
+S:87737
+I:278656
+T:qnx-sf-camapi-examples
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-screen qnx-egl qnx-gles libturbojpeg qnx-sf-camapi=8.0.5-r0
+
+C:Q1Z+rtuQRHVCCp0/+tHVvn+IuXKLI=
+P:qnx-sf-camapi-examples-dbg
+V:8.0.5-r0
+A:aarch64
+S:365851
+I:897224
+T:qnx-sf-camapi-examples debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-camapi-examples=8.0.5-r0
+
+C:Q1Rd1mJd9LH8dLoqbr6ZEbony7e9w=
+P:qnx-sf-camera-imx708
+V:8.0.5-r0
+A:aarch64
+S:16089
+I:76651
+T:qnx-sf-camera-imx708
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-base=8.0.5-r0
+
+C:Q1h/+ak5HgvE73mBN/Sk1DOndvzO4=
+P:qnx-sf-camera-imx708-dbg
+V:8.0.5-r0
+A:aarch64
+S:36256
+I:79744
+T:qnx-sf-camera-imx708 debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-camera-imx708=8.0.5-r0
+
+C:Q19QaQ74l/o20Xj4dh08C1Lrepf3g=
+P:qnx-sf-camera-ipc-server
+V:8.0.5-r0
+A:aarch64
+S:16540
+I:34888
+T:qnx-sf-camera-ipc-server
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-base=8.0.5-r0
+
+C:Q131tgVdVb0wu0ihlGuGDU8RQzz4A=
+P:qnx-sf-camera-ipc-server-dbg
+V:8.0.5-r0
+A:aarch64
+S:65829
+I:151224
+T:qnx-sf-camera-ipc-server debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-camera-ipc-server=8.0.5-r0
+
+C:Q1ciCxnC4P1UkVa+aT80kucYUMhVE=
+P:qnx-sf-camera-usb
+V:8.0.5-r0
+A:aarch64
+S:132704
+I:413624
+T:qnx-sf-camera-usb
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-usb qnx-sf-base=8.0.5-r0
+
+C:Q1pHtCgJ6W1u6HcJqV+S369CONUrc=
+P:qnx-sf-camera-usb-dbg
+V:8.0.5-r0
+A:aarch64
+S:551523
+I:1404168
+T:qnx-sf-camera-usb debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-camera-usb=8.0.5-r0
+
+C:Q1KHsfyMMOrsA9R3AMfteA3OTHCQk=
+P:qnx-sf-hw-bcm-rpi4-isp
+V:8.0.5-r0
+A:aarch64
+S:11269
+I:18184
+T:qnx-sf-hw-bcm-rpi4-isp
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-bcm-rpi4-mmal=8.0.5-r0
+
+C:Q1RjGlZ1TY6fQ7v4iOsiUetdd5sk0=
+P:qnx-sf-hw-bcm-rpi4-isp-dbg
+V:8.0.5-r0
+A:aarch64
+S:35694
+I:75992
+T:qnx-sf-hw-bcm-rpi4-isp debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-bcm-rpi4-isp=8.0.5-r0
+
+C:Q10dEHWQO/OrOXVAX7rVY+wSn8cF4=
+P:qnx-sf-hw-bcm-rpi4-isp-dev
+V:8.0.5-r0
+A:aarch64
+S:9548
+I:25073
+T:qnx-sf-hw-bcm-rpi4-isp headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-bcm-rpi4-isp=8.0.5-r0
+
+C:Q1RrqVKXn/DTCVM1E/pv42dD/MsgQ=
+P:qnx-sf-hw-bcm-rpi4-mbox-interface
+V:8.0.5-r0
+A:aarch64
+S:8409
+I:13176
+T:qnx-sf-hw-bcm-rpi4-mbox-interface
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+
+C:Q1x+A5PGg/XtqMBnlil/xMZ6ToU5A=
+P:qnx-sf-hw-bcm-rpi4-mbox-interface-dbg
+V:8.0.5-r0
+A:aarch64
+S:19130
+I:40096
+T:qnx-sf-hw-bcm-rpi4-mbox-interface debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-bcm-rpi4-mbox-interface=8.0.5-r0
+
+C:Q1dqHIxPXvDqNbgl9ccXqhq+SUhzE=
+P:qnx-sf-hw-bcm-rpi4-mbox-interface-dev
+V:8.0.5-r0
+A:aarch64
+S:7481
+I:9721
+T:qnx-sf-hw-bcm-rpi4-mbox-interface headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-bcm-rpi4-mbox-interface=8.0.5-r0
+
+C:Q13YT017kRfyvmTQ83yAETzCI6Rf4=
+P:qnx-sf-hw-bcm-rpi4-mmal
+V:8.0.5-r0
+A:aarch64
+S:17607
+I:36832
+T:qnx-sf-hw-bcm-rpi4-mmal
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-bcm-rpi4-vcsm=8.0.5-r0 qnx-sf-hw-bcm-rpi4-vchiq=8.0.5-r0
+
+C:Q1lfNc9Mg61ba5SsE85RZ5BUvrEWA=
+P:qnx-sf-hw-bcm-rpi4-mmal-dbg
+V:8.0.5-r0
+A:aarch64
+S:49210
+I:109744
+T:qnx-sf-hw-bcm-rpi4-mmal debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-bcm-rpi4-mmal=8.0.5-r0
+
+C:Q1cXIdYka3qgju6l2Zrcfv5uK4oxU=
+P:qnx-sf-hw-bcm-rpi4-mmal-dev
+V:8.0.5-r0
+A:aarch64
+S:23913
+I:87321
+T:qnx-sf-hw-bcm-rpi4-mmal headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-bcm-rpi4-mmal=8.0.5-r0
+
+C:Q1Kk24zReqZxqzv71D/ict9rduHRc=
+P:qnx-sf-hw-bcm-rpi4-vchiq
+V:8.0.5-r0
+A:aarch64
+S:9148
+I:13304
+T:qnx-sf-hw-bcm-rpi4-vchiq
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-bcm-rpi4-mbox-interface=8.0.5-r0
+
+C:Q17suEnZTiB2dA3eXddZeH4AlRVIM=
+P:qnx-sf-hw-bcm-rpi4-vchiq-dbg
+V:8.0.5-r0
+A:aarch64
+S:84124
+I:191504
+T:qnx-sf-hw-bcm-rpi4-vchiq debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-bcm-rpi4-vchiq=8.0.5-r0
+
+C:Q1k83YQQ+j2gdOaVtSn3DjhQt60+w=
+P:qnx-sf-hw-bcm-rpi4-vchiq-dev
+V:8.0.5-r0
+A:aarch64
+S:5922
+I:3463
+T:qnx-sf-hw-bcm-rpi4-vchiq headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-bcm-rpi4-vchiq=8.0.5-r0
+
+C:Q1hDIdbY6tlC38ubi7R585It3yu5Q=
+P:qnx-sf-hw-bcm-rpi4-vchiq-utils
+V:8.0.5-r0
+A:aarch64
+S:21140
+I:47496
+T:qnx-sf-hw-bcm-rpi4-vchiq utilities
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-bcm-rpi4-vchiq=8.0.5-r0
+
+C:Q17tXjYHDauQ4LFx/Az0nRx+yic2A=
+P:qnx-sf-hw-bcm-rpi4-vcsm
+V:8.0.5-r0
+A:aarch64
+S:8304
+I:12984
+T:qnx-sf-hw-bcm-rpi4-vcsm
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-bcm-rpi4-vchiq=8.0.5-r0
+
+C:Q1ypuYYoPOEWLIyPOFd81N2C6bIK4=
+P:qnx-sf-hw-bcm-rpi4-vcsm-dbg
+V:8.0.5-r0
+A:aarch64
+S:57562
+I:131200
+T:qnx-sf-hw-bcm-rpi4-vcsm debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-bcm-rpi4-vcsm=8.0.5-r0
+
+C:Q1LaUZUW+wA7pF1jircI/75sDdUYo=
+P:qnx-sf-hw-bcm-rpi4-vcsm-dev
+V:8.0.5-r0
+A:aarch64
+S:5608
+I:2049
+T:qnx-sf-hw-bcm-rpi4-vcsm headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-bcm-rpi4-vcsm=8.0.5-r0
+
+C:Q16LCq4zgWd6S1aZjpMssGvmgaVNg=
+P:qnx-sf-hw-bcm-rpi4-vcsm-utils
+V:8.0.5-r0
+A:aarch64
+S:13526
+I:28936
+T:qnx-sf-hw-bcm-rpi4-vcsm utilities
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-bcm-rpi4-vcsm=8.0.5-r0
+
+C:Q1X90RBBBXd01+deWaMTo8MMmfz4I=
+P:qnx-sf-hw-rpi4
+V:8.0.5-r0
+A:aarch64
+S:22016
+I:47336
+T:qnx-sf-hw-rpi4
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-screen qnx-sf-camapi=8.0.5-r0 qnx-sf-platform-broadcom=8.0.5-r0 qnx-sf-hw-bcm-rpi4-isp=8.0.5-r0 qnx-sf-hw-bcm-rpi4-mbox-interface=8.0.5-r0 qnx-sf-hw-bcm-rpi4-mmal=8.0.5-r0 qnx-sf-hw-bcm-rpi4-vchiq=8.0.5-r0 qnx-sf-hw-bcm-rpi4-vchiq-utils=8.0.5-r0 qnx-sf-hw-bcm-rpi4-vcsm=8.0.5-r0 qnx-sf-hw-bcm-rpi4-vcsm-utils=8.0.5-r0 qnx-sf-camera-imx708=8.0.5-r0 qnx-sf-rpi-isp-tuning-example=8.0.5-r0
+
+C:Q1S/HVRqmLtY9++FXjeNDQ77XFx2c=
+P:qnx-sf-hw-rpi4-dbg
+V:8.0.5-r0
+A:aarch64
+S:71795
+I:163232
+T:qnx-sf-hw-rpi4 debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-hw-rpi4=8.0.5-r0
+
+C:Q1VV0mg5cIKLOL0xj53tdX0BfVvNY=
+P:qnx-sf-hw-rpi5
+V:8.0.5-r0
+A:aarch64
+S:4451
+I:1
+T:qnx-sf-hw-rpi5 group packages
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-base=8.0.5-r0 qnx-sf-platform-broadcom-rpi5=8.0.5-r0 qnx-sf-camera-imx708=8.0.5-r0 qnx-sf-rpi-isp-tuning-example=8.0.5-r0
+
+C:Q1CFNEEhvdD43N6C6yMZCmTA0kA3g=
+P:qnx-sf-hw-rpi5-dev
+V:8.0.5-r0
+A:aarch64
+S:6533
+I:7504
+T:qnx-sf-hw-rpi5 headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+
+C:Q1Gj0h+uXGNoo9T+kv3JwlbP1ZUjQ=
+P:qnx-sf-platform-broadcom
+V:8.0.5-r0
+A:aarch64
+S:54597
+I:151552
+T:qnx-sf-platform-broadcom
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-rpi-camera-ipa yaml qnx-sf-base=8.0.5-r0 qnx-sf-hw-bcm-rpi4-isp=8.0.5-r0 qnx-sf-hw-bcm-rpi4-mbox-interface=8.0.5-r0
+
+C:Q1ob8nOaI0+PCwiTrM6mHcgmDomNE=
+P:qnx-sf-platform-broadcom-dbg
+V:8.0.5-r0
+A:aarch64
+S:227466
+I:550520
+T:qnx-sf-platform-broadcom debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-platform-broadcom=8.0.5-r0
+
+C:Q1GsTPkBt7qITD4jldapb6+59K4rw=
+P:qnx-sf-platform-broadcom-dev
+V:8.0.5-r0
+A:aarch64
+S:5453
+I:1766
+T:qnx-sf-platform-broadcom headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+
+C:Q1yhJUeTaC7Rg1zHnVtEm/g0ykd7g=
+P:qnx-sf-platform-broadcom-rpi5
+V:8.0.5-r0
+A:aarch64
+S:45626
+I:110144
+T:qnx-sf-platform-broadcom-rpi5
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-rpi-camera-ipa yaml qnx-sf-base=8.0.5-r0
+
+C:Q1pqX2ALXcjZZmn1nKXRxN4ZagaWc=
+P:qnx-sf-platform-broadcom-rpi5-dbg
+V:8.0.5-r0
+A:aarch64
+S:251191
+I:607720
+T:qnx-sf-platform-broadcom-rpi5 debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-platform-broadcom-rpi5=8.0.5-r0
+
+C:Q14qm/Kgy0JlGVLNfaHM01fX1rDyo=
+P:qnx-sf-platform-broadcom-rpi5-dev
+V:8.0.5-r0
+A:aarch64
+S:5161
+I:1148
+T:qnx-sf-platform-broadcom-rpi5 headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+
+C:Q1u5hoFy87nV/sOeDSLhTDnQ6pkGE=
+P:qnx-sf-rpi-isp-tuning-example
+V:8.0.5-r0
+A:aarch64
+S:17240
+I:36928
+T:qnx-sf-rpi-isp-tuning-example
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-screen qnx-sf-camapi=8.0.5-r0 qnx-sf-sensor=8.0.5-r0
+
+C:Q1ltmPsUcdw0wfwUYzAIv/A9uILjA=
+P:qnx-sf-rpi-isp-tuning-example-dbg
+V:8.0.5-r0
+A:aarch64
+S:66328
+I:160280
+T:qnx-sf-rpi-isp-tuning-example debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-rpi-isp-tuning-example=8.0.5-r0
+
+C:Q1LaOdEZRrn0M5DbLtMXpj5WQsGME=
+P:qnx-sf-sensor
+V:8.0.5-r0
+A:aarch64
+S:98631
+I:264096
+T:qnx-sf-sensor
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-base=8.0.5-r0
+
+C:Q1Iy923+kSxk1La5NuxU/NgWWuFis=
+P:qnx-sf-sensor-contiradar
+V:8.0.5-r0
+A:aarch64
+S:27640
+I:64648
+T:qnx-sf-sensor-contiradar
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-screen qnx-sf-base=8.0.5-r0
+
+C:Q1nx0S/8PE22E4evQ2E2fzCoylVWA=
+P:qnx-sf-sensor-contiradar-dbg
+V:8.0.5-r0
+A:aarch64
+S:96187
+I:219752
+T:qnx-sf-sensor-contiradar debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-sensor-contiradar=8.0.5-r0
+
+C:Q15IUKfk9a28gPufzYTzthG4Ref6c=
+P:qnx-sf-sensor-dbg
+V:8.0.5-r0
+A:aarch64
+S:525665
+I:1227008
+T:qnx-sf-sensor debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-sensor=8.0.5-r0
+
+C:Q1FrqXR3RfJD8ai1grGZ9WIbidM5Q=
+P:qnx-sf-sensor-dev
+V:8.0.5-r0
+A:aarch64
+S:38654
+I:182050
+T:qnx-sf-sensor headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-sensor=8.0.5-r0
+
+C:Q11/O9Tdzrn01PnJQ3ebgJ1cylV0w=
+P:qnx-sf-sensor-hesai
+V:8.0.5-r0
+A:aarch64
+S:31960
+I:80988
+T:qnx-sf-sensor-hesai
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-base=8.0.5-r0
+
+C:Q17PhhYpspizqUCXdtKMDuG8PV9Jc=
+P:qnx-sf-sensor-hesai-dbg
+V:8.0.5-r0
+A:aarch64
+S:159122
+I:379112
+T:qnx-sf-sensor-hesai debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-sensor-hesai=8.0.5-r0
+
+C:Q1ss+HOAx70+QlYRFbzGJnnHaGLko=
+P:qnx-sf-sensor-im604
+V:8.0.5-r0
+A:aarch64
+S:8874
+I:13672
+T:qnx-sf-sensor-im604
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-base=8.0.5-r0
+
+C:Q16Gt77nk9mWd6DEabckMywXe58OM=
+P:qnx-sf-sensor-im604-dbg
+V:8.0.5-r0
+A:aarch64
+S:24839
+I:51720
+T:qnx-sf-sensor-im604 debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-sensor-im604=8.0.5-r0
+
+C:Q1DnFYjW6ax7L2/P0nwWc7fQiQUwI=
+P:qnx-sf-sensor-novatel
+V:8.0.5-r0
+A:aarch64
+S:25619
+I:65640
+T:qnx-sf-sensor-novatel
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-base=8.0.5-r0
+
+C:Q1bBOIsctnucZBripTbUNMJm8DlxM=
+P:qnx-sf-sensor-novatel-dbg
+V:8.0.5-r0
+A:aarch64
+S:165977
+I:410840
+T:qnx-sf-sensor-novatel debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-sensor-novatel=8.0.5-r0
+
+C:Q1X2VIh622+nZf+0wnFotiOaO5dHM=
+P:qnx-sf-sensor-rplidar
+V:8.0.5-r0
+A:aarch64
+S:21873
+I:40944
+T:qnx-sf-sensor-rplidar
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-base=8.0.5-r0
+
+C:Q1ITjef9Hi7O9DPnSvua71eC8NKBs=
+P:qnx-sf-sensor-rplidar-dbg
+V:8.0.5-r0
+A:aarch64
+S:112803
+I:263920
+T:qnx-sf-sensor-rplidar debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-sensor-rplidar=8.0.5-r0
+
+C:Q1QLqHCr8Ba5JtW3WBG7mAIblKLsQ=
+P:qnx-sf-sensor-utils
+V:8.0.5-r0
+A:aarch64
+S:25873
+I:57696
+T:qnx-sf-sensor utilities
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-sensor=8.0.5-r0
+
+C:Q1dJKasQHkVesvnbFNy4LRH7NnTdo=
+P:qnx-sf-sensor-velodyne
+V:8.0.5-r0
+A:aarch64
+S:34442
+I:81873
+T:qnx-sf-sensor-velodyne
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-base=8.0.5-r0
+
+C:Q1kLUviudnJwaoaG9E7/cb3zPg0XE=
+P:qnx-sf-sensor-velodyne-dbg
+V:8.0.5-r0
+A:aarch64
+S:137196
+I:317384
+T:qnx-sf-sensor-velodyne debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-sensor-velodyne=8.0.5-r0
+
+C:Q1h+j6lONyzENl7CVqfrwDYgxgACU=
+P:qnx-sf-sensor-xsens
+V:8.0.5-r0
+A:aarch64
+S:26238
+I:56280
+T:qnx-sf-sensor-xsens
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-usb
+
+C:Q14uZIfjJxEkOW200d0p7e0RTKjGU=
+P:qnx-sf-sensor-xsens-dbg
+V:8.0.5-r0
+A:aarch64
+S:75958
+I:166248
+T:qnx-sf-sensor-xsens debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-sensor-xsens=8.0.5-r0
+
+C:Q1lwfPIWhzXq4/r7QBT2qhN8Aqjeg=
+P:qnx-sf-sfc
+V:8.0.5-r0
+A:aarch64
+S:4384
+I:1
+T:qnx-sf-sfc
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+
+C:Q1GF+mlHM1mckqeBmp70M5qkEGTgE=
+P:qnx-sf-sfc-dev
+V:8.0.5-r0
+A:aarch64
+S:6746
+I:7753
+T:qnx-sf-sfc headers
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-base=8.0.5-r0
+
+C:Q1gk1zWFhAedtu+9blofdefDPoHBE=
+P:qnx-sf-sfc-libyuv
+V:8.0.5-r0
+A:aarch64
+S:10711
+I:18368
+T:qnx-sf-sfc-libyuv
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-libyuv libyuv
+
+C:Q1wpsO0LCk/v5qPU7leeNdwdPVk4I=
+P:qnx-sf-sfc-libyuv-dbg
+V:8.0.5-r0
+A:aarch64
+S:27071
+I:56048
+T:qnx-sf-sfc-libyuv debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-sensor-framework
+m:Terence Ang <taang@qnx.com>
+t:1787774719
+c:64da6fc377b8093503d04f5a3fb7035563e6ae28
+D:qnx-sf-sfc-libyuv=8.0.5-r0
+
+C:Q1ZoLtLydcoVYzy5okV1BoRDY/UPE=
+P:qnx-usb
+V:8.0.5-r0
+A:aarch64
+S:36786
+I:77128
+T:QNX usb support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-usb
+m:Terence Ang <taang@qnx.com>
+t:1784659686
+c:c0cb005a61c4b5e8b31bdea9a5c178fb7cc3f90e
+D:qnx-libpci qnx-libslog2
+
+C:Q1Y/D4taXifITiMFZk9W3CcT1d70I=
+P:qnx-usb-dbg
+V:8.0.5-r0
+A:aarch64
+S:2924683
+I:6857344
+T:QNX usb support debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-usb
+m:Terence Ang <taang@qnx.com>
+t:1784659686
+c:c0cb005a61c4b5e8b31bdea9a5c178fb7cc3f90e
+D:qnx-usb=8.0.5-r0
+
+C:Q1adoU3+28Q8SW0TVU2WOoI6/A8v4=
+P:qnx-usb-dev
+V:8.0.5-r0
+A:aarch64
+S:31309
+I:111032
+T:QNX usb support (development files)
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-usb
+m:Terence Ang <taang@qnx.com>
+t:1784659686
+c:c0cb005a61c4b5e8b31bdea9a5c178fb7cc3f90e
+
+C:Q1sHjkQsieIpM/ISI5lQVH5XP0G5o=
+P:qnx-usb-static
+V:8.0.5-r0
+A:aarch64
+S:500062
+I:1485572
+T:QNX usb support (static library)
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-usb
+m:Terence Ang <taang@qnx.com>
+t:1784659686
+c:c0cb005a61c4b5e8b31bdea9a5c178fb7cc3f90e
+
+C:Q1RvLzPk46TvyxVgo4/ljKPqXwQ+U=
+P:qnx-usb-utils
+V:8.0.5-r0
+A:aarch64
+S:45175
+I:116448
+T:QNX usb support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-usb
+m:Terence Ang <taang@qnx.com>
+t:1784659686
+c:c0cb005a61c4b5e8b31bdea9a5c178fb7cc3f90e
+D:qnx-usb=8.0.5-r0 qnx-libslog2
+
+C:Q1dFVw3WDmGGyG61ict53CZALvixc=
+P:qnx-vpx
+V:8.0.5-r0
+A:aarch64
+S:609175
+I:1125968
+T:QNX VP9 Library for software decoder and encoder
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-vpx
+m:Terence Ang <taang@qnx.com>
+t:1787774009
+c:cf779c5e0f22f4dd605d21200d0d502a4100bd90
+
+C:Q1y1WMY5k3l5k15+UiGIbkbFc5ahQ=
+P:qnx-vpx-dbg
+V:8.0.5-r0
+A:aarch64
+S:2875288
+I:6519784
+T:QNX VP9 Library for software decoder and encoder debug symbols and binaries
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-vpx
+m:Terence Ang <taang@qnx.com>
+t:1787774009
+c:cf779c5e0f22f4dd605d21200d0d502a4100bd90
+D:qnx-vpx=8.0.5-r0
+
+C:Q1F98KECEICaY4nIujRRO60pe6SEA=
+P:qnx-vulkan
+V:8.0.5-r3
+A:aarch64
+S:11894585
+I:41916627
+T:QNX800 Screen Board Support - Vulkan
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen
+m:Aaron Bassett <abassett@qnx.com>
+t:1784221014
+c:5ea9b2ebf73b1bd05cbb7ea345c4427a5ce91a13
+D:qnx-keyboard
+
+C:Q1UaWwcsEi8QCDgElWMgrT+dFClkY=
+P:vulkan-headers
+V:8.0.5-r3
+A:aarch64
+S:1509684
+I:19336710
+T:QNX800 Screen Board Support
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:qnx-screen
+m:Aaron Bassett <abassett@qnx.com>
+t:1784221014
+c:5ea9b2ebf73b1bd05cbb7ea345c4427a5ce91a13
+D:qnx-khr-dev
+

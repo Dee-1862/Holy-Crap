@@ -5,7 +5,10 @@ Same HTTP API as laptop/infer_server.py, on 127.0.0.1:8770:
     ->   {"model", "boxes": [{"box", "cls", "score"}], "best": {class: score}, "ms"}
 ONNX Runtime 1.24.4 comes from QNX's open source packages (oss.qnx.com, 8.0.5 extra). Its Python module is
 broken there, so this goes through ortlite (a small C bridge). Resizing and box filtering use numpy only.
-It is its own process under the supervisor, so a crash here never takes the camera or the watch down.
+It runs in its own supervised user process, providing a fault-containment boundary from the camera and watch processes.
+
+The model input side comes from HC_MODEL_SIDE (default 640, e.g. 320 for the pinned QNX model) and is
+reported in the GET/POST metadata so a deployment probe can verify the model shape the server is using.
 """
 from __future__ import annotations
 
@@ -13,6 +16,7 @@ import json
 import os
 import sys
 import time
+from collections.abc import Mapping
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
@@ -25,12 +29,37 @@ from ortlite import Session  # noqa: E402
 
 MODEL = Path(os.environ.get("HC_MODEL", HERE / "dropping4_yolo11n_640.onnx"))
 CLASSES = ["cocci", "healthy", "ncd", "salmo"]
-SIDE = 640
 CONF = 0.15
+
+# One rule for every accepted side: 32 through 4096 and a multiple of 32 (YOLO-safe strides).
+MIN_SIDE, MAX_SIDE, STRIDE, DEFAULT_SIDE = 32, 4096, 32, 640
+
+
+def model_side(env: Mapping[str, str] | None = None) -> int:
+    """Configured model input side from HC_MODEL_SIDE, default 640.
+
+    Validated eagerly at import so a bad deployment fails before serving:
+    32 through 4096 and divisible by 32.
+    """
+    raw = (os.environ if env is None else env).get("HC_MODEL_SIDE")
+    if raw is None:
+        return DEFAULT_SIDE
+    try:
+        side = int(raw)
+    except (TypeError, ValueError):
+        raise ValueError(f"HC_MODEL_SIDE must be an integer input side, got {raw!r}") from None
+    if side < MIN_SIDE or side > MAX_SIDE or side % STRIDE:
+        raise ValueError(
+            f"HC_MODEL_SIDE must be {MIN_SIDE}..{MAX_SIDE} and a multiple of {STRIDE}, got {raw!r}"
+        )
+    return side
+
+
+SIDE = model_side()
 
 
 def letterbox(rgb: np.ndarray):
-    """Bilinear resize into a 640 square with grey padding, as the detector was trained. Returns input, scale, pads."""
+    """Bilinear resize into the configured square with grey padding, as the detector was trained. Returns input, scale, pads."""
     h, w = rgb.shape[:2]
     s = min(SIDE / w, SIDE / h)
     nw, nh = round(w * s), round(h * s)
@@ -77,6 +106,11 @@ def detect(sess: Session, rgb: np.ndarray) -> np.ndarray:
     return nms(b)
 
 
+def model_info() -> dict:
+    """GET metadata; side lets a deployment probe verify which model shape the server is using."""
+    return {"model": MODEL.name, "on": "pi", "side": SIDE, "classes": CLASSES}
+
+
 def main():
     # ONNX Runtime prints its whole operator registry once on load, keep that out of the log
     devnull, saved = os.open(os.devnull, os.O_WRONLY), os.dup(2)
@@ -104,10 +138,10 @@ def main():
                 out.append({"box": [round(float(x1) / w, 3), round(float(y1) / h, 3), round(float(x2) / w, 3), round(float(y2) / h, 3)],
                             "cls": name, "score": round(float(sc), 3)})
             out.sort(key=lambda b: -b["score"])
-            self._send(200, {"model": MODEL.name, "on": "pi", "boxes": out[:5], "best": best, "ms": round((time.perf_counter() - t0) * 1000, 1)})
+            self._send(200, {"model": MODEL.name, "on": "pi", "side": SIDE, "boxes": out[:5], "best": best, "ms": round((time.perf_counter() - t0) * 1000, 1)})
 
         def do_GET(self):
-            self._send(200, {"model": MODEL.name, "on": "pi", "classes": CLASSES})
+            self._send(200, model_info())
 
         def _send(self, code: int, body: dict):
             data = json.dumps(body).encode()

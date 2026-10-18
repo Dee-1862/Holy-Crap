@@ -1,0 +1,27 @@
+submitted job-20261018-101316-b89adb55 (7 argv elements) to qnxpi
+{
+  "id": "job-20261018-101316-b89adb55",
+  "argv": [
+    "sudo",
+    "apk",
+    "add",
+    "--no-network",
+    "--repositories-file",
+    "/dev/null",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/*.apk"
+  ],
+  "cwd": null,
+  "timeout": 600,
+  "status": "failed",
+  "started_at": "2026-10-18T17:13:18Z",
+  "finished_at": "2026-10-18T17:13:18Z",
+  "exit_code": 1,
+  "timed_out": false,
+  "error": null,
+  "stdout_log": "logs/job-20261018-101316-b89adb55.out",
+  "stderr_log": "logs/job-20261018-101316-b89adb55.err"
+}
+--- stderr ---
+ERROR: unable to select packages:
+  /data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/*.apk (no such package):
+    required by: world[/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/*.apk]

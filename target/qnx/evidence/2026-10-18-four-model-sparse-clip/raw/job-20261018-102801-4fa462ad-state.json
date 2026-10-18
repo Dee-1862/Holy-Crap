@@ -1,0 +1,22 @@
+{
+  "id": "job-20261018-102801-4fa462ad",
+  "argv": [
+    "/system/bin/sudo",
+    "/system/bin/apk",
+    "add",
+    "--no-network",
+    "--repositories-file",
+    "/dev/null",
+    "/data/home/qnxuser/hc-four-model-20261018-7778ee0/stage/ffmpeg-8.0-r5.apk"
+  ],
+  "cwd": "/data/home/qnxuser/hc-four-model-20261018-7778ee0/stage",
+  "timeout": 120,
+  "status": "done",
+  "started_at": "2026-10-18T17:28:01Z",
+  "finished_at": "2026-10-18T17:28:02Z",
+  "exit_code": 0,
+  "timed_out": false,
+  "error": null,
+  "stdout_log": "logs/job-20261018-102801-4fa462ad.out",
+  "stderr_log": "logs/job-20261018-102801-4fa462ad.err"
+}

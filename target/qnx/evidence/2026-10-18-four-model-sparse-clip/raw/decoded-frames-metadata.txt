@@ -1,0 +1,3 @@
+-rw-rw-rw-  1 1000 1000 4665600 2026-10-18 17:29 /data/home/qnxuser/hc-four-model-20261018-7778ee0/results/big-broiler-090-3frames-960x540.rgb
+c045d24122f9c00161c78f4adc6a6e1b57013f28cec3e7f44f4f32475e638569  /data/home/qnxuser/hc-four-model-20261018-7778ee0/results/big-broiler-090-3frames-960x540.rgb
+expected_bytes=4665600

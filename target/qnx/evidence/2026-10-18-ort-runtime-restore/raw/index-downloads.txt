@@ -1,0 +1,5 @@
+805-extra 200 36970 https://repo.oss.qnx.com/8.0.5/extra/aarch64/APKINDEX.tar.gz
+805-core 200 15192 https://repo.oss.qnx.com/8.0.5/core/aarch64/APKINDEX.tar.gz
+805-qnx-extra 200 11845 https://repo.oss.qnx.com/8.0.5/qnx-extra/aarch64/APKINDEX.tar.gz
+803-extra 200 157339 https://repo.oss.qnx.com/8.0.3/extra/aarch64/APKINDEX.tar.gz
+803-core 200 25841 https://repo.oss.qnx.com/8.0.3/core/aarch64/APKINDEX.tar.gz

@@ -1,17 +1,22 @@
 # Inference on the QNX Pi
 
+> Target-state note (2026-10-18): the official NumPy and ONNX Runtime packages
+> and the checked-in `libhcort.so` bridge were restored and smoke-tested on the
+> directly connected Pi. The full clip worker is not deployed. See `TARGET.md`
+> and `target/qnx/evidence/2026-10-18-ort-runtime-restore/REPORT.md`.
+
 The dropping detector runs on the Pi in the `infer` section (`../infer.py`), through ONNX Runtime from QNX's open
 source packages. Nothing goes to the laptop.
 
 ## What is installed and why this folder exists
 
 - `onnxruntime 1.24.4` and `python3-numpy 2.4.1` for QNX 8.0.x aarch64, from https://oss.qnx.com
-  (repo `https://repo.oss.qnx.com/8.0.5/extra/aarch64`, numpy and abseil from `8.0.3/extra`). 106 packages with
-  dependencies, about 28 MB, installed offline with `sudo apk add --no-network ./*.apk` because the Pi has no internet.
+  (repo `https://repo.oss.qnx.com/8.0.5/extra/aarch64`, numpy and abseil from `8.0.3/extra`). The verified offline
+  transaction installed 107 packages with dependencies from a 37 MB bundle.
 - Abseil must be `20250814.1` or newer. The 8.0.3 index also lists `20230802.1`, which protobuf 31 and re2 reject.
-- QNX's `python3-onnxruntime` package is missing its compiled `onnxruntime_pybind11_state` module, so
-  `import onnxruntime` fails. `libonnxruntime.so` itself works, so `hc_ort.c` wraps the few C API calls we need
-  and `ortlite.py` calls it with ctypes, with the same `run(x)` idea as `onnxruntime.InferenceSession`.
+- QNX's `python3-onnxruntime` package is missing its compiled `onnxruntime_pybind11_state` module and was left
+  uninstalled. `libonnxruntime.so` itself works, so `hc_ort.c` wraps the few C API calls we need and `ortlite.py`
+  calls it with ctypes, with the same `run(x)` idea as `onnxruntime.InferenceSession`.
 - The headers come from `onnxruntime-dev`, unpacked by hand into `~/ort-include` (installing the package pulls in
   dev packages that do not exist for 8.0.5).
 
@@ -32,6 +37,13 @@ clang -O2 -shared -fPIC hc_ort.c -I$HOME/ort-include -l:libonnxruntime.so.1 -o l
 
 The same 128 pixel patch gave cocci 0.494 on the Pi and 0.486 on the laptop, with the same box. The small gap is the
 numpy resize in `infer.py` against OpenCV's on the laptop.
+
+Set `HC_MODEL_SIDE` to the model's square input side when launching the HTTP
+server. It defaults to 640 for the existing models and accepts validated,
+stride-aligned values from 32 through 4096. The pinned 320 model was verified
+on QNX with `HC_MODEL_SIDE=320` and `HC_THREADS=2`; one real loopback POST took
+111.4 ms in the inference handler and 115.6 ms end to end. GET and POST both
+report `side` so a deployment probe can reject a mismatched configuration.
 
 ## Things to know
 

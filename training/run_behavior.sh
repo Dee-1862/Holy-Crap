@@ -15,7 +15,7 @@ fi
 nvidia-smi -L; nproc; free -g | head -2; df -h "$PWD" /dev/shm
 
 NGPU=$(nvidia-smi -L | wc -l)
-if [ -n "${DDP_CLS:-}" ]; then
+if [ -n "${DDP_CLS:-}${ALL8:-}" ]; then
   # Prove multi-GPU works in the sandbox before paying for the 33 GB download.
   timeout 300 torchrun --standalone --nproc_per_node "$NGPU" ddp_check.py || exit 1
 fi
@@ -44,6 +44,25 @@ if [ -n "${DDP_CLS:-}" ]; then
     | tee cls_n_ddp.log | grep --line-buffered -E '^metrics|SUMMARY|export|Traceback|Error|epochs completed'
   rc=${PIPESTATUS[0]}
   cp cls_n_ddp.log "$WORK/stats_behaviour.json" "${VERI_OUTPUT_DIR:-.}/" 2>/dev/null
+  exit $rc
+fi
+
+if [ -n "${ALL8:-}" ]; then
+  # One 8-GPU box: cls_n on GPUs 0-3, detector on 4-5, cls_s on 6-7 (DDP each).
+  CUDA_VISIBLE_DEVICES=0,1,2,3 python train_behavior.py --task cls --data "$WORK/behaviour" --name cls_n_ddp \
+    --model yolo11n-cls.pt --gpus 4 --batch 128 --hours "$HOURS" --workers 10 > cls_n_ddp.log 2>&1 &
+  P1=$!
+  CUDA_VISIBLE_DEVICES=4,5 python train_behavior.py --task det --data "$WORK/chickens/data.yaml" --name det \
+    --model yolo11n.pt --gpus 2 --batch 16 --hours "$HOURS" --workers 10 > det.log 2>&1 &
+  P2=$!
+  CUDA_VISIBLE_DEVICES=6,7 python train_behavior.py --task cls --data "$WORK/behaviour" --name cls_s \
+    --model yolo11s-cls.pt --gpus 2 --batch 128 --hours "$HOURS" --workers 10 > cls_s.log 2>&1 &
+  P3=$!
+  tail -n +1 -F cls_n_ddp.log det.log cls_s.log 2>/dev/null | grep --line-buffered -E '^metrics|SUMMARY|export|Traceback|Error|epochs completed' &
+  TAILPID=$!
+  rc=0; for p in $P1 $P2 $P3; do wait "$p" || rc=1; done
+  sleep 2; kill $TAILPID 2>/dev/null
+  cp cls_n_ddp.log det.log cls_s.log "$WORK/stats_behaviour.json" "${VERI_OUTPUT_DIR:-.}/" 2>/dev/null
   exit $rc
 fi
 

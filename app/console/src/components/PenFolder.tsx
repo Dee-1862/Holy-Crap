@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { GROUPS } from "@/lib/data";
 import { groupStatus } from "@/lib/insight";
+import { lastVet } from "@/lib/store";
 import { LIVE_CAM } from "./LiveCam";
 import styles from "./folder.module.css";
 
@@ -26,7 +27,7 @@ export default function PenFolder({ selected, cams, live, onSelect }: Props) {
         <button aria-pressed={selected === g.id} onClick={() => onSelect(g.id)}>
           <i className={cam ? styles[st.level] : styles.off} />
           <span className={styles.name}>{g.name}</span>
-          {cam ? <span className={styles.cam}>Camera</span> : <span className={styles.offline}>Offline</span>}
+          {lastVet(g.id) ? <span className={styles.vet}>Terminated</span> : cam ? <span className={styles.cam}>Camera</span> : <span className={styles.offline}>Offline</span>}
           {cam && <b className="num">{st.mean === null ? "n/a" : st.mean.toFixed(1)}</b>}
         </button>
       </li>

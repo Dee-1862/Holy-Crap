@@ -6,6 +6,7 @@ import CameraPulse from "@/components/CameraPulse";
 import LiveCam, { LIVE_CAM, useLiveFrame } from "@/components/LiveCam";
 import Clock from "@/components/Clock";
 import PenDroppings from "@/components/PenDroppings";
+import PenActions from "@/components/PenActions";
 import PenFolder from "@/components/PenFolder";
 import Readout from "@/components/Readout";
 import SpecimenSheet from "@/components/SpecimenSheet";
@@ -79,6 +80,7 @@ export default function Dashboard() {
           {!piCam && isOnlinePen(selected) && (
             <div className={`glass ${styles.readout}`}>
               <Readout key={selected} groupId={selected} />
+              <PenActions key={`act-${selected}`} groupId={selected} onOpen={setOpenId} />
             </div>
           )}
         </aside>

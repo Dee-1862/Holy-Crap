@@ -60,8 +60,11 @@ static const int MAXSPEC = 24;
 static Spec SP[MAXSPEC];
 static int NSP = 0;
 static bool liveOk = false;            // true while the console answers
-static uint32_t lastSync = 0, vetAt = 0;
-static int vetPen = -1;                // most recent vet request, from the console
+static uint32_t lastSync = 0;
+// Minutes since each pen was terminated (vet called), -1 when it is not. A termination holds the pen for an hour or
+// until it is cleared on the website, and a held pen cannot be terminated again, on the watch or the website.
+static int16_t penVet[NPEN] = {-1, -1, -1, -1, -1, -1};
+static bool penLocked(int p) { return penVet[p] >= 0; }
 
 struct Demo { const char* id; const char* pen; uint8_t k, grade, conf, mins; uint8_t p[4]; uint8_t sub[5]; uint8_t rx, ry; const char* why[3]; };
 static const Demo DEMO[] = {
@@ -236,9 +239,7 @@ static void syncNow() {
     s.ph = strlen(o["ph"] | "") > 0;
     NSP++;
   }
-  for (JsonObject o : doc["pens"].as<JsonArray>()) { int pi = penIndex(o["id"] | ""); if (pi >= 0) penOff[pi] = (o["off"] | 0) != 0; }
-  vetPen = doc["vet"].isNull() ? -1 : penIndex(doc["vet"]["pen"] | "");
-  vetAt = doc["vet"]["ago"] | 0;
+  for (JsonObject o : doc["pens"].as<JsonArray>()) { int pi = penIndex(o["id"] | ""); if (pi >= 0) { penOff[pi] = (o["off"] | 0) != 0; penVet[pi] = o["vet"] | -1; } }
   if (scr == PEN || scr == MENUSCR) { loadPen(pen); pg = min(pg, pages() - 1); }
   dirty = true;
 }
@@ -350,6 +351,7 @@ static void pageList() {
     bool any; float m = meanGrade(gi, &any); char b[16];
     snprintf(b, sizeof b, "%d", r + 1); text(b, 94, yc, C_TER, &fonts::DejaVu18);
     text(PEN_NAME[gi], 122, yc, penOff[gi] ? C_TER : C_TXT, &fonts::DejaVu18, middle_left);
+    if (penLocked(gi)) text("Terminated", 326, yc, C_BAD, &fonts::DejaVu12, middle_right);
     if (penOff[gi]) snprintf(b, sizeof b, "Offline"); else if (any) snprintf(b, sizeof b, "%.1f", m); else snprintf(b, sizeof b, "n/a");
     text(b, 382, yc, any && !penOff[gi] ? levelColor(level(gi)) : C_TER, penOff[gi] ? &fonts::DejaVu12 : &fonts::DejaVu18, middle_right);
   }
@@ -424,7 +426,7 @@ static void pageSummary() {
     M5.Display.fillSmoothCircle(374, yc, 5, n ? levelColor(lv) : C_SEP);
   }
   char b[48];
-  if (vetPen == pen) { snprintf(b, sizeof b, "Vet requested %d min ago", (int)vetAt); text(b, CX, 384, C_GOOD, &fonts::DejaVu12); }
+  if (penLocked(pen)) { snprintf(b, sizeof b, "Terminated %d min ago, vet called", penVet[pen]); text(b, CX, 384, C_BAD, &fonts::DejaVu12); }
 }
 // Pen radar: this pen filled in the status color, the barn average as a dashed line.
 static void dashedLine(int x0, int y0, int x1, int y1, uint16_t col) {
@@ -463,7 +465,7 @@ static void pageRadar() {
     float a = -PI / 2 + j * 2 * PI / 5;
     text(AXES[j], cx + cosf(a) * (R + 26), cy + sinf(a) * (R + 22), C_SEC, &fonts::DejaVu12);
   }
-  if (vetPen == pen) { char b[40]; snprintf(b, sizeof b, "Vet requested %d min ago", (int)vetAt); text(b, CX, 396, C_GOOD, &fonts::DejaVu12); }
+  if (penLocked(pen)) { char b[48]; snprintf(b, sizeof b, "Terminated %d min ago, vet called", penVet[pen]); text(b, CX, 396, C_BAD, &fonts::DejaVu12); }
 }
 static void pageMenu() {
   M5.Display.fillScreen(C_BLK);
@@ -471,7 +473,8 @@ static void pageMenu() {
   for (int i = 0; i < NMENU; i++) {
     int y = 122 + i * 66; bool on = (i == menuSel);
     card(83, y - 26, 300, 52, 26, on ? C_CARD2 : C_CARD);
-    text(MENU[i], CX, y, i == 2 ? (on ? C_BAD : C_SEC) : (on ? C_TXT : C_SEC), &fonts::DejaVu18);
+    bool held = i == 2 && penLocked(pen);                         // already terminated, shown but locked
+    text(held ? "Terminated" : MENU[i], CX, y, held ? C_TER : i == 2 ? (on ? C_BAD : C_SEC) : (on ? C_TXT : C_SEC), &fonts::DejaVu18);
   }
 }
 // ----- the alien that shows while the termination ring fills and when it finishes -----
@@ -776,6 +779,7 @@ static void setState(int specIdx, int st, const char* path) {
   JsonDocument d; liveOk = http("POST", String("/api/specimens/") + SP[specIdx].id + "/" + path, nullptr, d);
 #endif
 }
+static void lockedToast() { char b[40]; snprintf(b, sizeof b, "%d min ago, clear it on the website", penVet[pen]); toast("Already terminated", b); }
 static void actCheck() { setState(ge[min(pg / 2, gcount - 1)], 1, "check"); toast("I'll check it", where()); scr = PEN; }
 static void actNormal() { setState(ge[min(pg / 2, gcount - 1)], 2, "normal"); toast("Marked normal", "Removed from alerts"); scr = PEN; loadPen(pen); pg = 0; }   // the next most critical takes its place
 // Vet request. Shows the alien, then says plainly what happened. No phone call is placed.
@@ -785,7 +789,7 @@ static void actVet() {
   JsonDocument d; char body[48]; snprintf(body, sizeof body, "{\"specimenId\":\"%s\"}", specPage() ? curSpec().id : "");
   liveOk = http("POST", String("/api/pens/") + PEN_ID[pen] + "/vet", body, d);
   if (liveOk) {
-    if (d["duplicate"] | false) { line1 = "Already requested"; line2 = "In the last minute"; }
+    if (d["duplicate"] | false) { line1 = "Already terminated"; line2 = "Clear it on the website"; }
     else if (!strcmp(d["call"]["delivered"] | "", "sent")) { line1 = "Vet notified"; line2 = "Message sent"; }
     else if (!strcmp(d["call"]["delivered"] | "", "failed")) { line1 = "Saved, not sent"; line2 = "Check the webhook"; }
     else line2 = "No phone service connected yet";
@@ -793,7 +797,7 @@ static void actVet() {
 #else
   line2 = "Demo data, nothing sent";
 #endif
-  vetPen = pen; vetAt = 0;
+  penVet[pen] = 0;                                               // held from now, the next sync confirms it
   M5.Power.setVibration(255); delay(160); M5.Power.setVibration(0);     // one short buzz, no flashing
   terminatedScreen(line1, line2);
   freeHoldCanvas(); snapScene();
@@ -869,8 +873,9 @@ void loop() {
     if (M5.BtnB.wasPressed()) { bStart = now; bFired = false; }
     if (M5.BtnB.isPressed() && !bFired) {                      // hold B to request the vet, with a progress ring
       uint32_t el = now - bStart;
-      if (el > 400) { float p = min(1.0f, (el - 400) / (float)(ESC_MS - 400)); holdFrame(p, now); }
-      if (el >= ESC_MS) { bFired = true; actVet(); }
+      if (el > 400 && penLocked(pen)) { bFired = true; lockedToast(); }   // already terminated, no ring
+      else if (el > 400) { float p = min(1.0f, (el - 400) / (float)(ESC_MS - 400)); holdFrame(p, now); }
+      if (el >= ESC_MS && !bFired) { bFired = true; actVet(); }
     }
     if (M5.BtnB.wasReleased() && arcShown && !bFired) dirty = true;
     if (t.wasPressed()) { tx0 = t.x; ty0 = t.y; tlx = t.x; tly = t.y; }
@@ -881,15 +886,16 @@ void loop() {
     if (M5.BtnB.wasClicked()) {
       if (menuSel == 0) actCheck();
       else if (menuSel == 1) actNormal();
-      else if (menuSel == 2) toast("Hold B to confirm", "Keep it pressed");
+      else if (menuSel == 2) { if (penLocked(pen)) lockedToast(); else toast("Hold B to confirm", "Keep it pressed"); }
       else { scr = PEN; dirty = true; }
     }
     if (menuSel == 2) {
       if (M5.BtnB.wasPressed()) { bStart = now; bFired = false; }
       if (M5.BtnB.isPressed() && !bFired) {
         uint32_t el = now - bStart;
-        if (el > 400) { float p = min(1.0f, (el - 400) / (float)(ESC_MS - 400)); holdFrame(p, now); }
-        if (el >= ESC_MS) { bFired = true; actVet(); }
+        if (el > 400 && penLocked(pen)) { bFired = true; lockedToast(); }
+        else if (el > 400) { float p = min(1.0f, (el - 400) / (float)(ESC_MS - 400)); holdFrame(p, now); }
+        if (el >= ESC_MS && !bFired) { bFired = true; actVet(); }
       }
       if (M5.BtnB.wasReleased() && arcShown && !bFired) dirty = true;      // released early, redraw the menu
     }

@@ -77,7 +77,8 @@ def main():
     ap.add_argument("--hours", type=float, default=None, help="wall-clock cap; overrides --epochs")
     ap.add_argument("--imgsz", type=int, default=640)
     ap.add_argument("--batch", type=int, default=32)
-    ap.add_argument("--workers", type=int, default=8)
+    ap.add_argument("--workers", type=int, default=min(16, os.cpu_count() or 4))
+    ap.add_argument("--cache", default="ram", help="ram | disk | none; ram avoids re-decoding JPEGs each epoch")
     ap.add_argument("--export-sizes", default="640,416,320")
     ap.add_argument("--out", type=Path, default=Path(os.environ.get("VERI_OUTPUT_DIR", "outputs")))
     args = ap.parse_args()
@@ -87,7 +88,8 @@ def main():
     model.add_callback("on_fit_epoch_end", on_fit_epoch_end)
     train_kw = dict(data=args.data, epochs=args.epochs, imgsz=args.imgsz, batch=args.batch,
                     workers=args.workers, patience=20, seed=0, project=str(args.out), name="train",
-                    exist_ok=True, plots=True)
+                    exist_ok=True, plots=True, cache=False if args.cache == "none" else args.cache)
+    print(f"cpu_count={os.cpu_count()} workers={args.workers} cache={args.cache}", flush=True)
     if args.hours:
         train_kw["time"] = args.hours
     model.train(**train_kw)

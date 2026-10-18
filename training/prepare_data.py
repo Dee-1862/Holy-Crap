@@ -19,8 +19,9 @@ import shutil
 import time
 import urllib.request
 import zipfile
+import zlib
 from collections import Counter
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from pathlib import Path
 
 from PIL import Image
@@ -76,18 +77,68 @@ class HttpFile(io.RawIOBase):
 
 
 def remote_zip(rec, name):
-    return zipfile.ZipFile(io.BufferedReader(HttpFile(zenodo_url(rec, name)), buffer_size=1 << 20))
+    f = HttpFile(zenodo_url(rec, name))
+    return f.url, zipfile.ZipFile(io.BufferedReader(f, buffer_size=1 << 20))
+
+
+def fetch_member(url, info):
+    """Fetch one zip member with a single range request (header + data), then decompress."""
+    start = info.header_offset
+    end = start + 30 + len(info.filename.encode()) + 1024 + info.compress_size
+    req = urllib.request.Request(url, headers={"Range": f"bytes={start}-{end}"})
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                data = r.read()
+            break
+        except (http.client.IncompleteRead, OSError):
+            if attempt == 4:
+                raise
+            time.sleep(2 ** attempt)
+    name_len = int.from_bytes(data[26:28], "little")
+    extra_len = int.from_bytes(data[28:30], "little")
+    body = data[30 + name_len + extra_len: 30 + name_len + extra_len + info.compress_size]
+    if info.compress_type == zipfile.ZIP_STORED:
+        return body
+    if info.compress_type == zipfile.ZIP_DEFLATED:
+        return zlib.decompressobj(-15).decompress(body)
+    raise ValueError(f"unsupported compression {info.compress_type} for {info.filename}")
 
 
 def download(rec, name, dest):
     dest.parent.mkdir(parents=True, exist_ok=True)
     if dest.exists():
         return dest
-    print(f"downloading {name} ...", flush=True)
+    f = HttpFile(zenodo_url(rec, name))
+    url, size, parts = f.url, f.size, 8
+    print(f"downloading {name} ({size / 1e6:.0f} MB, {parts} connections) ...", flush=True)
     tmp = dest.with_suffix(".part")
-    with urllib.request.urlopen(zenodo_url(rec, name)) as r, open(tmp, "wb") as f:
-        shutil.copyfileobj(r, f, length=1 << 22)
+    with open(tmp, "wb") as out:
+        out.truncate(size)
+    bounds = [(i * size // parts, (i + 1) * size // parts - 1) for i in range(parts)]
+
+    def fetch(b):
+        start, end = b
+        pos = start
+        for attempt in range(6):
+            try:
+                req = urllib.request.Request(url, headers={"Range": f"bytes={pos}-{end}"})
+                with urllib.request.urlopen(req, timeout=120) as r, open(tmp, "r+b") as out:
+                    out.seek(pos)
+                    while chunk := r.read(1 << 20):
+                        out.write(chunk)
+                        pos += len(chunk)
+                if pos > end:
+                    return
+            except (http.client.IncompleteRead, OSError):
+                time.sleep(2 ** attempt)  # resume from pos
+        raise IOError(f"failed to download {name} bytes {pos}-{end}")
+
+    t0 = time.time()
+    with ThreadPoolExecutor(parts) as ex:
+        list(ex.map(fetch, bounds))
     tmp.rename(dest)
+    print(f"downloaded {name}: {size / 1e6 / (time.time() - t0):.1f} MB/s", flush=True)
     return dest
 
 
@@ -134,12 +185,16 @@ def collect(rec, zip_name, prefix, out, mode, per_class, staging):
     """Fetch images of one class zip into staging/, return {stem: path}."""
     dest = staging / zip_name[:-4]
     if mode == "smoke":
-        z = remote_zip(rec, zip_name)
-        members = sorted(n for n in z.namelist() if n.lower().endswith(".jpg"))
+        url, z = remote_zip(rec, zip_name)
+        members = sorted((i for i in z.infolist() if i.filename.lower().endswith(".jpg")), key=lambda i: i.filename)
         random.Random(SEED).shuffle(members)
-        for n in members[:per_class]:
-            (dest / Path(n).name).parent.mkdir(parents=True, exist_ok=True)
-            (dest / Path(n).name).write_bytes(z.read(n))
+        dest.mkdir(parents=True, exist_ok=True)
+
+        def save(info):
+            (dest / Path(info.filename).name).write_bytes(fetch_member(url, info))
+
+        with ThreadPoolExecutor(16) as ex:
+            list(ex.map(save, members[:per_class]))
     else:
         zpath = download(rec, zip_name, out / "raw" / zip_name)
         with zipfile.ZipFile(zpath) as z:

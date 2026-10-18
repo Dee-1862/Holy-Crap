@@ -1,0 +1,6 @@
+,photos,photos,photos,boxes,boxes,boxes
+split,train,val,test,train,val,test
+Healthy,1647,205,205,2654,345,312
+Coccidiosis-like,1682,210,210,2478,293,304
+Salmonella-like,1820,227,227,1855,235,230
+Newcastle-like,302,37,37,308,39,37

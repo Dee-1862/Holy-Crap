@@ -68,7 +68,7 @@ htmlcov/
 .mypy_cache/
 .ruff_cache/
 
-# Reference clone of the earlier project, not part of this repo
+# Reference
 cloner/
 
 # Wi-Fi details for the watch
@@ -79,3 +79,7 @@ training/work/
 training/outputs/
 training/runs/
 *.pt
+
+# Downloaded dataset files for the audit notebook
+data-visualization/data/
+data-visualization/.venv/

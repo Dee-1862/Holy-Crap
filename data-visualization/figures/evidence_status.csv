@@ -1,0 +1,11 @@
+Check,Status,Evidence
+A test set exists and is separate from the training files,Verified,"Rebuilt the split, 679 test photos, each photo in one split (section 3)."
+"Oversampling happens after the split, in train only",Verified,Read the code: Newcastle-like photos are repeated only inside the train loop (section 3).
+The model files are the ones reported on,Verified,SHA256 recomputed and matching; the ONNX file loads and runs (section 4).
+Test scores are real numbers from the run,Reported,"Read from test_metrics.json. Not recomputed here, the test photos are not in the repo."
+Training and validation curves,Not available,results.csv is not in the repository.
+Split by farm or visit,Not available,The split is random by photo. The model README says the same farm can appear on both sides.
+Photo distance as a shortcut,Flag,Healthy boxes are far smaller in frame (median 2.6% of the photo) than the other classes (12 to 22%). Needs a same distance test.
+Near duplicate photos across splits,Not done,Needs the images. A perceptual hash pass would show whether neighbouring shots leak across the split.
+Lab confirmed (PCR) check,Not done,The model README says it has not been run yet.
+Final model,Interim,"The snapshot is epoch 37 of 100, an interim checkpoint."

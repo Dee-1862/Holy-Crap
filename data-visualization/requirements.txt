@@ -1,0 +1,7 @@
+numpy>=1.26
+pandas>=2.2
+matplotlib>=3.8
+onnxruntime>=1.18
+jupyterlab>=4.2
+nbconvert>=7.16
+ipykernel>=6.29

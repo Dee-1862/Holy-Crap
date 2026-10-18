@@ -1,0 +1,29 @@
+.shell { max-width: 1560px; margin: 0 auto; padding: 18px 20px 84px; }
+.top { display: flex; align-items: center; gap: 16px; padding: 4px 4px 14px; flex-wrap: wrap; }
+.brand { font-family: var(--display); font-size: 30px; letter-spacing: -0.01em; }
+.tabs { display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: var(--glass); border: 1px solid var(--edge); }
+.tabs a, .tabs span { padding: 7px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--ink-3); text-decoration: none; }
+.tabs [aria-current="page"] { background: var(--glass-strong); color: var(--ink); box-shadow: inset 0 1px 0 #fff; }
+.tabs a:hover { color: var(--ink); }
+.grow { flex: 1; }
+.kpis { display: flex; gap: 28px; margin-right: 8px; }
+.kpis div { text-align: right; }
+.kpis b { font-family: var(--display); font-weight: 400; font-size: 32px; line-height: 1; display: block; }
+.kpis span { font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) 460px; gap: 18px; align-items: start; }
+.map { padding: 18px 20px 16px; }
+.mapHead { display: flex; justify-content: space-between; margin-bottom: 12px; }
+.chips { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.chips button { padding: 6px 14px; border-radius: 999px; border: 1px solid var(--edge); background: var(--glass); font-size: 12.5px; font-weight: 600; color: var(--ink-2); }
+.chips button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.legend { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-top: 12px; font-size: 12px; font-weight: 600; color: var(--ink-2); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 7px; }
+.hint { margin-left: auto; color: var(--ink-3); font-weight: 500; }
+.side { padding: 20px; position: sticky; top: 18px; max-height: calc(100vh - 36px); overflow: auto; }
+
+@media (max-width: 1180px) {
+  .grid { grid-template-columns: 1fr; }
+  .side { position: static; max-height: none; }
+  .kpis { order: 3; width: 100%; justify-content: space-between; margin: 0; }
+}

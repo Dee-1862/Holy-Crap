@@ -54,6 +54,40 @@ export function uncertainty(s: Specimen) {
   return { text, margin };
 }
 
+export const specimensOf = (groupId: string) => SPECIMENS.filter((s) => s.group === groupId);
+
+export const SUB_AXES: { key: keyof Specimen["sub"]; label: string }[] = [
+  { key: "color", label: "Color" },
+  { key: "consistency", label: "Consistency" },
+  { key: "urates", label: "Urate cap" },
+  { key: "blood", label: "Blood or mucus" },
+  { key: "foam", label: "Foam" },
+];
+
+// Mean sub-scores (0 to 10) for one group, or for the whole barn when no id is given.
+export function radarOf(groupId?: string): number[] {
+  const list = groupId ? specimensOf(groupId) : SPECIMENS;
+  if (!list.length) return SUB_AXES.map(() => 0);
+  return SUB_AXES.map(({ key }) => list.reduce((a, s) => a + s.sub[key], 0) / list.length);
+}
+
+// Barn index out of 100, the mean grade of the last 15 minutes scaled up.
+export function barnIndex(): number {
+  const recent = SPECIMENS.filter((s) => s.minsAgo <= 15);
+  const list = recent.length ? recent : SPECIMENS;
+  return Math.round((list.reduce((a, s) => a + s.grade, 0) / list.length) * 10);
+}
+
+export const openAlerts = () => GROUPS.filter((g) => groupStatus(g).level !== "good").length;
+
+// One line per specimen for the live feed.
+export function feedLines(): string[] {
+  return SPECIMENS.map((s) => {
+    const what = s.type === "healthy" ? "normal" : `suspected ${TYPES[s.type].name.toLowerCase()}`;
+    return `${groupName(s.group)}: ${what}, grade ${s.grade}, ${ago(s.minsAgo)}`;
+  });
+}
+
 export function summary() {
   const hot = ranked().filter((r) => r.status.level === "bad").map((r) => r.group.name);
   const abnormal = SPECIMENS.filter((s) => s.type !== "healthy").length;

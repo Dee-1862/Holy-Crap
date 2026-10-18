@@ -1,93 +1,73 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import Clock from "@/components/Clock";
-import SpecimenCard from "@/components/SpecimenCard";
-import { SPECIMENS } from "@/lib/data";
-import { ago, groupName, pct, ranked, resultOf, summary, tone } from "@/lib/insight";
-import styles from "./page.module.css";
+import Readout from "@/components/Readout";
+import SiteMap, { type MapFilter } from "@/components/SiteMap";
+import Ticker from "@/components/Ticker";
+import { GROUPS } from "@/lib/data";
+import { barnIndex, openAlerts, ranked, tone } from "@/lib/insight";
+import styles from "./dashboard.module.css";
 
-// Desktop console. The phone version lives at /m.
-export default function Console() {
-  const [selectedId, setSelectedId] = useState(SPECIMENS[0].id);
-  const [filter, setFilter] = useState<string | null>(null);
-  const selected = SPECIMENS.find((s) => s.id === selectedId) ?? SPECIMENS[0];
-  const sum = summary();
-  const board = ranked();
-  const rows = SPECIMENS.filter((s) => !filter || s.group === filter);
+const FILTERS: { id: MapFilter; label: string }[] = [
+  { id: "all", label: "All" },
+  { id: "watch", label: "Watch and up" },
+  { id: "action", label: "Needs action" },
+];
+
+// Main dashboard. Barn floor plan on the left, readout for the chosen group on the right.
+export default function Dashboard() {
+  const worst = ranked().at(-1)?.group.id ?? GROUPS[0].id;
+  const [selected, setSelected] = useState(worst);
+  const [filter, setFilter] = useState<MapFilter>("all");
+  const index = barnIndex();
 
   return (
     <div className={styles.shell}>
       <header className={styles.top}>
         <div className={styles.brand}>holy crap</div>
-        <span className="pill"><i />Demo farm</span>
-        <span className="pill">Pi 01 online</span>
-        <span className={styles.grow} />
+        <nav className={styles.tabs} aria-label="Views">
+          <span aria-current="page">Site map</span>
+          <Link href="/specimens">Specimens</Link>
+          <Link href="/m">Mobile</Link>
+        </nav>
+        <div className={styles.grow} />
+        <div className={styles.kpis}>
+          <div><b className={`num tone-${tone(Math.round(index / 10))}`}>{index}</b><span>Barn index</span></div>
+          <div><b className="num">{GROUPS.length}</b><span>Groups</span></div>
+          <div><b className="num tone-bad">{openAlerts()}</b><span>Open alerts</span></div>
+        </div>
+        <span className="pill"><i />Demo data</span>
         <Clock />
       </header>
 
-      <aside className={`glass ${styles.board}`} aria-label="Health board">
-        <h2 className="eyebrow">Health board</h2>
-        {board.map(({ group, status }, i) => (
-          <button
-            key={group.id} className={styles.row} aria-pressed={filter === group.id}
-            onClick={() => setFilter(filter === group.id ? null : group.id)}
-          >
-            <span className={`${styles.rk} num`}>{i + 1}</span>
-            <span>
-              <div className={styles.nm}>{group.name}</div>
-              <div className={styles.sb}>{group.n} birds, {status.bad} abnormal</div>
-            </span>
-            <span className={`${styles.gr} num ${status.mean === null ? "" : `tone-${tone(Math.round(status.mean))}`}`}>
-              {status.mean === null ? "n/a" : status.mean.toFixed(1)}
-            </span>
-          </button>
-        ))}
-      </aside>
-
-      <main>
-        <section className={`glass ${styles.summary}`} aria-live="polite">
-          <div className="eyebrow">Barn status</div>
-          <div className={styles.big}>{sum.headline}</div>
-          <div className={styles.stats}>
-            <div><b className="num">{sum.total}</b><span>Specimens today</span></div>
-            <div><b className="num tone-warn">{sum.abnormal}</b><span>Abnormal</span></div>
-            <div><b className="num tone-good">{sum.mean}</b><span>Mean grade</span></div>
+      <main className={styles.grid}>
+        <section className={`glass ${styles.map}`} aria-label="Barn site map">
+          <div className={styles.mapHead}>
+            <span className="eyebrow">Barn site map</span>
+            <span className="eyebrow">Demo farm</span>
+          </div>
+          <div className={styles.chips} role="group" aria-label="Filter pens">
+            {FILTERS.map((f) => (
+              <button key={f.id} aria-pressed={filter === f.id} onClick={() => setFilter(f.id)}>{f.label}</button>
+            ))}
+          </div>
+          <SiteMap selected={selected} filter={filter} onSelect={setSelected} />
+          <div className={styles.legend}>
+            <span><i style={{ background: "var(--good)" }} />Healthy</span>
+            <span><i style={{ background: "var(--warn)" }} />Normal but watch</span>
+            <span><i style={{ background: "var(--bad)" }} />Action required</span>
+            <span className={styles.hint}>Dots are birds. Pins are specimens from the last hour.</span>
           </div>
         </section>
 
-        {sum.hot.length > 0 && (
-          <div className={`glass ${styles.banner}`} role="status">
-            <b>{sum.hot.join(", ")}</b> has 3 or more abnormal specimens in 15 minutes. Check on site and call the vet if it holds up.
-          </div>
-        )}
-
-        <section className={`glass ${styles.feed}`}>
-          <h2 className="eyebrow">Latest specimens</h2>
-          <table className={styles.table}>
-            <thead><tr><th>Time</th><th>Group</th><th>Grade</th><th>Result</th><th>Conf.</th></tr></thead>
-            <tbody>
-              {rows.map((s) => (
-                <tr
-                  key={s.id} className={styles.ev} tabIndex={0} aria-selected={s.id === selectedId}
-                  onClick={() => setSelectedId(s.id)}
-                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedId(s.id); } }}
-                >
-                  <td className="num">{ago(s.minsAgo)}</td>
-                  <td>{groupName(s.group)}</td>
-                  <td className={`${styles.grade} num tone-${tone(s.grade)}`}>{s.grade}</td>
-                  <td>{resultOf(s)}</td>
-                  <td className="num">{pct(s.probs[s.type])}%</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
+        <aside className={`glass ${styles.side}`} aria-label="Group readout">
+          <Readout key={selected} groupId={selected} />
+        </aside>
       </main>
 
-      <aside className={`glass ${styles.card}`} aria-label="Specimen detail">
-        <SpecimenCard key={selected.id} specimen={selected} />
-      </aside>
+      <Ticker />
     </div>
   );
 }

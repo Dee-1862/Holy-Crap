@@ -5,8 +5,9 @@ The patch is cut out straight away, before the camera reuses that slot, and the 
 The verdict is fetched by a small pool of threads, so a slow model never blocks the spot finder. At most
 `--pending` patches wait at a time. A newer one replaces the oldest instead of building a queue.
 
-Until a QNX inference runtime is ported, the detector runs on the laptop (laptop/infer_server.py) and
-INFER_URL points at it. Without it, every patch goes on as "not checked", with its appearance still measured.
+The detector runs on this Pi in the infer section (infer.py, ONNX Runtime from QNX's open source packages).
+INFER_URL can still point at laptop/infer_server.py. If the detector is not answering, every patch goes on as
+"not checked", with its appearance still measured.
 """
 from __future__ import annotations
 
@@ -23,7 +24,7 @@ import qnxipc
 from shm import Frames
 from spotter import Link
 
-INFER_URL = os.environ.get("INFER_URL", "http://169.254.199.21:8770")
+INFER_URL = os.environ.get("INFER_URL", "http://127.0.0.1:8770")      # the infer section on this Pi
 PATCH = 128                       # full resolution pixels, about 10 percent of a 1280 wide frame
 
 

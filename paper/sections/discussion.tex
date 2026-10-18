@@ -1,0 +1,59 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{What the farm test measures.} Every model we trained, including the two that earlier work recommended,
+reaches 98 to 99\% on the random farm test and loses more than 20 points on photographs from a second collection of
+the same group. The original authors did not expect distribution shift to matter~\cite{machuve2022}. Our results show
+that it matters more than the choice of network. We cannot say from these data which difference between the
+collections causes the drop. The lab-confirmed photographs differ in label source, in when and how they were taken,
+and possibly in the farms they came from. Two observations narrow it down. First, exact duplicates are not the cause,
+because removing them leaves the farm score unchanged. Second, the errors are mostly missed detections and calls of
+healthy or salmonella-like, not swaps between the diseases. A change in how the droppings were photographed is
+consistent with this. Healthy droppings in the farm collection fill a median of 2.6\% of the photograph, against 12 to
+22\% for the other classes, so photograph framing could act as a shortcut~\cite{geirhos2020}. We have not tested that
+directly. Bodempudi et al.\ also found a drop across regions for a binary \emph{Salmonella} task~\cite{bodempudi2026}.
+Together the two results suggest that published accuracies on this task should be read as within-collection
+accuracies.
+
+\paragraph{Why use a detector.} On photographs our detector is not more accurate than a whole-image classifier. Its
+value is that it says where the dropping is. That is what makes a fixed pen camera usable, because a dropping covers
+at most about 0.1\% of a pen frame, and it is also what lets the explanation step measure the colour of the dropping
+itself rather than the litter around it. The pen-scale fine-tune shows that the detector can learn the size and
+setting of a pen camera from public video and pasted droppings alone, without a single labelled pen dropping. It
+lost 0.02 mAP50 on close-ups in the process.
+
+\paragraph{Why a microkernel.} A monitor in a barn runs unattended, and a crash in a camera driver or a model runtime
+should cost a few frames, not the device. On QNX each stage of our pipeline is an ordinary process, and the
+supervisor brought any killed stage back in 20 to 33\,ms while the others kept running. The same structure is
+possible on Linux with process supervision, but on QNX the drivers, the file system and the network stack are also
+user processes that can fail and restart the same way~\cite{qnx8sysarch}. We did not compare fault recovery against
+Linux on the same board, so we do not claim QNX recovers faster. Running the model on QNX also needed one fix in the
+platform's packages. The Python binding of ONNX Runtime in the QNX open-source repository does not load, because its
+build script treats QNX as Windows and looks for the wrong extension module. We worked around it with a 111-line C
+bridge to the runtime's C library and have prepared a patch for the package recipe.
+
+\paragraph{Limitations.} All photographs come from one region of Tanzania and one research group. The farm labels
+describe appearance and farm, and only the second collection was confirmed by PCR, so we treat the classes as
+screening categories, not diagnoses. The farm split is random by photograph because the release carries no farm or
+visit information. The pen test and the test clip use real droppings pasted onto real barn frames, so they measure
+whether a pen-sized dropping can be found on unseen litter, not field accuracy on naturally occurring droppings. We
+have no labelled droppings from a real pen camera. The detector was trained once. The baselines were trained with
+three seeds each but with one set of hyperparameters, which we did not tune. Finally, the edge timings are for
+inference only and do not include image decoding, post-processing or power draw.
+
+\paragraph{Future work.} The most useful next step is labelled droppings from fixed pen cameras on more than one
+farm, split by farm. Short of that, the farm collection could be re-split with near-duplicate removal before
+splitting, and the size shortcut could be tested by cropping every class to the same framing. The box score needs
+calibration before it is shown to a farmer, and the 0.25 threshold should be chosen from a risk-coverage curve on
+validation data rather than fixed.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+Classifiers of poultry droppings that score 98 to 99\% on a random split of the Tanzanian farm photographs score
+about 75\% on lab-confirmed photographs from a second collection, and this holds for every architecture we tried,
+including our detector. We therefore recommend that future work on this task report a second collection alongside the
+farm test. A detector cannot fix this drop, but it is what makes a fixed pen camera usable. Fine-tuned on public barn
+video with pasted droppings, our YOLO11n detector finds 80\% of pen-sized droppings on unseen cameras with 93\%
+precision. The full pipeline runs on a Raspberry Pi 5 under QNX, where any failed stage restarts in tens of
+milliseconds while the rest keeps running.

@@ -384,10 +384,81 @@ def fig_live_clip() -> pd.DataFrame:
     ax.tick_params(length=0)
     found = sum(t["foundAt"] is not None for t in truth)
     hv.headline(fig, f"Live test clip: {found} of {len(truth)} placed droppings found, {len(false)} false flags",
-                "Hollow dot: dropping placed in the held-out pen video. Filled dot: the spot finder and detector flag it.", y=1.12)
+                "Hollow dot: a test dropping pasted into the held-out pen video. Filled dot: the pen model flags it.", y=1.12)
     t = pd.DataFrame(rows).set_index("dropping")
     save(fig, "12_live_clip_answer_key", t)
     return t
+
+
+# ---------------------------------------------------------------- 13 benchmark against earlier classifiers
+BENCH_LABEL = {"mobilenet_v2": "MobileNetV2 (Machuve et al.)", "efficientnet_b0": "EfficientNet-B0 (Dhungana et al.)",
+               "resnet50": "ResNet-50 (reference)", "yolo11n_top": "YOLO11n detector (ours), always answers",
+               "yolo11n": "YOLO11n detector (ours), 0.25 cut"}
+
+
+def macro_f1(true: np.ndarray, pred: np.ndarray) -> float:
+    f = []
+    for c in MODEL_ORDER:
+        tp = int(((pred == c) & (true == c)).sum())
+        p = tp / max(1, int((pred == c).sum()))
+        r = tp / max(1, int((true == c).sum()))
+        f.append(0.0 if p + r == 0 else 2 * p * r / (p + r))
+    return float(np.mean(f))
+
+
+def bench_table(farm: pd.DataFrame, pcr: pd.DataFrame) -> pd.DataFrame:
+    """One row per model, seed and test set: accuracy with its Wilson interval, macro-F1 and per-class recall.
+    Classifiers always answer (the top softmax class). The detector is scored as everywhere else in this file."""
+    runs = []
+    path = RESULTS / "benchmark_predictions.csv"
+    if path.exists():
+        b = pd.read_csv(path)
+        b["pred"] = np.array(MODEL_ORDER)[b[[f"p_{c}" for c in MODEL_ORDER]].to_numpy().argmax(1)]
+        for (model, seed, st), g in b.groupby(["model", "seed", "set"]):
+            runs.append((model, seed, "farm" if st == "farm_test" else "pcr", g.true.to_numpy(), g.pred.to_numpy()))
+    for key, df in (("farm", farm), ("pcr", pcr)):
+        runs.append(("yolo11n", 0, key, df.true.to_numpy(), df.pred.to_numpy()))
+        runs.append(("yolo11n_top", 0, key, df.true.to_numpy(), df.top.to_numpy()))     # always answers, like a classifier
+    out = []
+    for model, seed, st, true, pred in runs:
+        acc, lo, hi = wilson(int((true == pred).sum()), len(true))
+        r = {"model": model, "seed": seed, "set": st, "photos": len(true), "accuracy": acc, "ci_low": lo, "ci_high": hi,
+             "macro_f1": macro_f1(true, pred)}
+        for c in MODEL_ORDER:
+            r[f"recall_{c}"] = float((pred[true == c] == c).mean())
+        out.append(r)
+    return pd.DataFrame(out)
+
+
+def fig_benchmark(farm: pd.DataFrame, pcr: pd.DataFrame) -> pd.DataFrame:
+    t = bench_table(farm, pcr)
+    summary = t.groupby(["model", "set"]).agg(seeds=("seed", "nunique"), accuracy=("accuracy", "mean"), acc_min=("accuracy", "min"),
+                                              acc_max=("accuracy", "max"), macro_f1=("macro_f1", "mean"),
+                                              recall_ncd=("recall_ncd", "mean")).reset_index()
+    models = [m for m in BENCH_LABEL if m in set(summary.model)]
+    fig, ax = plt.subplots(figsize=(9.6, 1.25 * len(models) + 1.2))
+    for k, key in enumerate(("farm", "pcr")):
+        sub = summary[summary.set == key].set_index("model").reindex(models)
+        y = np.arange(len(models)) + (-0.17 if k == 0 else 0.17)
+        ax.hlines(y, sub.acc_min, sub.acc_max, color=SET_COLOR[key], lw=6, alpha=0.35)
+        ax.scatter(sub.accuracy, y, s=52, color=SET_COLOR[key], edgecolor=hv.SURFACE, linewidth=2, zorder=3,
+                   label=SET_LABEL[key], clip_on=False)
+        for yy, (_, r) in zip(y, sub.iterrows()):
+            spread = f" (seeds {pct(r.acc_min)} to {pct(r.acc_max)})" if r.seeds > 1 else " (one run)"
+            ax.text(1.015, yy, f"{pct(r.accuracy)}{spread}", va="center", fontsize=8.8, color=hv.INK, transform=ax.get_yaxis_transform())
+    ax.set_yticks(range(len(models)), [BENCH_LABEL[m] for m in models])
+    ax.invert_yaxis()
+    ax.set_xlim(0.4, 1)
+    ax.xaxis.set_major_formatter(lambda v, _: f"{100 * v:.0f}%")
+    ax.grid(axis="x")
+    ax.tick_params(length=0)
+    ax.set_xlabel("share of photos called correctly. The dot is the mean over seeds, the band the range across seeds")
+    ax.legend(loc="lower left", bbox_to_anchor=(0, 1.0), ncol=2, fontsize=9)
+    hv.headline(fig, "Every model scores high on the farm test and drops on the lab-confirmed photos",
+                "All models trained on the same 5,451 photos and tested on the same photos. The classifiers always answer. "
+                "The detector says\nno detection below 0.25, which counts as wrong here.", y=1.0 + 1.1 / fig.get_figheight())
+    save(fig, "13_benchmark", t.round(4))
+    return summary
 
 
 def main():
@@ -400,6 +471,7 @@ def main():
     print(fig_coverage(farm, pcr), "\n")
     print(fig_calibration(farm, pcr), "\n")
     print(fig_duplicates(farm), "\n")
+    print(fig_benchmark(farm, pcr), "\n")
 
 
 if __name__ == "__main__":

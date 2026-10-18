@@ -1,0 +1,99 @@
+\section{Methods}
+\label{sec:methods}
+
+\subsection{Data}
+\label{sec:data}
+
+\paragraph{Farm photographs.} We used the poultry faecal image collection of Machuve et al.\ released on Zenodo
+(record 4628934, CC BY 4.0)~\cite{machuve2022,machuve2021farm}. It contains 6,812 full-resolution smartphone
+photographs taken on farms in Arusha and Kilimanjaro, Tanzania, with official bounding boxes in YOLO format for four
+classes: healthy, coccidiosis, salmonella and Newcastle disease. We downloaded the archives through the Zenodo API and
+checked each against the MD5 checksum the publisher lists. Following the dataset, we refer to the disease classes as
+\emph{coccidiosis-like}, \emph{salmonella-like} and \emph{Newcastle-like}, because the farm labels describe the
+appearance of the dropping and the farm a sample came from, not a laboratory diagnosis of each dropping.
+
+\paragraph{Lab-confirmed photographs.} The same group released a second, separate collection of 1,255 photographs
+whose labels were confirmed by polymerase chain reaction (PCR) (Zenodo record 5801834)~\cite{machuve2021pcr}. It
+contains 373 coccidiosis, 347 healthy, 349 salmonella and 186 Newcastle disease photographs. No model in this study
+was trained, tuned or selected on any of these photographs. We use them only as an external test set.
+
+\paragraph{Barn video.} To teach the detector the size droppings have in a fixed pen camera, we took background
+frames from two public video collections of broiler houses: the PIO videos (Zenodo record 16686320, CC BY
+4.0)~\cite{boniche2025piodata,boniche2026pio} and the NESTLER poultry videos (Zenodo record 15063494, CC BY 4.0)~\cite{nestler2025}. No dropping in these
+videos is labelled, and we did not label any.
+
+\subsection{Split}
+\label{sec:split}
+
+The farm photographs were split 80/10/10 by photograph within each class, using a fixed seed on the sorted file
+names, giving 5,451 training, 679 validation and 679 test photographs. This is the kind of random split earlier work
+on this collection reports. The detector and every baseline in Section~\ref{sec:bench} use exactly this split. To
+measure leakage, we reduced every photograph to a 256-bit difference hash~\cite{krawetz2013} and recorded, for
+each test photograph, the Hamming distance to the closest training photograph.
+
+\subsection{Detector}
+\label{sec:detector}
+
+Our detector is YOLO11n~\cite{jocher2024yolo11} with four classes, fine-tuned from COCO weights at 640 pixels with early stopping (patience 20, seed 0) on a single laptop GPU
+	odo{confirm the GPU model: the run notes say RTX 3060}. The Newcastle-like class has about a sixth of the
+photographs of the others, so its training photographs are repeated three times, after the split and in the training
+set only. Training stopped at epoch 69 and the weights of epoch 49, the best on validation, were kept
+(\texttt{dropping4-laptop}). We exported it to ONNX at 320, 416 and 640 pixels.
+
+To compare the detector with photograph classifiers, we score a whole photograph with it: the photograph is
+letterboxed to 640 pixels, every candidate box keeps its class scores, and each class takes its best score in the
+photograph. The photograph's call is the class with the highest score, or \emph{no detection} when no box reaches
+0.25, the confidence threshold the deployed pipeline uses.
+
+\subsection{Pen-scale fine-tuning}
+\label{sec:pen}
+
+In a pen camera at $1280\times720$ a dropping covers 8 to 30 pixels, against a median of 12 to 22\% of the photograph
+for the disease classes in the farm collection. We built a pen-scale training set by copy-paste
+augmentation~\cite{ghiasi2021}: real labelled droppings were cut from the farm photographs along their
+official boxes, shrunk to pen size, and pasted onto empty litter in barn video frames. A dropping from a training
+photograph is only ever pasted into a training tile, and likewise for validation and test, so the farm split carries
+over. Background frames were split \emph{by camera}, never by frame. Five PIO videos and the remaining NESTLER cameras
+form the training set, one NESTLER camera the validation set, and three NESTLER cameras plus the PIO video used in our
+live demonstration the test set. Frames with birds and equipment and no pasted dropping were kept as negatives. The
+model \texttt{dropping4-pen} was fine-tuned from \texttt{dropping4-laptop} on these tiles mixed with the original
+farm photographs, for up to 40 epochs (patience 10). It stopped at epoch 38.
+
+We state the limitation plainly: the pen test is synthetic. It measures whether the model finds a real dropping of
+pen size on litter and cameras it has never seen, not field accuracy on naturally occurring droppings.
+
+\subsection{Baselines}
+\label{sec:bench}
+
+Published results on this collection come from different splits, image sizes and protocols, so we retrained the
+classifiers earlier work used instead of quoting their numbers. MobileNetV2~\cite{sandler2018} is the model
+Machuve et al.\ recommended for deployment~\cite{machuve2022}, EfficientNet-B0~\cite{tan2019} is the
+classifier stage of a recent YOLO11 and EfficientNet-B0 pipeline~\cite{dhungana2025}, and
+ResNet-50~\cite{he2016} serves as a heavier reference. Each was initialised from ImageNet weights, trained on the
+same 5,451 training photographs resized to $224\times224$ without keeping the aspect ratio (as in the 224-pixel copy of
+the collection most earlier work used), for 20 epochs with AdamW and a one-cycle learning rate schedule. Augmentation
+was random crops, horizontal and vertical flips, and small brightness and contrast changes. We did not change hue,
+because colour is the main visual sign of disease. The epoch with the best validation accuracy was kept. Every
+baseline was trained with three seeds, and we report the mean and the range.
+
+\subsection{Evaluation}
+\label{sec:eval}
+
+All models are scored on the same 679 farm test photographs and the same 1,255 lab-confirmed photographs. We report
+accuracy, per-class recall and macro-F1. Proportions carry 95\% Wilson score intervals~\cite{wilson1927}, which
+behave well near 0 and 1. For the detector we also report a risk-coverage curve~\cite{geifman2017}, the
+accuracy of the answers when the model only answers above a confidence threshold, and a reliability diagram with the
+expected calibration error over ten equal-width bins~\cite{guo2017}.
+
+\subsection{Deployment on QNX}
+\label{sec:qnx}
+
+The deployed system runs on a Raspberry Pi 5 with a Camera Module 3 under QNX 8.0, a microkernel real-time operating
+system~\cite{qnx8sysarch}. The pipeline is split into separate processes (sections), each with its own memory and a
+fixed real-time priority: camera capture in C, a still-spot finder that flags new objects that appeared and stayed
+still, the detector, an explanation step, and links to the dashboard and a wrist-worn display. Full frames stay in a
+shared-memory ring of four slots, and sections exchange only small messages through QNX native message passing. A
+supervisor restarts any section that exits. Inference uses ONNX Runtime~\cite{onnxruntime} 1.24.4 from the QNX
+open-source package repository, called from a small C bridge because the repository's Python binding does not load on
+QNX (Section~\ref{sec:discussion}). We timed every model on the Pi with the same harness: five warm-up runs and 50
+timed runs on a fixed input, with one and four threads, inference only.

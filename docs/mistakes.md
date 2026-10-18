@@ -2,6 +2,9 @@
 
 Record anything that went wrong or was ruled out so we don't repeat it. Format: date, what happened, why, what to do instead.
 
+- 2026-10-17: Veri custom scripts originally had a 64 MB /dev/shm: DataLoader workers and NCCL (multi-GPU) crashed with bus errors / "No space left on device". Fixed by Veri on 2026-10-17 (--shm-size 16g, verified with job 38f4d0ee9f3c). train.py still falls back to pipe-transport loading if shm < 1 GB.
+- 2026-10-17: On Windows each DataLoader worker is a full process; with 15 GB RAM, 8 train workers (+16 val workers) crashed with "bad allocation". Use 4 workers locally.
+- 2026-10-17: Leftover files (yolo11n.pt, runs/) in training/ made `veri run-script` uploads fail with a multipart parse error. Keep the upload dir to source files only.
 - 2026-10-17: Initially treated bird-level dropping attribution as either guaranteed or impossible. Big Broiler labels defecation actions, but no reviewed work demonstrates end-to-end bird-to-resulting-dropping attribution in a crowded, free-moving floor pen. Test temporal/spatial attribution with ArUco identity, preserve `unattributed`, and keep zone-level output as the fallback.
 - 2026-10-17: Considered ESP32 as a QNX/vision target. The M5Stack StopWatch does not run QNX and is not the compute target for this camera pipeline; use it only as an optional status/alert client.
 - 2026-10-17: Research claims from the original write-up (UGA work, "AI4D" dataset name) are unverified. Don't cite them until checked.

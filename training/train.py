@@ -31,6 +31,19 @@ def log(step=None, **scalars):
     print("metrics", step, json.dumps(clean, default=float), flush=True)
 
 
+def force_single_process_loading():
+    """Make every torch DataLoader load in-process (val, test and INT8 calibration build their own)."""
+    import torch.utils.data
+
+    init = torch.utils.data.DataLoader.__init__
+
+    def patched(self, *a, **kw):
+        kw.update(num_workers=0, persistent_workers=False, prefetch_factor=None)
+        init(self, *a, **kw)
+
+    torch.utils.data.DataLoader.__init__ = patched
+
+
 def on_fit_epoch_end(trainer):
     scalars = dict(trainer.metrics)
     scalars.update(trainer.label_loss_items(trainer.tloss, prefix="train"))
@@ -91,9 +104,10 @@ def main():
         shm_gb = shutil.disk_usage("/dev/shm").total / 1e9
     except OSError:
         shm_gb = None
-    if shm_gb is not None and shm_gb < 1 and args.workers:
-        print(f"/dev/shm is only {shm_gb * 1000:.0f} MB; using workers=0", flush=True)
+    if shm_gb is not None and shm_gb < 1:
+        print(f"/dev/shm is only {shm_gb * 1000:.0f} MB; forcing num_workers=0 on every DataLoader", flush=True)
         args.workers = 0
+        force_single_process_loading()
 
     model = YOLO(args.model)
     model.add_callback("on_fit_epoch_end", on_fit_epoch_end)

@@ -80,6 +80,7 @@ def main():
     ap.add_argument("--workers", type=int, default=min(16, os.cpu_count() or 4))
     ap.add_argument("--cache", default="ram", help="ram | disk | none; ram avoids re-decoding JPEGs each epoch")
     ap.add_argument("--export-sizes", default="640,416,320")
+    ap.add_argument("--formats", default="onnx,tflite,tflite_int8")
     ap.add_argument("--out", type=Path, default=Path(os.environ.get("VERI_OUTPUT_DIR", "outputs")))
     args = ap.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
@@ -116,6 +117,8 @@ def main():
     exports = {}
     for size in [int(s) for s in args.export_sizes.split(",") if s]:
         for fmt, kw in [("onnx", {}), ("tflite", {}), ("tflite_int8", {"int8": True, "data": args.data})]:
+            if fmt not in args.formats.split(","):
+                continue
             key = f"{fmt}_{size}"
             try:
                 path = YOLO(str(best)).export(format=fmt.split("_")[0], imgsz=size, **kw)

@@ -91,12 +91,33 @@ def frame_grey(frames: Frames, step: int = 4) -> tuple[np.ndarray, dict] | None:
     return grey, hd
 
 
-def snapshot(frames: Frames, step: int = 4, quality: int = 70, grey: bool = False) -> tuple[bytes, dict] | None:
+def enhance(img: np.ndarray, sharpen: float = 0.6) -> np.ndarray:
+    """For people looking at the live view only, never for model input (the models were trained on plain frames).
+    Auto levels per channel (1st to 99th percentile, which also evens out a colour cast from barn lighting), then a
+    light unsharp mask. Plain numpy, a few ms at 384 by 216 on the Pi."""
+    f = img.astype(np.float32)
+    chans = f[..., None] if f.ndim == 2 else f
+    sample = chans[::4, ::4]                              # percentiles from every 4th pixel: same levels, much faster
+    lo = np.percentile(sample, 1, axis=(0, 1))
+    hi = np.percentile(sample, 99, axis=(0, 1))
+    chans = (chans - lo) * (255.0 / np.maximum(hi - lo, 1.0))
+    if sharpen:
+        # 3x3 box blur by shifted sums, then add back the detail it removed
+        p = np.pad(chans, ((1, 1), (1, 1), (0, 0)), mode="edge")
+        h, w = chans.shape[:2]
+        blur = sum(p[dy:dy + h, dx:dx + w] for dy in range(3) for dx in range(3)) / 9.0
+        chans = chans + sharpen * (chans - blur)
+    out = np.clip(chans, 0, 255).astype(np.uint8)
+    return out[..., 0] if f.ndim == 2 else out
+
+
+def snapshot(frames: Frames, step: int = 4, quality: int = 70, grey: bool = False,
+             enhanced: bool = False) -> tuple[bytes, dict] | None:
     take = frame_grey if grey else frame_rgb
     for _ in range(3):
         got = take(frames, step)
         if got:
-            return encode(got[0], quality), got[1]
+            return encode(enhance(got[0]) if enhanced else got[0], quality), got[1]
     return None
 
 

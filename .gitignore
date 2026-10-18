@@ -6,3 +6,6 @@ training/runs/
 *.pt
 *.onnx
 *.tflite
+training/yolo11n.pt
+training/runs/
+training/__pycache__/

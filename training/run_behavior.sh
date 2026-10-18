@@ -44,6 +44,22 @@ if [ -n "${DDP_CLS:-}" ]; then
   exit $rc
 fi
 
+if [ -n "${SPLIT_2X2:-}" ]; then
+  # Second 4-GPU box: chicken detector on GPUs 0-1, YOLO11s-cls on GPUs 2-3 (DDP each).
+  CUDA_VISIBLE_DEVICES=0,1 python train_behavior.py --task det --data "$WORK/chickens/data.yaml" --name det \
+    --model yolo11n.pt --gpus 2 --batch 16 --hours "$HOURS" --workers 10 > det.log 2>&1 &
+  P1=$!
+  CUDA_VISIBLE_DEVICES=2,3 python train_behavior.py --task cls --data "$WORK/behaviour" --name cls_s \
+    --model yolo11s-cls.pt --gpus 2 --batch 128 --hours "$HOURS" --workers 10 > cls_s.log 2>&1 &
+  P2=$!
+  tail -n +1 -F det.log cls_s.log 2>/dev/null | grep --line-buffered -E '^metrics|SUMMARY|export|Traceback|Error|epochs completed' &
+  TAILPID=$!
+  rc=0; for p in $P1 $P2; do wait "$p" || rc=1; done
+  sleep 2; kill $TAILPID 2>/dev/null
+  cp det.log cls_s.log "$WORK/stats_behaviour.json" "${VERI_OUTPUT_DIR:-.}/" 2>/dev/null
+  exit $rc
+fi
+
 CUDA_VISIBLE_DEVICES=0 python train_behavior.py --task cls --data "$WORK/behaviour" --name cls_n \
   --model yolo11n-cls.pt --hours "$HOURS" --workers 14 > cls_n.log 2>&1 &
 P1=$!

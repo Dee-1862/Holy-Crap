@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "spatiotemporal-whole-pen",
+  "title": "Spatiotemporal Annotator whole-pen broiler clip",
+  "description": "A pinned 19.4-second real-camera reference clip showing 40 week-one broilers across two complete pens from an overhead camera. This is the team-reviewed clip cam1__20250930_095000 from the Spatiotemporal Annotator examples. The binary is fetched into the ignored runtime home and verified against this manifest before the dashboard serves it.",
+  "source_url": "https://raw.githubusercontent.com/steven068zzy/spatiotemporal-annotator/3d2f2eb43888122229b0da992f9893a66a530e2a/examples/videos/cam1__20250930_095000.mp4",
+  "dataset_url": "https://github.com/steven068zzy/spatiotemporal-annotator/tree/3d2f2eb43888122229b0da992f9893a66a530e2a/examples",
+  "doi": "not-assigned",
+  "creators": [
+    "Ziyuan Zhao"
+  ],
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "cam1__20250930_095000.mp4 from the Spatiotemporal Annotator example data by Ziyuan Zhao, Texas A&M University Department of Poultry Science, licensed under CC BY 4.0. Trial approved under IACUC 2024-0108.",
+  "sha256": "ad70155b0e7491316bd6439c96dcc8712cba2517a2960ca5d5c6132fd15977d6",
+  "file_size_bytes": 1322209,
+  "media_type": "video/mp4",
+  "width": 848,
+  "height": 480,
+  "duration_s": 19.4,
+  "frame_rate_fps": 5.0,
+  "frame_count": 97,
+  "codec": "H.264",
+  "filename": "cam1__20250930_095000.mp4",
+  "limitations": [
+    "reference imagery only",
+    "no disease labels",
+    "not spatially aligned with simulated birds",
+    "two pens share one frame rather than one isolated pen",
+    "5 fps and 848 x 480 resolution limit fine appearance and feces inspection",
+    "the source package includes human activity annotations and detector tracks, but this dashboard asset serves only the raw video bytes"
+  ]
+}

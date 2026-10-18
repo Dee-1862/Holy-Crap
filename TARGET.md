@@ -9,6 +9,13 @@
 - Authentication and Railway proxy details stay in the user's SSH
   configuration and are intentionally not tracked here.
 
+For the direct Ethernet link, the dashboard may set `QNX_SSH_HOSTNAME` to the
+Pi's current link-local address while leaving `QNX_SSH_ALIAS=qnxpi`. This
+preserves the alias's user, identity, and trusted host-key settings. On
+2026-10-17, `169.254.55.180` was verified with QNX 8.0.0, Python 3.14.0, and a
+running persistent runner. Treat the address as discovered state, not a fixed
+deployment value.
+
 ## Verified target facts
 
 - OS: QNX 8.0.0
@@ -136,6 +143,11 @@ machine-local path:
 /Users/lancestreuber/Holy-Crap/qnx-connect/runner/submit-job.py \
   --wait -- COMMAND ARGUMENT...
 ```
+
+The simulation API uses its checked-in `scripts/qnx_submit_job.py` helper by
+default. Unlike the older machine-local helper, it applies the configured SSH
+options to every upload, poll, and log request, so `QNX_SSH_HOSTNAME` works for
+the entire job instead of only the initial probe.
 
 Check the runner directly with:
 

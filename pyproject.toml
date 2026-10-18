@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "holy-crap-simlab"
+version = "0.1.0"
+description = "Local simulation lab for pen-level poultry monitoring"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "pydantic>=2.8,<3",
+  "python-multipart>=0.0.9,<1",
+  "uvicorn[standard]>=0.30,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "httpx>=0.27,<1",
+  "jsonschema[format]>=4.23,<5",
+  "pytest>=8.2,<9",
+]
+
+[project.scripts]
+holy-crap-simlab = "holy_crap_simlab.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

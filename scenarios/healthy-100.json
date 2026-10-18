@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "healthy-100",
+  "name": "Healthy control — 100 birds",
+  "description": "A stable control pen for checking false alerts and throughput. This is not a clinical claim.",
+  "bird_count": 100,
+  "fps": 11,
+  "duration_s": 60,
+  "seed": 104729,
+  "mode": "healthy",
+  "pen": {
+    "width_m": 12,
+    "height_m": 8
+  },
+  "observation": {
+    "sample_interval_s": 1,
+    "position_noise_m": 0.03,
+    "miss_probability": 0.02,
+    "false_positive_rate": 0.015,
+    "alert_threshold": 0.18,
+    "alert_persistence_s": 2,
+    "onset_s": null,
+    "initial_affected_fraction": 0,
+    "movement_scale_after_onset": 1
+  },
+  "renderer": {
+    "kind": "mock",
+    "version": "1",
+    "observation_artifact": null,
+    "observation_sha256": null,
+    "metadata": {
+      "camera_height_m": 5.5,
+      "lighting_variation": 0.08
+    }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://holy-crap.local/contracts/scenario.schema.json",
+  "title": "Holy Crap simulation scenario",
+  "description": "A deterministic pen-level simulation definition.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "name",
+    "seed",
+    "pen",
+    "bird_count",
+    "fps",
+    "duration_s",
+    "mode",
+    "observation",
+    "renderer"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$",
+      "maxLength": 128
+    },
+    "name": {"type": "string", "minLength": 1, "maxLength": 160},
+    "description": {"type": "string"},
+    "seed": {"type": "integer", "minimum": 0},
+    "pen": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["width_m", "height_m"],
+      "properties": {
+        "width_m": {"type": "number", "exclusiveMinimum": 0},
+        "height_m": {"type": "number", "exclusiveMinimum": 0},
+        "regions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "polygon"],
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "polygon": {
+                "type": "array",
+                "minItems": 3,
+                "items": {
+                  "type": "array",
+                  "prefixItems": [{"type": "number"}, {"type": "number"}],
+                  "items": false,
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "bird_count": {"type": "integer", "minimum": 1},
+    "fps": {"type": "number", "exclusiveMinimum": 0},
+    "duration_s": {"type": "number", "exclusiveMinimum": 0},
+    "mode": {"enum": ["healthy", "outbreak"]},
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sample_interval_s", "position_noise_m", "miss_probability", "false_positive_rate"],
+      "properties": {
+        "sample_interval_s": {"type": "number", "exclusiveMinimum": 0},
+        "position_noise_m": {"type": "number", "minimum": 0},
+        "miss_probability": {"type": "number", "minimum": 0, "maximum": 1},
+        "false_positive_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "alert_threshold": {"type": "number"},
+        "alert_persistence_s": {"type": "number", "minimum": 0},
+        "onset_s": {"type": ["number", "null"], "minimum": 0},
+        "initial_affected_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+        "movement_scale_after_onset": {"type": "number", "minimum": 0}
+      }
+    },
+    "renderer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "version"],
+      "properties": {
+        "kind": {"enum": ["mock", "video_replay", "blenderproc"]},
+        "version": {"type": "string", "minLength": 1},
+        "observation_artifact": {"type": ["string", "null"]},
+        "observation_sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "metadata": {"type": "object"}
+      }
+    }
+  }
+}

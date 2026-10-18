@@ -154,6 +154,9 @@ static bool http(const char* method, const String& path, const char* body, JsonD
   if (secure) { tls.setInsecure(); started = h.begin(tls, String(API_BASE) + path); }
   else started = h.begin(plain, String(API_BASE) + path);
   if (!started) return false;
+#ifdef VERCEL_BYPASS
+  h.addHeader("x-vercel-protection-bypass", VERCEL_BYPASS);   // only for a site behind Vercel Authentication
+#endif
   if (body) h.addHeader("Content-Type", "application/json");
   int code = !strcmp(method, "POST") ? h.POST(body ? body : "{}") : h.GET();
   bool ok = code == 200 && !deserializeJson(out, h.getString());

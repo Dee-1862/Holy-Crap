@@ -12,3 +12,5 @@
 #define WIFI_SSID "your wifi name"
 #define WIFI_PASS "your wifi password"
 #define API_BASE  "http://192.168.1.50:3000"
+// Only if API_BASE is a Vercel address behind Vercel Authentication (preview and branch addresses are):
+// #define VERCEL_BYPASS "the Protection Bypass for Automation secret from the project settings"

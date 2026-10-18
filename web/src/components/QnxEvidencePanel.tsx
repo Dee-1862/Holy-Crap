@@ -64,10 +64,6 @@ export function QnxEvidencePanel({ evidence, error }: QnxEvidencePanelProps) {
     supported: entries.filter((entry) => statusKey(entry) === "supported").length,
     planned: entries.filter((entry) => statusKey(entry) === "planned").length,
   };
-  const highlights = ["platform-boot", "inference-timing", "real-frame-parity"]
-    .map((id) => entries.find((entry) => entry.id === id))
-    .filter((entry): entry is QnxEvidenceEntry => entry !== undefined);
-
   return (
     <section className="panel qnx-evidence-panel" aria-labelledby="qnx-evidence-title">
       <div className="subheading">
@@ -75,16 +71,12 @@ export function QnxEvidencePanel({ evidence, error }: QnxEvidencePanelProps) {
         {document.verified_at ? <time className="qnx-verified-at">{document.verified_at}</time> : null}
       </div>
       <p className="qnx-target-identity">{targetIdentity(evidence)}</p>
-      {document.thesis ? <p className="qnx-thesis">{document.thesis}</p> : null}
       <dl className="qnx-status-counts" aria-label="QNX evidence status counts">
         <div><dt>Verified</dt><dd>{counts.verified}</dd></div>
         <div><dt>OS supported</dt><dd>{counts.supported}</dd></div>
         <div><dt>Planned</dt><dd>{counts.planned}</dd></div>
       </dl>
-      <ul className="qnx-highlights">
-        {highlights.map((entry) => <li key={entry.id}><strong>{titleFor(entry)}</strong><span>{entry.summary}</span></li>)}
-      </ul>
-      <p className="qnx-boundary"><strong>Current boundary:</strong> the dashboard executor is probe-only. Native NCNN inference is separately verified; realtime scheduling and recovery controls are not yet configured.</p>
+      <p className="qnx-boundary"><strong>Probe-only</strong> · inference verified separately · RT controls not configured</p>
       <details className="qnx-details">
         <summary>All evidence states</summary>
         <ul>

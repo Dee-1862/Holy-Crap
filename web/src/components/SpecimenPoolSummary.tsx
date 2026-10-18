@@ -111,7 +111,6 @@ function PoolView({ summary }: { summary: ProxySpecimenPoolSummary }) {
       <DatasetList datasets={summary.by_dataset} />
       <p className="pool-section-label">Selectable expected classes</p>
       <ClassBreakdown counts={selectableClasses} />
-      <p className="pool-note">Indexed rows retain source provenance and duplicates; simulations sample only eligible unique photos. Expected classes are dataset labels, not model predictions.</p>
     </section>
   );
 }
@@ -133,8 +132,6 @@ function SampleView({ stats }: { stats: AssessmentSampleStats }) {
       <DatasetList datasets={stats.datasetCounts} />
       <p className="pool-section-label">Expected demo classes</p>
       <ClassBreakdown counts={stats.classCounts} />
-      <p className="pool-note"><strong>Current assessment sample:</strong> these counts come from this assessment's candidate rows, not the total installed pool.</p>
-      <p className="pool-note"><strong>Reference metadata:</strong> expected demo classes are dataset labels, not model predictions.</p>
     </section>
   );
 }

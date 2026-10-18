@@ -300,15 +300,26 @@ artifacts in agreed external storage or a GitHub release.
 `dataset-clips/reviewed.json` is the dashboard's source of truth for camera
 fit, review verdicts, source links, license notes, and whether an entry is
 appropriate for the aggregate clip workflow. The API adds local install state
-at request time. A verified demo asset gets a playable content URL; a cataloged
-source without local bytes does not.
+at request time. A verified demo asset gets a playable content URL, and the
+safe local dataset-video store (`<home>/datasets/videos/**`,
+`HOLY_CRAP_DATASET_VIDEOS_DIR` override) matches reviewed entries by their exact
+file name, recursively. When that file is installed, the entry reports
+`bytes_available`, its installed byte size, and a same-origin
+`/api/v1/dataset-clips/{id}/content` URL. Unsafe names, paths that escape the
+configured root, and ambiguous duplicate file names are rejected, never
+guessed. Installed reference-only and rejected entries are previewable but
+remain non-assessable. Installed, assessable catalog entries run the bounded
+real-video pipeline and record `source: dataset`. Assessable entries with no
+local bytes use the deterministic catalog fallback instead.
 
-The catalog-mock endpoint exists so the team can exercise every approved
-selector and result state before downloading large archives. Its stable seed
-comes from canonical catalog metadata, not from pretend video bytes. Returned
-records therefore use `source: catalog_mock`, `bytes_available: false`, a null
-content URL, and an explicit warning that no footage was decoded and no model
-ran. Reference-only, rejected, and image-only entries are never assessable.
+The catalog endpoint supports both cases. With installed bytes, it hashes and
+hard-links the video into content-addressed storage, samples real frames, and
+runs the configured behavior, pen-dropping, and close-up models. Without bytes,
+its stable fallback seed comes from canonical catalog metadata rather than
+pretend footage. Fallback records use `source: catalog_mock`,
+`bytes_available: false`, a null content URL, and an explicit warning that no
+video was decoded and no model ran. Reference-only, rejected, and image-only
+entries are never assessable.
 
 ## Runtime boundaries
 

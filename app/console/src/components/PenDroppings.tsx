@@ -6,12 +6,23 @@ import { stateOf, specimens } from "@/lib/store";
 
 // Short list of the droppings found in one pen. Tapping a row opens the specimen sheet.
 export default function PenDroppings({ groupId, onOpen }: { groupId: string; onOpen: (specimenId: string) => void }) {
-  const group = GROUPS.find((g) => g.id === groupId) ?? GROUPS[0];
+  const group = GROUPS.find((g) => g.id === groupId);
+
+  if (!group) {
+    return (
+      <section className="glass list" aria-label="Droppings unavailable">
+        <h3 className="eyebrow list-h" style={{ margin: 0 }}>Droppings unavailable</h3>
+        <p className="foot" style={{ margin: 0, padding: "8px 16px 18px" }}>This camera is not linked to a configured pen.</p>
+      </section>
+    );
+  }
+
   const list = specimens().filter((s) => s.group === group.id);
 
   return (
     <section className="glass list" aria-label={`Droppings in ${group.name}`}>
       <h3 className="eyebrow list-h" style={{ margin: 0 }}>Droppings in {group.name}</h3>
+      {!list.length && <p className="foot" style={{ margin: 0, padding: "8px 16px 18px" }}>No recent specimens. Waiting for the next detection.</p>}
       {list.map((s) => (
         <button key={s.id} className="row" style={{ gridTemplateColumns: "34px 1fr auto" }} onClick={() => onOpen(s.id)}>
           <b className={`num tone-${stateOf(s.id) === "normal" ? "" : tone(s.grade)}`} style={{ fontSize: 22, fontWeight: 500, textAlign: "center" }}>{s.grade}</b>

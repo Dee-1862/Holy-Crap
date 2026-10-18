@@ -93,6 +93,12 @@ class QnxExecutor(Executor):
         self._scenario_directory = scenario_directory
         self._prober = prober
 
+    @property
+    def runner(self) -> QnxRunner:
+        """The shared transport used by target-validation and clip jobs."""
+
+        return self._runner
+
     def capability(self) -> AdapterCapability:
         config = self._runner.config
         if not config.enabled:
@@ -130,6 +136,7 @@ class QnxExecutor(Executor):
         return QnxRunner(probe_config).probe_capability()
 
     def _capability_from_report(self, report: QnxProbeReport) -> AdapterCapability:
+        config = self._runner.config
         if not report.reachable:
             return AdapterCapability(
                 id=self.id,
@@ -163,14 +170,19 @@ class QnxExecutor(Executor):
             kind="executor",
             status="probe_only",
             description=(
-                "QNX target validation works (SSH, Python, runner), but the Pi has "
-                "no inference runtime; QNX never reports ready until actual inference exists"
+                "QNX target transport works (SSH, Python, runner). Clip inference is "
+                + (
+                    "configured but is only trusted after its target deployment manifest is verified"
+                    if config.clip_worker_configured
+                    else "not configured; QNX never reports ready until a deployed worker is verified"
+                )
             ),
             details={
                 "python_version": report.python_version,
                 "runner": "running",
                 "runtimes": report.runtime_presence,
                 "inference_performed": False,
+                "clip_worker_configured": config.clip_worker_configured,
             },
         )
 

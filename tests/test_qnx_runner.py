@@ -19,6 +19,9 @@ from holy_crap_simlab.qnx_runner import (
 )
 
 WORKER = Path(__file__).resolve().parents[1] / "target" / "qnx" / "simlab_probe.py"
+CLIP_WRAPPER = (
+    Path(__file__).resolve().parents[1] / "target" / "qnx" / "clip_assessment_worker.py"
+)
 RUN_ID = "8d3f1a2b-9c4e-4f5a-9b1c-2d3e4f5a6b7c"
 MODEL_NAME = "pen-anomaly"
 SCENARIO_NAME = "healthy-100"
@@ -159,6 +162,223 @@ def valid_receipt(**changes: object) -> dict:
 
 def configured_runner(tmp_path: Path, fake: FakeRunner, **overrides: object) -> QnxRunner:
     return QnxRunner(make_config(tmp_path, **overrides))
+
+
+def test_clip_worker_receipt_parses_target_identity_and_live_telemetry(tmp_path: Path) -> None:
+    worker_path = "/data/home/qnxuser/holy-crap/clip-worker.py"
+    manifest_path = "/data/home/qnxuser/holy-crap/deployment.json"
+    manifest = {
+        "schema_version": 1,
+        "contract": "holy-crap.clip-assessment.v1",
+        "platform": "QNX",
+        "worker_path": worker_path,
+        "worker_sha256": "a" * 64,
+    }
+    manifest_bytes = (json.dumps(manifest) + "\n").encode()
+    job_id = "clip-job-8d3f1a2b-9c4e-4f5a-9b1c-2d3e4f5a6b7c"
+    sample = {
+        "captured_at": "2026-10-18T12:00:00+00:00",
+        "source": "qnx",
+        "cpu_percent": 42.5,
+        "ram_used_bytes": 1024,
+        "ram_total_bytes": 8192,
+        "process_cpu_percent": 17.0,
+        "process_ram_bytes": 512,
+        "detail": "fake target sample",
+    }
+    envelope = {
+        "schema_version": 1,
+        "job_id": job_id,
+        "executor": "qnx",
+        "status": "completed",
+        "message": "target complete",
+        "target": {
+            "executor": "qnx",
+            "hostname": "qnx-pi",
+            "system": "QNX",
+            "release": "8.0.0",
+            "machine": "aarch64le",
+            "runtime": "Python 3.14.0",
+            "verified": True,
+        },
+        "telemetry_history": [sample],
+        "assessment": {"schema_version": 1, "id": "clip-target"},
+    }
+    fake = FakeRunner()
+
+    def scp(argv: list[str]) -> subprocess.CompletedProcess:
+        source, destination = argv[-2:]
+        if source.endswith(":" + manifest_path):
+            Path(destination).write_bytes(manifest_bytes)
+        elif source.endswith("/result-envelope.json"):
+            Path(destination).write_text(json.dumps(envelope), encoding="utf-8")
+        return subprocess.CompletedProcess(argv, 0, stdout="", stderr="")
+
+    def ssh(argv: list[str]) -> subprocess.CompletedProcess:
+        command = " ".join(argv)
+        if "SIMLAB_PROBE_PYTHON_BEGIN" in command:
+            stdout = "\n".join(
+                [
+                    "SIMLAB_PROBE_PYTHON_BEGIN",
+                    "Python 3.14.0",
+                    "SIMLAB_PROBE_PYTHON_END",
+                    "SIMLAB_PROBE_RUNNER_BEGIN",
+                    "runner: running",
+                    "SIMLAB_PROBE_RUNNER_END",
+                    "SIMLAB_PROBE_RUNTIMES_BEGIN",
+                    "PRESENT /data/home/qnxuser/qnx-runner-app",
+                    "PRESENT /data/home/qnxuser/qnx-runner",
+                    "SIMLAB_PROBE_RUNTIMES_END",
+                ]
+            )
+            return subprocess.CompletedProcess(argv, 0, stdout=stdout, stderr="")
+        if command.endswith("telemetry.json"):
+            return subprocess.CompletedProcess(
+                argv, 0, stdout=json.dumps({"schema_version": 1, "samples": [sample]}), stderr=""
+            )
+        if "/state/job-test.json" in command:
+            return subprocess.CompletedProcess(
+                argv, 0, stdout=json.dumps({"status": "done", "exit_code": 0}), stderr=""
+            )
+        return subprocess.CompletedProcess(argv, 0, stdout="", stderr="")
+
+    fake.on("scp", scp)
+    fake.on("ssh", ssh)
+    submit = tmp_path / "submit-job.py"
+    fake.on(
+        str(submit),
+        lambda argv: subprocess.CompletedProcess(
+            argv, 0, stdout="submitted job-test (9 argv elements) to qnxpi\n", stderr=""
+        ),
+    )
+    config = make_config(
+        tmp_path,
+        mode="worker",
+        submit_job=submit,
+        clip_worker_remote=worker_path,
+        clip_worker_manifest=manifest_path,
+        clip_worker_manifest_sha256=hashlib.sha256(manifest_bytes).hexdigest(),
+    )
+    runner = QnxRunner(config)
+    video = tmp_path / "clip.mp4"
+    video.write_bytes(b"video bytes")
+    live: list[list[dict]] = []
+
+    outcome = runner.assess_clip_on_target(
+        job_id=job_id,
+        video_path=video,
+        request={"profile": "mixed", "segment_start_s": 0, "segment_end_s": 2},
+        telemetry=live.append,
+        runner=fake,
+    )
+
+    assert outcome.status == "completed"
+    assert outcome.target["system"] == "QNX"
+    assert outcome.telemetry_history == [sample]
+    assert live == [[sample]]
+    video_uploads = [call for call in fake.scp_calls() if call[-1].endswith("/.video.bin.part")]
+    assert len(video_uploads) == 1
+    assert video_uploads[0][-2] == str(video)
+
+
+def test_clip_worker_requires_deployment_mode_without_local_fallback(tmp_path: Path) -> None:
+    runner = QnxRunner(make_config(tmp_path, mode="probe"))
+    video = tmp_path / "clip.mp4"
+    video.write_bytes(b"video")
+
+    with pytest.raises(QnxRunnerError, match="not deployment-ready"):
+        runner.assess_clip_on_target(
+            job_id="clip-job-8d3f1a2b-9c4e-4f5a-9b1c-2d3e4f5a6b7c",
+            video_path=video,
+            request={},
+        )
+
+
+@pytest.mark.parametrize(
+    "target",
+    [
+        {"executor": "qnx", "system": "QNX", "verified": False},
+        {"executor": "local", "system": "QNX", "verified": True},
+        {"executor": "qnx", "system": "Darwin", "verified": True},
+    ],
+)
+def test_clip_envelope_rejects_unverified_or_wrong_target_identity(target: dict) -> None:
+    job_id = "clip-job-8d3f1a2b-9c4e-4f5a-9b1c-2d3e4f5a6b7c"
+    envelope = {
+        "schema_version": 1,
+        "job_id": job_id,
+        "executor": "qnx",
+        "status": "blocked",
+        "message": "blocked",
+        "target": target,
+        "telemetry_history": [],
+        "assessment": None,
+    }
+
+    with pytest.raises(QnxRunnerError, match="did not prove a QNX target identity"):
+        QnxRunner._validate_clip_envelope(envelope, job_id)
+
+
+def test_target_clip_wrapper_fails_closed_off_qnx_and_writes_telemetry(tmp_path: Path) -> None:
+    video = tmp_path / "video.bin"
+    video.write_bytes(b"video")
+    installed_worker = tmp_path / "installed-worker.py"
+    installed_worker.write_text("raise SystemExit(99)\n", encoding="utf-8")
+    manifest = tmp_path / "deployment.json"
+    manifest.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "contract": "holy-crap.clip-assessment.v1",
+                "platform": "QNX",
+                "worker_path": str(installed_worker),
+                "worker_sha256": hashlib.sha256(installed_worker.read_bytes()).hexdigest(),
+            }
+        ),
+        encoding="utf-8",
+    )
+    request = tmp_path / "request.json"
+    request.write_text(
+        json.dumps(
+            {
+                "job_id": "clip-job-8d3f1a2b-9c4e-4f5a-9b1c-2d3e4f5a6b7c",
+                "executor": "qnx",
+                "worker_contract": "holy-crap.clip-assessment.v1",
+                "video_sha256": hashlib.sha256(video.read_bytes()).hexdigest(),
+            }
+        ),
+        encoding="utf-8",
+    )
+    result = tmp_path / "result-envelope.json"
+
+    proc = subprocess.run(
+        [
+            sys.executable,
+            str(CLIP_WRAPPER),
+            "--request",
+            str(request),
+            "--video",
+            str(video),
+            "--worker",
+            str(installed_worker),
+            "--manifest",
+            str(manifest),
+            "--result",
+            str(result),
+        ],
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+
+    assert proc.returncode == 2
+    envelope = json.loads(result.read_text(encoding="utf-8"))
+    assert envelope["status"] == "blocked"
+    assert envelope["target"]["system"] != "QNX"
+    assert envelope["target"]["verified"] is False
+    assert envelope["telemetry_history"]
+    assert envelope["telemetry_history"][-1]["process_cpu_percent"] is None
+    assert (tmp_path / "telemetry.json").is_file()
 
 
 # --- worker (real local subprocess, no network) -----------------------------

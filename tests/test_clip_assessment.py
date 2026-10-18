@@ -41,6 +41,21 @@ def test_upload_is_immutable_content_addressed_and_deterministic(tmp_path: Path)
     assert len(service.store.list()) == 2
 
 
+def test_local_video_ingest_uses_content_addressed_hard_link(tmp_path: Path) -> None:
+    service = ClipAssessmentService(tmp_path / "simlab")
+    source = tmp_path / "installed.mp4"
+    source.write_bytes(fake_mp4(b"large installed dataset fixture"))
+
+    stored = service.store.ingest_file(
+        source, filename=source.name, media_type="video/mp4"
+    )
+
+    assert stored.path.read_bytes() == source.read_bytes()
+    assert stored.sha256 == hashlib.sha256(source.read_bytes()).hexdigest()
+    # pytest's temp directory and the assessment home share a filesystem here.
+    assert stored.path.stat().st_ino == source.stat().st_ino
+
+
 def test_pipeline_returns_one_aggregate_without_bird_ids_or_progression(tmp_path: Path) -> None:
     content = fake_mp4(b"aggregate contract")
     service = ClipAssessmentService(tmp_path / "simlab")
@@ -63,6 +78,7 @@ def test_pipeline_returns_one_aggregate_without_bird_ids_or_progression(tmp_path
     )
 
     assert result.status == "completed"
+    assert result.video_annotations == []
     assert result.profile.value == "mixed"
     assert result.video.duration_s == 300
     assert "SYNTHETIC MOCK OUTPUT" in result.non_diagnostic_notice
@@ -88,7 +104,7 @@ def test_pipeline_returns_one_aggregate_without_bird_ids_or_progression(tmp_path
     )
     assert all(candidate.crop.materialized is False for candidate in result.summary.feces.candidates)
     assert all(
-        candidate.provenance.location_source == "observed_video"
+        candidate.provenance.location_source == "deterministic_overlay"
         for candidate in result.summary.feces.candidates
     )
     assert all(
@@ -191,6 +207,165 @@ def test_classifier_module_reports_partial_candidate_execution(tmp_path: Path) -
         "model_inference_failed": 1
     }
     assert "model_inference_failed=1" in classifier.notice
+
+
+def test_real_video_crop_is_classified_without_proxy_substitution(tmp_path: Path) -> None:
+    from PIL import Image
+
+    from holy_crap_simlab.dropping_inference import DroppingInferenceResult
+    from holy_crap_simlab.models import (
+        ClipActivitySummary,
+        FecesClassifierModel,
+        FecesCropReference,
+        NormalizedBoundingBox,
+        VideoAnnotation,
+    )
+    from holy_crap_simlab.proxy_specimens import ProxySpecimenRepository
+    from holy_crap_simlab.video_inference import ObservedCandidate, VideoInferenceResult
+
+    bbox = NormalizedBoundingBox(x=0.1, y=0.2, width=0.03, height=0.04)
+    crop = Image.new("RGB", (96, 96), (80, 60, 40))
+    crop_sha = hashlib.sha256(crop.tobytes()).hexdigest()
+    observed = ObservedCandidate(
+        id="feces-001",
+        timestamp_s=4.0,
+        bbox=bbox,
+        confidence=0.91,
+        crop_reference=FecesCropReference(
+            source_video_sha256=hashlib.sha256(fake_mp4(b"real crop")).hexdigest(),
+            timestamp_s=4.0,
+            bbox=bbox,
+            materialized=True,
+        ),
+        crop_image=crop,
+        crop_sha256=crop_sha,
+    )
+
+    class _VideoInference:
+        def analyze(
+            self, _path, _sha, _duration, *, segment_start_s=0.0, segment_end_s=None
+        ):
+            assert segment_start_s == 0.0
+            assert segment_end_s is None
+            return VideoInferenceResult(
+                activity=ClipActivitySummary(
+                    score=0.6,
+                    category="typical",
+                    motion_coverage=0.1,
+                    zone_scores={},
+                    sampled_frames=3,
+                    bird_observations=8,
+                    behavior_distribution={"moving": 0.5, "inactive": 0.5},
+                ),
+                candidates=[observed],
+                frames_sampled=3,
+                bird_observations=8,
+                activity_mode="real",
+                detector_mode="real",
+                activity_notice="real behavior fixture",
+                detector_notice="real detector fixture",
+                annotations=[
+                    VideoAnnotation(
+                        id="feces-001-s00-00",
+                        kind="dropping",
+                        timestamp_s=4.0,
+                        bbox=bbox,
+                        detection_confidence=0.91,
+                        candidate_id="feces-001",
+                        sample_index=0,
+                    )
+                ],
+                dropping_frames_sampled=3,
+            )
+
+    class _Classifier:
+        MODEL_ID = "dropping4-laptop"
+        MODEL_VERSION = "test-320"
+        INPUT_SIZE = 320
+
+        def available(self):
+            return True
+
+        def provenance(self):
+            return FecesClassifierModel(
+                id=self.MODEL_ID,
+                version=self.MODEL_VERSION,
+                sha256=None,
+                format="onnx",
+                input_size=[1, 3, 320, 320],
+                runtime="test",
+            )
+
+        def infer(self, image, input_sha256):
+            assert image is crop
+            assert input_sha256 == crop_sha
+            return DroppingInferenceResult(
+                scores={"cocci": 0.8, "healthy": 0.1, "ncd": 0.05, "salmo": 0.05},
+                class_name="cocci",
+                score=0.8,
+                product_label="abnormal",
+                model_detection_bbox=bbox,
+                raw_letterbox_bbox=(10, 10, 5, 5),
+            )
+
+    content = fake_mp4(b"real crop")
+    proxy_dir = tmp_path / "kaggle-proxies"
+    proxy_dir.mkdir()
+    for asset_id, expected_class, color in (
+        ("kaggle-healthy", "healthy", (90, 70, 45)),
+        ("kaggle-cocci", "cocci", (110, 45, 30)),
+    ):
+        specimen_buffer = io.BytesIO()
+        Image.new("RGB", (24, 24), color).save(specimen_buffer, format="JPEG")
+        specimen_bytes = specimen_buffer.getvalue()
+        (proxy_dir / f"{asset_id}.jpg").write_bytes(specimen_bytes)
+        (proxy_dir / f"{asset_id}.json").write_text(
+            json.dumps(
+                {
+                    "schema_version": 1,
+                    "asset_id": asset_id,
+                    "filename": f"{asset_id}.jpg",
+                    "media_type": "image/jpeg",
+                    "sha256": hashlib.sha256(specimen_bytes).hexdigest(),
+                    "expected_demo_class": expected_class,
+                    "description": "Verified Kaggle explainability fixture",
+                    "source_dataset": "Chicken Disease 1 on Kaggle",
+                    "source_url": "https://www.kaggle.com/datasets/allandclive/chicken-disease-1",
+                    "license": "dataset terms",
+                    "attribution": "Kaggle dataset fixture",
+                    "substitution_reason": "Test reference",
+                }
+            ),
+            encoding="utf-8",
+        )
+    service = ClipAssessmentService(
+        tmp_path / "simlab",
+        proxy_repository=ProxySpecimenRepository(proxy_dir),
+        inference=_Classifier(),
+        video_inference=_VideoInference(),
+    )
+    result = service.assess_upload(io.BytesIO(content), "pen.mp4", "video/mp4")
+
+    candidate = result.summary.feces.candidates[0]
+    assert candidate.crop.materialized is True
+    assert candidate.proxy_crop is not None
+    assert candidate.proxy_crop.bytes_available is True
+    assert candidate.proxy_crop.content_url is not None
+    assert "kaggle.com" in candidate.proxy_crop.source_url
+    assert candidate.proxy_crop.expected_demo_class == "cocci"
+    assert "Illustrative" in candidate.proxy_crop.substitution_reason
+    assert candidate.provenance.appearance_input == "observed_crop"
+    assert candidate.provenance.location_source == "observed_video"
+    assert candidate.classification.inference_performed is True
+    assert candidate.classification.input_sha256 == crop_sha
+    assert candidate.classification.input_sha256 != candidate.proxy_crop.sha256
+    assert len(result.video_annotations) == 1
+    assert result.video_annotations[0].candidate_id == candidate.id
+    persisted = service.store.get(result.id)
+    assert persisted is not None
+    assert persisted.video_annotations == result.video_annotations
+    assert result.summary.overall.review_state == "non-diagnostic-review"
+    assert "BOUNDED REAL MODEL EVIDENCE" in result.non_diagnostic_notice
 
 
 def test_unavailable_proxy_has_no_content_url_and_reports_safe_fallback(
@@ -390,7 +565,49 @@ def test_demo_media_endpoint_uses_verified_manifest(
     assert result["video"]["demo_asset_id"] == "demo-video"
     assert result["video"]["metadata_source"] == "demo_manifest"
     assert result["video"]["duration_s"] == 19.4
+    assert result["video"]["segment_start_s"] == 0
+    assert result["video"]["segment_end_s"] == 19.4
     assert result["video"]["sha256"] == hashlib.sha256(content).hexdigest()
+
+
+def test_demo_segment_is_recorded_and_uses_absolute_source_timestamps(
+    tmp_path: Path, scenario_directory: Path
+) -> None:
+    client, _content = _demo_client(tmp_path, scenario_directory)
+
+    response = client.post(
+        "/api/v1/clip-assessments/demo/demo-video"
+        "?segment_start_s=5&segment_end_s=12"
+    )
+
+    assert response.status_code == 201
+    result = response.json()
+    assert result["video"]["duration_s"] == 19.4
+    assert result["video"]["segment_start_s"] == 5
+    assert result["video"]["segment_end_s"] == 12
+    assert all(
+        5 <= candidate["timestamp_s"] <= 12
+        for candidate in result["summary"]["feces"]["candidates"]
+    )
+
+
+def test_demo_segment_rejects_invalid_or_out_of_bounds_ranges(
+    tmp_path: Path, scenario_directory: Path
+) -> None:
+    client, _content = _demo_client(tmp_path, scenario_directory)
+
+    reversed_range = client.post(
+        "/api/v1/clip-assessments/demo/demo-video"
+        "?segment_start_s=12&segment_end_s=5"
+    )
+    out_of_bounds = client.post(
+        "/api/v1/clip-assessments/demo/demo-video"
+        "?segment_start_s=5&segment_end_s=25"
+    )
+
+    assert reversed_range.status_code == 422
+    assert out_of_bounds.status_code == 422
+    assert out_of_bounds.json()["error"]["code"] == "clip_validation_error"
 
 
 def test_missing_clip_assessment_is_structured_404(client: TestClient) -> None:
@@ -468,6 +685,7 @@ def test_catalog_mock_uses_overlay_provenance(tmp_path: Path) -> None:
 
     assert result.profile.value == "mixed"
     assert result.video.source == "catalog_mock"
+    assert result.video_annotations == []
     assert result.video.bytes_available is False
     assert all(
         candidate.provenance.location_source == "deterministic_overlay"
@@ -624,10 +842,12 @@ def test_historical_assessment_without_new_fields_still_loads(tmp_path: Path) ->
         service.store.assessments_dir.joinpath(f"{current.id}.json").read_text(encoding="utf-8")
     )
     payload.pop("profile")
+    payload.pop("video_annotations")
     payload["summary"].pop("pen_assessment")
     for candidate in payload["summary"]["feces"]["candidates"]:
         candidate.pop("proxy_crop")
         candidate.pop("provenance")
+        candidate.pop("lifecycle")
         candidate["crop"]["target_width"] = 224
         candidate["crop"]["target_height"] = 224
         classification = candidate["classification"]
@@ -650,6 +870,7 @@ def test_historical_assessment_without_new_fields_still_loads(tmp_path: Path) ->
     loaded = service.store.get(historical_id)
     assert loaded is not None
     assert loaded.profile.value == "mixed"
+    assert loaded.video_annotations == []
     assert loaded.summary.pen_assessment is None
     assert loaded.summary.feces.candidates[0].crop.target_width == 224
     classification = loaded.summary.feces.candidates[0].classification

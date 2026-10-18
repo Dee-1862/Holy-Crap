@@ -28,11 +28,6 @@ function AssetMetadata({ asset }: { asset: MediaAssetInfo }) {
         {hasDoi ? <li><a href={asset.doi.startsWith("http") ? asset.doi : `https://doi.org/${asset.doi}`} target="_blank" rel="noreferrer">{asset.doi}</a></li> : null}
         <li><a href={asset.license_url} target="_blank" rel="noreferrer">License</a></li>
       </ul>
-      <p className="media-description">{asset.description}</p>
-      <ul className="media-limitations">
-        {asset.limitations.map((limitation) => <li key={limitation}>{limitation}</li>)}
-      </ul>
-      <p className="media-note">Reference media only — not simulation output and not captured by this lab. Simulated bird positions and outbreak timing are not aligned to this asset.</p>
     </figcaption>
   );
 }
@@ -43,7 +38,7 @@ export function MediaViewport({ assets }: MediaViewportProps) {
       <div className="media-missing" role="status">
         <span className="viewport-empty__mark" aria-hidden="true" />
         <strong>No reference media reported</strong>
-        <span>The media API returned no committed reference assets. Run <code>make demo-assets</code> to fetch and verify the reference media into the lab home.</span>
+        <span>Run <code>make demo-assets</code> to fetch and verify reference media.</span>
       </div>
     );
   }
@@ -82,7 +77,7 @@ export function MediaViewport({ assets }: MediaViewportProps) {
               <div className="media-missing" role="status">
                 <span className="viewport-empty__mark" aria-hidden="true" />
                 <strong>Reference media not installed</strong>
-                <span>This asset is not fetched into the lab home, so it is never hotlinked. Run <code>make demo-assets</code> to download and SHA-256-verify it, then reload.</span>
+                <span>Run <code>make demo-assets</code>, then reload.</span>
               </div>
             )}
             <AssetMetadata asset={asset} />

@@ -41,19 +41,29 @@ also assess an installed, hash-verified demo clip with
 assessment's `video.content_url`.
 
 The dashboard's dataset picker comes from the committed reviewed catalog at
-`GET /api/v1/dataset-clips`. An assessable entry without installed bytes can
-still produce deterministic interface sample data through
-`POST /api/v1/clip-assessments/catalog/{clip_id}`. That response is labeled
+`GET /api/v1/dataset-clips`. When a reviewed entry's exact file name exists in
+the local dataset-video store (`<HOLY_CRAP_HOME>/datasets/videos/**`, overridable
+with `HOLY_CRAP_DATASET_VIDEOS_DIR`), the API reports `bytes_available`, the
+installed byte size, and a playable `content_url`
+(`GET /api/v1/dataset-clips/{id}/content`). That preview never changes an
+entry's review status or assessability. When an assessable entry has local
+video bytes, `POST /api/v1/clip-assessments/catalog/{clip_id}` analyzes those
+bytes and records `source: dataset`. An assessable entry without installed
+bytes can still produce deterministic interface sample data through the same
+endpoint. That fallback response is labeled
 `catalog_mock`, has no playable content URL, and says plainly that no video was
 decoded and no model ran. Rejected footage, annotated reference clips, and
 image-only datasets cannot be assessed through that endpoint.
 
-The feces path has a clean model boundary. Detection produces a timestamp, a
-normalized bounding box, and a lazy RGB crop reference. Until the real
-detector is connected, the pipeline selects from the installed attributed
-proxy-photo pools, letterboxes the photo to RGB 320 x 320, and runs the committed YOLO11n
-ONNX model. The dashboard displays the proxy photo, its expected dataset class,
-and the model output separately. The classifier was trained from the linked
+The video path now runs bounded real inference over six sparse ffmpeg frames.
+The behavior pipeline detects chickens and aggregates seven behavior classes
+without requiring stable bird IDs. The pen-dropping model proposes persistent
+locations across sampled frames, then the close-up model evaluates the observed
+RGB crops. If real video inference is unavailable, the response marks the
+affected stage as partial or mock and uses deterministic locations or the
+installed attributed proxy-photo pool as an explicit fallback. The dashboard
+keeps the observed location, classifier input, and model output separate. The
+close-up classifier was trained from the linked
 [Chicken Disease dataset](https://www.kaggle.com/datasets/allandclive/chicken-disease-1/data);
 the bundled proxy photos come from the CC BY 4.0 Machuve et al. Zenodo dataset
 and carry their own manifests and attribution.

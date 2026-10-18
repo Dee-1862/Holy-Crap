@@ -9,7 +9,7 @@ const TERMS: Array<[string, string]> = [
   ["Whole-pen clip", "A video where the camera sees the flock as a group. Approximately five minutes is the target observation window, but the API records the actual duration."],
   ["Dataset library", "Reviewed clips grouped as ready locally, cataloged, reference-only, or rejected. Each entry keeps its camera notes, license, and source links visible."],
   ["Demo profile", "A demo control — healthy, mixed, or concerning — that shapes which deterministic demo evidence appears, such as which proxy specimen classes are selected. It is a demo setting for the simulated pipeline, not a diagnosis, and it does not change the assessed video."],
-  ["Generate mock example", "Creates and persists deterministic aggregate output for a cataloged clip whose video bytes are not installed. The viewer explicitly shows that no video was played."],
+  ["Generate deterministic example", "Available only for a cataloged clip whose video bytes are absent. It creates and persists deterministic aggregate output, and the viewer explicitly shows that no video was played."],
   ["Aggregate assessment", "One summary for the full clip: flock activity, visible appearance, feces candidates, and the classifier distribution. It is not a bird-by-bird report."],
   ["Individual tracking", "Not required. Zone-level motion and clip-level averages are intentionally useful even when birds overlap, leave view, or cannot be consistently identified."],
   ["Activity / energy", "A clip-level movement score plus spatial zone averages. It describes observed motion during this recording, not a disease state."],

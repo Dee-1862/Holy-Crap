@@ -140,8 +140,51 @@ export interface MediaAssetInfo {
 }
 
 export type ClipAssessmentStatus = "queued" | "running" | "completed" | "failed" | string;
+export type ClipAssessmentJobStatus = "queued" | "running" | "completed" | "failed";
 export type ClipModuleMode = "mock" | "partial" | "real";
 export type DemoProfile = "healthy" | "mixed" | "concerning";
+
+export type AssessmentExecutor = "local" | "qnx";
+
+export interface ClipAssessmentTarget {
+  executor: AssessmentExecutor;
+  hostname: string | null;
+  system: string | null;
+  release: string | null;
+  machine: string | null;
+  runtime: string | null;
+  verified: boolean;
+  detail: string | null;
+}
+
+export interface ClipTelemetrySample {
+  captured_at: string;
+  source: AssessmentExecutor;
+  cpu_percent: number | null;
+  ram_used_bytes: number | null;
+  ram_total_bytes: number | null;
+  process_cpu_percent: number | null;
+  process_ram_bytes: number | null;
+  detail: string | null;
+}
+
+export interface ClipAssessmentJob {
+  schema_version: 1;
+  id: string;
+  status: ClipAssessmentJobStatus;
+  progress_percent: number;
+  stage: string;
+  message: string;
+  assessment_id: string | null;
+  created_at: string;
+  updated_at: string;
+  executor: AssessmentExecutor;
+  requested_executor: AssessmentExecutor;
+  effective_executor: AssessmentExecutor | null;
+  target?: ClipAssessmentTarget | null;
+  telemetry?: ClipTelemetrySample | null;
+  telemetry_history?: ClipTelemetrySample[];
+}
 
 export interface NormalizedBBox {
   x: number;
@@ -155,6 +198,8 @@ export interface ClipAssessmentVideo {
   sha256: string;
   size_bytes: number;
   duration_s: number | null;
+  segment_start_s?: number;
+  segment_end_s?: number | null;
   width: number | null;
   height: number | null;
   fps: number | null;
@@ -168,16 +213,83 @@ export interface ClipAssessmentVideo {
   metadata_warnings?: string[];
 }
 
+export interface ClipModuleArtifact {
+  id?: string;
+  model_id?: string;
+  artifact_id?: string;
+  version?: string;
+  sha256?: string | null;
+  format?: string;
+  runtime?: string;
+  source?: string;
+  status?: string;
+  [key: string]: unknown;
+}
+
+export interface VideoAnnotation {
+  id: string;
+  kind: "chicken" | "dropping";
+  timestamp_s: number;
+  bbox: NormalizedBBox;
+  detection_confidence: number;
+  label?: string | null;
+  label_confidence?: number | null;
+  scores?: Record<string, number> | null;
+  candidate_id?: string | null;
+  sample_index?: number | null;
+  observation_state?: "observed" | "carried_forward";
+  active_from_s?: number | null;
+  active_until_s?: number | null;
+}
+
 export interface ClipAssessmentModule {
   id: string;
   label: string;
   mode: ClipModuleMode;
   version: string;
   status: string;
+  adapter?: string;
+  model_id?: string | null;
+  artifact_id?: string | null;
+  artifact?: ClipModuleArtifact | string | null;
+  runtime?: string | null;
+  details?: Record<string, unknown> | null;
+  notice?: string | null;
+  reason?: string | null;
+  fallback_reason?: string | null;
+  inference_performed?: boolean;
+}
+
+export interface ClipActivityEvidence {
+  sampled_frames?: number | null;
+  bird_observations?: number | null;
+  behavior_observations?: number | null;
+  detected_birds?: number | null;
+  model_coverage?: number | null;
+  behavior_coverage?: number | null;
+  behavior_distribution?: Record<string, number> | null;
+  [key: string]: unknown;
+}
+
+export interface ClipActivitySummary {
+  score: number;
+  category: string;
+  motion_coverage: number;
+  zone_scores: Record<string, number>;
+  sampled_frames?: number | null;
+  bird_observations?: number | null;
+  behavior_observations?: number | null;
+  detected_birds?: number | null;
+  model_coverage?: number | null;
+  behavior_coverage?: number | null;
+  behavior_distribution?: Record<string, number> | null;
+  evidence?: ClipActivityEvidence | null;
 }
 
 export interface FecesClassifierModelReference {
   id?: string;
+  model_id?: string;
+  artifact_id?: string;
   version?: string;
   sha256?: string | null;
   format?: string;
@@ -193,9 +305,23 @@ export interface FecesCandidateClassification {
   scores?: Record<string, number>;
   input_sha256?: string | null;
   model?: FecesClassifierModelReference | null;
+  model_id?: string | null;
+  artifact_id?: string | null;
+  runtime?: string | null;
   inference_performed?: boolean;
   model_detection_bbox?: NormalizedBBox | null;
-  fallback_reason?: "specimen_unavailable" | "runtime_unavailable" | "image_decode_failed" | "model_inference_failed" | null;
+  fallback_reason?: "no_observed_crop" | "specimen_unavailable" | "runtime_unavailable" | "image_decode_failed" | "model_inference_failed" | null;
+}
+
+export interface FecesDetectorReference {
+  id?: string;
+  model_id?: string;
+  artifact_id?: string;
+  version?: string;
+  sha256?: string | null;
+  runtime?: string;
+  source?: string;
+  [key: string]: unknown;
 }
 
 export interface FecesProvenance {
@@ -211,6 +337,11 @@ export interface FecesCropReference {
   target_width?: number;
   target_height?: number;
   materialized?: boolean;
+  content_url?: string | null;
+  sha256?: string | null;
+  width?: number | null;
+  height?: number | null;
+  source?: string;
 }
 
 export type DemoSpecimenClass = "cocci" | "healthy" | "ncd" | "salmo" | "unknown_abnormal";
@@ -244,6 +375,19 @@ export interface FecesCandidate {
   proxy_specimen?: ProxySpecimenReference | null;
   proxy?: ProxySpecimenReference | null;
   proxy_crop?: ProxySpecimenReference | null;
+  detector?: FecesDetectorReference | null;
+  detection_source?: string | null;
+  detector_model_id?: string | null;
+  detector_artifact_id?: string | null;
+  lifecycle?: {
+    first_observed_s: number;
+    confirmed_s: number;
+    last_observed_s: number;
+    active_until_s: number;
+    canonical_bbox: NormalizedBBox;
+    observation_count: number;
+    persistence_basis: "stationary_recurrence_across_sampled_frames";
+  } | null;
 }
 
 export interface ProxySpecimenDatasetCount {
@@ -290,12 +434,7 @@ export interface ClipAssessment {
   video: ClipAssessmentVideo;
   modules: ClipAssessmentModule[];
   summary: {
-    activity: {
-      score: number;
-      category: string;
-      motion_coverage: number;
-      zone_scores: Record<string, number>;
-    };
+    activity: ClipActivitySummary;
     appearance: {
       score: number;
       category: string;
@@ -311,6 +450,7 @@ export interface ClipAssessment {
   };
   non_diagnostic_notice: string;
   profile?: string;
+  video_annotations?: VideoAnnotation[] | null;
 }
 
 export type QnxEvidenceStatus =
@@ -399,6 +539,7 @@ export interface DatasetClip {
   assessable: boolean;
   bytes_available: boolean;
   content_url: string | null;
+  installed_size_bytes?: number | null;
 }
 
 export type EvaluationKind = "prediction" | "target_probe" | string;

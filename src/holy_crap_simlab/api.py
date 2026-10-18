@@ -17,6 +17,7 @@ from .clip_assessment import ClipValidationError
 from .models import (
     AdapterCapability,
     ClipAssessment,
+    ClipAssessmentJob,
     CreateRunRequest,
     DatasetClip,
     ErrorBody,
@@ -51,6 +52,7 @@ def create_app(
     qnx_prober=None,
     proxy_specimens_directory: Path | None = None,
     qnx_evidence_path: Path | None = None,
+    dataset_videos_directory: Path | None = None,
 ) -> FastAPI:
     resolved_home = home or Path(os.getenv("HOLY_CRAP_HOME", ".simlab"))
     service = SimulationService(
@@ -62,9 +64,11 @@ def create_app(
         qnx_evidence_path=qnx_evidence_path,
         qnx_runner=qnx_runner,
         qnx_prober=qnx_prober,
+        dataset_videos_directory=dataset_videos_directory,
     )
     application = FastAPI(title="Holy Crap Simulation Lab", version="0.1.0")
     application.state.service = service
+
     application.add_middleware(
         CORSMiddleware,
         allow_origins=[],
@@ -191,6 +195,11 @@ def create_app(
     def get_dataset_clip(clip_id: str) -> DatasetClip:
         return service.require_dataset_clip(clip_id)
 
+    @application.get("/api/v1/dataset-clips/{clip_id}/content")
+    def dataset_clip_content(clip_id: str) -> FileResponse:
+        _clip, path, media_type = service.dataset_clip_content_path(clip_id)
+        return FileResponse(path, media_type=media_type)
+
     @application.get("/api/v1/clip-assessments", response_model=list[ClipAssessment])
     def clip_assessments() -> list[ClipAssessment]:
         return service.list_clip_assessments()
@@ -201,10 +210,21 @@ def create_app(
     def assess_uploaded_clip(
         file: UploadFile = File(...),
         profile: Literal["healthy", "mixed", "concerning"] = Form("mixed"),
+        segment_start_s: float | None = Form(None, ge=0),
+        segment_end_s: float | None = Form(None, gt=0),
+        executor: Literal["local", "qnx"] = Form("local"),
     ) -> ClipAssessment:
         filename = file.filename or ""
         media_type = file.content_type or ""
-        return service.assess_clip_upload(file.file, filename, media_type, profile)
+        return service.assess_clip_upload(
+            file.file,
+            filename,
+            media_type,
+            profile,
+            segment_start_s,
+            segment_end_s,
+            executor=executor,
+        )
 
     @application.post(
         "/api/v1/clip-assessments/demo/{asset_id}",
@@ -214,8 +234,13 @@ def create_app(
     def assess_demo_clip(
         asset_id: str,
         profile: Literal["healthy", "mixed", "concerning"] = Query("mixed"),
+        segment_start_s: float | None = Query(None, ge=0),
+        segment_end_s: float | None = Query(None, gt=0),
+        executor: Literal["local", "qnx"] = Query("local"),
     ) -> ClipAssessment:
-        return service.assess_demo_clip(asset_id, profile)
+        return service.assess_demo_clip(
+            asset_id, profile, segment_start_s, segment_end_s, executor=executor
+        )
 
     @application.post(
         "/api/v1/clip-assessments/catalog/{clip_id}",
@@ -225,8 +250,74 @@ def create_app(
     def assess_catalog_clip(
         clip_id: str,
         profile: Literal["healthy", "mixed", "concerning"] = Query("mixed"),
+        segment_start_s: float | None = Query(None, ge=0),
+        segment_end_s: float | None = Query(None, gt=0),
+        executor: Literal["local", "qnx"] = Query("local"),
     ) -> ClipAssessment:
-        return service.assess_catalog_clip(clip_id, profile)
+        return service.assess_catalog_clip(
+            clip_id, profile, segment_start_s, segment_end_s, executor=executor
+        )
+
+    @application.post(
+        "/api/v1/clip-assessment-jobs/upload",
+        response_model=ClipAssessmentJob,
+        status_code=202,
+    )
+    def start_uploaded_clip_assessment(
+        file: UploadFile = File(...),
+        profile: Literal["healthy", "mixed", "concerning"] = Form("mixed"),
+        segment_start_s: float | None = Form(None, ge=0),
+        segment_end_s: float | None = Form(None, gt=0),
+        executor: Literal["local", "qnx"] = Form("local"),
+    ) -> ClipAssessmentJob:
+        return service.start_clip_upload_assessment_job(
+            file.file,
+            file.filename or "",
+            file.content_type or "",
+            profile,
+            segment_start_s,
+            segment_end_s,
+            executor,
+        )
+
+    @application.post(
+        "/api/v1/clip-assessment-jobs/demo/{asset_id}",
+        response_model=ClipAssessmentJob,
+        status_code=202,
+    )
+    def start_demo_clip_assessment(
+        asset_id: str,
+        profile: Literal["healthy", "mixed", "concerning"] = Query("mixed"),
+        segment_start_s: float | None = Query(None, ge=0),
+        segment_end_s: float | None = Query(None, gt=0),
+        executor: Literal["local", "qnx"] = Query("local"),
+    ) -> ClipAssessmentJob:
+        return service.start_demo_clip_assessment_job(
+            asset_id, profile, segment_start_s, segment_end_s, executor
+        )
+
+    @application.post(
+        "/api/v1/clip-assessment-jobs/catalog/{clip_id}",
+        response_model=ClipAssessmentJob,
+        status_code=202,
+    )
+    def start_catalog_clip_assessment(
+        clip_id: str,
+        profile: Literal["healthy", "mixed", "concerning"] = Query("mixed"),
+        segment_start_s: float | None = Query(None, ge=0),
+        segment_end_s: float | None = Query(None, gt=0),
+        executor: Literal["local", "qnx"] = Query("local"),
+    ) -> ClipAssessmentJob:
+        return service.start_catalog_clip_assessment_job(
+            clip_id, profile, segment_start_s, segment_end_s, executor
+        )
+
+    @application.get(
+        "/api/v1/clip-assessment-jobs/{job_id}",
+        response_model=ClipAssessmentJob,
+    )
+    def get_clip_assessment_job(job_id: str) -> ClipAssessmentJob:
+        return service.require_clip_assessment_job(job_id)
 
     @application.get(
         "/api/v1/clip-assessments/{assessment_id}", response_model=ClipAssessment

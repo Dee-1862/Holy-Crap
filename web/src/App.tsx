@@ -1,32 +1,50 @@
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import { api } from "./api";
 import { AssessmentVideoViewport } from "./components/AssessmentVideoViewport";
+import { BirdObservationCard } from "./components/BirdObservationCard";
 import { CandidateEvidence } from "./components/CandidateEvidence";
+import { DatasetClipPreview } from "./components/DatasetClipPreview";
 import { HelpDrawer } from "./components/HelpDrawer";
 import { MediaViewport } from "./components/MediaViewport";
+import { ModeBadge } from "./components/ModeBadge";
 import { QnxEvidencePanel } from "./components/QnxEvidencePanel";
 import { SpecimenPoolSummary } from "./components/SpecimenPoolSummary";
-import type { AdapterCapability, ClipAssessment, ClipAssessmentModule, ClipPenAssessment, DatasetClip, DatasetClipStatus, DemoProfile, FecesCandidate, MediaAssetInfo, ModelArtifact, ProxySpecimenPoolSummary, QnxEvidencePayload, Scenario, SystemCapabilities } from "./types";
+import { StageProvenance } from "./components/StageProvenance";
+import { activityEvidence, assessmentAnnotations, locationSourceShortLabel, moduleFor, orderedBehaviorDistribution } from "./evidence";
+import type { AdapterCapability, AssessmentExecutor, ClipAssessment, ClipAssessmentJob, ClipPenAssessment, ClipTelemetrySample, DatasetClip, DatasetClipStatus, DemoProfile, FecesCandidate, MediaAssetInfo, ModelArtifact, ProxySpecimenPoolSummary, QnxEvidencePayload, Scenario, SystemCapabilities, VideoAnnotation } from "./types";
 
 const STAGES = [
-  { id: "activity", label: "Activity / energy", description: "Measures motion across the pen and summarizes zone-level flock energy." },
-  { id: "appearance", label: "Flock appearance", description: "Summarizes visible flock-level appearance without requiring bird identity." },
-  { id: "feces_candidates", label: "Feces candidates", description: "Finds likely droppings and records candidate regions and timestamps." },
-  { id: "feces_classifier", label: "Feces appearance classifier", description: "Runs the configured model on each explicitly identified observed or simulated input." },
+  { id: "activity", label: "Activity / energy" },
+  { id: "appearance", label: "Flock appearance" },
+  { id: "feces_candidates", label: "Feces candidates" },
+  { id: "feces_classifier", label: "Feces appearance classifier" },
 ] as const;
 
-const PROFILE_OPTIONS: Array<{ value: DemoProfile; label: string; description: string }> = [
-  { value: "healthy", label: "Healthy", description: "Demo evidence weighted toward healthy specimens." },
-  { value: "mixed", label: "Mixed", description: "Healthy and abnormal demo evidence interleaved." },
-  { value: "concerning", label: "Concerning", description: "Demo evidence weighted toward abnormal specimens." },
+const PROFILE_OPTIONS: Array<{ value: DemoProfile; label: string }> = [
+  { value: "healthy", label: "Healthy" },
+  { value: "mixed", label: "Mixed" },
+  { value: "concerning", label: "Concerning" },
 ];
 
 const DATASET_GROUPS: Array<{ status: DatasetClipStatus; label: string }> = [
   { status: "ready", label: "Ready locally" },
-  { status: "cataloged", label: "Cataloged — mock example available" },
+  { status: "cataloged", label: "Cataloged" },
   { status: "reference_only", label: "Reference only" },
   { status: "rejected", label: "Rejected for whole-pen assessment" },
 ];
+
+const EXECUTOR_OPTIONS: Array<{ value: AssessmentExecutor; label: string }> = [
+  { value: "local", label: "Local Mac" },
+  { value: "qnx", label: "QNX Pi" },
+];
+
+const DEFAULT_SEGMENT_SECONDS = 20;
+
+function defaultSegmentEnd(duration: number | null | undefined): number {
+  return duration != null && Number.isFinite(duration)
+    ? Math.min(DEFAULT_SEGMENT_SECONDS, duration)
+    : DEFAULT_SEGMENT_SECONDS;
+}
 
 function formatDate(value: string): string {
   const date = new Date(value);
@@ -57,17 +75,61 @@ function qnxCapability(capabilities: SystemCapabilities | null): AdapterCapabili
   return capabilities?.executors?.find((item) => item.id === "qnx");
 }
 
-function moduleFor(stageId: string, modules: ClipAssessmentModule[]): ClipAssessmentModule | undefined {
-  const aliases: Record<string, string[]> = {
-    activity: ["activity", "motion", "energy"], appearance: ["appearance", "flock"],
-    feces_candidates: ["feces_candidates", "feces-candidates", "candidate", "detector"],
-    feces_classifier: ["feces_classifier", "feces-classifier", "classifier", "disease"],
-  };
-  return modules.find((module) => aliases[stageId]?.some((alias) => module.id.toLowerCase().includes(alias)));
+function formatClock(value: string): string {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime())
+    ? value
+    : new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit", second: "2-digit" }).format(date);
+}
+
+function latestTelemetry(job: ClipAssessmentJob): ClipTelemetrySample | null {
+  if (job.telemetry) return job.telemetry;
+  const history = job.telemetry_history;
+  return history && history.length > 0 ? history[history.length - 1] : null;
+}
+
+type TargetBadgeKind = "local" | "qnx" | "unknown";
+
+function targetBadgeState(job: ClipAssessmentJob): { label: string; status: string; kind: TargetBadgeKind } {
+  const target = job.target;
+  if (target) {
+    const isQnx = job.requested_executor === "qnx" || target.executor === "qnx";
+    if (isQnx) {
+      const label = target.hostname ? `QNX Pi · ${target.hostname}` : "QNX Pi";
+      if (!target.verified || job.effective_executor !== "qnx") return { label, status: "execution not verified", kind: "qnx" };
+      return { label, status: "execution verified on QNX", kind: "qnx" };
+    }
+    return { label: target.hostname ? `Local Mac · ${target.hostname}` : "Local Mac", status: target.verified ? "local execution verified" : "identity not verified", kind: "local" };
+  }
+  if (job.requested_executor === "qnx") return { label: "QNX Pi", status: "execution not verified", kind: "qnx" };
+  if (job.requested_executor === "local") return { label: "Local Mac", status: "target not reported", kind: "local" };
+  return { label: "Executor", status: "not reported", kind: "unknown" };
+}
+
+function TargetBadge({ job }: { job: ClipAssessmentJob }) {
+  const state = targetBadgeState(job);
+  const osArch = job.target
+    ? [job.target.system, job.target.release, job.target.machine].filter(Boolean).join(" · ")
+    : null;
+  return <div className={`target-badge target-badge--${state.kind}`} role="status">
+    <strong>{state.label}</strong><span>{state.status}</span>{osArch ? <small>{osArch}</small> : null}
+  </div>;
+}
+
+function JobTelemetry({ job }: { job: ClipAssessmentJob }) {
+  const sample = latestTelemetry(job);
+  return <div className="job-telemetry-block">
+    {sample ? <span className="job-telemetry-block__sampled">{sample.source} sample · {formatClock(sample.captured_at)}</span> : null}
+    <dl className="job-telemetry">
+      <div><dt>CPU</dt><dd>{sample?.cpu_percent != null ? `${Math.round(sample.cpu_percent)}%` : "—"}</dd></div>
+      <div><dt>RAM used / total</dt><dd>{sample?.ram_used_bytes != null && sample.ram_total_bytes != null ? `${formatBytes(sample.ram_used_bytes)} / ${formatBytes(sample.ram_total_bytes)}` : "—"}</dd></div>
+      <div><dt>Process RSS</dt><dd>{sample?.process_ram_bytes != null ? formatBytes(sample.process_ram_bytes) : "—"}</dd></div>
+    </dl>
+  </div>;
 }
 
 function ScoreCard({ label, score, category, detail }: { label: string; score: number; category: string; detail: string }) {
-  return <article className="score-card"><span>{label}</span><div><strong>{Math.round(scorePercent(score))}</strong><small>/ 100</small></div><b>{category}</b><p>{detail}</p></article>;
+  return <article className="score-card"><span>{label}</span><div><strong>{Math.round(scorePercent(score))}</strong><small>/ 100</small></div><b>{category}</b>{detail ? <p>{detail}</p> : null}</article>;
 }
 
 function PenAssessment({ assessment }: { assessment: ClipAssessment }) {
@@ -80,17 +142,38 @@ function PenAssessment({ assessment }: { assessment: ClipAssessment }) {
       <div><dt>Activity</dt><dd>{typeof pen?.activity_contribution === "number" ? Math.round(pen.activity_contribution * 100) : "—"}%</dd></div>
       <div><dt>Feces</dt><dd>{typeof pen?.feces_contribution === "number" ? Math.round(pen.feces_contribution * 100) : "—"}%</dd></div>
     </dl>
-    <p className="pen-assessment-lead">Demo-only pen policy using mock activity plus proxy-assisted feces evidence. Non-diagnostic.</p>
   </section>;
 }
 
-async function settleAssessment(initial: ClipAssessment): Promise<ClipAssessment> {
-  let assessment = initial;
-  for (let attempt = 0; attempt < 40 && ["queued", "running"].includes(assessment.status); attempt += 1) {
+function ActivityEvidenceSection({ assessment }: { assessment: ClipAssessment }) {
+  const evidence = activityEvidence(assessment);
+  if (!evidence) return null;
+  const distribution = orderedBehaviorDistribution(evidence.behaviorDistribution);
+  const module = moduleFor("activity", assessment.modules);
+  return <section className="activity-evidence" aria-labelledby="activity-evidence-title">
+    <div className="subheading"><div><span className="eyebrow">Activity model evidence</span><h3 id="activity-evidence-title">Sampled inference</h3></div><ModeBadge mode={module?.mode} compact /></div>
+    <dl className="activity-evidence-stats">
+      <div><dt>Sampled frames</dt><dd>{evidence.sampledFrames ?? "—"}</dd></div>
+      <div><dt>Behavior observations</dt><dd>{evidence.behaviorObservations ?? "—"}</dd></div>
+      <div><dt>Detected birds</dt><dd>{evidence.detectedBirds ?? "—"}</dd></div>
+      <div><dt>Model coverage</dt><dd>{evidence.modelCoverage !== null ? `${Math.round(evidence.modelCoverage * 100)}%` : "—"}</dd></div>
+    </dl>
+    {distribution.length ? <div className="distribution-list activity-evidence-distribution">{distribution.map(([label, value]) => {
+      const percent = distributionPercent(value, evidence.behaviorDistribution ?? {});
+      return <div className="distribution-row" key={label}><span>{label.replaceAll("_", " ")}</span><div><i style={{ width: `${percent}%` }} /></div><strong>{Math.round(percent)}%</strong></div>;
+    })}</div> : null}
+  </section>;
+}
+
+async function settleAssessmentJob(initial: ClipAssessmentJob, onUpdate: (job: ClipAssessmentJob) => void): Promise<ClipAssessmentJob> {
+  let job = initial;
+  onUpdate(job);
+  while (job.status === "queued" || job.status === "running") {
     await new Promise((resolve) => window.setTimeout(resolve, 750));
-    assessment = await api.clipAssessment(assessment.id);
+    job = await api.clipAssessmentJob(job.id);
+    onUpdate(job);
   }
-  return assessment;
+  return job;
 }
 
 type PenStateKind = "routine" | "watch" | "review" | "demo" | "other";
@@ -121,8 +204,12 @@ export default function App() {
   const [selectedDatasetId, setSelectedDatasetId] = useState("");
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [uploadPreview, setUploadPreview] = useState("");
+  const [uploadDuration, setUploadDuration] = useState<number | null>(null);
+  const [segmentStart, setSegmentStart] = useState(0);
+  const [segmentEnd, setSegmentEnd] = useState(DEFAULT_SEGMENT_SECONDS);
   const [sourceMode, setSourceMode] = useState<"library" | "upload">("library");
   const [processing, setProcessing] = useState(false);
+  const [assessmentJob, setAssessmentJob] = useState<ClipAssessmentJob | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [assessmentApiError, setAssessmentApiError] = useState("");
@@ -136,7 +223,9 @@ export default function App() {
   const [runtimeMessage, setRuntimeMessage] = useState("");
   const [modelUploadPending, setModelUploadPending] = useState(false);
   const [profile, setProfile] = useState<DemoProfile>("mixed");
+  const [executor, setExecutor] = useState<AssessmentExecutor>("local");
   const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null);
+  const [selectedBird, setSelectedBird] = useState<VideoAnnotation | null>(null);
   const [qnxEvidence, setQnxEvidence] = useState<QnxEvidencePayload | null>(null);
   const [qnxEvidenceError, setQnxEvidenceError] = useState("");
   const [proxyPoolSummary, setProxyPoolSummary] = useState<ProxySpecimenPoolSummary | null>(null);
@@ -146,11 +235,19 @@ export default function App() {
     ? mediaAssets.find((asset) => asset.id === selectedDataset.demo_asset_id && asset.media_type.startsWith("video/") && asset.installed && asset.verified)
     : undefined;
   const selectedCandidate: FecesCandidate | null = assessment?.summary.feces.candidates.find((candidate) => candidate.id === selectedCandidateId) ?? null;
+  const assessmentAnnotationsList = assessmentAnnotations(assessment);
   const assessmentAllowed = selectedDataset?.assessable ?? false;
   const qnx = qnxCapability(capabilities);
   const qnxEnabled = qnx?.status === "probe_only" || qnx?.status === "ready";
+  const qnxBlocked = executor === "qnx" && (qnx?.status === "not_configured" || qnx?.status === "unreachable" || qnx?.status === "runtime_missing");
   const selectedModel = models.find((model) => model.id === modelId);
   const modelBlockedForQnx = !selectedModel || selectedModel.format === "mock" || selectedModel.size_bytes === 0;
+  const sourceDuration = sourceMode === "upload" ? uploadDuration : selectedDataset?.duration_s ?? null;
+  const segmentValid = sourceDuration != null
+    && segmentStart >= 0
+    && segmentEnd > segmentStart
+    && segmentEnd <= sourceDuration;
+  const selectedSegment = segmentValid ? { start_s: segmentStart, end_s: segmentEnd } : undefined;
 
   const refreshAssessments = useCallback(async () => {
     try {
@@ -211,52 +308,98 @@ export default function App() {
     return () => URL.revokeObjectURL(url);
   }, [uploadFile]);
 
+  useEffect(() => {
+    if (sourceMode !== "library" || !selectedDatasetId) return;
+    const duration = datasetClips.find((clip) => clip.id === selectedDatasetId)?.duration_s;
+    setSegmentStart(0);
+    setSegmentEnd(defaultSegmentEnd(duration));
+  }, [datasetClips, selectedDatasetId, sourceMode]);
+
   async function handleAssess() {
     setProcessing(true); setError(""); setAssessmentApiError("");
+    setAssessmentJob(null);
+    setAssessment(null); setSelectedCandidateId(null); setSelectedBird(null);
     try {
-      let created: ClipAssessment;
+      let created: ClipAssessmentJob;
       if (sourceMode === "upload") {
         if (!uploadFile) throw new Error("Choose a whole-pen video before starting the assessment.");
-        created = await api.uploadClipAssessment(uploadFile, profile);
+        if (!selectedSegment) throw new Error("Choose a valid video segment before starting the assessment.");
+        created = await api.uploadClipAssessment(uploadFile, executor, profile, selectedSegment);
       } else {
         if (!selectedDataset) throw new Error("Choose a dataset-library clip before starting an assessment.");
         if (selectedDataset.status === "ready") {
           if (!selectedDataset.demo_asset_id || !selectedDemo) throw new Error("This ready clip does not have verified local video bytes available.");
-          created = await api.assessDemoClip(selectedDataset.demo_asset_id, profile);
+          if (!selectedSegment) throw new Error("Choose a valid video segment before starting the assessment.");
+          created = await api.assessDemoClip(selectedDataset.demo_asset_id, executor, profile, selectedSegment);
         } else if (selectedDataset.status === "cataloged") {
-          created = await api.assessCatalogClip(selectedDataset.id, profile);
+          if (!selectedSegment) throw new Error("Choose a valid video segment before starting the assessment.");
+          created = await api.assessCatalogClip(selectedDataset.id, executor, profile, selectedSegment);
         } else {
           throw new Error(`This ${selectedDataset.status.replaceAll("_", " ")} reference is not eligible for clip assessment.`);
         }
       }
-      const completed = await settleAssessment(created); setAssessment(completed); setSelectedCandidateId(null); await refreshAssessments();
+      const completedJob = await settleAssessmentJob(created, setAssessmentJob);
+      if (completedJob.status === "failed") throw new Error(completedJob.message || "The assessment job failed.");
+      if (!completedJob.assessment_id) throw new Error("The completed assessment job did not return an assessment ID.");
+      const completed = await api.clipAssessment(completedJob.assessment_id);
+      setAssessment(completed); setSelectedCandidateId(null); setSelectedBird(null); await refreshAssessments();
       void api.proxySpecimens().then(setProxyPoolSummary).catch(() => {
         // Preserve the current inventory or assessment-derived fallback on older backends.
       });
       if (completed.status === "failed") setError("The assessment was stored but did not complete. Review its status and server logs.");
     } catch (requestError) {
       setAssessmentApiError(requestError instanceof Error ? requestError.message : "The clip assessment could not be started.");
-    } finally { setProcessing(false); }
+    } finally { setAssessmentJob(null); setProcessing(false); }
   }
 
   function selectAssessment(next: ClipAssessment) {
     setAssessment(next);
     setSelectedCandidateId(null);
+    setSelectedBird(null);
   }
 
   function selectSourceMode(nextMode: "library" | "upload") {
     setSourceMode(nextMode);
     setAssessment(null);
+    setSelectedBird(null);
+    const duration = nextMode === "upload" ? uploadDuration : selectedDataset?.duration_s;
+    setSegmentStart(0);
+    setSegmentEnd(defaultSegmentEnd(duration));
   }
 
   function selectDataset(nextId: string) {
     setSelectedDatasetId(nextId);
     setAssessment(null);
+    setSelectedBird(null);
+    const duration = datasetClips.find((clip) => clip.id === nextId)?.duration_s;
+    setSegmentStart(0);
+    setSegmentEnd(defaultSegmentEnd(duration));
   }
 
   function selectUpload(file: File | null) {
     setUploadFile(file);
     setAssessment(null);
+    setSelectedBird(null);
+    setUploadDuration(null);
+    setSegmentStart(0);
+    setSegmentEnd(DEFAULT_SEGMENT_SECONDS);
+  }
+
+  function learnUploadDuration(duration: number) {
+    if (!Number.isFinite(duration) || duration <= 0) return;
+    setUploadDuration(duration);
+    setSegmentStart(0);
+    setSegmentEnd(defaultSegmentEnd(duration));
+  }
+
+  function selectCandidate(candidateId: string) {
+    setSelectedCandidateId(candidateId);
+    setSelectedBird(null);
+  }
+
+  function selectBird(annotation: VideoAnnotation) {
+    setSelectedBird(annotation);
+    setSelectedCandidateId(null);
   }
 
   async function handleTargetCheck() {
@@ -302,11 +445,6 @@ export default function App() {
         <button className="help-button" aria-expanded={helpOpen} aria-controls="help-drawer" onClick={() => setHelpOpen(true)}>How it works</button>
       </div>
     </header>
-
-    <section className="clip-intro" aria-labelledby="clip-intro-title">
-      <div><span className="eyebrow">One video → one flock-level report</span><h2 id="clip-intro-title">What did this pen look like during the clip?</h2><p>Upload a whole-pen video—around five minutes is the target—and summarize flock energy, visible appearance, and feces candidates across the clip.</p></div>
-      <aside><strong>Scope boundary</strong><p>Individual bird identity and persistent tracking are not required. A short clip cannot establish infection progression, and this report is not a veterinary diagnosis.</p></aside>
-    </section>
     {error ? <div className="error-banner" role="alert"><strong>Request failed.</strong> {error}</div> : null}
 
     <main className="clip-workspace">
@@ -323,7 +461,6 @@ export default function App() {
               <button key={option.value} type="button" aria-pressed={profile === option.value} className={profile === option.value ? "profile-option profile-option--active" : "profile-option"} onClick={() => setProfile(option.value)}>{option.label}</button>
             ))}
           </div>
-          <p className="profile-picker__note">{PROFILE_OPTIONS.find((option) => option.value === profile)?.description} The profile only shapes deterministic demo evidence; it is not a diagnosis and does not change the assessed video.</p>
         </div>
         {sourceMode === "library" ? <div className="source-content source-controls">
           <label className="clip-field">Reviewed dataset clip<select value={selectedDatasetId} onChange={(event) => selectDataset(event.target.value)} disabled={!datasetClips.length}>
@@ -336,68 +473,106 @@ export default function App() {
           {selectedDataset ? <article className="dataset-card">
             <div className="dataset-card__top"><span className={`dataset-status dataset-status--${selectedDataset.status}`}>{selectedDataset.status.replaceAll("_", " ")}</span><small>{selectedDataset.license}</small></div>
             <strong>{selectedDataset.dataset_name}</strong><b>{selectedDataset.title}</b>
-            <p>{selectedDataset.duration_s == null ? "Duration unknown" : formatTime(selectedDataset.duration_s)} · {selectedDataset.width ?? "?"}×{selectedDataset.height ?? "?"} · {selectedDataset.fps ?? "?"} FPS</p>
-            {[selectedDataset.review_verdict, selectedDataset.camera_fit, ...selectedDataset.limitations].slice(0, 3).map((note) => <p key={note}>{note}</p>)}
+            <p>{selectedDataset.duration_s == null ? "Duration unknown" : formatTime(selectedDataset.duration_s)} · {selectedDataset.fps ?? "?"} FPS{selectedDataset.installed_size_bytes != null ? ` · ${formatBytes(selectedDataset.installed_size_bytes)} installed` : ""}</p>
             <div className="dataset-links"><a href={selectedDataset.source_url} target="_blank" rel="noreferrer">Source clip</a><a href={selectedDataset.dataset_url} target="_blank" rel="noreferrer">Dataset</a>{selectedDataset.doi ? <a href={`https://doi.org/${selectedDataset.doi}`} target="_blank" rel="noreferrer">DOI</a> : null}</div>
-            {!assessmentAllowed ? <p className="dataset-disabled">{selectedDataset.status === "rejected" ? "Rejected during camera-angle review; retained for provenance only." : "Reference material only; no compatible whole-pen assessment input."}</p> : selectedDataset.status === "ready" && !selectedDemo ? <p className="dataset-disabled">Approved demo clip, but its verified video bytes are not installed locally. Run <code>make demo-assets</code> before assessment.</p> : null}
+            {!assessmentAllowed ? <p className="dataset-disabled">{selectedDataset.status === "rejected" ? "Rejected during camera review; retained for provenance." : "Reference only; not assessable."}</p> : selectedDataset.status === "ready" && !selectedDemo ? <p className="dataset-disabled">{selectedDataset.bytes_available ? <>Demo asset not hash-verified. Run <code>make demo-assets</code> before assessment.</> : <>Verified video bytes not installed. Run <code>make demo-assets</code> before assessment.</>}</p> : null}
           </article> : <p className="source-guidance">No reviewed dataset clips were returned by the API.</p>}
         </div> : <div className="source-content upload-clip-content source-controls">
-          <label className="clip-dropzone"><span>Whole-pen video</span><strong>{uploadFile?.name ?? "Choose an MP4, MOV, or WebM file"}</strong><small>Target length: approximately 5 minutes. The flock should remain visible as a group.</small><input type="file" accept="video/mp4,video/quicktime,video/webm,video/*" onChange={(event) => selectUpload(event.target.files?.[0] ?? null)} /></label>
+          <label className="clip-dropzone"><span>Whole-pen video</span><strong>{uploadFile?.name ?? "Choose an MP4, MOV, or WebM file"}</strong><input type="file" accept="video/mp4,video/quicktime,video/webm,video/*" onChange={(event) => selectUpload(event.target.files?.[0] ?? null)} /></label>
         </div>}
-        <div className="assessment-action"><div><strong>Aggregate the full clip</strong><span>No individual bird identity or cross-clip tracking.</span></div><button className="primary-button" onClick={handleAssess} disabled={processing || loading || (sourceMode === "library" ? !assessmentAllowed || (selectedDataset?.status === "ready" && !selectedDemo) : !uploadFile)}>{processing ? "Assessing clip…" : sourceMode === "upload" ? "Upload & assess clip" : selectedDataset?.status === "cataloged" ? "Generate mock example" : selectedDataset?.status === "ready" ? "Assess installed clip" : "Unavailable for assessment"}</button></div>
-        {assessmentApiError ? <div className="wiring-error" role="alert"><strong>Clip assessment API unavailable</strong><span>{assessmentApiError} No browser-generated result was substituted; the dashboard only renders persisted API assessments.</span></div> : null}
+        <div className="segment-picker" aria-label="Assessment segment">
+          <div className="segment-picker__heading"><strong>Video segment</strong><span>{sourceDuration == null ? "Load video metadata to choose a segment" : `${formatTime(sourceDuration)} source · ${segmentValid ? formatTime(segmentEnd - segmentStart) : "invalid range"} selected`}</span></div>
+          <div className="segment-picker__fields">
+            <label>Start (seconds)<input type="number" min="0" max={sourceDuration ?? undefined} step="0.1" value={segmentStart} disabled={sourceDuration == null} onChange={(event) => setSegmentStart(Number(event.target.value))} /></label>
+            <label>End (seconds)<input type="number" min="0.001" max={sourceDuration ?? undefined} step="0.1" value={segmentEnd} disabled={sourceDuration == null} onChange={(event) => setSegmentEnd(Number(event.target.value))} /></label>
+          </div>
+        </div>
+        <div className="assessment-action">
+          <fieldset className="executor-picker">
+            <legend className="executor-picker__legend">Run assessment on</legend>
+            <div className="executor-picker__options">
+              {EXECUTOR_OPTIONS.map((option) => (
+                <label key={option.value} className={executor === option.value ? "executor-option executor-option--active" : "executor-option"}>
+                  <input type="radio" name="assessment-executor" value={option.value} checked={executor === option.value} disabled={loading || processing} onChange={() => setExecutor(option.value)} />
+                  <span><strong>{option.label}</strong></span>
+                </label>
+              ))}
+            </div>
+            {executor === "qnx" ? <p className={qnxBlocked ? "executor-note executor-note--blocked" : "executor-note"}>
+              {qnxBlocked
+                ? `QNX target: ${qnx?.status?.replaceAll("_", " ") ?? "unavailable"}. No local fallback.`
+                : qnx?.status === "probe_only"
+                  ? "QNX target: probe-only, readiness not established. No local fallback."
+                  : "No local fallback."}
+            </p> : null}
+          </fieldset>
+          <button className="primary-button" onClick={handleAssess} disabled={processing || loading || qnxBlocked || !segmentValid || (sourceMode === "library" ? !assessmentAllowed || (selectedDataset?.status === "ready" && !selectedDemo) : !uploadFile)}>{processing ? "Assessing clip…" : sourceMode === "upload" ? "Upload & assess clip" : selectedDataset?.status === "cataloged" ? selectedDataset.bytes_available ? "Assess installed clip" : "Generate deterministic example" : selectedDataset?.status === "ready" ? "Assess installed clip" : "Unavailable for assessment"}</button>
+          {assessmentJob ? <div className="assessment-progress" aria-live="polite">
+            <div className="assessment-progress__heading"><strong>{assessmentJob.stage.replaceAll("_", " ")}</strong><span>{Math.round(Math.max(0, Math.min(100, assessmentJob.progress_percent)))}%</span></div>
+            <div className="assessment-progress__track" role="progressbar" aria-label="Clip assessment progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.max(0, Math.min(100, assessmentJob.progress_percent))} aria-valuetext={`${Math.round(Math.max(0, Math.min(100, assessmentJob.progress_percent)))} percent — ${assessmentJob.stage}`}>
+              <span style={{ width: `${Math.max(0, Math.min(100, assessmentJob.progress_percent))}%` }} />
+            </div>
+            <p>{assessmentJob.message}</p>
+          </div> : null}
+          {assessmentJob ? <div className="assessment-run">
+            <TargetBadge job={assessmentJob} />
+            <JobTelemetry job={assessmentJob} />
+          </div> : null}
+        </div>
+        {assessmentApiError ? <div className="wiring-error" role="alert"><strong>Clip assessment error</strong><span>{assessmentApiError}</span></div> : null}
       </aside>
 
       <section className="panel viewer-panel" aria-labelledby="viewer-title">
         <div className="panel-heading"><div><span className="eyebrow">Clip viewer</span><h2 id="viewer-title">Whole-pen observation window</h2></div><span className="index-label">{assessment ? `ASSESSED · ${assessment.id.slice(0, 8)}` : sourceMode === "library" ? selectedDataset?.status.replaceAll("_", " ") ?? "LIBRARY" : "UPLOAD"}</span></div>
-        {assessment ? <AssessmentVideoViewport assessment={assessment} selectedCandidateId={selectedCandidateId} />
+        {assessment ? <AssessmentVideoViewport assessment={assessment} selectedCandidateId={selectedCandidateId} selectedBirdId={selectedBird?.id ?? null} onSelectCandidate={selectCandidate} onSelectBird={selectBird} />
           : sourceMode === "library"
-          ? selectedDemo ? <MediaViewport assets={[selectedDemo]} /> : <div className="viewer-empty viewer-empty--catalog"><span aria-hidden="true">{selectedDataset?.status === "cataloged" ? "MOCK" : "—"}</span><strong>{selectedDataset?.status === "cataloged" ? "No local video bytes" : "Playback unavailable"}</strong><p>{selectedDataset?.status === "cataloged" ? "Generate a persisted deterministic example from this catalog entry. Results remain clearly marked MOCK; the dashboard will not pretend a video was played." : selectedDataset?.status === "ready" ? "This approved clip is not installed locally. Run make demo-assets to fetch and verify its bytes before assessment." : "This entry is retained for research provenance and cannot be assessed from the dashboard."}</p>{selectedDataset ? <div className="viewer-source-links"><a href={selectedDataset.source_url} target="_blank" rel="noreferrer">Open source</a><a href={selectedDataset.dataset_url} target="_blank" rel="noreferrer">Open dataset</a></div> : null}</div>
-          : uploadPreview ? <div className="upload-preview-wrap"><video className="upload-preview" src={uploadPreview} controls preload="metadata">Your browser cannot preview this video.</video></div> : <div className="viewer-empty"><span aria-hidden="true">▶</span><strong>Select a whole-pen video</strong><p>The selected clip will remain visible here while you review its aggregate assessment.</p></div>}
-        <p className="viewer-boundary">This is a clip-level observation. Bird identities do not need to persist, and the video does not establish infection progression.</p>
+          ? selectedDataset?.bytes_available && selectedDataset.content_url ? <DatasetClipPreview clip={selectedDataset} />
+            : selectedDemo ? <MediaViewport assets={[selectedDemo]} /> : <div className="viewer-empty viewer-empty--catalog"><span aria-hidden="true">{selectedDataset?.status === "cataloged" ? "MOCK" : "—"}</span><strong>{selectedDataset?.status === "cataloged" ? "No local video bytes" : "Playback unavailable"}</strong><p>{selectedDataset?.status === "cataloged" ? "Generate a persisted deterministic example from this catalog entry." : selectedDataset?.status === "ready" ? "Not installed locally. Run make demo-assets before assessment." : "Retained for provenance; not assessable."}</p>{selectedDataset ? <div className="viewer-source-links"><a href={selectedDataset.source_url} target="_blank" rel="noreferrer">Open source</a><a href={selectedDataset.dataset_url} target="_blank" rel="noreferrer">Open dataset</a></div> : null}</div>
+          : uploadPreview ? <div className="upload-preview-wrap"><video className="upload-preview" src={uploadPreview} controls preload="metadata" onLoadedMetadata={(event) => learnUploadDuration(event.currentTarget.duration)}>Your browser cannot preview this video.</video></div> : <div className="viewer-empty"><span aria-hidden="true">▶</span><strong>Select a whole-pen video</strong></div>}
+        {assessment && selectedBird ? <BirdObservationCard annotation={selectedBird} onDismiss={() => setSelectedBird(null)} /> : null}
       </section>
 
       <section className="panel pipeline-panel" aria-labelledby="pipeline-title">
         <div className="panel-heading"><div><span className="eyebrow">Step 02</span><h2 id="pipeline-title">Assessment pipeline</h2></div><span className="index-label">4 STAGES</span></div>
         <ol className="pipeline-list">{STAGES.map((stage, index) => {
-          const module = assessment ? moduleFor(stage.id, assessment.modules) : undefined; const mode = module?.mode ?? "mock";
-          return <li key={stage.id} className="pipeline-stage"><span className="stage-number">{String(index + 1).padStart(2, "0")}</span><div><strong>{stage.label}</strong><p>{stage.description}</p></div><div className="stage-runtime"><span className={`mode-badge mode-badge--${mode}`}>{mode === "real" ? "REAL MODEL" : mode === "partial" ? "PARTIAL" : "MOCK"}</span><small>{module ? `${module.version} · ${module.status}` : "deterministic placeholder · ready"}</small></div></li>;
+          const module = assessment ? moduleFor(stage.id, assessment.modules) : undefined;
+          return <li key={stage.id} className="pipeline-stage"><span className="stage-number">{String(index + 1).padStart(2, "0")}</span><div><strong>{stage.label}</strong></div><StageProvenance module={module} /></li>;
         })}</ol>
-        <p className="pipeline-note"><strong>Current boundary:</strong> mock stages are deterministic and non-diagnostic. Each stage records its mode and version so a real activity, appearance, detector, or feces classifier can replace it independently.</p>
       </section>
 
       <section className="panel results-panel" aria-labelledby="results-title">
         <div className="panel-heading"><div><span className="eyebrow">Step 03</span><h2 id="results-title">Aggregate clip summary</h2></div>{assessment ? <span className={`status-pill status-pill--${assessment.status}`}>{assessment.status}</span> : <span className="index-label">AWAITING CLIP</span>}</div>
         {!assessment ? <div className="results-empty results-empty--compact"><span aria-hidden="true">◎</span><strong>No result yet</strong><p>Assess the selected whole-pen clip to populate this summary.</p></div> : <div className="assessment-results aggregate-results">
           <div className="score-grid">
-            <ScoreCard label="Activity / energy" score={assessment.summary.activity.score} category={assessment.summary.activity.category} detail={`${Math.round(assessment.summary.activity.motion_coverage * 100)}% motion coverage across the pen`} />
-            <ScoreCard label="Flock appearance" score={assessment.summary.appearance.score} category={assessment.summary.appearance.category} detail={assessment.summary.appearance.notes[0] ?? "No aggregate appearance note reported."} />
-            <article className="score-card score-card--count"><span>Feces candidates</span><div><strong>{assessment.summary.feces.candidate_count}</strong></div><b>regions for review</b><p>Candidates are clip-level detections, not confirmed droppings or diagnoses.</p></article>
+            <ScoreCard label="Activity / energy" score={assessment.summary.activity.score} category={assessment.summary.activity.category} detail={`${Math.round(assessment.summary.activity.motion_coverage * 100)}% motion coverage`} />
+            <ScoreCard label="Flock appearance" score={assessment.summary.appearance.score} category={assessment.summary.appearance.category} detail="" />
+            <article className="score-card score-card--count"><span>Feces candidates</span><div><strong>{assessment.summary.feces.candidate_count}</strong></div><b>regions for review</b></article>
           </div>
-          <section className="aggregate-distribution" aria-labelledby="distribution-title"><div className="subheading"><div><span className="eyebrow">Classifier output</span><h3 id="distribution-title">Candidate distribution</h3></div><span className={`mode-badge mode-badge--${moduleFor("feces_classifier", assessment.modules)?.mode ?? "mock"}`}>{moduleFor("feces_classifier", assessment.modules)?.mode === "real" ? "REAL" : moduleFor("feces_classifier", assessment.modules)?.mode === "partial" ? "PARTIAL" : "MOCK"}</span></div><div className="distribution-list">
+          <ActivityEvidenceSection assessment={assessment} />
+          <section className="aggregate-distribution" aria-labelledby="distribution-title"><div className="subheading"><div><span className="eyebrow">Classifier output</span><h3 id="distribution-title">Candidate distribution</h3></div><ModeBadge mode={moduleFor("feces_classifier", assessment.modules)?.mode} compact /></div><div className="distribution-list">
             {Object.entries(assessment.summary.feces.class_distribution).map(([label, value]) => <div className="distribution-row" key={label}><span>{label}</span><div><i style={{ width: `${distributionPercent(value, assessment.summary.feces.class_distribution)}%` }} /></div><strong>{value}</strong></div>)}
           </div></section>
-          <div className="overall-review"><div><span className="eyebrow">Overall review state</span><strong>{assessment.summary.overall.review_state.replaceAll("_", " ")}</strong></div><ul>{assessment.summary.overall.notes.map((note) => <li key={note}>{note}</li>)}</ul></div>
+          <div className="overall-review"><div><span className="eyebrow">Overall review state</span><strong>{assessment.summary.overall.review_state.replaceAll("_", " ")}</strong></div></div>
           <PenAssessment assessment={assessment} />
-          <p className="non-diagnostic"><strong>Non-diagnostic:</strong> {assessment.non_diagnostic_notice}</p>
+          <p className="non-diagnostic"><strong>Non-diagnostic</strong></p>
         </div>}
       </section>
 
       <section className="panel review-panel" aria-labelledby="review-title">
         <div className="panel-heading"><div><span className="eyebrow">Clip review</span><h2 id="review-title">Evidence & candidate rows</h2></div>{assessment ? <span className="index-label">{assessment.summary.feces.candidates.length} CANDIDATES</span> : <span className="index-label">NO RESULT</span>}</div>
-        {!assessment ? <><SpecimenPoolSummary summary={proxyPoolSummary} assessment={null} /><div className="results-empty"><span aria-hidden="true">⌁</span><strong>Evidence will appear here</strong><p>Run the selected video to review pen-zone movement and feces candidate timestamps without tracking individual birds.</p></div></> : <div className="assessment-results">
-          <div className="assessment-provenance"><div><strong>{assessment.video.name}</strong><span>{formatBytes(assessment.video.size_bytes)} · {assessment.video.duration_s == null ? "duration unknown" : formatTime(assessment.video.duration_s)} · {assessment.video.width ?? "?"}×{assessment.video.height ?? "?"} · {assessment.video.fps ?? "?"} FPS</span></div><code title={assessment.video.sha256}>#{assessment.id.slice(0, 12)} · sha256 {assessment.video.sha256.slice(0, 12)}… · {formatDate(assessment.created_at)}</code></div>
-          <section className="review-zones" aria-labelledby="zones-title"><div className="subheading"><div><span className="eyebrow">Spatial context</span><h3 id="zones-title">Activity by pen zone</h3></div><span className={`mode-badge mode-badge--${moduleFor("activity", assessment.modules)?.mode ?? "mock"}`}>{moduleFor("activity", assessment.modules)?.mode === "real" ? "REAL MODEL" : "MOCK"}</span></div><dl className="zone-list">{Object.entries(assessment.summary.activity.zone_scores).map(([zone, value]) => <div key={zone}><dt>{zone.replaceAll("_", " ")}</dt><dd>{Math.round(scorePercent(value))}</dd></div>)}</dl><p className="zone-note">Zone averages tolerate occlusion and birds entering or leaving view. Persistent individual tracking is not required.</p></section>
+        {!assessment ? <><SpecimenPoolSummary summary={proxyPoolSummary} assessment={null} /><div className="results-empty"><span aria-hidden="true">⌁</span><strong>Evidence will appear here</strong><p>Run the selected video to review zone movement and feces candidates.</p></div></> : <div className="assessment-results">
+          <div className="assessment-provenance"><div><strong>{assessment.video.name}</strong><span>{formatBytes(assessment.video.size_bytes)} · source {assessment.video.duration_s == null ? "duration unknown" : formatTime(assessment.video.duration_s)} · segment {formatTime(assessment.video.segment_start_s ?? 0)} to {assessment.video.segment_end_s == null ? "end unknown" : formatTime(assessment.video.segment_end_s)}{assessment.video.segment_end_s == null ? "" : ` (${formatTime(assessment.video.segment_end_s - (assessment.video.segment_start_s ?? 0))})`} · {assessment.video.width ?? "?"}×{assessment.video.height ?? "?"} · {assessment.video.fps ?? "?"} FPS</span></div><code title={assessment.video.sha256}>#{assessment.id.slice(0, 12)} · sha256 {assessment.video.sha256.slice(0, 12)}… · {formatDate(assessment.created_at)}</code></div>
+          <section className="review-zones" aria-labelledby="zones-title"><div className="subheading"><div><span className="eyebrow">Spatial context</span><h3 id="zones-title">Activity by pen zone</h3></div><ModeBadge mode={moduleFor("activity", assessment.modules)?.mode} /></div><dl className="zone-list">{Object.entries(assessment.summary.activity.zone_scores).map(([zone, value]) => <div key={zone}><dt>{zone.replaceAll("_", " ")}</dt><dd>{Math.round(scorePercent(value))}</dd></div>)}</dl></section>
           <SpecimenPoolSummary summary={proxyPoolSummary} assessment={assessment} />
-          <section className="candidate-section" aria-labelledby="candidate-title"><div className="subheading"><div><span className="eyebrow">Review queue</span><h3 id="candidate-title">Feces candidate rows</h3></div><span>{assessment.summary.feces.candidates.length} shown</span></div><div className="candidate-table-wrap"><table className="candidate-table"><thead><tr><th>Candidate</th><th>Time</th><th>Observed location</th><th>Model output</th><th>Confidence</th><th>Mode</th></tr></thead><tbody>{assessment.summary.feces.candidates.map((candidate) => <tr key={candidate.id} role="button" tabIndex={0} aria-pressed={selectedCandidateId === candidate.id} className={selectedCandidateId === candidate.id ? "candidate-row candidate-row--active" : "candidate-row"} onClick={() => setSelectedCandidateId(candidate.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelectedCandidateId(candidate.id); } }}><td><code>{candidate.id}</code></td><td>{formatTime(candidate.timestamp_s)}</td><td><code>{candidate.bbox.x.toFixed(2)}, {candidate.bbox.y.toFixed(2)} · {candidate.bbox.width.toFixed(2)}×{candidate.bbox.height.toFixed(2)}</code></td><td>{candidate.classification.label ?? "—"}</td><td>{Math.round(candidate.classification.confidence * 100)}%</td><td><span className={`mode-badge mode-badge--${candidate.classification.mode}`}>{candidate.classification.mode === "real" ? "REAL" : "MOCK"}</span></td></tr>)}</tbody></table></div>{selectedCandidate ? <CandidateEvidence candidate={selectedCandidate} /> : <p className="candidate-evidence-empty">Select a candidate row to review its observed location, simulated proxy input, and model output. Selecting a row also seeks the assessed video to that candidate's timestamp.</p>}</section>
+          <section className="candidate-section" aria-labelledby="candidate-title"><div className="subheading"><div><span className="eyebrow">Review queue</span><h3 id="candidate-title">Feces candidate rows</h3></div><span>{assessment.summary.feces.candidates.length} shown</span></div><div className="candidate-table-wrap"><table className="candidate-table"><thead><tr><th>Candidate</th><th>Time</th><th>Location</th><th>Source</th><th>Model output</th><th>Confidence</th><th>Mode</th></tr></thead><tbody>{assessment.summary.feces.candidates.map((candidate) => <tr key={candidate.id} role="button" tabIndex={0} aria-pressed={selectedCandidateId === candidate.id} className={selectedCandidateId === candidate.id ? "candidate-row candidate-row--active" : "candidate-row"} onClick={() => selectCandidate(candidate.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); selectCandidate(candidate.id); } }}><td><code>{candidate.id}</code></td><td>{formatTime(candidate.timestamp_s)}</td><td><code>{candidate.bbox.x.toFixed(2)}, {candidate.bbox.y.toFixed(2)} · {candidate.bbox.width.toFixed(2)}×{candidate.bbox.height.toFixed(2)}</code></td><td className="candidate-source">{locationSourceShortLabel(candidate)}</td><td>{candidate.classification.label ?? "—"}</td><td>{Math.round(candidate.classification.confidence * 100)}%</td><td><ModeBadge mode={candidate.classification.mode} compact /></td></tr>)}</tbody></table></div>{selectedCandidate ? <CandidateEvidence candidate={selectedCandidate} detectorModule={moduleFor("feces_candidates", assessment.modules)} classifierModule={moduleFor("feces_classifier", assessment.modules)} annotations={assessmentAnnotationsList} /> : <p className="candidate-evidence-empty">Select a candidate row to inspect its evidence and seek the video to its timestamp.</p>}</section>
         </div>}
       </section>
 
       <section className="panel history-strip" aria-labelledby="history-title"><div className="panel-heading"><div><span className="eyebrow">Saved evidence</span><h2 id="history-title">Recent clip assessments</h2></div><span className="index-label">{assessments.length}</span></div>{assessments.length ? <div className="assessment-history">{assessments.map((item) => <button key={item.id} className={assessment?.id === item.id ? "assessment-history-card assessment-history-card--active" : "assessment-history-card"} aria-current={assessment?.id === item.id ? "true" : undefined} onClick={() => selectAssessment(item)}><strong>{item.video.name}</strong><span>{formatDate(item.created_at)} · {item.status}</span><small>{Math.round(scorePercent(item.summary.activity.score))} activity · {item.summary.feces.candidate_count} feces candidates</small></button>)}</div> : <p className="empty-copy">No persisted clip assessments yet.</p>}</section>
 
       <details className="panel runtime-panel"><summary><span><span className="eyebrow">Advanced</span><strong>Model artifacts, QNX target & synthetic engine</strong></span><small>Open runtime controls</small></summary><div className="runtime-content">
-        <section><h3>QNX target validation</h3><p>{qnx?.description ?? "The QNX executor has not reported a capability yet."}</p><div className="runtime-actions"><button className="secondary-button" onClick={handleTargetCheck} disabled={runtimePending}>{runtimePending ? "Working…" : "Check target"}</button></div><div className="runtime-grid"><label>Model artifact<select value={modelId} onChange={(event) => setModelId(event.target.value)}>{models.map((model) => <option key={model.id} value={model.id}>{model.name} / {model.version}</option>)}</select></label><label>Synthetic scenario<select value={scenarioId} onChange={(event) => setScenarioId(event.target.value)}>{scenarios.map((scenario) => <option key={scenario.id} value={scenario.id}>{scenario.name}</option>)}</select></label></div>{modelBlockedForQnx ? <p className="blocked-copy">Choose a real, non-empty model artifact for QNX staging.</p> : null}<button className="primary-button" onClick={handleQnxValidation} disabled={runtimePending || !qnxEnabled || modelBlockedForQnx || !scenarioId}>{qnx?.status === "probe_only" ? "Validate artifact on QNX" : "Run on QNX"}</button><p className="form-note">When the target reports validation-only, this stages and verifies bytes but does not run inference. Synthetic scenarios are test plumbing, not the primary clip workflow.</p></section>
-        <section><h3>Add a model artifact</h3><form className="runtime-upload" onSubmit={handleModelUpload}><label>Name<input name="name" required placeholder="Feces classifier" /></label><label>Version<input name="version" required placeholder="0.1.0" /></label><label>Source<input name="source" placeholder="Veri / Kaggle chicken-disease-1" /></label><label>Artifact<input name="artifact" type="file" required /></label><button className="secondary-button" disabled={modelUploadPending}>{modelUploadPending ? "Uploading…" : "Upload to catalog"}</button></form><p className="form-note">The incoming feces classifier belongs after candidate localization. Uploading catalogs model bytes and provenance; it does not prove runtime compatibility.</p></section>
+        <section><h3>QNX target validation</h3><div className="runtime-actions"><button className="secondary-button" onClick={handleTargetCheck} disabled={runtimePending}>{runtimePending ? "Working…" : "Check target"}</button></div><div className="runtime-grid"><label>Model artifact<select value={modelId} onChange={(event) => setModelId(event.target.value)}>{models.map((model) => <option key={model.id} value={model.id}>{model.name} / {model.version}</option>)}</select></label><label>Synthetic scenario<select value={scenarioId} onChange={(event) => setScenarioId(event.target.value)}>{scenarios.map((scenario) => <option key={scenario.id} value={scenario.id}>{scenario.name}</option>)}</select></label></div>{modelBlockedForQnx ? <p className="blocked-copy">Choose a real, non-empty model artifact.</p> : null}<button className="primary-button" onClick={handleQnxValidation} disabled={runtimePending || !qnxEnabled || modelBlockedForQnx || !scenarioId}>{qnx?.status === "probe_only" ? "Validate artifact on QNX" : "Run on QNX"}</button></section>
+        <section><h3>Add a model artifact</h3><form className="runtime-upload" onSubmit={handleModelUpload}><label>Name<input name="name" required placeholder="Feces classifier" /></label><label>Version<input name="version" required placeholder="0.1.0" /></label><label>Source<input name="source" placeholder="Veri / Kaggle chicken-disease-1" /></label><label>Artifact<input name="artifact" type="file" required /></label><button className="secondary-button" disabled={modelUploadPending}>{modelUploadPending ? "Uploading…" : "Upload to catalog"}</button></form></section>
       </div>{runtimeMessage ? <p className="runtime-message" role="status">{runtimeMessage}</p> : null}</details>
       <QnxEvidencePanel evidence={qnxEvidence} error={qnxEvidenceError} />
     </main>

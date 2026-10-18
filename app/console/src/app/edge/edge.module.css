@@ -4,17 +4,23 @@
 .head h2 { margin: 0; }
 
 .flow { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; margin-bottom: 10px; }
-.node { position: relative; display: grid; gap: 6px; align-content: start; padding: 12px; border-radius: 14px; background: var(--fill-2); border: 1px solid transparent; transition: border-color 0.2s, background 0.2s; }
+.node { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 14px; border-radius: 14px; background: var(--fill-2); border: 1px solid transparent; transition: border-color 0.2s, background 0.2s; }
 .node:not(:last-child)::after { content: "›"; position: absolute; right: -8px; top: 12px; color: var(--label-3); font-size: 14px; }
 .node:last-child { border-style: dashed; border-color: var(--fill); }
 .node[data-branch]::after { content: none; }
-.nodeHead { display: flex; align-items: center; gap: 7px; font-weight: 600; font-size: 14px; }
+.nodeHead { display: flex; align-items: center; gap: 7px; font-weight: 600; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.does { font-size: 13px; color: var(--label-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.facts { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; margin: 2px 0 0; font-size: 12px; }
+.facts dt { color: var(--label-3); }
+.facts dd { margin: 0; text-align: right; color: var(--label); font-variant-numeric: tabular-nums; }
 .nodeHead i { width: 8px; height: 8px; border-radius: 50%; background: var(--good); flex: 0 0 8px; }
-.node .pill { justify-self: start; margin-top: 2px; }
+.node .pill { margin-top: auto; width: 100%; }
 .node[data-state="down"] { border-color: var(--bad); background: rgba(255, 69, 58, 0.08); }
 .node[data-state="down"] .nodeHead i { background: var(--bad); animation: blink 0.5s infinite alternate; }
 .node[data-state="back"] { border-color: var(--good); background: rgba(48, 209, 88, 0.08); }
-.note { font-size: 12px; font-weight: 600; color: var(--label); }
+.note { font-size: 12px; font-weight: 600; color: var(--label-3); min-height: 16px; }
+.node[data-state="down"] .note { color: var(--bad); }
+.node[data-state="back"] .note { color: var(--good); }
 @keyframes blink { to { opacity: 0.3; } }
 
 .tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }

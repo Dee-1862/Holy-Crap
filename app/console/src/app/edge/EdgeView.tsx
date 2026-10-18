@@ -15,13 +15,13 @@ interface Kill { proc: string; at: number; oldPid: number | null; newPid: number
 
 // The pipeline in the order data flows. Each box is its own process on the Pi.
 const SECTIONS: { id: string; name: string; does: string }[] = [
-  { id: "camera", name: "Camera", does: "Puts each frame in shared memory" },
-  { id: "spotter", name: "Spot finder", does: "Finds small new still things" },
-  { id: "model", name: "Model", does: "Cuts a patch, gets the detector's verdict" },
-  { id: "explain", name: "Explainability", does: "Measures the patch, says alert or dismiss" },
-  { id: "watch", name: "Watch link", does: "Alerts to the StopWatch, no internet needed" },
-  { id: "cloud", name: "Cloud link", does: "Results to the console, waits on disk offline" },
-  { id: "uplink", name: "Dashboard link", does: "Serves this page" },
+  { id: "camera", name: "Camera", does: "Captures frames" },
+  { id: "spotter", name: "Spot finder", does: "Finds still spots" },
+  { id: "model", name: "Model", does: "Checks each spot" },
+  { id: "explain", name: "Explainability", does: "Explains the verdict" },
+  { id: "watch", name: "Watch link", does: "Alerts the watch" },
+  { id: "cloud", name: "Cloud link", does: "Syncs to the cloud" },
+  { id: "uplink", name: "Dashboard", does: "Serves this page" },
 ];
 const RED_AT_LEAST = 1200;     // ms the killed box stays red, so a 20 ms restart can still be seen
 const GREEN_FOR = 6000;        // ms the "back" note stays on the box
@@ -69,7 +69,8 @@ export default function EdgeView() {
 
   const restarts = Object.values(s.procs ?? {}).map((p) => p.downFor).filter((x): x is number => x !== null);
   const avgMs = restarts.length ? restarts.reduce((a, b) => a + b, 0) / restarts.length : null;
-  const killsTotal = s.crashes?.length ?? 0;
+  // every restart the supervisor counted, so it goes up by one with each crash
+  const killsTotal = Object.values(s.procs ?? {}).reduce((a, p) => a + (p.restarts ?? 0), 0);
   const up = s.now && s.started ? s.now - s.started : null;
   const prio = (id: string) => s.procs?.[id]?.priority ?? "?";
 
@@ -90,16 +91,19 @@ export default function EdgeView() {
               <article key={x.id} className={styles.node} data-state={red ? "down" : back ? "back" : "up"}
                 data-branch={x.id === "watch" || x.id === "cloud" || undefined}>
                 <div className={styles.nodeHead}><i />{x.name}</div>
-                <span className="foot">{x.does}</span>
-                <span className="foot num">pid {p?.pid ?? "?"} · priority {p?.priority ?? "?"}</span>
-                {red && <span className={styles.note}>Killed, restarting</span>}
-                {back && <span className={styles.note}>Back in {k!.ms ?? "?"} ms, new pid. Others never stopped.</span>}
+                <span className={styles.does}>{x.does}</span>
+                <dl className={styles.facts}>
+                  <dt>PID</dt><dd className="num">{p?.pid ?? "?"}</dd>
+                  <dt>Priority</dt><dd className="num">{p?.priority ?? "?"}</dd>
+                  <dt>Restarts</dt><dd className="num">{p?.restarts ?? 0}</dd>
+                </dl>
+                <span className={styles.note}>{red ? "Killed, restarting" : back ? `Back in ${k!.ms ?? "?"} ms` : "Running"}</span>
                 <button className="pill" disabled={red} onClick={() => crash(x.id)}>{red ? "Restarting" : "Crash"}</button>
               </article>
             );
           })}
         </div>
-        <p className="foot">Crash sends SIGKILL to that one process, no clean shutdown, like a real fault. Only that box changes, every other section keeps its process and keeps working.</p>
+        <p className="foot">Crash sends SIGKILL to that one process, no clean shutdown, like a real fault. Only that box changes, with a new PID. Every other section keeps its PID and keeps working.</p>
       </section>
 
       <section className={`glass ${styles.card}`} aria-label="Why QNX">

@@ -13,19 +13,23 @@
 .node .pill { justify-self: start; margin-top: 2px; }
 .node[data-state="down"] { border-color: var(--bad); background: rgba(255, 69, 58, 0.08); }
 .node[data-state="down"] .nodeHead i { background: var(--bad); animation: blink 0.5s infinite alternate; }
-.node[data-state="waiting"] { border-color: var(--warn); }
-.node[data-state="waiting"] .nodeHead i { background: var(--warn); }
+.node[data-state="back"] { border-color: var(--good); background: rgba(48, 209, 88, 0.08); }
+.note { font-size: 12px; font-weight: 600; color: var(--label); }
 @keyframes blink { to { opacity: 0.3; } }
 
-.incident { padding: 12px 0; border-top: 1px solid var(--fill); }
-.incident:first-of-type { border-top: 0; }
-.incident ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 4px; font-size: 14px; color: var(--label-2); line-height: 1.45; }
-.incident b { color: var(--label); }
-
-.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 10px 0; }
-.compare h3 { margin: 0 0 6px; font-size: 15px; }
-.compare ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; color: var(--label-2); line-height: 1.45; }
+.tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+.tile { padding: 14px; border-radius: 14px; background: var(--fill-2); display: grid; gap: 6px; align-content: start; }
+.tile b { font-size: 26px; font-weight: 500; letter-spacing: -0.02em; }
+.tile h3 { margin: 0; font-size: 15px; }
+.tile p { margin: 0; font-size: 13px; line-height: 1.45; color: var(--label-2); }
 .code { background: var(--fill-2); padding: 12px 14px; border-radius: 12px; font-size: 13px; overflow: auto; margin: 10px 0 0; }
 
-@media (max-width: 1100px) { .flow { grid-template-columns: repeat(4, minmax(0, 1fr)); } .node::after { display: none; } }
-@media (max-width: 700px) { .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); } .compare { grid-template-columns: 1fr; } }
+@media (max-width: 1100px) {
+  .flow { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .node::after { display: none; }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tiles { grid-template-columns: 1fr; }
+}

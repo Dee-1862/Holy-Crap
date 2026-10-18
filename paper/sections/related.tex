@@ -3,8 +3,8 @@
 
 \paragraph{Classifying poultry droppings.} Machuve et al.\ collected the Tanzanian photographs we use and compared
 five convolutional networks~\cite{machuve2022}. With fine-tuning, MobileNetV2 reached 98.02\% and Xception 98.24\% on
-a farm-labelled test set, and the authors recommended MobileNetV2 for deployment. Later work on the same photographs
-or their 224-pixel Kaggle copy reports similar or higher numbers. Degu and Simegn combined a YOLOv3 detector with a
+a farm-labelled test set, and the authors recommended MobileNetV2 for deployment. Later work on what appear to be the same
+photographs, often through a 224-pixel Kaggle copy, reports similar numbers. Degu and Simegn combined a YOLOv3 detector with a
 ResNet-50 classifier for a phone application and report 98.7\%~\cite{degu2023}. Reyad et al.\ report 99.25\% with a
 majority-vote ensemble~\cite{reyad2024}, and Huda et al.\ 97.78\% with a hybrid of EfficientNetV2-B0 and
 DenseNet-121~\cite{huda2024}. The closest pipeline to ours is that of Dhungana et al., a YOLO11n detector followed by
@@ -14,7 +14,7 @@ Sakib et al.\ capture photographs with an ESP32-CAM and classify them with Effic
 data. Aworinde et al.\ released 14,618 cleaned Nigerian smartphone photographs at $100\times100$
 pixels~\cite{aworinde2023}, and Nakrosis et al.\ classified 487 Lithuanian photographs of droppings on litter into six
 appearance classes, with 91.78\% accuracy~\cite{nakrosis2023}. Wang et al.\ detected droppings on a conveyor belt
-below caged broilers~\cite{wang2019}. A survey by Li lists the open poultry vision datasets~\cite{li2025survey}.
+below caged broilers~\cite{wang2019}. Li surveys poultry datasets~\cite{li2025survey}.
 
 \paragraph{Testing beyond one collection.} Bodempudi et al.\ are the closest to our evaluation. They classified
 droppings as \emph{Salmonella} PCR positive or negative across United States and African images and report up to

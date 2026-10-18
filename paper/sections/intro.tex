@@ -4,36 +4,42 @@
 Coccidiosis alone was estimated to cost the global chicken industry about \pounds10.4 billion at 2016
 prices~\cite{blake2020}. Coccidiosis, salmonellosis and Newcastle disease change the colour and consistency of
 droppings, and farmers already look at droppings to judge flock health. This has made dropping photographs a popular
-target for deep learning. On the public Tanzanian collection of Machuve et al.~\cite{machuve2022,machuve2021farm},
-convolutional classifiers reach 98 to 99\% accuracy~\cite{machuve2022,dhungana2025,degu2023,reyad2024,huda2024}, and
-several groups have proposed phone, web or edge systems around them~\cite{degu2023,sakib2026,dhungana2025}.
+target for deep learning. On the public Tanzanian collection of Machuve et al.~\cite{machuve2022,machuve2021farm} and
+what appear to be copies of it, convolutional classifiers report 97.8 to 99.3\%
+accuracy~\cite{machuve2022,dhungana2025,degu2023,reyad2024,huda2024}, and several groups have proposed phone, web or
+edge systems around them~\cite{degu2023,sakib2026,dhungana2025}.
 
-These accuracies come from random splits of a single collection. A random split by photograph places pictures from
-the same farm visit, and sometimes the same picture, on both sides of the split~\cite{barz2020,kapoor2023}. The
-original authors wrote that they did not expect their model to be affected by distribution shift~\cite{machuve2022}.
-This has not been tested for the four-class task. The same group released a second collection whose labels were
-confirmed by PCR~\cite{machuve2021pcr}, which offers a direct test. A second gap is the camera. Published systems
-classify close-up photographs taken by a person. A camera fixed above a pen sees each dropping at 8 to 30 pixels,
-among birds, feeders and litter, and nobody is there to restart the device when software fails.
+These accuracies come from random splits of a single collection. A random split by photograph can place
+near-identical pictures on both sides, as documented for standard benchmarks~\cite{barz2020}, and leakage of this
+kind has inflated results in many fields~\cite{kapoor2023}. The collection has a second property that matters more.
+Its healthy and coccidiosis photographs were taken on farms, while its salmonella and Newcastle photographs were taken
+from experimentally inoculated birds~\cite{machuve2021farm}, so the setting of a photograph can stand in for its
+class. The original authors wrote that they did not expect their model to be affected by distribution
+shift~\cite{machuve2022}. Only one study has tested the four-class task on a second collection, a local-farm set
+whose labelling is not described in its abstract~\cite{sakib2026}, and none on labels from laboratory tests. The same
+group released a second collection, taken on farms and labelled from PCR results~\cite{machuve2021pcr}, which offers
+that test. A second gap is the camera. Published systems classify close-up photographs taken by a person. A camera
+fixed above a pen sees each dropping as a small object among birds, feeders and litter, and nobody is there to
+restart the device when software fails.
 
 We address both gaps with one detector and one honest protocol. Our contributions are as follows.
 
 \begin{enumerate}
-\item A benchmark of the classifiers earlier work used (MobileNetV2, EfficientNet-B0),
-  retrained on the same split as our YOLO11n detector and tested on the same 679 farm photographs and on 1,255
-  lab-confirmed photographs that no model saw. Every model scores 98.5 to 99.6\% on the farm test, in line
-  with published numbers, and 74.6 to 78.2\% on the lab-confirmed photographs. Our detector is not a better
-  classifier than the earlier models, and the drop is the same for all of them. To our knowledge this is the first
-  such test for the four-class task.
-\item An audit of the split. We find that 49 of the 679 test photographs (7.2\%) are exact copies of training
-  photographs, and we show that removing them changes the farm accuracy by only 0.1 points. We also show that the
-  detector's box score is not a calibrated probability.
+\item A benchmark of the classifiers earlier work used (MobileNetV2, EfficientNet-B0), retrained on the same split as
+  our YOLO11n detector and tested on the same 679 farm photographs and on 1,255 PCR-labelled photographs that no model
+  saw. Every model scores 98.5 to 99.6\% on the farm test, in line with published numbers, and 74.6 to 78.2\% on the
+  PCR-labelled photographs, a drop of 21 to 25 points for every model. Our detector does not differ significantly from
+  either classifier on the second collection. To our knowledge this is the first test of the four-class task on
+  PCR-labelled photographs with the split, the models and every per-photograph prediction released.
+\item An audit of both collections. In the farm collection, 49 of the 679 test photographs (7.2\%) are exact copies of
+  training photographs, but removing them changes the farm accuracy by at most 0.1 points. In the PCR collection, 19
+  pairs of byte-identical files are filed under two different classes. We also show that the detector's box score is
+  not a calibrated probability.
 \item A pen-scale fine-tune trained with real droppings pasted onto barn video frames, split by camera. On cameras it
   never saw, recall rises from 0.29 to 0.80 and precision from 0.11 to 0.93, at a cost of 0.02 mAP50 on close-ups.
-\item A complete pipeline running on a Raspberry Pi 5 under the QNX microkernel, with every model timed on the device.
-  Each stage is an isolated process. When we kill any stage, it is restarted in 20 to 33\,ms while the others keep
-  running. To our knowledge no peer-reviewed work has run poultry health vision on a microkernel real-time operating
-  system.
+\item A pipeline running on a Raspberry Pi 5 under the QNX microkernel, with our detector and pen model timed on the
+  device. Each stage is a separate process. When we killed a stage with \texttt{SIGKILL}, the supervisor relaunched it within 20 to 33\,ms of noticing the exit, while the others kept running. To our knowledge no peer-reviewed work has run poultry health vision on a
+  microkernel real-time operating system.
 \end{enumerate}
 
-We release the code, the per-photograph predictions, the duplicate hashes and every figure with the table behind it.
+We release the code, the per-photograph predictions, the duplicate hashes and every figure with its data.

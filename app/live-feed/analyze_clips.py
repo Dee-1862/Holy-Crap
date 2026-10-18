@@ -23,6 +23,8 @@ import cv2
 import numpy as np
 
 import detector as D
+import behaviour as B
+import os
 import spots as S
 from clips import MEDIA
 
@@ -98,6 +100,14 @@ def analyze(clip: dict, sess) -> dict:
     bg_cap = cv2.VideoCapture(str(path))
     acts, raws, dets, times, found = [], [], [], [], []
     prev, seg, bg, persist = None, -1, None, S.Persistence()
+    # Rishit's bird models, only where they fit (white broilers). They drop dropping boxes that sit on a bird,
+    # and give the flock behaviour every BEHAVIOUR_EVERY seconds. HC_NO_BIRD_FILTER=1 turns the filter off to compare.
+    birds_on = clip["id"] in B.BIRD_CLIPS
+    bird_filter = birds_on and os.environ.get("HC_NO_BIRD_FILTER") != "1"
+    det_b, cls_b = B.load() if birds_on else (None, None)
+    beh = {"classes": B.BEHAVIOURS, "times": [], "shares": [], "birds": [], "classified": []}
+    on_birds = 0
+    every = 10.0 if length <= LONG else 30.0
     t0, idx = time.time(), 0
     while idx < n:
         if idx % step:
@@ -121,6 +131,19 @@ def analyze(clip: dict, sess) -> dict:
         prev = gray
         raw, kept = S.filtered(sess, frame, bg, CONF)
         raws.append(len(raw))
+        if birds_on:
+            flock = B.birds(det_b, frame)
+            if bird_filter and len(kept):
+                mask = np.array([not B.on_bird(b, flock) for b in kept])
+                on_birds += int((~mask).sum())
+                kept = kept[mask]
+            if not beh["times"] or t - beh["times"][-1] >= every:
+                ids = B.behaviour(cls_b, frame, flock, seed=len(beh["times"]))
+                counts = np.bincount(ids, minlength=len(B.BEHAVIOURS)) if ids else np.zeros(len(B.BEHAVIOURS), int)
+                beh["times"].append(round(t, 2))
+                beh["birds"].append(int(len(flock)))
+                beh["classified"].append(len(ids))
+                beh["shares"].append([round(float(c) / max(1, len(ids)), 3) for c in counts])
         dets.append([[round(float(b[0]) / W, 4), round(float(b[1]) / H, 4), round(float(b[2]) / W, 4), round(float(b[3]) / H, 4),
                       D.CLASSES[int(b[4])], round(float(b[5]), 2)] for b in kept])
         for b, seen in persist.update(kept):
@@ -135,6 +158,7 @@ def analyze(clip: dict, sess) -> dict:
         "id": clip["id"], "width": S.FRAME_W, "height": H, "duration": round(duration, 2), "rate": rate, "times": times,
         "model": MODEL_NAME, "conf": CONF, "evaluation": EVALUATION,
         "activity": acts, "raw": raws, "detections": dets, "spots": found,
+        "behaviour": beh if birds_on else None, "birdFilter": {"on": bird_filter, "removedBoxes": on_birds},
         "summary": {"samples": len(acts),
                     "meanRawBoxesPerFrame": round(float(np.mean(raws)), 1) if raws else 0,
                     "meanBoxesPerFrame": round(float(np.mean([len(d) for d in dets])), 2) if dets else 0,
@@ -207,7 +231,7 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
     pen = "--closeup" not in sys.argv
     if pen:                                                      # the pen scale model from training/pen_train.py
-        S.CROP, S.USE_LITTER = 640, False
+        S.CROP, S.USE_LITTER, S.FLOOR_ONLY = 640, False, True
         sess = D.load_session(PEN_MODEL)
         MODEL_NAME = "dropping4-pen 640 onnx, 640 squares at camera size, size filtered"
         if PEN_METRICS.exists():

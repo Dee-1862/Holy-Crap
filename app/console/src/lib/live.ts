@@ -29,6 +29,7 @@ export interface Spot {
 export interface Analysis {
   id: string; width: number; height: number; duration: number; times: number[];
   spots?: Spot[];
+  behaviour?: { classes: string[]; times: number[]; shares: number[][]; birds: number[]; classified: number[] } | null;
   truth?: { t: number; box: [number, number, number, number]; cls: ClassKey; foundAt: number | null }[];
 }
 

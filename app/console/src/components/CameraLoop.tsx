@@ -83,6 +83,13 @@ export default function CameraLoop({ pen }: { pen: string }) {
     return () => cancelAnimationFrame(raf);
   }, [spot, spots.length]);
 
+  // re-read the behaviour panel once a second as the video plays
+  const [, setTick] = useState(0);
+  useEffect(() => {
+    const t = window.setInterval(() => setTick((x) => x + 1), 1000);
+    return () => window.clearInterval(t);
+  }, []);
+
   if (feed === undefined) return <section className={`glass ${styles.card} ${styles.empty}`} aria-label={`Pen ${pen} camera`} />;
   if (feed === "nocam") {
     return (
@@ -94,6 +101,15 @@ export default function CameraLoop({ pen }: { pen: string }) {
   }
 
   const { clip, data } = feed;
+  // flock behaviour at the moment on screen, from Rishit's bird models (nearest sample at or before now)
+  const beh = data.behaviour;
+  let bi = -1;
+  if (beh && beh.times.length) {
+    const t = video.current?.currentTime ?? 0;
+    bi = 0;
+    while (bi + 1 < beh.times.length && beh.times[bi + 1] <= t) bi++;
+  }
+  const heldOut = clip.id.startsWith("bb-");
   const keyed = data.truth?.length ?? 0;
   const found = data.truth?.filter((t) => t.foundAt !== null).length ?? 0;
 
@@ -122,6 +138,25 @@ export default function CameraLoop({ pen }: { pen: string }) {
           </button>
         ))}
       </div>
+      {beh && bi >= 0 && (
+        <div className={styles.behaviour} aria-label="Flock behaviour">
+          <div className={styles.behHead}>
+            <span className="eyebrow">Flock behaviour</span>
+            <span className="foot">{beh.birds[bi]} birds found, {beh.classified[bi]} read</span>
+          </div>
+          {beh.classes.map((c, i) => c === "other" ? null : (
+            <div key={c} className={styles.behRow} data-watch={c === "panting" || c === "inactive"}>
+              <span>{c[0].toUpperCase() + c.slice(1)}</span>
+              <i><s style={{ width: `${Math.round(beh.shares[bi][i] * 100)}%` }} /></i>
+              <b className="num">{Math.round(beh.shares[bi][i] * 100)}%</b>
+            </div>
+          ))}
+          <p className="foot">
+            Rishit&apos;s chicken detector and behaviour model (Big Broiler, 0.70 accuracy on held out pens, panting and inactive most reliable).
+            {heldOut ? " This pen is from that held out test set." : " This camera is a different barn, so these shares are unverified here."}
+          </p>
+        </div>
+      )}
       <p className="foot">
         {spot ? "Only the moments where the detector flagged a spot, looped. Tap a spot for the zoomed view and the reasons." : "The detector found nothing it was sure of, so the whole video plays."}
         {keyed ? ` Answer key on this test clip: ${found} of ${keyed} pasted droppings found.` : " Spots are leads to check, not confirmed droppings."}

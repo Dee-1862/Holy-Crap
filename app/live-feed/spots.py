@@ -20,7 +20,8 @@ import detector as D
 
 FRAME_W = 1280
 CROP = 640 // 3 + 32          # close-up model: 3x zoom. The pen model reads 640 squares at camera size, CROP = 640
-USE_LITTER = True             # the pen model learned birds are not droppings, so it runs without this check
+USE_LITTER = True             # floor colour and big blob checks, for the close-up model
+FLOOR_ONLY = False            # the pen model learned birds are not droppings, so it keeps only the floor colour check
 MAX_SIDE = 48
 BIG_BLOB = 1600
 
@@ -80,7 +81,7 @@ def filtered(sess, frame: np.ndarray, bg: Background, conf: float) -> tuple[np.n
         cx, cy = min(w - 1, max(0, (x1 + x2) // 2)), min(h - 1, max(0, (y1 + y2) // 2))
         win = blobs[max(0, y1):y2 + 1, max(0, x1):x2 + 1]
         big = max((area[i] for i in np.unique(win[win > 0])), default=0)
-        keep.append(not USE_LITTER or (bool(bg.floor[cy, cx]) and big < BIG_BLOB))
+        keep.append(bool(bg.floor[cy, cx]) if FLOOR_ONLY else not USE_LITTER or (bool(bg.floor[cy, cx]) and big < BIG_BLOB))
     return raw, boxes[np.array(keep)]
 
 

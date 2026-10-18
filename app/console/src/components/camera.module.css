@@ -38,3 +38,11 @@
 .closeImg img { width: 100%; display: block; }
 .closeBox { position: absolute; border: 2px solid #30d158; border-radius: 4px; }
 .falseTag { position: absolute; left: 0; right: 0; bottom: 0; font-size: 10px; font-style: normal; font-weight: 600; text-align: center; color: #fff; background: rgba(255, 69, 58, 0.85); padding: 1px 0; }
+.behaviour { margin: 6px 0 10px; padding: 12px; border-radius: 12px; background: var(--fill-2); display: grid; gap: 6px; }
+.behHead { display: flex; justify-content: space-between; align-items: baseline; }
+.behRow { display: grid; grid-template-columns: 90px 1fr 44px; align-items: center; gap: 8px; font-size: 13px; color: var(--label-2); }
+.behRow i { height: 6px; border-radius: 3px; background: var(--fill); overflow: hidden; display: block; }
+.behRow s { height: 100%; display: block; background: var(--label-2); border-radius: 3px; transition: width 0.4s; }
+.behRow b { text-align: right; font-weight: 500; }
+.behRow[data-watch="true"] span, .behRow[data-watch="true"] b { color: var(--label); }
+.behRow[data-watch="true"] s { background: var(--label); }

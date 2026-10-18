@@ -26,12 +26,20 @@ PIO = {
     "license": "CC BY 4.0",
 }
 
-# Three cameras, one per camera pen. id, the pen it stands in for, title, what the camera sees, source, file inside the source
+BIGBROILER = {
+    "name": "Big Broiler, Cardoen et al. 2025",
+    "url": "https://github.com/decide-ugent/big-broiler-dataset",
+    "remote_zip": "https://datasets.ilabt.imec.be/broilertracking/big-broiler_v1.zip",
+    "license": "AGPL-3.0",
+}
+
+# Three cameras, one per camera pen. The Big Broiler clips are from Rishit's held out behaviour test set (092 to 101),
+# and no Big Broiler video was used for the droppings model, so no live camera shows footage any model trained on. id, the pen it stands in for, title, what the camera sees, source, file inside the source
 CLIPS = [
     {"id": "pio-0002", "pen": "A1", "title": "Broiler house, 78 minutes", "view": "Overhead camera in a commercial broiler house, a dense flock of white broilers, 1920 by 1080 shown at 1280",
      "source": PIO, "member": None},
-    {"id": "pen-wide", "pen": "A2", "title": "Pen, wide view", "view": "Fixed camera over a litter floor pen, young and adult birds, 1280 by 720",
-     "source": NESTLER, "member": "20250319_20250319150714_20250319150744_150715.mp4"},
-    {"id": "pen-dense", "pen": "B1", "title": "Pen, dense flock", "view": "Fixed camera at a corner of a pen with perches, adult birds, 1280 by 720",
-     "source": NESTLER, "member": "20250320_20250320125521_20250320125601_125521.mp4"},
+    {"id": "bb-093", "pen": "A2", "title": "Research pen, day 22", "view": "Fixed camera over a small pen of dye marked broilers, 22 days old, 2688 by 1520 shown at 1280",
+     "source": BIGBROILER, "member": "093_2_22_2688_011_1_01.mp4"},
+    {"id": "bb-101", "pen": "B1", "title": "Research pen, day 40", "view": "Fixed camera over a small pen of dye marked broilers, 40 days old, 2688 by 1520 shown at 1280",
+     "source": BIGBROILER, "member": "101_2_40_2688_011_1_01.mp4"},
 ]

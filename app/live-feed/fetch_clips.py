@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
 import subprocess
 import urllib.request
 import zipfile
@@ -41,6 +42,19 @@ def to_web_mp4(src: Path, dest: Path, fps: int | None = None) -> None:
     subprocess.run(cmd, check=True)
 
 
+def fetch_member(url: str, member: str, dest: Path) -> None:
+    """Copy one file out of a remote zip without downloading the rest (Big Broiler is a 32.5 GB zip)."""
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "training"))
+    from prepare_data import HttpFile
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    print(f"downloading {member} from the zip", flush=True)
+    with zipfile.ZipFile(HttpFile(url)) as z:
+        info = next(i for i in z.infolist() if i.filename.endswith("/" + member))
+        with z.open(info) as src, open(dest, "wb") as out:
+            shutil.copyfileobj(src, out, 1 << 20)
+
+
 def fetch(url: str, dest: Path) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
     print(f"downloading {dest.name}", flush=True)
@@ -55,7 +69,13 @@ def main() -> None:
         src = clip["source"]
         target = out / f"{clip['id']}.mp4"
         if not target.exists():
-            if src.get("file"):                                         # a single checked file, re-encoded
+            if src.get("remote_zip"):                                   # one member of a large zip, read over HTTP ranges
+                raw = RAW / "bigbroiler" / clip["member"]
+                if not raw.exists():
+                    fetch_member(src["remote_zip"], clip["member"], raw)
+                print(f"  converting {clip['id']} to a playable MP4", flush=True)
+                to_web_mp4(raw, target)
+            elif src.get("file"):                                         # a single checked file, re-encoded
                 raw = RAW / src["file"]
                 if not raw.exists() or md5(raw) != src["md5"]:
                     fetch(src["download"], raw)

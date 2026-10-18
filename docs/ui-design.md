@@ -33,13 +33,16 @@ Shared code lives in `app/shared/` (`demo-data.js`, `specimen.js`). The watch ha
 |---|---|---|
 | Acknowledge | button | A click |
 | False alarm | button | A hold |
-| Escalate | hold the button about 1.5 s | B hold about 1.5 s with a progress ring |
+| Call the vet | hold the button about 1.5 s | B hold about 1.5 s with a progress ring, then a red CODE RED screen reading VET CALLED |
 
-Escalation is a notification to a person (vet or owner). There is no cull action anywhere. In the demo nothing is sent.
+Calling the vet is a notification to a person. The button never ends or culls anything, and the watch screen says VET CALLED rather than anything that implies the birds were harmed. There is no cull action anywhere. In the demo nothing is sent.
 
 ## Watch controls
-- B click moves to the next page. A click acknowledges on the Alert page, or jumps to it.
-- Swipe left or right changes page. Tap on the Alert page shows the next alert.
+The watch uses the two buttons, with touch as a backup. Any press wakes the screen after it sleeps (20 s idle), and the waking press does nothing else.
+- Health board (home): groups ranked by mean grade of the last 15 minutes, healthiest first. Rows touch each other with no gaps and no marker box at the start. A moves the highlight down, B opens the group.
+- Group screen: specimen photo, grade, confidence, group stats. A shows the next specimen, A hold opens the menu (acknowledge, false alarm, cancel), B goes back, B hold calls the vet.
+- Photos are placeholders from `app/watch/console/specimens.h`, made by `app/tools/make_watch_images.py`. Real photos can replace them (see the script header).
+- Live photos later: the backend sends a small JPEG (about 180 by 135, roughly 4 to 10 KB) per specimen over HTTP and the watch draws it with `drawJpg`. Not built yet.
 
 ## Next
 1. Replace filler data with the backend feed (WebSocket for web and mobile, MQTT for the watch).

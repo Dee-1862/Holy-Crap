@@ -25,3 +25,4 @@ Newest first. One line per change: date, what, why.
 - 2026-10-17: Added watch-setup.md (M5Stack Core StopWatch SKU C152: what it is, dev setup, how it joins the broker, buttons, secrets).
 - 2026-10-17: Set up arduino-cli toolchain for the StopWatch, installed M5Unified/M5GFX/M5PM1/M5IOE1/PubSubClient, flashed app/watch/hello (COM18). Boots; screen/buttons await visual check.
 - 2026-10-17: Built web console, mobile page and watch console with filler data. Shared data and drawing code in app/shared. Flashed console sketch to the watch. Added ui-design.md.
+- 2026-10-17: Watch now uses button navigation with a ranked health board, group screen with specimen photos, action menu and a B hold vet call with a red alarm screen. Added placeholder image generator app/tools/make_watch_images.py.

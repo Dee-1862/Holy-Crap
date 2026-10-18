@@ -14,7 +14,7 @@
 //   LIST      A click = move down    B click = open the pen    A hold = overview
 //   PEN       A click = next page    B click = back to the list    A hold = actions
 //             B hold (about 1.5 s) = call the vet for the pen, the alien shows while the ring fills
-//   MENU      A click = next option  B click = choose  (Call the vet needs B held)
+//   MENU      A click = next option  B click = choose  (Call the vet needs B held, nothing says so on screen)
 //   Touch     tap a row in LIST to open it, tap in PEN to flip photo and why
 //   Any button or touch wakes the screen. The wake press does nothing else.
 //
@@ -279,7 +279,6 @@ static void pageList() {
     if (any) snprintf(b, sizeof b, "%.1f", m); else snprintf(b, sizeof b, "n/a");
     text(b, 382, yc, any ? levelColor(level(gi)) : C_TER, &fonts::DejaVu18, middle_right);
   }
-  text("Average grade, last hour", CX, 392, C_TER, &fonts::DejaVu12);
 }
 static void stateTag(const Spec& s, int x, int y) {
   if (s.st == 1) text("Being checked", x, y, C_WARN, &fonts::DejaVu12);
@@ -324,16 +323,14 @@ static void pageWhy() {
   int tw = M5.Display.textWidth(word), total = 3 * 16 + 14 + tw, sx = CX - total / 2;
   for (int i = 0; i < 3; i++) M5.Display.fillSmoothCircle(sx + 6 + i * 16, 158, 5, i < dots ? C_TXT : C_SEP);
   text(word, sx + 3 * 16 + 14, 158, C_TXT, &fonts::DejaVu18, middle_left);
-  int second = -1; for (int i = 0; i < 4; i++) if (i != s.k && s.p[i] >= 15 && (second < 0 || s.p[i] > s.p[second])) second = i;
-  if (second >= 0) { snprintf(b, sizeof b, "It could also be %s", KIND[second]); text(b, CX, 190, C_SEC, &fonts::DejaVu12); }
   // evidence lines, numbered like the markers on the photo
-  int y = 222;
+  int y = 208;
   for (int i = 0; i < 3; i++) {
     if (!s.why[i][0]) continue;
     M5.Display.fillSmoothCircle(94, y + 8, 11, C_CARD2);
     snprintf(b, sizeof b, "%d", i + 1); text(b, 94, y + 8, C_TXT, &fonts::DejaVu12);
     wrap(s.why[i], 116, y, 262, 15, 2, C_TXT);
-    y += 52;
+    y += 58;
   }
   snprintf(b, sizeof b, "%d of %d", pg / 2 + 1, gcount); text(b, CX, 410, C_TER, &fonts::DejaVu12);
 }
@@ -341,28 +338,19 @@ static void pageWhy() {
 static void pageSummary() {
   M5.Display.fillScreen(C_BLK);
   text(PEN_NAME[pen], CX, 46, C_TXT, &fonts::DejaVu24);
-  text("What we checked", CX, 78, C_TER, &fonts::DejaVu12);
   float v[5] = {0}; int n = 0;
   for (int i = 0; i < gcount; i++) { Spec& sp = SP[ge[i]]; if (!counts(sp)) continue; n++; for (int j = 0; j < 5; j++) v[j] += sp.sub[j]; }
   for (int j = 0; j < 5; j++) v[j] = n ? v[j] / n : 0;
-  card(70, 98, 326, 240, 26, C_CARD);
+  card(70, 106, 326, 240, 26, C_CARD);
   for (int j = 0; j < 5; j++) {
-    int y0 = 104 + j * 46, yc = y0 + 23; int lv = !n ? 0 : v[j] >= 8 ? 0 : v[j] >= 5 ? 1 : 2;
+    int y0 = 112 + j * 46, yc = y0 + 23; int lv = !n ? 0 : v[j] >= 8 ? 0 : v[j] >= 5 ? 1 : 2;
     if (j > 0) M5.Display.drawFastHLine(94, y0, 278, C_SEP);
     text(AXES[j], 96, yc, C_TXT, &fonts::DejaVu18, middle_left);
     text(n ? WORD[j][lv] : "n/a", 350, yc, lv ? levelColor(lv == 2 ? 2 : 1) : C_SEC, &fonts::DejaVu18, middle_right);
     M5.Display.fillSmoothCircle(374, yc, 5, n ? levelColor(lv) : C_SEP);
   }
-  char b[80];
-  int a = -1, c2 = -1;                                         // the two lowest checks that are off
-  for (int j = 0; j < 5; j++) if (v[j] < 8) { if (a < 0 || v[j] < v[a]) { c2 = a; a = j; } else if (c2 < 0 || v[j] < v[c2]) c2 = j; }
-  if (!n) snprintf(b, sizeof b, "No specimens counted");
-  else if (a < 0) snprintf(b, sizeof b, "All five checks look normal");
-  else if (c2 < 0) snprintf(b, sizeof b, "Mostly %s is off", LOWER[a]);
-  else snprintf(b, sizeof b, "Mostly %s and %s are off", LOWER[a], LOWER[c2]);
-  text(b, CX, 366, C_SEC, &fonts::DejaVu12);
-  if (vetPen == pen) { snprintf(b, sizeof b, "Vet requested %d min ago", (int)vetAt); text(b, CX, 388, C_GOOD, &fonts::DejaVu12); }
-  text("Pen summary", CX, 410, C_TER, &fonts::DejaVu12);
+  char b[48];
+  if (vetPen == pen) { snprintf(b, sizeof b, "Vet requested %d min ago", (int)vetAt); text(b, CX, 384, C_GOOD, &fonts::DejaVu12); }
 }
 static void pageMenu() {
   M5.Display.fillScreen(C_BLK);
@@ -372,7 +360,6 @@ static void pageMenu() {
     card(83, y - 26, 300, 52, 26, on ? C_CARD2 : C_CARD);
     text(MENU[i], CX, y, i == 2 ? (on ? C_BAD : C_SEC) : (on ? C_TXT : C_SEC), &fonts::DejaVu18);
   }
-  text("Call the vet needs B held", CX, 408, C_TER, &fonts::DejaVu12);
 }
 // ----- the alien that shows while the termination ring fills and when it finishes -----
 // 20 by 17 pixel art. . empty, # outline and eyes, p body, l light ear tips.

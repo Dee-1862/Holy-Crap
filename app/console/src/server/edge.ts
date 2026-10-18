@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { kvDrain, kvGet, kvPush, kvSet } from "./kv";
+import { kvDrain, kvEnabled, kvGet, kvPush, kvSet } from "./kv";
 
 // Where the QNX Pi edge uplink answers (target/qnx/edge/uplink.py). Default is the direct cable address.
 export const EDGE_URL = process.env.EDGE_URL ?? "http://169.254.237.143:8088";
@@ -20,14 +20,15 @@ export async function bridgePush(status: unknown): Promise<unknown[]> {
   const b = { status, at: Date.now() };
   mem.__bridge = b;
   await kvSet(STATUS_KEY, b, 60);
-  const queued = await kvDrain<unknown>(CMD_KEY);
+  // one queue only: the shared store when there is one, this instance's memory otherwise
+  if (kvEnabled) return kvDrain<unknown>(CMD_KEY);
   const local = mem.__cmds ?? [];
   mem.__cmds = [];
-  return [...queued, ...local];
+  return local;
 }
 export async function queueCrash(proc: string) {
-  mem.__cmds = [...(mem.__cmds ?? []), { proc, at: Date.now() }];
-  await kvPush(CMD_KEY, { proc, at: Date.now() });
+  if (kvEnabled) await kvPush(CMD_KEY, { proc, at: Date.now() });
+  else mem.__cmds = [...(mem.__cmds ?? []), { proc, at: Date.now() }];
 }
 
 // What the Pi's cloud section pushed. In memory, mirrored to .data/edge.json like the barn state.

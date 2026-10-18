@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import json
 import shutil
+import signal
 import subprocess
 import sys
 import time
@@ -41,6 +42,7 @@ def main():
         "uplink": (11, [PY, str(HERE / "uplink.py")]),
         "cloud": (11, [PY, str(HERE / "cloudlink.py")]),
         "watch": (21, [PY, str(HERE / "watchlink.py")]),
+        "site": (10, [PY, str(HERE / "sitelink.py")]),       # the deployed console over Wi-Fi, idle until ~/hc-site.json exists
         "explain": (9, [PY, str(HERE / "explain.py")]),
         "infer": (7, [PY, str(HERE / "infer.py")]),          # the detector, on the Pi, lowest priority
         "model": (8, [PY, str(HERE / "model.py")]),
@@ -60,6 +62,20 @@ def main():
                       "lastExit": None, "downFor": None}
         time.sleep(0.4)
     print("started", {n: p.pid for n, p in procs.items()}, "priorities", "on" if use_on else "off", flush=True)
+
+    # A clean stop takes every section down with it, so a restart never leaves two copies fighting over ports.
+    def stop(signum, _frame):
+        for p in procs.values():
+            p.terminate()
+        for p in procs.values():
+            try:
+                p.wait(timeout=3)
+            except subprocess.TimeoutExpired:
+                p.kill()
+        print(f"stopped by signal {signum}", flush=True)
+        sys.exit(0)
+    signal.signal(signal.SIGTERM, stop)
+    signal.signal(signal.SIGINT, stop)
     uplink, cloud, last_cloud = None, None, 0.0
     while True:
         for name, p in procs.items():

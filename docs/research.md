@@ -70,9 +70,13 @@ shape, and abnormal water content. See
 - **Headless gap:** stock AICA creates a Screen/EGL/GLES window and listens for
   mouse/touch input. The production path needs a no-window capture/inference
   service. Do not enable root SSH just to follow the sample's deployment steps.
-- **Documented, not verified on this target:** QNX build paths exist for
-  OpenCV and TensorFlow Lite. Their installed/running state is unknown. ONNX
-  Runtime and hardware acceleration remain unknown.
+- **Documented, not verified on this target:** AICA references Linux-host SDP
+  cross-build recipes for OpenCV and TensorFlow Lite. Use those recipes for
+  the isolated AICA compatibility test. Native APK packaging is a separate
+  Pi-side `abuild` workflow and is not configured yet. The availability of
+  matching OpenCV, TensorFlow, or TensorFlow Lite APKs in the configured
+  repositories has not been checked. ONNX Runtime and hardware acceleration
+  remain unknown.
 - QNX's Pi 5 QSTI guide uses `/etc/config/sensor/sensor_rpi5.conf`, with
   related files under `/etc/config/sensor/rpi5`. Camera Module 3 uses
   `SENSOR_UNIT_3` for camera 1 and `SENSOR_UNIT_4` for camera 2, followed by a

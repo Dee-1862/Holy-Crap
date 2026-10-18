@@ -40,11 +40,15 @@ choices remain open.
    verify the footprint and pixels per smallest bird/dropping target before
    choosing standard versus wide.
 3. **AICA compatibility spike.** Cross-build the unmodified QNX AI Camera App
-   with QNX SDP 8.0 on a supported host; upstream says its instructions were
-   tested on Ubuntu 20.04/22.04, so do not assume this Mac or the QNX target is
-   a supported build host. Run the bundled face/style demo only to prove
-   compatibility, then replace it with poultry logic. Do not enable root SSH
-   to follow the sample.
+   on x86-64 Ubuntu 22.04 with the QNX SDP baseline and QNX package versions
+   matched to the target. Ubuntu 22.04 is the overlap between AICA's tested
+   hosts and the [current SDP 8.0.5 host list](https://www.qnx.com/developers/docs/relnotes8.0/com.qnx.doc.release_notes/topic/8.0.5_prod_release_notes/8.0.5_rn.html);
+   AICA also reports Ubuntu 20.04,
+   but the current SDP no longer supports it. Pin AICA and the referenced
+   `qnx-ports/build-files`, OpenCV, TensorFlow, numpy, and muslflt revisions.
+   Keep the cross-built libraries in an isolated application directory. Run
+   the bundled face/style demo only to prove compatibility, then replace it
+   with poultry logic. Do not enable root SSH to follow the sample.
 4. **Headless capture service.** Reuse/fork AICA's QSF and TensorFlow Lite
    integration while removing its Screen/render/touch dependency from the
    production path. Run under a consistent non-root service model.
@@ -75,6 +79,13 @@ choices remain open.
    age, confidence/persistence, acknowledgement, and connectivity. It receives
    low-rate versioned summaries, never video; offline acknowledgement stays
    pending until the desktop accepts it.
+
+Native APK packaging is a separate decision, not part of the AICA compatibility
+spike. If the production service later uses native-a packages, configure an
+aports checkout, packager identity, signing key, and local package repository
+under writable `/data`, then build the dependency chain on the Pi with
+`abuild`. Do not combine cross-built AICA libraries with APK-owned copies of
+the same dependencies.
 
 Disease-specific associations are future offline research requiring
 veterinary sampling, laboratory reference labels, independent prospective

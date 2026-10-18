@@ -250,7 +250,43 @@ target work. Details also in [TARGET.md](../TARGET.md).
   does not run as root.
 - Runner status:
   `ssh qnxpi /data/home/qnxuser/qnx-runner-app/status-runner.sh`
-- The aports tree is not configured or verified.
+- QNX Screen, the QSTI launcher, and the authenticated QNX VNC server are
+  running. For an interactive GUI, keep VNC behind a loopback-only SSH tunnel:
+
+  ```sh
+  ssh -o ControlMaster=no -o ControlPath=none \
+    -L 127.0.0.1:5905:127.0.0.1:5900 \
+    qnxpi 'while :; do sleep 60; done'
+  ```
+
+  Open `vnc://127.0.0.1:5905` in macOS Screen Sharing. The dedicated SSH
+  connection and remote sleep loop are required because an `ssh -N` forward
+  through the alias's existing multiplexed connection did not remain alive in
+  testing. Do not put the VNC password in the repository or command line, and
+  rotate the QSTI initial credential before field deployment. QNX documents
+  that `vncserv` forwards pointer and keyboard input as well as the display
+  ([QNX vncserv](https://www.qnx.com/developers/docs/8.0/com.qnx.doc.screen/topic/manual/vncserv.html),
+  [QSTI VNC setup](https://qnx.com/developers/docs/qnxeverywhere/com.qnx.doc.target_images/topic/qsti/next-steps.html)).
+- HDMI through a USB capture dongle is the boot/network-recovery fallback. It
+  provides video, not input; pair it with SSH or a USB keyboard and mouse on
+  the Pi. The Mac already has `ffmpeg` and `ffplay` for capture preview.
+- The first QNX screen is a welcome launcher, not the full desktop. Select
+  **Developer Desktop → Start Here** to enter the XFCE environment and its
+  Applications menu, terminal, file manager, browser, and development tools
+  ([QNX desktop navigation](https://qnx.com/developers/docs/qnxeverywhere/com.qnx.doc.qdd/topic/qdd_navigation.html)).
+- VNC through the current Railway/WebSocket/SSH path is usable but laggy. A
+  direct check from this Mac to the Pi's displayed `192.168.4.248` address
+  timed out, so the session cannot use the local path today. The practical
+  speed fix is to place both systems on the same LAN, preferably over wired
+  Ethernet, and make a direct local SSH tunnel to the Pi. Keep VNC for setup
+  and debugging; send production camera video through the application's own
+  compressed stream.
+- The native compiler/package tools are installed, but native packaging is
+  not configured. No aports checkout, per-user abuild configuration, packager
+  identity, signing key, or local output repository was found. `/data` had
+  17 GiB free during the 2026-10-17 audit and is the required writable build
+  location; the root IFS is read-only/full. Exact versions and the setup gate
+  are in [TARGET.md](../TARGET.md).
 - The active physical interface and onboard Wi-Fi driver, firmware, and
   association state are unverified. The working SSH/Railway path does not prove
   the planned WLAN path. Inventory `io-sock`, interfaces, driver/firmware
@@ -269,6 +305,45 @@ target work. Details also in [TARGET.md](../TARGET.md).
 | QNX 8.0.0 on Raspberry Pi 5 | Verified |
 | Python 3 at `/system/bin/python3` | Verified |
 | `qnx-runner-app` (persistent job runner) | Verified |
+| QNX Screen, QSTI launcher, and authenticated `vncserv` | Verified running |
+| Native `apk`/`abuild`/clang/CMake/Meson/Ninja toolchain | Verified installed; packaging configuration incomplete |
+
+### Two QNX build lanes
+
+The project has two separate build workflows. They must not be mixed in one
+application directory or package transaction.
+
+| Work | Build location and method |
+|---|---|
+| Unmodified AICA compatibility test | Cross-build on x86-64 Ubuntu 22.04 with the QNX SDP and target-matched QNX packages |
+| AICA-derived headless QSF service | Start with the same Ubuntu/SDP cross-build because it links proprietary QNX camera and Screen APIs |
+| OpenCV, TensorFlow Lite, numpy, and muslflt for the AICA test | Use the Linux-host `qnx-ports/build-files` recipes referenced by AICA, pinned to reviewed commits |
+| OSS dependencies intentionally maintained as APK packages | Build natively on the Pi with `abuild`, bottom-up from APKBUILDs |
+| Holy-Crap service packaged as an APK later | Build natively only after its complete header and dependency chain is available to `abuild` |
+| Models and configuration | Version and deploy as data; they are not compiled packages |
+| Desktop UI, training pipeline, and M5Stack firmware | Use their own desktop/GPU/ESP32 toolchains |
+
+The host SDP/qcc environment that AICA expects does not install on this ARM Pi,
+and macOS is not a supported SDP 8 build host. QSTI's self-hosted compiler is a
+separate environment; its presence does not make AICA a documented
+native-on-target build. For the first AICA reproduction, use x86-64 Ubuntu
+22.04, which is both an AICA-tested host and a currently supported SDP host.
+Before selecting the SDP baseline, inventory the exact QSF, Screen,
+multimedia, codec, and BSP packages on the target; `uname` reporting QNX
+8.0.0 does not prove that every installed component matches any assumed SDP
+update. Sources: [QNX SDP host requirements](https://www.qnx.com/developers/docs/8.0/com.qnx.doc.qnxsdp.quickstart/topic/install_host.html)
+[QNX self-hosted environment](https://www.qnx.com/developers/docs/qnxeverywhere/com.qnx.doc.qpg/topic/porting_QNX_self-hosted_env.html),
+and [SDP 8.0.5 release notes](https://www.qnx.com/developers/docs/relnotes8.0/com.qnx.doc.release_notes/topic/8.0.5_prod_release_notes/8.0.5_rn.html).
+
+The native-a workflow follows the installed QNX skills: confirm every claim
+with live command output, use `$CBUILD` and `$CHOST` rather than a hardcoded
+architecture triple, test source changes in the unpacked tree before creating
+a patch, and validate the built APK rather than trusting the APKBUILD alone.
+On this Pi the verified triple is
+`aarch64-unknown-nto-qnx8.0.0`. Sampled packages expose no `so:` providers, so
+the packaging gate must inspect ELF `NEEDED` entries and explicitly cover each
+non-libc runtime library. The first native port remains blocked on the setup
+items in [TARGET.md](../TARGET.md).
 
 ### Selected camera application foundation
 
@@ -284,11 +359,13 @@ lists Camera Module 3 as tested and requires QNX SDP 8.0, but its recommended
 platform is Raspberry Pi 4 B. It does not document the combined Pi 5 + Camera
 Module 3 + AICA configuration.
 
-The official AICA build path is a cross-build with QNX SDP 8.0 on a supported
-host; its README says the instructions were tested on Ubuntu 20.04 and 22.04.
-Do not assume a native-QNX or macOS build until one is proved. The bundled
-face/style demo pipeline is only a compatibility test and will be replaced;
-it is not poultry logic.
+The official AICA path is an SDP cross-build on Linux. Use x86-64 Ubuntu 22.04
+for the compatibility test. AICA also reports testing on Ubuntu 20.04, but the
+current SDP 8.0.5 host list no longer includes 20.04. Do not interpret the
+presence of `cc` and `make` on the Pi as documented support for building AICA
+natively there. Native-on-target compilation is reserved for components
+intentionally maintained as APKBUILD packages. The bundled face/style demo is
+only a compatibility test and will be replaced; it is not poultry logic.
 
 Stock AICA is GUI-first: it creates QNX Screen/EGL/GLES windows and listens
 for mouse/touch input. Its README also describes root-SSH deployment. Neither
@@ -333,10 +410,15 @@ device-key provisioning and rotation, replay resistance for acknowledgements,
 and a strict rule that no credentials enter the repository. The protocol is
 still undecided.
 
-AICA documents OpenCV and TensorFlow Lite build paths for QNX; their presence
-and operation on this target are still unverified. ONNX Runtime and hardware
-acceleration are also unverified. QNX background notes: [research.md](research.md);
-bring-up plan: [03-open-questions.md](03-open-questions.md).
+AICA references Linux-host SDP cross-build recipes for OpenCV and TensorFlow
+Lite. Use those recipes only for the isolated compatibility test. A separate
+native-a route may later package these libraries on the Pi with `abuild`; it
+requires an aports tree, package metadata, signing configuration, and
+bottom-up dependency validation, none of which is configured yet. The
+availability of OpenCV, TensorFlow, and TensorFlow Lite APKs in the configured
+repositories has not been checked. ONNX Runtime and hardware acceleration are
+also unverified. QNX background notes: [research.md](research.md); bring-up
+plan: [03-open-questions.md](03-open-questions.md).
 
 ## 8. Data and research summary
 

@@ -1,10 +1,10 @@
 """Site section: shows this Pi on the deployed console (Vercel) with no laptop in between.
 
 Once a second it reads this Pi's status from the uplink section (127.0.0.1:8088), posts the parts the Pi page shows
-to SITE/api/edge/bridge, and passes any Crash presses made on the site back to the uplink. Two more threads send a small
-colour JPEG of the newest camera frame and where recent spots were to SITE/api/edge/frame, for the site's live camera
-view: back to back over two kept open connections while someone has that view open, every IDLE_EVERY seconds otherwise. It only makes outgoing https requests, so it works behind any Wi-Fi router or phone hotspot, whatever address
-the Pi gets.
+to SITE/api/edge/bridge, and passes any Crash presses made on the site back to the uplink. Two more threads feed the site's live
+camera view: one takes small colour JPEGs of the newest camera frame, 4 a second while someone has that view open,
+and the other uploads them to SITE/api/edge/frame as one bundle a second. It only makes outgoing https requests, so
+it works behind any Wi-Fi router or phone hotspot, whatever address the Pi gets.
 
 Settings live in ~/hc-site.json, never in the repository:
     {"site": "https://your-site.vercel.app", "token": "optional EDGE_TOKEN", "bypass": "optional Vercel bypass secret"}
@@ -25,8 +25,9 @@ from pathlib import Path
 CONF = Path(os.environ.get("HC_SITE_CONF", Path.home() / "hc-site.json"))
 UPLINK = os.environ.get("HC_UPLINK", "http://127.0.0.1:8088")
 KEEP = ("procs", "fps", "frames", "now", "started", "nativeIpc", "modelStats", "crashes", "total", "source")
-FAST_EVERY = float(os.environ.get("HC_FRAME_EVERY", "0.3"))     # shortest gap between pictures while watched
-IDLE_EVERY = 10.0
+FPS = float(os.environ.get("HC_FRAME_FPS", "4"))     # camera view pictures a second while someone watches
+BUNDLE = 1.0                                        # seconds between uploads
+IDLE_EVERY = 5.0                                    # seconds between pictures while nobody watches
 
 
 def request(url: str, body: dict | None = None, headers: dict | None = None, timeout: float = 5) -> dict:
@@ -67,18 +68,18 @@ def headers_for(conf: dict) -> dict:
 
 
 class Picture:
-    """The newest camera frame as a small JPEG with the latest spots."""
+    """The newest camera frame as a small JPEG, 384 by 216."""
 
     def __init__(self):
         self.frames = None
 
-    def __call__(self, status: dict) -> dict | None:
+    def __call__(self) -> tuple[bytes, dict] | None:
         try:
             import livejpeg                              # numpy and libturbojpeg, only on the Pi
             from shm import Frames
             if self.frames is None:
                 self.frames = Frames()
-            got = livejpeg.snapshot(self.frames)
+            got = livejpeg.snapshot(self.frames, step=6, quality=70)
         except Exception:                                # no frame ring yet (camera starting) or it was recreated
             self.frames = None
             return None
@@ -87,42 +88,57 @@ class Picture:
             # this is still the previous file: open it again next time
             self.frames = None
             return None
-        jpg, hd = got
-        since = status.get("procs", {}).get("camera", {}).get("started") or 0     # not spots kept from older runs
-        spots = [{k: s.get(k) for k in ("id", "cx", "cy", "t")} for s in status.get("spots", []) if (s.get("t") or 0) >= since][-12:]
-        return {"jpeg": base64.b64encode(jpg).decode(), "t": hd["t"], "w": hd["w"], "h": hd["h"],
-                "source": status.get("source", ""), "spots": spots}
+        return got
 
 
-def push_pictures(seen: dict, offset: float = 0.0):
-    """Picture thread. One kept open https connection, so each picture costs one round trip, not a new handshake.
-    The site answers each picture with whether someone has the camera view open. Two of these run half a round
-    trip apart, so a new picture leaves while the last one is still on its way."""
-    time.sleep(offset)
-    picture, conn, watching = Picture(), None, False
+def take_pictures(shots: dict):
+    """Picture thread. FPS pictures a second while someone has the camera view open, one every IDLE_EVERY seconds
+    otherwise. The upload thread takes them away in bundles."""
+    picture, last = Picture(), 0.0
     while True:
         t0 = time.time()
-        try:
-            conf = json.loads(CONF.read_text())
-            pic = picture(seen.get("status") or {})
-            if pic:
+        # checked every tick, so a new viewer gets fast pictures within a second, not after the idle wait
+        if t0 - last >= (1 / FPS if shots["watching"] else IDLE_EVERY) and (got := picture()):
+            last = t0
+            jpg, hd = got
+            with shots["lock"]:
+                shots["list"] = (shots["list"] + [{"jpeg": base64.b64encode(jpg).decode(), "t": hd["t"]}])[-int(2 * FPS):]
+                shots["w"], shots["h"] = hd["w"], hd["h"]
+        time.sleep(max(0.0, 1 / FPS - (time.time() - t0)))
+
+
+def upload_pictures(shots: dict, seen: dict):
+    """Upload thread. Sends what the picture thread took as one bundle a second over one kept open https connection,
+    so the round trip to the site is paid once a bundle, not once a picture. The page plays a bundle back at the pace
+    it was taken, about a second behind live. The site answers with whether someone has the camera view open."""
+    conn = None
+    while True:
+        t0 = time.time()
+        with shots["lock"]:
+            batch, shots["list"] = shots["list"], []
+        if batch:
+            try:
+                conf = json.loads(CONF.read_text())
                 site = urllib.parse.urlsplit(conf["site"])
                 if conn is None:
-                    conn = http.client.HTTPSConnection(site.netloc, timeout=8) if site.scheme == "https"                         else http.client.HTTPConnection(site.netloc, timeout=8)
-                conn.request("POST", "/api/edge/frame", json.dumps(pic), {"content-type": "application/json", **headers_for(conf)})
-                watching = bool(json.loads(conn.getresponse().read() or b"{}").get("watching"))
-        except Exception:                        # network down or the site restarted the connection: reconnect next time
-            if conn is not None:
-                conn.close()
-            conn, watching = None, False
-        time.sleep(max(0.0, (FAST_EVERY if watching else IDLE_EVERY) - (time.time() - t0)))
+                    make = http.client.HTTPSConnection if site.scheme == "https" else http.client.HTTPConnection
+                    conn = make(site.netloc, timeout=8)
+                body = {"frames": batch, "w": shots["w"], "h": shots["h"], "source": (seen.get("status") or {}).get("source", "")}
+                conn.request("POST", "/api/edge/frame", json.dumps(body), {"content-type": "application/json", **headers_for(conf)})
+                shots["watching"] = bool(json.loads(conn.getresponse().read() or b"{}").get("watching"))
+            except Exception:                    # network down or the site closed the connection: reconnect next time
+                if conn is not None:
+                    conn.close()
+                conn, shots["watching"] = None, False
+        time.sleep(max(0.0, BUNDLE - (time.time() - t0)))
 
 
 def main():
     last_error = ""
     seen: dict = {}
-    for offset in (0.0, 0.35):
-        threading.Thread(target=push_pictures, args=(seen, offset), daemon=True).start()
+    shots = {"lock": threading.Lock(), "list": [], "w": 0, "h": 0, "watching": False}
+    threading.Thread(target=take_pictures, args=(shots,), daemon=True).start()
+    threading.Thread(target=upload_pictures, args=(shots, seen), daemon=True).start()
     while True:
         t0 = time.time()
         try:

@@ -12,13 +12,14 @@ export const DIRECT = !process.env.VERCEL || !!process.env.EDGE_URL;
 const STATUS_KEY = "hc:edge:status", CMD_KEY = "hc:edge:cmds", FRAME_KEY = "hc:edge:frame", WATCH_KEY = "hc:edge:watching", FRESH_MS = 8000;
 const mem = globalThis as unknown as { __bridge?: { status: unknown; at: number }; __cmds?: unknown[]; __frame?: LiveFrame; __watching?: number };
 
-// The Pi's live camera picture (target/qnx/edge/sitelink.py), a small JPEG every couple of seconds with recent spots.
-export interface LiveFrame { jpeg: string; t: number; w: number; h: number; source: string; spots: { id: string; cx: number; cy: number; t: number }[]; at: number }
+// The Pi's live camera pictures (target/qnx/edge/sitelink.py): a bundle of small JPEGs each second, with the time
+// each was taken, so the page can play them back at the pace they were taken.
+export interface LiveFrame { frames: { jpeg: string; t: number }[]; w: number; h: number; source: string; at: number }
 export async function liveFrame(): Promise<LiveFrame | null> {
   const f = (await kvGet<LiveFrame>(FRAME_KEY)) ?? mem.__frame ?? null;
   return f && Date.now() - f.at < 15000 ? f : null;
 }
-// The Pi sends pictures back to back only while someone has the camera view open, every 10 s otherwise.
+// The Pi sends 4 pictures a second only while someone has the camera view open, one every 5 s otherwise.
 export async function storeFrame(frame: Omit<LiveFrame, "at">): Promise<boolean> {
   mem.__frame = { ...frame, at: Date.now() };
   const [, w] = await Promise.all([kvSet(FRAME_KEY, mem.__frame, 30), kvEnabled ? kvGet<number>(WATCH_KEY) : mem.__watching]);

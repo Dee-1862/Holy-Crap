@@ -8,7 +8,7 @@ Live site: https://aremyhens.fit (dashboard, Pi status, privacy and terms)
 |---|---|---|---|
 | <img src="images/raspberrypi.jpeg" width="190"> | <img src="images/watch1.jpeg" width="190"> | <img src="images/dashboard.png" width="320"> | <img src="images/chat.png" width="150"> |
 
-The watch and dashboard show demo pen readings, labelled as such in the app. The chat photo is a sample image.
+The dashboard reads the analysed recorded clips. Test droppings were pasted into the Pen A1 clip at known times. The watch photos were taken with an earlier demo data stream, and the chat photo is a sample image.
 
 ## Paper
 

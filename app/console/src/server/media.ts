@@ -3,7 +3,7 @@ import path from "node:path";
 
 // Where the live feed keeps its clips. They are downloaded by app/live-feed/fetch_clips.py and are
 // never committed to git. On a host without them (for example a fresh Vercel deploy) the list is empty.
-export const MEDIA = path.join(process.cwd(), "media");
+export const MEDIA = path.join(/* turbopackIgnore: true */ process.cwd(), "media");
 
 export interface ClipInfo {
   id: string;

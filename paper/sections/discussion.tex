@@ -27,8 +27,7 @@ value is that it says where the dropping is. That is what makes a fixed pen came
 assumption a dropping covers at most about 0.1\% of a pen frame, and it is also what lets the explanation step
 measure the colour of the dropping itself rather than the litter around it. The pen-scale fine-tune shows that the
 detector can learn the size and setting of a pen camera from public video and pasted droppings alone, without a
-single labelled pen dropping. It lost 0.02 mAP50 on close-ups in the process. The deployed Pi pipeline does not use
-the pen model yet. It finds candidates with a still-spot finder and judges them with the close-up model, whose false
+single labelled pen dropping. It lost 0.02 mAP50 on close-ups in the process. The Pi pipeline does not use the pen model yet. It finds candidates with a still-spot finder and judges them with the close-up model, whose false
 alarms on white birds the explanation step filters out.
 
 \paragraph{Why a microkernel.} A monitor in a barn runs unattended, and a crash in a camera driver or a model runtime

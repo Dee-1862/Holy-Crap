@@ -85,12 +85,11 @@ We address both gaps with one detector and one honest protocol. Our contribution
 \item A pen-scale fine-tune trained with real droppings pasted onto barn video frames, split by camera. On cameras it
   never saw, recall rises from 0.29 to 0.80 and precision from 0.11 to 0.93, at a cost of 0.02 mAP50 on close-ups.
 \item A pipeline running on a Raspberry Pi 5 under the QNX microkernel, with our detector and pen model timed on the
-  device. Each stage is a separate process. When we killed a stage with \texttt{SIGKILL}, it was restarted in 20 to
-  33\,ms while the others kept running. To our knowledge no peer-reviewed work has run poultry health vision on a
+  device. Each stage is a separate process. When we killed a stage with \texttt{SIGKILL}, the supervisor relaunched it within 20 to 33\,ms of noticing the exit, while the others kept running. To our knowledge no peer-reviewed work has run poultry health vision on a
   microkernel real-time operating system.
 \end{enumerate}
 
-We release the code, the per-photograph predictions, the duplicate hashes and every figure with the table behind it.
+We release the code, the per-photograph predictions, the duplicate hashes and every figure with its data.
 
 \section{Related work}
 \label{sec:related}
@@ -108,7 +107,7 @@ Sakib et al.\ capture photographs with an ESP32-CAM and classify them with Effic
 data. Aworinde et al.\ released 14,618 cleaned Nigerian smartphone photographs at $100\times100$
 pixels~\cite{aworinde2023}, and Nakrosis et al.\ classified 487 Lithuanian photographs of droppings on litter into six
 appearance classes, with 91.78\% accuracy~\cite{nakrosis2023}. Wang et al.\ detected droppings on a conveyor belt
-below caged broilers~\cite{wang2019}. A survey by Li lists the open poultry vision datasets~\cite{li2025survey}.
+below caged broilers~\cite{wang2019}. Li surveys poultry datasets~\cite{li2025survey}.
 
 \paragraph{Testing beyond one collection.} Bodempudi et al.\ are the closest to our evaluation. They classified
 droppings as \emph{Salmonella} PCR positive or negative across United States and African images and report up to
@@ -217,9 +216,8 @@ without keeping the aspect ratio (as in the 224-pixel copy of the collection mos
 one-cycle learning rate schedule. MobileNetV2 was trained for 20 epochs and EfficientNet-B0 for 8, both with one seed,
 because of the compute time available to us. Augmentation
 was random crops, horizontal and vertical flips, and small brightness and contrast changes. We did not change hue,
-because colour is the main visual sign of disease. The epoch with the best validation accuracy was kept. Both reached
-over 98\% validation accuracy within four epochs, so the shorter EfficientNet-B0 run is unlikely to change
-the comparison, but a single seed does not measure run-to-run variation.
+because colour is the main visual sign of disease. The epoch with the best validation accuracy was kept. Both passed 98\% validation accuracy within four epochs, so the shorter EfficientNet-B0 run is unlikely to change
+the comparison, but one seed cannot measure run-to-run variation.
 
 \subsection{Evaluation}
 \label{sec:eval}
@@ -316,8 +314,7 @@ labels do not explain the drop. The models fail on different classes. The classi
 EfficientNet-B0, against 0.53 for the detector), while the detector keeps more healthy ones (0.81 against 0.66 and
 0.68). The per-class differences are large, but the differences in overall accuracy are small next to the drop
 that every model shows. Under this protocol the published
-accuracies of 97.8 to 99.3\% describe photographs like the training photographs, and the choice of architecture matters
-less than the choice of test set.
+accuracies of 97.8 to 99.3\% describe photographs like the training photographs, and the architecture matters less than the test set.
 
 \begin{table}[t]
 \centering
@@ -354,9 +351,7 @@ Values are written beside each mark.}
 Figure~\ref{fig:confusion} shows the detector's calls on both sets. On the farm test the diagonal holds 95 to 100\% of
 every class. On the lab-confirmed photographs most errors are not confusions between diseases. They are photographs
 with no detection at all (20\% of healthy and 27\% of Newcastle-like photographs) and photographs called healthy or
-salmonella-like by mistake. Newcastle-like recall falls the most, from 94.6\% (35 of 37) to 41.9\% (78 of 186). This
-class has 376 photographs in the whole farm collection, against more than 2,000 for each of the others
-(Figure~\ref{fig:recall}).
+salmonella-like by mistake. Newcastle-like recall falls the most, from 94.6\% (35 of 37) to 41.9\% (78 of 186). It has 376 farm photographs, against over 2,000 for each other class (Figure~\ref{fig:recall}).
 
 \begin{figure*}[t]
 \centering
@@ -402,8 +397,7 @@ If the detector only answers when its best box clears a threshold, its answers b
 accuracy of the answers from 78.8\% to 87.4\%, but the detector then answers only 27.8\% of photographs. Its scores
 are also under-confident on both sets (Figure~\ref{fig:calibration}). The expected calibration error is 0.177 on the
 farm test and 0.172 on the lab-confirmed photographs, and in both cases the photograph is right more often than the
-score says. The score should therefore be calibrated, for example by temperature scaling~\cite{guo2017} on the
-validation split, before it is shown to a farmer as a percentage.
+score says. The score should be calibrated, for example by temperature scaling~\cite{guo2017} on the validation split, before a farmer sees it as a percentage.
 
 \begin{figure}[t]
 \centering
@@ -434,9 +428,9 @@ note and these agreement figures are released with the paper.
 
 \begin{table}[t]
 \centering
-\caption{Appearance grade and model accuracy on the lab-confirmed photographs. Normal looking means grade 9 or 10.
+\caption{Appearance grade and model accuracy (top class equals the PCR class) on the lab-confirmed photographs. Normal looking means grade 9 or 10.
 $n$ excludes the nine photographs no rater could judge. Detector is our YOLO11n scored on its top class (always
-answers). Accuracy is the share whose top class matches PCR.}
+answers).}
 \label{tab:grades}
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{lrrrrr}
@@ -545,8 +539,7 @@ value is that it says where the dropping is. That is what makes a fixed pen came
 assumption a dropping covers at most about 0.1\% of a pen frame, and it is also what lets the explanation step
 measure the colour of the dropping itself rather than the litter around it. The pen-scale fine-tune shows that the
 detector can learn the size and setting of a pen camera from public video and pasted droppings alone, without a
-single labelled pen dropping. It lost 0.02 mAP50 on close-ups in the process. The deployed Pi pipeline does not use
-the pen model yet. It finds candidates with a still-spot finder and judges them with the close-up model, whose false
+single labelled pen dropping. It lost 0.02 mAP50 on close-ups in the process. The Pi pipeline does not use the pen model yet. It finds candidates with a still-spot finder and judges them with the close-up model, whose false
 alarms on white birds the explanation step filters out.
 
 \paragraph{Why a microkernel.} A monitor in a barn runs unattended, and a crash in a camera driver or a model runtime
@@ -604,7 +597,7 @@ are produced by \texttt{data-visualization/evaluation.py}, the baselines by
 \texttt{training/benchmark\_classifiers.py}, and the image audit by \texttt{data-visualization/audit\_images.py}.
 
 \section*{Ethics}
-This study used only published photographs and videos. No animals were handled and no new animal data were collected.
+This study used only published photographs and videos. No animals were handled and no new data were collected.
 
 \section*{Compute}
 The detector, the pen-scale fine-tune and the baselines were trained on a local laptop GPU. The pen-scale fine-tune,
@@ -626,6 +619,7 @@ and numpy builds made on-device inference possible, and Veri for the cloud GPU t
 run. This work was carried out at LA Hacks, in its QNX and Veri tracks. We also thank the developers of Ultralytics
 YOLO, PyTorch and ONNX Runtime.
 
+\clearpage
 \bibliographystyle{plainnat}
 \bibliography{references}
 

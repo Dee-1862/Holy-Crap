@@ -20,8 +20,7 @@ labels do not explain the drop. The models fail on different classes. The classi
 EfficientNet-B0, against 0.53 for the detector), while the detector keeps more healthy ones (0.81 against 0.66 and
 0.68). The per-class differences are large, but the differences in overall accuracy are small next to the drop
 that every model shows. Under this protocol the published
-accuracies of 97.8 to 99.3\% describe photographs like the training photographs, and the choice of architecture matters
-less than the choice of test set.
+accuracies of 97.8 to 99.3\% describe photographs like the training photographs, and the architecture matters less than the test set.
 
 \begin{table}[t]
 \centering
@@ -58,9 +57,7 @@ Values are written beside each mark.}
 Figure~\ref{fig:confusion} shows the detector's calls on both sets. On the farm test the diagonal holds 95 to 100\% of
 every class. On the lab-confirmed photographs most errors are not confusions between diseases. They are photographs
 with no detection at all (20\% of healthy and 27\% of Newcastle-like photographs) and photographs called healthy or
-salmonella-like by mistake. Newcastle-like recall falls the most, from 94.6\% (35 of 37) to 41.9\% (78 of 186). This
-class has 376 photographs in the whole farm collection, against more than 2,000 for each of the others
-(Figure~\ref{fig:recall}).
+salmonella-like by mistake. Newcastle-like recall falls the most, from 94.6\% (35 of 37) to 41.9\% (78 of 186). It has 376 farm photographs, against over 2,000 for each other class (Figure~\ref{fig:recall}).
 
 \begin{figure*}[t]
 \centering
@@ -106,8 +103,7 @@ If the detector only answers when its best box clears a threshold, its answers b
 accuracy of the answers from 78.8\% to 87.4\%, but the detector then answers only 27.8\% of photographs. Its scores
 are also under-confident on both sets (Figure~\ref{fig:calibration}). The expected calibration error is 0.177 on the
 farm test and 0.172 on the lab-confirmed photographs, and in both cases the photograph is right more often than the
-score says. The score should therefore be calibrated, for example by temperature scaling~\cite{guo2017} on the
-validation split, before it is shown to a farmer as a percentage.
+score says. The score should be calibrated, for example by temperature scaling~\cite{guo2017} on the validation split, before a farmer sees it as a percentage.
 
 \begin{figure}[t]
 \centering
@@ -138,9 +134,9 @@ note and these agreement figures are released with the paper.
 
 \begin{table}[t]
 \centering
-\caption{Appearance grade and model accuracy on the lab-confirmed photographs. Normal looking means grade 9 or 10.
+\caption{Appearance grade and model accuracy (top class equals the PCR class) on the lab-confirmed photographs. Normal looking means grade 9 or 10.
 $n$ excludes the nine photographs no rater could judge. Detector is our YOLO11n scored on its top class (always
-answers). Accuracy is the share whose top class matches PCR.}
+answers).}
 \label{tab:grades}
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{lrrrrr}

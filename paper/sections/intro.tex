@@ -38,9 +38,8 @@ We address both gaps with one detector and one honest protocol. Our contribution
 \item A pen-scale fine-tune trained with real droppings pasted onto barn video frames, split by camera. On cameras it
   never saw, recall rises from 0.29 to 0.80 and precision from 0.11 to 0.93, at a cost of 0.02 mAP50 on close-ups.
 \item A pipeline running on a Raspberry Pi 5 under the QNX microkernel, with our detector and pen model timed on the
-  device. Each stage is a separate process. When we killed a stage with \texttt{SIGKILL}, it was restarted in 20 to
-  33\,ms while the others kept running. To our knowledge no peer-reviewed work has run poultry health vision on a
+  device. Each stage is a separate process. When we killed a stage with \texttt{SIGKILL}, the supervisor relaunched it within 20 to 33\,ms of noticing the exit, while the others kept running. To our knowledge no peer-reviewed work has run poultry health vision on a
   microkernel real-time operating system.
 \end{enumerate}
 
-We release the code, the per-photograph predictions, the duplicate hashes and every figure with the table behind it.
+We release the code, the per-photograph predictions, the duplicate hashes and every figure with its data.

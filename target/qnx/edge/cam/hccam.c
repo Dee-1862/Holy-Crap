@@ -41,7 +41,9 @@ extern int camera_stop_viewfinder(camera_handle_t h);
 #define MAX_H 1296
 #define FRAME_BYTES (MAX_W * MAX_H * 4)            /* room for 4 bytes a pixel */
 #define TYPE_YUV422 14                             /* the test pattern camera, unit 1 */
-#define TYPE_RGB32 31                              /* the Camera Module 3, unit 2, bytes B G R A */
+#define TYPE_RGB32 31                              /* the Camera Module 3 in an RGB setup, bytes B G R A */
+#define TYPE_NV12 1                                /* the Camera Module 3 as configured now (unit 4): luma plane, then
+                                                      half height interleaved U V plane */
 #define MSG_TYPE 0x4843                            /* same message type as qnxipc.py */
 
 /* Shared memory layout, read by Python (target/qnx/edge/shm.py). Keep in step. */
@@ -71,15 +73,20 @@ static int64_t now_ns(void) {
     return (int64_t)t.tv_sec * 1000000000 + t.tv_nsec;
 }
 
-/* Camera thread. Offsets from the probe: frametype at 0, buffer pointer at 16, height, width, stride at 72. */
+/* Camera thread. Offsets from the probe: frametype at 0, buffer pointer at 16, height, width, stride at 72,
+   and for NV12 the U V plane offset at 88 and its stride at 96. NV12 is kept as it is, luma rows then U V rows,
+   stored with stride = width so readers find the U V plane right after width x height luma bytes. */
 static void on_frame(camera_handle_t h, void *buf, void *arg) {
     (void)h; (void)arg;
     const uint8_t *b = buf;
     uint32_t type = *(const uint32_t *)b;
     const uint8_t *pix = *(uint8_t *const *)(b + 16);
     uint32_t height = *(const uint32_t *)(b + 72), width = *(const uint32_t *)(b + 76), stride = *(const uint32_t *)(b + 80);
-    uint32_t bpp = type == TYPE_RGB32 ? 4 : type == TYPE_YUV422 ? 2 : 0;
-    if (!pix || !bpp || width == 0 || width > MAX_W || height == 0 || height > MAX_H || stride < width * bpp) {
+    int nv12 = type == TYPE_NV12;
+    uint32_t bpp = type == TYPE_RGB32 ? 4 : type == TYPE_YUV422 ? 2 : nv12 ? 1 : 0;
+    uint32_t uv_off = nv12 ? *(const uint32_t *)(b + 88) : 0, uv_stride = nv12 ? *(const uint32_t *)(b + 96) : 0;
+    if (!pix || !bpp || width == 0 || width > MAX_W || height == 0 || height > MAX_H || stride < width * bpp ||
+        (nv12 && (uv_stride < width || uv_off < stride * height))) {
         ring->skipped++;
         return;
     }
@@ -88,6 +95,9 @@ static void on_frame(camera_handle_t h, void *buf, void *arg) {
     atomic_fetch_add(&s->seq, 1);                  /* now odd: readers know it is changing */
     for (uint32_t y = 0; y < height; y++)
         memcpy(DATA(ring, i) + (size_t)y * width * bpp, pix + (size_t)y * stride, width * bpp);
+    if (nv12)
+        for (uint32_t y = 0; y < height / 2; y++)
+            memcpy(DATA(ring, i) + (size_t)(height + y) * width, pix + uv_off + (size_t)y * uv_stride, width);
     s->width = width; s->height = height; s->stride = width * bpp; s->frametype = type; s->time_ns = now_ns();
     atomic_fetch_add(&s->seq, 1);                  /* even again: complete */
     pthread_mutex_lock(&lock);
@@ -125,8 +135,8 @@ static void *worker(void *arg) {
         uint64_t seq = atomic_load(&s->seq);
         uint32_t w = s->width, h = s->height;
         int sh = (int)((int64_t)sw * h / w), step = w / sw;
-        int rgb = s->frametype == TYPE_RGB32;
-        if (!rgb && y_offset < 0) y_offset = find_y_offset(DATA(ring, i), w * 2 * 8);
+        int rgb = s->frametype == TYPE_RGB32, nv12 = s->frametype == TYPE_NV12;
+        if (!rgb && !nv12 && y_offset < 0) y_offset = find_y_offset(DATA(ring, i), w * 2 * 8);
         /* header JSON then grey pixels, the same message camera.py sends */
         char head[512];
         int n = snprintf(head, sizeof head,
@@ -151,6 +161,9 @@ static void *worker(void *arg) {
                             const uint8_t *q = row + (x * step + dx) * 4;
                             sum += (29 * q[0] + 150 * q[1] + 77 * q[2]) >> 8;
                         }
+                    } else if (nv12) {                  /* luma plane, one byte a pixel */
+                        const uint8_t *row = src + (size_t)(y * step + dy) * w;
+                        for (int dx = 0; dx < step; dx++) sum += row[x * step + dx];
                     } else {
                         const uint8_t *row = src + (size_t)(y * step + dy) * w * 2 + y_offset;
                         for (int dx = 0; dx < step; dx++) sum += row[(x * step + dx) * 2];

@@ -1,7 +1,7 @@
 """Start the edge pipeline as separate processes, each at its own priority, and restart any that dies.
 
     python3 supervisor.py --camera replay --mov /data/share/sensor/simulator_camera.barn.mov
-    python3 supervisor.py --camera live --unit 2
+    python3 supervisor.py --camera live --unit 4
 
 This is the QNX microkernel idea at application level. In QNX even drivers, the file system and the network
 stack are ordinary processes, so a fault stays inside the process that had it and that process is restarted
@@ -32,7 +32,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--camera", choices=["replay", "live"], default="replay")
     ap.add_argument("--mov", default="/data/share/sensor/simulator_camera.barn.mov")
-    ap.add_argument("--unit", type=int, default=2)
+    ap.add_argument("--unit", type=int, default=4)       # the Camera Module 3 on the second port
     ap.add_argument("--rate", type=float, default=2.0)
     args = ap.parse_args()
     camera = ([str(HERE / "cam" / "hccam"), "-u", str(args.unit), "-r", str(args.rate)] if args.camera == "live"

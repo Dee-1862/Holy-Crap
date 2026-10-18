@@ -12,6 +12,7 @@ function emptyState(): MessagingState {
     latestAlerts: {},
     turns: {},
     vetHandoffs: {},
+    pendingVetConsent: {},
     activeFarmerByVet: {},
     mockOutbox: [],
     agentUserId: null,
@@ -70,6 +71,9 @@ export class MessagingStore {
         turns: isRecord(parsed.turns) ? (parsed.turns as MessagingState["turns"]) : {},
         vetHandoffs: isRecord(parsed.vetHandoffs)
           ? (parsed.vetHandoffs as MessagingState["vetHandoffs"])
+          : {},
+        pendingVetConsent: isRecord(parsed.pendingVetConsent)
+          ? (parsed.pendingVetConsent as MessagingState["pendingVetConsent"])
           : {},
         activeFarmerByVet: isRecord(parsed.activeFarmerByVet)
           ? (parsed.activeFarmerByVet as MessagingState["activeFarmerByVet"])

@@ -13,6 +13,7 @@ export function demoAlert(penId = "B2"): AlertSnapshot {
     confidence: 0.81,
     cameraSecondsAgo: 8,
     sensorHealthy: true,
+    suspectedIllness: "salmonella",
     createdAt: new Date().toISOString(),
   };
 }

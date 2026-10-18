@@ -8,16 +8,16 @@ The agent uses Photon 2.0 Beta for two-way SMS and DeepSeek for short, plain-lan
 
 1. A pen alert is sent only to a farmer number in `FARMER_ALLOWED_NUMBERS`.
 2. The farmer can reply with questions. The worker reads incoming Photon messages and answers with the latest alert context.
-3. Mentioning a vet only returns a consent prompt. It does not contact anyone.
-4. The farmer must reply exactly `APPROVE VET` before the agent shares the current camera observations with `DEFAULT_VET_NUMBER`.
+3. The alert asks whether the farmer wants the agent to tell the vet. The farmer can answer normally with messages such as `yes please`, `go ahead`, or `tell the vet`.
+4. An unclear question about a vet gets a simple follow-up question. The agent does not contact the vet until the farmer clearly says to do it.
 5. That veterinarian must also be in `VET_ALLOWED_NUMBERS`. Their replies are accepted only while an approved handoff is active.
-6. The farmer can reply `CANCEL VET` to close the handoff. A later handoff requires a new approval.
+6. The farmer can say `no thanks`, `don't contact the vet`, or `stop talking to the vet` at any time.
 
-The LLM never decides whether consent exists. The exact command check happens in application code before any veterinarian message is created.
+DeepSeek does not decide whether the farmer gave permission. A small, tested set of natural replies is checked in application code before any message to a veterinarian is created. A bare `yes` works only when the agent has just asked about contacting the vet.
 
 ## Safety boundary
 
-Messages describe camera observations, persistence, confidence, data freshness, and sensor health. They do not diagnose a disease, identify a pathogen, prescribe treatment, or recommend isolation or culling. A veterinarian and, when needed, laboratory testing make those determinations.
+Messages use short, everyday words. An alert may name the illness the system thinks it sees, such as `We think Pen 6 may have salmonella`, but it must say the guess could be wrong. The agent does not choose medicine or tell the farmer to separate or kill birds. Those choices go to the vet.
 
 Replies are plain text and capped at 480 characters. If DeepSeek is unavailable or returns unsafe wording, the agent uses a deterministic response built from the recorded alert.
 
@@ -47,7 +47,7 @@ npm run check
 Live mode needs all of the following:
 
 - a Photon 2.0 Beta project and project API key with `project:read`, `project:write`, `platforms:read`, and `platforms:write`;
-- one SMS-capable Photon number, including an active payment method and whatever messaging registration Photon requires;
+- one SMS-capable Photon number, an active payment method, and an approved SMS campaign assigned to that number;
 - that number in `PHOTON_AGENT_PHONE`;
 - at least one verified farmer in `FARMER_ALLOWED_NUMBERS`;
 - a DeepSeek API key;
@@ -72,7 +72,7 @@ VET_ALLOWED_NUMBERS=+1XXXXXXXXXX
 DEFAULT_VET_NUMBER=+1XXXXXXXXXX
 ```
 
-No veterinarian message is sent during the initial alert or ordinary farmer conversation. The first one is created only after the farmer's exact `APPROVE VET` reply.
+No veterinarian message is sent with the first alert. It is sent only after the farmer clearly agrees in their own words.
 
 ## Voice
 

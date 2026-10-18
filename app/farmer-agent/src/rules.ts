@@ -2,10 +2,16 @@ import type { AlertSnapshot } from "./types";
 
 export const MAX_REPLY_CHARS = 480;
 
-const DISEASE_NAME_OR_CLAIM =
-  /coccid|salmonella|newcastle|avian flu|bird flu|influenza|pathogen identified|camera (?:shows|found|confirmed|detected) (?:an )?infection/i;
-const UNSAFE_GENERATED_DIRECTIVE = /\b(?:cull|euthan|isolate|quarantine|treat|prescrib|medicat|antibiotic)\w*\b/i;
-const SAFETY_DECISION_QUESTION = /\b(?:diagnos|disease|infection|pathogen|cull|euthan|isolate|quarantine|treat|prescrib|medicat|antibiotic)\w*\b/i;
+const CERTAIN_DISEASE_CLAIM =
+  /\b(?:confirmed|definitely|certainly|proven|no doubt)\b|(?<!may )(?<!might )(?<!could )\b(?:has|have)\s+(?:coccid\w*|salmonella|newcastle|avian flu|bird flu|influenza)\b|\bis infected with\s+(?:coccid\w*|salmonella|newcastle|avian flu|bird flu|influenza)\b/i;
+const UNSAFE_GENERATED_DIRECTIVE =
+  /\b(?:cull|euthanize|kill|isolate|quarantine|treat|prescribe|medicate|give (?:them|the birds)|use an? antibiotic)\b/i;
+const FARMER_JARGON =
+  /\b(?:anomal(?:y|ies)|triage|pathogen|confidence|sensor|handoff|classification|evidence|data freshness|medical finding)\b/i;
+const SAFETY_DECISION_QUESTION =
+  /\b(?:what|which|should|can|do|how)\b[^?.!]{0,80}\b(?:cull|euthanize|kill|isolate|quarantine|treat|medicine|medication|antibiotic)\w*\b/i;
+
+export type VetIntent = "approve" | "decline" | "mention" | "none";
 
 export function normalizeUsPhone(input: string): string | null {
   const cleaned = input.replace(/[^\d+]/g, "");
@@ -43,44 +49,64 @@ export function isAllowedNumber(phone: string, allowlist: string[]): boolean {
 }
 
 export const SYSTEM_RULES = [
-  "You are the SMS responder for a poultry barn camera system. Your only role is explainable anomaly triage for a farmer.",
-  "Hard limits: you never diagnose disease, never name a disease as a conclusion, never claim pathogen identification, never prescribe treatment, and never recommend isolation or culling. Laboratory testing and a veterinarian confirm any disease; the camera never does.",
-  "If the farmer asks for a diagnosis, treatment, isolation, or culling, explain the limit and recommend veterinary/animal-health guidance.",
-  "Message style: plain text only, no Markdown, at most 480 characters, factual and calm, explicit about uncertainty.",
-  "Surface the observations, how long the pattern has persisted, model confidence, data freshness, and sensor health, and always end with the next human review step.",
+  "You text farmers about what a chicken-pen camera saw.",
+  "Use short, common words. Do not use jargon such as anomaly, triage, pathogen, confidence, sensor health, handoff, classification, or evidence context.",
+  "You may name the illness in the current alert, but always say it may be wrong. Say things like 'we think it may be salmonella,' never that it is confirmed or certain.",
+  "Do not choose medicine, tell the farmer to isolate birds, or tell the farmer to kill birds. A vet makes those choices.",
+  "Use plain text only, no Markdown, and no more than 480 characters. Be calm, direct, and helpful.",
+  "Explain what the camera saw in simple words and suggest checking the birds. If useful, ask whether the farmer wants you to tell the vet.",
 ].join("\n");
 
 export const VET_SYSTEM_RULES = [
   SYSTEM_RULES,
-  "You are speaking with a veterinarian after the farmer explicitly approved this handoff.",
-  "Share only the recorded observation context. Do not imply that the camera made a diagnosis or replace the veterinarian's judgment.",
+  "You are speaking with a vet after the farmer asked you to contact them.",
+  "Share only what the camera recorded and make clear that the illness guess may be wrong.",
 ].join("\n");
 
-export const APPROVE_VET_COMMAND = "APPROVE VET";
-export const CANCEL_VET_COMMAND = "CANCEL VET";
-
-export function normalizedCommand(text: string): string {
-  return text.trim().replace(/\s+/g, " ").toUpperCase();
+function simpleWords(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[’]/g, "'")
+    .replace(/[^a-z0-9'\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
-export function safetyBoundaryReply(question: string): string | null {
+export function vetIntent(text: string, pendingQuestion: boolean, activeChat: boolean): VetIntent {
+  const words = simpleWords(text);
+  const namesVet = /\bvet(?:erinarian)?\b/.test(words);
+  const declines =
+    /\b(?:do not|don't|dont|no|no thanks|not now|never mind|nevermind|stop|cancel)\b/.test(words);
+  if (declines && (pendingQuestion || activeChat || namesVet)) return "decline";
+
+  const directRequest =
+    /\b(?:please\s+)?(?:tell|text|message|call|contact|ask)\s+(?:the\s+|my\s+|our\s+)?vet(?:erinarian)?\b/.test(words) ||
+    /\b(?:send|share)\s+(?:this|it|that|the alert|the message)?\s*(?:to|with)\s+(?:the\s+|my\s+|our\s+)?vet(?:erinarian)?\b/.test(words) ||
+    /\bcan you\s+(?:tell|text|message|call|contact|ask)\s+(?:the\s+|my\s+|our\s+)?vet(?:erinarian)?\b/.test(words) ||
+    /\b(?:let\s+(?:the\s+|my\s+|our\s+)?vet(?:erinarian)?\s+know|bring\s+(?:the\s+|my\s+|our\s+)?vet(?:erinarian)?\s+in|talk\s+to\s+(?:the\s+|my\s+|our\s+)?vet(?:erinarian)?)\b/.test(words);
+  const shortApproval =
+    /^(?:yes|yes please|yeah|yep|sure|ok|okay|(?:yes |yeah )?go ahead|(?:yes |yeah )?please do|do it|sounds good|that works|absolutely)$/.test(words);
+  if (directRequest || (pendingQuestion && shortApproval)) return "approve";
+  return namesVet ? "mention" : "none";
+}
+
+export function safetyBoundaryReply(question: string, canContactVet: boolean): string | null {
   if (!SAFETY_DECISION_QUESTION.test(question)) return null;
-  return (
-    "The camera cannot diagnose disease, identify a pathogen, prescribe treatment, recommend isolation, or make culling decisions. " +
-    "Review the birds and evidence, then contact a veterinarian or animal-health authority and follow their guidance."
-  );
+  const offer = canContactVet ? " Want me to tell your vet?" : " Please ask a vet what to do next.";
+  return `I can't choose medicine or tell you to separate or kill birds. Please check the birds.${offer}`;
 }
 
 export function vetApprovalPrompt(hasVet: boolean): string {
-  if (!hasVet) return "Vet messaging is not configured yet. Ask the team to add a verified veterinarian number.";
-  return "I can share this camera alert with the verified veterinarian. Reply APPROVE VET to consent. Nothing will be sent until you do.";
+  if (!hasVet) return "I don't have a vet number yet. Ask the team to add one.";
+  return "Do you want me to tell your vet what we saw? You can answer in your own words.";
 }
 
 export function vetHandoffText(alert: AlertSnapshot): string {
+  const illness = alert.suspectedIllness ? `We think it may be ${alert.suspectedIllness}, but that may be wrong. ` : "";
   return sanitizeReply(
-    `Farmer-approved Holy-Crap handoff for ${alert.penName}: ${alert.observationCount} unusual dropping appearances within ${alert.windowMinutes} minutes. ` +
-      `Model confidence ${Math.round(alert.confidence * 100)}%. Camera data is ${alert.cameraSecondsAgo} seconds old; ` +
-      `${alert.sensorHealthy ? "sensors report healthy" : "sensor status needs review"}. This is camera triage, not a diagnosis. Reply with questions for the agent.`,
+    `The farmer asked us to contact you about ${alert.penName}. ${illness}` +
+      `The camera saw ${alert.observationCount} unusual droppings in ${alert.windowMinutes} minutes. ` +
+      `The latest video was ${alert.cameraSecondsAgo} seconds old. Reply if you need more details.`,
   );
 }
 
@@ -95,38 +121,26 @@ export function contextBlock(alert: AlertSnapshot | null): string {
       confidence: Math.round(alert.confidence * 100) / 100,
       cameraSecondsAgo: alert.cameraSecondsAgo,
       sensorHealthy: alert.sensorHealthy,
+      suspectedIllness: alert.suspectedIllness ?? null,
     })
   );
 }
 
-export function alertText(snapshot: AlertSnapshot): string {
-  const pct = Math.round(snapshot.confidence * 100);
-  const sensor = snapshot.sensorHealthy ? "sensors report healthy" : "sensor status needs a check";
-  return (
-    `Holy-Crap camera alert for ${snapshot.penName}: ${snapshot.observationCount} unusual dropping appearances ` +
-    `within the last ${snapshot.windowMinutes} minutes. Model confidence ${pct}%. ` +
-    `Camera footage is ${snapshot.cameraSecondsAgo} seconds old and ${sensor}. ` +
-    `This is an anomaly flag for human review, not a medical finding. ` +
-    `Review the recorded evidence and contact a veterinarian if the pattern persists or birds show concerning signs.`
-  );
+export function alertText(snapshot: AlertSnapshot, canContactVet = false): string {
+  const opening = snapshot.suspectedIllness
+    ? `Hi. We think ${snapshot.penName} may have ${snapshot.suspectedIllness}.`
+    : `Hi. Something may be wrong in ${snapshot.penName}.`;
+  const offer = canContactVet ? " Want me to tell your vet?" : "";
+  return `${opening} We saw ${snapshot.observationCount} droppings that looked unusual in the last ${snapshot.windowMinutes} minutes. Please check the birds.${offer}`;
 }
 
 export function fallbackReply(alert: AlertSnapshot | null): string {
   if (!alert) {
     return (
-      "No current camera alerts for your pen. Send the pen name or your question and the team will review. " +
-      "For animal-health concerns, contact a veterinarian."
+      "I don't have a new warning for your pen. Send the pen name and your question. If a bird looks sick, please ask a vet."
     );
   }
-  const pct = Math.round(alert.confidence * 100);
-  const sensor = alert.sensorHealthy ? "sensors healthy" : "sensor status needs a check";
-  return (
-    `Heads-up from your barn camera: ${alert.penName} shows ${alert.observationCount} unusual dropping ` +
-    `appearances within the last ${alert.windowMinutes} minutes. Confidence ${pct}%, ` +
-    `camera footage ${alert.cameraSecondsAgo} seconds old, ${sensor}. This is an anomaly flag for human ` +
-    `review, not a medical finding. Review the recorded evidence and contact a veterinarian if the pattern ` +
-    `persists or birds show concerning signs.`
-  );
+  return alertText(alert);
 }
 
 export function sanitizeReply(raw: string): string {
@@ -143,5 +157,10 @@ export function sanitizeReply(raw: string): string {
 }
 
 export function isSafeWording(text: string): boolean {
-  return text.length <= MAX_REPLY_CHARS && !DISEASE_NAME_OR_CLAIM.test(text) && !UNSAFE_GENERATED_DIRECTIVE.test(text);
+  return (
+    text.length <= MAX_REPLY_CHARS &&
+    !CERTAIN_DISEASE_CLAIM.test(text) &&
+    !UNSAFE_GENERATED_DIRECTIVE.test(text) &&
+    !FARMER_JARGON.test(text)
+  );
 }

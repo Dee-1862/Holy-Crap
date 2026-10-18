@@ -26,8 +26,7 @@ export interface MessagingConfig {
   deepseek: DeepSeekConfig;
 }
 
-// A clean, safe snapshot of one camera anomaly, built from observations only.
-// Synthetic disease labels from other modules are deliberately absent.
+// A clean snapshot of what the camera system saw for one pen.
 export interface AlertSnapshot {
   id: string;
   penId: string;
@@ -37,6 +36,7 @@ export interface AlertSnapshot {
   confidence: number;
   cameraSecondsAgo: number;
   sensorHealthy: boolean;
+  suspectedIllness?: string;
   createdAt: string;
 }
 
@@ -127,10 +127,16 @@ export interface MessagingState {
   latestAlerts: Record<string, AlertSnapshot>;
   turns: Record<string, Turn[]>;
   vetHandoffs: Record<string, VetHandoff>;
+  pendingVetConsent: Record<string, PendingVetConsent>;
   activeFarmerByVet: Record<string, string>;
   mockOutbox: MockOutbound[];
   agentUserId: string | null;
   lastPollAt: string | null;
+}
+
+export interface PendingVetConsent {
+  alertId: string;
+  askedAt: string;
 }
 
 export interface VetHandoff {

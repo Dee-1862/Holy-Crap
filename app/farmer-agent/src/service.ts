@@ -2,8 +2,6 @@ import { DeepSeekClient } from "./deepseek";
 import { PhotonClient, PhotonError } from "./photon";
 import { createHash } from "node:crypto";
 import {
-  APPROVE_VET_COMMAND,
-  CANCEL_VET_COMMAND,
   SYSTEM_RULES,
   VET_SYSTEM_RULES,
   alertText,
@@ -12,11 +10,11 @@ import {
   isSafeWording,
   maskPhone,
   normalizeUsPhone,
-  normalizedCommand,
   sanitizeReply,
   safetyBoundaryReply,
   vetApprovalPrompt,
   vetHandoffText,
+  vetIntent,
 } from "./rules";
 import { MessagingStore } from "./state";
 import type {
@@ -74,7 +72,10 @@ export class MessagingService {
   }
 
   async sendAlert(snapshot: AlertSnapshot, recipients: string[]): Promise<DeliverySummary[]> {
-    const text = sanitizeReply(alertText(snapshot));
+    const canContactVet = Boolean(
+      this.config.defaultVetNumber && this.config.vetNumbers.includes(this.config.defaultVetNumber),
+    );
+    const text = sanitizeReply(alertText(snapshot, canContactVet));
     const results: DeliverySummary[] = [];
 
     for (const raw of recipients) {
@@ -105,6 +106,14 @@ export class MessagingService {
 
         this.store.update((s) => {
           s.latestAlerts[phone] = snapshot;
+          if (canContactVet) {
+            s.pendingVetConsent[phone] = {
+              alertId: snapshot.id,
+              askedAt: this.clock().toISOString(),
+            };
+          } else {
+            delete s.pendingVetConsent[phone];
+          }
         });
       } catch (err) {
         results.push({
@@ -182,30 +191,43 @@ export class MessagingService {
     incoming: string,
     recipient: NonNullable<PhotonMessage["receivedBy"]>,
   ): Promise<ProcessResult> {
-    const command = normalizedCommand(incoming);
+    const alert = this.store.snapshot.latestAlerts[sender] ?? null;
+    const vet = this.config.defaultVetNumber;
+    const hasVet = Boolean(vet && this.config.vetNumbers.includes(vet));
+    const currentHandoff = this.store.snapshot.vetHandoffs[sender];
+    const activeForAlert = Boolean(
+      alert && currentHandoff?.status === "approved" && currentHandoff.alertId === alert.id,
+    );
+    const pendingQuestion = Boolean(
+      alert && this.store.snapshot.pendingVetConsent[sender]?.alertId === alert.id,
+    );
+    const intent = vetIntent(incoming, pendingQuestion, activeForAlert);
     let reply: string;
     let pendingHandoff: { vet: string; alert: AlertSnapshot } | null = null;
+    let closeVetChat = false;
+    let askForVetConsent = false;
 
-    if (command === APPROVE_VET_COMMAND) {
-      const alert = this.store.snapshot.latestAlerts[sender] ?? null;
-      const vet = this.config.defaultVetNumber;
-      if (!alert || !vet || !this.config.vetNumbers.includes(vet)) {
+    if (intent === "approve") {
+      if (!alert || !vet || !hasVet) {
         reply = vetApprovalPrompt(false);
-      } else if (
-        this.store.snapshot.vetHandoffs[sender]?.status === "approved" &&
-        this.store.snapshot.vetHandoffs[sender]?.alertId === alert.id
-      ) {
-        reply = "The verified veterinarian handoff is already active for this alert. I did not send a duplicate message.";
+      } else if (activeForAlert) {
+        reply = "Your vet is already in this chat. I didn't send the same message again.";
       } else {
         pendingHandoff = { vet, alert };
-        reply = "Approved. I shared the current camera observations with the verified veterinarian. You can keep asking me questions here.";
+        reply = "Okay. I told your vet what we saw. You can keep asking me questions here.";
       }
-    } else if (command === CANCEL_VET_COMMAND) {
-      reply = "Vet handoff canceled. No new context will be sent unless you reply APPROVE VET again.";
-    } else if (/\bVET(?:ERINARIAN)?\b/i.test(incoming)) {
-      reply = vetApprovalPrompt(Boolean(this.config.defaultVetNumber));
+    } else if (intent === "decline") {
+      closeVetChat = true;
+      reply = activeForAlert
+        ? "Okay. I stopped sending new messages to your vet."
+        : "Okay. I won't contact your vet.";
+    } else if (intent === "mention") {
+      askForVetConsent = Boolean(alert && hasVet);
+      reply = vetApprovalPrompt(hasVet);
     } else {
-      reply = safetyBoundaryReply(incoming) ?? (await this.buildReply(sender, incoming, false));
+      const boundary = safetyBoundaryReply(incoming, hasVet);
+      askForVetConsent = Boolean(boundary && alert && hasVet);
+      reply = boundary ?? (await this.buildReply(sender, incoming, false));
     }
 
     try {
@@ -233,12 +255,13 @@ export class MessagingService {
 
     this.store.update((s) => {
       s.processedInbound.push(message.id);
-      if (command === CANCEL_VET_COMMAND) {
+      if (closeVetChat) {
         const current = s.vetHandoffs[sender];
         if (current) {
           current.status = "cancelled";
           delete s.activeFarmerByVet[current.vetPhone];
         }
+        delete s.pendingVetConsent[sender];
       }
       if (pendingHandoff) {
         s.vetHandoffs[sender] = {
@@ -249,6 +272,12 @@ export class MessagingService {
           status: "approved",
         };
         s.activeFarmerByVet[pendingHandoff.vet] = sender;
+        delete s.pendingVetConsent[sender];
+      } else if (askForVetConsent && alert) {
+        s.pendingVetConsent[sender] = {
+          alertId: alert.id,
+          askedAt: this.clock().toISOString(),
+        };
       }
       this.appendTurns(s.turns, sender, incoming, reply, message.createdAt);
     });

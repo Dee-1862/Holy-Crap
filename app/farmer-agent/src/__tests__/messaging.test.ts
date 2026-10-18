@@ -12,9 +12,11 @@ import {
   normalizeUsPhone,
   sanitizeReply,
   vetHandoffText,
+  vetIntent,
 } from "../rules";
 import { createRuntime } from "../service";
 import { demoAlert, runSimulation } from "../simulate";
+import { MessagingStore } from "../state";
 import type { MessagingConfig, PhotonMessage } from "../types";
 
 const FARMER = "+12025550123";
@@ -104,13 +106,30 @@ test("normalizes US numbers and keeps farmer/vet allowlists separate", () => {
   );
 });
 
-test("demo alert and vet handoff stay non-diagnostic", () => {
-  const alert = demoAlert("B2");
-  for (const text of [alertText(alert), vetHandoffText(alert)]) {
-    assert.equal(isSafeWording(text), true);
-    assert.doesNotMatch(text, /coccid|salmonella|newcastle|avian flu/i);
-    assert.match(text, /not (?:a medical finding|a diagnosis)/i);
+test("demo alert names the suspected illness in simple, uncertain words", () => {
+  const alert = demoAlert("6");
+  const farmerText = alertText(alert, true);
+  const vetText = vetHandoffText(alert);
+  assert.equal(isSafeWording(farmerText), true);
+  assert.equal(isSafeWording(vetText), true);
+  assert.match(farmerText, /We think Pen 6 may have salmonella/);
+  assert.match(farmerText, /Want me to tell your vet\?/);
+  assert.doesNotMatch(farmerText, /anomaly|triage|pathogen|confidence|sensor|handoff|classification|medical finding/i);
+  assert.match(vetText, /may be salmonella, but that may be wrong/i);
+});
+
+test("common farmer replies map to clear vet choices", () => {
+  for (const text of ["yes", "yes, please do", "sure", "go ahead", "sounds good"]) {
+    assert.equal(vetIntent(text, true, false), "approve", text);
   }
+  for (const text of ["tell the vet", "let my vet know", "please talk to the veterinarian"]) {
+    assert.equal(vetIntent(text, false, false), "approve", text);
+  }
+  for (const text of ["no thanks", "don't contact the vet", "stop talking to the vet"]) {
+    assert.equal(vetIntent(text, true, true), "decline", text);
+  }
+  assert.equal(vetIntent("yes", false, false), "none");
+  assert.equal(vetIntent("Do I need a vet?", false, false), "mention");
 });
 
 test("unauthorized inbound never calls DeepSeek or sends a reply", async (t) => {
@@ -138,7 +157,7 @@ test("authorized farmer gets a concise same-conversation reply and duplicates ar
   let llmCalls = 0;
   const llmFetch = async () => {
     llmCalls += 1;
-    return jsonResponse({ choices: [{ message: { content: "**Three unusual observations** were recorded. Review the evidence clip; the camera cannot diagnose disease." } }] });
+    return jsonResponse({ choices: [{ message: { content: "**We saw three unusual droppings.** Please check the birds." } }] });
   };
   const { service, store } = createRuntime(config(tmp.file), {
     fetch: (async () => {
@@ -179,8 +198,8 @@ test("treatment or culling questions use a deterministic boundary without callin
   );
   assert.equal(result.handled, true);
   assert.equal(llmCalls, 0);
-  assert.match(result.reply ?? "", /cannot diagnose disease/);
-  assert.match(result.reply ?? "", /contact a veterinarian/);
+  assert.match(result.reply ?? "", /can't choose medicine/);
+  assert.match(result.reply ?? "", /Want me to tell your vet\?/);
 });
 
 test("unsafe generated instructions are discarded for the deterministic fallback", async (t) => {
@@ -198,10 +217,10 @@ test("unsafe generated instructions are discarded for the deterministic fallback
   const result = await service.processInbound(inbound("pho_msg_unsafe_llm", FARMER, "What happened?"));
   assert.equal(result.handled, true);
   assert.doesNotMatch(result.reply ?? "", /cull/i);
-  assert.match(result.reply ?? "", /anomaly flag/i);
+  assert.match(result.reply ?? "", /may have salmonella/i);
 });
 
-test("vet is contacted only after the farmer sends the exact approval command", async (t) => {
+test("a short natural yes approves only after the agent asked about the vet", async (t) => {
   const tmp = tempState();
   t.after(() => fs.rmSync(tmp.dir, { recursive: true, force: true }));
   let llmCalls = 0;
@@ -216,31 +235,90 @@ test("vet is contacted only after the farmer sends the exact approval command", 
     deepseekFetch: llmFetch as typeof fetch,
     clock: () => NOW,
   });
-  await service.sendAlert(demoAlert("B2"), [FARMER]);
-
-  const request = await service.processInbound(inbound("pho_msg_vet_request", FARMER, "Can you ask the vet?"));
-  assert.equal(request.handled, true);
-  assert.match(request.reply ?? "", /Reply APPROVE VET/);
+  const noContext = await service.processInbound(inbound("pho_msg_yes_without_prompt", FARMER, "yes"));
+  assert.equal(noContext.handled, true);
   assert.equal(store.snapshot.mockOutbox.filter((item) => item.kind === "vet-handoff").length, 0);
-  assert.equal(llmCalls, 0);
+  assert.equal(llmCalls, 1);
 
-  const approvalMessage = inbound("pho_msg_vet_approval", FARMER, "APPROVE VET");
+  await service.sendAlert(demoAlert("B2"), [FARMER]);
+  const approvalMessage = inbound("pho_msg_vet_approval", FARMER, "yes please");
   const approval = await service.processInbound(approvalMessage);
   assert.equal(approval.handled, true);
   const handoffs = store.snapshot.mockOutbox.filter((item) => item.kind === "vet-handoff");
   assert.equal(handoffs.length, 1);
   assert.equal(handoffs[0].to, VET);
   assert.equal(store.snapshot.vetHandoffs[FARMER].status, "approved");
-  assert.equal(llmCalls, 0);
+  assert.equal(llmCalls, 1);
 
   const duplicate = await service.processInbound(approvalMessage);
   assert.equal(duplicate.reason, "duplicate");
   assert.equal(store.snapshot.mockOutbox.filter((item) => item.kind === "vet-handoff").length, 1);
 
-  const secondApproval = await service.processInbound(inbound("pho_msg_vet_approval_again", FARMER, "APPROVE VET"));
+  const secondApproval = await service.processInbound(
+    inbound("pho_msg_vet_approval_again", FARMER, "please tell the vet again"),
+  );
   assert.equal(secondApproval.handled, true);
-  assert.match(secondApproval.reply ?? "", /already active/);
+  assert.match(secondApproval.reply ?? "", /already in this chat/);
   assert.equal(store.snapshot.mockOutbox.filter((item) => item.kind === "vet-handoff").length, 1);
+});
+
+test("a direct natural request contacts the vet without a command", async (t) => {
+  const tmp = tempState();
+  t.after(() => fs.rmSync(tmp.dir, { recursive: true, force: true }));
+  const { service, store } = createRuntime(config(tmp.file), {
+    fetch: (async () => { throw new Error("Photon should not run in mock mode"); }) as typeof fetch,
+    deepseekFetch: (async () => { throw new Error("LLM should not decide permission"); }) as typeof fetch,
+    clock: () => NOW,
+  });
+  await service.sendAlert(demoAlert("B2"), [FARMER]);
+  store.update((state) => { delete state.pendingVetConsent[FARMER]; });
+  const result = await service.processInbound(
+    inbound("pho_msg_direct_vet", FARMER, "please tell the vet"),
+  );
+  assert.equal(result.handled, true);
+  assert.match(result.reply ?? "", /told your vet/i);
+  assert.equal(store.snapshot.mockOutbox.filter((item) => item.kind === "vet-handoff").length, 1);
+});
+
+test("an unclear vet question asks for permission and a natural no closes it", async (t) => {
+  const tmp = tempState();
+  t.after(() => fs.rmSync(tmp.dir, { recursive: true, force: true }));
+  const { service, store } = createRuntime(config(tmp.file), {
+    fetch: (async () => { throw new Error("Photon should not run in mock mode"); }) as typeof fetch,
+    deepseekFetch: (async () => jsonResponse({ choices: [{ message: { content: "Okay." } }] })) as typeof fetch,
+    clock: () => NOW,
+  });
+  await service.sendAlert(demoAlert("B2"), [FARMER]);
+  store.update((state) => { delete state.pendingVetConsent[FARMER]; });
+  const question = await service.processInbound(inbound("pho_msg_vet_question", FARMER, "Do I need a vet?"));
+  assert.match(question.reply ?? "", /Do you want me to tell your vet/);
+  assert.equal(store.snapshot.mockOutbox.filter((item) => item.kind === "vet-handoff").length, 0);
+  assert.ok(store.snapshot.pendingVetConsent[FARMER]);
+
+  const decline = await service.processInbound(inbound("pho_msg_vet_no", FARMER, "no thanks"));
+  assert.match(decline.reply ?? "", /won't contact your vet/);
+  assert.equal(store.snapshot.pendingVetConsent[FARMER], undefined);
+  const laterYes = await service.processInbound(inbound("pho_msg_later_yes", FARMER, "yes"));
+  assert.equal(laterYes.handled, true);
+  assert.equal(store.snapshot.mockOutbox.filter((item) => item.kind === "vet-handoff").length, 0);
+});
+
+test("the farmer can naturally stop an active vet chat", async (t) => {
+  const tmp = tempState();
+  t.after(() => fs.rmSync(tmp.dir, { recursive: true, force: true }));
+  const { service, store } = createRuntime(config(tmp.file), {
+    fetch: (async () => { throw new Error("Photon should not run in mock mode"); }) as typeof fetch,
+    deepseekFetch: (async () => { throw new Error("LLM should not decide permission"); }) as typeof fetch,
+    clock: () => NOW,
+  });
+  await service.sendAlert(demoAlert("B2"), [FARMER]);
+  await service.processInbound(inbound("pho_msg_start_vet", FARMER, "go ahead"));
+  const stopped = await service.processInbound(
+    inbound("pho_msg_stop_vet", FARMER, "stop talking to the vet"),
+  );
+  assert.match(stopped.reply ?? "", /stopped sending new messages/);
+  assert.equal(store.snapshot.vetHandoffs[FARMER].status, "cancelled");
+  assert.equal(store.snapshot.activeFarmerByVet[VET], undefined);
 });
 
 test("vet inbound is ignored before approval and answered after approval", async (t) => {
@@ -263,7 +341,7 @@ test("vet inbound is ignored before approval and answered after approval", async
   assert.equal(early.reason, "unauthorized");
   assert.equal(llmCalls, 0);
 
-  await service.processInbound(inbound("pho_msg_vet_approve2", FARMER, "APPROVE VET"));
+  await service.processInbound(inbound("pho_msg_vet_approve2", FARMER, "sure"));
   const after = await service.processInbound(inbound("pho_msg_vet_after", VET, "What did the camera see?"));
   assert.equal(after.handled, true);
   assert.equal(llmCalls, 1);
@@ -285,6 +363,21 @@ test("DeepSeek request disables thinking and reply sanitization is bounded", asy
   const safe = sanitizeReply(raw ?? "");
   assert.ok(safe.length <= 480);
   assert.doesNotMatch(safe, /#/);
+});
+
+test("wording check allows uncertain illness guesses but rejects certainty and orders", () => {
+  assert.equal(isSafeWording("We think Pen 6 may have salmonella."), true);
+  assert.equal(isSafeWording("Pen 6 definitely has salmonella."), false);
+  assert.equal(isSafeWording("Cull the birds now."), false);
+  assert.equal(isSafeWording("The model confidence shows an anomaly."), false);
+});
+
+test("old state files load with no pending vet question", (t) => {
+  const tmp = tempState();
+  t.after(() => fs.rmSync(tmp.dir, { recursive: true, force: true }));
+  fs.writeFileSync(tmp.file, JSON.stringify({ processedInbound: [], latestAlerts: {}, turns: {} }));
+  const store = new MessagingStore(tmp.file);
+  assert.deepEqual(store.snapshot.pendingVetConsent, {});
 });
 
 test("Photon client follows Beta items and nested message contract", async () => {

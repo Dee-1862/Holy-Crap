@@ -44,7 +44,23 @@ if [ -n "${DDP_CLS:-}" ]; then
     | tee cls_n_ddp.log | grep --line-buffered -E '^metrics|SUMMARY|export|Traceback|Error|epochs completed'
   rc=${PIPESTATUS[0]}
   cp cls_n_ddp.log "$WORK/stats_behaviour.json" "${VERI_OUTPUT_DIR:-.}/" 2>/dev/null
-  exit $rc
+  echo "train rc=$rc (exiting 0 so outputs stay downloadable)"; exit 0
+fi
+
+if [ -n "${SAFE4:-}" ]; then
+  # 4-GPU box, no DDP for classifiers (DDP cls crashed at the end in job f72463aa0e9b).
+  CUDA_VISIBLE_DEVICES=0 python train_behavior.py --task cls --data "$WORK/behaviour" --name cls_n     --model yolo11n-cls.pt --batch 256 --hours "$HOURS" --workers 10 > cls_n.log 2>&1 &
+  P1=$!
+  CUDA_VISIBLE_DEVICES=1 python train_behavior.py --task cls --data "$WORK/behaviour" --name cls_s     --model yolo11s-cls.pt --batch 256 --hours "$HOURS" --workers 10 > cls_s.log 2>&1 &
+  P2=$!
+  CUDA_VISIBLE_DEVICES=2,3 python train_behavior.py --task det --data "$WORK/chickens/data.yaml" --name det     --model yolo11n.pt --gpus 2 --batch 16 --hours "$HOURS" --workers 10 > det.log 2>&1 &
+  P3=$!
+  tail -n +1 -F cls_n.log cls_s.log det.log 2>/dev/null | grep --line-buffered -E '^metrics|SUMMARY|export|Traceback|Error|epochs completed' &
+  TAILPID=$!
+  rc=0; for p in $P1 $P2 $P3; do wait "$p" || rc=1; done
+  sleep 2; kill $TAILPID 2>/dev/null
+  cp cls_n.log cls_s.log det.log "$WORK/stats_behaviour.json" "${VERI_OUTPUT_DIR:-.}/" 2>/dev/null
+  echo "train rc=$rc (exiting 0 so outputs stay downloadable)"; exit 0
 fi
 
 if [ -n "${ALL8:-}" ]; then
@@ -63,7 +79,7 @@ if [ -n "${ALL8:-}" ]; then
   rc=0; for p in $P1 $P2 $P3; do wait "$p" || rc=1; done
   sleep 2; kill $TAILPID 2>/dev/null
   cp cls_n_ddp.log det.log cls_s.log "$WORK/stats_behaviour.json" "${VERI_OUTPUT_DIR:-.}/" 2>/dev/null
-  exit $rc
+  echo "train rc=$rc (exiting 0 so outputs stay downloadable)"; exit 0
 fi
 
 if [ -n "${SPLIT_2X2:-}" ]; then
@@ -79,7 +95,7 @@ if [ -n "${SPLIT_2X2:-}" ]; then
   rc=0; for p in $P1 $P2; do wait "$p" || rc=1; done
   sleep 2; kill $TAILPID 2>/dev/null
   cp det.log cls_s.log "$WORK/stats_behaviour.json" "${VERI_OUTPUT_DIR:-.}/" 2>/dev/null
-  exit $rc
+  echo "train rc=$rc (exiting 0 so outputs stay downloadable)"; exit 0
 fi
 
 CUDA_VISIBLE_DEVICES=0 python train_behavior.py --task cls --data "$WORK/behaviour" --name cls_n \
@@ -103,4 +119,5 @@ for p in $P1 $P2 $P3; do wait "$p" || rc=1; done
 sleep 2; kill $TAILPID 2>/dev/null
 for f in cls_n.log det.log cls_s.log; do [ -f "$f" ] && cp "$f" "${VERI_OUTPUT_DIR:-.}/" ; done
 cp "$WORK/stats_behaviour.json" "${VERI_OUTPUT_DIR:-.}/" 2>/dev/null
-exit $rc
+echo "train rc=$rc (exiting 0 so outputs stay downloadable)"
+exit 0

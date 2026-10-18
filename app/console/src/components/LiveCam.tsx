@@ -7,19 +7,27 @@ export const LIVE_CAM = "CAM4";
 
 interface Frame { jpeg: string; t: number; w: number; h: number; source: string; spots: { id: string; cx: number; cy: number; t: number }[]; at: number }
 
-// Cam 4: the Pi's own Camera Module 3. The Pi runs the spot finder and the detector on it at 2 frames a second and
-// sends a small picture here every couple of seconds. Nothing from this camera feeds the demo numbers on this page.
-export function useLiveFrame(): Frame | null | undefined {
+// Cam 4: the Pi's own Camera Module 3. The Pi runs the spot finder and the detector on it at 2 frames a second.
+// While this view is open the page asks for pictures back to back and the Pi sends them as fast as the link allows;
+// otherwise it checks every 10 s, enough for the Live tag. Nothing from this camera feeds the demo numbers.
+export function useLiveFrame(watching: boolean): Frame | null | undefined {
   const [frame, setFrame] = useState<Frame | null | undefined>(undefined);
   useEffect(() => {
-    let alive = true;
-    const get = () => fetch("/api/edge/frame", { cache: "no-store" }).then((r) => r.json())
-      .then((d: { frame: Frame | null }) => { if (alive) setFrame(d.frame); })
-      .catch(() => { if (alive) setFrame(null); });
+    let alive = true, timer = 0;
+    const get = async () => {
+      const t0 = Date.now();
+      try {
+        const d = (await (await fetch(`/api/edge/frame${watching ? "?watch=1" : ""}`, { cache: "no-store" })).json()) as { frame: Frame | null };
+        if (alive) setFrame(d.frame);
+      } catch {
+        if (alive) setFrame(null);
+      }
+      // one request at a time: the next one starts when this one is back
+      if (alive) timer = window.setTimeout(get, Math.max(0, (watching ? 300 : 10000) - (Date.now() - t0)));
+    };
     get();
-    const t = window.setInterval(get, 2000);
-    return () => { alive = false; window.clearInterval(t); };
-  }, []);
+    return () => { alive = false; window.clearTimeout(timer); };
+  }, [watching]);
   return frame;
 }
 
@@ -55,7 +63,7 @@ export default function LiveCam({ frame }: { frame: Frame | null | undefined }) 
       </div>
       <p className="foot">
         {live ? "Raspberry Pi Camera Module 3 on the QNX Pi" : "The Pi is playing recorded footage"}. The Pi finds still spots and runs the
-        detector on them itself, 2 frames a second, and sends a picture here every 2 seconds. Readings from this camera are
+        detector on them itself, 2 frames a second, and sends a picture here as fast as the link allows, usually 2 or 3 a second. Readings from this camera are
         not part of the demo numbers above.
       </p>
     </section>

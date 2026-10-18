@@ -9,8 +9,8 @@ export const EDGE_URL = process.env.EDGE_URL ?? "http://169.254.237.143:8088";
 // scripts/edge_bridge.py, which pushes the Pi's status here and carries Crash presses back to the Pi.
 export const DIRECT = !process.env.VERCEL || !!process.env.EDGE_URL;
 
-const STATUS_KEY = "hc:edge:status", CMD_KEY = "hc:edge:cmds", FRAME_KEY = "hc:edge:frame", FRESH_MS = 8000;
-const mem = globalThis as unknown as { __bridge?: { status: unknown; at: number }; __cmds?: unknown[]; __frame?: LiveFrame };
+const STATUS_KEY = "hc:edge:status", CMD_KEY = "hc:edge:cmds", FRAME_KEY = "hc:edge:frame", WATCH_KEY = "hc:edge:watching", FRESH_MS = 8000;
+const mem = globalThis as unknown as { __bridge?: { status: unknown; at: number }; __cmds?: unknown[]; __frame?: LiveFrame; __watching?: number };
 
 // The Pi's live camera picture (target/qnx/edge/sitelink.py), a small JPEG every couple of seconds with recent spots.
 export interface LiveFrame { jpeg: string; t: number; w: number; h: number; source: string; spots: { id: string; cx: number; cy: number; t: number }[]; at: number }
@@ -18,19 +18,23 @@ export async function liveFrame(): Promise<LiveFrame | null> {
   const f = (await kvGet<LiveFrame>(FRAME_KEY)) ?? mem.__frame ?? null;
   return f && Date.now() - f.at < 15000 ? f : null;
 }
+// The Pi sends pictures back to back only while someone has the camera view open, every 10 s otherwise.
+export async function storeFrame(frame: Omit<LiveFrame, "at">): Promise<boolean> {
+  mem.__frame = { ...frame, at: Date.now() };
+  await kvSet(FRAME_KEY, mem.__frame, 30);
+  const w = kvEnabled ? await kvGet<number>(WATCH_KEY) : mem.__watching;
+  return !!w && Date.now() - w < 8000;
+}
+export async function markWatching() {
+  mem.__watching = Date.now();
+  await kvSet(WATCH_KEY, mem.__watching, 10);
+}
 
 export async function bridgeStatus(): Promise<{ status: Record<string, unknown>; at: number } | null> {
   const b = (await kvGet<{ status: Record<string, unknown>; at: number }>(STATUS_KEY)) ?? (mem.__bridge as { status: Record<string, unknown>; at: number } | undefined) ?? null;
   return b && Date.now() - b.at < FRESH_MS ? b : null;
 }
 export async function bridgePush(status: unknown): Promise<unknown[]> {
-  // the picture is kept on its own, so the status the Pi page polls every second stays small
-  const { frame, ...rest } = (status ?? {}) as { frame?: Omit<LiveFrame, "at"> };
-  if (frame?.jpeg) {
-    mem.__frame = { ...frame, at: Date.now() };
-    await kvSet(FRAME_KEY, mem.__frame, 30);
-  }
-  status = rest;
   const b = { status, at: Date.now() };
   mem.__bridge = b;
   await kvSet(STATUS_KEY, b, 60);

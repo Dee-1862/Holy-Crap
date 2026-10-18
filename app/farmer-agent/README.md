@@ -17,9 +17,31 @@ DeepSeek does not decide whether the farmer gave permission. A small, tested set
 
 ## Safety boundary
 
-Messages use short, everyday words. An alert may name the illness the system thinks it sees, such as `We think Pen 6 may have salmonella`, but it must say the guess could be wrong. The agent does not choose medicine or tell the farmer to separate or kill birds. Those choices go to the vet.
+Messages use short, everyday words. An alert states the exact facts the camera recorded: the number of droppings, the pen, the time window, the model's closest match, and its score as a whole number, such as `The model's closest match was salmonella, with an 81% score.` The single safety boundary is one plain sentence: `This is not a lab test.` The score is never described as a diagnosis, and stacked hedging is avoided.
 
-Replies are plain text and capped at 480 characters. If DeepSeek is unavailable or returns unsafe wording, the agent uses a deterministic response built from the recorded alert.
+Common fact questions are answered deterministically in application code, before DeepSeek runs: why the model picked the match, what was seen, the score, and when it happened. If there is no current alert, the farmer is told so directly.
+
+The agent does not choose medicine or tell the farmer to isolate or kill birds. Those choices go to the vet. Replies are plain text and capped at 480 characters. If DeepSeek is unavailable or returns unsafe wording, the agent uses a deterministic response built from the recorded alert.
+
+## Sending a photo with an alert
+
+An alert can carry one photo as evidence. The photo is a local `.jpg` or `.png` file of at most 5 MB, uploaded to Photon as a multipart/related attachment. The agent sends the alert text, then a plain source label such as `Attached: Close-up from Pen 6.`, then the photo. Attachment metadata is intentionally omitted because iMessage rejects attachment captions.
+
+With a real camera frame:
+
+```sh
+npm run simulate -- --pen=6 --image=/path/to/pen6-camera.jpg --image-label="Close-up from Pen 6."
+```
+
+With a demo or reference image, the label must say it is a sample, not a live camera frame:
+
+```sh
+npm run simulate -- --pen=6 --image=/path/to/demo-pen6.jpg --image-label="Sample image, not a live camera frame"
+```
+
+No image is attached unless `--image` is given. In mock mode the file is checked locally, but nothing is uploaded or sent; the planned send is recorded in `mockOutbox`. In live mode, retries reuse stable idempotency keys, so a retry does not duplicate the text or the photo.
+
+A farmer can ask for the photo with plain messages such as `show me the photo`, `send the image`, or `can I see the poop`. If the alert has a photo, the agent sends a short reply and the same photo in the existing conversation with no DeepSeek call. If there is no photo, it says so directly.
 
 ## Run it in mock mode
 
@@ -33,7 +55,7 @@ set +a
 npm run simulate
 ```
 
-The simulation queues one Pen B2 alert in `.data/messaging-state.json`. It does not call Photon or DeepSeek. Inspect `mockOutbox` to see the message that would have been sent.
+The simulation queues one Pen B2 alert in `.data/messaging-state.json`. It does not call Photon or DeepSeek. Inspect `mockOutbox` to see the message that would have been sent. Use `--image` and `--image-label` to include a photo (see "Sending a photo with an alert").
 
 Run the checks with:
 

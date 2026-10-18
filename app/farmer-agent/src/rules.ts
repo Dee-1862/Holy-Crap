@@ -50,17 +50,18 @@ export function isAllowedNumber(phone: string, allowlist: string[]): boolean {
 
 export const SYSTEM_RULES = [
   "You text farmers about what a chicken-pen camera saw.",
-  "Use short, common words. Do not use jargon such as anomaly, triage, pathogen, confidence, sensor health, handoff, classification, or evidence context.",
-  "You may name the illness in the current alert, but always say it may be wrong. Say things like 'we think it may be salmonella,' never that it is confirmed or certain.",
-  "Do not choose medicine, tell the farmer to isolate birds, or tell the farmer to kill birds. A vet makes those choices.",
-  "Use plain text only, no Markdown, and no more than 480 characters. Be calm, direct, and helpful.",
-  "Explain what the camera saw in simple words and suggest checking the birds. If useful, ask whether the farmer wants you to tell the vet.",
+  "Use only the exact alert facts you are given. Do not invent numbers, times, names, or lab results.",
+  "Answer the question immediately in at most 3 short sentences. No greeting, no filler, no extra questions.",
+  "The top match is a camera guess, not a lab test. State the match and score as given. Do not add hedges or repeat disclaimers.",
+  "Do not choose medicine, isolation, or killing. A vet makes those choices.",
+  "Use short, common words. Do not use jargon such as anomaly, triage, pathogen, confidence, sensor, handoff, classification, or evidence context.",
+  "Use plain text only, no Markdown, and no more than 480 characters.",
 ].join("\n");
 
 export const VET_SYSTEM_RULES = [
   SYSTEM_RULES,
   "You are speaking with a vet after the farmer asked you to contact them.",
-  "Share only what the camera recorded and make clear that the illness guess may be wrong.",
+  "Share only the recorded alert facts and make clear that the top match is not a lab test.",
 ].join("\n");
 
 function simpleWords(text: string): string {
@@ -101,12 +102,17 @@ export function vetApprovalPrompt(hasVet: boolean): string {
   return "Do you want me to tell your vet what we saw? You can answer in your own words.";
 }
 
+export function scorePercent(confidence: number): number {
+  return Math.round(confidence * 100);
+}
+
 export function vetHandoffText(alert: AlertSnapshot): string {
-  const illness = alert.suspectedIllness ? `We think it may be ${alert.suspectedIllness}, but that may be wrong. ` : "";
+  const score = scorePercent(alert.confidence);
+  const match = alert.suspectedIllness
+    ? ` The model's closest match was ${alert.suspectedIllness}, with an ${score}% score.`
+    : "";
   return sanitizeReply(
-    `The farmer asked us to contact you about ${alert.penName}. ${illness}` +
-      `The camera saw ${alert.observationCount} unusual droppings in ${alert.windowMinutes} minutes. ` +
-      `The latest video was ${alert.cameraSecondsAgo} seconds old. Reply if you need more details.`,
+    `The farmer asked us to contact you about ${alert.penName}. We found ${alert.observationCount} droppings that looked unusual in ${alert.windowMinutes} minutes.${match} This is not a lab test. The latest camera picture was ${alert.cameraSecondsAgo} seconds old. Reply if you need more details.`,
   );
 }
 
@@ -116,31 +122,113 @@ export function contextBlock(alert: AlertSnapshot | null): string {
     "Current pen context: " +
     JSON.stringify({
       pen: alert.penName,
-      unusualObservations: alert.observationCount,
+      droppings: alert.observationCount,
       windowMinutes: alert.windowMinutes,
-      confidence: Math.round(alert.confidence * 100) / 100,
+      topMatch: alert.suspectedIllness ?? null,
+      score: scorePercent(alert.confidence),
       cameraSecondsAgo: alert.cameraSecondsAgo,
-      sensorHealthy: alert.sensorHealthy,
-      suspectedIllness: alert.suspectedIllness ?? null,
+      hasPhoto: Boolean(alert.evidence),
     })
   );
 }
 
 export function alertText(snapshot: AlertSnapshot, canContactVet = false): string {
-  const opening = snapshot.suspectedIllness
-    ? `Hi. We think ${snapshot.penName} may have ${snapshot.suspectedIllness}.`
-    : `Hi. Something may be wrong in ${snapshot.penName}.`;
-  const offer = canContactVet ? " Want me to tell your vet?" : "";
-  return `${opening} We saw ${snapshot.observationCount} droppings that looked unusual in the last ${snapshot.windowMinutes} minutes. Please check the birds.${offer}`;
+  const score = scorePercent(snapshot.confidence);
+  const match = snapshot.suspectedIllness
+    ? ` The model's closest match was ${snapshot.suspectedIllness}, with an ${score}% score.`
+    : "";
+  const vetOffer = canContactVet ? " I can also send this to your vet if you want." : "";
+  return (
+    `Hey, we found ${snapshot.observationCount} droppings in ${snapshot.penName} that looked unusual ` +
+    `in the last ${snapshot.windowMinutes} minutes.${match} This is not a lab test. ` +
+    `What else would help you decide what to do next?${vetOffer}`
+  );
 }
 
 export function fallbackReply(alert: AlertSnapshot | null): string {
   if (!alert) {
     return (
-      "I don't have a new warning for your pen. Send the pen name and your question. If a bird looks sick, please ask a vet."
+      "There is no current alert for your pen. Send the pen name and your question. If a bird looks sick, please ask a vet."
     );
   }
-  return alertText(alert);
+  const score = scorePercent(alert.confidence);
+  const match = alert.suspectedIllness
+    ? ` The model's closest match was ${alert.suspectedIllness}, with an ${score}% score.`
+    : "";
+  return (
+    `We found ${alert.observationCount} droppings in ${alert.penName} that looked unusual ` +
+    `in the last ${alert.windowMinutes} minutes.${match} This is not a lab test.`
+  );
+}
+
+export type FactQuestion = "why" | "seen" | "score" | "when";
+
+// Plain questions about the current alert get deterministic answers in
+// application code, before DeepSeek ever runs.
+export function factQuestionKind(text: string): FactQuestion | null {
+  const words = simpleWords(text);
+  if (
+    /\b(top|closest|best) match\b/.test(words) ||
+    /(which|what) (illness|disease|sickness)/.test(words) ||
+    /\bwhy\b/.test(words) && /(think|match|guess|illness|disease|sick|salmonella|that|this)/.test(words)
+  ) {
+    return "why";
+  }
+  if (/\bwhat (did|do) you see\b|\bwhat was seen\b|\bwhat happened\b|\bwhat did the camera see\b|\bwhat('s| is) (this|it)\b/.test(words)) {
+    return "seen";
+  }
+  if (/\bhow (sure|confident|certain|likely)\b|\bare you sure\b|\bscore\b|\bwhat percent(age)?\b/.test(words)) {
+    return "score";
+  }
+  if (/\bhow (recent|long ago|old)\b|\bwhen (did|was)\b/.test(words)) {
+    return "when";
+  }
+  return null;
+}
+
+// Deterministic answers built only from AlertSnapshot facts.
+export function factAnswer(kind: FactQuestion, alert: AlertSnapshot | null): string {
+  if (!alert) return "There is no current alert for your pen.";
+  const score = scorePercent(alert.confidence);
+  const count = alert.observationCount;
+  const pen = alert.penName;
+  const window = alert.windowMinutes;
+  const ago = alert.cameraSecondsAgo;
+  switch (kind) {
+    case "why": {
+      if (!alert.suspectedIllness) {
+        return `We found ${count} droppings in ${pen} that looked unusual during ${window} minutes. This comes from the camera images, not a lab test.`;
+      }
+      return (
+        `We found ${count} droppings in ${pen} that looked unusual during ${window} minutes. ` +
+        `The model's closest match for those droppings was ${alert.suspectedIllness}, with an ${score}% score. ` +
+        `This comes from the images, not a lab test.`
+      );
+    }
+    case "seen":
+      return `We found ${count} droppings in ${pen} that looked unusual in the last ${window} minutes. The camera picture was ${ago} seconds old.`;
+    case "score": {
+      if (!alert.suspectedIllness) {
+        return `The camera found ${count} unusual droppings in ${pen}. There is no illness match yet. This is not a lab test.`;
+      }
+      return `The model's closest match was ${alert.suspectedIllness}, with an ${score}% score. This is not a lab test.`;
+    }
+    case "when":
+      return `This happened in the last ${window} minutes. The camera picture was ${ago} seconds old.`;
+  }
+}
+
+// Plain requests for the saved photo. Answered deterministically, never by DeepSeek.
+export function isImageRequest(text: string): boolean {
+  const words = simpleWords(text);
+  return /\b(show me( the)?|send( me)?( the)?|can (?:i see|you send)( me)?( the)?|i want to see( the)?|got (a|the)) (photo|picture|image|poop|pic)\b/.test(
+    words,
+  );
+}
+
+export function imageRequestReply(alert: AlertSnapshot | null): string {
+  if (!alert?.evidence) return "There is no photo to send right now.";
+  return `Here is the photo. ${alert.evidence.sourceLabel}`;
 }
 
 export function sanitizeReply(raw: string): string {

@@ -26,6 +26,16 @@ export interface MessagingConfig {
   deepseek: DeepSeekConfig;
 }
 
+// A local photo that can be sent with an alert or on request.
+// Only JPEG and PNG are supported. localPath never reaches a farmer message.
+export interface AlertEvidence {
+  localPath: string;
+  contentType: "image/jpeg" | "image/png";
+  filename: string;
+  sizeBytes: number;
+  sourceLabel: string;
+}
+
 // A clean snapshot of what the camera system saw for one pen.
 export interface AlertSnapshot {
   id: string;
@@ -37,6 +47,7 @@ export interface AlertSnapshot {
   cameraSecondsAgo: number;
   sensorHealthy: boolean;
   suspectedIllness?: string;
+  evidence?: AlertEvidence;
   createdAt: string;
 }
 
@@ -97,6 +108,21 @@ export interface SendTextArgs {
   idempotencyKey: string;
 }
 
+export interface UploadAttachmentArgs {
+  contentType: "image/jpeg" | "image/png";
+  data: Uint8Array;
+  filename: string;
+  idempotencyKey: string;
+}
+
+export interface SendAttachmentArgs {
+  spaceId: string;
+  senderId: string;
+  attachmentId: string;
+  parentMessageId?: string | null;
+  idempotencyKey: string;
+}
+
 export type DeliveryStatus = "queued" | "accepted" | "refused" | "failed";
 
 export interface DeliverySummary {
@@ -112,14 +138,21 @@ export interface Turn {
   at: string;
 }
 
+export interface MockEvidence {
+  contentType: string;
+  filename: string;
+  sourceLabel: string;
+}
+
 export interface MockOutbound {
   id: string;
-  kind: "alert" | "reply" | "vet-handoff";
+  kind: "alert" | "reply" | "vet-handoff" | "evidence";
   to: string;
   text: string;
   at: string;
   alertId?: string;
   inReplyTo?: string;
+  evidence?: MockEvidence;
 }
 
 export interface MessagingState {

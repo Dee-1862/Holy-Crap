@@ -1,9 +1,10 @@
 import { loadConfig } from "./config";
+import { loadEvidenceImage } from "./media";
 import { normalizeUsPhone } from "./rules";
 import { createRuntime } from "./service";
-import type { AlertSnapshot, DeliverySummary, MessagingConfig } from "./types";
+import type { AlertEvidence, AlertSnapshot, DeliverySummary, MessagingConfig } from "./types";
 
-export function demoAlert(penId = "B2"): AlertSnapshot {
+export function demoAlert(penId = "B2", evidence?: AlertEvidence): AlertSnapshot {
   return {
     id: `demo:${penId}:${Date.now()}`,
     penId,
@@ -14,6 +15,7 @@ export function demoAlert(penId = "B2"): AlertSnapshot {
     cameraSecondsAgo: 8,
     sensorHealthy: true,
     suspectedIllness: "salmonella",
+    evidence,
     createdAt: new Date().toISOString(),
   };
 }
@@ -21,6 +23,8 @@ export function demoAlert(penId = "B2"): AlertSnapshot {
 export interface SimulateOptions {
   penId?: string;
   recipients?: string[];
+  image?: string;
+  imageLabel?: string;
 }
 
 export interface SimulateResult {
@@ -34,7 +38,17 @@ export async function runSimulation(
   options: SimulateOptions = {},
 ): Promise<SimulateResult> {
   const { service } = createRuntime(config);
-  const alert = demoAlert(options.penId);
+  const penId = options.penId ?? "B2";
+  let evidence: AlertEvidence | undefined;
+  if (options.image) {
+    evidence = loadEvidenceImage(
+      options.image,
+      options.imageLabel ?? `Attached: Photo from Pen ${penId}.`,
+    );
+  } else if (options.imageLabel) {
+    throw new Error("--image-label needs --image");
+  }
+  const alert = demoAlert(penId, evidence);
   const rawRecipients =
     options.recipients && options.recipients.length > 0 ? options.recipients : [...config.farmerNumbers];
   const normalized = rawRecipients.map((r) => normalizeUsPhone(r) ?? r);
@@ -42,11 +56,13 @@ export async function runSimulation(
   return { mode: config.mode, alertId: alert.id, deliveries };
 }
 
-function parseArgs(argv: string[]): SimulateOptions {
+export function parseArgs(argv: string[]): SimulateOptions {
   const options: SimulateOptions = { recipients: [] };
   for (const arg of argv) {
     if (arg.startsWith("--pen=")) options.penId = arg.slice("--pen=".length);
     else if (arg.startsWith("--to=")) options.recipients!.push(...arg.slice("--to=".length).split(",").filter(Boolean));
+    else if (arg.startsWith("--image=")) options.image = arg.slice("--image=".length);
+    else if (arg.startsWith("--image-label=")) options.imageLabel = arg.slice("--image-label=".length);
     else if (arg.startsWith("--")) continue;
     else options.recipients!.push(arg);
   }

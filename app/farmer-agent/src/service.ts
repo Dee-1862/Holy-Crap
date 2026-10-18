@@ -1,4 +1,5 @@
 import { DeepSeekClient } from "./deepseek";
+import { readEvidenceBytes } from "./media";
 import { PhotonClient, PHOTON_PLATFORM, PhotonError } from "./photon";
 import { createHash } from "node:crypto";
 import {
@@ -6,7 +7,11 @@ import {
   VET_SYSTEM_RULES,
   alertText,
   contextBlock,
+  factAnswer,
+  factQuestionKind,
   fallbackReply,
+  imageRequestReply,
+  isImageRequest,
   isSafeWording,
   maskPhone,
   normalizeUsPhone,
@@ -18,6 +23,7 @@ import {
 } from "./rules";
 import { MessagingStore } from "./state";
 import type {
+  AlertEvidence,
   AlertSnapshot,
   ChatMessage,
   DeliverySummary,
@@ -76,6 +82,8 @@ export class MessagingService {
       this.config.defaultVetNumber && this.config.vetNumbers.includes(this.config.defaultVetNumber),
     );
     const text = sanitizeReply(alertText(snapshot, canContactVet));
+    const evidence = snapshot.evidence ?? null;
+    const sourceLabel = evidence ? sanitizeReply(evidence.sourceLabel) : null;
     const results: DeliverySummary[] = [];
 
     for (const raw of recipients) {
@@ -87,19 +95,37 @@ export class MessagingService {
 
       try {
         if (this.config.mode === "live") {
-          await this.sendLive(snapshot, phone, text);
+          await this.sendLive(snapshot, phone, text, sourceLabel);
           results.push({ recipient: maskPhone(phone), status: "accepted", alertId: snapshot.id });
         } else {
-          this.store.update((s) =>
-            s.mockOutbox.push({
+          const at = this.clock().toISOString();
+          this.store.update((s) => {
+            const alertEntry = {
               id: `alert:${snapshot.id}:${phone}`,
-              kind: "alert",
+              kind: "alert" as const,
               to: phone,
               text,
-              at: this.clock().toISOString(),
+              at,
               alertId: snapshot.id,
-            }),
-          );
+            };
+            if (!s.mockOutbox.some((m) => m.id === alertEntry.id)) s.mockOutbox.push(alertEntry);
+            if (evidence && sourceLabel) {
+              const imageEntry = {
+                id: `alert-img:${snapshot.id}:${phone}`,
+                kind: "alert" as const,
+                to: phone,
+                text: sourceLabel,
+                at,
+                alertId: snapshot.id,
+                evidence: {
+                  contentType: evidence.contentType,
+                  filename: evidence.filename,
+                  sourceLabel: evidence.sourceLabel,
+                },
+              };
+              if (!s.mockOutbox.some((m) => m.id === imageEntry.id)) s.mockOutbox.push(imageEntry);
+            }
+          });
           results.push({ recipient: maskPhone(phone), status: "queued", alertId: snapshot.id });
           console.log(`[messaging] mock alert queued for ${maskPhone(phone)}`);
         }
@@ -129,8 +155,46 @@ export class MessagingService {
     return results;
   }
 
-  private async sendLive(snapshot: AlertSnapshot, phone: string, text: string): Promise<void> {
-    await this.sendDirectText(phone, text, stableKey("alert", snapshot.id, phone));
+  private async sendLive(
+    snapshot: AlertSnapshot,
+    phone: string,
+    text: string,
+    sourceLabel: string | null,
+  ): Promise<void> {
+    const agentId = this.config.photon.agentUserId;
+    const human = await this.photon.createOrGetUser(phone);
+    const space = await this.photon.createOrGetSpace([agentId, human.id]);
+    this.store.update((s) => {
+      s.agentUserId = agentId;
+    });
+    await this.photon.sendTextMessage({
+      spaceId: space.id,
+      senderId: agentId,
+      text,
+      idempotencyKey: stableKey("alert", snapshot.id, phone),
+    });
+    if (sourceLabel && snapshot.evidence) {
+      await this.photon.sendTextMessage({
+        spaceId: space.id,
+        senderId: agentId,
+        text: sourceLabel,
+        idempotencyKey: stableKey("alert-label", snapshot.id, phone),
+      });
+      const bytes = await readEvidenceBytes(snapshot.evidence);
+      const uploaded = await this.photon.uploadAttachment({
+        contentType: snapshot.evidence.contentType,
+        data: bytes,
+        filename: snapshot.evidence.filename,
+        idempotencyKey: stableKey("alert-attach-upload", snapshot.id, phone),
+      });
+      await this.photon.sendAttachmentMessage({
+        spaceId: space.id,
+        senderId: agentId,
+        attachmentId: uploaded.id,
+        idempotencyKey: stableKey("alert-attach", snapshot.id, phone),
+      });
+    }
+    console.log(`[messaging] message accepted for ${maskPhone(phone)} (space ${space.id})`);
   }
 
   private async sendDirectText(phone: string, text: string, idempotencyKey: string): Promise<void> {
@@ -204,6 +268,7 @@ export class MessagingService {
     let pendingHandoff: { vet: string; alert: AlertSnapshot } | null = null;
     let closeVetChat = false;
     let askForVetConsent = false;
+    let sendImage = false;
 
     if (intent === "approve") {
       if (!alert || !vet || !hasVet) {
@@ -224,8 +289,16 @@ export class MessagingService {
       reply = vetApprovalPrompt(hasVet);
     } else {
       const boundary = safetyBoundaryReply(incoming, hasVet);
-      askForVetConsent = Boolean(boundary && alert && hasVet);
-      reply = boundary ?? (await this.buildReply(sender, incoming, false));
+      if (boundary) {
+        askForVetConsent = Boolean(alert && hasVet);
+        reply = boundary;
+      } else if (isImageRequest(incoming)) {
+        reply = sanitizeReply(imageRequestReply(alert));
+        sendImage = Boolean(alert?.evidence);
+      } else {
+        const fact = factQuestionKind(incoming);
+        reply = fact ? sanitizeReply(factAnswer(fact, alert)) : await this.buildReply(sender, incoming, false);
+      }
     }
 
     try {
@@ -247,6 +320,9 @@ export class MessagingService {
         }
       }
       await this.replyToInbound(message, sender, recipient.id, reply);
+      if (sendImage && alert?.evidence) {
+        await this.sendImageToInbound(message, sender, recipient.id, alert.evidence);
+      }
     } catch {
       return { handled: false, reason: "send-failed" };
     }
@@ -331,6 +407,49 @@ export class MessagingService {
           text: reply,
           at: this.clock().toISOString(),
           inReplyTo: message.id,
+        }),
+      );
+    }
+  }
+
+  // Resends the saved alert photo in the inbound message's existing space,
+  // never creating a new user or space. Runs only after a deterministic
+  // image-request reply; DeepSeek is not involved.
+  private async sendImageToInbound(
+    message: PhotonMessage,
+    recipientPhone: string,
+    agentUserId: string,
+    evidence: AlertEvidence,
+  ): Promise<void> {
+    if (this.config.mode === "live") {
+      if (!message.space?.id) throw new Error("Inbound message has no space");
+      const bytes = await readEvidenceBytes(evidence);
+      const uploaded = await this.photon.uploadAttachment({
+        contentType: evidence.contentType,
+        data: bytes,
+        filename: evidence.filename,
+        idempotencyKey: stableKey("reply-attach-upload", message.id),
+      });
+      await this.photon.sendAttachmentMessage({
+        spaceId: message.space.id,
+        senderId: agentUserId,
+        attachmentId: uploaded.id,
+        idempotencyKey: stableKey("reply-attach", message.id),
+      });
+    } else {
+      this.store.update((s) =>
+        s.mockOutbox.push({
+          id: `reply-img:${message.id}`,
+          kind: "reply",
+          to: recipientPhone,
+          text: evidence.sourceLabel,
+          at: this.clock().toISOString(),
+          inReplyTo: message.id,
+          evidence: {
+            contentType: evidence.contentType,
+            filename: evidence.filename,
+            sourceLabel: evidence.sourceLabel,
+          },
         }),
       );
     }

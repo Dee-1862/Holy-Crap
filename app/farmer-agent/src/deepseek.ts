@@ -35,6 +35,7 @@ export class DeepSeekClient {
           messages,
           stream: false,
           max_tokens: this.config.maxTokens,
+          temperature: 0,
           thinking: { type: "disabled" },
         }),
         signal: AbortSignal.timeout(this.timeoutMs),

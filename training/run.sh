@@ -34,5 +34,5 @@ else
     HOURS=$(python -c "import time; left=($BUDGET_MIN*60 - (time.time()-$JOB_START) - 300)/3600; print(round(max(left, 1/6), 3))")
     echo "training time cap: $HOURS h"
   fi
-  python train.py --data "$WORK/yolo/data.yaml" --pcr "$WORK/pcr" --hours "${HOURS:-2}" --formats "${FORMATS:-onnx}"
+  python train.py --data "$WORK/yolo/data.yaml" --pcr "$WORK/pcr" --hours "${HOURS:-2}" --formats "${FORMATS:-onnx}" --cache "${CACHE:-ram}" ${TRAIN_ARGS:-}
 fi

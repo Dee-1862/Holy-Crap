@@ -24,3 +24,4 @@ Newest first. One line per change: date, what, why.
 - 2026-10-17: Added system-architecture.md (what runs on the Pi, data pushed, backend, StopWatch button mapping with ack/false-alarm/escalate and no cull button, mobile PWA dashboard, failure handling, no on-device training).
 - 2026-10-17: Added watch-setup.md (M5Stack Core StopWatch SKU C152: what it is, dev setup, how it joins the broker, buttons, secrets).
 - 2026-10-17: Set up arduino-cli toolchain for the StopWatch, installed M5Unified/M5GFX/M5PM1/M5IOE1/PubSubClient, flashed app/watch/hello (COM18). Boots; screen/buttons await visual check.
+- 2026-10-17: Built web console, mobile page and watch console with filler data. Shared data and drawing code in app/shared. Flashed console sketch to the watch. Added ui-design.md.

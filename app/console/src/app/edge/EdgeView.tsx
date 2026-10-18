@@ -5,7 +5,7 @@ import styles from "./edge.module.css";
 
 interface Proc { pid: number | null; priority?: number; restarts: number; started: number; lastExit: number | null; downFor: number | null }
 interface Status {
-  online: boolean; url: string; procs?: Record<string, Proc>; frames?: number; fps?: number;
+  online: boolean; url: string; via?: "direct" | "bridge"; procs?: Record<string, Proc>; frames?: number; fps?: number;
   now?: number; nativeIpc?: boolean; started?: number;
   modelStats?: { checked: number } | null;
   crashes?: { proc: string; pid: number; t: number }[];
@@ -61,8 +61,17 @@ export default function EdgeView() {
     return (
       <div className={`glass ${styles.card}`}>
         <h2 className="headline">The Pi is not answering</h2>
-        <p className="sub">Tried {s.url}. Check the cable, then start the pipeline on the Pi.</p>
-        <pre className={styles.code}>python scripts/pi_win.py{"\n"}ssh qnxpi-win{"\n"}cd hc-edge && python3 supervisor.py --camera replay</pre>
+        {s.via === "bridge" ? (
+          <>
+            <p className="sub">This site is online and the Pi sits on a cable to a laptop, so the laptop passes its status along. Start the bridge on that laptop:</p>
+            <pre className={styles.code}>python scripts/edge_bridge.py --site {typeof window !== "undefined" ? window.location.origin : "https://your-site"}</pre>
+          </>
+        ) : (
+          <>
+            <p className="sub">Tried {s.url}. Check the cable, then start the pipeline on the Pi.</p>
+            <pre className={styles.code}>python scripts/pi_win.py{"\n"}ssh qnxpi-win{"\n"}cd hc-edge && python3 supervisor.py --camera replay</pre>
+          </>
+        )}
       </div>
     );
   }

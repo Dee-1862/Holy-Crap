@@ -1,8 +1,34 @@
 import fs from "node:fs";
 import path from "node:path";
 
+import { kvDrain, kvGet, kvPush, kvSet } from "./kv";
+
 // Where the QNX Pi edge uplink answers (target/qnx/edge/uplink.py). Default is the direct cable address.
 export const EDGE_URL = process.env.EDGE_URL ?? "http://169.254.237.143:8088";
+// A deployed console (Vercel) cannot reach a Pi on a cable to a laptop, so it does not try. The laptop runs
+// scripts/edge_bridge.py, which pushes the Pi's status here and carries Crash presses back to the Pi.
+export const DIRECT = !process.env.VERCEL || !!process.env.EDGE_URL;
+
+const STATUS_KEY = "hc:edge:status", CMD_KEY = "hc:edge:cmds", FRESH_MS = 8000;
+const mem = globalThis as unknown as { __bridge?: { status: unknown; at: number }; __cmds?: unknown[] };
+
+export async function bridgeStatus(): Promise<{ status: Record<string, unknown>; at: number } | null> {
+  const b = (await kvGet<{ status: Record<string, unknown>; at: number }>(STATUS_KEY)) ?? (mem.__bridge as { status: Record<string, unknown>; at: number } | undefined) ?? null;
+  return b && Date.now() - b.at < FRESH_MS ? b : null;
+}
+export async function bridgePush(status: unknown): Promise<unknown[]> {
+  const b = { status, at: Date.now() };
+  mem.__bridge = b;
+  await kvSet(STATUS_KEY, b, 60);
+  const queued = await kvDrain<unknown>(CMD_KEY);
+  const local = mem.__cmds ?? [];
+  mem.__cmds = [];
+  return [...queued, ...local];
+}
+export async function queueCrash(proc: string) {
+  mem.__cmds = [...(mem.__cmds ?? []), { proc, at: Date.now() }];
+  await kvPush(CMD_KEY, { proc, at: Date.now() });
+}
 
 // What the Pi's cloud section pushed. In memory, mirrored to .data/edge.json like the barn state.
 interface Ingested { device: string; lastSeen: number; results: unknown[]; actions: unknown[]; health: unknown | null; received: number }

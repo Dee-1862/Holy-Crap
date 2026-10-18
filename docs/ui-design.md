@@ -1,20 +1,22 @@
 # UI Design (web, mobile, watch)
 
-Prototype status 2026-10-17. All three UIs run on filler data from `app/shared/demo-data.js` (synthetic, not model output). Nothing talks to the backend yet.
+Prototype status 2026-10-17. All three UIs run on filler data (synthetic, not model output). Nothing talks to the backend yet.
 
 ## Look
-- Dark console style in the spirit of Palantir Foundry and Gotham. Dense, flat panels, thin lines, monospace for data.
-- Palette is black plus orange and cyan. Orange `#ff6a1a` is the accent and the warning color. Cyan `#2ab7c9` means normal or good. Red `#ff3b30` is used only for critical states.
-- Tokens are CSS variables at the top of each page. No external fonts or libraries, so the pages work offline.
+- Minimal glassmorphism, named sea glass. A soft aqua, sky and peach backdrop that drifts slowly, frosted translucent panels, deep teal ink.
+- Palette is glass over pastel with deep teal  as ink. Teal  means good, amber  means caution and burnt coral  means critical. There is no pure red and no black background on web and mobile.
+- Fonts are Instrument Serif for headlines and grade numerals and Manrope for text, loaded with next/font.
+- Memorable element is the circular grade gauge with a serif numeral.
+- Motion is limited to the slow background drift and the gauge fill. Both respect reduced motion.
 
 ## Three clients, one data model
-| Client | Folder | Role |
+| Client | Where | Role |
 |---|---|---|
-| Web console | `app/web/index.html` | Desk view with groups rail, specimen feed, specimen card and explainability panel |
-| Mobile | `app/mobile/index.html` | Phone first. Three tabs for Overview, Alerts and Specimen. Large touch targets |
-| StopWatch | `app/watch/console/console.ino` | Glance view. Home, Groups and Alert pages. Buttons act on alerts |
+| Web console |  route  | Health board, summary, specimen feed and specimen card with next step, evidence and scores |
+| Mobile |  route  | Phone first. Three tabs for Overview, Alerts and Specimen. Large touch targets |
+| StopWatch |  | Glance view with a health board and group screens driven by the buttons |
 
-Shared code lives in `app/shared/` (`demo-data.js`, `specimen.js`). The watch has its own copy of the data inside the sketch. Keep them in step until the backend feeds all three.
+Web and mobile are one Next.js 16 + React 19 + TypeScript project in , ready for Vercel (see its README). Filler data is in . The watch keeps its own copy of the data inside the sketch. Keep them in step until the backend feeds all three.
 
 ## Specimen card and grade
 - The card shows a grade from 1 to 10, the suspected type with confidence, five sub-scores (color, consistency, urate cap, blood or mucus, foam) and a screening disclaimer.

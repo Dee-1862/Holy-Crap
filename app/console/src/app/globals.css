@@ -1,0 +1,105 @@
+/* Sea-glass design system. Minimal glassmorphism: soft aqua, sky and peach backdrop,
+   frosted panels, deep teal ink. Critical states use burnt coral, never pure red. */
+:root {
+  --ink: #0d2b33;
+  --ink-2: #3b5a62;
+  --ink-3: #5f7b82;
+  --glass: rgba(255, 255, 255, 0.42);
+  --glass-strong: rgba(255, 255, 255, 0.66);
+  --edge: rgba(255, 255, 255, 0.75);
+  --hair: rgba(13, 43, 51, 0.09);
+  --good: #0b7f86;
+  --warn: #a96300;
+  --bad: #c2410c;
+  --shadow: 0 12px 40px rgba(13, 43, 51, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --radius: 22px;
+  --display: var(--font-display), "Iowan Old Style", Georgia, serif;
+  --body: var(--font-body), "Avenir Next", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.45; }
+body { min-height: 100vh; background: linear-gradient(135deg, #d6f0ec 0%, #cfe0ff 52%, #fde6d2 100%) fixed; overflow-x: hidden; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--good); outline-offset: 3px; border-radius: 8px; }
+
+/* slow drifting colour behind the glass, the only ambient motion */
+.bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.bg i { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.75; animation: drift 38s ease-in-out infinite alternate; }
+.bg i:nth-child(1) { width: 46vmax; height: 46vmax; left: -10vmax; top: -12vmax; background: #8fd8cf; }
+.bg i:nth-child(2) { width: 40vmax; height: 40vmax; right: -12vmax; top: 10vmax; background: #9dbdff; animation-delay: -12s; }
+.bg i:nth-child(3) { width: 34vmax; height: 34vmax; left: 28vw; bottom: -16vmax; background: #ffcfa6; animation-delay: -22s; }
+@keyframes drift { to { transform: translate3d(5vmax, 3vmax, 0) scale(1.08); } }
+@media (prefers-reduced-motion: reduce) { .bg i { animation: none; } .gauge .val { transition: none; } }
+
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  backdrop-filter: blur(22px) saturate(150%);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass { background: rgba(255, 255, 255, 0.88); }
+}
+
+.eyebrow { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+.num { font-variant-numeric: tabular-nums; }
+.tone-good { color: var(--good); } .tone-warn { color: var(--warn); } .tone-bad { color: var(--bad); }
+
+.pill { font-size: 12px; padding: 5px 12px; border-radius: 999px; background: var(--glass); border: 1px solid var(--edge); color: var(--ink-2); font-weight: 600; }
+.pill i { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--good); margin-right: 7px; }
+
+.meter { height: 6px; border-radius: 6px; background: rgba(13, 43, 51, 0.08); overflow: hidden; }
+.meter i { display: block; height: 100%; border-radius: 6px; background: var(--good); }
+.meter i.w { background: var(--warn); } .meter i.b { background: var(--bad); }
+
+.btn { border: 1px solid var(--edge); background: var(--glass-strong); border-radius: 14px; padding: 12px 10px; min-height: 48px; font-weight: 600; font-size: 13px; position: relative; overflow: hidden; transition: background 0.15s, transform 0.15s; }
+.btn:hover { background: rgba(255, 255, 255, 0.85); }
+.btn:active { transform: scale(0.98); }
+.btn.go { background: var(--ink); color: #fff; border-color: var(--ink); }
+.btn.go:hover { background: #17414c; }
+.btn.hold { color: var(--bad); }
+.btn .fill { position: absolute; left: 0; bottom: 0; height: 3px; background: var(--bad); }
+
+/* grade gauge */
+.gauge { position: relative; width: 112px; height: 112px; flex: none; }
+.gauge svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.gauge .trk { stroke: rgba(13, 43, 51, 0.1); }
+.gauge .val { transition: stroke-dashoffset 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.gauge .n { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
+.gauge .n b { font-family: var(--display); font-weight: 400; font-size: 46px; line-height: 1; display: block; }
+.gauge .n span { font-size: 10px; letter-spacing: 0.16em; color: var(--ink-3); font-weight: 600; margin-top: -14px; display: block; }
+
+/* specimen card */
+.card .head { display: flex; justify-content: space-between; align-items: baseline; }
+.verdict { display: flex; gap: 18px; align-items: center; margin: 16px 0 12px; }
+.verdict .t { font-family: var(--display); font-size: 30px; line-height: 1.1; }
+.verdict .s { font-size: 12px; color: var(--ink-3); margin-top: 6px; }
+.next { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 16px; background: var(--glass-strong); border: 1px solid var(--edge); font-size: 13.5px; font-weight: 600; }
+.next::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 6px; border-radius: 50%; background: var(--good); }
+.next.warn::before { background: var(--warn); } .next.bad::before { background: var(--bad); }
+.next small { display: block; font-weight: 500; color: var(--ink-3); margin-top: 2px; font-size: 12px; }
+.photo canvas { width: 100%; height: auto; display: block; border-radius: 16px; margin-top: 12px; border: 1px solid var(--edge); }
+.tools { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 12px; color: var(--ink-3); }
+.switch { display: inline-flex; gap: 8px; align-items: center; cursor: pointer; font-weight: 600; color: var(--ink-2); }
+.switch input { accent-color: var(--good); width: 18px; height: 18px; }
+.sec { margin: 18px 0 6px; display: block; }
+.saw { margin: 6px 0 0; padding: 0; list-style: none; }
+.saw li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; padding: 8px 0; border-top: 1px solid var(--hair); font-size: 13.5px; color: var(--ink-2); }
+.saw li:first-child { border-top: 0; }
+.saw li b { font-family: var(--display); font-weight: 400; font-size: 18px; color: var(--ink-3); line-height: 1.2; }
+.subs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; margin: 8px 0 14px; font-size: 12px; font-weight: 600; color: var(--ink-2); }
+.subs .meter { margin-top: 5px; } .subs .v { float: right; }
+.card details { border-top: 1px solid var(--hair); padding: 12px 0; }
+.card summary { cursor: pointer; font-weight: 700; list-style: none; display: flex; justify-content: space-between; min-height: 24px; }
+.card summary::after { content: "+"; color: var(--ink-3); }
+.card details[open] summary::after { content: "\2212"; }
+.top2 { font-size: 12.5px; color: var(--ink-2); margin: 6px 0; }
+.prob { display: grid; grid-template-columns: 120px 1fr 40px; gap: 10px; align-items: center; margin: 9px 0; font-size: 13px; }
+.prob b { text-align: right; font-weight: 600; }
+.refs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.refs canvas { width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--edge); }
+.note { font-size: 12px; color: var(--ink-3); line-height: 1.5; margin-top: 8px; }
+.actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 14px; }
+.status { min-height: 22px; margin-top: 10px; font-size: 12.5px; font-weight: 600; color: var(--good); }

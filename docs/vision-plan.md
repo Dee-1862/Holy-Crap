@@ -110,6 +110,15 @@ Run with:
 - Download the data inside the job (about 8.5 GB from Zenodo; fast from a datacenter) instead of uploading it from a laptop. Alternatively, put it on a Veri volume once and reuse it.
 - Run a smoke test first: 1 epoch on a few hundred images, to confirm credits, export and output capture all work.
 
+**Veri practicalities (from Veri's LA Hacks agent guide, 2026-10-17)**
+- The guide only covers LLM methods (SFT/DPO/GRPO, deployments). Our vision job uses `veri run-script` (custom script, in docs.veri.studio/training/custom-script). We don't need Veri deployments, which serve LLMs via vLLM. We download the exported model with `veri jobs download <id> --output-dir ./checkpoints`.
+- Setup: `uv tool install --upgrade 'veri-sdk[mcp]'`, then `veri login`, then `veri whoami` (needs sdk >= 0.2.44). Optional MCP for Claude Code: `claude mcp add veri -- veri mcp serve`.
+- Credits: DM @daniung on Discord and redeem at veri.studio/settings/billing **before** submitting. Check with `veri billing balance`.
+- GPU: **1x L4-24GB on AWS, $1.05/GPU-hour, plentiful.** A full YOLO11n run is a few dollars at most. Don't request AWS A100/H100 (8-GPU boxes only).
+- Limits: 4 training jobs in flight per account. On `CAPACITY_UNAVAILABLE`/`QUOTA_EXCEEDED`, resubmit with the alternative shape listed in the error message; never resubmit unchanged after `config_error`/`dependency_error`.
+- Debugging: `veri jobs get <id> --format json` (read `error.code`), then `veri jobs logs <id> -f`.
+- Ideas for the Veri pitch: the training run can be published with "Sharing runs" so judges see live loss/mAP curves. Log mAP and loss with `veri_sdk.log_metrics`.
+
 ## On the Pi
 1. Run the TFLite and ONNX Runtime checks above (Lance has SSH access). Benchmark a **stock** yolo11n `.tflite`/`.onnx` immediately, before our model is trained, to learn the FPS budget.
 2. Camera: check whether the Sensor Framework camera API exists on this 8.0.0 image, and get one frame with `camera_example1_callback`.

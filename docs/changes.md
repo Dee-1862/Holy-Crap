@@ -2,6 +2,9 @@
 
 Newest first. One line per change: date, what, why.
 
+- 2026-10-17: Added docs/manure-grading.md: second product output, manure grades A/B/C/Hold per group per batch from camera-visible properties (wetness, contamination, group health); nutrients need NIR, not RGB. Manure research added to research.md.
+- 2026-10-17: Researched dropping quality grading (Nakrosis 2023 appearance classes; no public numeric score; no image-based fertilizer value work); added to research.md.
+- 2026-10-17: Added Veri practicalities (setup, credits, L4 pricing, limits, debugging) to vision-plan.md from Veri's LA Hacks agent guide.
 - 2026-10-17: Verified interactive access to the live QNX Screen desktop through authenticated VNC over a loopback-only SSH tunnel, with HDMI capture retained as a recovery fallback. Audited the Pi's native compiler/package stack and documented the missing aports, signing, and local-repository setup. Split QNX development into the supported Ubuntu/SDP cross-build lane for AICA and the Pi-native `abuild` lane for intentional APK packages.
 - 2026-10-17: Added producer adoption and field-deployment evidence, a buyer map, operational validation metrics, Big Broiler defecation-action labels, the licensed Nigerian appearance dataset, the 43-day Zhou manure-belt collection, and the 22-week Essien overhead collection. Hardened Wi-Fi, raw-video, camera-geometry, enclosure, power, and StopWatch assumptions into measured gates.
 - 2026-10-17: Established the research knowledge base under docs/ (BIBLE.md, research/PAPER.md, subject nodes, landscape, findings, bibliography, and open questions). Reframed the product as explainable early warning/triage rather than camera diagnosis. Selected Raspberry Pi Camera Module 3 and QNX AI Camera App, made the desktop the primary UI over a reliable-Wi-Fi working assumption, and made the M5Stack StopWatch an optional wall client. Rewrote game-plan.md to match.

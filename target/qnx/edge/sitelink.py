@@ -28,7 +28,7 @@ KEEP = ("procs", "fps", "frames", "now", "started", "nativeIpc", "modelStats", "
 FPS = float(os.environ.get("HC_FRAME_FPS", "4"))     # camera view pictures a second while someone watches
 BUNDLE = 1.0                                        # seconds between uploads
 IDLE_EVERY = 5.0                                    # seconds between pictures while nobody watches
-GREY = os.environ.get("HC_FRAME_GREY", "1") != "0"    # grey live view: no colour conversion, smaller JPEGs (models keep colour)
+GREY = os.environ.get("HC_FRAME_GREY", "0") == "1"    # HC_FRAME_GREY=1 for a grey live view: no colour conversion, smaller JPEGs (models keep colour)
 
 
 def request(url: str, body: dict | None = None, headers: dict | None = None, timeout: float = 5) -> dict:

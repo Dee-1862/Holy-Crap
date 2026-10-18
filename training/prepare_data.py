@@ -10,11 +10,13 @@ Class ids come from the folder name; the class id inside each label file is igno
   python prepare_data.py --out ./work --mode full    # all images (~8.4 GB farm + ~4.4 GB PCR)
 """
 import argparse
+import http.client
 import io
 import json
 import os
 import random
 import shutil
+import time
 import urllib.request
 import zipfile
 from collections import Counter
@@ -59,8 +61,15 @@ class HttpFile(io.RawIOBase):
             return 0
         end = min(self.pos + len(b), self.size) - 1
         req = urllib.request.Request(self.url, headers={"Range": f"bytes={self.pos}-{end}"})
-        with urllib.request.urlopen(req) as r:
-            data = r.read()
+        for attempt in range(5):
+            try:
+                with urllib.request.urlopen(req, timeout=60) as r:
+                    data = r.read()
+                break
+            except (http.client.IncompleteRead, OSError):
+                if attempt == 4:
+                    raise
+                time.sleep(2 ** attempt)
         b[: len(data)] = data
         self.pos += len(data)
         return len(data)

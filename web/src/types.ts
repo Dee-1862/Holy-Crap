@@ -140,17 +140,106 @@ export interface MediaAssetInfo {
 }
 
 export type ClipAssessmentStatus = "queued" | "running" | "completed" | "failed" | string;
-export type ClipModuleMode = "mock" | "real";
+export type ClipAssessmentJobStatus = "queued" | "running" | "completed" | "failed";
+export type ClipModuleMode = "mock" | "partial" | "real";
+export type DemoProfile = "healthy" | "mixed" | "concerning";
+
+export type AssessmentExecutor = "local" | "qnx";
+
+export interface ClipAssessmentTarget {
+  executor: AssessmentExecutor;
+  hostname: string | null;
+  system: string | null;
+  release: string | null;
+  machine: string | null;
+  runtime: string | null;
+  verified: boolean;
+  detail: string | null;
+}
+
+export interface ClipTelemetrySample {
+  captured_at: string;
+  source: AssessmentExecutor;
+  cpu_percent: number | null;
+  ram_used_bytes: number | null;
+  ram_total_bytes: number | null;
+  process_cpu_percent: number | null;
+  process_ram_bytes: number | null;
+  detail: string | null;
+}
+
+export interface ClipAssessmentJob {
+  schema_version: 1;
+  id: string;
+  status: ClipAssessmentJobStatus;
+  progress_percent: number;
+  stage: string;
+  message: string;
+  assessment_id: string | null;
+  created_at: string;
+  updated_at: string;
+  executor: AssessmentExecutor;
+  requested_executor: AssessmentExecutor;
+  effective_executor: AssessmentExecutor | null;
+  target?: ClipAssessmentTarget | null;
+  telemetry?: ClipTelemetrySample | null;
+  telemetry_history?: ClipTelemetrySample[];
+}
+
+export interface NormalizedBBox {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
 
 export interface ClipAssessmentVideo {
   name: string;
   sha256: string;
   size_bytes: number;
   duration_s: number | null;
+  segment_start_s?: number;
+  segment_end_s?: number | null;
   width: number | null;
   height: number | null;
   fps: number | null;
   source: string;
+  media_type?: string;
+  bytes_available?: boolean;
+  content_url?: string | null;
+  demo_asset_id?: string | null;
+  catalog_clip_id?: string | null;
+  metadata_source?: string;
+  metadata_warnings?: string[];
+}
+
+export interface ClipModuleArtifact {
+  id?: string;
+  model_id?: string;
+  artifact_id?: string;
+  version?: string;
+  sha256?: string | null;
+  format?: string;
+  runtime?: string;
+  source?: string;
+  status?: string;
+  [key: string]: unknown;
+}
+
+export interface VideoAnnotation {
+  id: string;
+  kind: "chicken" | "dropping";
+  timestamp_s: number;
+  bbox: NormalizedBBox;
+  detection_confidence: number;
+  label?: string | null;
+  label_confidence?: number | null;
+  scores?: Record<string, number> | null;
+  candidate_id?: string | null;
+  sample_index?: number | null;
+  observation_state?: "observed" | "carried_forward";
+  active_from_s?: number | null;
+  active_until_s?: number | null;
 }
 
 export interface ClipAssessmentModule {
@@ -159,19 +248,183 @@ export interface ClipAssessmentModule {
   mode: ClipModuleMode;
   version: string;
   status: string;
+  adapter?: string;
+  model_id?: string | null;
+  artifact_id?: string | null;
+  artifact?: ClipModuleArtifact | string | null;
+  runtime?: string | null;
+  details?: Record<string, unknown> | null;
+  notice?: string | null;
+  reason?: string | null;
+  fallback_reason?: string | null;
+  inference_performed?: boolean;
+}
+
+export interface ClipActivityEvidence {
+  sampled_frames?: number | null;
+  bird_observations?: number | null;
+  behavior_observations?: number | null;
+  detected_birds?: number | null;
+  model_coverage?: number | null;
+  behavior_coverage?: number | null;
+  behavior_distribution?: Record<string, number> | null;
+  [key: string]: unknown;
+}
+
+export interface ClipActivitySummary {
+  score: number;
+  category: string;
+  motion_coverage: number;
+  zone_scores: Record<string, number>;
+  sampled_frames?: number | null;
+  bird_observations?: number | null;
+  behavior_observations?: number | null;
+  detected_birds?: number | null;
+  model_coverage?: number | null;
+  behavior_coverage?: number | null;
+  behavior_distribution?: Record<string, number> | null;
+  evidence?: ClipActivityEvidence | null;
+}
+
+export interface FecesClassifierModelReference {
+  id?: string;
+  model_id?: string;
+  artifact_id?: string;
+  version?: string;
+  sha256?: string | null;
+  format?: string;
+  input_size?: number[];
+  runtime?: string;
 }
 
 export interface FecesCandidateClassification {
-  label: string;
+  label: string | null;
   confidence: number;
-  mode: ClipModuleMode;
+  mode: ClipModuleMode | string;
+  product_label?: string | null;
+  scores?: Record<string, number>;
+  input_sha256?: string | null;
+  model?: FecesClassifierModelReference | null;
+  model_id?: string | null;
+  artifact_id?: string | null;
+  runtime?: string | null;
+  inference_performed?: boolean;
+  model_detection_bbox?: NormalizedBBox | null;
+  fallback_reason?: "no_observed_crop" | "specimen_unavailable" | "runtime_unavailable" | "image_decode_failed" | "model_inference_failed" | null;
+}
+
+export interface FecesDetectorReference {
+  id?: string;
+  model_id?: string;
+  artifact_id?: string;
+  version?: string;
+  sha256?: string | null;
+  runtime?: string;
+  source?: string;
+  [key: string]: unknown;
+}
+
+export interface FecesProvenance {
+  location_source?: string;
+  appearance_input?: string;
+  classification_source?: string;
+}
+
+export interface FecesCropReference {
+  source_video_sha256?: string;
+  timestamp_s?: number;
+  bbox?: NormalizedBBox;
+  target_width?: number;
+  target_height?: number;
+  materialized?: boolean;
+  content_url?: string | null;
+  sha256?: string | null;
+  width?: number | null;
+  height?: number | null;
+  source?: string;
+}
+
+export type DemoSpecimenClass = "cocci" | "healthy" | "ncd" | "salmo" | "unknown_abnormal";
+
+export interface ProxySpecimenReference {
+  id?: string;
+  asset_id?: string;
+  sample_id?: string;
+  sha256?: string;
+  content_url?: string | null;
+  expected_label?: string;
+  expected_demo_class?: DemoSpecimenClass;
+  source?: string;
+  source_dataset?: string;
+  source_url?: string;
+  license?: string;
+  attribution?: string;
+  mapping_method?: string;
+  substitution_reason?: string;
+  bytes_available?: boolean;
 }
 
 export interface FecesCandidate {
   id: string;
   timestamp_s: number;
-  bbox: { x: number; y: number; width: number; height: number };
+  bbox: NormalizedBBox;
   classification: FecesCandidateClassification;
+  detection_confidence?: number | null;
+  crop?: FecesCropReference | null;
+  provenance?: FecesProvenance | null;
+  proxy_specimen?: ProxySpecimenReference | null;
+  proxy?: ProxySpecimenReference | null;
+  proxy_crop?: ProxySpecimenReference | null;
+  detector?: FecesDetectorReference | null;
+  detection_source?: string | null;
+  detector_model_id?: string | null;
+  detector_artifact_id?: string | null;
+  lifecycle?: {
+    first_observed_s: number;
+    confirmed_s: number;
+    last_observed_s: number;
+    active_until_s: number;
+    canonical_bbox: NormalizedBBox;
+    observation_count: number;
+    persistence_basis: "stationary_recurrence_across_sampled_frames";
+  } | null;
+}
+
+export interface ProxySpecimenDatasetCount {
+  dataset: string;
+  count: number;
+}
+
+export interface ProxySpecimenPoolSummary {
+  total: number;
+  selectable_total?: number;
+  bytes_present: number;
+  verified_cached: number;
+  by_expected_class: Partial<Record<DemoSpecimenClass, number>>;
+  selectable_by_expected_class?: Partial<Record<DemoSpecimenClass, number>>;
+  by_dataset: ProxySpecimenDatasetCount[];
+  catalogs_supported: boolean;
+}
+
+export interface ClipPenAssessment {
+  state?: string;
+  score?: number | null;
+  policy_id?: string;
+  reasons?: string[];
+  basis?: string[] | string;
+  signals?: unknown;
+  notes?: string[];
+  activity_contribution?: number | null;
+  feces_contribution?: number | null;
+  evidence_mode?: string;
+  non_diagnostic?: boolean;
+}
+
+export interface ClipOverallSummary {
+  review_state: string;
+  notes: string[];
+  basis?: string[] | string;
+  signals?: unknown;
 }
 
 export interface ClipAssessment {
@@ -181,12 +434,7 @@ export interface ClipAssessment {
   video: ClipAssessmentVideo;
   modules: ClipAssessmentModule[];
   summary: {
-    activity: {
-      score: number;
-      category: string;
-      motion_coverage: number;
-      zone_scores: Record<string, number>;
-    };
+    activity: ClipActivitySummary;
     appearance: {
       score: number;
       category: string;
@@ -197,12 +445,68 @@ export interface ClipAssessment {
       class_distribution: Record<string, number>;
       candidates: FecesCandidate[];
     };
-    overall: {
-      review_state: string;
-      notes: string[];
-    };
+    overall: ClipOverallSummary;
+    pen_assessment?: ClipPenAssessment | null;
   };
   non_diagnostic_notice: string;
+  profile?: string;
+  video_annotations?: VideoAnnotation[] | null;
+}
+
+export type QnxEvidenceStatus =
+  | "verified"
+  | "os_supported"
+  | "os_supported_only"
+  | "planned"
+  | "unsupported_guard"
+  | string;
+
+export interface QnxEvidenceEntry {
+  id?: string;
+  status?: QnxEvidenceStatus;
+  summary?: string;
+  title?: string;
+  label?: string;
+  category?: string;
+  measured?: boolean;
+  metrics?: Record<string, unknown> | unknown[];
+  values?: Record<string, unknown> | unknown[];
+  detail?: Record<string, unknown> | unknown[] | null;
+  details?: Record<string, unknown> | unknown[] | null;
+  [key: string]: unknown;
+}
+
+export interface QnxEvidenceTarget {
+  id?: string;
+  system?: string;
+  release?: string;
+  machine?: string;
+  hardware?: string;
+  python_version?: string;
+  [key: string]: unknown;
+}
+
+export interface QnxEvidenceDocument {
+  schema_version?: number;
+  evidence_id?: string;
+  verified_at?: string;
+  thesis?: string;
+  platform?: Record<string, unknown> | null;
+  claims?: QnxEvidenceEntry[];
+}
+
+export interface QnxEvidencePayload {
+  schema_version?: number;
+  evidence_id?: string;
+  verified_at?: string;
+  thesis?: string;
+  target?: QnxEvidenceTarget | Record<string, unknown> | string | null;
+  platform?: Record<string, unknown> | null;
+  claims?: QnxEvidenceEntry[];
+  cards?: QnxEvidenceEntry[];
+  entries?: QnxEvidenceEntry[];
+  evidence?: QnxEvidenceDocument | null;
+  [key: string]: unknown;
 }
 
 export type DatasetClipStatus = "ready" | "cataloged" | "reference_only" | "rejected";
@@ -235,6 +539,7 @@ export interface DatasetClip {
   assessable: boolean;
   bytes_available: boolean;
   content_url: string | null;
+  installed_size_bytes?: number | null;
 }
 
 export type EvaluationKind = "prediction" | "target_probe" | string;

@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import threading
+import time
 from pathlib import Path
 
 import pytest
@@ -9,6 +11,7 @@ from fastapi.testclient import TestClient
 
 from holy_crap_simlab.api import create_app
 from holy_crap_simlab.qnx_runner import (
+    QnxClipAssessmentOutcome,
     QnxProbeReport,
     QnxRunnerConfig,
     QnxRunnerError,
@@ -125,6 +128,267 @@ def test_health_capabilities_and_seed_data(client: TestClient) -> None:
         "pio-reference-100",
     }
     assert client.get("/api/v1/models").json()[0]["id"] == "mock-baseline"
+
+
+def test_clip_assessment_job_reports_real_monotonic_progress(
+    client: TestClient, monkeypatch
+) -> None:
+    service = client.app.state.service
+    clip = next(item for item in service.list_dataset_clips() if item.assessable)
+    template = service.clip_assessments.assess_catalog_mock(
+        clip,
+        service.dataset_clips.synthetic_sha256(clip),
+        segment_start_s=0,
+        segment_end_s=min(2, clip.duration_s or 2),
+    )
+    entered = threading.Event()
+    release = threading.Event()
+
+    def controlled_assessment(
+        _clip_id,
+        _profile="mixed",
+        _segment_start_s=None,
+        _segment_end_s=None,
+        progress=None,
+    ):
+        progress(25, "detecting_chickens", "Located chickens in 1 of 4 frames")
+        entered.set()
+        assert release.wait(2)
+        progress(80, "detecting_feces", "Checked feces candidates in 4 of 4 frames")
+        return template
+
+    monkeypatch.setattr(service, "assess_catalog_clip", controlled_assessment)
+    response = client.post(
+        f"/api/v1/clip-assessment-jobs/catalog/{clip.id}",
+        params={"segment_start_s": 0, "segment_end_s": min(2, clip.duration_s or 2)},
+    )
+    assert response.status_code == 202
+    created = response.json()
+    assert created["progress_percent"] == 0
+    assert entered.wait(2)
+    running = client.get(f"/api/v1/clip-assessment-jobs/{created['id']}").json()
+    assert running["status"] == "running"
+    assert running["progress_percent"] == 25
+    assert running["stage"] == "detecting_chickens"
+    assert running["executor"] == "local"
+    assert running["requested_executor"] == "local"
+    assert running["effective_executor"] == "local"
+    assert running["target"]["executor"] == "local"
+    assert running["target"]["verified"] is True
+    assert running["telemetry"]["source"] == "local"
+    assert running["telemetry"]["process_cpu_percent"] is not None
+    assert running["telemetry"]["ram_total_bytes"] is not None
+    assert running["telemetry_history"]
+
+    release.set()
+    history = [created["progress_percent"], running["progress_percent"]]
+    for _ in range(100):
+        current = client.get(f"/api/v1/clip-assessment-jobs/{created['id']}").json()
+        history.append(current["progress_percent"])
+        if current["status"] == "completed":
+            break
+        time.sleep(0.01)
+    assert current["status"] == "completed"
+    assert current["progress_percent"] == 100
+    assert current["assessment_id"] == template.id
+    assert history == sorted(history)
+    assert all(0 <= value <= 100 for value in history)
+    assert client.get(f"/api/v1/clip-assessments/{template.id}").status_code == 200
+
+
+def test_clip_assessment_job_exposes_sanitized_failure(
+    client: TestClient, monkeypatch
+) -> None:
+    service = client.app.state.service
+    clip = next(item for item in service.list_dataset_clips() if item.assessable)
+
+    def failing_assessment(
+        _clip_id,
+        _profile="mixed",
+        _segment_start_s=None,
+        _segment_end_s=None,
+        progress=None,
+    ):
+        progress(40, "decoding", "Decoded input")
+        raise RuntimeError("model runtime unavailable")
+
+    monkeypatch.setattr(service, "assess_catalog_clip", failing_assessment)
+    response = client.post(f"/api/v1/clip-assessment-jobs/catalog/{clip.id}")
+    assert response.status_code == 202
+    job_id = response.json()["id"]
+    for _ in range(100):
+        failed = client.get(f"/api/v1/clip-assessment-jobs/{job_id}").json()
+        if failed["status"] == "failed":
+            break
+        time.sleep(0.01)
+    assert failed["status"] == "failed"
+    assert failed["stage"] == "failed"
+    assert failed["message"] == "model runtime unavailable"
+    assert "Traceback" not in failed["message"]
+    assert client.get("/api/v1/clip-assessment-jobs/not-real").status_code == 404
+
+
+class FakeClipQnxRunner:
+    def __init__(self, outcome: QnxClipAssessmentOutcome | None = None, error=None) -> None:
+        self.config = QnxRunnerConfig(mode="worker", ssh_alias="qnxpi")
+        self.outcome = outcome
+        self.error = error
+        self.calls: list[dict] = []
+
+    def assess_clip_on_target(self, **kwargs) -> QnxClipAssessmentOutcome:
+        self.calls.append(kwargs)
+        if self.error:
+            raise self.error
+        assert self.outcome is not None
+        return self.outcome
+
+
+def test_qnx_clip_job_never_falls_back_to_local_when_target_unreachable(
+    tmp_path: Path, scenario_directory: Path, monkeypatch
+) -> None:
+    fake = FakeClipQnxRunner(error=QnxRunnerError("SSH to qnxpi failed: no route"))
+    with TestClient(
+        create_app(tmp_path / "qnx-jobs", scenario_directory, qnx_runner=fake)
+    ) as qnx_api:
+        service = qnx_api.app.state.service
+
+        def forbidden_local(*_args, **_kwargs):
+            raise AssertionError("local inference must not run for executor=qnx")
+
+        monkeypatch.setattr(
+            service.clip_assessments, "assess_stored_upload", forbidden_local
+        )
+        response = qnx_api.post(
+            "/api/v1/clip-assessment-jobs/upload",
+            data={"executor": "qnx", "profile": "mixed"},
+            files={"file": ("clip.mp4", fake_mp4(), "video/mp4")},
+        )
+        assert response.status_code == 202
+        created = response.json()
+        assert created["requested_executor"] == "qnx"
+        assert created["effective_executor"] is None
+        assert created["target"]["verified"] is False
+        for _ in range(100):
+            job = qnx_api.get(
+                "/api/v1/clip-assessment-jobs/%s" % created["id"]
+            ).json()
+            if job["status"] == "failed":
+                break
+            time.sleep(0.01)
+        assert job["status"] == "failed"
+        assert job["requested_executor"] == "qnx"
+        assert job["effective_executor"] is None
+        assert job["target"]["verified"] is False
+        assert "no route" in job["message"]
+        assert len(fake.calls) == 1
+
+
+def test_qnx_clip_job_surfaces_verified_blocked_target_receipt(
+    tmp_path: Path, scenario_directory: Path
+) -> None:
+    sample = {
+        "captured_at": "2026-10-18T12:00:00+00:00",
+        "source": "qnx",
+        "cpu_percent": None,
+        "ram_used_bytes": 1024,
+        "ram_total_bytes": 8192,
+        "process_cpu_percent": None,
+        "process_ram_bytes": None,
+        "detail": "child CPU unavailable",
+    }
+    fake = FakeClipQnxRunner(
+        outcome=QnxClipAssessmentOutcome(
+            status="blocked",
+            message="installed QNX worker is missing",
+            target={
+                "executor": "qnx",
+                "hostname": "qnx-pi",
+                "system": "QNX",
+                "release": "8.0.0",
+                "machine": "aarch64le",
+                "runtime": "Python 3.14.0",
+                "verified": True,
+            },
+            telemetry_history=[sample],
+            assessment=None,
+            helper_output="",
+            remote_run_dir="/data/home/qnxuser/simlab-runs/test",
+        )
+    )
+    with TestClient(
+        create_app(tmp_path / "qnx-jobs", scenario_directory, qnx_runner=fake)
+    ) as qnx_api:
+        response = qnx_api.post(
+            "/api/v1/clip-assessment-jobs/upload",
+            data={"executor": "qnx"},
+            files={"file": ("clip.mp4", fake_mp4(), "video/mp4")},
+        )
+        job_id = response.json()["id"]
+        for _ in range(100):
+            job = qnx_api.get("/api/v1/clip-assessment-jobs/%s" % job_id).json()
+            if job["status"] == "failed":
+                break
+            time.sleep(0.01)
+        assert job["stage"] == "blocked"
+        assert job["requested_executor"] == "qnx"
+        assert job["effective_executor"] == "qnx"
+        assert job["target"]["verified"] is True
+        assert job["telemetry"]["ram_used_bytes"] == 1024
+        assert job["telemetry"]["process_cpu_percent"] is None
+
+
+def test_qnx_clip_job_does_not_set_effective_executor_before_identity_validation(
+    tmp_path: Path, scenario_directory: Path
+) -> None:
+    fake = FakeClipQnxRunner(
+        outcome=QnxClipAssessmentOutcome(
+            status="blocked",
+            message="unverified target",
+            target={
+                "executor": "qnx",
+                "hostname": "unknown",
+                "system": "QNX",
+                "verified": False,
+            },
+            telemetry_history=[],
+            assessment=None,
+            helper_output="",
+            remote_run_dir="/data/home/qnxuser/simlab-runs/test",
+        )
+    )
+    with TestClient(
+        create_app(tmp_path / "qnx-unverified", scenario_directory, qnx_runner=fake)
+    ) as qnx_api:
+        response = qnx_api.post(
+            "/api/v1/clip-assessment-jobs/upload",
+            data={"executor": "qnx"},
+            files={"file": ("clip.mp4", fake_mp4(), "video/mp4")},
+        )
+        job_id = response.json()["id"]
+        for _ in range(100):
+            job = qnx_api.get("/api/v1/clip-assessment-jobs/%s" % job_id).json()
+            if job["status"] == "failed":
+                break
+            time.sleep(0.01)
+
+        assert job["status"] == "failed"
+        assert job["requested_executor"] == "qnx"
+        assert job["effective_executor"] is None
+        assert job["target"]["verified"] is False
+        assert "did not prove" in job["message"]
+
+
+def test_synchronous_clip_api_accepts_executor_but_requires_jobs_for_qnx(
+    client: TestClient,
+) -> None:
+    response = client.post(
+        "/api/v1/clip-assessments/upload",
+        data={"executor": "qnx"},
+        files={"file": ("clip.mp4", fake_mp4(), "video/mp4")},
+    )
+
+    assert response.status_code == 422
+    assert "asynchronous clip-assessment job endpoint" in response.json()["error"]["message"]
 
 
 def test_upload_and_execute_mock_run(client: TestClient) -> None:
@@ -516,3 +780,377 @@ def test_media_content_served_only_after_hash_verification(
         assert listing[0]["installed"] is True
         assert listing[0]["verified"] is True
         assert listing[0]["size_bytes"] == len(content)
+
+
+# --- clip assessment profiles ------------------------------------------------
+
+
+def fake_mp4(payload: bytes = b"whole pen video") -> bytes:
+    return b"\x00\x00\x00\x18ftypisom\x00\x00\x02\x00isomiso2" + payload
+
+
+def test_upload_profile_form_field_defaults_to_mixed(client: TestClient) -> None:
+    content = fake_mp4(b"profile api")
+
+    response = client.post(
+        "/api/v1/clip-assessments/upload",
+        files={"file": ("pen.mp4", content, "video/mp4")},
+    )
+    assert response.status_code == 201
+    assert response.json()["profile"] == "mixed"
+
+    response = client.post(
+        "/api/v1/clip-assessments/upload",
+        data={"profile": "concerning"},
+        files={"file": ("pen.mp4", content, "video/mp4")},
+    )
+    assert response.status_code == 201
+    assert response.json()["profile"] == "concerning"
+
+
+def test_upload_profile_rejects_unknown_values(client: TestClient) -> None:
+    response = client.post(
+        "/api/v1/clip-assessments/upload",
+        data={"profile": "infected"},
+        files={"file": ("pen.mp4", fake_mp4(), "video/mp4")},
+    )
+    assert response.status_code == 422
+    assert response.json()["error"]["code"] == "validation_error"
+
+
+def test_demo_endpoint_accepts_profile_query(
+    tmp_path: Path, scenario_directory: Path
+) -> None:
+    content = fake_mp4(b"demo profile")
+    digest = hashlib.sha256(content).hexdigest()
+    manifests_dir = tmp_path / "demo-assets"
+    manifests_dir.mkdir()
+    (manifests_dir / "demo-video.json").write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "id": "demo-video",
+                "title": "Test whole-pen clip",
+                "description": "Test fixture",
+                "source_url": "https://example.test/demo.mp4",
+                "dataset_url": "https://example.test/dataset",
+                "doi": "not-assigned",
+                "creators": ["Test"],
+                "license": "CC-BY-4.0",
+                "license_url": "https://creativecommons.org/licenses/by/4.0/",
+                "attribution": "Test fixture",
+                "sha256": digest,
+                "file_size_bytes": len(content),
+                "media_type": "video/mp4",
+                "width": 848,
+                "height": 480,
+                "duration_s": 19.4,
+                "frame_rate_fps": 5,
+                "frame_count": 97,
+                "codec": "H.264",
+                "filename": "demo.mp4",
+                "limitations": [
+                    "reference imagery only",
+                    "no disease labels",
+                    "not spatially aligned with simulated birds",
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    home = tmp_path / "simlab"
+    installed = home / "datasets" / "demo" / "demo-video" / "demo.mp4"
+    installed.parent.mkdir(parents=True)
+    installed.write_bytes(content)
+    with TestClient(
+        create_app(home, scenario_directory, demo_assets_directory=manifests_dir)
+    ) as client:
+        response = client.post(
+            "/api/v1/clip-assessments/demo/demo-video?profile=healthy"
+        )
+        assert response.status_code == 201
+        assert response.json()["profile"] == "healthy"
+        assert all(
+            candidate["proxy_crop"]["expected_demo_class"] == "healthy"
+            for candidate in response.json()["summary"]["feces"]["candidates"]
+        )
+        assert response.json()["summary"]["pen_assessment"]["state"] in {
+            "normal",
+            "watch",
+            "review",
+        }
+
+
+def test_catalog_endpoint_accepts_profile_query(client: TestClient) -> None:
+    defaulted = client.post("/api/v1/clip-assessments/catalog/big-broiler-090")
+    assert defaulted.status_code == 201
+    assert defaulted.json()["profile"] == "mixed"
+    assert all(
+        candidate["provenance"]["location_source"] == "deterministic_overlay"
+        for candidate in defaulted.json()["summary"]["feces"]["candidates"]
+    )
+
+    concerning = client.post(
+        "/api/v1/clip-assessments/catalog/big-broiler-090?profile=concerning"
+    )
+    assert concerning.status_code == 201
+    assert concerning.json()["profile"] == "concerning"
+
+    invalid = client.post(
+        "/api/v1/clip-assessments/catalog/big-broiler-090?profile=bogus"
+    )
+    assert invalid.status_code == 422
+
+
+# --- proxy specimen content ---------------------------------------------------
+
+
+def _proxy_app(tmp_path: Path, scenario_directory: Path, content: bytes) -> TestClient:
+    directory = tmp_path / "proxy-specimens"
+    directory.mkdir()
+    digest = hashlib.sha256(content).hexdigest()
+    for asset_id, demo_class, has_bytes in (
+        ("healthy", "healthy", True),
+        ("cocci", "cocci", False),
+        ("ncd", "ncd", False),
+        ("salmo", "salmo", False),
+    ):
+        (directory / f"{asset_id}.json").write_text(
+            json.dumps(
+                {
+                    "schema_version": 1,
+                    "asset_id": asset_id,
+                    "filename": f"{asset_id}.jpg",
+                    "media_type": "image/jpeg",
+                    "sha256": digest if has_bytes else "TO_BE_FILLED_BY_ORCHESTRATOR",
+                    "expected_demo_class": demo_class,
+                    "description": "test fixture",
+                    "source_dataset": "test dataset",
+                    "source_url": "https://example.test/",
+                    "license": "CC-BY-4.0",
+                    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+                    "attribution": "test fixture",
+                    "substitution_reason": "test fixture",
+                }
+            ),
+            encoding="utf-8",
+        )
+    (directory / "healthy.jpg").write_bytes(content)
+    return TestClient(
+        create_app(
+            tmp_path / "simlab-proxy",
+            scenario_directory,
+            proxy_specimens_directory=directory,
+        )
+    )
+
+
+def test_proxy_content_endpoint_rejects_unknown_and_path_like_ids(
+    tmp_path: Path, scenario_directory: Path
+) -> None:
+    with _proxy_app(tmp_path, scenario_directory, b"\xff\xd8\xff fake jpeg") as client:
+        for asset_id in ("does-not-exist", "../healthy", "healthy/../../etc", "HEALTHY"):
+            response = client.get(f"/api/v1/proxy-specimens/{asset_id}/content")
+            assert response.status_code == 404
+            body = response.json()
+            if "error" in body:
+                assert body["error"]["code"] == "not_found"
+
+
+def test_proxy_summary_is_metadata_only_and_tracks_cached_verification(
+    tmp_path: Path, scenario_directory: Path
+) -> None:
+    content = b"\xff\xd8\xff real curated proxy photo bytes"
+    with _proxy_app(tmp_path, scenario_directory, content) as client:
+        initial = client.get("/api/v1/proxy-specimens")
+        assert initial.status_code == 200
+        assert initial.json() == {
+            "total": 4,
+            "selectable_total": 4,
+            "bytes_present": 1,
+            "verified_cached": 0,
+            "by_expected_class": {
+                "cocci": 1,
+                "healthy": 1,
+                "ncd": 1,
+                "salmo": 1,
+                "unknown_abnormal": 0,
+            },
+            "selectable_by_expected_class": {
+                "cocci": 1,
+                "healthy": 1,
+                "ncd": 1,
+                "salmo": 1,
+                "unknown_abnormal": 0,
+            },
+            "by_dataset": [{"dataset": "test dataset", "count": 4}],
+            "catalogs_supported": True,
+        }
+
+        assert client.get("/api/v1/proxy-specimens/healthy/content").status_code == 200
+        after_content = client.get("/api/v1/proxy-specimens").json()
+        assert after_content["verified_cached"] == 1
+        assert after_content["bytes_present"] == 1
+
+
+def test_proxy_content_serves_only_verified_bytes(
+    tmp_path: Path, scenario_directory: Path
+) -> None:
+    content = b"\xff\xd8\xff real curated proxy photo bytes"
+    directory = tmp_path / "proxy-specimens"
+    directory.mkdir()
+    digest = hashlib.sha256(content).hexdigest()
+    for asset_id, demo_class, sha in (
+        ("healthy", "healthy", digest),
+        ("cocci", "cocci", "TO_BE_FILLED_BY_ORCHESTRATOR"),
+        ("ncd", "ncd", "TO_BE_FILLED_BY_ORCHESTRATOR"),
+        ("salmo", "salmo", "TO_BE_FILLED_BY_ORCHESTRATOR"),
+    ):
+        (directory / f"{asset_id}.json").write_text(
+            json.dumps(
+                {
+                    "schema_version": 1,
+                    "asset_id": asset_id,
+                    "filename": f"{asset_id}.jpg",
+                    "media_type": "image/jpeg",
+                    "sha256": sha,
+                    "expected_demo_class": demo_class,
+                    "description": "test fixture",
+                    "source_dataset": "test dataset",
+                    "source_url": "https://example.test/",
+                    "license": "CC-BY-4.0",
+                    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+                    "attribution": "test fixture",
+                    "substitution_reason": "test fixture",
+                }
+            ),
+            encoding="utf-8",
+        )
+    photo = directory / "healthy.jpg"
+    photo.write_bytes(b"tampered")
+    with TestClient(
+        create_app(
+            tmp_path / "simlab-proxy-2",
+            scenario_directory,
+            proxy_specimens_directory=directory,
+        )
+    ) as client:
+        tampered = client.get("/api/v1/proxy-specimens/healthy/content")
+        assert tampered.status_code == 404
+
+        placeholder = client.get("/api/v1/proxy-specimens/cocci/content")
+        assert placeholder.status_code == 404
+
+    photo.write_bytes(content)
+    with TestClient(
+        create_app(
+            tmp_path / "simlab-proxy-2",
+            scenario_directory,
+            proxy_specimens_directory=directory,
+        )
+    ) as client:
+        served = client.get("/api/v1/proxy-specimens/healthy/content")
+        assert served.status_code == 200
+        assert served.content == content
+        assert served.headers["content-type"].startswith("image/jpeg")
+
+
+def test_proxy_content_preserves_png_manifest_media_type(
+    tmp_path: Path, scenario_directory: Path
+) -> None:
+    directory = tmp_path / "proxy-png"
+    directory.mkdir()
+    content = b"\x89PNG\r\n\x1a\n proxy fixture"
+    digest = hashlib.sha256(content).hexdigest()
+    (directory / "healthy.png").write_bytes(content)
+    (directory / "healthy.json").write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "asset_id": "healthy-png",
+                "filename": "healthy.png",
+                "media_type": "image/png",
+                "sha256": digest,
+                "expected_demo_class": "healthy",
+                "description": "PNG proxy fixture",
+                "source_dataset": "test dataset",
+                "source_url": "https://example.test/png",
+                "license": "test-only",
+                "attribution": "test fixture",
+                "substitution_reason": "test fixture",
+            }
+        ),
+        encoding="utf-8",
+    )
+    with TestClient(
+        create_app(
+            tmp_path / "simlab-png",
+            scenario_directory,
+            proxy_specimens_directory=directory,
+        )
+    ) as client:
+        served = client.get("/api/v1/proxy-specimens/healthy-png/content")
+        assert served.status_code == 200
+        assert served.content == content
+        assert served.headers["content-type"].startswith("image/png")
+
+
+# --- QNX evidence -------------------------------------------------------------
+
+
+def test_qnx_evidence_endpoint_distinguishes_claim_statuses(client: TestClient) -> None:
+    response = client.get("/api/v1/system/qnx/evidence")
+
+    assert response.status_code == 200
+    body = response.json()
+    document = body["evidence"]
+    assert document["evidence_id"] == "dropping4-laptop-final-320"
+    assert "predictable capture deadlines" in document["thesis"]
+    assert document["platform"]["system"] == "QNX"
+    assert document["platform"]["release"] == "8.0.0"
+
+    by_id = {claim["id"]: claim for claim in body["claims"]}
+    assert set(by_id) == set(claim["id"] for claim in document["claims"])
+
+    assert by_id["platform-boot"]["status"] == "verified"
+    assert by_id["ncnn-native-execution"]["status"] == "verified"
+    assert by_id["inference-timing"]["status"] == "verified"
+    samples = by_id["inference-timing"]["detail"]["samples_ms"]
+    assert len(samples) == 10
+    assert round(sum(samples) / 10, 4) == 98.4287
+    assert by_id["onnx-qnx-parity"]["detail"]["max_abs_error"] == 0.000732421875
+    assert by_id["ncnn-artifact-hashes"]["detail"]["param_sha256"] == (
+        "064220842481ac84c4736ab11012129ddb7191412b69bbfde8fee261b620b4c3"
+    )
+
+    assert by_id["fixed-priority-scheduling"]["status"] == "os_supported_only"
+    assert by_id["sched-sporadic"]["status"] == "os_supported_only"
+
+    for planned in (
+        "ham",
+        "hardware-watchdog",
+        "kernel-tracing",
+        "capture-jitter-metrics",
+        "service-separation",
+    ):
+        assert by_id[planned]["status"] == "planned"
+
+    assert by_id["aps-unsupported"]["status"] == "unsupported_guard"
+    for claim in body["claims"]:
+        assert "APS" not in claim["summary"].upper() or claim["id"] == "aps-unsupported"
+        assert claim["status"] != "verified" or claim["id"] != "aps-unsupported"
+
+
+def test_qnx_evidence_missing_file_is_structured_404(
+    tmp_path: Path, scenario_directory: Path
+) -> None:
+    with TestClient(
+        create_app(
+            tmp_path / "simlab-no-evidence",
+            scenario_directory,
+            qnx_evidence_path=tmp_path / "missing.json",
+        )
+    ) as client:
+        response = client.get("/api/v1/system/qnx/evidence")
+        assert response.status_code == 404
+        assert response.json()["error"]["code"] == "not_found"

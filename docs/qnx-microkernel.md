@@ -61,22 +61,18 @@ declares the few calls it uses and `cam/probe.c` dumps a live frame description 
 Python cannot take the camera's callbacks: any C to Python ctypes callback crashes this Python build
 (checked with plain `qsort`), so capture is in C.
 
-The camera service (`/etc/config/sensor/sensor_rpi5.conf`) lists unit 1 a simulator and unit 2 a file
-camera, both colour bars, and units 3 and 4 the Camera Module 3 on the two ribbon ports. Only units 1 and 2
-are reported available, so no Camera Module 3 was detected on either port. The pipeline therefore plays
-recorded barn footage at full resolution (`camera.py --mov`) through the same shared memory path.
-The file camera plays `/data/share/sensor/simulator_camera.mov`. A 30 second raw barn clip in the same format
-is next to it as `simulator_camera.barn.mov`. Swapping them only takes effect after the camera service
-restarts, which needs root, so it has not been done.
+Since 2026-10-18 the Camera Module 3 is detected as unit 4 (`/dev/sensor/camera4`, the second ribbon port). It sends
+NV12 at 2304 by 1296, which `hccam.c` stores as it arrives. The first boot found nothing on either port (I2C err=5)
+until the ribbon was reseated, so power the Pi off and reseat the ribbon if the unit is missing.
+`autostart.sh` starts live when the camera is found and plays recorded barn footage otherwise.
 
 ## Limits, stated plainly
 
-- No Camera Module 3 detected, see above. Live capture works end to end on the test pattern cameras.
-- The trained detector runs on the laptop (`laptop/infer_server.py`) because the Pi has no TensorFlow Lite or ONNX runtime. Porting one is the next big step.
-- That detector learned on close-up photos. At pen scale it scores white birds as salmonella at up to 0.83. The explain section's checks (box on the spot, dropping sized, not white, not lighter than the floor, score at least 0.6) dismiss nearly all of it, so the watch stays quiet rather than raising false alarms. The pen scale model in training is meant to fix this.
+- The detector runs on the Pi with ONNX Runtime from the QNX open source packages, through the C bridge in `ortlite/`, because the packaged Python binding does not load on QNX.
+- That detector learned on close-up photos. At pen scale it scores white birds as salmonella at up to 0.83. The explain section's checks (box on the spot, dropping sized, not white, not lighter than the floor, score at least 0.6) dismiss nearly all of it, so the watch stays quiet rather than raising false alarms. The pen scale model (`models/dropping4-pen`) fixes this for finding droppings, see its README.
 - The explain measurements describe appearance, they are not a diagnosis. Consistency and foam are not measured and are sent as a neutral 5.
 - `stillspot.py` is a candidate filter, not a dropping detector.
 - Adaptive partitioning (guaranteed CPU shares) is not in this image (`aps` missing). Priorities are used instead.
-- Nothing starts at boot. `/boot/onboot` is off limits unless asked (AGENTS.md). Start by hand:
-  `cd ~/hc-edge && nohup python3 supervisor.py --camera replay &` and on the laptop `python target/qnx/edge/laptop/infer_server.py`.
-- The Pi clock has no network time on the direct cable (it starts at 1970), so times are only right relative to each other.
+- The pipeline starts at boot through `install_autostart.sh` (one line in the network settings file, `/boot/onboot` untouched). To start it by hand:
+  `cd ~/hc-edge && nohup python3 supervisor.py --camera live --unit 4 &` (or `--camera replay` without a camera).
+- The Pi has no clock battery. `autostart.sh` sets the time with ntpdate once Wi-Fi is up. On the direct cable alone it starts at 1970.

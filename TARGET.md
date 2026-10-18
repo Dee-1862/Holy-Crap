@@ -175,3 +175,30 @@ ssh qnxpi /data/home/qnxuser/qnx-runner-app/status-runner.sh
 ```
 
 The runner executes argv directly without a shell and does not run as root.
+
+## Clip-assessment worker contract
+
+Selecting `qnx` for a dashboard clip job is fail-closed. It does not run the
+local assessment pipeline as a fallback. The API first checks SSH and the
+persistent runner, then downloads and hash-checks a deployment manifest from
+the Pi. The QNX wrapper checks the installed worker's own hash before it runs
+the worker through the persistent runner.
+
+The installed worker must accept:
+
+```text
+WORKER --request request.json --video video.bin --result assessment.json
+```
+
+It must write a complete `ClipAssessment` JSON object. Its deployment manifest
+must declare contract `holy-crap.clip-assessment.v1`, platform `QNX`, the
+absolute worker path, and the worker SHA-256. Configure the corresponding
+`QNX_CLIP_WORKER_*` values documented in `.env.example` only after those files
+have been reviewed on the physical Pi.
+
+The committed `target/qnx/clip_assessment_worker.py` is a supervisor, not an
+inference model. It validates the deployment, launches the installed worker,
+and writes live telemetry to the run directory for the API to poll. Until a
+full clip worker and its manifest are installed and verified, QNX clip jobs
+end in the `blocked` stage. This is intentional and proves that the dashboard
+did not quietly execute the job on the Mac.

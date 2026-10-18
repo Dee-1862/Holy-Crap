@@ -1,10 +1,14 @@
 import type {
   AdapterCapability,
+  AssessmentExecutor,
   ClipAssessment,
+  ClipAssessmentJob,
   DatasetClip,
   CreateRunRequest,
   MediaAssetInfo,
   ModelArtifact,
+  QnxEvidencePayload,
+  ProxySpecimenPoolSummary,
   RunResult,
   RunSummary,
   Scenario,
@@ -23,6 +27,23 @@ export class ApiError extends Error {
     super(message);
     this.name = "ApiError";
   }
+}
+
+interface AssessmentSegment {
+  start_s: number;
+  end_s: number;
+}
+
+function assessmentQuery(profile?: string, segment?: AssessmentSegment, executor?: AssessmentExecutor): string {
+  const query = new URLSearchParams();
+  if (profile) query.set("profile", profile);
+  if (segment) {
+    query.set("segment_start_s", String(segment.start_s));
+    query.set("segment_end_s", String(segment.end_s));
+  }
+  if (executor) query.set("executor", executor);
+  const encoded = query.toString();
+  return encoded ? `?${encoded}` : "";
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
@@ -58,17 +79,30 @@ export const api = {
   media: () => request<MediaAssetInfo[]>("/media"),
   clipAssessments: () => request<ClipAssessment[]>("/clip-assessments"),
   clipAssessment: (id: string) => request<ClipAssessment>(`/clip-assessments/${encodeURIComponent(id)}`),
-  uploadClipAssessment: (file: File) => {
+  uploadClipAssessment: (file: File, executor: AssessmentExecutor, profile?: string, segment?: AssessmentSegment) => {
     const body = new FormData();
     body.append("file", file);
-    return request<ClipAssessment>("/clip-assessments/upload", { method: "POST", body });
+    body.append("executor", executor);
+    if (profile) body.append("profile", profile);
+    if (segment) {
+      body.append("segment_start_s", String(segment.start_s));
+      body.append("segment_end_s", String(segment.end_s));
+    }
+    return request<ClipAssessmentJob>("/clip-assessment-jobs/upload", { method: "POST", body });
   },
-  assessDemoClip: (assetId: string) =>
-    request<ClipAssessment>(`/clip-assessments/demo/${encodeURIComponent(assetId)}`, { method: "POST" }),
+  assessDemoClip: (assetId: string, executor: AssessmentExecutor, profile?: string, segment?: AssessmentSegment) => {
+    const query = assessmentQuery(profile, segment, executor);
+    return request<ClipAssessmentJob>(`/clip-assessment-jobs/demo/${encodeURIComponent(assetId)}${query}`, { method: "POST" });
+  },
   datasetClips: () => request<DatasetClip[]>("/dataset-clips"),
   datasetClip: (id: string) => request<DatasetClip>(`/dataset-clips/${encodeURIComponent(id)}`),
-  assessCatalogClip: (clipId: string) =>
-    request<ClipAssessment>(`/clip-assessments/catalog/${encodeURIComponent(clipId)}`, { method: "POST" }),
+  assessCatalogClip: (clipId: string, executor: AssessmentExecutor, profile?: string, segment?: AssessmentSegment) => {
+    const query = assessmentQuery(profile, segment, executor);
+    return request<ClipAssessmentJob>(`/clip-assessment-jobs/catalog/${encodeURIComponent(clipId)}${query}`, { method: "POST" });
+  },
+  clipAssessmentJob: (id: string) => request<ClipAssessmentJob>(`/clip-assessment-jobs/${encodeURIComponent(id)}`),
+  qnxEvidence: () => request<QnxEvidencePayload>("/system/qnx/evidence"),
+  proxySpecimens: () => request<ProxySpecimenPoolSummary>("/proxy-specimens"),
   uploadModel: (file: File, name: string, version: string, source?: string) => {
     const body = new FormData();
     body.append("file", file);

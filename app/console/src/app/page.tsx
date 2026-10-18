@@ -5,7 +5,6 @@ import CameraLoop from "@/components/CameraLoop";
 import CameraPulse from "@/components/CameraPulse";
 import LiveCam, { LIVE_CAM, useLiveFrame } from "@/components/LiveCam";
 import Clock from "@/components/Clock";
-import PenDroppings from "@/components/PenDroppings";
 import PenActions from "@/components/PenActions";
 import PenFolder from "@/components/PenFolder";
 import Readout from "@/components/Readout";
@@ -17,7 +16,7 @@ import { GROUPS } from "@/lib/data";
 import { barnIndex, penLevels, ranked, tone } from "@/lib/insight";
 import styles from "./dashboard.module.css";
 
-// Main dashboard. Four widgets (three from the demo stream, one from the cameras), a big camera view for the chosen pen, and the pens as folders on the side.
+// Main dashboard. Four widgets from the cameras, a big camera view for the chosen pen, and the pens as folders on the side.
 export default function Dashboard() {
   useBarn();
   const worst = ranked().at(-1)?.group.id ?? GROUPS[0].id;
@@ -31,15 +30,29 @@ export default function Dashboard() {
   const piCam = selected === LIVE_CAM;
   const frame = useLiveFrame(piCam);
   useEffect(() => {
+    let active = true;
+    const known = new Set(GROUPS.map((g) => g.id));
     fetch("/api/live/clips", { cache: "no-store" }).then((r) => r.json())
-      .then((d: { clips: { pen: string }[] }) => {
-        const pens = [...new Set(d.clips.map((c) => c.pen))].sort();
+      .then((d: unknown) => {
+        if (!active) return;
+        const clips = typeof d === "object" && d !== null && "clips" in d && Array.isArray(d.clips) ? d.clips : [];
+        const pens = [...new Set(clips.flatMap((clip) => {
+          if (typeof clip !== "object" || clip === null || !("pen" in clip) || typeof clip.pen !== "string") return [];
+          return known.has(clip.pen) ? [clip.pen] : [];
+        }))].sort();
         setCams(pens);
         setOnlinePens(pens.length ? pens : null);             // pens without a camera are offline, unless no cameras are known at all
         if (pens.length) setSelected((cur) => (pens.includes(cur) ? cur : pens[0]));
       })
-      .catch(() => setCams([]));
-    return () => setOnlinePens(null);                       // other views count every pen
+      .catch(() => {
+        if (!active) return;
+        setCams([]);
+        setOnlinePens([]);
+      });
+    return () => {
+      active = false;
+      setOnlinePens(null);                                  // other views count every pen
+    };
   }, []);
 
   return (
@@ -48,7 +61,6 @@ export default function Dashboard() {
         <h1 className="title">Barn</h1>
         <ViewSwitch current="map" />
         <span className={styles.grow} />
-        <span className="pill"><i />Demo data</span>
         <ThemeToggle />
         <Clock />
       </header>
@@ -57,7 +69,7 @@ export default function Dashboard() {
         <div className={`glass ${styles.widget}`}>
           <span className="eyebrow">Barn health</span>
           <b className={`${styles.big} num tone-${tone(Math.round(index / 10))}`}>{index}<small>/100</small></b>
-          <span className="foot">Average grade, last 15 minutes</span>
+          <span className="foot">Average dropping score from the cameras</span>
         </div>
         <div className={`glass ${styles.widget}`}>
           <span className="eyebrow">Healthy pens</span>
@@ -86,7 +98,6 @@ export default function Dashboard() {
         </aside>
         <div className={styles.main}>
           {piCam ? <LiveCam frame={frame} /> : <CameraLoop pen={selected} />}
-          {!piCam && isOnlinePen(selected) && <PenDroppings key={selected} groupId={selected} onOpen={setOpenId} />}
         </div>
       </main>
 

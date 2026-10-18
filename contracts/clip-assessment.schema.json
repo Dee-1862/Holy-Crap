@@ -5,7 +5,7 @@
   "description": "One non-diagnostic aggregate assessment of a complete whole-pen video.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "id", "status", "created_at", "video", "modules", "summary", "non_diagnostic_notice"],
+  "required": ["schema_version", "id", "status", "created_at", "video", "modules", "summary", "non_diagnostic_notice", "profile"],
   "properties": {
     "schema_version": {"const": 1},
     "id": {"type": "string", "pattern": "^clip-[a-f0-9-]{36}$"},
@@ -14,17 +14,19 @@
     "video": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["name", "sha256", "size_bytes", "media_type", "duration_s", "width", "height", "fps", "source", "demo_asset_id", "catalog_clip_id", "bytes_available", "content_url", "metadata_source", "metadata_warnings"],
+      "required": ["name", "sha256", "size_bytes", "media_type", "duration_s", "segment_start_s", "segment_end_s", "width", "height", "fps", "source", "demo_asset_id", "catalog_clip_id", "bytes_available", "content_url", "metadata_source", "metadata_warnings"],
       "properties": {
         "name": {"type": "string", "minLength": 1},
         "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
         "size_bytes": {"type": "integer", "minimum": 0},
         "media_type": {"type": "string", "pattern": "^video/"},
         "duration_s": {"type": ["number", "null"], "exclusiveMinimum": 0},
+        "segment_start_s": {"type": "number", "minimum": 0},
+        "segment_end_s": {"type": ["number", "null"], "exclusiveMinimum": 0},
         "width": {"type": ["integer", "null"], "minimum": 1},
         "height": {"type": ["integer", "null"], "minimum": 1},
         "fps": {"type": ["number", "null"], "exclusiveMinimum": 0},
-        "source": {"enum": ["upload", "demo", "catalog_mock"]},
+        "source": {"enum": ["upload", "demo", "dataset", "catalog_mock"]},
         "demo_asset_id": {"type": ["string", "null"]},
         "catalog_clip_id": {"type": ["string", "null"]},
         "bytes_available": {"type": "boolean"},
@@ -43,7 +45,7 @@
         "properties": {
           "id": {"type": "string", "minLength": 1},
           "label": {"type": "string", "minLength": 1},
-          "mode": {"enum": ["mock", "real"]},
+          "mode": {"enum": ["mock", "partial", "real"]},
           "version": {"type": "string", "minLength": 1},
           "status": {"enum": ["completed", "not_configured", "failed"]},
           "adapter": {"type": "string", "minLength": 1},
@@ -68,17 +70,20 @@
     "summary": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["activity", "appearance", "feces", "overall"],
+      "required": ["activity", "appearance", "feces", "overall", "pen_assessment"],
       "properties": {
         "activity": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["score", "category", "motion_coverage", "zone_scores"],
+          "required": ["score", "category", "motion_coverage", "zone_scores", "sampled_frames", "bird_observations", "behavior_distribution"],
           "properties": {
             "score": {"type": "number", "minimum": 0, "maximum": 1},
             "category": {"enum": ["low", "typical", "high"]},
             "motion_coverage": {"type": "number", "minimum": 0, "maximum": 1},
-            "zone_scores": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}}
+            "zone_scores": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}},
+            "sampled_frames": {"type": "integer", "minimum": 0},
+            "bird_observations": {"type": "integer", "minimum": 0},
+            "behavior_distribution": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}}
           }
         },
         "appearance": {
@@ -119,13 +124,20 @@
           "additionalProperties": false,
           "required": ["review_state", "notes"],
           "properties": {
-            "review_state": {"const": "synthetic-demo-only"},
+            "review_state": {"enum": ["synthetic-demo-only", "non-diagnostic-review"]},
             "notes": {"type": "array", "items": {"type": "string"}}
           }
-        }
+        },
+        "pen_assessment": {"$ref": "#/$defs/penAssessment"}
       }
     },
-    "non_diagnostic_notice": {"type": "string", "pattern": "SYNTHETIC MOCK OUTPUT"}
+    "video_annotations": {
+      "type": "array",
+      "default": [],
+      "items": {"$ref": "#/$defs/videoAnnotation"}
+    },
+    "non_diagnostic_notice": {"type": "string", "pattern": "(SYNTHETIC MOCK OUTPUT|BOUNDED REAL MODEL EVIDENCE)"},
+    "profile": {"enum": ["healthy", "mixed", "concerning"]}
   },
   "$defs": {
     "bbox": {
@@ -139,10 +151,110 @@
         "height": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}
       }
     },
+    "videoAnnotation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "timestamp_s", "bbox", "detection_confidence", "label", "label_confidence", "scores", "candidate_id", "sample_index"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["chicken", "dropping"]},
+        "timestamp_s": {"type": "number", "minimum": 0},
+        "bbox": {"$ref": "#/$defs/bbox"},
+        "detection_confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "label": {"type": ["string", "null"]},
+        "label_confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "scores": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}},
+        "candidate_id": {"type": ["string", "null"]},
+        "sample_index": {"type": "integer", "minimum": 0},
+        "observation_state": {"enum": ["observed", "carried_forward"]},
+        "active_from_s": {"type": ["number", "null"], "minimum": 0},
+        "active_until_s": {"type": ["number", "null"], "minimum": 0}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"kind": {"const": "dropping"}}, "required": ["kind"]},
+          "then": {"properties": {"candidate_id": {"type": "string", "minLength": 1}}}
+        },
+        {
+          "if": {"properties": {"kind": {"const": "chicken"}}, "required": ["kind"]},
+          "then": {"properties": {"candidate_id": {"type": "null"}}}
+        }
+      ]
+    },
+    "fecesCandidateLifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["first_observed_s", "confirmed_s", "last_observed_s", "active_until_s", "canonical_bbox", "observation_count", "persistence_basis"],
+      "properties": {
+        "first_observed_s": {"type": "number", "minimum": 0},
+        "confirmed_s": {"type": "number", "minimum": 0},
+        "last_observed_s": {"type": "number", "minimum": 0},
+        "active_until_s": {"type": "number", "minimum": 0},
+        "canonical_bbox": {"$ref": "#/$defs/bbox"},
+        "observation_count": {"type": "integer", "minimum": 2},
+        "persistence_basis": {"const": "stationary_recurrence_across_sampled_frames"}
+      }
+    },
+    "classifierModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "sha256", "format", "input_size", "runtime"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "format": {"type": "string", "minLength": 1},
+        "input_size": {"type": "array", "items": {"type": "integer", "minimum": 1}, "minItems": 4, "maxItems": 4},
+        "runtime": {"type": "string", "minLength": 1}
+      }
+    },
+    "proxySpecimen": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["asset_id", "sha256", "content_url", "bytes_available", "source_dataset", "source_url", "license", "attribution", "expected_demo_class", "mapping_method", "substitution_reason"],
+      "properties": {
+        "asset_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$"},
+        "sha256": {"type": "string"},
+        "content_url": {"type": ["string", "null"], "pattern": "^/api/v1/proxy-specimens/"},
+        "bytes_available": {"type": "boolean"},
+        "source_dataset": {"type": "string", "minLength": 1},
+        "source_url": {"type": "string", "minLength": 1},
+        "license": {"type": "string", "minLength": 1},
+        "attribution": {"type": "string", "minLength": 1},
+        "expected_demo_class": {"enum": ["cocci", "healthy", "ncd", "salmo", "unknown_abnormal"]},
+        "mapping_method": {"const": "sha256-seeded"},
+        "substitution_reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["location_source", "appearance_input", "classification_source"],
+      "properties": {
+        "location_source": {"enum": ["observed_video", "deterministic_overlay"]},
+        "appearance_input": {"enum": ["observed_crop", "curated_proxy"]},
+        "classification_source": {"enum": ["deterministic_mock", "live_model_run"]}
+      }
+    },
+    "penAssessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "score", "policy_id", "reasons", "activity_contribution", "feces_contribution", "evidence_mode", "non_diagnostic"],
+      "properties": {
+        "state": {"enum": ["normal", "watch", "review"]},
+        "score": {"type": "number", "minimum": 0, "maximum": 1},
+        "policy_id": {"const": "demo-pen-v1"},
+        "reasons": {"type": "array", "items": {"type": "string"}},
+        "activity_contribution": {"type": "number", "minimum": 0, "maximum": 1},
+        "feces_contribution": {"type": "number", "minimum": 0, "maximum": 1},
+        "evidence_mode": {"const": "hybrid_simulation"},
+        "non_diagnostic": {"const": true}
+      }
+    },
     "fecesCandidate": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "timestamp_s", "bbox", "detection_confidence", "crop", "classification"],
+      "required": ["id", "timestamp_s", "bbox", "detection_confidence", "crop", "classification", "proxy_crop", "provenance"],
       "properties": {
         "id": {"type": "string", "minLength": 1},
         "timestamp_s": {"type": "number", "minimum": 0},
@@ -157,21 +269,31 @@
             "timestamp_s": {"type": "number", "minimum": 0},
             "bbox": {"$ref": "#/$defs/bbox"},
             "color_space": {"const": "RGB"},
-            "target_width": {"const": 224},
-            "target_height": {"const": 224},
+            "target_width": {"const": 320},
+            "target_height": {"const": 320},
             "materialized": {"type": "boolean"}
           }
         },
         "classification": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["label", "confidence", "mode"],
+          "required": ["label", "confidence", "mode", "product_label", "scores", "input_sha256", "model", "inference_performed", "model_detection_bbox", "fallback_reason"],
           "properties": {
-            "label": {"enum": ["Coccidiosis", "Healthy", "New Castle Disease", "Salmonella"]},
+            "label": {"type": ["string", "null"], "enum": ["Coccidiosis", "Healthy", "New Castle Disease", "Salmonella", null]},
             "confidence": {"type": "number", "minimum": 0, "maximum": 1},
-            "mode": {"enum": ["mock", "real"]}
+            "mode": {"enum": ["mock", "real"]},
+            "product_label": {"enum": ["normal", "abnormal", "uncertain"]},
+            "scores": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}},
+            "input_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+            "model": {"anyOf": [{"$ref": "#/$defs/classifierModel"}, {"type": "null"}]},
+            "inference_performed": {"type": "boolean"},
+            "model_detection_bbox": {"anyOf": [{"$ref": "#/$defs/bbox"}, {"type": "null"}]},
+            "fallback_reason": {"type": ["string", "null"], "enum": ["specimen_unavailable", "runtime_unavailable", "image_decode_failed", "model_inference_failed", null]}
           }
-        }
+        },
+        "proxy_crop": {"anyOf": [{"$ref": "#/$defs/proxySpecimen"}, {"type": "null"}]},
+        "provenance": {"$ref": "#/$defs/provenance"},
+        "lifecycle": {"anyOf": [{"$ref": "#/$defs/fecesCandidateLifecycle"}, {"type": "null"}]}
       }
     }
   }

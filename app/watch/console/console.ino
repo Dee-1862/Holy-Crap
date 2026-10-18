@@ -53,8 +53,10 @@ static const int NMENU = 4;
 struct Spec {
   char id[10]; uint8_t pen; uint8_t k; uint8_t grade; uint8_t conf; uint8_t mins; uint8_t st;  // st 0 new, 1 checking, 2 normal
   uint8_t p[4]; uint8_t sub[5]; uint8_t rx, ry; char why[3][72]; bool ph;   // ph, the console has a real photo for it
+  bool hasSub; int16_t at; uint8_t no;     // five checks measured; seconds into the camera feed (-1 none); number on the camera
 };
 static bool penOff[NPEN];              // pens with no camera, offline on the console, so they count nowhere
+static int penBirds[NPEN] = {-1, -1, -1, -1, -1, -1};   // birds the pen's camera sees now, from the console
 static int onlinePens() { int n = 0; for (int i = 0; i < NPEN; i++) n += !penOff[i]; return n; }
 static const int MAXSPEC = 24;
 static Spec SP[MAXSPEC];
@@ -84,7 +86,7 @@ static void loadDemo() {
   for (const Demo& d : DEMO) {
     Spec& s = SP[NSP++]; memset(&s, 0, sizeof s);
     strlcpy(s.id, d.id, sizeof s.id); s.pen = penIndex(d.pen); s.k = d.k; s.grade = d.grade; s.conf = d.conf; s.mins = d.mins; s.st = 0;
-    memcpy(s.p, d.p, 4); memcpy(s.sub, d.sub, 5); s.rx = d.rx; s.ry = d.ry;
+    memcpy(s.p, d.p, 4); memcpy(s.sub, d.sub, 5); s.rx = d.rx; s.ry = d.ry; s.hasSub = true; s.at = -1;
     for (int j = 0; j < 3; j++) strlcpy(s.why[j], d.why[j], sizeof s.why[j]);
   }
 }
@@ -148,18 +150,19 @@ static bool worse(const Spec& a, const Spec& b) {
   if (a.grade != b.grade) return a.grade < b.grade;
   return a.mins < b.mins;
 }
+static bool penChecks = false;         // the open pen has measured checks, so it gets the checklist and radar pages
 static void loadPen(int p) {
-  gcount = 0; penTotal = 0;
+  gcount = 0; penTotal = 0; penChecks = false;
   for (int i = 0; i < NSP; i++) {
     if (SP[i].pen != p) continue;
-    penTotal++;
+    penTotal++; penChecks |= SP[i].hasSub;
     if (!gcount || worse(SP[i], SP[ge[0]])) { ge[0] = i; gcount = 1; }
   }
 }
-static int pages() { return 2 * gcount + 2; }            // photo and why of the critical one, then the checklist, then the radar
+static int pages() { return max(1, 2 * gcount + (penChecks ? 2 : 0)); }   // photo and why of the critical one, then the checklist and radar when measured
 static bool specPage() { return pg < 2 * gcount; }
-static bool summaryPage() { return pg == 2 * gcount; }
-static bool radarPage() { return pg == 2 * gcount + 1; }
+static bool summaryPage() { return penChecks && pg == 2 * gcount; }
+static bool radarPage() { return penChecks && pg == 2 * gcount + 1; }
 static Spec& curSpec() { return SP[ge[min(pg / 2, gcount - 1)]]; }
 
 // ----- network -----
@@ -234,12 +237,13 @@ static void syncNow() {
     s.grade = o["grade"] | 0; s.conf = o["conf"] | 0; s.mins = o["mins"] | 0; s.st = o["st"] | 0;
     for (int j = 0; j < 4; j++) s.p[j] = o["p"][j] | 0;
     for (int j = 0; j < 5; j++) s.sub[j] = o["sub"][j] | 0;
+    s.hasSub = o["sub"].size() == 5; s.at = o["at"] | -1; s.no = o["no"] | 0;
     s.rx = o["rg"][0] | 50; s.ry = o["rg"][1] | 50;
     for (int j = 0; j < 3; j++) strlcpy(s.why[j], o["why"][j] | "", sizeof s.why[j]);
     s.ph = strlen(o["ph"] | "") > 0;
     NSP++;
   }
-  for (JsonObject o : doc["pens"].as<JsonArray>()) { int pi = penIndex(o["id"] | ""); if (pi >= 0) { penOff[pi] = (o["off"] | 0) != 0; penVet[pi] = o["vet"] | -1; } }
+  for (JsonObject o : doc["pens"].as<JsonArray>()) { int pi = penIndex(o["id"] | ""); if (pi >= 0) { penOff[pi] = (o["off"] | 0) != 0; penVet[pi] = o["vet"] | -1; penBirds[pi] = o["n"] | -1; } }
   if (scr == PEN || scr == MENUSCR) { loadPen(pen); pg = min(pg, pages() - 1); }
   dirty = true;
 }
@@ -307,10 +311,11 @@ static void pageOverview() {
   text("out of 100", CX, 172, C_TER, &fonts::DejaVu12);
   text("Barn health", CX, 224, C_SEC, &fonts::DejaVu12);
 
-  int c[3] = {0, 0, 0}; for (int i = 0; i < NPEN; i++) if (!penOff[i]) c[level(i)]++;   // offline pens count nowhere
+  int c[3] = {0, 0, 0}, read = 0;
+  for (int i = 0; i < NPEN; i++) { bool any; meanGrade(i, &any); if (!penOff[i] && any) { c[level(i)]++; read++; } }   // like the website: only pens with droppings read
   const int sw = 280, x0 = CX - sw / 2, sy = 248, gap = 4;
   int segs = (c[0] > 0) + (c[1] > 0) + (c[2] > 0);
-  float unit = (sw - gap * max(0, segs - 1)) / (float)max(1, onlinePens()); float x = x0;
+  float unit = (sw - gap * max(0, segs - 1)) / (float)max(1, read); float x = x0;
   for (int l = 0; l < 3; l++) {
     if (!c[l]) continue;
     int w = (int)(unit * c[l] + 0.5f);
@@ -365,7 +370,8 @@ static void pagePhoto() {
   Spec& s = curSpec(); char b[48];
   M5.Display.fillScreen(C_BLK);
   text(PEN_NAME[pen], CX, 46, C_TXT, &fonts::DejaVu24);
-  snprintf(b, sizeof b, "%d birds", PEN_BIRDS[pen]); text(b, CX, 74, C_TER, &fonts::DejaVu12);
+  int birds = LIVE ? penBirds[pen] : PEN_BIRDS[pen];   // live: what the camera sees now
+  if (birds >= 0) { snprintf(b, sizeof b, "%d birds in view", birds); text(b, CX, 74, C_TER, &fonts::DejaVu12); }
   card(113, 88, 240, 171, 26, C_CARD);
   photo(s, 143, 106);
   const int dx[3] = {-23, 27, -4}, dy[3] = {-14, 5, 27};       // same offsets as the web app, in photo pixels
@@ -382,7 +388,11 @@ static void pagePhoto() {
   text(s.k ? "Suspected" : "Classified as", 202, 296, C_TER, &fonts::DejaVu12, middle_left);
   text(KIND[s.k], 202, 320, s.k ? C_TXT : C_GOOD, &fonts::DejaVu18, middle_left);
   snprintf(b, sizeof b, "%d%% confident", s.conf); text(b, 202, 346, C_SEC, &fonts::DejaVu12, middle_left);
-  if (s.st) stateTag(s, 202, 366); else { snprintf(b, sizeof b, "%d min ago", s.mins); text(b, 202, 366, C_TER, &fonts::DejaVu12, middle_left); }
+  if (s.st) stateTag(s, 202, 366);
+  else {
+    if (s.at >= 0) snprintf(b, sizeof b, "Seen at %d:%02d", s.at / 60, s.at % 60); else snprintf(b, sizeof b, "%d min ago", s.mins);
+    text(b, 202, 366, C_TER, &fonts::DejaVu12, middle_left);
+  }
   snprintf(b, sizeof b, "Most critical of %d", penTotal); text(b, CX, 410, C_TER, &fonts::DejaVu12);
 }
 // Explainability in plain words: what it most likely is, how sure it is, and what it saw.
@@ -753,11 +763,22 @@ static void toast(const char* m, const char* sub) {
   text(sub, CX, CY + 24, C_TER, &fonts::DejaVu12);
   toastUntil = millis() + 1700;
 }
+// A pen whose camera reads flock behaviour only: droppings are too small to read from a whole-pen view.
+static void pageNoDroppings() {
+  char b[40];
+  M5.Display.fillScreen(C_BLK);
+  text(PEN_NAME[pen], CX, 150, C_TXT, &fonts::DejaVu24);
+  if (penBirds[pen] >= 0) { snprintf(b, sizeof b, "%d birds in view", penBirds[pen]); text(b, CX, 190, C_SEC, &fonts::DejaVu18); }
+  text("No droppings read", CX, 250, C_TXT, &fonts::DejaVu18);
+  text("This camera watches the whole pen", CX, 282, C_TER, &fonts::DejaVu12);
+  text("for flock behaviour", CX, 302, C_TER, &fonts::DejaVu12);
+}
 static void render() {
   if (splashUntil) pageActive();
   else if (scr == OVERVIEW) pageOverview();
   else if (scr == LIST) pageList();
   else if (scr == MENUSCR) pageMenu();
+  else if (!gcount) pageNoDroppings();
   else if (summaryPage()) pageSummary();
   else if (radarPage()) pageRadar();
   else if (pg % 2 == 0) pagePhoto();

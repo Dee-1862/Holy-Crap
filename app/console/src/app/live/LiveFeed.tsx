@@ -160,7 +160,7 @@ export default function LiveFeed() {
     <div className={styles.grid}>
       <section className={`glass ${styles.stage}`} aria-label="Replayed camera feed">
         <div className={styles.stageHead}>
-          <span className={styles.badge}><i />{clip.test ? "Test clip" : "Replay"}</span>
+          <span className={styles.badge}><i />Recorded</span>
           <span className={styles.pen}>Pen {clip.pen}</span>
           <h2 className="headline">{clip.title}</h2>
           <span className="foot">{clip.view}</span>

@@ -18,10 +18,10 @@ may contain a hidden `outbreak` state so that we can measure detection delay,
 but the operator-facing result is still a pen or group anomaly for human
 review.
 
-Version 1 is deliberately narrow. It registers a completed local model bundle,
-runs deterministic mock scenarios, and shows truth beside predictions in a
-browser. Real video, synthetic rendering, epidemiological simulation, and QNX
-playback are later adapters behind the same contracts.
+Version 1 registers model bundles, assesses whole-pen video, and keeps every
+real-versus-simulated handoff visible. Activity, flock appearance, and feces
+locations are currently deterministic adapters. Curated real feces photos are
+substituted after location selection and run through the committed ONNX model.
 
 ## Current implementation status
 
@@ -40,8 +40,31 @@ log under the run directory (`evaluation_kind: target_probe`,
 `inference_performed: false`, metrics null, no timeline or snapshots). A failed
 QNX run stays in run history as failed.
 
-Real-video replay, the EMULSION model, BlenderProc rendering, and measured QNX
-inference are not implemented.
+EMULSION disease simulation and BlenderProc rendering are not implemented.
+
+### QNX realtime boundary
+
+QNX is the reliability boundary for the eventual camera loop, not a source of
+better model predictions. The target design separates fixed-priority capture,
+budgeted lower-priority inference, and pen-assessment publishing into different
+processes. QNX `SCHED_SPORADIC` can cap inference execution at its normal
+priority so overload delays or drops model work instead of starving capture;
+HAM can later detect a dead or unresponsive worker and restart it. Hardware
+watchdog recovery and QNX kernel traces are later proof gates.
+
+None of those realtime controls is currently configured. The physical Pi now
+proves QNX 8.0.0 target execution, artifact/scenario hash validation, and a
+separate native NCNN experiment with the final 320x320 model. The general
+dashboard executor remains probe-only and reports `inference_performed: false`.
+Dashboard telemetry labels each feature as verified, OS-supported only,
+planned, or unsupported and does not imply a deadline guarantee before an
+overload test measures one.
+
+QNX OS 8.0 does **not** support the Adaptive Partitioning Scheduler. The
+architecture must not claim APS or adaptive CPU partitions. See
+[QNX realtime architecture](qnx-realtime.md) for the supported scheduling and
+recovery design, dashboard proof fields, current evidence boundary, and
+official QNX sources.
 
 ### Whole-pen clip assessment
 
@@ -68,20 +91,23 @@ Version 1 has four replaceable adapters:
 | Pen activity | One whole-pen clip | Clip-average score, category, motion coverage, and zone scores | Not configured |
 | Flock appearance | Sampled frames from the clip | One clip-average appearance score and review category | Not configured |
 | Feces candidate detector | Sampled frames from the clip | Timestamped normalized boxes and lazy crop references | Not configured |
-| Feces disease classifier | One detected feces crop, RGB 224 x 224 | Coccidiosis, Healthy, New Castle Disease, or Salmonella | Not configured |
+| Feces disease classifier | One curated proxy specimen, letterboxed RGB 320 x 320 | Coccidiosis, Healthy, New Castle Disease, or Salmonella | Committed YOLO11n ONNX model |
 
-For now, each adapter derives repeatable fake values from the video SHA-256.
-The mock classifier consumes the detector's crop contract, which means a real
-classifier can replace that stage without changing the dashboard response.
-No crop pixels are materialized and no model artifact runs in the mock path.
-The response repeats that fact at the assessment, module, and candidate levels.
+The first three adapters derive repeatable mock values from the video SHA-256.
+For each candidate, a demo profile deterministically selects a real, attributed
+feces photo from `proxy-specimens/`. That proxy photo did not come from the
+video, and the UI labels it as simulated input. The committed YOLO11n ONNX
+model then performs the actual appearance classification. The expected dataset
+class is displayed separately and never replaces the model prediction. If the
+runtime, model, photo, or checksum is unavailable, the classifier falls back
+to an explicitly marked deterministic mock.
 
-The planned feces classifier is expected to come from work based on the
+The feces classifier was trained from the
 [Chicken Disease dataset](https://www.kaggle.com/datasets/allandclive/chicken-disease-1/data).
-Its published images are 224 x 224, but runtime format, preprocessing,
-quantization, label order, and QNX compatibility still need to be supplied in
-the exported model manifest. The dataset metadata reviewed for this scaffold
-does not state a license, so the lab neither downloads nor bundles it.
+The repository's proxy photos are instead small, attribution-preserving
+derivatives of the CC BY 4.0 Poultry Diseases Dataset published by Machuve et
+al. on Zenodo. Their committed manifests record source, license, SHA-256, and
+the demo-only expected class.
 
 ## System context
 
@@ -274,15 +300,26 @@ artifacts in agreed external storage or a GitHub release.
 `dataset-clips/reviewed.json` is the dashboard's source of truth for camera
 fit, review verdicts, source links, license notes, and whether an entry is
 appropriate for the aggregate clip workflow. The API adds local install state
-at request time. A verified demo asset gets a playable content URL; a cataloged
-source without local bytes does not.
+at request time. A verified demo asset gets a playable content URL, and the
+safe local dataset-video store (`<home>/datasets/videos/**`,
+`HOLY_CRAP_DATASET_VIDEOS_DIR` override) matches reviewed entries by their exact
+file name, recursively. When that file is installed, the entry reports
+`bytes_available`, its installed byte size, and a same-origin
+`/api/v1/dataset-clips/{id}/content` URL. Unsafe names, paths that escape the
+configured root, and ambiguous duplicate file names are rejected, never
+guessed. Installed reference-only and rejected entries are previewable but
+remain non-assessable. Installed, assessable catalog entries run the bounded
+real-video pipeline and record `source: dataset`. Assessable entries with no
+local bytes use the deterministic catalog fallback instead.
 
-The catalog-mock endpoint exists so the team can exercise every approved
-selector and result state before downloading large archives. Its stable seed
-comes from canonical catalog metadata, not from pretend video bytes. Returned
-records therefore use `source: catalog_mock`, `bytes_available: false`, a null
-content URL, and an explicit warning that no footage was decoded and no model
-ran. Reference-only, rejected, and image-only entries are never assessable.
+The catalog endpoint supports both cases. With installed bytes, it hashes and
+hard-links the video into content-addressed storage, samples real frames, and
+runs the configured behavior, pen-dropping, and close-up models. Without bytes,
+its stable fallback seed comes from canonical catalog metadata rather than
+pretend footage. Fallback records use `source: catalog_mock`,
+`bytes_available: false`, a null content URL, and an explicit warning that no
+video was decoded and no model ran. Reference-only, rejected, and image-only
+entries are never assessable.
 
 ## Runtime boundaries
 

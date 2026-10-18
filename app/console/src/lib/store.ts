@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
-import { liveSpecimens, type Specimen } from "./data";
+import { birdsNow, specimensFrom, type CameraSet, type Specimen } from "./data";
 import { VET_ACTIVE_MS } from "./rules";
 
 // Client side view of the actions people have taken. It follows the server (/api/state) and applies
@@ -14,7 +14,9 @@ let states: Record<string, SpecState> = {};
 let vet: VetCall[] = [];
 let online = true;
 let version = 0;
-let clockMin = 0;          // demo clock in minutes, 0 until mounted so server and first client render match
+let camera: CameraSet | null = null;     // the droppings the cameras found, loaded once from /api/droppings
+let cameraSpecimens: Specimen[] = [];
+let nowMs = 0;             // 0 until mounted, so server and first client render match
 let lastJson = "";
 const listeners = new Set<() => void>();
 
@@ -33,7 +35,10 @@ function apply(d: { states?: Record<string, SpecState>; vet?: VetCall[] }) {
 let onlinePens: string[] | null = null;
 export function setOnlinePens(pens: string[] | null) { onlinePens = pens; emit(); }
 export const isOnlinePen = (id: string) => !onlinePens || onlinePens.includes(id);
-export const specimens = (): Specimen[] => liveSpecimens(clockMin).filter((s) => isOnlinePen(s.group));
+export const specimens = (): Specimen[] => cameraSpecimens.filter((s) => isOnlinePen(s.group));
+export const cameraLoaded = () => camera !== null;
+// Birds the pen's camera sees right now, or null without a camera.
+export const birdsIn = (pen: string): number | null => (nowMs ? birdsNow(camera?.clips.find((c) => c.pen === pen), nowMs) : null);
 export const getSpecimens = (): Specimen[] => specimens().filter((s) => states[s.id] !== "normal");
 export const stateOf = (id: string): SpecState => states[id] ?? "new";
 // The pen's termination while it still holds the pen (an hour, or until cleared), the same rule as the server.
@@ -52,10 +57,22 @@ async function refresh() {
   }
 }
 
+async function loadCamera() {
+  try {
+    const r = await fetch("/api/droppings");
+    if (!r.ok) throw new Error(String(r.status));
+    camera = (await r.json()) as CameraSet;
+    cameraSpecimens = specimensFrom(camera);
+    emit();
+  } catch { /* tried again on the next tick */ }
+}
+
 let timer: number | undefined;
+// the bird counts follow the camera loops, which the behaviour models sampled every 10 seconds
 function tickClock() {
-  const m = Math.floor(Date.now() / 60000);
-  if (m !== clockMin) { clockMin = m; emit(); }
+  nowMs = Date.now();
+  if (!camera) void loadCamera();
+  emit();
 }
 let refs = 0;
 const subscribe = (l: () => void) => { listeners.add(l); return () => { listeners.delete(l); }; };

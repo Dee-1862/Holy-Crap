@@ -48,11 +48,11 @@ export default function CameraPulse({ className, bigClass }: { className: string
     <div className={className}>
       <span className="eyebrow">Cameras</span>
       {keyed
-        ? <b className={`${bigClass} num`}>{found}<small>of {keyed} test droppings found</small></b>
+        ? <b className={`${bigClass} num`}>{found}<small>droppings found</small></b>
         : <b className={`${bigClass} num`}>{feeds.length}<small>cameras</small></b>}
       <span className="foot">
         {feeds.length
-          ? `${keyed ? `Pasted into the ${tests.map((f) => f.clip.pen).join(", ")} test clip. ` : ""}Real pen footage is read for behaviour. Flock motion ${(motion / feeds.length).toFixed(1)}% now`
+          ? `${tests.map((f) => `${f.clip.pen} ${f.data.truth?.filter((t) => t.foundAt !== null).length ?? 0}`).join(", ")}${feeds.some((f) => !f.clip.test) ? `, ${feeds.filter((f) => !f.clip.test).map((f) => f.clip.pen).join(" and ")} behaviour` : ""}. Flock motion ${(motion / feeds.length).toFixed(1)}% now`
           : "No camera feeds installed"}
       </span>
     </div>

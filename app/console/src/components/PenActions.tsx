@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { GROUPS } from "@/lib/data";
-import { ago, resultOf, tone } from "@/lib/insight";
+import { resultOf, seenAt, tone } from "@/lib/insight";
 import { mostCritical } from "@/lib/rules";
 import { callVet, clearVet, lastVet, markChecking, markNormal, resetState, specimens, stateOf } from "@/lib/store";
 
@@ -57,14 +57,14 @@ export default function PenActions({ groupId, onOpen }: { groupId: string; onOpe
         </div>
       )}
 
-      <span className="eyebrow">Most critical{list.length > 1 ? ` of ${list.length}` : ""}</span>
+      <span className="eyebrow">Most critical{list.length > 1 ? ` of ${list.length} droppings` : ""}</span>
       {s ? (
         <div className="list on-glass" style={{ marginTop: 6 }}>
         <button className="row" style={{ gridTemplateColumns: "34px 1fr auto" }} onClick={() => onOpen(s.id)}>
           <b className={`num tone-${state === "normal" ? "" : tone(s.grade)}`} style={{ fontSize: 22, fontWeight: 500, textAlign: "center" }}>{s.grade}</b>
           <span>
             <b style={{ display: "block", fontWeight: 600, fontSize: 16 }}>{resultOf(s)}</b>
-            <small className="foot">{ago(s.minsAgo)}{state === "checking" ? ", being checked" : state === "normal" ? ", marked normal" : ""}</small>
+            <small className="foot">{s.cam ? `Dropping ${s.cam.n}, ${seenAt(s).toLowerCase()}` : seenAt(s)}{state === "checking" ? ", being checked" : state === "normal" ? ", marked normal" : ""}</small>
           </span>
           <span className="foot">View details</span>
         </button>

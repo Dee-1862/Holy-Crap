@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "evidence_id": "dropping4-laptop-final-320",
+  "verified_at": "2026-10-17",
+  "thesis": "QNX is for predictable capture deadlines, failure containment, restart/recovery, and inspectable scheduling under load, not model accuracy or raw inference speed.",
+  "platform": {
+    "system": "QNX",
+    "release": "8.0.0",
+    "hardware": "Raspberry Pi 5",
+    "machine": "aarch64le"
+  },
+  "claims": [
+    {
+      "id": "platform-boot",
+      "status": "verified",
+      "summary": "Physical QNX 8.0.0 runs on a Raspberry Pi 5 (aarch64le) and accepts the SSH runner.",
+      "detail": {"system": "QNX", "release": "8.0.0", "hardware": "Raspberry Pi 5", "machine": "aarch64le"}
+    },
+    {
+      "id": "ncnn-native-execution",
+      "status": "verified",
+      "summary": "The final laptop 320 NCNN model executed through the native NCNN path on the Pi.",
+      "detail": {"model": "dropping4-laptop-final-320", "path_kind": "native_ncnn", "target": "Raspberry Pi 5 (aarch64le)"}
+    },
+    {
+      "id": "inference-timing",
+      "status": "verified",
+      "summary": "Ten model-only inference samples measured on the Pi: mean 98.4287 ms (~10.16 FPS).",
+      "detail": {
+        "samples_ms": [99.38, 98.764, 98.7, 96.768, 97.447, 98.379, 98.318, 100.516, 98.517, 97.498],
+        "mean_ms": 98.4287,
+        "approx_fps": 10.16,
+        "scope": "model-only",
+        "excludes": ["decode", "resize", "postprocess"]
+      }
+    },
+    {
+      "id": "onnx-qnx-parity",
+      "status": "verified",
+      "summary": "ONNX-vs-QNX synthetic parity: max abs 0.000732421875, mean abs 0.000013902, p99 0.0001602936.",
+      "detail": {
+        "max_abs_error": 0.000732421875,
+        "mean_abs_error": 0.000013902,
+        "p99_abs_error": 0.0001602936,
+        "comparison": "onnx_laptop_vs_qnx_ncnn"
+      }
+    },
+    {
+      "id": "real-frame-parity",
+      "status": "verified",
+      "summary": "A real feces frame ran through the final native NCNN model on the Pi in 100.583 ms and matched the ONNX reference closely.",
+      "detail": {
+        "inference_ms": 100.583,
+        "max_abs_error": 0.001068115234375,
+        "mean_abs_error": 0.00002025977119046729,
+        "p99_abs_error": 0.00028228759765625,
+        "output_shape": "1x8x2100",
+        "scope": "model-only"
+      }
+    },
+    {
+      "id": "native-paths-local",
+      "status": "verified",
+      "summary": "The native NCNN paths are Pi-local and experimental; they are not production deployments.",
+      "detail": {"status": "experimental", "scope": "Pi-local only"}
+    },
+    {
+      "id": "ncnn-artifact-hashes",
+      "status": "verified",
+      "summary": "Final NCNN artifacts are content-addressed by SHA-256.",
+      "detail": {
+        "param_sha256": "064220842481ac84c4736ab11012129ddb7191412b69bbfde8fee261b620b4c3",
+        "bin_sha256": "6488047efa463cef88932edfa720ec796867f14257fe0eda2f6117b0946ed3c0"
+      }
+    },
+    {
+      "id": "fixed-priority-scheduling",
+      "status": "os_supported_only",
+      "summary": "QNX fixed-priority scheduling is OS-supported but not yet configured in this project."
+    },
+    {
+      "id": "sched-sporadic",
+      "status": "os_supported_only",
+      "summary": "SCHED_SPORADIC is OS-supported for capping inference execution time but not yet configured."
+    },
+    {
+      "id": "ham",
+      "status": "planned",
+      "summary": "HAM (High Availability Manager) is planned for detecting and restarting failed workers; it is not instrumented yet."
+    },
+    {
+      "id": "hardware-watchdog",
+      "status": "planned",
+      "summary": "Hardware watchdog recovery is planned; it is not instrumented yet."
+    },
+    {
+      "id": "kernel-tracing",
+      "status": "planned",
+      "summary": "QNX kernel tracing is planned; it is not instrumented yet."
+    },
+    {
+      "id": "capture-jitter-metrics",
+      "status": "planned",
+      "summary": "Capture jitter and deadline metrics are planned; they are not instrumented yet."
+    },
+    {
+      "id": "service-separation",
+      "status": "planned",
+      "summary": "Separating capture, inference, and publisher into distinct services is planned; it is not instrumented yet."
+    },
+    {
+      "id": "aps-unsupported",
+      "status": "unsupported_guard",
+      "summary": "QNX 8 does not support the Adaptive Partitioning Scheduler; no APS or adaptive CPU partition is claimed, configured, or active."
+    }
+  ]
+}

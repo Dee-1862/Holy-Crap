@@ -165,8 +165,10 @@ static bool http(const char* method, const String& path, const char* body, JsonD
 }
 static void syncNow() {
   JsonDocument doc;
+  bool was = liveOk;
   liveOk = http("GET", "/api/watch", nullptr, doc);
   lastSync = millis();
+  if (liveOk != was) Serial.printf("sync with %s %s\n", API_BASE, liveOk ? "ok" : "failed");   // log changes only
   if (!liveOk) return;
   NSP = 0;
   for (JsonObject o : doc["specs"].as<JsonArray>()) {
@@ -551,6 +553,19 @@ void loop() {
   bool anyDown = M5.BtnA.wasPressed() || M5.BtnB.wasPressed() || t.wasPressed();
   if (anyDown || pressed) lastInput = now;
 
+#if LIVE
+  // refresh from the console on every screen, and while asleep, so the health board and the pen pages stay current
+  static int wifiWas = -1;
+  if ((int)WiFi.status() != wifiWas) {                    // log Wi-Fi changes, so the laptop can see what happened
+    wifiWas = WiFi.status();
+    if (wifiWas == WL_CONNECTED) Serial.printf("wifi connected to %s as %s\n", WIFI_SSID, WiFi.localIP().toString().c_str());
+    else Serial.printf("wifi status %d\n", wifiWas);
+  }
+  uint32_t every = asleep ? 30000 : 6000;                 // slower while the screen is off
+  bool idle = !pressed && now - lastInput > 1500 && !splashUntil && !toastUntil;   // never stall a press mid-use
+  if (idle && now - lastSync > every && WiFi.status() == WL_CONNECTED) syncNow();
+#endif
+
   if (asleep) { if (anyDown) wake(); delay(10); return; }
   if (splashUntil) {
     if (dirty) render();
@@ -560,10 +575,6 @@ void loop() {
   if (swallow) { if (!pressed) swallow = false; delay(10); return; }
   if (now - lastInput > SLEEP_MS) { sleepNow(); return; }
   if (toastUntil) { if (now > toastUntil) { toastUntil = 0; dirty = true; } delay(10); return; }
-#if LIVE
-  // refresh from the console while idle on the overview or the list
-  if (!pressed && (scr == OVERVIEW || scr == LIST) && now - lastSync > 6000 && WiFi.status() == WL_CONNECTED) syncNow();
-#endif
 
   if (scr == OVERVIEW) {
     if (M5.BtnA.wasClicked() || M5.BtnB.wasClicked()) { scr = LIST; dirty = true; }

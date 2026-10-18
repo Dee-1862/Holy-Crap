@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "outbreak-100",
+  "name": "Progressing anomaly control — 100 birds",
+  "description": "A synthetic progression used to test pen-level alert timing. This is not a disease model or clinical claim.",
+  "bird_count": 100,
+  "fps": 11,
+  "duration_s": 60,
+  "seed": 130363,
+  "mode": "outbreak",
+  "pen": {
+    "width_m": 12,
+    "height_m": 8
+  },
+  "observation": {
+    "sample_interval_s": 1,
+    "position_noise_m": 0.04,
+    "miss_probability": 0.04,
+    "false_positive_rate": 0.02,
+    "alert_threshold": 0.18,
+    "alert_persistence_s": 2,
+    "onset_s": 8,
+    "initial_affected_fraction": 0.02,
+    "movement_scale_after_onset": 0.75
+  },
+  "renderer": {
+    "kind": "mock",
+    "version": "1",
+    "observation_artifact": null,
+    "observation_sha256": null,
+    "metadata": {
+      "camera_height_m": 5.5,
+      "lighting_variation": 0.12
+    }
+  }
+}

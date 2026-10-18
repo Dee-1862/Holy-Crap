@@ -18,6 +18,33 @@ disease and it never makes culling decisions.
   cannot observe, identity and tracking, droppings, data, prior work,
   recommended MVP.
 
+## Run the simulation lab
+
+The first working scaffold is a local experiment loop: choose a deterministic
+100-bird scenario, select or upload a model artifact, run the mock executor,
+and inspect pen state, alerts, timing, and saved results in the dashboard. The
+mock makes the workflow testable; it does not measure the uploaded model's
+accuracy. QNX playback, real-video replay, and optional 3D rendering are visible
+but intentionally not claimed as working yet.
+
+```sh
+make doctor
+make bootstrap
+make dev
+```
+
+Then open `http://127.0.0.1:5173`. Local artifacts are stored under `.simlab/`
+and are ignored by Git.
+
+- [Simulation architecture](docs/architecture/simulation-lab.md): component
+  boundaries, run flow, runtime split, and current capability status.
+- [Model handoff](docs/architecture/model-lifecycle.md): importing a completed
+  local bundle without coupling the simulator to training infrastructure.
+- [Simulation roadmap](docs/roadmap/simulation-lab.md): real footage,
+  epidemiological state, optional 3D, and deterministic QNX playback gates.
+- [Contributing](CONTRIBUTING.md): worktrees, contracts, tests, and pull-request
+  expectations for the team.
+
 ## Research base
 
 - [docs/01-key-findings.md](docs/01-key-findings.md): numbered, actionable findings with confidence notes.

@@ -1,1 +1,69 @@
+# Existing entries — keep
 .gyst/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# Node
+node_modules/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editors / IDE
+.vscode/
+.idea/
+.fleet/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Local environment files (never commit real values; keep the example)
+.env
+.env.*
+!.env.example
+
+# Project runtime state (models, runs, veri outputs live here — never delete)
+.simlab/
+
+# Generated artifacts and renders
+web/dist/
+renders/
+generated/
+artifacts/
+
+# Model files
+*.tflite
+*.onnx
+
+# Datasets
+datasets/
+
+# Logs
+*.log
+logs/
+
+# Test, coverage, and tool caches
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/

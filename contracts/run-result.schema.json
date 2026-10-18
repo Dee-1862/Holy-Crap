@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://holy-crap.local/contracts/run-result.schema.json",
+  "title": "Holy Crap simulation run result",
+  "description": "Immutable references and measured output from one executor run.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "model",
+    "scenario",
+    "executor",
+    "created_at",
+    "started_at",
+    "finished_at",
+    "status",
+    "metrics",
+    "artifacts",
+    "error"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "run_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "sha256"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sha256", "seed"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "seed": {"type": "integer", "minimum": 0}
+      }
+    },
+    "executor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": {"enum": ["mock", "workstation", "qnx"]},
+        "version": {"type": "string", "minLength": 1},
+        "target": {"type": ["string", "null"]},
+        "runtime": {"type": ["string", "null"]}
+      }
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "started_at": {"type": ["string", "null"], "format": "date-time"},
+    "finished_at": {"type": ["string", "null"], "format": "date-time"},
+    "status": {"enum": ["pending", "running", "completed", "failed", "cancelled"]},
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "detection_delay_s",
+        "false_alerts",
+        "mean_fps",
+        "p95_latency_ms",
+        "dropped_frames",
+        "alert_triggered"
+      ],
+      "properties": {
+        "detection_delay_s": {"type": ["number", "null"], "minimum": 0},
+        "false_alerts": {"type": "integer", "minimum": 0},
+        "mean_fps": {"type": "number", "minimum": 0},
+        "p50_latency_ms": {"type": "number", "minimum": 0},
+        "p95_latency_ms": {"type": "number", "minimum": 0},
+        "dropped_frames": {"type": "integer", "minimum": 0},
+        "alert_triggered": {"type": "boolean"},
+        "processed_frames": {"type": "integer", "minimum": 0},
+        "duration_s": {"type": "number", "minimum": 0}
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "path", "sha256", "media_type"],
+        "properties": {
+          "kind": {"enum": ["timeline", "snapshots", "predictions", "video", "frames", "log", "report", "other"]},
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "media_type": {"type": "string", "minLength": 1},
+          "size_bytes": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "error": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["code", "message"],
+          "properties": {
+            "code": {"type": "string", "minLength": 1},
+            "message": {"type": "string", "minLength": 1},
+            "retryable": {"type": "boolean"},
+            "details": {"type": "object"}
+          }
+        }
+      ]
+    }
+  }
+}

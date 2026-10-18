@@ -1,12 +1,14 @@
 import fs from "node:fs";
 import { Readable } from "node:stream";
-import { clipFile } from "@/server/media";
+import { clipFile, demoUrl } from "@/server/media";
 
 export const dynamic = "force-dynamic";
 
 // Serves a clip with HTTP range support, which the browser needs to start playing quickly and to loop.
 export async function GET(req: Request, ctx: { params: Promise<{ id: string }> }) {
   const { id } = await ctx.params;
+  const demo = demoUrl("clips", id);
+  if (demo) return Response.redirect(new URL(demo, req.url), 307);     // static file, served with ranges by the host
   const file = clipFile(id);
   if (!file || !fs.existsSync(file)) return Response.json({ error: "Unknown clip" }, { status: 404 });
 

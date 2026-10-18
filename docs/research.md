@@ -46,3 +46,37 @@ Caveat: green/yellow/dark droppings also occur from diet, bile, and normal cecal
 - No camera listed. Role here: alert display / farmer wearable.
 - https://www.cnx-software.com/2026/05/22/m5stack-stopwatch-esp32-s3-devkit-offers-1-75-inch-touch-amoled-microphone-speaker-and-gpio-expansion/
 - Sources are secondary (not the M5Stack page itself).
+
+## Update 2026-10-17: literature and datasets (web search; verify against originals)
+**Correction:** the original write-up's claim that University of Georgia builds droppings classifiers was not supported. UGA (Chai / Lu labs) work found is a YOLOv8 robot-dog system for dead chickens and floor eggs (YOLOv8m ~91% precision). A UGA group is reported to have used the Tanzanian data for a screening tool (unconfirmed). Droppings work found elsewhere: Tanzania (Machuve), Lithuania (Nakrosis), Nigeria, China.
+
+Papers (details in paper-plan.md section 1):
+- https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9376463/ (Machuve 2022)
+- https://doi.org/10.3390/agriengineering7090278 (YOLO11 + EfficientNet-B0)
+- https://onlinelibrary.wiley.com/doi/10.1155/js/1433795 (ESP32-CAM IoT, 2026)
+- https://www.sciencedirect.com/science/article/pii/S2772375523000515 (smartphone, YOLOv3 + ResNet50)
+- https://dl.acm.org/doi/10.1145/3723178.3723198 and https://dl.acm.org/doi/10.1145/3723178.3723288 (Kaggle-data ensembles)
+- https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10571708/ (Nakrosis 2023, Lithuania, six classes)
+- https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10477973/ (Nigeria dataset)
+- https://arxiv.org/html/2507.10056v1 (chicken disease paper surfaced by search; not yet read)
+
+Datasets: Kaggle allandclive/chicken-disease-1 (page not opened; counts vary 6.8k-8k by source); Tanzania set; Nigeria set (14.6k cleaned); China set (10.5k). Kaggle copies are likely not independent of the Tanzania data.
+
+QNX ML runtimes (superseded by the AI Camera App section below): TFLite and OpenCV QNX ports exist; no ONNX Runtime port confirmed. Target board is Pi 5 (confirmed by user).
+
+Edge speed anchors (not comparable to each other): YOLOv8n about 3 FPS on Pi 4 with ncnn (Qengineering); Brazilian ONNX Runtime CPU comparison of tiny YOLOs and SSDLite on Jetson Nano vs Pi 4B (https://sol.sbc.org.br/index.php/wiarc/article/view/42894).
+
+Reading status: none of the papers above has been read in full yet.
+
+## Kaggle dataset verified by user (page pasted 2026-10-17)
+allandclive/chicken-disease-1: 8,067 images, 4 classes, 224x224, Arusha/Kilimanjaro Tanzania, Sep 2020 - Feb 2021, ODK phone app, license Unknown, v1 294 MB, ~9k downloads. Counts and the 6,812 farm + 1,255 lab composition match Machuve et al. 2022, so it is that dataset re-hosted (not independent). Filenames carry source hints (`pcr*` prefix = likely lab-confirmed).
+
+## QNX AI Camera App (read 2026-10-17; cloned and read README + source layout)
+https://gitlab.com/qnx/projects/ai-camera-app (Apache-2.0; created Apr 2025, last commit Oct 2025 "Fixed link in readme").
+- Sample showing video frames from QSF (QNX Sensor Framework) camera APIs processed with TensorFlow Lite and displayed (OpenGL shaders). Default mode: face detection (ModelExecutor / TFLiteExecutor / QSFCameraIntake classes); also style-transfer models fetched from Kaggle.
+- Requires QNX SDP 8.0 with packages sf.camapi, sf.base, mm.aoi, mm.mmf.core, screen.img_codecs; builds on Ubuntu 20.04/22.04 with `make` after `source ~/qnx800/qnxsdp-env.sh`.
+- Needs TFLite and OpenCV built from QNX ports: https://github.com/qnx-ports/build-files (ports/tensorflow, ports/opencv). Libraries and binary are copied to the target with scp.
+- README: recommended platform Raspberry Pi 4 B with Quick Start Image; **tested cameras include Raspberry Pi Camera Module 3**; accepted frame types YUYV, BGR8888, CBYCRY. Camera needs sensor config in /system/etc/post_startup.sh (see QSI wiki Next steps > Camera).
+- Interpreter calls: AllocateTensors, SetNumThreads(-1), Invoke (no explicit delegate seen; XNNPACK library is copied, so TFLite may use it by default; unverified).
+- Not stated: Pi 5 support, latency numbers. Our target is a Pi 5 on QNX 8.0.0, so the sample must be verified there.
+- Implication: ML runtime on QNX is no longer an open risk; the plan uses TFLite (supersedes the earlier "no confirmed port" note).

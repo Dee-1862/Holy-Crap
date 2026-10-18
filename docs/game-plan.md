@@ -18,24 +18,30 @@ The system classifies **droppings on the floor, not individual hens**. With many
 ```
 
 ## Hardware decision (see research.md for sources)
-- **Baseline: ONE QNX Raspberry Pi 5 + one camera.** Enough to prove the whole idea. Do NOT cluster several Pis to share one workload; there's no benefit.
+- **Baseline: ONE QNX Raspberry Pi 5 + one Raspberry Pi Camera Module 3.** Enough to prove the whole idea. Do NOT cluster several Pis to share one workload; there's no benefit.
 - Camera and connector behavior on the Pi 5 under QNX is not yet verified. If one camera can't cover the area, try in this order: (1) move the camera (trolley/robot), (2) add a USB camera to the same Pi (CPU is the limit), (3) only then add more independent Pis, each owning a zone and reporting to one broker.
 - Extra Pis add **coverage only**, not accuracy or speed.
 - **ESP32 cannot run QNX** (no QNX port found). Use ESP32 only for what it is good at: sensors and a small alert display. It cannot run the vision models.
 - M5Stack StopWatch (ESP32-S3, 1.75" AMOLED, Wi-Fi, speaker, vibration) = good farmer-side alert/status device, not a vision node.
 
+## Confirmed hardware and software path (2026-10-17)
+- Board: Raspberry Pi 5 running QNX 8.0.0 (repo TARGET.md; reached over SSH alias `qnxpi`). QNX's own sample README recommends Pi 4 B, so Pi 5 behavior must be verified.
+- Camera: Raspberry Pi Camera Module 3 (owned; listed as tested in QNX's AI Camera App).
+- Starting point: QNX **AI Camera App** (https://gitlab.com/qnx/projects/ai-camera-app, Apache-2.0). Shows frames from QSF (QNX Sensor Framework) into **TensorFlow Lite** with **OpenCV**, using QNX SDP 8.0. We replace its face-detection model with our fecal classifier/detector.
+- Runtime decision: **TensorFlow Lite (INT8 where possible)**, built from QNX ports (qnx-ports/build-files: tensorflow, opencv). ONNX Runtime is no longer needed. Models must be convertible to TFLite.
+
 ## Phases
 1. **Data**: get the public 4-class dataset (verify name/license, see research.md). Collect own barn images later; public data will not match real lighting/bedding.
 2. **Prototype on laptop**: train classifier first (the easier stage); then detector. Measure accuracy per class, watch the confusion between Cocci and Healthy-dark-brown.
-3. **Bring-up on QNX Pi 5**: flash QNX SDP 8.0 Quick Start Target Image, confirm camera capture works, run a still-image inference.
-4. **Port inference**: ONNX Runtime / TFLite on QNX (check availability and CPU latency). Assume CPU-only inference until acceleration is verified. Target: 1-2 FPS is enough for a slow-moving platform.
+3. **Bring-up on QNX Pi 5**: confirm SSH (`qnxpi`), camera capture via QSF with Camera Module 3 (sensor config in post_startup.sh), build the TFLite + OpenCV ports, then build and run QNX's ai-camera-app as-is (face detection) to prove the pipeline.
+4. **Port inference**: swap the app's face model for our TFLite classifier (then detector); measure CPU latency. Assume CPU-only inference until acceleration is verified. Target: 1-2 FPS is enough for a slow-moving platform.
 5. **Alerting**: MQTT -> dashboard; ESP32 StopWatch shows alert + vibrates.
 6. **Field test**: static mount first, mobile robot/trolley later.
 
 ## Risks
 - Dataset domain gap (lab/photo images vs. dusty barn camera).
 - CPU-only inference on the Pi 5 may require a smaller model or lower resolution.
-- Hardware acceleration, QNX ML runtime availability, and camera stack details are still unverified. Resolve them before committing to a model or camera.
+- Reduced risk: TFLite and OpenCV ports for QNX exist and a public sample app uses them. Still unverified on Pi 5: the sample's build/run steps, camera config, XNNPACK/CPU speed, and any hardware acceleration.
 - Fecal color overlaps (diet, bile, cecal droppings are normal but look abnormal). Expect false positives; alert on repeated detections per zone, not single frames.
 - Not a veterinary diagnostic; frame output as "suspected, send sample to vet/lab".
 

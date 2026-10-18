@@ -23,14 +23,14 @@ export default function Radar({ group, barn, color }: Props) {
   return (
     <svg viewBox={`0 0 ${SIZE} ${SIZE}`} role="img" aria-label={`Radar of sub scores. Weakest is ${SUB_AXES[weakest].label}.`} style={{ width: "100%", height: "auto" }}>
       {[0.25, 0.5, 0.75, 1].map((f) => (
-        <polygon key={f} points={poly(SUB_AXES.map(() => f * 10))} fill="none" stroke="rgba(13,43,51,.12)" />
+        <polygon key={f} points={poly(SUB_AXES.map(() => f * 10))} fill="none" style={{ stroke: "var(--grid)" }} />
       ))}
       {SUB_AXES.map((a, i) => {
         const [x, y] = point(i, 10);
         const [lx, ly] = point(i, 12.6);
         return (
           <g key={a.key}>
-            <line x1={C} y1={C} x2={x} y2={y} stroke="rgba(13,43,51,.12)" />
+            <line x1={C} y1={C} x2={x} y2={y} style={{ stroke: "var(--grid)" }} />
             <text x={lx} y={ly} textAnchor="middle" dominantBaseline="middle" fontSize="10.5" fill="var(--ink-3)" fontWeight="600">{a.label}</text>
           </g>
         );

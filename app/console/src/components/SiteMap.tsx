@@ -27,10 +27,10 @@ export default function SiteMap({ selected, filter, onSelect }: Props) {
   const H = Y0 * 2 + 2 * PEN_H + GAP;
   return (
     <svg viewBox={`0 0 ${W} ${H}`} role="group" aria-label="Barn floor plan" style={{ width: "100%", height: "auto", display: "block" }}>
-      <rect x="14" y="14" width={W - 28} height={H - 28} rx="34" fill="rgba(255,255,255,.28)" stroke="rgba(255,255,255,.8)" />
+      <rect x="14" y="14" width={W - 28} height={H - 28} rx="34" style={{ fill: "var(--glass)", stroke: "var(--edge)" }} />
       <text x="44" y="46" fontSize="11" letterSpacing="2.4" fill="var(--ink-3)" fontWeight="700">BARN FLOOR</text>
-      <line x1={X0 + PEN_W + GAP / 2} x2={X0 + PEN_W + GAP / 2} y1="60" y2={H - 40} stroke="rgba(13,43,51,.12)" strokeDasharray="3 7" />
-      <line x1={X0 + 2 * PEN_W + 1.5 * GAP} x2={X0 + 2 * PEN_W + 1.5 * GAP} y1="60" y2={H - 40} stroke="rgba(13,43,51,.12)" strokeDasharray="3 7" />
+      <line x1={X0 + PEN_W + GAP / 2} x2={X0 + PEN_W + GAP / 2} y1="60" y2={H - 40} style={{ stroke: "var(--grid)" }} strokeDasharray="3 7" />
+      <line x1={X0 + 2 * PEN_W + 1.5 * GAP} x2={X0 + 2 * PEN_W + 1.5 * GAP} y1="60" y2={H - 40} style={{ stroke: "var(--grid)" }} strokeDasharray="3 7" />
 
       {GROUPS.map((g) => {
         const { col, row } = slot(g.id);
@@ -51,12 +51,12 @@ export default function SiteMap({ selected, filter, onSelect }: Props) {
             onClick={() => onSelect(g.id)}
             onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(g.id); } }}
           >
-            <rect x={x} y={y} width={PEN_W} height={PEN_H} rx="22" fill={on ? "rgba(255,255,255,.78)" : "rgba(255,255,255,.5)"} stroke={color} strokeWidth={on ? 2.6 : 1.4} />
+            <rect x={x} y={y} width={PEN_W} height={PEN_H} rx="22" style={{ fill: on ? "var(--pen-on)" : "var(--pen)" }} stroke={color} strokeWidth={on ? 2.6 : 1.4} />
             {on && <rect x={x - 5} y={y - 5} width={PEN_W + 10} height={PEN_H + 10} rx="26" fill="none" stroke={color} strokeOpacity=".35" strokeWidth="1.5" />}
             {/* camera and view cone */}
             <polygon points={`${x + PEN_W / 2},${y + 26} ${x + 24},${y + PEN_H - 14} ${x + PEN_W - 24},${y + PEN_H - 14}`} fill={color} fillOpacity=".06" />
             <circle cx={x + PEN_W / 2} cy={y + 22} r="6" fill="var(--ink)" />
-            {birds.map((b, i) => <circle key={i} cx={b.bx} cy={b.by} r="2.6" fill="rgba(13,43,51,.28)" />)}
+            {birds.map((b, i) => <circle key={i} cx={b.bx} cy={b.by} r="2.6" style={{ fill: "var(--dot)" }} />)}
             {/* specimen pins */}
             {SPECIMENS.filter((s) => s.group === g.id && s.minsAgo <= 60).map((s) => (
               <circle key={s.id} cx={x + 20 + s.region[0] * (PEN_W - 40)} cy={y + 50 + s.region[1] * (PEN_H - 80)} r="7" fill={COLOR[tone(s.grade)]} stroke="#fff" strokeWidth="2" />

@@ -3,8 +3,9 @@
 Prototype status 2026-10-17. All three UIs run on filler data (synthetic, not model output). Nothing talks to the backend yet.
 
 ## Look
-- Minimal glassmorphism, named sea glass. A soft aqua, sky and peach backdrop that drifts slowly, frosted translucent panels, deep teal ink.
-- Palette is glass over pastel with deep teal `#0d2b33` as ink. Status colors are green `#17894a` for healthy, golden yellow `#a97900` for normal-but-watch, and red `#cc2f2f` for critical. Yellow replaced the earlier tangerine so it reads calm, and red is reserved for real alerts so the two stay distinct. There is no black background on web and mobile.
+- Minimal glassmorphism in the spirit of Apple glass. Two themes. Light is a simple blue on blue backdrop with soft white glass and navy ink. Dark is black with white glass. It follows the system setting and the header toggle overrides it.
+- Panels have no solid white border. A 1px rim fades from a bright top left corner through clear to a faint bottom right, like light catching glass edges.
+- Ink is navy in light mode and near white in dark mode. Status colors are green for healthy, golden yellow for normal but watch and red for critical, with slightly brighter values in dark mode. Yellow replaced the earlier tangerine so it reads calm, and red is reserved for real alerts. The earlier aqua, peach and orange backdrop colors are gone.
 - Fonts are Instrument Serif for headlines and grade numerals and Manrope for text, loaded with next/font.
 - Memorable element is the circular grade gauge with a serif numeral.
 - Motion is limited to the slow background drift and the gauge fill. Both respect reduced motion.

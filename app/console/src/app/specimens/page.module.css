@@ -7,7 +7,7 @@
 .board h2, .feed h2 { margin: 0; padding: 14px 20px 8px; }
 .row { display: grid; grid-template-columns: 30px 1fr auto; gap: 8px; align-items: center; width: 100%; padding: 13px 20px; border: 0; background: transparent; text-align: left; border-top: 1px solid var(--hair); }
 .row:first-of-type { border-top: 0; }
-.row:hover { background: rgba(255, 255, 255, 0.35); }
+.row:hover { background: var(--glass); }
 .row[aria-pressed="true"] { background: var(--glass-strong); }
 .rk { color: var(--ink-3); font-weight: 600; }
 .nm { font-weight: 600; }
@@ -26,7 +26,7 @@
 .table th { text-align: left; padding: 6px 20px 10px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
 .table td { padding: 14px 20px; border-top: 1px solid var(--hair); }
 .ev { cursor: pointer; }
-.ev:hover td { background: rgba(255, 255, 255, 0.32); }
+.ev:hover td { background: var(--glass); }
 .ev[aria-selected="true"] td { background: var(--glass-strong); }
 .grade { font-family: var(--display); font-size: 24px; }
 

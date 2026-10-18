@@ -5,6 +5,7 @@ import { useState } from "react";
 import Clock from "@/components/Clock";
 import Readout from "@/components/Readout";
 import SiteMap, { type MapFilter } from "@/components/SiteMap";
+import ThemeToggle from "@/components/ThemeToggle";
 import Ticker from "@/components/Ticker";
 import { GROUPS } from "@/lib/data";
 import { barnIndex, openAlerts, ranked, tone } from "@/lib/insight";
@@ -39,6 +40,7 @@ export default function Dashboard() {
           <div><b className="num tone-bad">{openAlerts()}</b><span>Open alerts</span></div>
         </div>
         <span className="pill"><i />Demo data</span>
+        <ThemeToggle />
         <Clock />
       </header>
 

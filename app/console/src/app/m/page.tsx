@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Clock from "@/components/Clock";
 import SpecimenCard from "@/components/SpecimenCard";
+import ThemeToggle from "@/components/ThemeToggle";
 import { SPECIMENS } from "@/lib/data";
 import { ago, groupName, pct, ranked, resultOf, summary, tone } from "@/lib/insight";
 import styles from "./mobile.module.css";
@@ -28,7 +29,7 @@ export default function Mobile() {
     <div className={styles.wrap}>
       <header className={styles.top}>
         <div className={styles.brand}>holy crap</div>
-        <Clock />
+        <span style={{ display: "flex", gap: 8 }}><ThemeToggle /><Clock /></span>
       </header>
 
       <main>

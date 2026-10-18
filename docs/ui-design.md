@@ -33,9 +33,9 @@ Shared code lives in `app/shared/` (`demo-data.js`, `specimen.js`). The watch ha
 |---|---|---|
 | Acknowledge | button | A click |
 | False alarm | button | A hold |
-| Call the vet | hold the button about 1.5 s | B hold about 1.5 s with a progress ring, then a red CODE RED screen reading VET CALLED |
+| Call the vet | hold the button about 1.5 s | B hold about 1.5 s with a progress ring, then red flashes reading TERMINATED and a final screen reading VET CALLED |
 
-Calling the vet is a notification to a person. The button never ends or culls anything, and the watch screen says VET CALLED rather than anything that implies the birds were harmed. There is no cull action anywhere. In the demo nothing is sent.
+Calling the vet is a notification to a person. The button never culls anything. The flashing word TERMINATED is dramatic styling, and the final screen says VET CALLED so the real effect is clear. There is no cull action anywhere. In the demo nothing is sent.
 
 ## Watch controls
 The watch uses the two buttons, with touch as a backup. Any press wakes the screen after it sleeps (20 s idle), and the waking press does nothing else.

@@ -185,7 +185,7 @@ static void alarmScreen() {
     M5.Display.fillScreen(bg);
     M5.Display.setFont(&fonts::Font4); M5.Display.setTextSize(2);
     M5.Display.setTextDatum(middle_center); M5.Display.setTextColor(fg, bg);
-    M5.Display.drawString("CODE RED", CX, CY);
+    M5.Display.drawString("TERMINATED", CX, CY);
     delay(220);
   }
   M5.Power.setVibration(0);

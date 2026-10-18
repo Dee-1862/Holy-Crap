@@ -110,7 +110,7 @@ def download(rec, name, dest):
     if dest.exists():
         return dest
     f = HttpFile(zenodo_url(rec, name))
-    url, size, parts = f.url, f.size, 8
+    url, size, parts = f.url, f.size, 16
     print(f"downloading {name} ({size / 1e6:.0f} MB, {parts} connections) ...", flush=True)
     tmp = dest.with_suffix(".part")
     with open(tmp, "wb") as out:

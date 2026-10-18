@@ -13,7 +13,7 @@
 //   OVERVIEW  A or B click = health board
 //   LIST      A click = move down    B click = open the pen    A hold = overview
 //   PEN       A click = next page    B click = back to the list    A hold = actions
-//             B hold (about 1.5 s) = call the vet for the pen
+//             B hold (about 1.5 s) = call the vet for the pen, the alien shows while the ring fills
 //   MENU      A click = next option  B click = choose  (Call the vet needs B held)
 //   Touch     tap a row in LIST to open it, tap in PEN to flip photo and why
 //   Any button or touch wakes the screen. The wake press does nothing else.
@@ -319,8 +319,11 @@ static void pageWhy() {
   text(KIND[s.k], CX, 120, s.k ? C_TXT : C_GOOD, &fonts::DejaVu24);
   const char* word = s.conf >= 80 ? "Very sure" : s.conf >= 60 ? "Fairly sure" : "Not sure";
   int dots = s.conf >= 80 ? 3 : s.conf >= 60 ? 2 : 1;
-  for (int i = 0; i < 3; i++) M5.Display.fillSmoothCircle(CX - 74 + i * 15, 158, 5, i < dots ? C_TXT : C_SEP);
-  text(word, CX - 44, 158, C_TXT, &fonts::DejaVu18, middle_left);
+  // Dots and words are centered as one group. The text is measured so the dots never touch it.
+  M5.Display.setFont(&fonts::DejaVu18);
+  int tw = M5.Display.textWidth(word), total = 3 * 16 + 14 + tw, sx = CX - total / 2;
+  for (int i = 0; i < 3; i++) M5.Display.fillSmoothCircle(sx + 6 + i * 16, 158, 5, i < dots ? C_TXT : C_SEP);
+  text(word, sx + 3 * 16 + 14, 158, C_TXT, &fonts::DejaVu18, middle_left);
   int second = -1; for (int i = 0; i < 4; i++) if (i != s.k && s.p[i] >= 15 && (second < 0 || s.p[i] > s.p[second])) second = i;
   if (second >= 0) { snprintf(b, sizeof b, "It could also be %s", KIND[second]); text(b, CX, 190, C_SEC, &fonts::DejaVu12); }
   // evidence lines, numbered like the markers on the photo
@@ -371,6 +374,60 @@ static void pageMenu() {
   }
   text("Call the vet needs B held", CX, 408, C_TER, &fonts::DejaVu12);
 }
+// ----- the alien that shows while the termination ring fills and when it finishes -----
+// 20 by 17 pixel art. . empty, # outline and eyes, p body, l light ear tips.
+static const char* ALIEN[17] = {
+  "...###........###...",
+  "...#l####..####l#...",
+  "..#####l#..#l#####..",
+  "..#pp##p####p##pp#..",
+  "###p##pppppppp##p###",
+  "#p###pppppppppp###p#",
+  "#p##pppppppppppp##p#",
+  "#p##pp##pppp##pp##p#",
+  "#p##pp##pppp##pp##p#",
+  "##pppp##pppp##pppp##",
+  ".###pppppppppppp###.",
+  "..##pppppppppppp##..",
+  "..####pp####pp####..",
+  ".....#pp#..#pp#.....",
+  "...######..######...",
+  "...#p#........#p#...",
+  "...###........###..."
+};
+// cell is the size of one sprite pixel on screen. The sprite is drawn centered on cx, cy.
+static void drawAlien(int cx, int cy, int cell) {
+  auto& d = M5.Display;
+  uint16_t outline = d.color565(2, 2, 2), body = d.color565(124, 89, 171), light = d.color565(150, 115, 195);
+  int x0 = cx - 10 * cell, y0 = cy - 17 * cell / 2;
+  for (int r = 0; r < 17; r++) {
+    for (int c = 0; c < 20; c++) {
+      char ch = ALIEN[r][c]; if (ch == '.') continue;
+      d.fillRect(x0 + c * cell, y0 + r * cell, cell, cell, ch == '#' ? outline : ch == 'l' ? light : body);
+    }
+  }
+}
+// One frame while B is held. The first frame clears the screen, then the alien bobs and the red
+// ring grows around the edge. p runs from 0 to 1.
+static void holdFrame(float p, uint32_t now) {
+  auto& d = M5.Display;
+  if (!arcShown) { d.fillScreen(C_BLK); arcShown = true; }
+  d.fillSmoothCircle(CX, CY, 96, C_CARD);
+  drawAlien(CX, CY + ((now / 170) % 2) * 4 - 2, 7);
+  d.fillArc(CX, CY, 216, 224, 270, fmodf(270 + p * 359.0f, 360.0f), C_BAD);
+}
+// Finish screen for the termination. No flashing. Says plainly what happened.
+static void terminatedScreen(const char* line1, const char* line2) {
+  auto& d = M5.Display;
+  d.fillScreen(C_BLK);
+  d.fillArc(CX, CY, 216, 224, 0, 360, C_BAD);
+  d.fillSmoothCircle(CX, 150, 78, C_CARD);
+  drawAlien(CX, 150, 6);
+  text("Terminated", CX, 262, C_TXT, &fonts::DejaVu24);
+  text(PEN_NAME[pen], CX, 296, C_SEC, &fonts::DejaVu18);
+  text(line1, CX, 338, C_TXT, &fonts::DejaVu18);
+  text(line2, CX, 366, C_TER, &fonts::DejaVu12);
+}
 static void toast(const char* m, const char* sub) {
   card(CX - 150, CY - 50, 300, 100, 34, C_CARD2);
   text(m, CX, CY - 12, C_TXT, &fonts::DejaVu18);
@@ -404,7 +461,7 @@ static void setState(int specIdx, int st, const char* path) {
 }
 static void actCheck() { setState(ge[min(pg / 2, gcount - 1)], 1, "check"); toast("I'll check it", where()); scr = PEN; }
 static void actNormal() { setState(ge[min(pg / 2, gcount - 1)], 2, "normal"); toast("Marked normal", "Removed from alerts"); scr = PEN; }
-// Vet request. Flashes, then says plainly what happened. No phone call is placed.
+// Vet request. Shows the alien, then says plainly what happened. No phone call is placed.
 static void actVet() {
   const char* line1 = "Vet request saved"; const char* line2 = where();
 #if LIVE
@@ -420,18 +477,8 @@ static void actVet() {
   line2 = "Demo data, nothing sent";
 #endif
   vetPen = pen; vetAt = 0;
-  M5.Power.setVibration(255);
-  for (int i = 0; i < 4; i++) {
-    uint16_t bg = (i % 2 == 0) ? C_BAD : C_BLK, fg = (i % 2 == 0) ? C_BLK : C_BAD;
-    M5.Display.fillScreen(bg); text("Terminated", CX, CY, fg, &fonts::DejaVu40); delay(220);
-  }
-  M5.Power.setVibration(0);
-  M5.Display.fillScreen(C_BLK);
-  M5.Display.fillArc(CX, CY, 212, 224, 0, 360, C_BAD);
-  text("Vet requested", CX, 200, C_TXT, &fonts::DejaVu24);
-  text(PEN_NAME[pen], CX, 250, C_SEC, &fonts::DejaVu24);
-  text(line1, CX, 312, C_TXT, &fonts::DejaVu18);
-  text(line2, CX, 342, C_TER, &fonts::DejaVu12);
+  M5.Power.setVibration(255); delay(160); M5.Power.setVibration(0);     // one short buzz, no flashing
+  terminatedScreen(line1, line2);
   toastUntil = millis() + 3500;
   scr = LIST; sel = 0;
 }
@@ -495,7 +542,7 @@ void loop() {
     if (M5.BtnB.wasPressed()) { bStart = now; bFired = false; }
     if (M5.BtnB.isPressed() && !bFired) {                      // hold B to request the vet, with a progress ring
       uint32_t el = now - bStart;
-      if (el > 400) { float p = min(1.0f, (el - 400) / (float)(ESC_MS - 400)); M5.Display.fillArc(CX, CY, 216, 224, 270, fmodf(270 + p * 359.0f, 360.0f), C_BAD); arcShown = true; }
+      if (el > 400) { float p = min(1.0f, (el - 400) / (float)(ESC_MS - 400)); holdFrame(p, now); }
       if (el >= ESC_MS) { bFired = true; actVet(); }
     }
     if (M5.BtnB.wasReleased() && arcShown && !bFired) dirty = true;
@@ -514,9 +561,10 @@ void loop() {
       if (M5.BtnB.wasPressed()) { bStart = now; bFired = false; }
       if (M5.BtnB.isPressed() && !bFired) {
         uint32_t el = now - bStart;
-        if (el > 400) { float p = min(1.0f, (el - 400) / (float)(ESC_MS - 400)); M5.Display.fillArc(CX, CY, 216, 224, 270, fmodf(270 + p * 359.0f, 360.0f), C_BAD); arcShown = true; }
+        if (el > 400) { float p = min(1.0f, (el - 400) / (float)(ESC_MS - 400)); holdFrame(p, now); }
         if (el >= ESC_MS) { bFired = true; actVet(); }
       }
+      if (M5.BtnB.wasReleased() && arcShown && !bFired) dirty = true;      // released early, redraw the menu
     }
   }
   if (dirty) render();

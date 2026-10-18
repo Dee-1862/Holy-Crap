@@ -70,3 +70,6 @@ Watch screens: Active, Overview (barn health ring and a bar per pen), Health boa
 - Confidence is said in words (Very sure, Fairly sure, Not sure), with the percentage kept next to it on the web.
 - Watch "Why this result" no longer shows four class bars. It names the most likely result, how sure the model is in three dots, a second possibility only when it is at least 15 percent, and the numbered evidence lines.
 - Watch start screen shows the barn health ring, one status strip with the number of healthy, need a look and urgent pens, and the pen to check first. The full list of pens stays on the health board.
+
+## Termination screen (2026-10-17)
+The red full screen flashing is gone. While B is held, the screen shows the pixel alien on a dark disc that bobs while a red ring grows around the edge. When the ring completes there is one short buzz and a calm finish screen with the alien, "Terminated", the pen name and what really happened (for example "Vet request saved" and "No phone service connected yet"). The alien sprite is 20 by 17 pixel art stored as text in the firmware.

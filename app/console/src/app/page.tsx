@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import Clock from "@/components/Clock";
 import PenDroppings from "@/components/PenDroppings";
 import Readout from "@/components/Readout";
@@ -29,6 +30,13 @@ export default function Dashboard() {
   const open = SPECIMENS.find((s) => s.id === openId) ?? null;
   const index = barnIndex();
   const pens = penLevels();
+  // pens that have a replayed camera feed on the Live view
+  const [cams, setCams] = useState<Record<string, string>>({});
+  useEffect(() => {
+    fetch("/api/live/clips", { cache: "no-store" }).then((r) => r.json())
+      .then((d: { clips: { id: string; pen: string }[] }) => setCams(Object.fromEntries(d.clips.map((c) => [c.pen, c.id]))))
+      .catch(() => setCams({}));
+  }, []);
 
   return (
     <div className={styles.shell}>
@@ -66,6 +74,7 @@ export default function Dashboard() {
         <section className={`glass ${styles.map}`} aria-label="Barn site map">
           <div className={styles.mapHead}>
             <h2 className="headline">Floor plan</h2>
+            {cams[selected] && <Link href={`/live?clip=${cams[selected]}`} className={styles.camLink}>Pen {selected} camera</Link>}
             <div className="seg" role="group" aria-label="Filter pens">
               {FILTERS.map((f) => (
                 <button key={f.id} aria-pressed={filter === f.id} onClick={() => setFilter(f.id)}>{f.label}</button>

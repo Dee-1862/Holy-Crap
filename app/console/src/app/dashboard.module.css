@@ -25,3 +25,6 @@
   .widgets { grid-template-columns: 1fr; }
   .big { font-size: 38px; }
 }
+
+.camLink { font-size: 14px; font-weight: 500; color: var(--label-2); text-decoration: none; padding: 6px 12px; border-radius: 999px; background: var(--fill); margin: 0 auto 0 12px; }
+.camLink:hover { color: var(--label); }

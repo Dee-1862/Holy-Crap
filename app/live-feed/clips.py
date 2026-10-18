@@ -24,14 +24,25 @@ SPATIO = {
     "license": "CC BY 4.0",
 }
 
-# id, title, what the camera sees, source, file name inside the source
+PIO = {
+    "name": "PIO poultry dataset, Universidade Federal da Grande Dourados",
+    "url": "https://zenodo.org/records/16686320",
+    "download": "https://zenodo.org/api/records/16686320/files/0002.mp4/content",
+    "file": "pio/0002.mp4",
+    "md5": "8ca0273b36d0fd3e349eb07f735f0d73",
+    "license": "CC BY 4.0",
+}
+
+# id, the pen on the dashboard floor plan it stands in for, title, what the camera sees, source, file inside the source
 CLIPS = [
-    {"id": "pen-wide", "title": "Pen, wide view", "view": "Fixed camera over a litter floor pen, young and adult birds, 1280 by 720",
+    {"id": "pio-0002", "pen": "A1", "title": "Broiler house, 78 minutes", "view": "Overhead camera in a commercial broiler house, a dense flock of white broilers, 1920 by 1080 shown at 1280",
+     "source": PIO, "member": None},
+    {"id": "pen-wide", "pen": "A2", "title": "Pen, wide view", "view": "Fixed camera over a litter floor pen, young and adult birds, 1280 by 720",
      "source": NESTLER, "member": "20250319_20250319150714_20250319150744_150715.mp4"},
-    {"id": "pen-dense", "title": "Pen, dense flock", "view": "Fixed camera at a corner of a pen with perches, adult birds, 1280 by 720",
+    {"id": "pen-dense", "pen": "B1", "title": "Pen, dense flock", "view": "Fixed camera at a corner of a pen with perches, adult birds, 1280 by 720",
      "source": NESTLER, "member": "20250320_20250320125521_20250320125601_125521.mp4"},
-    {"id": "pen-corner", "title": "Pen, corner view", "view": "Fixed camera above a pen with a feeder, adult birds, 640 by 480",
+    {"id": "pen-corner", "pen": "B2", "title": "Pen, corner view", "view": "Fixed camera above a pen with a feeder, adult birds, 640 by 480",
      "source": NESTLER, "member": "10.2.39.190_01_20250314063356622.mp4"},
-    {"id": "brooder", "title": "Two brooder pens", "view": "Overhead view of two small pens with week old chicks, 848 by 480 at 5 frames a second",
+    {"id": "brooder", "pen": "C1", "title": "Two brooder pens", "view": "Overhead view of two small pens with week old chicks, 848 by 480 at 5 frames a second",
      "source": SPATIO, "member": None},
 ]

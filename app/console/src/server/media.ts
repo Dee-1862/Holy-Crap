@@ -7,6 +7,7 @@ export const MEDIA = path.join(process.cwd(), "media");
 
 export interface ClipInfo {
   id: string;
+  pen: string;
   title: string;
   view: string;
   source: string;

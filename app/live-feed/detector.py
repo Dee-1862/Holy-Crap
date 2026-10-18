@@ -20,10 +20,16 @@ SIDE = 640
 
 
 def load_session(model: Path = MODEL):
+    """Uses the GPU when onnxruntime-gpu can find CUDA, otherwise the CPU, like the Pi."""
+    try:
+        import torch  # noqa: F401  loads the CUDA libraries onnxruntime-gpu looks for
+    except ImportError:
+        pass
     import onnxruntime as ort
     opts = ort.SessionOptions()
     opts.intra_op_num_threads = 4
-    return ort.InferenceSession(str(model), sess_options=opts, providers=["CPUExecutionProvider"])
+    providers = [p for p in ("CUDAExecutionProvider", "CPUExecutionProvider") if p in ort.get_available_providers()]
+    return ort.InferenceSession(str(model), sess_options=opts, providers=providers)
 
 
 def _letterbox(bgr: np.ndarray):

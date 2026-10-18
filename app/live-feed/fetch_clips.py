@@ -34,10 +34,10 @@ def ffmpeg() -> str:
         return "ffmpeg"
 
 
-def to_web_mp4(src: Path, dest: Path) -> None:
+def to_web_mp4(src: Path, dest: Path, fps: int | None = None) -> None:
     """The NESTLER files are named .mp4 but are camera program streams that browsers cannot play.
     Re-encode to ordinary H.264 in an MP4, at most 1280 wide, with the index at the front so it can stream."""
-    cmd = [ffmpeg(), "-y", "-loglevel", "error", "-i", str(src), "-an", "-vf", "scale='min(1280,iw)':-2",
+    cmd = [ffmpeg(), "-y", "-loglevel", "error", "-i", str(src), "-an", "-vf", "scale='min(1280,iw)':-2" + (f",fps={fps}" if fps else ""),
            "-c:v", "libx264", "-preset", "veryfast", "-crf", "26", "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(dest)]
     subprocess.run(cmd, check=True)
 
@@ -56,7 +56,15 @@ def main() -> None:
         src = clip["source"]
         target = out / f"{clip['id']}.mp4"
         if not target.exists():
-            if clip["member"] is None:                                  # a single file download
+            if src.get("file"):                                         # a single checked file, re-encoded
+                raw = RAW / src["file"]
+                if not raw.exists() or md5(raw) != src["md5"]:
+                    fetch(src["download"], raw)
+                    if md5(raw) != src["md5"]:
+                        raise SystemExit(f"md5 mismatch for {src['file']}, not using it")
+                print(f"  converting {clip['id']} to a playable MP4", flush=True)
+                to_web_mp4(raw, target, fps=15)
+            elif clip["member"] is None:                                # a single file download
                 raw = RAW / "spatiotemporal_cam1.mp4"
                 if not raw.exists():
                     fetch(src["download"], raw)
@@ -77,7 +85,7 @@ def main() -> None:
                 print(f"  converting {clip['id']} to a playable MP4", flush=True)
                 to_web_mp4(raw, target)
         manifest.append({
-            "id": clip["id"], "title": clip["title"], "view": clip["view"],
+            "id": clip["id"], "pen": clip["pen"], "title": clip["title"], "view": clip["view"],
             "source": src["name"], "sourceUrl": src["url"], "license": src["license"],
             "bytes": target.stat().st_size,
         })

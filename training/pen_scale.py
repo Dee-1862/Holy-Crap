@@ -135,30 +135,52 @@ def cmd_bank(args):
 
 
 # ---------------------------------------------------------------- 2. background frames
+TEST_CAMERAS = ("10.2.39.190_", "20250319_", "20250320_")     # the NESTLER cameras behind the live feed clips
+VAL_CAMERAS = ("10.2.39.193_",)
+HELD_OUT_PIO = ("0002.mp4",)                                   # the broiler house feed shown live, never trained on
+
+
 def video_sources() -> dict[str, list[Path]]:
-    """PIO videos are train and val (alternating by video), NESTLER is the test farm."""
-    pio = sorted(p for p in (VIDEOS / "pio").rglob("*") if p.suffix.lower() in (".mp4", ".avi", ".mov", ".mkv"))
+    """Split by camera, never by frame, so no camera view is in two splits.
+
+    Five PIO videos (a white broiler house) and two NESTLER cameras train, one NESTLER camera validates.
+    Every video shown in the live feed is held out: PIO 0002 and the NESTLER live feed cameras. NESTLER
+    birds are dark and brown, the kind the close-up model mistakes for droppings, so some are negatives.
+    """
+    pio = sorted(p for p in (VIDEOS / "pio").rglob("*.mp4"))
     nestler = sorted(p for p in (VIDEOS / "nestler").rglob("*.mp4"))
-    val = pio[::5]                                                  # every fifth PIO video is validation
-    return {"train": [p for p in pio if p not in val], "val": val, "test": nestler}
+    test = [p for p in nestler if p.name.startswith(TEST_CAMERAS)] + [p for p in pio if p.name in HELD_OUT_PIO]
+    val = [p for p in nestler if p.name.startswith(VAL_CAMERAS)]
+    train = [p for p in pio if p.name not in HELD_OUT_PIO] + [p for p in nestler if p not in test and p not in val]
+    return {"train": train, "val": val, "test": test}
+
+
+def decode_every(path: Path, every_s: float, limit: int) -> list[tuple[int, np.ndarray]]:
+    """Decode straight through with ffmpeg and keep one frame every few seconds.
+    Seeking in the PIO HEVC files returns grey half decoded frames, so nothing here seeks."""
+    import subprocess
+    import imageio_ffmpeg
+    cap = cv2.VideoCapture(str(path))
+    w, h = int(cap.get(3)), int(cap.get(4))
+    cap.release()
+    H = round(h * FRAME_W / w) // 2 * 2
+    cmd = [imageio_ffmpeg.get_ffmpeg_exe(), "-loglevel", "error", "-i", str(path), "-an",
+           "-vf", f"fps=1/{every_s},scale={FRAME_W}:{H}", "-f", "rawvideo", "-pix_fmt", "bgr24", "-"]
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    frames, size = [], FRAME_W * H * 3
+    while len(frames) < limit:
+        buf = proc.stdout.read(size)
+        if len(buf) < size:
+            break
+        frames.append((round(len(frames) * every_s * 1000), np.frombuffer(buf, np.uint8).reshape(H, FRAME_W, 3).copy()))
+    proc.kill()
+    return frames
 
 
 def sample_frames(job):
     """Save frames from one video at 1280 wide plus its median background (birds move, litter stays)."""
     path, split, every_s, limit = job
-    cap = cv2.VideoCapture(str(path))
-    fps = cap.get(cv2.CAP_PROP_FPS) or 25
-    n = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) or 0
-    step = max(1, int(fps * every_s))
-    picks = list(range(0, n, step))[:limit] if n else []
-    frames = []
-    for i in picks:
-        cap.set(cv2.CAP_PROP_POS_FRAMES, i)
-        ok, f = cap.read()
-        if not ok:
-            continue
-        f = cv2.resize(f, (FRAME_W, round(f.shape[0] * FRAME_W / f.shape[1])), interpolation=cv2.INTER_AREA)
-        frames.append((i, f))
+    frames = decode_every(path, every_s, limit)          # index is milliseconds into the video
     if len(frames) < 3:
         return path.name, 0
     tag = f"{split}_{path.parent.name}_{path.stem}".replace(" ", "_")[:90]
@@ -174,8 +196,9 @@ def cmd_frames(args):
     jobs = []
     for split, paths in video_sources().items():
         (WORK / "frames" / split).mkdir(parents=True, exist_ok=True)
-        every, limit = (2.0, 400) if split == "test" else (args.every, 600)
-        jobs += [(p, split, every, limit) for p in paths]
+        for p in paths:
+            short = "nestler" in p.parts                                # NESTLER clips last under a minute
+            jobs.append((p, split, 1.0 if short else args.every, 400 if short else 600))
     print({s: len(v) for s, v in video_sources().items()}, "videos", flush=True)
     with ProcessPoolExecutor(min(args.workers, 8)) as ex:
         for name, k in ex.map(sample_frames, jobs):

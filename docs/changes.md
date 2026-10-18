@@ -27,3 +27,4 @@ Newest first. One line per change: date, what, why.
 - 2026-10-17: Built web console, mobile page and watch console with filler data. Shared data and drawing code in app/shared. Flashed console sketch to the watch. Added ui-design.md.
 - 2026-10-17: Watch now uses button navigation with a ranked health board, group screen with specimen photos, action menu and a B hold vet call with a red alarm screen. Added placeholder image generator app/tools/make_watch_images.py.
 - 2026-10-17: Moved web and mobile to a Next.js 16 TypeScript project in app/console (routes / and /m) with a sea glass glassmorphism look. Specimen card now leads with verdict, next step and evidence. Removed the old HTML prototypes.
+- 2026-10-17: Recolored status to green for healthy, yellow for normal but watch and red for critical on web, mobile and watch. Fixed backticks in ui-design.md.

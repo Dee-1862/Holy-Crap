@@ -4,7 +4,7 @@ Prototype status 2026-10-17. All three UIs run on filler data (synthetic, not mo
 
 ## Look
 - Minimal glassmorphism, named sea glass. A soft aqua, sky and peach backdrop that drifts slowly, frosted translucent panels, deep teal ink.
-- Palette is glass over pastel with deep teal  as ink. Teal  means good, amber  means caution and burnt coral  means critical. There is no pure red and no black background on web and mobile.
+- Palette is glass over pastel with deep teal `#0d2b33` as ink. Status colors are green `#17894a` for healthy, golden yellow `#a97900` for normal-but-watch, and red `#cc2f2f` for critical. Yellow replaced the earlier tangerine so it reads calm, and red is reserved for real alerts so the two stay distinct. There is no black background on web and mobile.
 - Fonts are Instrument Serif for headlines and grade numerals and Manrope for text, loaded with next/font.
 - Memorable element is the circular grade gauge with a serif numeral.
 - Motion is limited to the slow background drift and the gauge fill. Both respect reduced motion.
@@ -12,11 +12,11 @@ Prototype status 2026-10-17. All three UIs run on filler data (synthetic, not mo
 ## Three clients, one data model
 | Client | Where | Role |
 |---|---|---|
-| Web console |  route  | Health board, summary, specimen feed and specimen card with next step, evidence and scores |
-| Mobile |  route  | Phone first. Three tabs for Overview, Alerts and Specimen. Large touch targets |
-| StopWatch |  | Glance view with a health board and group screens driven by the buttons |
+| Web console | `app/console` route `/` | Health board, summary, specimen feed and specimen card with next step, evidence and scores |
+| Mobile | `app/console` route `/m` | Phone first. Three tabs for Overview, Alerts and Specimen. Large touch targets |
+| StopWatch | `app/watch/console/console.ino` | Glance view with a health board and group screens driven by the buttons |
 
-Web and mobile are one Next.js 16 + React 19 + TypeScript project in , ready for Vercel (see its README). Filler data is in . The watch keeps its own copy of the data inside the sketch. Keep them in step until the backend feeds all three.
+Web and mobile are one Next.js 16 + React 19 + TypeScript project in `app/console`, ready for Vercel (see its README). Filler data is in `src/lib/data.ts`. The watch keeps its own copy of the data inside the sketch. Keep them in step until the backend feeds all three.
 
 ## Specimen card and grade
 - The card shows a grade from 1 to 10, the suspected type with confidence, five sub-scores (color, consistency, urate cap, blood or mucus, foam) and a screening disclaimer.

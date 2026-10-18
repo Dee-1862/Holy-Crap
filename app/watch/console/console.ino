@@ -42,7 +42,9 @@ enum Scr { LIST, GROUP, MENUSCR };
 static const uint32_t SLEEP_MS = 20000;
 static const uint32_t ESC_MS = 1500;
 
-static uint16_t C_OR, C_CY, C_RD, C_GR, C_WH, C_DK;
+// C_OR is a frost white accent for titles and selection. C_CY is green (healthy).
+// C_YL is yellow (normal but watch). C_RD is red (critical, reserved for real alerts).
+static uint16_t C_OR, C_CY, C_YL, C_RD, C_GR, C_WH, C_DK;
 static const int CX = 233, CY = 233;
 static Scr scr = LIST;
 static int sel = 0, grp = 0, evIdx = 0, menuSel = 0;
@@ -80,8 +82,8 @@ static void loadGroup(int gi) {
   for (int i = 0; i < NEV && gcount < 16; i++) if (!strcmp(EV[i].group, GROUPS[gi])) ge[gcount++] = i;
   evIdx = 0;
 }
-static uint16_t levelColor(int l) { return l == 2 ? C_RD : l == 1 ? C_OR : C_CY; }
-static uint16_t gradeColor(int g) { return g >= 8 ? C_CY : g >= 5 ? C_OR : C_RD; }
+static uint16_t levelColor(int l) { return l == 2 ? C_RD : l == 1 ? C_YL : C_CY; }
+static uint16_t gradeColor(int g) { return g >= 8 ? C_CY : g >= 5 ? C_YL : C_RD; }
 
 // ----- drawing helpers -----
 static void txt(const char* s, int x, int y, uint16_t col, int size, textdatum_t d = middle_center) {
@@ -115,7 +117,7 @@ static void pageList() {
   small("RANK", 92, 80, C_GR, middle_center);
   small("GROUP", 168, 80, C_GR, middle_left);
   small("GRADE", 398, 80, C_GR, middle_right);
-  uint16_t band0 = M5.Display.color565(15, 15, 17), band1 = M5.Display.color565(24, 24, 28), hot = M5.Display.color565(64, 28, 8);
+  uint16_t band0 = M5.Display.color565(15, 15, 17), band1 = M5.Display.color565(24, 24, 28), hot = M5.Display.color565(36, 58, 64);
   for (int r = 0; r < NG; r++) {
     int gi = order[r], y0 = ROW_TOP + r * ROW_H, yc = y0 + ROW_H / 2;
     bool on = (r == sel);
@@ -219,9 +221,10 @@ void setup() {
   d.setRotation(0);
   d.setBrightness(190);
   C_DK = d.color565(0, 0, 0);
-  C_OR = d.color565(255, 106, 26);
-  C_CY = d.color565(42, 183, 201);
-  C_RD = d.color565(255, 59, 48);
+  C_OR = d.color565(214, 232, 236);
+  C_CY = d.color565(52, 199, 110);
+  C_YL = d.color565(240, 190, 40);
+  C_RD = d.color565(232, 64, 56);
   C_GR = d.color565(139, 139, 147);
   C_WH = d.color565(233, 231, 228);
   lastInput = millis();

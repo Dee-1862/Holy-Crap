@@ -34,7 +34,7 @@ export default function Specimens() {
         <Clock />
       </header>
 
-      <section className={`glass ${styles.status}`} aria-live="polite">
+      <section className={`glass ${styles.status}`} data-level={sum.hot.length ? "bad" : "good"} aria-live="polite">
         <div className={`eyebrow ${styles.state}`}>
           <i className={sum.hot.length ? styles.alert : styles.calm} />
           {sum.hot.length ? "Needs attention" : "All clear"}
@@ -43,7 +43,7 @@ export default function Specimens() {
         <p className={`sub ${styles.detail}`}>{sum.detail}</p>
         <dl className={styles.stats}>
           <div><dd className="num">{sum.total}</dd><dt>Droppings checked</dt></div>
-          <div><dd className="num">{sum.abnormal}</dd><dt>Abnormal</dt></div>
+          <div><dd className={`num ${sum.abnormal ? "tone-bad" : ""}`}>{sum.abnormal}</dd><dt>Abnormal</dt></div>
           <div><dd className="num">{sum.mean}</dd><dt>Average grade</dt></div>
         </dl>
       </section>

@@ -41,7 +41,7 @@ export default function Mobile() {
       <main>
         {tab === "over" && (
           <section>
-            <div className={`glass ${styles.hero}`}>
+            <div className={`glass ${styles.hero}`} data-level={sum.hot.length ? "bad" : "good"}>
               <div className={`eyebrow ${styles.state}`}>
                 <i className={sum.hot.length ? styles.alert : styles.calm} />
                 {sum.hot.length ? "Needs attention" : "All clear"}
@@ -50,7 +50,7 @@ export default function Mobile() {
               <p className={`sub ${styles.detail}`}>{sum.detail}</p>
               <dl className={styles.stats}>
                 <div><dd className="num">{sum.total}</dd><dt>Droppings checked</dt></div>
-                <div><dd className="num">{sum.abnormal}</dd><dt>Abnormal</dt></div>
+                <div><dd className={`num ${sum.abnormal ? "tone-bad" : ""}`}>{sum.abnormal}</dd><dt>Abnormal</dt></div>
                 <div><dd className="num">{sum.mean}</dd><dt>Average grade</dt></div>
               </dl>
             </div>

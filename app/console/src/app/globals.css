@@ -11,6 +11,8 @@
   --fill-2: rgba(120, 120, 128, 0.16);
   --sep: rgba(84, 84, 88, 0.55);
   --material: rgba(30, 30, 32, 0.72);
+  --select: rgba(255, 255, 255, 0.14);
+  --thumb: #636366;
   /* labels */
   --label: #ffffff;
   --label-2: rgba(235, 235, 245, 0.72);
@@ -36,6 +38,8 @@
   --fill-2: rgba(120, 120, 128, 0.1);
   --sep: rgba(60, 60, 67, 0.2);
   --material: rgba(249, 249, 249, 0.78);
+  --select: rgba(0, 0, 0, 0.07);
+  --thumb: #ffffff;
   --label: #000000;
   --label-2: rgba(60, 60, 67, 0.72);
   --label-3: rgba(60, 60, 67, 0.34);
@@ -101,7 +105,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .list > .row, .list > button.row { display: grid; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 10px 16px; border: 0; background: none; text-align: left; position: relative; }
 .list > .row + .row::before, .list > button.row + button.row::before, .list > .row + button.row::before, .list > button.row + .row::before { content: ""; position: absolute; top: 0; left: 16px; right: 0; height: 1px; background: var(--sep); opacity: 0.6; }
 .list > button.row:hover { background: var(--fill-2); }
-.list > button.row[aria-pressed="true"], .list > button.row[aria-selected="true"] { background: var(--fill); }
+.list > button.row[aria-pressed="true"], .list > button.row[aria-selected="true"] { background: var(--select); }
 .list-h { padding: 18px 16px 8px; }
 
 .pill { font-size: 13px; padding: 6px 12px; border-radius: 999px; background: var(--fill); color: var(--label-2); font-weight: 500; border: 0; }
@@ -110,9 +114,9 @@ button.theme:hover { background: var(--fill); color: var(--label); }
 
 /* segmented control */
 .seg { display: inline-flex; padding: 2px; border-radius: 10px; background: var(--fill); }
-.seg a, .seg span, .seg button { padding: 6px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; color: var(--label); text-decoration: none; background: none; border: 0; }
-.seg [aria-current="page"], .seg [aria-pressed="true"] { background: var(--card-2); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25); font-weight: 600; }
-:root[data-theme="light"] .seg [aria-current="page"], :root[data-theme="light"] .seg [aria-pressed="true"] { background: #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15); }
+.seg a, .seg span, .seg button { padding: 6px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; color: var(--label-2); text-decoration: none; background: none; border: 0; transition: background 0.15s, color 0.15s; }
+.seg a:hover, .seg button:hover { color: var(--label); }
+.seg [aria-current="page"], .seg [aria-pressed="true"] { background: var(--thumb); color: var(--label); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35), inset 0 0.5px 0 rgba(255, 255, 255, 0.25); font-weight: 600; }
 
 .meter { height: 4px; border-radius: 4px; background: var(--fill); overflow: hidden; }
 .meter i { display: block; height: 100%; border-radius: 4px; background: var(--label-2); }
@@ -176,7 +180,7 @@ button.theme:hover { background: var(--fill); color: var(--label); }
 .saw { margin: 0; padding: 0; list-style: none; border-radius: 14px; overflow: hidden; background: var(--fill-2); }
 .saw li + li { border-top: 1px solid var(--sep); }
 .saw button { display: grid; grid-template-columns: 22px 1fr; gap: 10px; width: 100%; text-align: left; background: none; border: 0; padding: 12px 14px; font-size: 15px; line-height: 1.35; color: var(--label); border-radius: 0; }
-.saw button[data-on="true"] { background: var(--fill); }
+.saw button[data-on="true"] { background: var(--select); }
 .saw b { font-weight: 600; color: var(--label-2); }
 
 /* scores: neutral bars, color only when a score is low */

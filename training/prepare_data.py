@@ -29,6 +29,7 @@ from PIL import Image
 CLASSES = ["cocci", "healthy", "ncd", "salmo"]
 FARM_REC, PCR_REC = "4628934", "5801834"
 SEED = 0
+PREFETCH = {}  # zip name -> Future[Path], full mode only
 
 
 def zenodo_url(rec, name):
@@ -196,7 +197,8 @@ def collect(rec, zip_name, prefix, out, mode, per_class, staging):
         with ThreadPoolExecutor(16) as ex:
             list(ex.map(save, members[:per_class]))
     else:
-        zpath = download(rec, zip_name, out / "raw" / zip_name)
+        fut = PREFETCH.get(zip_name)
+        zpath = fut.result() if fut else download(rec, zip_name, out / "raw" / zip_name)
         with zipfile.ZipFile(zpath) as z:
             for n in z.namelist():
                 if n.lower().endswith(".jpg"):
@@ -219,6 +221,14 @@ def main():
 
     out = args.out.resolve()
     staging, yolo, pcr_dir = out / "staging", out / "yolo", out / "pcr"
+    if args.mode == "full":
+        # Start every zip download at once; Zenodo caps each connection, not the total.
+        zips = [(FARM_REC, f"{c}.zip") for c in CLASSES]
+        if not args.no_pcr:
+            zips += [(PCR_REC, f"pcr{c}.zip") for c in CLASSES]
+        pool = ThreadPoolExecutor(len(zips))
+        for rec, name in zips:
+            PREFETCH[name] = pool.submit(download, rec, name, out / "raw" / name)
     labels = read_labels(out)
     print("label files with boxes:", Counter(c for c, _ in labels), flush=True)
 

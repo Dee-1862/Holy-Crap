@@ -2,6 +2,7 @@
 # Veri entrypoint: bash run.sh smoke | full
 set -euo pipefail
 MODE="${1:-smoke}"
+JOB_START=$(date +%s)
 WORK="${WORK_DIR:-$PWD/work}"
 cd "$(dirname "$0")"
 
@@ -27,6 +28,11 @@ if [ "$MODE" = "smoke" ]; then
   python prepare_data.py --out "$WORK" --mode smoke --per-class 40
   python train.py --data "$WORK/yolo/data.yaml" --pcr "$WORK/pcr" --epochs "${EPOCHS:-2}" --imgsz "${IMGSZ:-320}" --batch 16 --export-sizes 320
 else
-  python prepare_data.py --out "$WORK" --mode full
+  python prepare_data.py --out "$WORK" --mode full ${PREP_ARGS:-}
+  if [ -n "${BUDGET_MIN:-}" ]; then
+    # Train for whatever is left of the wall-clock budget, keeping 5 min for eval/export.
+    HOURS=$(python -c "import time; left=($BUDGET_MIN*60 - (time.time()-$JOB_START) - 300)/3600; print(round(max(left, 1/6), 3))")
+    echo "training time cap: $HOURS h"
+  fi
   python train.py --data "$WORK/yolo/data.yaml" --pcr "$WORK/pcr" --hours "${HOURS:-2}" --formats "${FORMATS:-onnx}"
 fi

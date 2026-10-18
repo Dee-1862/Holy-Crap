@@ -16,7 +16,7 @@ df -h "$PWD" || true
 
 if [ "$MODE" = "smoke" ]; then
   python prepare_data.py --out "$WORK" --mode smoke --per-class 40
-  python train.py --data "$WORK/yolo/data.yaml" --pcr "$WORK/pcr" --epochs 2 --imgsz 320 --batch 16 --export-sizes 320
+  python train.py --data "$WORK/yolo/data.yaml" --pcr "$WORK/pcr" --epochs "${EPOCHS:-2}" --imgsz "${IMGSZ:-320}" --batch 16 --export-sizes 320
 else
   python prepare_data.py --out "$WORK" --mode full
   python train.py --data "$WORK/yolo/data.yaml" --pcr "$WORK/pcr" --hours "${HOURS:-2}"

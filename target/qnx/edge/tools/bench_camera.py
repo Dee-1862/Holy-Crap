@@ -23,11 +23,11 @@ from shm import Frames  # noqa: E402
 N = 40
 
 
-def bench(frames: Frames, grey: bool) -> tuple[float, float]:
+def bench(frames: Frames, grey: bool, enhanced: bool = False) -> tuple[float, float]:
     ms, sizes = [], []
     for _ in range(N):
         t = time.perf_counter()
-        got = livejpeg.snapshot(frames, step=6, quality=70, grey=grey)
+        got = livejpeg.snapshot(frames, step=6, quality=70, grey=grey, enhanced=enhanced)
         if got:
             ms.append((time.perf_counter() - t) * 1000)
             sizes.append(len(got[0]))
@@ -38,8 +38,10 @@ def bench(frames: Frames, grey: bool) -> tuple[float, float]:
 def main() -> None:
     frames = Frames()
     for grey in (False, True):
-        ms, size = bench(frames, grey)
-        print(f"{'grey  ' if grey else 'colour'} live view: {ms:6.1f} ms per picture, {size / 1024:6.1f} KB per picture")
+        for enhanced in (False, True):
+            ms, size = bench(frames, grey, enhanced)
+            name = ("grey" if grey else "colour") + (" + enhance" if enhanced else "")
+            print(f"{name:17s} live view: {ms:6.1f} ms per picture, {size / 1024:6.1f} KB per picture")
     copied0, _ = frames.counts()
     time.sleep(10)
     copied1, _ = frames.counts()

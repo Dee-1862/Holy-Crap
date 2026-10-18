@@ -26,7 +26,7 @@ import detector as D
 import behaviour as B
 import os
 import spots as S
-from clips import MEDIA
+from clips import CLIPS, MEDIA
 
 CONF = 0.25
 PEN_MODEL = D.REPO / "models" / "dropping4-pen" / "dropping4pen_yolo11n_640.onnx"
@@ -123,6 +123,12 @@ def analyze(clip: dict, sess) -> dict:
         if int(t // seg_len) != seg:
             seg = int(t // seg_len)
             bg = background_at(bg_cap, fps, seg * seg_len, min(length, (seg + 1) * seg_len))
+            floor = next((c.get("floor") for c in CLIPS if c["id"] == clip["id"]), None)
+            if floor:                                              # the floor drawn for this camera, nothing outside counts
+                h_, w_ = bg.floor.shape
+                drawn = np.zeros((h_, w_), np.uint8)
+                cv2.fillPoly(drawn, [np.array([(x * w_, y * h_) for x, y in floor], np.int32)], 1)
+                bg.floor &= drawn
         frame = to_width(frame)
         H, W = frame.shape[:2]
         gray = cv2.GaussianBlur(cv2.cvtColor(cv2.resize(frame, (160, int(160 * H / W))), cv2.COLOR_BGR2GRAY), (5, 5), 0)

@@ -1,0 +1,4 @@
+test photos,photos,correct,accuracy,ci_low,ci_high
+all,679,665,0.9794,0.9657,0.9877
+exact copies of a training photo,49,49,1.0,,
+without the copies,630,616,0.9778,0.963,0.9867

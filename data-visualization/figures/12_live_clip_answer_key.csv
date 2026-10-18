@@ -1,0 +1,11 @@
+dropping,class,placed at s,found at s,delay s
+1,Healthy,10.6,12.27,1.67
+2,Healthy,28.1,29.87,1.77
+3,Coccidiosis-like,38.7,40.53,1.83
+4,Healthy,53.8,78.4,24.6
+5,Newcastle-like,69.2,,
+6,Coccidiosis-like,81.2,,
+7,Coccidiosis-like,95.4,97.07,1.67
+8,Newcastle-like,112.4,121.6,9.2
+9,Coccidiosis-like,127.4,129.07,1.67
+10,Healthy,139.6,,

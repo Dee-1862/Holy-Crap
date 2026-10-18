@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import CameraLoop from "@/components/CameraLoop";
 import CameraPulse from "@/components/CameraPulse";
+import LiveCam, { LIVE_CAM, useLiveFrame } from "@/components/LiveCam";
 import Clock from "@/components/Clock";
 import PenDroppings from "@/components/PenDroppings";
+import PenActions from "@/components/PenActions";
 import PenFolder from "@/components/PenFolder";
 import Readout from "@/components/Readout";
 import SpecimenSheet from "@/components/SpecimenSheet";
@@ -26,6 +28,8 @@ export default function Dashboard() {
   const pens = penLevels();
   // pens that have a camera feed, and start on one of them
   const [cams, setCams] = useState<string[]>([]);
+  const frame = useLiveFrame();
+  const piCam = selected === LIVE_CAM;
   useEffect(() => {
     fetch("/api/live/clips", { cache: "no-store" }).then((r) => r.json())
       .then((d: { clips: { pen: string }[] }) => {
@@ -72,16 +76,17 @@ export default function Dashboard() {
 
       <main className={styles.grid}>
         <aside className={styles.side} aria-label="Pens and readout">
-          <PenFolder selected={selected} cams={cams} onSelect={setSelected} />
-          {isOnlinePen(selected) && (
+          <PenFolder selected={selected} cams={cams} live={frame === undefined ? null : !!frame && frame.source === "camera"} onSelect={setSelected} />
+          {!piCam && isOnlinePen(selected) && (
             <div className={`glass ${styles.readout}`}>
               <Readout key={selected} groupId={selected} />
+              <PenActions key={`act-${selected}`} groupId={selected} onOpen={setOpenId} />
             </div>
           )}
         </aside>
         <div className={styles.main}>
-          <CameraLoop pen={selected} />
-          {isOnlinePen(selected) && <PenDroppings key={selected} groupId={selected} onOpen={setOpenId} />}
+          {piCam ? <LiveCam frame={frame} /> : <CameraLoop pen={selected} />}
+          {!piCam && isOnlinePen(selected) && <PenDroppings key={selected} groupId={selected} onOpen={setOpenId} />}
         </div>
       </main>
 

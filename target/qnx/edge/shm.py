@@ -42,6 +42,8 @@ class Frames:
         x0 = max(0, min(w - side, int(cx * w) - side // 2)) & ~1     # even, so each pixel pair shares its chroma
         y0 = max(0, min(h - side, int(cy * h) - side // 2))
         base = HEAD + slot * self.frame_bytes
+        if hd["type"] == 1:
+            return self._crop_nv12(slot, hd, base, x0, y0, side)
         bpp = stride // w
         yo = self.y_offset(slot) if bpp == 2 else 0
         # copy the raw rows first, which is quick, then check the camera did not reuse the slot meanwhile
@@ -69,6 +71,27 @@ class Frames:
                     out[k + 1] = max(0, min(255, (c - 100 * d - 208 * e) >> 8))
                     out[k + 2] = max(0, min(255, (c + 516 * d) >> 8))
                     k += 3
+        return bytes(out), side
+
+    def _crop_nv12(self, slot: int, hd: dict, base: int, x0: int, y0: int, side: int) -> tuple[bytes, int] | None:
+        """NV12, as the Camera Module 3 sends it: luma rows, then half height rows of interleaved U V."""
+        w, h = hd["w"], hd["h"]
+        y0 &= ~1                                      # even, so each pair of rows shares its chroma row
+        ys = [self.m[base + y * w + x0: base + y * w + x0 + side] for y in range(y0, y0 + side)]
+        uvs = [self.m[base + (h + y) * w + x0: base + (h + y) * w + x0 + side] for y in range(y0 // 2, (y0 + side) // 2)]
+        if self.head(slot)["seq"] != hd["seq"]:
+            return None
+        out = bytearray(side * side * 3)
+        k = 0
+        for r, row in enumerate(ys):
+            uv = uvs[r // 2]
+            for x in range(side):
+                d, e = uv[x & ~1] - 128, uv[x | 1] - 128
+                c = 298 * (row[x] - 16) + 128
+                out[k] = max(0, min(255, (c + 409 * e) >> 8))
+                out[k + 1] = max(0, min(255, (c - 100 * d - 208 * e) >> 8))
+                out[k + 2] = max(0, min(255, (c + 516 * d) >> 8))
+                k += 3
         return bytes(out), side
 
     def y_offset(self, slot: int) -> int:

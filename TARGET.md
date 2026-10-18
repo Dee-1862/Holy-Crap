@@ -132,7 +132,8 @@ this Pi expose no `so:` providers, so every built package must be checked with
 
 ## Selected camera stack
 
-- Camera: Raspberry Pi Camera Module 3
+- Camera: Raspberry Pi Camera Module 3, verified 2026-10-18 as sensor unit 4 (`/dev/sensor/camera4`, the second
+  camera port, `/dev/i2c4`), NV12 2304x1296 at 30 fps. Power the Pi off before touching the ribbon.
 - Application foundation: QNX AI Camera App
   ([upstream](https://gitlab.com/qnx/projects/ai-camera-app))
 - Primary interface: desktop application over reliable, high-bandwidth Wi-Fi

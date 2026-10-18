@@ -2,12 +2,13 @@
 
 import { useEffect, useSyncExternalStore } from "react";
 import { liveSpecimens, type Specimen } from "./data";
+import { VET_ACTIVE_MS } from "./rules";
 
 // Client side view of the actions people have taken. It follows the server (/api/state) and applies
 // each action locally first, so buttons respond at once and still work if the API is unreachable.
 
 export type SpecState = "new" | "checking" | "normal";
-export interface VetCall { id: string; pen: string; specimenId?: string; ts: number; delivered: "sent" | "logged" | "failed" | "local" }
+export interface VetCall { id: string; pen: string; specimenId?: string; ts: number; delivered: "sent" | "logged" | "failed" | "local"; cleared?: number }
 
 let states: Record<string, SpecState> = {};
 let vet: VetCall[] = [];
@@ -35,7 +36,9 @@ export const isOnlinePen = (id: string) => !onlinePens || onlinePens.includes(id
 export const specimens = (): Specimen[] => liveSpecimens(clockMin).filter((s) => isOnlinePen(s.group));
 export const getSpecimens = (): Specimen[] => specimens().filter((s) => states[s.id] !== "normal");
 export const stateOf = (id: string): SpecState => states[id] ?? "new";
-export const lastVet = (pen: string): VetCall | undefined => vet.filter((v) => v.pen === pen).sort((a, b) => b.ts - a.ts)[0];
+// The pen's termination while it still holds the pen (an hour, or until cleared), the same rule as the server.
+export const lastVet = (pen: string): VetCall | undefined =>
+  vet.filter((v) => v.pen === pen && !v.cleared && Date.now() - v.ts < VET_ACTIVE_MS).sort((a, b) => b.ts - a.ts)[0];
 export const isOnline = () => online;
 
 async function refresh() {
@@ -70,8 +73,8 @@ export function useBarn() {
   }, []);
 }
 
-async function post(url: string, body?: unknown) {
-  const r = await fetch(url, { method: "POST", headers: { "content-type": "application/json" }, body: body ? JSON.stringify(body) : undefined });
+async function post(url: string, body?: unknown, method = "POST") {
+  const r = await fetch(url, { method, headers: { "content-type": "application/json" }, body: body ? JSON.stringify(body) : undefined });
   if (!r.ok) throw new Error(String(r.status));
   return r.json();
 }
@@ -98,6 +101,12 @@ export async function callVet(pen: string, specimenId?: string): Promise<{ dupli
     online = false; emit();
     return { duplicate: false, call };
   }
+}
+
+// Clear a pen's termination so it can be terminated again.
+export async function clearVet(pen: string) {
+  apply({ vet: vet.map((v) => (v.pen === pen && !v.cleared ? { ...v, cleared: Date.now() } : v)) });
+  try { apply(await post(`/api/pens/${pen}/vet`, undefined, "DELETE")); } catch { online = false; emit(); }
 }
 
 // Undo "I'll check it" or "Looks normal".

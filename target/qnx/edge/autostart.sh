@@ -18,4 +18,7 @@ if pidin -F "%A" | grep -q "python3 supervisor[.]py"; then      # the brackets k
   exit 0
 fi
 cd $HOME_DIR/hc-edge || exit 1
-on -u "$(id -u qnxuser):$(id -g qnxuser)" sh -c "export HOME=$HOME_DIR USER=qnxuser; cd $HOME_DIR/hc-edge && nohup python3 supervisor.py --camera replay > $LOG 2>&1 < /dev/null &"
+# the Camera Module 3 when the sensor service found it at boot (unit 4, the second camera port), recorded footage otherwise
+CAMERA="--camera replay"
+[ -e /dev/sensor/camera4 ] && [ -x cam/hccam ] && CAMERA="--camera live --unit 4"
+on -u "$(id -u qnxuser):$(id -g qnxuser)" sh -c "export HOME=$HOME_DIR USER=qnxuser; cd $HOME_DIR/hc-edge && nohup python3 supervisor.py $CAMERA > $LOG 2>&1 < /dev/null &"

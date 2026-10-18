@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { clock, type Analysis, type Clip, type Spot } from "@/lib/live";
+import { CLASS_NAME, clock, type Analysis, type Clip, type Spot } from "@/lib/live";
+import { resultOf } from "@/lib/insight";
+import { specimens } from "@/lib/store";
 import SpotSheet from "./SpotSheet";
 import styles from "./camera.module.css";
 
@@ -110,6 +112,8 @@ export default function CameraLoop({ pen }: { pen: string }) {
     while (bi + 1 < beh.times.length && beh.times[bi + 1] <= t) bi++;
   }
   const heldOut = clip.id.startsWith("bb-");
+  // the same droppings, with the same readings, as the pen panel and the watch (lib/camera-droppings.json)
+  const reading = spots.map((_, i) => specimens().find((x) => x.id === `${pen}-${i + 1}`));
   const keyed = data.truth?.length ?? 0;
   const found = data.truth?.filter((t) => t.foundAt !== null).length ?? 0;
 
@@ -117,7 +121,7 @@ export default function CameraLoop({ pen }: { pen: string }) {
     <section className={`glass ${styles.card}`} aria-label={`Pen ${pen} camera`}>
       <div className={styles.head}>
         <h2 className="headline">Pen {pen} camera</h2>
-        <span className="pill">{clip.test ? "Test clip" : "Replay"}</span>
+        <span className="pill">Recorded</span>
         <span className={styles.grow} />
         <Link href={`/live?clip=${clip.id}`} className={styles.open}>Open in Live</Link>
       </div>
@@ -126,7 +130,7 @@ export default function CameraLoop({ pen }: { pen: string }) {
         <canvas ref={canvas} />
         {spot && <button className={styles.hit} aria-label={`Explain spot ${k + 1}`} onClick={() => setOpen(k)}
           style={{ left: `${((spot.box[0] + spot.box[2]) / 2) * 100}%`, top: `${((spot.box[1] + spot.box[3]) / 2) * 100}%` }} />}
-        <span className={styles.label}>{spot ? `Spot ${k + 1} of ${spots.length} · ${clock(spot.t)}` : "Nothing flagged on this camera"}</span>
+        <span className={styles.label}>{spot ? `Spot ${k + 1} of ${spots.length} · ${clock(spot.t)}` : clip.test ? "Nothing flagged on this camera" : "Behaviour only: droppings are too small to read from a whole-pen camera"}</span>
       </div>
       <div className={styles.thumbs}>
         {spots.map((s, i) => (
@@ -152,15 +156,35 @@ export default function CameraLoop({ pen }: { pen: string }) {
             </div>
           ))}
           <p className="foot">
-            Rishit&apos;s chicken detector and behaviour model (Big Broiler, 0.70 accuracy on held out pens, panting and inactive most reliable).
-            {heldOut ? " This pen is from that held out test set." : " This camera is a different barn, so these shares are unverified here."}
+            Chicken detector and behaviour model, 0.70 accuracy on pens it never trained on, most reliable for panting and inactive birds.
+            {heldOut ? "" : " Not yet checked against this barn."}
           </p>
         </div>
       )}
       <p className="foot">
-        {spot ? "Only the moments where the detector flagged a spot, looped. Tap a spot for the zoomed view and the reasons." : "The detector found nothing it was sure of, so the whole video plays."}
-        {keyed ? ` Answer key on this test clip: ${found} of ${keyed} pasted droppings found.` : " Spots are leads to check, not confirmed droppings."}
+        {spot ? "The moments where the detector found a dropping, looped. Tap one for the zoomed view and the reasons." : "This camera watches the whole pen for flock behaviour."}
+        {keyed ? ` Droppings were placed in this feed at known times to check the detector: ${found} of ${keyed} found.` : ""}
       </p>
+      {spots.length > 0 && (
+        // the same numbered spots as the thumbnails, so the list and the pictures always match
+        <div className="list on-glass" aria-label={`Droppings found by the Pen ${pen} camera`}>
+          <h3 className="eyebrow list-h" style={{ margin: 0 }}>Droppings found by this camera</h3>
+          {spots.map((s, i) => (
+            <button key={i} className="row" style={{ gridTemplateColumns: "26px 44px 1fr auto" }} onClick={() => { setK(i); setOpen(i); }}>
+              <b className="num" style={{ fontSize: 15, textAlign: "center" }}>{i + 1}</b>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={s.crop} alt="" style={{ width: 44, height: 44, objectFit: "cover", borderRadius: 8 }} />
+              <span>
+                <b style={{ display: "block", fontWeight: 600, fontSize: 15 }}>
+                  {reading[i] ? resultOf(reading[i]!) : clip.test && !s.truth ? "False flag" : "Possible dropping"}
+                </b>
+                <small className="foot">Seen at {clock(s.t)}{reading[i] ? ` · score ${reading[i]!.grade} of 10` : ""}</small>
+              </span>
+              <span className="foot num">{s.sizePx} px</span>
+            </button>
+          ))}
+        </div>
+      )}
       {open !== null && spots[open] && <SpotSheet spot={spots[open]} n={open + 1} clip={clip} onClose={() => setOpen(null)} />}
     </section>
   );

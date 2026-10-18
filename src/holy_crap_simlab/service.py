@@ -22,6 +22,7 @@ from .clip_assessment import (
 )
 from .dataset_library import DatasetClipRepository
 from .dataset_videos import DatasetVideoLookupError, LocalDatasetVideoStore
+from .farmer_alerts import FarmerAlertNotifier
 from .media import DemoAssetManifest, DemoAssetRepository, DemoAssetStore
 from .models import (
     AdapterCapability,
@@ -379,6 +380,7 @@ class SimulationService:
         dataset_videos_directory: Path | None = None,
         qnx_benchmark_evidence_path: Path | None = None,
         linux_benchmark_evidence_path: Path | None = None,
+        farmer_alert_notifier: FarmerAlertNotifier | None = None,
     ) -> None:
         self.catalog = Catalog(home)
         self.scenarios = ScenarioRepository(scenario_directory)
@@ -417,6 +419,9 @@ class SimulationService:
         self.linux_benchmark_evidence_path = (
             linux_benchmark_evidence_path
             or default_linux_benchmark_evidence_path()
+        )
+        self.farmer_alert_notifier = farmer_alert_notifier or FarmerAlertNotifier(
+            evidence_dir=Path(home) / "farmer-evidence"
         )
 
     def close(self) -> None:
@@ -538,12 +543,27 @@ class SimulationService:
                     telemetry=sampler.sample(force=True) if sampler else None,
                 )
                 return
+            try:
+                try:
+                    video_path = self.clip_assessments.store.content_path(assessment)
+                except ClipValidationError:
+                    video_path = None
+                farmer_alert = self.farmer_alert_notifier.notify(
+                    assessment, video_path=video_path
+                )
+            except Exception:
+                farmer_alert = "failed"
+            alert_message = {
+                "sent": "Assessment complete; farmer text sent",
+                "skipped": "Assessment complete; no farmer text needed",
+                "failed": "Assessment complete; farmer text could not be sent",
+            }[farmer_alert]
             self._update_assessment_job(
                 job.id,
                 status="completed",
                 progress_percent=100,
                 stage="completed",
-                message="Assessment complete",
+                message=alert_message,
                 assessment_id=assessment.id,
                 telemetry=sampler.sample(force=True) if sampler else None,
             )

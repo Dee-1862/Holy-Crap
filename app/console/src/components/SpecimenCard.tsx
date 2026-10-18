@@ -1,16 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { photoOf, referencePhotos, TYPES, type Specimen } from "@/lib/data";
-import { ago, groupName, nextStep, pct, resultOf, sortedProbs, sureness, topTwo, uncertainty } from "@/lib/insight";
+import { referencePhotos, TYPES, type Specimen } from "@/lib/data";
+import { groupName, seenAt, nextStep, pct, resultOf, sortedProbs, sureness, topTwo, uncertainty } from "@/lib/insight";
 import ChecksList from "./ChecksList";
 import { callVet, lastVet, markChecking, markNormal, resetState, stateOf } from "@/lib/store";
 import Gauge from "./Gauge";
 import SpecimenCanvas from "./SpecimenCanvas";
 
 const HOLD_MS = 1500;
-// Where each numbered marker sits relative to the specimen, for the drawn fallback image. With a real photo the
-// markers sit on the edges of the close-up model's box.
+// Where each numbered marker sits relative to the specimen, for the drawn fallback image. A camera dropping shows
+// the camera's crop with the detector's box instead.
 const MARKER_OFFSETS: [number, number][] = [[-0.13, -0.1], [0.15, 0.04], [-0.02, 0.2]];
 const clamp = (v: number) => Math.min(0.94, Math.max(0.06, v));
 
@@ -54,19 +54,16 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
   const next = nextStep(s);
   const order = sortedProbs(s);
   const unc = uncertainty(s);
-  const evidence = s.why.slice(0, 3);
-  const ph = photoOf(s.id);
+  const cam = s.cam;
+  const evidence = cam ? s.why : s.why.slice(0, 3);
   const refs = referencePhotos(s.type);
-  // marker spots on the model's box: top left corner, right edge, bottom edge
-  const spots: [number, number][] = ph
-    ? [[ph.box[0], ph.box[1]], [ph.box[2], (ph.box[1] + ph.box[3]) / 2], [(ph.box[0] + ph.box[2]) / 2, ph.box[3]]]
-    : MARKER_OFFSETS.map(([dx, dy]) => [s.region[0] + dx, s.region[1] + dy]);
+  const spots: [number, number][] = MARKER_OFFSETS.map(([dx, dy]) => [s.region[0] + dx, s.region[1] + dy]);
 
   return (
     <div className="card">
       <div className="head">
-        <span className="eyebrow">Specimen {s.id}</span>
-        <span className="eyebrow">{groupName(s.group)}, {ago(s.minsAgo)}</span>
+        <span className="eyebrow">{cam ? `Dropping ${cam.n}` : `Specimen ${s.id}`}</span>
+        <span className="eyebrow">{groupName(s.group)}, {seenAt(s).toLowerCase()}</span>
       </div>
 
       <div className="verdict">
@@ -81,14 +78,14 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
       <div className={`next ${next.level}`}><b />{next.head}<small>{next.note}</small></div>
 
       <div className="photo">
-        {ph ? (
+        {cam ? (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={ph.src} alt={`Specimen ${s.id}, close-up photo`} />
-            {heat && <span className="mbox" style={{ left: `${ph.box[0] * 100}%`, top: `${ph.box[1] * 100}%`, width: `${(ph.box[2] - ph.box[0]) * 100}%`, height: `${(ph.box[3] - ph.box[1]) * 100}%` }} />}
+            <img src={cam.crop} alt={`Dropping ${cam.n}, camera view`} />
+            {heat && cam.box && <span className="mbox" style={{ left: `${cam.box[0] * 100}%`, top: `${cam.box[1] * 100}%`, width: `${(cam.box[2] - cam.box[0]) * 100}%`, height: `${(cam.box[3] - cam.box[1]) * 100}%` }} />}
           </>
         ) : <SpecimenCanvas type={s.type} region={s.region} heat={heat} seed={s.id} label="Illustrated specimen" />}
-        {heat && evidence.map((_, i) => (
+        {heat && !cam && evidence.map((_, i) => (
           <button
             key={i} className="mk" data-on={on === i} aria-label={`Evidence ${i + 1}`}
             style={{ left: `${clamp(spots[i][0]) * 100}%`, top: `${clamp(spots[i][1]) * 100}%` }}
@@ -101,10 +98,10 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
           <input type="checkbox" checked={heat} onChange={(e) => setHeat(e.target.checked)} />
           Show where the model looked
         </label>
-        <span>{ph ? "Test photo, model box" : "Drawn example"}</span>
+        <span>{cam ? "Camera view, detector box" : "Drawn example"}</span>
       </div>
 
-      <span className="eyebrow sec">{ph ? "Reading notes (written for the demo)" : "What the model saw"}</span>
+      <span className="eyebrow sec">{cam ? "What the camera measured" : "What the model saw"}</span>
       <ul className="saw">
         {evidence.map((w, i) => (
           <li key={w}>
@@ -115,9 +112,11 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
         ))}
       </ul>
 
-      <div style={{ marginTop: 22 }}>
-        <ChecksList values={[s.sub.color, s.sub.consistency, s.sub.urates, s.sub.blood, s.sub.foam]} title="What we checked" />
-      </div>
+      {s.sub && (
+        <div style={{ marginTop: 22 }}>
+          <ChecksList values={[s.sub.color, s.sub.consistency, s.sub.urates, s.sub.blood, s.sub.foam]} title="What we checked" />
+        </div>
+      )}
 
       <details>
         <summary>Model details</summary>
@@ -138,8 +137,16 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
             <SpecimenCanvas key={i} type={s.type} region={[0.5, 0.5]} heat={false} seed={`${s.id}r${i}`} width={120} height={90} label={`Reference example ${i + 1}`} />
           ))}
         </div>
+        {cam?.closeup && (
+          <div className="refs">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={cam.closeup} alt={`Dropping ${cam.n}, original close-up photo`} />
+          </div>
+        )}
         <div className="note">
-          {ph ? <>The photo is from the Machuve test set ({ph.photo}), which the model never trained on. The box and the scores above are the close-up model&apos;s real reading of it. The numbered reading notes are written for the demo. Reference examples are training photos the model reads as the same type.</>
+          {cam?.closeup
+            ? <>The scores are the close-up model&apos;s reading of the original photo of this dropping, shown above.{cam.added ? " The dropping was placed in this pen's recorded feed at a known time, to check the detector finds it." : ""} Reference examples are training photos the model reads as the same type.</>
+            : cam ? "The scores are the pen camera model's own reading of the crop. Reference examples are training photos the close-up model reads as the same type."
             : "Reference examples are placeholders. In production they come from the labeled training set."}
         </div>
       </details>

@@ -2,7 +2,18 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from scripts.dev import _configure_proxy_specimen_pool
+from scripts.dev import _configure_farmer_alerts, _configure_proxy_specimen_pool
+
+
+def test_dev_supervisor_enables_local_farmer_alerts() -> None:
+    environ: dict[str, str] = {}
+
+    _configure_farmer_alerts(environ)
+
+    assert environ["HOLY_CRAP_FARMER_ALERTS_ENABLED"] == "1"
+    assert environ["HOLY_CRAP_FARMER_AGENT_URL"] == (
+        "http://127.0.0.1:4317/simulation-alerts"
+    )
 
 
 def test_generated_catalog_root_is_configured_without_reading_catalog(

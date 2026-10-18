@@ -1,7 +1,7 @@
 """Start the edge pipeline as separate processes, each at its own priority, and restart any that dies.
 
     python3 supervisor.py --camera replay --mov /data/share/sensor/simulator_camera.barn.mov
-    python3 supervisor.py --camera live --unit 2
+    python3 supervisor.py --camera live --unit 4
 
 This pipeline uses separate process boundaries and message passing so a worker failure can be detected and
 that worker can be restarted without intentionally terminating the other application workers. This is an
@@ -377,7 +377,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--camera", choices=["replay", "live"], default="replay")
     ap.add_argument("--mov", default="/data/share/sensor/simulator_camera.barn.mov")
-    ap.add_argument("--unit", type=int, default=2)
+    ap.add_argument("--unit", type=int, default=4)       # the Camera Module 3 on the second port
     ap.add_argument("--rate", type=float, default=2.0)
     ap.add_argument("--scheduling", choices=["qnx", "control"], default="qnx",
                     help="qnx applies configured `on -p` priorities; control launches every section normally")

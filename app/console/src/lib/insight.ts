@@ -1,4 +1,4 @@
-import { GROUPS, TYPES, type Group, type Specimen } from "./data";
+import { GROUPS, TYPES, type Group, type Specimen, type SubScores } from "./data";
 import { penStats } from "./rules";
 import { getSpecimens, isOnlinePen } from "./store";
 
@@ -7,6 +7,9 @@ export type Tone = "good" | "warn" | "bad";
 export const pct = (x: number) => Math.round(x * 100);
 export const tone = (grade: number): Tone => (grade >= 8 ? "good" : grade >= 5 ? "warn" : "bad");
 export const ago = (mins: number) => `${mins} min ago`;
+const clock = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+// When a dropping was seen: the moment in its camera feed, or minutes ago for anything without one.
+export const seenAt = (s: Specimen) => (s.cam ? `Seen at ${clock(s.cam.at)} in the feed` : ago(s.minsAgo));
 export const groupName = (id: string) => GROUPS.find((g) => g.id === id)?.name ?? id;
 export const resultOf = (s: Specimen) => (s.type === "healthy" ? "Normal" : `Suspected ${TYPES[s.type].name}`);
 
@@ -56,7 +59,7 @@ export function uncertainty(s: Specimen) {
 
 export const specimensOf = (groupId: string) => getSpecimens().filter((s) => s.group === groupId);
 
-export const SUB_AXES: { key: keyof Specimen["sub"]; label: string }[] = [
+export const SUB_AXES: { key: keyof SubScores; label: string }[] = [
   { key: "color", label: "Color" },
   { key: "consistency", label: "Consistency" },
   { key: "urates", label: "Urate cap" },
@@ -64,14 +67,14 @@ export const SUB_AXES: { key: keyof Specimen["sub"]; label: string }[] = [
   { key: "foam", label: "Foam" },
 ];
 
-// Mean sub-scores (0 to 10) for one group, or for the whole barn when no id is given.
-export function radarOf(groupId?: string): number[] {
-  const list = groupId ? specimensOf(groupId) : getSpecimens();
-  if (!list.length) return SUB_AXES.map(() => 0);
-  return SUB_AXES.map(({ key }) => list.reduce((a, s) => a + s.sub[key], 0) / list.length);
+// Mean sub-scores (0 to 10) for one group, or for the whole barn when no id is given. Null when nothing measured them.
+export function radarOf(groupId?: string): number[] | null {
+  const list = (groupId ? specimensOf(groupId) : getSpecimens()).flatMap((s) => (s.sub ? [s.sub] : []));
+  if (!list.length) return null;
+  return SUB_AXES.map(({ key }) => list.reduce((a, sub) => a + sub[key], 0) / list.length);
 }
 
-// Barn index out of 100, the mean grade of the last 15 minutes scaled up.
+// Barn index out of 100, the mean dropping score scaled up.
 export function barnIndex(): number {
   const all = getSpecimens();
   const recent = all.filter((s) => s.minsAgo <= 15);
@@ -80,33 +83,17 @@ export function barnIndex(): number {
   return Math.round((list.reduce((a, s) => a + s.grade, 0) / list.length) * 10);
 }
 
-export const openAlerts = () => GROUPS.filter((g) => isOnlinePen(g.id) && groupStatus(g).level !== "good").length;
-
 // Pens split by whether they need a look. Used for the dashboard widgets.
+// Pens without any droppings read (cameras used for behaviour) count in neither.
 export function penLevels() {
-  const r = ranked();
+  const r = ranked().filter((x) => x.status.mean !== null);
   return { healthy: r.filter((x) => x.status.level === "good"), look: r.filter((x) => x.status.level !== "good").reverse(), total: r.length };
-}
-
-export function summary() {
-  const hot = ranked().filter((r) => r.status.level === "bad").map((r) => r.group.name);
-  const all = getSpecimens();
-  const abnormal = all.filter((s) => s.type !== "healthy").length;
-  const mean = all.length ? (all.reduce((a, s) => a + s.grade, 0) / all.length).toFixed(1) : "0.0";
-  const headline = hot.length ? `${hot.join(" and ")} ${hot.length > 1 ? "need" : "needs"} attention` : "All pens look calm";
-  // One plain sentence under the headline. Names the worst group and what to do.
-  const worst = ranked().filter((r) => r.status.level === "bad").map((r) => r.group)[0];
-  const n = worst ? groupStatus(worst).bad : 0;
-  const detail = worst
-    ? `${worst.name} has ${n} abnormal specimens in the last 15 minutes. Check the birds on site and call the vet if it continues.`
-    : "No pen has repeated abnormal specimens in the last 15 minutes.";
-  return { hot, abnormal, mean, headline, detail, total: all.length };
 }
 
 // ----- plain language checks -----
 // The five things the model looks at, in words a farmer would use. Scores are 0 to 10 where 10 is
 // perfectly normal. 8 or more reads as normal, 5 to 7 as a bit off, under 5 as a problem.
-export const CHECKS: { key: keyof Specimen["sub"]; label: string; words: [string, string, string] }[] = [
+export const CHECKS: { key: keyof SubScores; label: string; words: [string, string, string] }[] = [
   { key: "color", label: "Color", words: ["Normal", "A bit off", "Unusual"] },
   { key: "consistency", label: "Firmness", words: ["Firm", "Soft", "Watery"] },
   { key: "urates", label: "White cap", words: ["Present", "Thin", "Missing"] },

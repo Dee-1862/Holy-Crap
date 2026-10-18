@@ -1,0 +1,7 @@
+set,threshold,answered,accuracy of answers
+farm,0.25,0.9941,0.9852
+farm,0.5,0.9455,0.9922
+farm,0.8,0.6966,0.9937
+pcr,0.25,0.8518,0.7877
+pcr,0.5,0.6701,0.8264
+pcr,0.8,0.2781,0.8739

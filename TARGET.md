@@ -121,9 +121,19 @@ is a runtime mirror and did not resolve package ownership. Sampled packages on
 this Pi expose no `so:` providers, so every built package must be checked with
 `readelf -d` and every non-libc runtime dependency recorded explicitly.
 
+## Inference on the Pi (verified 2026-10-18)
+
+- ONNX Runtime 1.24.4 and numpy 2.4.1 are installed from oss.qnx.com packages, offline, with `apk add --no-network`.
+  See target/qnx/edge/ortlite/README.md for the package list, the Abseil version trap and the C bridge that
+  replaces QNX's broken `python3-onnxruntime` module.
+- The edge pipeline runs the detector on the Pi in its own `infer` section at priority 7. The laptop is not needed.
+- The Pi boots with its clock at 1970 (no battery, no network time on the direct cable). Set it from the laptop
+  before anything that checks TLS certificates.
+
 ## Selected camera stack
 
-- Camera: Raspberry Pi Camera Module 3
+- Camera: Raspberry Pi Camera Module 3, verified 2026-10-18 as sensor unit 4 (`/dev/sensor/camera4`, the second
+  camera port, `/dev/i2c4`), NV12 2304x1296 at 30 fps. Power the Pi off before touching the ribbon.
 - Application foundation: QNX AI Camera App
   ([upstream](https://gitlab.com/qnx/projects/ai-camera-app))
 - Primary interface: desktop application over reliable, high-bandwidth Wi-Fi

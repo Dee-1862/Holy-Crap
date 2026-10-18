@@ -1,138 +1,107 @@
-# Holy-Crap: poultry health research
+# Holy-Crap
 
-A Raspberry Pi Camera Module 3 mounted overhead watches chickens in a pen.
-The headless QNX Raspberry Pi 5 is intended to send a compressed/downsampled
-preview, clips, or events to a desktop primary UI over a Wi-Fi path that still
-needs field validation. The system monitors the flock, tracks individuals when
-feasible, detects and associates newly deposited droppings when the evidence
-supports it, and surfaces
-health/welfare anomalies for a farmer to review. It does not diagnose
-disease and it never makes culling decisions.
+A pen camera, a QNX Raspberry Pi 5 and a detector that look at chicken droppings and tell a farmer when a pen needs a look. It flags appearance for review. It does not diagnose disease and never decides on treatment or culling.
 
-## Start here
+Live site: https://aremyhens.fit (dashboard, Pi status, privacy and terms)
 
-- [docs/BIBLE.md](docs/BIBLE.md): the authoritative handbook: scope, safety boundary,
-  hardware, QNX Pi operations, build plan, decisions, unknowns. Controls
-  where older docs conflict.
-- [docs/research/PAPER.md](docs/research/PAPER.md): the central synthesis: what the camera can and
-  cannot observe, identity and tracking, droppings, data, prior work,
-  recommended MVP.
+| Raspberry Pi 5 with Camera Module 3 | Watch | Dashboard | Farmer chat |
+|---|---|---|---|
+| <img src="images/raspberrypi.jpeg" width="190"> | <img src="images/watch1.jpeg" width="190"> | <img src="images/dashboard.png" width="320"> | <img src="images/chat.png" width="150"> |
 
-## Run the simulation lab
+The watch and dashboard show demo pen readings, labelled as such in the app. The chat photo is a sample image.
 
-The main operator workflow is a whole-pen clip assessment. Upload one video,
-typically around five minutes, and get one aggregate summary of flock activity,
-flock appearance, and feces candidates. It does not invent an infection
-progression or require stable bird identities. Activity, appearance, and feces
-locations are deterministic mocks. The feces appearance stage runs the
-committed ONNX model on attributed proxy photos and marks that substitution in
-the result. Re-uploading the same bytes produces the same evidence mix.
+## Paper
 
-```sh
-curl -F 'file=@whole-pen.mp4;type=video/mp4' \
-  http://127.0.0.1:8000/api/v1/clip-assessments/upload
+**Held-out Accuracy Is Not New-Collection Accuracy: A Cross-Collection Benchmark of Poultry Dropping Classifiers and a Process-Isolated Pen-Camera Pipeline on a QNX Raspberry Pi 5.** Deekshith Reddy Bhoomireddy, Rishit Rai, Lance Streuber.
+
+[PDF](paper/holy-crap-paper.pdf) · [single LaTeX file](paper/holy-crap-paper.tex) · [sections](paper/sections/) · [references](paper/references.bib) · [citation check](paper/citation-check.md) · [verification report](paper/verification-report.md)
+
+Every model trained on the same split of the Machuve farm photos scores about 99% on the farm test and 75 to 78% on a separate PCR-labelled collection.
+
+| Model, same training photos | Farm test (679) | PCR-labelled (1,255) |
+|---|---|---|
+| MobileNetV2 (Machuve et al.) | 99.6% | 74.6% |
+| EfficientNet-B0 (Dhungana et al.) | 99.0% | 78.2% |
+| YOLO11n detector (ours), always answers | 98.5% | 76.3% |
+
+Other findings:
+- 49 farm test photos are exact copies of training photos. Removing them changes accuracy by 0.1 points.
+- 19 pairs of identical PCR files are filed under two classes.
+- In the farm set, the salmonella and Newcastle photos come from inoculated birds, so the setting can stand in for the class.
+- A pen-scale fine-tune, trained on public barn video with pasted droppings and split by camera, lifts recall from 0.29 to 0.80 and precision from 0.11 to 0.93 on unseen cameras.
+- On QNX, a pipeline stage killed with `SIGKILL` is relaunched within 20 to 33 ms of the supervisor noticing.
+
+Build the PDF: `python paper/build.py --tectonic <path to tectonic>`, or upload `paper/` to Overleaf. The figures come from [data-visualization/evaluation.py](data-visualization/evaluation.py).
+
+## How it fits together
+
+```mermaid
+flowchart LR
+  cam["Camera Module 3"] --> pi
+  subgraph pi["Raspberry Pi 5, QNX 8.0"]
+    direction TB
+    capture["camera capture (C)"] --> spot["still-spot finder"]
+    spot --> model["detector on full-res patch<br/>ONNX Runtime via C bridge"]
+    model --> explain["explain step and filters"]
+    explain --> links["uplink, cloud, site and watch links"]
+  end
+  links -- "https, outgoing only" --> site["aremyhens.fit<br/>Next.js on Vercel + Upstash KV"]
+  links -- "local Wi-Fi" --> watch["M5Stack StopWatch"]
+  site -- "polls every 6 s" --> watch
+  site -- "Crash button" --> links
+  alert["pen alert<br/>(simulated today)"] -.-> agent["farmer agent, separate service<br/>Photon iMessage + DeepSeek"]
+  agent --> people["farmer, and the vet only after the farmer agrees"]
 ```
 
-The uploaded video is stored once by SHA-256 under `.simlab/clips/`. You can
-also assess an installed, hash-verified demo clip with
-`POST /api/v1/clip-assessments/demo/{asset_id}`. List saved assessments with
-`GET /api/v1/clip-assessments`, fetch one with
-`GET /api/v1/clip-assessments/{id}`, and stream its original bytes from the
-assessment's `video.content_url`.
+Each box inside the Pi is its own QNX process with its own priority. Stages exchange small messages by QNX message passing, and full frames stay in shared memory. A supervisor relaunches any stage that exits. The site link only makes outgoing requests, so the Pi works behind any Wi-Fi. The farmer agent sends an alert over iMessage, answers questions in plain words, and contacts the vet only after the farmer clearly agrees, a rule enforced in code, not by the language model. It is not yet fed by the Pi.
 
-The dashboard's dataset picker comes from the committed reviewed catalog at
-`GET /api/v1/dataset-clips`. When a reviewed entry's exact file name exists in
-the local dataset-video store (`<HOLY_CRAP_HOME>/datasets/videos/**`, overridable
-with `HOLY_CRAP_DATASET_VIDEOS_DIR`), the API reports `bytes_available`, the
-installed byte size, and a playable `content_url`
-(`GET /api/v1/dataset-clips/{id}/content`). That preview never changes an
-entry's review status or assessability. When an assessable entry has local
-video bytes, `POST /api/v1/clip-assessments/catalog/{clip_id}` analyzes those
-bytes and records `source: dataset`. An assessable entry without installed
-bytes can still produce deterministic interface sample data through the same
-endpoint. That fallback response is labeled
-`catalog_mock`, has no playable content URL, and says plainly that no video was
-decoded and no model ran. Rejected footage, annotated reference clips, and
-image-only datasets cannot be assessed through that endpoint.
-
-The video path now runs bounded real inference over six sparse ffmpeg frames.
-The behavior pipeline detects chickens and aggregates seven behavior classes
-without requiring stable bird IDs. The pen-dropping model proposes persistent
-locations across sampled frames, then the close-up model evaluates the observed
-RGB crops. If real video inference is unavailable, the response marks the
-affected stage as partial or mock and uses deterministic locations or the
-installed attributed proxy-photo pool as an explicit fallback. The dashboard
-keeps the observed location, classifier input, and model output separate. The
-close-up classifier was trained from the linked
-[Chicken Disease dataset](https://www.kaggle.com/datasets/allandclive/chicken-disease-1/data);
-the bundled proxy photos come from the CC BY 4.0 Machuve et al. Zenodo dataset
-and carry their own manifests and attribution.
-
-The older scenario runner is still available for deterministic infrastructure
-testing: choose a 100-bird scenario, select or upload a model artifact, run the
-mock executor, and inspect its saved result. That mock does not measure an
-uploaded model's accuracy and should not be confused with the clip assessment.
-
-The dashboard's QNX executor is an honest target-validation path: a QNX run
-stages one exact catalog model and one canonical scenario JSON onto the
-physical Pi and returns a verified receipt (`evaluation_kind: target_probe`,
-`inference_performed: false`). Separately, the final 320x320 model has now run
-natively through NCNN on the Pi; ten model-only runs averaged 98.4287 ms, and a
-real feces frame matched the ONNX reference closely. That experimental path is
-not yet the production dashboard executor. See
-`POST /api/v1/system/qnx/probe` and the `QNX_*` settings in `.env.example`.
-When `qnxpi.local` is unavailable on a direct Ethernet link, keep
-`QNX_SSH_ALIAS=qnxpi` so the existing identity and host-key policy still
-apply, and set `QNX_SSH_HOSTNAME` to the Pi's current link-local address. The
-checked-in runner helper carries that override through the full validation
-job, including upload, polling, and receipt download.
-
-Committed reference media includes a PIO-paper overhead broiler-house image
-and the team-reviewed Spatiotemporal Annotator whole-pen clip (two complete
-pens, 40 week-one birds, 848 x 480 at 5 fps). It is
-served through `GET /api/v1/media` and `GET /api/v1/media/{id}/content` only
-after the file is present and its SHA-256 matches the committed manifest.
-Fetch all committed assets with `make demo-assets`, or pass one manifest id to
-`python3 scripts/fetch_demo_assets.py`. Downloads also have to match the exact
-manifest byte size. This imagery is a visual reference only:
-the scenario's bird positions and outbreak timing are simulated, so the
-combined result is not outbreak footage and is never labeled as one.
-
-```sh
-make doctor
-make bootstrap
-make demo-assets   # optional: fetch every committed reference image/video
-make dev
+```mermaid
+flowchart TB
+  farm["Machuve farm photos<br/>Zenodo 4628934"] --> split["80/10/10 split by photo, seed 0"]
+  split --> train["train: YOLO11n, MobileNetV2, EfficientNet-B0"]
+  split --> ftest["farm test, 679 photos"]
+  pcr["PCR-labelled photos<br/>Zenodo 5801834, never trained on"] --> ptest["external test, 1,255 photos"]
+  video["PIO and NESTLER barn video"] --> pen["pen tiles with pasted droppings<br/>split by camera"]
+  pen --> penmodel["dropping4-pen fine-tune"]
+  train --> eval["evaluation.py: accuracy, Wilson CIs,<br/>McNemar, calibration, duplicates"]
+  ftest --> eval
+  ptest --> eval
 ```
 
-Then open `http://127.0.0.1:5173`. Local artifacts are stored under `.simlab/`
-and are ignored by Git.
+## Repository
 
-- [Simulation architecture](docs/architecture/simulation-lab.md): component
-  boundaries, run flow, runtime split, and current capability status.
-- [Model handoff](docs/architecture/model-lifecycle.md): importing a completed
-  local bundle without coupling the simulator to training infrastructure.
-- [Video preprocessing](docs/architecture/video-preprocessing.md): create and
-  measure color, grayscale, resolution, FPS, and codec variants without
-  confusing storage compression with model inference speed.
-- [Simulation roadmap](docs/roadmap/simulation-lab.md): real footage,
-  epidemiological state, optional 3D, and deterministic QNX playback gates.
-- [Contributing](CONTRIBUTING.md): worktrees, contracts, tests, and pull-request
-  expectations for the team.
+| Path | What it is |
+|---|---|
+| [paper/](paper/) | the paper, its references and verification |
+| [data-visualization/](data-visualization/) | two audit notebooks, `evaluation.py`, every figure as PNG, SVG, PDF and CSV |
+| [models/](models/) | detector weights (close-up, pen-scale, Veri replicate, behaviour) with test metrics |
+| [training/](training/) | data prep, detector and pen training, `benchmark_classifiers.py` |
+| [target/qnx/edge/](target/qnx/edge/) | the Pi pipeline: sections, supervisor, C camera capture, ONNX bridge, autostart |
+| [target/qnx/upstream/](target/qnx/upstream/) | draft fixes for QNX's ONNX Runtime package |
+| [app/console/](app/console/) | the dashboard and Pi page (Next.js), deployed at aremyhens.fit |
+| [app/watch/](app/watch/) | StopWatch firmware |
+| [app/farmer-agent/](app/farmer-agent/) | Photon iMessage farmer and vet agent |
+| [app/live-feed/](app/live-feed/) | clip fetching and offline analysis behind the dashboard camera view |
+| [dataset/grading/](dataset/grading/) | appearance grades for the 1,255 PCR photos |
+| [src/](src/), [web/](web/) | simulation lab API and UI |
+| [docs/](docs/) | design notes, research base, QNX notes, change log |
 
-## Research base
+## Run it
 
-- [docs/01-key-findings.md](docs/01-key-findings.md): numbered, actionable findings with confidence notes.
-- [docs/00-landscape-review.md](docs/00-landscape-review.md): compact narrative review and comparison tables.
-- [docs/02-bibliography.md](docs/02-bibliography.md): every source, grouped, with status labels.
-- [docs/03-open-questions.md](docs/03-open-questions.md): prioritized open questions and settled answers.
-- `docs/research/`: evidence and subject nodes (datasets, observables,
-  identity, systems, evidence, practice).
+| What | Command |
+|---|---|
+| Dashboard | `cd app/console && npm install && npm run dev`, then open http://localhost:3000 |
+| Figures and notebooks | `cd data-visualization && pip install -r requirements.txt && python evaluation.py` |
+| Baseline benchmark | `python training/benchmark_classifiers.py all` (needs the photo zips from `audit_images.py` and a CUDA PyTorch) |
+| Farmer agent, mock mode | `cd app/farmer-agent && npm install && cp .env.example .env.local && npm run simulate` |
+| Watch | copy `app/watch/console/secrets.example.h` to `secrets.h`, then flash with `arduino-cli` (see [app/watch/](app/watch/)) |
+| Pi pipeline | see [TARGET.md](TARGET.md) and [docs/qnx-microkernel.md](docs/qnx-microkernel.md). It starts at boot through `install_autostart.sh` |
+| Simulation lab | `make bootstrap && make dev`, then open http://127.0.0.1:5173 ([usage notes](docs/architecture/simulation-lab-usage.md), [architecture](docs/architecture/simulation-lab.md)) |
 
-## Existing plans and target
+Secrets (Wi-Fi, site tokens, API keys) never go in the repository. They live in `secrets.h`, `.env.local` and `~/hc-site.json` on the Pi.
 
-- [docs/game-plan.md](docs/game-plan.md): implementation sequence derived from
-  [docs/BIBLE.md](docs/BIBLE.md).
-- [TARGET.md](TARGET.md): the headless QNX Raspberry Pi 5 target and connection procedure.
-- [docs/research.md](docs/research.md): research log plus QNX, Camera Module 3, AICA, and StopWatch notes.
-- [docs/changes.md](docs/changes.md), [docs/mistakes.md](docs/mistakes.md): log of decisions and corrections.
+## Data and licences
+
+Machuve et al. farm and PCR photos (Zenodo 4628934, 5801834), PIO broiler videos (Zenodo 16686320) and NESTLER poultry videos (Zenodo 15063494) are CC BY 4.0. Big Broiler clips and the behaviour models trained on them are AGPL-3.0. Sources and checks are in [paper/citation-check.md](paper/citation-check.md).
+
+Built at LA Hacks with the QNX and Veri tracks.

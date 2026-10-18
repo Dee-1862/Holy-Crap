@@ -1,0 +1,3 @@
+run,epochs,best epoch (val mAP50-95),best val mAP50-95,lowest val loss epoch,val loss at end vs lowest,train loss at end vs lowest
+Close-up model (dropping4-laptop),69,49,0.602,60,0.032,0.0
+Pen-scale model (dropping4-pen),38,28,0.462,27,0.0,0.0

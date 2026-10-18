@@ -24,9 +24,11 @@ import numpy as np
 
 import detector as D
 import spots as S
-from clips import CLIPS, MEDIA
+from clips import MEDIA
 
 CONF = 0.25
+PEN_MODEL = D.REPO / "models" / "dropping4-pen" / "dropping4pen_yolo11n_640.onnx"
+PEN_METRICS = PEN_MODEL.parent / "test_metrics.json"
 LONG = 600            # clips longer than this many seconds are sampled more slowly
 SEGMENT = 300         # seconds of video behind each background image
 
@@ -109,7 +111,7 @@ def analyze(clip: dict, sess) -> dict:
     duration = min(length, idx / fps)
     result = {
         "id": clip["id"], "width": S.FRAME_W, "height": H, "duration": round(duration, 2), "rate": rate, "times": times,
-        "model": "dropping4-laptop 640 onnx, zoomed, size and litter filtered", "conf": CONF,
+        "model": MODEL_NAME, "conf": CONF, "evaluation": EVALUATION,
         "activity": acts, "raw": raws, "detections": dets, "spots": found,
         "summary": {"samples": len(acts),
                     "meanRawBoxesPerFrame": round(float(np.mean(raws)), 1) if raws else 0,
@@ -122,17 +124,55 @@ def analyze(clip: dict, sess) -> dict:
     return result
 
 
+MODEL_NAME = "dropping4-laptop 640 onnx, zoomed, size and litter filtered"
+EVALUATION = None
+
+
+def score_truth(truth: list[dict], spots: list[dict]) -> list[dict]:
+    """A pasted dropping counts as found when a spot lands inside its box, grown by 1 percent of the frame, after it appeared."""
+    used, out = set(), []
+    for t in truth:
+        x1, y1, x2, y2 = t["box"]
+        hit = None
+        for k, s in enumerate(spots):
+            cx, cy = (s["box"][0] + s["box"][2]) / 2, (s["box"][1] + s["box"][3]) / 2
+            if k not in used and s["t"] >= t["t"] and x1 - 0.01 <= cx <= x2 + 0.01 and y1 - 0.01 <= cy <= y2 + 0.01:
+                used.add(k)
+                hit = s["t"]
+                break
+        out.append({**t, "foundAt": hit})
+    return out
+
+
 def main() -> None:
+    global MODEL_NAME, EVALUATION
     out = MEDIA / "analysis"
     out.mkdir(parents=True, exist_ok=True)
-    sess = D.load_session()
+    pen = "--closeup" not in sys.argv
+    if pen:                                                      # the pen scale model from training/pen_train.py
+        S.CROP, S.USE_LITTER = 640, False
+        sess = D.load_session(PEN_MODEL)
+        MODEL_NAME = "dropping4-pen 640 onnx, 640 squares at camera size, size filtered"
+        if PEN_METRICS.exists():
+            m = json.loads(PEN_METRICS.read_text())
+            EVALUATION = {"heldOut": True, "recall": m["pen_test_recall_any_class"], "precision": m["pen_test_precision_any_class"],
+                          "realBoxesPerTile": m["pen_test_real_boxes_per_tile_conf0.25"],
+                          "note": "Measured on test droppings pasted onto held out cameras, including this feed's camera. Pasted droppings are a stand in, real ones in these videos are not labelled."}
+    else:
+        sess = D.load_session()
     print("detector running on", sess.get_providers()[0], flush=True)
-    only = set(sys.argv[1:])
-    for clip in CLIPS:
+    only = {a for a in sys.argv[1:] if not a.startswith("--")}
+    for clip in json.loads((MEDIA / "clips.json").read_text()):          # every installed clip, including test clips
         if only and clip["id"] not in only:
             continue
         if (MEDIA / "clips" / f"{clip['id']}.mp4").exists():
-            (out / f"{clip['id']}.json").write_text(json.dumps(analyze(clip, sess), separators=(",", ":")))
+            result = analyze(clip, sess)
+            truth_file = out / f"{clip['id']}.truth.json"
+            if truth_file.exists():
+                result["truth"] = score_truth(json.loads(truth_file.read_text()), result["spots"])
+                hits = sum(1 for t in result["truth"] if t["foundAt"] is not None)
+                print(f"  answer key: found {hits} of {len(result['truth'])} pasted droppings", flush=True)
+            (out / f"{clip['id']}.json").write_text(json.dumps(result, separators=(",", ":")))
 
 
 if __name__ == "__main__":

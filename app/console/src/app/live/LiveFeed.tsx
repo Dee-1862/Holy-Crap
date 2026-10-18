@@ -4,15 +4,16 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./live.module.css";
 
 interface Clip {
-  id: string; pen: string; title: string; view: string; source: string; sourceUrl: string; license: string; bytes: number;
+  id: string; pen: string; title: string; view: string; source: string; sourceUrl: string; license: string; bytes: number; test?: boolean;
 }
 type Box = [number, number, number, number, string, number];       // x1, y1, x2, y2 as shares of the frame, class, score
 interface Spot { t: number; box: [number, number, number, number]; cls: string; score: number; crop: string }
+interface Truth { t: number; box: [number, number, number, number]; cls: string; foundAt: number | null }
 interface Evaluation { heldOut: boolean; recall: number; precision: number; realBoxesPerTile: number; note: string }
 interface Analysis {
   id: string; width: number; height: number; duration: number; rate: number; times: number[];
   model: string; conf: number; activity: number[]; raw?: number[]; detections: Box[][]; spots?: Spot[];
-  evaluation?: Evaluation;
+  evaluation?: Evaluation; truth?: Truth[];
   summary: { samples: number; meanRawBoxesPerFrame?: number; meanBoxesPerFrame: number; spots?: number; meanActivity: number };
 }
 
@@ -93,7 +94,18 @@ export default function LiveFeed() {
                 g.strokeRect(x1 * w, y1 * h, (x2 - x1) * w, (y2 - y1) * h);
               }
             }
-            g.strokeStyle = "#ffffff";
+            // answer key on test clips: a dashed ring where a dropping was pasted in
+            g.setLineDash([5 * devicePixelRatio, 4 * devicePixelRatio]);
+            g.strokeStyle = "rgba(255, 255, 255, 0.55)";
+            for (const t of data.truth ?? []) {
+              if (t.t > v.currentTime) continue;
+              const [x1, y1, x2, y2] = t.box;
+              g.beginPath();
+              g.arc(((x1 + x2) / 2) * w, ((y1 + y2) / 2) * h, 22 * devicePixelRatio, 0, Math.PI * 2);
+              g.stroke();
+            }
+            g.setLineDash([]);
+            g.strokeStyle = "#30d158";
             for (const s of data.spots ?? []) {
               if (s.t > v.currentTime || s.t < v.currentTime - 120) continue;    // a spot stays marked for two minutes
               const [x1, y1, x2, y2] = s.box;
@@ -138,12 +150,14 @@ export default function LiveFeed() {
   const spots = data?.spots ?? [];
   const seen = spots.filter((s) => s.t <= now);
   const ev = data?.evaluation;
+  const truth = (data?.truth ?? []).filter((t) => t.t <= now);
+  const found = truth.filter((t) => t.foundAt !== null && t.foundAt <= now).length;
 
   return (
     <div className={styles.grid}>
       <section className={`glass ${styles.stage}`} aria-label="Replayed camera feed">
         <div className={styles.stageHead}>
-          <span className={styles.badge}><i />Replay</span>
+          <span className={styles.badge}><i />{clip.test ? "Test clip" : "Replay"}</span>
           <span className={styles.pen}>Pen {clip.pen}</span>
           <h2 className="headline">{clip.title}</h2>
           <span className="foot">{clip.view}</span>
@@ -156,7 +170,7 @@ export default function LiveFeed() {
         <div className={styles.controls}>
           <div className="seg" role="group" aria-label="Choose a camera">
             {clips.map((c) => (
-              <button key={c.id} aria-pressed={c.id === clip.id} onClick={() => setId(c.id)}>{c.pen}</button>
+              <button key={c.id} aria-pressed={c.id === clip.id} onClick={() => setId(c.id)}>{c.test ? `${c.pen} test` : c.pen}</button>
             ))}
           </div>
           <label className="switch">
@@ -183,6 +197,14 @@ export default function LiveFeed() {
           </svg>
           <p className="foot">Dots mark flagged spots. Click the chart to jump.</p>
         </section>
+
+        {data?.truth && (
+          <section className={`glass ${styles.card}`} aria-label="Answer key">
+            <span className="eyebrow">Answer key</span>
+            <div className={`${styles.big} num`}>{found}<small>of {truth.length} found</small></div>
+            <p className="foot">Dashed rings are droppings pasted into this held out video at known times. Green rings are what the detector flagged. Droppings a bird is sitting on cannot be seen.</p>
+          </section>
+        )}
 
         <section className={`glass ${styles.card}`} aria-label="Flagged spots">
           <span className="eyebrow">Flagged spots</span>

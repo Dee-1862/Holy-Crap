@@ -82,7 +82,7 @@ def main():
     devnull, saved = os.open(os.devnull, os.O_WRONLY), os.dup(2)
     os.dup2(devnull, 2)
     try:
-        sess = Session(str(MODEL), threads=int(os.environ.get("HC_THREADS", "3")))
+        sess = Session(str(MODEL), threads=int(os.environ.get("HC_THREADS", "2")))
     finally:
         os.dup2(saved, 2)
 

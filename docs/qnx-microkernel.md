@@ -19,35 +19,64 @@ should cost seconds of data, not a dead device.
 
 ## How the edge pipeline uses it
 
-Code in `target/qnx/edge/`, standard library Python only (the Pi has no numpy or OpenCV).
+Code in `target/qnx/edge/`. Seven sections, each its own process with its own memory, started by
+`supervisor.py` at its own real time priority with QNX's `on -p` (higher runs first, normal is 10):
 
-| Process | Job | Talks to |
-|---|---|---|
-| `camera.py` | sends grey frames at a fixed rate (replay file for now) | `hc/spotter` by MsgSend |
-| `spotter.py` | `stillspot.py`, flags small things that appeared and stayed still | `hc/uplink` by MsgSend |
-| `uplink.py` | keeps status and saved spots, serves them on HTTP port 8088 | the dashboard `/edge` page |
-| `supervisor.py` | starts the three and restarts any that dies | reports health to `hc/uplink` |
+| Section | Priority | Job | Threads |
+|---|---|---|---|
+| `watchlink.py` | 21 | serves the StopWatch the same API as the console, on port 8089, so alerts work without internet | HTTP threads |
+| camera: `cam/hccam` (C) or `camera.py` (replay) | 20 | full frames into a shared memory ring, a small grey copy to the spot finder | camera library thread plus a worker thread |
+| `spotter.py` | 12 | `stillspot.py`, new things that appeared and stayed still | |
+| `uplink.py` | 11 | status for the console Pi page, port 8088 | HTTP threads |
+| `cloudlink.py` | 11 | results and farmer actions to the console or Vercel (`/api/edge/ingest`), queued on disk while offline | sender thread |
+| `explain.py` | 9 | measures each patch (darker or lighter than the floor, red, green, white shares) and decides alert, normal or dismissed | |
+| `model.py` | 8 | cuts a full resolution patch from shared memory and gets the detector's verdict | pool of 3 threads |
 
-`qnxipc.py` calls `name_attach`, `name_open`, `MsgSend`, `MsgReceive` and `MsgReply` through ctypes.
-Off QNX it falls back to a local socket so the same code runs on a laptop.
+Messages go by QNX message passing (`qnxipc.py`: `name_attach`, `name_open`, `MsgSend`, `MsgReceive`,
+`MsgReply` through ctypes). Big frames never travel in messages. The camera keeps the newest full frames in
+`/dev/shmem/hc-frames` (4 slots, each with a sequence number) and each section cuts out only the part it
+needs (`shm.py`). Nothing queues: the camera overwrites the oldest slot, the model holds at most 6 patches
+and skips the rest, the spot finder's sends fail at once if a section is down.
 
-Because `MsgSend` blocks until the reply, a fast camera can never queue frames ahead of a slow detector,
-there is no buffer to overflow. If the receiver is gone the send fails at once and the camera counts a
-dropped frame and keeps its pace.
+Priority inheritance came for free. When the camera (20) sends to the spot finder, the spot finder's
+receiving thread runs at 20 for that message. So the model's quick patch cut runs at the sender's priority
+and its slow detector work runs in pool threads at its own priority 8.
+
+Python on this image keeps the global interpreter lock, so Python threads only overlap waiting, not
+computing. Real parallel work comes from the separate processes on the 4 cores and from the C camera threads.
 
 ## Measured on the Pi
 
 - Native message passing between two processes, a 57.6 KB frame and reply: 95 microseconds a round trip.
-- Spot finder at 320 by 180: 63 ms a frame on the NESTLER pen clip, 80 to 116 ms on the dense PIO broiler house. The pipeline runs at 2 frames a second.
-- SIGKILL on the spot finder: restarted in 22 to 26 ms, the camera lost 1 frame, camera and uplink kept their process ids.
-- SIGKILL on the uplink: restarted in 23 to 24 ms, saved spots survived, the camera lost nothing.
-- New code went live by crashing a process: the supervisor started the updated file, no reboot.
+- Spot finder at 320 by 180: 63 ms a frame on the NESTLER pen clip, 74 to 131 ms on the dense PIO broiler house. The pipeline runs at 2 frames a second.
+- SIGKILL on any section: restarted in 20 to 33 ms. Killing the spot finder cost the camera 1 frame, the others nothing.
+- New code went live by crashing a section: the supervisor started the updated file, no reboot.
+- Full pipeline on the PIO barn clip: 477 full resolution patches checked by the model with none stale or skipped, results reached the console through the cloud link.
+- C capture through the QNX camera library: about 29 frames a second at 1280 by 720 (unit 1), 15 (unit 2).
+
+## The camera on this Pi
+
+`libcamapi` and the Camera Module 3 driver (imx708) are installed, but the SDP headers are not, so `cam/hccam.c`
+declares the few calls it uses and `cam/probe.c` dumps a live frame description to check the layout.
+Python cannot take the camera's callbacks: any C to Python ctypes callback crashes this Python build
+(checked with plain `qsort`), so capture is in C.
+
+The camera service (`/etc/config/sensor/sensor_rpi5.conf`) lists unit 1 a simulator and unit 2 a file
+camera, both colour bars, and units 3 and 4 the Camera Module 3 on the two ribbon ports. Only units 1 and 2
+are reported available, so no Camera Module 3 was detected on either port. The pipeline therefore plays
+recorded barn footage at full resolution (`camera.py --mov`) through the same shared memory path.
+The file camera plays `/data/share/sensor/simulator_camera.mov`. A 30 second raw barn clip in the same format
+is next to it as `simulator_camera.barn.mov`. Swapping them only takes effect after the camera service
+restarts, which needs root, so it has not been done.
 
 ## Limits, stated plainly
 
-- The camera process replays recorded footage. Live Camera Module 3 capture goes through the QNX Sensor Framework (`/dev/sensor/camera1` is present, so are the `camera_example*` programs), which has a C API. That needs a small C capture program that sends frames to `hc/spotter` the same way.
-- `stillspot.py` is a candidate filter, not a dropping detector. In the dense PIO broiler house most candidates are birds resting in place. The pen scale model on the laptop still has to check them, and the 24 by 24 grey crops from the 320 wide replay are too small for that. Live capture at full resolution would give proper crops.
-- The supervisor is our own Python. QNX also ships a High Availability Manager and hardware watchdog support. We have not tried them.
-- Adaptive partitioning (guaranteed CPU shares, so alerts can never be starved by the detector) is a QNX feature, but the `aps` tool is not in this image. Not claimed.
-- Nothing starts at boot. `/boot/onboot` is off limits unless asked (AGENTS.md). Start it by hand: `cd ~/hc-edge && nohup python3 supervisor.py --replay ../hc-replay/pio.gray &`.
-- The Pi clock has no network time on the direct cable (boot time shows 1970), so spot times are only right relative to each other.
+- No Camera Module 3 detected, see above. Live capture works end to end on the test pattern cameras.
+- The trained detector runs on the laptop (`laptop/infer_server.py`) because the Pi has no TensorFlow Lite or ONNX runtime. Porting one is the next big step.
+- That detector learned on close-up photos. At pen scale it scores white birds as salmonella at up to 0.83. The explain section's checks (box on the spot, dropping sized, not white, not lighter than the floor, score at least 0.6) dismiss nearly all of it, so the watch stays quiet rather than raising false alarms. The pen scale model in training is meant to fix this.
+- The explain measurements describe appearance, they are not a diagnosis. Consistency and foam are not measured and are sent as a neutral 5.
+- `stillspot.py` is a candidate filter, not a dropping detector.
+- Adaptive partitioning (guaranteed CPU shares) is not in this image (`aps` missing). Priorities are used instead.
+- Nothing starts at boot. `/boot/onboot` is off limits unless asked (AGENTS.md). Start by hand:
+  `cd ~/hc-edge && nohup python3 supervisor.py --camera replay &` and on the laptop `python target/qnx/edge/laptop/infer_server.py`.
+- The Pi clock has no network time on the direct cable (it starts at 1970), so times are only right relative to each other.

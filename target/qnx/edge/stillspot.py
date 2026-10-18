@@ -27,13 +27,15 @@ SHIFT = 4                     # backgrounds are kept times 16 so integer updates
 class StillSpots:
     def __init__(self, width: int, height: int, slow: int = 9, fast: int = 2, new_diff: int = 22,
                  move_diff: int = 10, hold: int = 20, min_area: int = 3, max_area: int = 40, init: int = 15,
-                 ignore_rows: tuple[float, float] = (0.07, 0.07), contrast: int = 14, ring_floor: float = 0.75):
+                 ignore_rows: tuple[float, float] = (0.07, 0.07), contrast: int = 14, ring_floor: float = 0.75,
+                 ignore_boxes: tuple = ()):
         self.w, self.h = width, height
         self.slow_k, self.fast_k = slow, fast                # update rates are 1 / 2**k per frame
         self.new_diff, self.move_diff = new_diff << SHIFT, move_diff
         self.hold, self.min_area, self.max_area = hold, min_area, max_area
         self.init = init
         self.contrast, self.ring_floor = contrast, ring_floor
+        self.ignore_boxes = ignore_boxes                     # (x0, y0, x1, y1) shares of the frame, e.g. camera labels
         self.start = int(height * ignore_rows[0]) * width               # first pixel looked at
         self.stop = (height - int(height * ignore_rows[1])) * width     # first pixel past the end
         self.first: list[bytes] = []
@@ -120,6 +122,8 @@ class StillSpots:
             xs = [p % w for p in pix]
             ys = [p // w for p in pix]
             cx, cy = sum(xs) / len(xs), sum(ys) / len(ys)
+            if any(x0 <= cx / w <= x1 and y0 <= cy / self.h <= y1 for x0, y0, x1, y1 in self.ignore_boxes):
+                continue
             if any(abs(cx - rx) < 4 and abs(cy - ry) < 4 for rx, ry in self.reported):
                 continue
             self.reported.append((cx, cy))

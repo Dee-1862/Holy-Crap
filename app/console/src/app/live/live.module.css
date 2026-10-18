@@ -49,3 +49,8 @@
 .procs li div { display: grid; gap: 2px; }
 .spots .pixel { aspect-ratio: 1; border-radius: 8px; margin-bottom: 2px; }
 .smooth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.results { display: grid; gap: 12px; margin-top: 12px; }
+.result { display: grid; grid-template-columns: 112px 1fr; gap: 12px; align-items: start; }
+.result .pixel { border-radius: 10px; aspect-ratio: 1; image-rendering: auto; }
+.result div { display: grid; gap: 3px; }
+.result ul { margin: 2px 0; padding-left: 16px; }

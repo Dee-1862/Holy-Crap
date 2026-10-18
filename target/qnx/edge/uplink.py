@@ -21,7 +21,8 @@ import qnxipc
 SAVED = Path(os.environ.get("HC_STATE", Path.home() / "hc-edge-state.json"))
 lock = threading.Lock()
 status = {"procs": {}, "frames": 0, "fps": 0.0, "ms": 0.0, "dropped": 0, "thumb": None, "w": 0, "h": 0,
-          "warm": False, "lastFrame": 0.0, "spots": [], "total": 0, "crashes": [], "started": time.time()}
+          "warm": False, "lastFrame": 0.0, "spots": [], "total": 0, "results": [], "source": "", "full": None,
+          "modelStats": None, "crashes": [], "started": time.time()}
 try:
     saved = json.loads(SAVED.read_text())
     status["spots"], status["total"] = saved["spots"][-200:], saved["total"]
@@ -39,12 +40,16 @@ def on_event(msg: bytes) -> bytes:
             del recent[:-20]
             status.update(frames=status["frames"] + 1, ms=e["ms"], dropped=e["dropped"], warm=e["warm"], lastFrame=now,
                           fps=round((len(recent) - 1) / (recent[-1] - recent[0]), 2) if len(recent) > 1 else 0.0)
+            status.update(source=e.get("source", ""), full=e.get("full"))
             if e["thumb"]:
                 status.update(thumb=e["thumb"], w=e["w"], h=e["h"])
             if e["spots"]:
                 status["spots"] = (status["spots"] + e["spots"])[-200:]
                 status["total"] += len(e["spots"])
                 SAVED.write_text(json.dumps({"spots": status["spots"], "total": status["total"]}))
+        elif e["kind"] == "explained":
+            status["results"] = ([e] + status["results"])[:24]
+            status["modelStats"] = e.get("modelStats")
         elif e["kind"] == "health":
             status["procs"] = e["procs"]
     return b"ok"

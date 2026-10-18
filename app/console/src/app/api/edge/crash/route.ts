@@ -1,7 +1,7 @@
 import { EDGE_URL } from "@/server/edge";
 
 // Kills one edge process on the Pi so the supervisor's restart can be watched. Demo only.
-const PROCS = new Set(["camera", "spotter", "uplink"]);
+const PROCS = new Set(["camera", "spotter", "uplink", "model", "explain", "watch", "cloud"]);
 
 export async function POST(req: Request) {
   const proc = new URL(req.url).searchParams.get("proc") ?? "";

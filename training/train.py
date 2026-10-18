@@ -50,6 +50,20 @@ def on_fit_epoch_end(trainer):
     log(step=trainer.epoch + 1, **{k: float(v) for k, v in scalars.items()})
 
 
+def replay_metrics(results_csv):
+    """Multi-GPU training runs in separate processes where our callback is not registered;
+    log the per-epoch rows from Ultralytics' results.csv instead."""
+    import csv
+
+    if not results_csv.exists():
+        return
+    with open(results_csv) as f:
+        for row in csv.DictReader(f):
+            row = {k.strip(): v for k, v in row.items()}
+            epoch = int(float(row.pop("epoch")))
+            log(step=epoch, **{k: float(v) for k, v in row.items() if v not in ("", None)})
+
+
 def eval_pcr(model, pcr_dir, imgsz):
     """Image-level disease accuracy on lab-confirmed (PCR) images: class of the top box."""
     confusion = {t: {p: 0 for p in CLASSES + ["none"]} for t in CLASSES}
@@ -89,7 +103,8 @@ def main():
     ap.add_argument("--epochs", type=int, default=100)
     ap.add_argument("--hours", type=float, default=None, help="wall-clock cap; overrides --epochs")
     ap.add_argument("--imgsz", type=int, default=640)
-    ap.add_argument("--batch", type=int, default=32)
+    ap.add_argument("--batch", type=int, default=32, help="single-GPU batch")
+    ap.add_argument("--batch-per-gpu", type=int, default=16, help="multi-GPU: total batch = this x GPUs")
     ap.add_argument("--workers", type=int, default=min(16, os.cpu_count() or 4))
     ap.add_argument("--cache", default="ram", help="ram | disk | none; ram avoids re-decoding JPEGs each epoch")
     ap.add_argument("--export-sizes", default="640,416,320")
@@ -109,15 +124,23 @@ def main():
         args.workers = 0
         force_single_process_loading()
 
+    import torch
+
+    ngpu = torch.cuda.device_count()
+    batch = args.batch if ngpu <= 1 else args.batch_per_gpu * ngpu
     model = YOLO(args.model)
     model.add_callback("on_fit_epoch_end", on_fit_epoch_end)
-    train_kw = dict(data=args.data, epochs=args.epochs, imgsz=args.imgsz, batch=args.batch,
+    train_kw = dict(data=args.data, epochs=args.epochs, imgsz=args.imgsz, batch=batch,
                     workers=args.workers, patience=20, seed=0, project=str(args.out), name="train",
                     exist_ok=True, plots=True, cache=False if args.cache == "none" else args.cache)
-    print(f"cpu_count={os.cpu_count()} workers={args.workers} cache={args.cache}", flush=True)
+    if ngpu > 1:
+        train_kw["device"] = list(range(ngpu))
+    print(f"cpu_count={os.cpu_count()} gpus={ngpu} batch={batch} workers={args.workers} cache={args.cache}", flush=True)
     if args.hours:
         train_kw["time"] = args.hours
     model.train(**train_kw)
+    if ngpu > 1:
+        replay_metrics(args.out / "train" / "results.csv")
 
     best = args.out / "train" / "weights" / "best.pt"
     model = YOLO(str(best))

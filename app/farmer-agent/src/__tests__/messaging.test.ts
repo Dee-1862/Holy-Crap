@@ -74,6 +74,12 @@ function inbound(id: string, from: string, text: string): PhotonMessage {
   };
 }
 
+function inboundAttachment(id: string, from: string, attachmentId = "pho_att_image_test"): PhotonMessage {
+  const message = inbound(id, from, "unused");
+  message.content = { type: "attachment", attachmentId };
+  return message;
+}
+
 function jsonResponse(value: unknown, status = 200): Response {
   return new Response(JSON.stringify(value), {
     status,
@@ -138,15 +144,15 @@ test("demo alert states the exact observed facts with one not-a-lab-test boundar
   const vetText = vetHandoffText(alert);
   assert.equal(
     farmerText,
-    "Hey, we found 3 droppings in Pen 6 that looked unusual in the last 15 minutes. The model's closest match was salmonella, with an 81% score. This is not a lab test. What else would help you decide what to do next?",
+    "Hey, we found 3 droppings in Pen 6 that looked unusual in the last 15 minutes. The closest visual match was salmonella at 81%. This is not a lab test. What else would help you decide what to do next?",
   );
   assert.equal(
     farmerWithVet,
-    "Hey, we found 3 droppings in Pen 6 that looked unusual in the last 15 minutes. The model's closest match was salmonella, with an 81% score. This is not a lab test. What else would help you decide what to do next? I can also send this to your vet if you want.",
+    "Hey, we found 3 droppings in Pen 6 that looked unusual in the last 15 minutes. The closest visual match was salmonella at 81%. This is not a lab test. What else would help you decide what to do next? I can also send this to your vet if you want.",
   );
   assert.equal(
     vetText,
-    "The farmer asked us to contact you about Pen 6. We found 3 droppings that looked unusual in 15 minutes. The model's closest match was salmonella, with an 81% score. This is not a lab test. The latest camera picture was 8 seconds old. Reply if you need more details.",
+    "The farmer asked us to contact you about Pen 6. We found 3 droppings that looked unusual in the last 15 minutes. The latest camera picture was 8 seconds old. The closest visual match was salmonella at 81%. This is not a lab test. Reply if you need more details.",
   );
   assert.equal(isSafeWording(farmerWithVet), true);
   assert.equal(isSafeWording(vetText), true);
@@ -160,7 +166,7 @@ test("deterministic fact answers use only recorded alert facts", () => {
   const alert = demoAlert("6");
   assert.equal(
     factAnswer("why", alert),
-    "We found 3 droppings in Pen 6 that looked unusual during 15 minutes. The model's closest match for those droppings was salmonella, with an 81% score. This comes from the images, not a lab test.",
+    "We found 3 droppings in Pen 6 that looked unusual in the last 15 minutes. The closest visual match for those droppings was salmonella at 81%. This comes from the images, not a lab test.",
   );
   assert.equal(
     factAnswer("seen", alert),
@@ -168,7 +174,7 @@ test("deterministic fact answers use only recorded alert facts", () => {
   );
   assert.equal(
     factAnswer("score", alert),
-    "The model's closest match was salmonella, with an 81% score. This is not a lab test.",
+    "The closest visual match was salmonella at 81%. This is not a lab test.",
   );
   assert.equal(
     factAnswer("when", alert),
@@ -186,6 +192,7 @@ test("deterministic fact answers use only recorded alert facts", () => {
   assert.equal(factQuestionKind("how sure are you"), "score");
   assert.equal(factQuestionKind("what percent is that"), "score");
   assert.equal(factQuestionKind("how long ago was this"), "when");
+  assert.equal(factQuestionKind("Are there any alerts right now?"), "status");
   assert.equal(factQuestionKind("what should we do next"), null);
   assert.equal(isImageRequest("show me the photo"), true);
   assert.equal(isImageRequest("send the image"), true);
@@ -256,6 +263,77 @@ test("authorized farmer gets a concise same-conversation reply and duplicates ar
   assert.doesNotMatch(reply?.text ?? "", /[*#`]/);
 });
 
+test("farmer photos are analyzed and remain available to the next text question", async (t) => {
+  const tmp = tempState();
+  t.after(() => fs.rmSync(tmp.dir, { recursive: true, force: true }));
+  const jpeg = Buffer.from([0xff, 0xd8, 0xff, 0xd9]);
+  const deepseekBodies: Record<string, unknown>[] = [];
+  const photonFetch = async (url: string | URL | Request) => {
+    const target = String(url);
+    if (target.endsWith("/content")) {
+      return new Response(jpeg, { status: 200, headers: { "content-type": "image/jpeg" } });
+    }
+    if (target.includes("/attachments/pho_att_image_test")) {
+      return jsonResponse({
+        id: "pho_att_image_test",
+        contentType: "image/jpeg",
+        filename: "droppings.jpg",
+        sizeBytes: jpeg.length,
+      });
+    }
+    throw new Error(`unexpected Photon request: ${target}`);
+  };
+  const deepseekFetch = async (_url: string | URL | Request, init?: RequestInit) => {
+    deepseekBodies.push(JSON.parse(String(init?.body)) as Record<string, unknown>);
+    const content = deepseekBodies.length === 1
+      ? "This photo appears to show chicken droppings with a loose, dark patch. It fits the current alert, but a photo is not a lab test."
+      : "The closest visual match in the current alert is salmonella at 81%. The photo alone cannot confirm it.";
+    return jsonResponse({ choices: [{ message: { content } }] });
+  };
+  const { service, store } = createRuntime(config(tmp.file), {
+    fetch: photonFetch as typeof fetch,
+    deepseekFetch: deepseekFetch as typeof fetch,
+    clock: () => NOW,
+  });
+  await service.sendAlert(demoAlert("6"), [FARMER]);
+
+  const photo = await service.processInbound(inboundAttachment("pho_msg_image", FARMER));
+  assert.equal(photo.handled, true);
+  assert.match(photo.reply ?? "", /appears to show chicken droppings/i);
+  assert.equal(store.snapshot.recentFarmerImages[FARMER]?.id, "pho_att_image_test");
+  const firstMessages = deepseekBodies[0]?.messages as { role: string; content: unknown }[];
+  const firstBlocks = firstMessages.at(-1)?.content as { type: string; image_url?: { url: string } }[];
+  assert.equal(firstBlocks[1]?.type, "image_url");
+  assert.match(firstBlocks[1]?.image_url?.url ?? "", /^data:image\/jpeg;base64,/);
+
+  const followup = await service.processInbound(inbound("pho_msg_image_followup", FARMER, "What disease is this?"));
+  assert.equal(followup.handled, true);
+  assert.match(followup.reply ?? "", /closest visual match/i);
+  assert.equal(deepseekBodies.length, 2);
+  const secondMessages = deepseekBodies[1]?.messages as { role: string; content: unknown }[];
+  const secondBlocks = secondMessages.at(-1)?.content as { type: string }[];
+  assert.equal(secondBlocks[1]?.type, "image_url");
+});
+
+test("unsupported farmer attachments get one plain reply and do not retry forever", async (t) => {
+  const tmp = tempState();
+  t.after(() => fs.rmSync(tmp.dir, { recursive: true, force: true }));
+  const { service, store } = createRuntime(config(tmp.file), {
+    fetch: (async () => jsonResponse({
+      id: "pho_att_image_test", contentType: "video/mp4", filename: "clip.mp4", sizeBytes: 12,
+    })) as typeof fetch,
+    deepseekFetch: (async () => { throw new Error("DeepSeek must not run"); }) as typeof fetch,
+    clock: () => NOW,
+  });
+  const message = inboundAttachment("pho_msg_bad_image", FARMER);
+  const first = await service.processInbound(message);
+  const second = await service.processInbound(message);
+  assert.equal(first.handled, true);
+  assert.match(first.reply ?? "", /JPG or PNG under 5 MB/);
+  assert.equal(second.reason, "duplicate");
+  assert.equal(store.snapshot.recentFarmerImages[FARMER], undefined);
+});
+
 test("treatment or culling questions use a deterministic boundary without calling the LLM", async (t) => {
   const tmp = tempState();
   t.after(() => fs.rmSync(tmp.dir, { recursive: true, force: true }));
@@ -294,7 +372,7 @@ test("unsafe generated instructions are discarded for the deterministic fallback
   const result = await service.processInbound(inbound("pho_msg_unsafe_llm", FARMER, "What do you think we should do next?"));
   assert.equal(result.handled, true);
   assert.doesNotMatch(result.reply ?? "", /cull/i);
-  assert.match(result.reply ?? "", /closest match was salmonella/i);
+  assert.match(result.reply ?? "", /closest visual match was salmonella/i);
 });
 
 test("a short natural yes approves only after the agent asked about the vet", async (t) => {
@@ -441,6 +519,18 @@ test("DeepSeek request disables thinking and reply sanitization is bounded", asy
   const safe = sanitizeReply(raw ?? "");
   assert.ok(safe.length <= 480);
   assert.doesNotMatch(safe, /#/);
+  await client.chatWithImage(
+    [{ role: "system", content: "Use plain words." }],
+    "What is visible?",
+    { contentType: "image/jpeg", data: Buffer.from([0xff, 0xd8, 0xff]) },
+  );
+  const visionMessages = bodies[1]?.messages as { role: string; content: unknown }[];
+  assert.equal(visionMessages[0]?.role, "system");
+  assert.equal(typeof visionMessages[0]?.content, "string");
+  const blocks = visionMessages[1]?.content as { type: string; image_url?: { url: string; detail: string } }[];
+  assert.equal(blocks[0]?.type, "text");
+  assert.match(blocks[1]?.image_url?.url ?? "", /^data:image\/jpeg;base64,/);
+  assert.equal(blocks[1]?.image_url?.detail, "low");
 });
 
 test("wording check allows uncertain illness guesses but rejects certainty and orders", () => {
@@ -456,6 +546,7 @@ test("old state files load with no pending vet question", (t) => {
   fs.writeFileSync(tmp.file, JSON.stringify({ processedInbound: [], latestAlerts: {}, turns: {} }));
   const store = new MessagingStore(tmp.file);
   assert.deepEqual(store.snapshot.pendingVetConsent, {});
+  assert.deepEqual(store.snapshot.recentFarmerImages, {});
 });
 
 test("Photon client follows Beta items and nested message contract", async () => {
@@ -475,6 +566,33 @@ test("Photon client follows Beta items and nested message contract", async () =>
   assert.match(requests[0].url, /direction=received/);
   assert.match(requests[0].url, /platform=imessage/);
   assert.equal(requests[0].init?.headers && (requests[0].init.headers as Record<string, string>).Authorization, "Bearer test-only");
+});
+
+test("Photon client validates and downloads inbound image attachments", async () => {
+  const jpeg = Buffer.from([0xff, 0xd8, 0xff, 0xd9]);
+  const client = new PhotonClient({
+    baseUrl: "https://api.photon.codes/v1",
+    apiKey: "test-only",
+    projectId: "pho_prj_test",
+    timeoutMs: 1_000,
+    fetch: (async (url: string | URL | Request) => {
+      const target = String(url);
+      if (target.endsWith("/content")) {
+        return new Response(jpeg, { status: 200, headers: { "content-type": "image/jpeg" } });
+      }
+      return jsonResponse({
+        id: "pho_att_image_test", contentType: "image/jpeg", filename: "pen.jpg", sizeBytes: jpeg.length,
+      });
+    }) as typeof fetch,
+  });
+  const attachment = await client.getImageAttachment("pho_att_image_test");
+  assert.equal(attachment.contentType, "image/jpeg");
+  assert.deepEqual(await client.downloadImageAttachment(attachment), jpeg);
+  await assert.rejects(() => client.getImageAttachment("../bad"), /attachment ID is invalid/);
+  await assert.rejects(
+    () => client.downloadImageAttachment({ ...attachment, sizeBytes: jpeg.length + 1 }),
+    /size changed/,
+  );
 });
 
 test("Photon client sends imessage payloads for users, spaces, and messages", async () => {
@@ -794,12 +912,12 @@ test("fact questions answer deterministically before DeepSeek runs", async (t) =
   assert.equal(why.handled, true);
   assert.equal(
     why.reply,
-    "We found 3 droppings in Pen 6 that looked unusual during 15 minutes. The model's closest match for those droppings was salmonella, with an 81% score. This comes from the images, not a lab test.",
+    "We found 3 droppings in Pen 6 that looked unusual in the last 15 minutes. The closest visual match for those droppings was salmonella at 81%. This comes from the images, not a lab test.",
   );
   const when = await service.processInbound(inbound("pho_msg_fact_when", FARMER, "how long ago was this?"));
   assert.equal(when.reply, "This happened in the last 15 minutes. The camera picture was 8 seconds old.");
   const score = await service.processInbound(inbound("pho_msg_fact_score", FARMER, "how sure are you"));
-  assert.equal(score.reply, "The model's closest match was salmonella, with an 81% score. This is not a lab test.");
+  assert.equal(score.reply, "The closest visual match was salmonella at 81%. This is not a lab test.");
   assert.equal(llmCalls, 0);
 });
 
@@ -843,7 +961,7 @@ test("photo requests resend saved evidence without calling DeepSeek", async (t) 
   assert.equal(result.handled, true);
   assert.equal(llmCalls, 0);
   const reply = store.snapshot.mockOutbox.find((m) => m.id === "reply:pho_msg_photo");
-  assert.equal(reply?.text, "Here is the photo. Close-up from Pen 6.");
+  assert.equal(reply?.text, "Here is the saved frame from Pen 6.");
   const image = store.snapshot.mockOutbox.find((m) => m.id === "reply-img:pho_msg_photo");
   assert.ok(image);
   assert.equal(image?.text, "Close-up from Pen 6.");
@@ -869,7 +987,7 @@ test("photo requests without saved evidence say so plainly", async (t) => {
   await service.sendAlert(demoAlert("6"), [FARMER]);
   const result = await service.processInbound(inbound("pho_msg_photo_none", FARMER, "can I see the poop"));
   assert.equal(result.handled, true);
-  assert.equal(result.reply, "There is no photo to send right now.");
+  assert.equal(result.reply, "I don't have a saved frame for this alert.");
   assert.equal(llmCalls, 0);
   assert.equal(store.snapshot.mockOutbox.some((m) => m.id === "reply-img:pho_msg_photo_none"), false);
 });
@@ -1123,7 +1241,7 @@ test("live photo requests resend the image in the inbound space without creating
 
   const textBody = JSON.parse(String(posts[0].init?.body)) as { spaceId: string; content: { text: string } };
   assert.equal(textBody.spaceId, "pho_spc_farmer_direct");
-  assert.equal(textBody.content.text, "Here is the photo. Close-up from Pen 6.");
+  assert.equal(textBody.content.text, "Here is the saved frame from Pen 6.");
   const attachBody = JSON.parse(String(posts[1].init?.body)) as { spaceId: string; content: unknown };
   assert.equal(attachBody.spaceId, "pho_spc_farmer_direct");
   assert.deepEqual(attachBody.content, { type: "attachment", attachmentId: "pho_att_1" });

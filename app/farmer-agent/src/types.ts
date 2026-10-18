@@ -43,6 +43,7 @@ export interface AlertSnapshot {
   penName: string;
   observationCount: number;
   windowMinutes: number;
+  windowSeconds?: number;
   confidence: number;
   cameraSecondsAgo: number;
   sensorHealthy: boolean;
@@ -68,6 +69,14 @@ export interface PhotonContent {
   type: string;
   format?: string;
   text?: string;
+  attachmentId?: string;
+}
+
+export interface PhotonAttachment {
+  id: string;
+  contentType: "image/jpeg" | "image/png";
+  filename: string;
+  sizeBytes: number;
 }
 
 export interface PhotonUserSnapshot {
@@ -160,12 +169,17 @@ export interface MessagingState {
   processedInbound: string[];
   latestAlerts: Record<string, AlertSnapshot>;
   turns: Record<string, Turn[]>;
+  recentFarmerImages: Record<string, RecentFarmerImage>;
   vetHandoffs: Record<string, VetHandoff>;
   pendingVetConsent: Record<string, PendingVetConsent>;
   activeFarmerByVet: Record<string, string>;
   mockOutbox: MockOutbound[];
   agentUserId: string | null;
   lastPollAt: string | null;
+}
+
+export interface RecentFarmerImage extends PhotonAttachment {
+  receivedAt: string;
 }
 
 export interface PendingVetConsent {
@@ -202,7 +216,20 @@ export interface PollResult {
   processed: number;
 }
 
+export interface ChatTextPart {
+  type: "text";
+  text: string;
+}
+
+export interface ChatImagePart {
+  type: "image_url";
+  image_url: {
+    url: string;
+    detail: "low";
+  };
+}
+
 export interface ChatMessage {
   role: "system" | "user" | "assistant";
-  content: string;
+  content: string | (ChatTextPart | ChatImagePart)[];
 }

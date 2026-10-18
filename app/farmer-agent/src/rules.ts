@@ -64,6 +64,14 @@ export const VET_SYSTEM_RULES = [
   "Share only the recorded alert facts and make clear that the top match is not a lab test.",
 ].join("\n");
 
+export const VISION_SYSTEM_RULES = [
+  SYSTEM_RULES,
+  "The farmer sent a photo. Describe only what is visible in it.",
+  "Say plainly whether it appears to show chicken droppings and whether it fits the current alert.",
+  "Never claim that a photo proves a disease. If you name a match, call it a visual match and keep the recorded score separate.",
+  "If the photo is unclear or unrelated, say so directly and ask for one close, well-lit photo.",
+].join("\n");
+
 function simpleWords(text: string): string {
   return text
     .toLowerCase()
@@ -106,14 +114,28 @@ export function scorePercent(confidence: number): number {
   return Math.round(confidence * 100);
 }
 
+function timeWindow(alert: AlertSnapshot): string {
+  if (alert.source === "simulation-dashboard") {
+    if (alert.windowSeconds) {
+      const seconds = Math.max(1, Math.round(alert.windowSeconds));
+      return `the ${seconds}-second clip`;
+    }
+    const minutes = Math.max(1, Math.round(alert.windowMinutes));
+    return `the ${minutes}-minute clip`;
+  }
+  const minutes = Math.max(1, Math.round(alert.windowMinutes));
+  return `the last ${minutes} ${minutes === 1 ? "minute" : "minutes"}`;
+}
+
 export function vetHandoffText(alert: AlertSnapshot): string {
   const score = scorePercent(alert.confidence);
   const match = alert.suspectedIllness
-    ? ` The model's closest match was ${alert.suspectedIllness}, with an ${score}% score.`
+    ? ` The closest visual match was ${alert.suspectedIllness} at ${score}%.`
     : "";
-  return sanitizeReply(
-    `The farmer asked us to contact you about ${alert.penName}. We found ${alert.observationCount} droppings that looked unusual in ${alert.windowMinutes} minutes.${match} This is not a lab test. The latest camera picture was ${alert.cameraSecondsAgo} seconds old. Reply if you need more details.`,
-  );
+  const source = alert.source === "simulation-dashboard"
+    ? `We found ${alert.observationCount} droppings that looked unusual in ${timeWindow(alert)}.`
+    : `We found ${alert.observationCount} droppings that looked unusual in ${timeWindow(alert)}. The latest camera picture was ${alert.cameraSecondsAgo} seconds old.`;
+  return sanitizeReply(`The farmer asked us to contact you about ${alert.penName}. ${source}${match} This is not a lab test. Reply if you need more details.`);
 }
 
 export function contextBlock(alert: AlertSnapshot | null): string {
@@ -124,6 +146,7 @@ export function contextBlock(alert: AlertSnapshot | null): string {
       pen: alert.penName,
       droppings: alert.observationCount,
       windowMinutes: alert.windowMinutes,
+      windowSeconds: alert.windowSeconds ?? null,
       topMatch: alert.suspectedIllness ?? null,
       score: scorePercent(alert.confidence),
       cameraSecondsAgo: alert.cameraSecondsAgo,
@@ -135,15 +158,12 @@ export function contextBlock(alert: AlertSnapshot | null): string {
 export function alertText(snapshot: AlertSnapshot, canContactVet = false): string {
   const score = scorePercent(snapshot.confidence);
   const match = snapshot.suspectedIllness
-    ? ` The model's closest match was ${snapshot.suspectedIllness}, with an ${score}% score.`
+    ? ` The closest visual match was ${snapshot.suspectedIllness} at ${score}%.`
     : "";
   const vetOffer = canContactVet ? " I can also send this to your vet if you want." : "";
   if (snapshot.source === "simulation-dashboard") {
-    return (
-      `Simulation alert: We found ${snapshot.observationCount} droppings in ${snapshot.penName} that looked unusual ` +
-      `during the ${snapshot.windowMinutes}-minute clip.${match} This is not a lab test. ` +
-      `What else would help you decide what to do next?${vetOffer}`
-    );
+    const photo = snapshot.evidence ? " I saved a frame from the clip." : "";
+    return `We found ${snapshot.observationCount} droppings in ${snapshot.penName} that looked unusual in ${timeWindow(snapshot)}.${match} This is not a lab test.${photo}${vetOffer}`;
   }
   return (
     `Hey, we found ${snapshot.observationCount} droppings in ${snapshot.penName} that looked unusual ` +
@@ -160,7 +180,7 @@ export function fallbackReply(alert: AlertSnapshot | null): string {
   }
   const score = scorePercent(alert.confidence);
   const match = alert.suspectedIllness
-    ? ` The model's closest match was ${alert.suspectedIllness}, with an ${score}% score.`
+    ? ` The closest visual match was ${alert.suspectedIllness} at ${score}%.`
     : "";
   return (
     `We found ${alert.observationCount} droppings in ${alert.penName} that looked unusual ` +
@@ -168,12 +188,15 @@ export function fallbackReply(alert: AlertSnapshot | null): string {
   );
 }
 
-export type FactQuestion = "why" | "seen" | "score" | "when";
+export type FactQuestion = "why" | "seen" | "score" | "when" | "status";
 
 // Plain questions about the current alert get deterministic answers in
 // application code, before DeepSeek ever runs.
 export function factQuestionKind(text: string): FactQuestion | null {
   const words = simpleWords(text);
+  if (/\b(any|current|active|new|right now) alerts?\b|\bis there an alert\b|\bdo we have an alert\b/.test(words)) {
+    return "status";
+  }
   if (
     /\b(top|closest|best) match\b/.test(words) ||
     /(which|what) (illness|disease|sickness)/.test(words) ||
@@ -199,29 +222,38 @@ export function factAnswer(kind: FactQuestion, alert: AlertSnapshot | null): str
   const score = scorePercent(alert.confidence);
   const count = alert.observationCount;
   const pen = alert.penName;
-  const window = alert.windowMinutes;
   const ago = alert.cameraSecondsAgo;
   switch (kind) {
     case "why": {
       if (!alert.suspectedIllness) {
-        return `We found ${count} droppings in ${pen} that looked unusual during ${window} minutes. This comes from the camera images, not a lab test.`;
+        return `We found ${count} droppings in ${pen} that looked unusual in ${timeWindow(alert)}. This comes from the images, not a lab test.`;
       }
       return (
-        `We found ${count} droppings in ${pen} that looked unusual during ${window} minutes. ` +
-        `The model's closest match for those droppings was ${alert.suspectedIllness}, with an ${score}% score. ` +
+        `We found ${count} droppings in ${pen} that looked unusual in ${timeWindow(alert)}. ` +
+        `The closest visual match for those droppings was ${alert.suspectedIllness} at ${score}%. ` +
         `This comes from the images, not a lab test.`
       );
     }
     case "seen":
-      return `We found ${count} droppings in ${pen} that looked unusual in the last ${window} minutes. The camera picture was ${ago} seconds old.`;
+      return alert.source === "simulation-dashboard"
+        ? `We found ${count} droppings in ${pen} that looked unusual in ${timeWindow(alert)}.`
+        : `We found ${count} droppings in ${pen} that looked unusual in ${timeWindow(alert)}. The camera picture was ${ago} seconds old.`;
     case "score": {
       if (!alert.suspectedIllness) {
         return `The camera found ${count} unusual droppings in ${pen}. There is no illness match yet. This is not a lab test.`;
       }
-      return `The model's closest match was ${alert.suspectedIllness}, with an ${score}% score. This is not a lab test.`;
+      return `The closest visual match was ${alert.suspectedIllness} at ${score}%. This is not a lab test.`;
     }
     case "when":
-      return `This happened in the last ${window} minutes. The camera picture was ${ago} seconds old.`;
+      return alert.source === "simulation-dashboard"
+        ? `This came from ${timeWindow(alert)} you assessed.`
+        : `This happened in ${timeWindow(alert)}. The camera picture was ${ago} seconds old.`;
+    case "status": {
+      const match = alert.suspectedIllness
+        ? ` The closest visual match was ${alert.suspectedIllness} at ${score}%.`
+        : "";
+      return `Yes. The current alert is for ${pen}: ${count} droppings looked unusual in ${timeWindow(alert)}.${match}`;
+    }
   }
 }
 
@@ -234,8 +266,8 @@ export function isImageRequest(text: string): boolean {
 }
 
 export function imageRequestReply(alert: AlertSnapshot | null): string {
-  if (!alert?.evidence) return "There is no photo to send right now.";
-  return `Here is the photo. ${alert.evidence.sourceLabel}`;
+  if (!alert?.evidence) return "I don't have a saved frame for this alert.";
+  return `Here is the saved frame from ${alert.penName}.`;
 }
 
 export function sanitizeReply(raw: string): string {

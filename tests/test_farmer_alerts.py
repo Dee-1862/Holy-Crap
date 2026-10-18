@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 import time
 from pathlib import Path
 
@@ -69,6 +70,52 @@ def test_notifier_maps_concerning_result_to_the_farmer_agent(tmp_path, monkeypat
         assert payload["suspectedIllness"] == strongest.classification.label
         assert payload["confidence"] == strongest.classification.confidence
         assert payload["windowMinutes"] == 1
+        assert payload["windowSeconds"] > 0
+        assert captured["timeout"] == 30.0
+    finally:
+        service.close()
+
+
+def test_notifier_saves_a_real_jpeg_frame_when_video_bytes_are_available(tmp_path, monkeypatch):
+    service, _, concerning = assessments(tmp_path)
+    captured = {}
+    video = tmp_path / "source.mp4"
+    video.write_bytes(b"video bytes are only read by the injected runner")
+
+    class Response:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return None
+
+        def read(self):
+            return b'{"status":"sent"}'
+
+    def fake_open(request, timeout):
+        captured["payload"] = json.loads(request.data)
+        return Response()
+
+    def fake_runner(command, **_kwargs):
+        from PIL import Image
+
+        Image.new("RGB", (100, 100), "white").save(command[-1], format="JPEG")
+        return subprocess.CompletedProcess(command, 0, b"", b"")
+
+    monkeypatch.setattr("holy_crap_simlab.farmer_alerts.urlopen", fake_open)
+    try:
+        notifier = FarmerAlertNotifier(
+            pen_name="Pen 6",
+            enabled=True,
+            evidence_dir=tmp_path / "evidence",
+            runner=fake_runner,
+        )
+        assert notifier.notify(concerning, video_path=video) == "sent"
+        evidence = captured["payload"]["evidence"]
+        assert evidence["contentType"] == "image/jpeg"
+        assert evidence["sizeBytes"] > 100
+        assert Path(evidence["localPath"]).read_bytes().startswith(b"\xff\xd8\xff")
+        assert evidence["sourceLabel"].startswith("Frame from Pen 6 at ")
     finally:
         service.close()
 

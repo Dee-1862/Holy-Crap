@@ -4,6 +4,7 @@ import { PhotonClient, PHOTON_PLATFORM, PhotonError } from "./photon";
 import { createHash } from "node:crypto";
 import {
   SYSTEM_RULES,
+  VISION_SYSTEM_RULES,
   VET_SYSTEM_RULES,
   alertText,
   contextBlock,
@@ -28,9 +29,11 @@ import type {
   ChatMessage,
   DeliverySummary,
   MessagingConfig,
+  PhotonAttachment,
   PhotonMessage,
   PollResult,
   ProcessResult,
+  RecentFarmerImage,
   Turn,
 } from "./types";
 
@@ -217,11 +220,6 @@ export class MessagingService {
     if (message.platform !== PHOTON_PLATFORM || message.status !== "received") {
       return { handled: false, reason: "not-received-imessage" };
     }
-    const content = message.content;
-    if (content.type !== "text" || content.format !== "plain" || typeof content.text !== "string") {
-      return { handled: false, reason: "not-plain-text" };
-    }
-
     const sender = normalizeUsPhone(message.sentBy.handle);
     const isFarmer = sender ? this.config.farmerNumbers.includes(sender) : false;
     const isVet = sender ? this.config.vetNumbers.includes(sender) : false;
@@ -242,9 +240,69 @@ export class MessagingService {
       return { handled: false, reason: "not-for-agent" };
     }
 
+    const content = message.content;
+    if (content.type === "attachment" && typeof content.attachmentId === "string" && isFarmer) {
+      return this.processFarmerImageInbound(message, sender, recipient, content.attachmentId);
+    }
+    if (content.type !== "text" || content.format !== "plain" || typeof content.text !== "string") {
+      return { handled: false, reason: "not-plain-text" };
+    }
     const incoming = content.text;
     if (isVet) return this.processVetInbound(message, sender, incoming, recipient);
     return this.processFarmerInbound(message, sender, incoming, recipient);
+  }
+
+  private async processFarmerImageInbound(
+    message: PhotonMessage,
+    sender: string,
+    recipient: NonNullable<PhotonMessage["receivedBy"]>,
+    attachmentId: string,
+  ): Promise<ProcessResult> {
+    let attachment: PhotonAttachment | null = null;
+    let reply: string;
+    try {
+      attachment = await this.photon.getImageAttachment(attachmentId);
+      const bytes = await this.photon.downloadImageAttachment(attachment);
+      const alert = this.store.snapshot.latestAlerts[sender] ?? null;
+      const recent = (this.store.snapshot.turns[sender] ?? []).slice(-8);
+      const messages: ChatMessage[] = [
+        { role: "system", content: VISION_SYSTEM_RULES },
+        { role: "system", content: contextBlock(alert) },
+        ...recent.map((turn) => ({
+          role: turn.role === "farmer" ? ("user" as const) : ("assistant" as const),
+          content: turn.text,
+        })),
+      ];
+      const raw = await this.deepseek.chatWithImage(
+        messages,
+        "In at most two short sentences, say what this photo shows and whether it matches the current pen alert. If it does not show chicken droppings, say that plainly and stop.",
+        { contentType: attachment.contentType, data: bytes },
+      );
+      const candidate = raw ? sanitizeReply(raw) : "I got the photo, but I couldn't read it clearly. Please send a close, well-lit photo of the droppings.";
+      reply = isSafeWording(candidate)
+        ? candidate
+        : "I got the photo, but I couldn't read it clearly. Please send a close, well-lit photo of the droppings.";
+    } catch {
+      reply = "I couldn't read that photo. Please send it again as a JPG or PNG under 5 MB.";
+    }
+
+    try {
+      await this.replyToInbound(message, sender, recipient.id, reply);
+    } catch {
+      return { handled: false, reason: "send-failed" };
+    }
+    this.store.update((state) => {
+      state.processedInbound.push(message.id);
+      if (attachment) {
+        state.recentFarmerImages[sender] = {
+          ...attachment,
+          receivedAt: message.createdAt,
+        };
+      }
+      this.appendTurns(state.turns, sender, "[Photo sent]", reply, message.createdAt);
+    });
+    this.store.checkpoint();
+    return { handled: true, reply };
   }
 
   private async processFarmerInbound(
@@ -296,7 +354,7 @@ export class MessagingService {
         reply = sanitizeReply(imageRequestReply(alert));
         sendImage = Boolean(alert?.evidence);
       } else {
-        const fact = factQuestionKind(incoming);
+        const fact = this.recentImageForQuestion(sender, incoming) ? null : factQuestionKind(incoming);
         reply = fact ? sanitizeReply(factAnswer(fact, alert)) : await this.buildReply(sender, incoming, false);
       }
     }
@@ -477,18 +535,38 @@ export class MessagingService {
   ): Promise<string> {
     const alert = this.store.snapshot.latestAlerts[farmerPhone] ?? null;
     const recent: Turn[] = (this.store.snapshot.turns[conversationPhone] ?? []).slice(-8);
-    const messages: ChatMessage[] = [
-      { role: "system", content: forVet ? VET_SYSTEM_RULES : SYSTEM_RULES },
+    const recentImage = !forVet ? this.recentImageForQuestion(farmerPhone, incoming) : null;
+    const prefix: ChatMessage[] = [
+      { role: "system", content: forVet ? VET_SYSTEM_RULES : recentImage ? VISION_SYSTEM_RULES : SYSTEM_RULES },
       { role: "system", content: contextBlock(alert) },
       ...recent.map((t) => ({
         role: t.role === "farmer" ? ("user" as const) : ("assistant" as const),
         content: t.text,
       })),
-      { role: "user", content: incoming },
     ];
-    const raw = await this.deepseek.chat(messages);
+    let raw: string | null = null;
+    if (recentImage) {
+      try {
+        const bytes = await this.photon.downloadImageAttachment(recentImage);
+        raw = await this.deepseek.chatWithImage(prefix, incoming, {
+          contentType: recentImage.contentType,
+          data: bytes,
+        });
+      } catch {
+        raw = null;
+      }
+    }
+    if (!raw) raw = await this.deepseek.chat([...prefix, { role: "user", content: incoming }]);
     const text = raw ? sanitizeReply(raw) : fallbackReply(alert);
     return isSafeWording(text) ? text : sanitizeReply(fallbackReply(alert));
+  }
+
+  private recentImageForQuestion(phone: string, incoming: string): RecentFarmerImage | null {
+    if (!/\b(?:photo|picture|image|this|that|it|see|look|shown|disease|poop|droppings|wrong)\b/i.test(incoming)) return null;
+    const image = this.store.snapshot.recentFarmerImages[phone];
+    if (!image) return null;
+    const ageMs = this.clock().getTime() - Date.parse(image.receivedAt);
+    return ageMs >= 0 && ageMs <= 24 * 60 * 60 * 1000 ? image : null;
   }
 
   async pollOnce(): Promise<PollResult> {

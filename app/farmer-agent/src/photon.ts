@@ -2,6 +2,7 @@ import { createHash, randomUUID } from "node:crypto";
 import type {
   PhotonErrorShape,
   PhotonMessage,
+  PhotonAttachment,
   PhotonPage,
   PhotonSpace,
   PhotonUser,
@@ -19,6 +20,14 @@ export interface PhotonClientDeps {
 }
 
 export const PHOTON_PLATFORM = "imessage";
+export const MAX_INBOUND_IMAGE_BYTES = 5 * 1024 * 1024;
+
+function attachmentId(value: string): string {
+  if (!/^pho_att_[A-Za-z0-9_-]{6,}$/.test(value)) {
+    throw new PhotonError(null, null, "Photon attachment ID is invalid");
+  }
+  return value;
+}
 
 export class PhotonError extends Error implements PhotonErrorShape {
   readonly name = "PhotonError";
@@ -228,5 +237,61 @@ export class PhotonClient {
       items: Array.isArray(page?.items) ? page.items : [],
       nextPageToken: page?.nextPageToken ?? null,
     };
+  }
+
+  async getImageAttachment(rawId: string): Promise<PhotonAttachment> {
+    const id = attachmentId(rawId);
+    const { body } = await this.request(
+      "GET",
+      `/projects/${encodeURIComponent(this.projectId)}/attachments/${encodeURIComponent(id)}`,
+    );
+    const item = body as Record<string, unknown> | null;
+    const contentType = item?.contentType;
+    const filename = item?.filename;
+    const sizeBytes = item?.sizeBytes;
+    if (
+      item?.id !== id ||
+      (contentType !== "image/jpeg" && contentType !== "image/png") ||
+      typeof filename !== "string" || !filename.trim() ||
+      typeof sizeBytes !== "number" || !Number.isInteger(sizeBytes) ||
+      sizeBytes < 1 || sizeBytes > MAX_INBOUND_IMAGE_BYTES
+    ) {
+      throw new PhotonError(null, null, "Photon attachment is not a supported image");
+    }
+    return { id, contentType, filename, sizeBytes };
+  }
+
+  async downloadImageAttachment(attachment: PhotonAttachment): Promise<Buffer> {
+    const id = attachmentId(attachment.id);
+    let response: Response;
+    try {
+      response = await this.fetchImpl(
+        `${this.baseUrl}/projects/${encodeURIComponent(this.projectId)}/attachments/${encodeURIComponent(id)}/content`,
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${this.apiKey}`, Accept: attachment.contentType },
+          signal: AbortSignal.timeout(this.timeoutMs),
+        },
+      );
+    } catch {
+      throw new PhotonError(null, null, "Photon image download could not be completed");
+    }
+    const requestId = response.headers.get("x-request-id") ?? response.headers.get("request-id");
+    if (!response.ok) {
+      throw new PhotonError(response.status, requestId, `Photon image download failed (status ${response.status})`);
+    }
+    const returnedType = response.headers.get("content-type")?.split(";", 1)[0]?.trim().toLowerCase();
+    if (returnedType && returnedType !== attachment.contentType) {
+      throw new PhotonError(null, requestId, "Photon image type changed during download");
+    }
+    const bytes = Buffer.from(await response.arrayBuffer());
+    if (bytes.length !== attachment.sizeBytes || bytes.length > MAX_INBOUND_IMAGE_BYTES) {
+      throw new PhotonError(null, requestId, "Photon image size changed during download");
+    }
+    const validMagic = attachment.contentType === "image/jpeg"
+      ? bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff
+      : bytes.length >= 8 && bytes.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
+    if (!validMagic) throw new PhotonError(null, requestId, "Photon image bytes are invalid");
+    return bytes;
   }
 }

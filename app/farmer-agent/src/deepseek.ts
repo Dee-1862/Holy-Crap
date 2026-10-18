@@ -19,7 +19,11 @@ export class DeepSeekClient {
     this.fetchImpl = deps.fetch;
   }
 
-  async chat(messages: ChatMessage[]): Promise<string | null> {
+  private async complete(
+    messages: ChatMessage[],
+    timeoutMs: number,
+    maxTokens: number,
+  ): Promise<string | null> {
     if (!this.config.apiKey) return null;
     let response: Response;
     try {
@@ -34,11 +38,11 @@ export class DeepSeekClient {
           model: this.config.model,
           messages,
           stream: false,
-          max_tokens: this.config.maxTokens,
+          max_tokens: maxTokens,
           temperature: 0,
           thinking: { type: "disabled" },
         }),
-        signal: AbortSignal.timeout(this.timeoutMs),
+        signal: AbortSignal.timeout(timeoutMs),
       });
     } catch {
       return null;
@@ -53,5 +57,27 @@ export class DeepSeekClient {
     } catch {
       return null;
     }
+  }
+
+  async chat(messages: ChatMessage[]): Promise<string | null> {
+    return this.complete(messages, this.timeoutMs, this.config.maxTokens);
+  }
+
+  async chatWithImage(
+    messages: ChatMessage[],
+    prompt: string,
+    image: { contentType: "image/jpeg" | "image/png"; data: Uint8Array },
+  ): Promise<string | null> {
+    const dataUrl = `data:${image.contentType};base64,${Buffer.from(image.data).toString("base64")}`;
+    return this.complete([
+      ...messages,
+      {
+        role: "user",
+        content: [
+          { type: "text", text: prompt },
+          { type: "image_url", image_url: { url: dataUrl, detail: "low" } },
+        ],
+      },
+    ], Math.max(this.timeoutMs, 45_000), Math.min(this.config.maxTokens, 120));
   }
 }

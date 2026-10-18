@@ -133,7 +133,9 @@ class SimulationService:
             max_workers=1, thread_name_prefix="clip-assessment"
         )
         self.qnx_evidence_path = qnx_evidence_path or default_qnx_evidence_path()
-        self.farmer_alert_notifier = farmer_alert_notifier or FarmerAlertNotifier()
+        self.farmer_alert_notifier = farmer_alert_notifier or FarmerAlertNotifier(
+            evidence_dir=Path(home) / "farmer-evidence"
+        )
 
     def close(self) -> None:
         self._assessment_executor.shutdown(wait=False, cancel_futures=True)
@@ -255,7 +257,13 @@ class SimulationService:
                 )
                 return
             try:
-                farmer_alert = self.farmer_alert_notifier.notify(assessment)
+                try:
+                    video_path = self.clip_assessments.store.content_path(assessment)
+                except ClipValidationError:
+                    video_path = None
+                farmer_alert = self.farmer_alert_notifier.notify(
+                    assessment, video_path=video_path
+                )
             except Exception:
                 farmer_alert = "failed"
             alert_message = {

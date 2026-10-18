@@ -1,6 +1,7 @@
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
 import type { MessagingService } from "./service";
 import type { AlertSnapshot } from "./types";
+import { loadEvidenceImage } from "./media";
 
 const MAX_BODY_BYTES = 64 * 1024;
 
@@ -9,9 +10,14 @@ export interface DashboardAlertPayload {
   penName: string;
   observationCount: number;
   windowMinutes: number;
+  windowSeconds?: number;
   confidence: number;
   suspectedIllness: string;
   createdAt: string;
+  evidence?: {
+    localPath: string;
+    sourceLabel: string;
+  };
 }
 
 function json(response: ServerResponse, status: number, body: unknown): void {
@@ -27,9 +33,16 @@ function asPayload(value: unknown): DashboardAlertPayload | null {
     typeof item.penName !== "string" || !item.penName.trim() ||
     typeof item.observationCount !== "number" || !Number.isInteger(item.observationCount) || item.observationCount < 1 ||
     typeof item.windowMinutes !== "number" || !Number.isFinite(item.windowMinutes) || item.windowMinutes <= 0 ||
+    (item.windowSeconds !== undefined &&
+      (typeof item.windowSeconds !== "number" || !Number.isFinite(item.windowSeconds) || item.windowSeconds <= 0)) ||
     typeof item.confidence !== "number" || item.confidence < 0 || item.confidence > 1 ||
     typeof item.suspectedIllness !== "string" || !item.suspectedIllness.trim() ||
-    typeof item.createdAt !== "string" || !item.createdAt.trim()
+    typeof item.createdAt !== "string" || !item.createdAt.trim() ||
+    (item.evidence !== undefined && (
+      !item.evidence || typeof item.evidence !== "object" ||
+      typeof (item.evidence as Record<string, unknown>).localPath !== "string" ||
+      typeof (item.evidence as Record<string, unknown>).sourceLabel !== "string"
+    ))
   ) return null;
   return item as unknown as DashboardAlertPayload;
 }
@@ -47,17 +60,27 @@ async function readBody(request: IncomingMessage): Promise<unknown> {
 }
 
 export function toAlertSnapshot(payload: DashboardAlertPayload): AlertSnapshot {
+  let evidence: AlertSnapshot["evidence"];
+  if (payload.evidence) {
+    try {
+      evidence = loadEvidenceImage(payload.evidence.localPath, payload.evidence.sourceLabel);
+    } catch {
+      evidence = undefined;
+    }
+  }
   return {
     id: payload.eventId,
     penId: payload.penName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
     penName: payload.penName,
     observationCount: payload.observationCount,
     windowMinutes: payload.windowMinutes,
+    windowSeconds: payload.windowSeconds,
     confidence: payload.confidence,
     cameraSecondsAgo: 0,
     sensorHealthy: true,
     suspectedIllness: payload.suspectedIllness,
     source: "simulation-dashboard",
+    evidence,
     createdAt: payload.createdAt,
   };
 }

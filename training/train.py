@@ -163,7 +163,7 @@ def main():
 
     exports = {}
     for size in [int(s) for s in args.export_sizes.split(",") if s]:
-        for fmt, kw in [("onnx", {}), ("tflite", {}), ("tflite_int8", {"int8": True, "data": args.data})]:
+        for fmt, kw in [("onnx", {"opset": 17}), ("tflite", {}), ("tflite_int8", {"int8": True, "data": args.data})]:
             if fmt not in args.formats.split(","):
                 continue
             key = f"{fmt}_{size}"

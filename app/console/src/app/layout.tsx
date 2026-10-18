@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, Manrope } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const display = Instrument_Serif({ weight: "400", subsets: ["latin"], variable: "--font-display", display: "swap" });
-const body = Manrope({ subsets: ["latin"], variable: "--font-body", display: "swap" });
+// Inter stands in for SF Pro on devices that do not have it. Apple devices use the system font.
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
 export const metadata: Metadata = {
   title: "Holy-Crap Console",
@@ -13,12 +13,12 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#dbe8ff",
+  themeColor: "#000000",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
         {/* apply the saved theme before first paint */}
         <script dangerouslySetInnerHTML={{ __html: "try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}" }} />

@@ -14,12 +14,16 @@ export interface GroupStatus {
   level: Tone;
 }
 
-// Status over the last 15 minutes. Three abnormal specimens in that window is an alert.
+// Abnormal count uses the last 15 minutes (three of them is an alert). The grade is the mean over the
+// last hour so a quiet pen still shows a number, and a low grade alone is enough to ask for a look.
 export function groupStatus(g: Group): GroupStatus {
-  const recent = SPECIMENS.filter((s) => s.group === g.id && s.minsAgo <= 15);
-  const bad = recent.filter((s) => s.type !== "healthy").length;
-  const mean = recent.length ? recent.reduce((a, s) => a + s.grade, 0) / recent.length : null;
-  return { bad, mean, level: bad >= 3 ? "bad" : bad >= 1 ? "warn" : "good" };
+  const all = SPECIMENS.filter((s) => s.group === g.id);
+  const bad = all.filter((s) => s.minsAgo <= 15 && s.type !== "healthy").length;
+  const hour = all.filter((s) => s.minsAgo <= 60);
+  const pool = hour.length ? hour : all;
+  const mean = pool.length ? pool.reduce((a, s) => a + s.grade, 0) / pool.length : null;
+  const level: Tone = bad >= 3 ? "bad" : bad >= 1 || (mean !== null && mean < 5) ? "warn" : "good";
+  return { bad, mean, level };
 }
 
 // Groups ranked healthiest first.

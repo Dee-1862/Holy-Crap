@@ -66,7 +66,7 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
         </div>
       </div>
 
-      <div className={`next ${next.level}`}>{next.head}<small>{next.note}</small></div>
+      <div className={`next ${next.level}`}><b />{next.head}<small>{next.note}</small></div>
 
       <div className="photo">
         <SpecimenCanvas type={s.type} region={s.region} heat={heat} seed={s.id} label="Illustrated specimen" />

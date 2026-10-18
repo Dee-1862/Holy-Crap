@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Clock from "@/components/Clock";
 import SpecimenCard from "@/components/SpecimenCard";
 import ThemeToggle from "@/components/ThemeToggle";
 import { SPECIMENS } from "@/lib/data";
@@ -9,13 +8,20 @@ import { ago, groupName, pct, ranked, resultOf, summary, tone } from "@/lib/insi
 import styles from "./mobile.module.css";
 
 type Tab = "over" | "alerts" | "card";
+
+// Simple line icons for the tab bar. 24 px grid, 1.8 stroke, like SF Symbols at regular weight.
+const ICON: Record<Tab, React.ReactNode> = {
+  over: <path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" />,
+  alerts: <path d="M6 10a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6zM10 19a2 2 0 0 0 4 0" />,
+  card: <path d="M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zM8 9h8M8 13h8M8 17h5" />,
+};
 const TABS: { id: Tab; label: string }[] = [
-  { id: "over", label: "Overview" },
+  { id: "over", label: "Barn" },
   { id: "alerts", label: "Alerts" },
   { id: "card", label: "Specimen" },
 ];
 
-// Phone console, three tabs. Desktop version lives at /.
+// Phone version. Large title, grouped lists and a bottom tab bar. Desktop is at /.
 export default function Mobile() {
   const [tab, setTab] = useState<Tab>("over");
   const [selectedId, setSelectedId] = useState(SPECIMENS[0].id);
@@ -28,36 +34,36 @@ export default function Mobile() {
   return (
     <div className={styles.wrap}>
       <header className={styles.top}>
-        <div className={styles.brand}>holy crap</div>
-        <span style={{ display: "flex", gap: 8 }}><ThemeToggle /><Clock /></span>
+        <h1 className="title">{tab === "over" ? "Barn" : tab === "alerts" ? "Alerts" : "Specimen"}</h1>
+        <ThemeToggle />
       </header>
 
       <main>
         {tab === "over" && (
           <section>
             <div className={`glass ${styles.hero}`}>
-              <div className="eyebrow">Barn status</div>
-              <div className={styles.big}>{sum.headline}</div>
-              <p className={styles.detail}>{sum.detail}</p>
-              <div className={styles.stats}>
-                <div><b className="num">{sum.total}</b><span>Specimens</span></div>
-                <div><b className="num tone-warn">{sum.abnormal}</b><span>Abnormal</span></div>
-                <div><b className="num tone-good">{sum.mean}</b><span>Mean grade</span></div>
+              <div className={`eyebrow ${styles.state}`}>
+                <i className={sum.hot.length ? styles.alert : styles.calm} />
+                {sum.hot.length ? "Needs attention" : "All clear"}
               </div>
+              <h2 className={styles.headline}>{sum.headline}</h2>
+              <p className={`sub ${styles.detail}`}>{sum.detail}</p>
+              <dl className={styles.stats}>
+                <div><dd className="num">{sum.total}</dd><dt>Specimens</dt></div>
+                <div><dd className="num">{sum.abnormal}</dd><dt>Abnormal</dt></div>
+                <div><dd className="num">{sum.mean}</dd><dt>Mean grade</dt></div>
+              </dl>
             </div>
-            <div className={`glass ${styles.list}`}>
-              <h2 className="eyebrow">Health board</h2>
+            <h3 className="eyebrow list-h">Health board</h3>
+            <div className="list">
               {ranked().map(({ group, status }, i) => (
                 <button
-                  key={group.id} className={styles.row}
+                  key={group.id} className={`row ${styles.board}`}
                   onClick={() => { const s = SPECIMENS.find((x) => x.group === group.id); if (s) open(s.id); }}
                 >
                   <span className={`${styles.rk} num`}>{i + 1}</span>
-                  <span>
-                    <div className={styles.nm}>{group.name}</div>
-                    <div className={styles.sb}>{group.n} birds, {status.bad} abnormal</div>
-                  </span>
-                  <span className={`${styles.gr} num ${status.mean === null ? "" : `tone-${tone(Math.round(status.mean))}`}`}>
+                  <span className="headline">{group.name}</span>
+                  <span className={`${styles.gr} num ${status.mean === null ? "" : `tone-${status.level}`}`}>
                     {status.mean === null ? "n/a" : status.mean.toFixed(1)}
                   </span>
                 </button>
@@ -67,18 +73,19 @@ export default function Mobile() {
         )}
 
         {tab === "alerts" && (
-          <section className={`glass ${styles.list}`}>
-            <h2 className="eyebrow">Latest specimens</h2>
-            {SPECIMENS.map((s) => (
-              <button key={s.id} className={`${styles.row} ${styles.ev}`} onClick={() => open(s.id)}>
-                <span className={`${styles.gr} num tone-${tone(s.grade)}`}>{s.grade}</span>
-                <span>
-                  <div className={styles.nm}>{resultOf(s)}</div>
-                  <div className={styles.sb}>{groupName(s.group)}, {ago(s.minsAgo)}</div>
-                </span>
-                <span className={`${styles.sb} num`}>{pct(s.probs[s.type])}%</span>
-              </button>
-            ))}
+          <section>
+            <div className="list">
+              {SPECIMENS.map((s) => (
+                <button key={s.id} className={`row ${styles.item}`} onClick={() => open(s.id)}>
+                  <span className={`${styles.grade} num tone-${tone(s.grade)}`}>{s.grade}</span>
+                  <span className={styles.what}>
+                    <b>{resultOf(s)}</b>
+                    <small>{groupName(s.group)}, {ago(s.minsAgo)}</small>
+                  </span>
+                  <span className={`${styles.conf} num`}>{pct(s.probs[s.type])}%</span>
+                </button>
+              ))}
+            </div>
           </section>
         )}
 
@@ -92,7 +99,9 @@ export default function Mobile() {
       <nav className={`glass ${styles.nav}`} role="tablist" aria-label="Sections">
         {TABS.map((t) => (
           <button key={t.id} role="tab" aria-selected={tab === t.id} onClick={() => setTab(t.id)}>
-            {t.label}{t.id === "alerts" && <span className={styles.badge}>{abnormal}</span>}
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{ICON[t.id]}</svg>
+            <span>{t.label}</span>
+            {t.id === "alerts" && abnormal > 0 && <em className={styles.badge}>{abnormal}</em>}
           </button>
         ))}
       </nav>

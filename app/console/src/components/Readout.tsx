@@ -2,7 +2,8 @@
 
 import { GROUPS } from "@/lib/data";
 import { nextStep, radarOf } from "@/lib/insight";
-import { getSpecimens, lastVet, specimens } from "@/lib/store";
+import { mostCritical } from "@/lib/rules";
+import { birdsIn, getSpecimens, lastVet, specimens } from "@/lib/store";
 import ChecksList from "./ChecksList";
 
 // Side panel for the selected pen. The plan and the radar.
@@ -26,23 +27,22 @@ export default function Readout({ groupId }: { groupId: string }) {
   const all = specimens().filter((s) => s.group === group.id);
   const list = getSpecimens().filter((s) => s.group === group.id);
   const mine = radarOf(group.id);
-  const latest = list[0];
-  // the demo stream moves specimens between pens, so a pen can have none for a while
+  const latest = mostCritical(list, () => false);      // the plan follows the worst dropping, like the watch
   const plan = latest ? nextStep(latest) : null;
 
   return (
     <div className="readout">
       <div className="ro-head">
         <span className="eyebrow">{group.name}</span>
-        <span className="eyebrow">{group.n} birds</span>
+        {birdsIn(group.id) !== null && <span className="eyebrow">{birdsIn(group.id)} birds in view</span>}
       </div>
 
       {plan ? (
         <div className={`next ${plan.level}`} style={{ margin: "8px 0 8px" }}><b />{plan.head}<small>{plan.note}</small></div>
       ) : (
         <div className="next" style={{ margin: "8px 0" }}>
-          {all.length ? "No active specimens" : "No recent specimens"}
-          <small>{all.length ? "Recent specimens were marked normal. Waiting for the next detection." : "Waiting for the next detection from this camera."}</small>
+          {all.length ? "No active droppings" : "No droppings read"}
+          <small>{all.length ? "The droppings found here were marked normal." : "This camera watches the whole pen, where droppings are too small to read. It is used for flock behaviour."}</small>
         </div>
       )}
 
@@ -53,7 +53,7 @@ export default function Readout({ groupId }: { groupId: string }) {
         </p>
       )}
 
-      {latest ? <ChecksList values={mine} title="What we checked in this pen" /> : <p className="foot">Checks appear once the camera finds a dropping in this pen.</p>}
+      {latest && mine && <ChecksList values={mine} title="What we checked in this pen" />}
 
     </div>
   );

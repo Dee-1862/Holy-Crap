@@ -7,7 +7,7 @@ const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "sw
 
 export const metadata: Metadata = {
   title: "Holy-Crap Console",
-  description: "Poultry droppings health monitor. Demo data.",
+  description: "Poultry droppings health monitor.",
 };
 
 export const viewport: Viewport = {

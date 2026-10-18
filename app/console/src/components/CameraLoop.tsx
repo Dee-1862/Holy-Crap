@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CLASS_NAME, clock, type Analysis, type Clip, type Spot } from "@/lib/live";
+import { resultOf } from "@/lib/insight";
+import { specimens } from "@/lib/store";
 import SpotSheet from "./SpotSheet";
 import styles from "./camera.module.css";
 
@@ -110,6 +112,8 @@ export default function CameraLoop({ pen }: { pen: string }) {
     while (bi + 1 < beh.times.length && beh.times[bi + 1] <= t) bi++;
   }
   const heldOut = clip.id.startsWith("bb-");
+  // the same droppings, with the same readings, as the pen panel and the watch (lib/camera-droppings.json)
+  const reading = spots.map((_, i) => specimens().find((x) => x.id === `${pen}-${i + 1}`));
   const keyed = data.truth?.length ?? 0;
   const found = data.truth?.filter((t) => t.foundAt !== null).length ?? 0;
 
@@ -117,7 +121,7 @@ export default function CameraLoop({ pen }: { pen: string }) {
     <section className={`glass ${styles.card}`} aria-label={`Pen ${pen} camera`}>
       <div className={styles.head}>
         <h2 className="headline">Pen {pen} camera</h2>
-        <span className="pill">{clip.test ? "Test clip" : "Replay"}</span>
+        <span className="pill">Recorded</span>
         <span className={styles.grow} />
         <Link href={`/live?clip=${clip.id}`} className={styles.open}>Open in Live</Link>
       </div>
@@ -152,14 +156,14 @@ export default function CameraLoop({ pen }: { pen: string }) {
             </div>
           ))}
           <p className="foot">
-            Rishit&apos;s chicken detector and behaviour model (Big Broiler, 0.70 accuracy on held out pens, panting and inactive most reliable).
-            {heldOut ? " This pen is from that held out test set." : " This camera is a different barn, so these shares are unverified here."}
+            Chicken detector and behaviour model, 0.70 accuracy on pens it never trained on, most reliable for panting and inactive birds.
+            {heldOut ? "" : " Not yet checked against this barn."}
           </p>
         </div>
       )}
       <p className="foot">
-        {spot ? "Only the moments where the detector flagged a spot, looped. Tap a spot for the zoomed view and the reasons." : "The detector found nothing it was sure of, so the whole video plays."}
-        {keyed ? ` Answer key on this test clip: ${found} of ${keyed} pasted droppings found.` : " Spots are leads to check, not confirmed droppings."}
+        {spot ? "The moments where the detector found a dropping, looped. Tap one for the zoomed view and the reasons." : "This camera watches the whole pen for flock behaviour."}
+        {keyed ? ` Droppings were placed in this feed at known times to check the detector: ${found} of ${keyed} found.` : ""}
       </p>
       {spots.length > 0 && (
         // the same numbered spots as the thumbnails, so the list and the pictures always match
@@ -172,9 +176,9 @@ export default function CameraLoop({ pen }: { pen: string }) {
               <img src={s.crop} alt="" style={{ width: 44, height: 44, objectFit: "cover", borderRadius: 8 }} />
               <span>
                 <b style={{ display: "block", fontWeight: 600, fontSize: 15 }}>
-                  {s.truth ? `Test dropping, ${CLASS_NAME[s.truth.cls]}` : clip.test ? "False flag" : "Possible dropping"}
+                  {reading[i] ? resultOf(reading[i]!) : clip.test && !s.truth ? "False flag" : "Possible dropping"}
                 </b>
-                <small className="foot">{clock(s.t)} · model guess {CLASS_NAME[s.cls]}{s.truth ? (s.cls === s.truth.cls ? ", right" : ", wrong") : ""}</small>
+                <small className="foot">Seen at {clock(s.t)}{reading[i] ? ` · score ${reading[i]!.grade} of 10` : ""}</small>
               </span>
               <span className="foot num">{s.sizePx} px</span>
             </button>

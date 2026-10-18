@@ -1,7 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { VET_ACTIVE_MS } from "@/lib/rules";
-import { GROUPS, SPECIMENS } from "@/lib/data";
+import { GROUPS } from "@/lib/data";
+import { CAMERA_SPECIMENS } from "./droppings";
 import { kvEnabled, kvGet, kvSet } from "./kv";
 
 // Server side state for the actions people take. With a KV store connected (Vercel) it lives there, so every
@@ -42,7 +43,7 @@ export async function getState(): Promise<State> {
   return g.__barn;
 }
 
-export const knownSpecimen = (id: string) => SPECIMENS.some((s) => s.id === id);
+export const knownSpecimen = (id: string) => CAMERA_SPECIMENS.some((s) => s.id === id);
 export const knownPen = (id: string) => GROUPS.some((p) => p.id === id);
 
 export async function setSpecimenState(id: string, st: SpecState): Promise<State> {

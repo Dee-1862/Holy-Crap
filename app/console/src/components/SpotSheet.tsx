@@ -24,7 +24,7 @@ export default function SpotSheet({ spot, n, clip, onClose }: { spot: Spot; n: n
       <aside className="glass sheet" aria-label={`Spot ${n}`}>
         <button className="sheet-close" onClick={onClose}>Done</button>
         <div className="head">
-          <span className="eyebrow">Pen {clip.pen} · {clip.test ? "test clip" : "replay"} · {clock(spot.t)}</span>
+          <span className="eyebrow">Pen {clip.pen} · recorded · {clock(spot.t)}</span>
           <h2 className="headline" style={{ margin: "4px 0 12px" }}>Spot {n}</h2>
         </div>
 
@@ -63,18 +63,18 @@ export default function SpotSheet({ spot, n, clip, onClose }: { spot: Spot; n: n
                 </div>
               ))}
             </div>
-            At this size the disease guess is weak (0.65 mAP50 on the pen test). Use it to find the spot, then take a close-up to judge it.
+            At this size the pen model only finds the dropping. The reading comes from the close-up below.
           </li>
           {clip.test && !spot.truth && (
             <li>
-              <b>Answer key: false flag.</b> No test dropping was pasted here. The detector flagged something else, such as
-              a feeder part or a resting bird. It is shown so the misses and false flags are visible, not hidden.
+              <b>False flag.</b> No dropping was placed here. The detector flagged something else, such as a feeder part
+              or a resting bird. It is shown so false flags stay visible.
             </li>
           )}
           {spot.truth && (
             <li>
-              <b>Answer key.</b> This is a test dropping pasted from a {CLASS_NAME[spot.truth.cls]} photo the model never trained on.
-              The model guessed {CLASS_NAME[spot.cls]}{spot.cls === spot.truth.cls ? ", which is right." : ", which is wrong."}
+              <b>Check.</b> This dropping was placed in the feed from a {CLASS_NAME[spot.truth.cls]} photo the models never trained on.
+              The pen model read {CLASS_NAME[spot.cls]}{spot.cls === spot.truth.cls ? ", which is right." : ", which is wrong."}
             </li>
           )}
         </ol>
@@ -88,13 +88,13 @@ export default function SpotSheet({ spot, n, clip, onClose }: { spot: Spot; n: n
               <>
                 <div className={styles.closeImg}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={c.img} alt="Close-up photo this test dropping was cut from" />
+                  <img src={c.img} alt="Original close-up photo of this dropping" />
                   {c.box && <span className={styles.closeBox} style={{ left: `${c.box[0] * 100}%`, top: `${c.box[1] * 100}%`, width: `${(c.box[2] - c.box[0]) * 100}%`, height: `${(c.box[3] - c.box[1]) * 100}%` }} />}
                 </div>
                 <p className="sub" style={{ margin: "8px 0 0" }}>
-                  {top ? <>The close-up model reads this as <b>{CLASS_NAME[top[0]]}</b> ({top[1].toFixed(2)}){top[0] === spot.truth.cls ? ", which matches the answer key." : ", which does not match the answer key."}</> : "The close-up model found nothing here."}
+                  {top ? <>The close-up model reads this as <b>{CLASS_NAME[top[0]]}</b> ({top[1].toFixed(2)}){top[0] === spot.truth.cls ? ", which is right." : ", which is wrong."}</> : "The close-up model found nothing here."}
                 </p>
-                <p className="foot">This is the real close-up photo this test dropping was cut from, not what the pen camera saw. It shows the second step: the camera finds a spot, a close-up judges it. The close-up model never trained on this photo.</p>
+                <p className="foot">The original close-up photo of this dropping, not what the pen camera saw. The camera finds the dropping, the close-up judges it. The close-up model never trained on this photo.</p>
               </>
             );
           })() : <p className="foot">No close-up yet. On a farm the Pi would zoom in here or a worker would take a photo, and the close-up model would judge it.</p>}

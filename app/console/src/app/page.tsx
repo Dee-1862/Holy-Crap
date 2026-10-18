@@ -16,7 +16,7 @@ import { GROUPS } from "@/lib/data";
 import { barnIndex, penLevels, ranked, tone } from "@/lib/insight";
 import styles from "./dashboard.module.css";
 
-// Main dashboard. Four widgets (three from the demo stream, one from the cameras), a big camera view for the chosen pen, and the pens as folders on the side.
+// Main dashboard. Four widgets from the cameras, a big camera view for the chosen pen, and the pens as folders on the side.
 export default function Dashboard() {
   useBarn();
   const worst = ranked().at(-1)?.group.id ?? GROUPS[0].id;
@@ -61,7 +61,6 @@ export default function Dashboard() {
         <h1 className="title">Barn</h1>
         <ViewSwitch current="map" />
         <span className={styles.grow} />
-        <span className="pill"><i />Demo data</span>
         <ThemeToggle />
         <Clock />
       </header>
@@ -70,7 +69,7 @@ export default function Dashboard() {
         <div className={`glass ${styles.widget}`}>
           <span className="eyebrow">Barn health</span>
           <b className={`${styles.big} num tone-${tone(Math.round(index / 10))}`}>{index}<small>/100</small></b>
-          <span className="foot">Average grade, last 15 minutes</span>
+          <span className="foot">Average dropping score from the cameras</span>
         </div>
         <div className={`glass ${styles.widget}`}>
           <span className="eyebrow">Healthy pens</span>

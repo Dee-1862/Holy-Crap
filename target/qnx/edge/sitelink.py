@@ -82,7 +82,10 @@ class Picture:
         except Exception:                                # no frame ring yet (camera starting) or it was recreated
             self.frames = None
             return None
-        if not got:
+        if not got or time.time() - got[1]["t"] > 5:
+            # the camera section makes a fresh frame file each time it starts, so an old picture means
+            # this is still the previous file: open it again next time
+            self.frames = None
             return None
         jpg, hd = got
         since = status.get("procs", {}).get("camera", {}).get("started") or 0     # not spots kept from older runs

@@ -73,3 +73,9 @@ cloner/
 
 # Wi-Fi details for the watch
 app/watch/**/secrets.h
+
+# Training leftovers from the training branch
+training/work/
+training/outputs/
+training/runs/
+*.pt

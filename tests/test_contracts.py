@@ -8,6 +8,7 @@ from pathlib import Path
 from jsonschema import Draft202012Validator, FormatChecker
 
 from holy_crap_simlab.models import CreateRunRequest
+from holy_crap_simlab.clip_assessment import ClipAssessmentService
 from holy_crap_simlab.qnx_runner import QnxProbeReport, QnxRunnerConfig, QnxValidationOutcome
 from holy_crap_simlab.service import SimulationService
 
@@ -185,3 +186,17 @@ def test_persisted_qnx_target_probe_result_conforms_to_contract(tmp_path: Path) 
     for artifact in payload["artifacts"]:
         artifact_path = service.catalog.runs_dir / run.id / artifact["path"]
         assert artifact_path.is_file()
+
+
+def test_persisted_clip_assessment_conforms_to_contract(tmp_path: Path) -> None:
+    content = b"\x00\x00\x00\x18ftypisom\x00\x00\x02\x00isomiso2whole pen"
+    service = ClipAssessmentService(tmp_path / "simlab")
+    result = service.assess_upload(
+        io.BytesIO(content), "whole-pen.mp4", "video/mp4"
+    )
+    result_path = service.store.assessments_dir / f"{result.id}.json"
+    payload = json.loads(result_path.read_text(encoding="utf-8"))
+
+    validate("clip-assessment.schema.json", payload)
+    assert payload["summary"]["overall"]["review_state"] == "synthetic-demo-only"
+    assert {module["mode"] for module in payload["modules"]} == {"mock"}

@@ -7,15 +7,18 @@ import json
 import os
 import tempfile
 import uuid
-from datetime import datetime
 from pathlib import Path
 
 from .adapters import AdapterError, MockExecutor, QnxExecutor, VeriArtifactImporter
 from .catalog import Catalog, atomic_json, safe_part
+from .clip_assessment import ClipAssessmentService, ClipValidationError
+from .dataset_library import DatasetClipRepository
 from .media import DemoAssetManifest, DemoAssetRepository, DemoAssetStore
 from .models import (
     AdapterCapability,
+    ClipAssessment,
     CreateRunRequest,
+    DatasetClip,
     MediaAssetInfo,
     ModelArtifact,
     PenSnapshot,
@@ -38,15 +41,6 @@ class NotFoundError(LookupError):
     pass
 
 
-def _parse_iso(value: object) -> datetime | None:
-    if not isinstance(value, str) or not value:
-        return None
-    try:
-        return datetime.fromisoformat(value)
-    except ValueError:
-        return None
-
-
 def _write_text(path: Path, content: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
@@ -67,6 +61,7 @@ class SimulationService:
         home: Path,
         scenario_directory: Path | None = None,
         demo_assets_directory: Path | None = None,
+        dataset_clips_directory: Path | None = None,
         qnx_runner=None,
         qnx_prober=None,
     ) -> None:
@@ -83,6 +78,8 @@ class SimulationService:
         self.catalog.seed_mock_model()
         self.media_repository = DemoAssetRepository(demo_assets_directory)
         self.media_store = DemoAssetStore(home)
+        self.clip_assessments = ClipAssessmentService(home)
+        self.dataset_clips = DatasetClipRepository(dataset_clips_directory)
 
     def run(self, request: CreateRunRequest) -> SimulationRun:
         scenario = self.scenarios.get(request.scenario_id)
@@ -176,6 +173,7 @@ class SimulationService:
         self, run: SimulationRun, scenario: Scenario, model: ModelArtifact, executor: QnxExecutor
     ) -> SimulationRun:
         outcome = executor.validate_target(scenario, model, run.id)
+        host_finished_at = utc_now()
         receipt = outcome.receipt
         if receipt.get("run_id") != run.id:
             raise AdapterError("QNX receipt run_id does not match the requested run")
@@ -221,8 +219,11 @@ class SimulationService:
                     runtime=runtime,
                 ),
                 created_at=run.created_at,
-                started_at=_parse_iso(receipt.get("started_at")) or run.created_at,
-                finished_at=_parse_iso(receipt.get("finished_at")),
+                # QNX target clocks may be unset after boot. The user-facing
+                # run envelope therefore uses the lab host's UTC clock. Raw
+                # target timestamps remain unchanged in receipt.json.
+                started_at=run.created_at,
+                finished_at=host_finished_at,
                 status="completed",
                 metrics=None,
                 artifacts=[
@@ -290,9 +291,14 @@ class SimulationService:
                     height=manifest.height,
                     filename=manifest.filename,
                     sha256=manifest.sha256,
+                    expected_size_bytes=manifest.file_size_bytes,
                     installed=state.installed,
                     verified=state.valid,
                     size_bytes=state.size_bytes,
+                    duration_s=manifest.duration_s,
+                    frame_rate_fps=manifest.frame_rate_fps,
+                    frame_count=manifest.frame_count,
+                    codec=manifest.codec,
                     content_url=f"/api/v1/media/{manifest.id}/content",
                     source_url=str(manifest.source_url),
                     dataset_url=str(manifest.dataset_url),
@@ -305,3 +311,86 @@ class SimulationService:
                 )
             )
         return assets
+
+    def assess_clip_upload(self, stream, filename: str, media_type: str) -> ClipAssessment:
+        return self.clip_assessments.assess_upload(stream, filename, media_type)
+
+    def assess_demo_clip(self, asset_id: str) -> ClipAssessment:
+        manifest = self.media_manifest(asset_id)
+        if manifest is None:
+            raise NotFoundError(f"media asset not found: {asset_id}")
+        if not manifest.media_type.startswith("video/"):
+            raise ClipValidationError(f"demo media is not a video: {asset_id}")
+        state = self.media_store.state(manifest)
+        if not state.valid:
+            raise NotFoundError(
+                f"media content is not installed or failed hash verification: {asset_id}"
+            )
+        if any(
+            value is None
+            for value in (
+                manifest.duration_s,
+                manifest.frame_rate_fps,
+            )
+        ):
+            raise ClipValidationError(f"demo video metadata is incomplete: {asset_id}")
+        return self.clip_assessments.assess_demo(
+            path=state.path,
+            filename=manifest.filename,
+            media_type=manifest.media_type,
+            asset_id=manifest.id,
+            duration_s=manifest.duration_s,
+            width=manifest.width,
+            height=manifest.height,
+            fps=manifest.frame_rate_fps,
+        )
+
+    def list_clip_assessments(self) -> list[ClipAssessment]:
+        return self.clip_assessments.store.list()
+
+    def list_dataset_clips(self) -> list[DatasetClip]:
+        return [self._dataset_clip_state(clip) for clip in self.dataset_clips.list()]
+
+    def require_dataset_clip(self, clip_id: str) -> DatasetClip:
+        clip = self.dataset_clips.get(clip_id)
+        if clip is None:
+            raise NotFoundError(f"dataset clip not found: {clip_id}")
+        return self._dataset_clip_state(clip)
+
+    def _dataset_clip_state(self, clip: DatasetClip) -> DatasetClip:
+        if not clip.demo_asset_id:
+            return clip
+        manifest = self.media_manifest(clip.demo_asset_id)
+        if manifest is None:
+            return clip
+        state = self.media_store.state(manifest)
+        if not state.valid:
+            return clip
+        return clip.model_copy(
+            update={
+                "bytes_available": True,
+                "content_url": f"/api/v1/media/{manifest.id}/content",
+                "expected_size_bytes": state.size_bytes,
+            }
+        )
+
+    def assess_catalog_clip(self, clip_id: str) -> ClipAssessment:
+        clip = self.require_dataset_clip(clip_id)
+        if not clip.assessable:
+            raise ClipValidationError(
+                f"catalog entry {clip.id!r} is {clip.status} and cannot be assessed"
+            )
+        if clip.bytes_available and clip.demo_asset_id:
+            return self.assess_demo_clip(clip.demo_asset_id)
+        synthetic_sha256 = self.dataset_clips.synthetic_sha256(clip)
+        return self.clip_assessments.assess_catalog_mock(clip, synthetic_sha256)
+
+    def require_clip_assessment(self, assessment_id: str) -> ClipAssessment:
+        result = self.clip_assessments.store.get(assessment_id)
+        if result is None:
+            raise NotFoundError(f"clip assessment not found: {assessment_id}")
+        return result
+
+    def clip_content_path(self, assessment_id: str) -> tuple[ClipAssessment, Path]:
+        assessment = self.require_clip_assessment(assessment_id)
+        return assessment, self.clip_assessments.store.content_path(assessment)

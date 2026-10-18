@@ -8,8 +8,8 @@ startup; running this script is the only trigger.
 Usage:
     python3 scripts/fetch_demo_assets.py [asset_id] [--home PATH]
 
-The default asset is ``pio-growth-stages``, the committed PIO paper Figure 3
-reference manifest under ``demo-assets/``.
+With no asset id, every committed manifest under ``demo-assets/`` is fetched.
+Pass one id to fetch only that asset.
 """
 
 from __future__ import annotations
@@ -19,6 +19,7 @@ import hashlib
 import json
 import os
 import re
+import ssl
 import sys
 import tempfile
 import urllib.error
@@ -27,7 +28,6 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 MANIFESTS_DIR = REPO_ROOT / "demo-assets"
-DEFAULT_ASSET_ID = "pio-growth-stages"
 DEFAULT_TIMEOUT_S = 30.0
 DEFAULT_MAX_BYTES = 10 * 1024 * 1024
 
@@ -45,6 +45,7 @@ _REQUIRED_FIELDS = (
     "license_url",
     "attribution",
     "sha256",
+    "file_size_bytes",
     "media_type",
     "width",
     "height",
@@ -80,6 +81,47 @@ def load_manifest(asset_id: str) -> dict:
     return manifest
 
 
+def load_manifests(asset_id: str | None = None) -> list[dict]:
+    """Load one manifest by id, or all committed manifests in stable order."""
+    if asset_id is not None:
+        return [load_manifest(asset_id)]
+    paths = sorted(MANIFESTS_DIR.glob("*.json"))
+    if not paths:
+        raise FetchError(f"no committed manifests found in {MANIFESTS_DIR}")
+    return [load_manifest(path.stem) for path in paths]
+
+
+def build_ssl_context(ca_file: str | Path | None = None) -> ssl.SSLContext:
+    """Create a verified TLS context with a safe macOS certificate fallback.
+
+    Python.org macOS builds can point OpenSSL at a non-existent bundle. Prefer
+    an explicit CLI/environment bundle, then Python's configured bundle, then
+    common system/Homebrew bundles. Verification is never disabled.
+    """
+    configured = ca_file or os.getenv("HOLY_CRAP_CA_FILE") or os.getenv("SSL_CERT_FILE")
+    candidates: list[Path] = []
+    if configured:
+        path = Path(configured).expanduser()
+        if not path.is_file():
+            raise FetchError(f"configured CA bundle does not exist: {path}")
+        candidates.append(path)
+    else:
+        defaults = ssl.get_default_verify_paths()
+        if defaults.cafile:
+            candidates.append(Path(defaults.cafile))
+        candidates.extend(
+            [
+                Path("/etc/ssl/cert.pem"),
+                Path("/opt/homebrew/etc/openssl@3/cert.pem"),
+                Path("/usr/local/etc/openssl@3/cert.pem"),
+            ]
+        )
+    for candidate in candidates:
+        if candidate.is_file():
+            return ssl.create_default_context(cafile=str(candidate))
+    return ssl.create_default_context()
+
+
 def sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -95,6 +137,7 @@ def fetch_asset(
     source_url: str | None = None,
     timeout: float = DEFAULT_TIMEOUT_S,
     max_bytes: int = DEFAULT_MAX_BYTES,
+    ssl_context: ssl.SSLContext | None = None,
 ) -> dict:
     """Download to a sibling temp file, verify sha256, then atomic replace.
 
@@ -110,7 +153,7 @@ def fetch_asset(
     fd, temporary = tempfile.mkstemp(prefix=f".{destination.name}.", dir=destination.parent)
     os.close(fd)
     try:
-        with urllib.request.urlopen(url, timeout=timeout) as response:
+        with urllib.request.urlopen(url, timeout=timeout, context=ssl_context or build_ssl_context()) as response:
             with open(temporary, "wb") as out:
                 while chunk := response.read(64 * 1024):
                     size += len(chunk)
@@ -121,6 +164,9 @@ def fetch_asset(
                 out.flush()
                 os.fsync(out.fileno())
         actual = digest.hexdigest()
+        expected_size = int(manifest["file_size_bytes"])
+        if size != expected_size:
+            raise FetchError(f"size mismatch for {url}: expected {expected_size} bytes, got {size}")
         if actual != expected:
             raise FetchError(f"sha256 mismatch for {url}: expected {expected}, got {actual}")
         os.replace(temporary, destination)
@@ -138,8 +184,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "asset_id",
         nargs="?",
-        default=DEFAULT_ASSET_ID,
-        help=f"committed demo asset id (default: {DEFAULT_ASSET_ID})",
+        default=None,
+        help="committed demo asset id (default: fetch every committed asset)",
     )
     parser.add_argument(
         "--home",
@@ -148,6 +194,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--timeout", type=float, default=DEFAULT_TIMEOUT_S, help="download timeout in seconds")
     parser.add_argument("--max-bytes", type=int, default=DEFAULT_MAX_BYTES, help="download size ceiling in bytes")
+    parser.add_argument(
+        "--ca-file",
+        default=None,
+        help="trusted PEM CA bundle (default: HOLY_CRAP_CA_FILE, SSL_CERT_FILE, or system bundle)",
+    )
     return parser
 
 
@@ -165,15 +216,28 @@ def _print_summary(manifest: dict, destination: Path) -> None:
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
-        manifest = load_manifest(args.asset_id)
-        destination = Path(args.home) / "datasets" / "demo" / str(manifest["id"]) / str(manifest["filename"])
-        if destination.is_file() and sha256_file(destination) == str(manifest["sha256"]).lower():
-            print(f"{manifest['id']} is already installed and verified")
+        manifests = load_manifests(args.asset_id)
+        ssl_context = build_ssl_context(args.ca_file)
+        for manifest in manifests:
+            destination = Path(args.home) / "datasets" / "demo" / str(manifest["id"]) / str(manifest["filename"])
+            expected_size = int(manifest["file_size_bytes"])
+            if (
+                destination.is_file()
+                and destination.stat().st_size == expected_size
+                and sha256_file(destination) == str(manifest["sha256"]).lower()
+            ):
+                print(f"{manifest['id']} is already installed and verified")
+                _print_summary(manifest, destination)
+                continue
+            result = fetch_asset(
+                manifest,
+                destination,
+                timeout=args.timeout,
+                max_bytes=args.max_bytes,
+                ssl_context=ssl_context,
+            )
+            print(f"downloaded {result['size_bytes']} bytes, sha256 verified: {result['sha256']}")
             _print_summary(manifest, destination)
-            return 0
-        result = fetch_asset(manifest, destination, timeout=args.timeout, max_bytes=args.max_bytes)
-        print(f"downloaded {result['size_bytes']} bytes, sha256 verified: {result['sha256']}")
-        _print_summary(manifest, destination)
         return 0
     except (FetchError, urllib.error.URLError, OSError) as exc:
         print(f"error: {exc}", file=sys.stderr)

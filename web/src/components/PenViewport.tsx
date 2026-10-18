@@ -33,7 +33,7 @@ export function PenViewport({ snapshot, showTruth, showPredictions, penWidthM = 
       className="pen-svg"
       viewBox="0 0 1000 700"
       role="img"
-      aria-label={`Top-down pen view at ${snapshot.t_s} seconds with ${snapshot.birds.length} birds`}
+      aria-label={`Simulated pen diagram (SVG, not camera footage) at ${snapshot.t_s} seconds with ${snapshot.birds.length} simulated birds`}
     >
       <rect className="pen-floor" x="1" y="1" width="998" height="698" rx="4" />
       <g className="pen-grid" aria-hidden="true">
@@ -45,7 +45,7 @@ export function PenViewport({ snapshot, showTruth, showPredictions, penWidthM = 
         ))}
       </g>
       <g className="pen-labels" aria-hidden="true">
-        <text x="18" y="28">CAM 01 / OVERHEAD</text>
+        <text x="18" y="28">SIMULATED BIRDS / SVG DIAGRAM</text>
         <text x="982" y="28" textAnchor="end">{penWidthM.toFixed(1)} × {penHeightM.toFixed(1)} M</text>
       </g>
       <g>
@@ -62,6 +62,7 @@ export function PenViewport({ snapshot, showTruth, showPredictions, penWidthM = 
               key={bird.id}
               transform={`translate(${x} ${y}) rotate(${headingDegrees})`}
             >
+              <title>{`${bird.id} · ${bird.truth_state}${bird.predicted_abnormal ? " · flagged" : ""}`}</title>
               {showPredictions && bird.predicted_abnormal ? (
                 <circle className="bird__prediction" r="13" />
               ) : null}

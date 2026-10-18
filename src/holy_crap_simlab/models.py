@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from enum import StrEnum
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, computed_field
+from pydantic import BaseModel, ConfigDict, Field, computed_field, model_validator
 
 
 def utc_now() -> datetime:
@@ -258,9 +258,14 @@ class MediaAssetInfo(StrictModel):
     height: int
     filename: str
     sha256: str
+    expected_size_bytes: int
     installed: bool
     verified: bool
     size_bytes: int
+    duration_s: float | None
+    frame_rate_fps: float | None
+    frame_count: int | None
+    codec: str | None
     content_url: str
     source_url: str
     dataset_url: str
@@ -270,3 +275,175 @@ class MediaAssetInfo(StrictModel):
     attribution: str
     creators: list[str]
     limitations: list[str]
+
+
+class DatasetClip(StrictModel):
+    """Human-reviewed media entry available to the simulation dashboard."""
+
+    schema_version: Literal[1] = 1
+    id: str = Field(pattern=r"^[a-z0-9][a-z0-9._-]*$")
+    title: str
+    dataset_name: str
+    status: Literal["ready", "cataloged", "reference_only", "rejected"]
+    review_verdict: str
+    camera_fit: str
+    best_use: list[str]
+    limitations: list[str]
+    source_url: str
+    dataset_url: str
+    license: str
+    doi: str | None = None
+    media_kind: Literal["video", "images"]
+    media_type: str | None = None
+    filename: str | None = None
+    duration_s: float | None = Field(default=None, gt=0)
+    width: int | None = Field(default=None, gt=0)
+    height: int | None = Field(default=None, gt=0)
+    fps: float | None = Field(default=None, gt=0)
+    expected_size_bytes: int | None = Field(default=None, ge=0)
+    byte_range_start: int | None = Field(default=None, ge=0)
+    byte_range_end: int | None = Field(default=None, ge=0)
+    demo_asset_id: str | None = None
+    assessable: bool
+    bytes_available: bool = False
+    content_url: str | None = None
+
+
+class ClipVideo(StrictModel):
+    """Immutable input video associated with one aggregate assessment."""
+
+    name: str
+    sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    size_bytes: int = Field(ge=0)
+    media_type: str
+    duration_s: float | None = Field(default=None, gt=0)
+    width: int | None = Field(default=None, gt=0)
+    height: int | None = Field(default=None, gt=0)
+    fps: float | None = Field(default=None, gt=0)
+    source: Literal["upload", "demo", "catalog_mock"]
+    demo_asset_id: str | None = None
+    catalog_clip_id: str | None = None
+    bytes_available: bool = True
+    content_url: str | None
+    metadata_source: Literal["ffprobe", "demo_manifest", "catalog", "unavailable"]
+    metadata_warnings: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def _truthful_content_state(self) -> ClipVideo:
+        if self.source == "catalog_mock":
+            if self.bytes_available or self.content_url is not None or self.size_bytes != 0:
+                raise ValueError("catalog mocks cannot claim video bytes or playable content")
+            if not self.catalog_clip_id or self.metadata_source != "catalog":
+                raise ValueError("catalog mocks require catalog provenance")
+        elif not self.bytes_available or self.content_url is None:
+            raise ValueError("uploaded and demo videos require available content bytes")
+        return self
+
+
+class ClipModuleArtifactSlot(StrictModel):
+    """A deliberately empty slot that a future real model artifact may fill."""
+
+    required_for_real_mode: bool
+    status: Literal["not_configured", "configured"]
+    model_id: str | None = None
+    expected_formats: list[str] = Field(default_factory=list)
+    compatibility_verified: bool = False
+
+
+class ClipModule(StrictModel):
+    id: str
+    label: str
+    mode: Literal["mock", "real"]
+    version: str
+    status: Literal["completed", "not_configured", "failed"]
+    adapter: str
+    input_contract: dict[str, Any]
+    output_contract: dict[str, Any]
+    artifact: ClipModuleArtifactSlot
+    notice: str
+
+
+class ClipActivitySummary(StrictModel):
+    score: float = Field(ge=0, le=1)
+    category: Literal["low", "typical", "high"]
+    motion_coverage: float = Field(ge=0, le=1)
+    zone_scores: dict[str, float]
+
+
+class ClipAppearanceSummary(StrictModel):
+    score: float = Field(ge=0, le=1)
+    category: Literal["review", "mixed", "typical-looking"]
+    notes: list[str]
+
+
+class NormalizedBoundingBox(StrictModel):
+    x: float = Field(ge=0, le=1)
+    y: float = Field(ge=0, le=1)
+    width: float = Field(gt=0, le=1)
+    height: float = Field(gt=0, le=1)
+
+    @model_validator(mode="after")
+    def _inside_frame(self) -> NormalizedBoundingBox:
+        if self.x + self.width > 1 or self.y + self.height > 1:
+            raise ValueError("normalized bounding box must stay inside the frame")
+        return self
+
+
+class FecesCropReference(StrictModel):
+    """Lazy crop contract passed from detection to disease classification."""
+
+    source_video_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    timestamp_s: float = Field(ge=0)
+    bbox: NormalizedBoundingBox
+    color_space: Literal["RGB"] = "RGB"
+    target_width: Literal[224] = 224
+    target_height: Literal[224] = 224
+    materialized: bool = False
+
+
+class FecesClassification(StrictModel):
+    label: Literal["Coccidiosis", "Healthy", "New Castle Disease", "Salmonella"]
+    confidence: float = Field(ge=0, le=1)
+    mode: Literal["mock", "real"]
+
+
+class FecesCandidate(StrictModel):
+    id: str
+    timestamp_s: float = Field(ge=0)
+    bbox: NormalizedBoundingBox
+    detection_confidence: float = Field(ge=0, le=1)
+    crop: FecesCropReference
+    classification: FecesClassification
+
+
+class ClipFecesSummary(StrictModel):
+    candidate_count: int = Field(ge=0)
+    class_distribution: dict[
+        Literal["Coccidiosis", "Healthy", "New Castle Disease", "Salmonella"], int
+    ]
+    candidates: list[FecesCandidate]
+
+
+class ClipOverallSummary(StrictModel):
+    review_state: Literal["synthetic-demo-only"]
+    notes: list[str]
+
+
+class ClipSummary(StrictModel):
+    activity: ClipActivitySummary
+    appearance: ClipAppearanceSummary
+    feces: ClipFecesSummary
+    overall: ClipOverallSummary
+
+
+class ClipAssessment(StrictModel):
+    """One aggregate, pen-level result for an entire video clip."""
+
+    schema_version: Literal[1] = 1
+    id: str
+    status: Literal["completed", "failed"]
+    created_at: datetime = Field(default_factory=utc_now)
+    video: ClipVideo
+    modules: list[ClipModule]
+    summary: ClipSummary
+    non_diagnostic_notice: str

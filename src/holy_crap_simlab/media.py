@@ -42,9 +42,14 @@ class DemoAssetManifest(StrictModel):
     license_url: HttpUrl
     attribution: str
     sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    file_size_bytes: int = Field(gt=0)
     media_type: str
     width: int = Field(gt=0)
     height: int = Field(gt=0)
+    duration_s: float | None = Field(default=None, gt=0)
+    frame_rate_fps: float | None = Field(default=None, gt=0)
+    frame_count: int | None = Field(default=None, gt=0)
+    codec: str | None = None
     filename: str
     limitations: list[str]
 
@@ -55,6 +60,14 @@ class DemoAssetManifest(StrictModel):
         missing = [item for item in _REQUIRED_LIMITATIONS if item not in self.limitations]
         if missing:
             raise ValueError("limitations must include: " + ", ".join(missing))
+        if self.media_type.startswith("video/"):
+            missing_video = [
+                name
+                for name in ("duration_s", "frame_rate_fps", "frame_count", "codec")
+                if getattr(self, name) is None
+            ]
+            if missing_video:
+                raise ValueError("video manifests must include: " + ", ".join(missing_video))
         return self
 
 

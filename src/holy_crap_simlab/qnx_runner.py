@@ -33,7 +33,7 @@ from .models import AdapterCapability
 RUN_ID_RE = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
 NAME_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 
-DEFAULT_SUBMIT_JOB = Path("/Users/lancestreuber/Holy-Crap/qnx-connect/runner/submit-job.py")
+DEFAULT_SUBMIT_JOB = Path(__file__).resolve().parents[2] / "scripts" / "qnx_submit_job.py"
 
 _BEGIN_PYTHON = "SIMLAB_PROBE_PYTHON_BEGIN"
 _END_PYTHON = "SIMLAB_PROBE_PYTHON_END"
@@ -437,6 +437,17 @@ class QnxRunner:
                 str(self.config.submit_job),
                 "--host",
                 self.config.ssh_alias,
+                "--ssh-option",
+                "BatchMode=yes",
+                "--ssh-option",
+                "ConnectTimeout=%d" % self.config.ssh_timeout,
+            ]
+            if self.config.ssh_hostname:
+                helper_argv += [
+                    "--ssh-option",
+                    "HostName=%s" % self.config.ssh_hostname,
+                ]
+            helper_argv += [
                 "--cwd",
                 run_dir,
                 "--timeout",

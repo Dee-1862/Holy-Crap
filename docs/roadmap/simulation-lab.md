@@ -26,12 +26,14 @@ Add an observation-set manifest for a fixed overhead clip, frame timestamps,
 annotations, and source/license metadata. Implement a workstation executor that
 runs a real TFLite or ONNX model over decoded frames.
 
-The committed PIO reference image already exercises the media-manifest path:
-`demo-assets/` carries the manifest, `make demo-assets` fetches and verifies
-the bytes, and the media API serves them only after hash validation. The image
-is a non-aligned visual reference with simulated bird state, so it must not be
-treated as outbreak footage; a real replay clip needs its own pinned
-observation manifest and license review before it is used for measurement.
+The committed PIO reference image and Spatiotemporal Annotator whole-pen clip
+already exercise the media-manifest path: `demo-assets/` carries their pinned
+metadata, source, license, exact byte size, and SHA-256; `make demo-assets`
+fetches and verifies the bytes; and the media API serves them only after hash
+validation. The clip is approved for dashboard demonstration and activity-view
+design, but it has no disease labels and is not yet an observation set wired to
+a replay executor. Neither asset may be treated as outbreak footage or model
+evaluation evidence.
 
 Start with project-owned footage or a dataset whose license permits the intended
 use. ChickenVerse and Big Broiler are candidates for behavior and occupancy

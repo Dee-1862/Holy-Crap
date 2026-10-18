@@ -12,9 +12,12 @@ from fastapi.responses import FileResponse, JSONResponse
 
 from .adapters import AdapterError
 from .catalog import CatalogConflict
+from .clip_assessment import ClipValidationError
 from .models import (
     AdapterCapability,
+    ClipAssessment,
     CreateRunRequest,
+    DatasetClip,
     ErrorBody,
     ErrorResponse,
     HealthResponse,
@@ -40,6 +43,7 @@ def create_app(
     home: Path | None = None,
     scenario_directory: Path | None = None,
     demo_assets_directory: Path | None = None,
+    dataset_clips_directory: Path | None = None,
     qnx_runner=None,
     qnx_prober=None,
 ) -> FastAPI:
@@ -48,6 +52,7 @@ def create_app(
         resolved_home,
         scenario_directory,
         demo_assets_directory=demo_assets_directory,
+        dataset_clips_directory=dataset_clips_directory,
         qnx_runner=qnx_runner,
         qnx_prober=qnx_prober,
     )
@@ -73,6 +78,12 @@ def create_app(
     @application.exception_handler(CatalogConflict)
     async def catalog_conflict_handler(_request: Request, exc: CatalogConflict) -> JSONResponse:
         return _error(422, "catalog_conflict", str(exc))
+
+    @application.exception_handler(ClipValidationError)
+    async def clip_validation_error_handler(
+        _request: Request, exc: ClipValidationError
+    ) -> JSONResponse:
+        return _error(422, "clip_validation_error", str(exc))
 
     @application.exception_handler(RequestValidationError)
     async def validation_error_handler(_request: Request, exc: RequestValidationError) -> JSONResponse:
@@ -164,5 +175,52 @@ def create_app(
                 f"media content is not installed or failed hash verification: {asset_id}"
             )
         return FileResponse(state.path, media_type=manifest.media_type)
+
+    @application.get("/api/v1/dataset-clips", response_model=list[DatasetClip])
+    def dataset_clips() -> list[DatasetClip]:
+        return service.list_dataset_clips()
+
+    @application.get("/api/v1/dataset-clips/{clip_id}", response_model=DatasetClip)
+    def get_dataset_clip(clip_id: str) -> DatasetClip:
+        return service.require_dataset_clip(clip_id)
+
+    @application.get("/api/v1/clip-assessments", response_model=list[ClipAssessment])
+    def clip_assessments() -> list[ClipAssessment]:
+        return service.list_clip_assessments()
+
+    @application.post(
+        "/api/v1/clip-assessments/upload", response_model=ClipAssessment, status_code=201
+    )
+    def assess_uploaded_clip(file: UploadFile = File(...)) -> ClipAssessment:
+        filename = file.filename or ""
+        media_type = file.content_type or ""
+        return service.assess_clip_upload(file.file, filename, media_type)
+
+    @application.post(
+        "/api/v1/clip-assessments/demo/{asset_id}",
+        response_model=ClipAssessment,
+        status_code=201,
+    )
+    def assess_demo_clip(asset_id: str) -> ClipAssessment:
+        return service.assess_demo_clip(asset_id)
+
+    @application.post(
+        "/api/v1/clip-assessments/catalog/{clip_id}",
+        response_model=ClipAssessment,
+        status_code=201,
+    )
+    def assess_catalog_clip(clip_id: str) -> ClipAssessment:
+        return service.assess_catalog_clip(clip_id)
+
+    @application.get(
+        "/api/v1/clip-assessments/{assessment_id}", response_model=ClipAssessment
+    )
+    def get_clip_assessment(assessment_id: str) -> ClipAssessment:
+        return service.require_clip_assessment(assessment_id)
+
+    @application.get("/api/v1/clip-assessments/{assessment_id}/content")
+    def clip_assessment_content(assessment_id: str) -> FileResponse:
+        assessment, path = service.clip_content_path(assessment_id)
+        return FileResponse(path, media_type=assessment.video.media_type)
 
     return application

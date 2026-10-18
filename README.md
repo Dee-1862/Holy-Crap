@@ -20,12 +20,47 @@ disease and it never makes culling decisions.
 
 ## Run the simulation lab
 
-The first working scaffold is a local experiment loop: choose a deterministic
-100-bird scenario, select or upload a model artifact, run the mock executor,
-and inspect pen state, alerts, timing, and saved results in the dashboard. The
-mock makes the workflow testable; it does not measure the uploaded model's
-accuracy. Real-video replay and optional 3D rendering are visible but
-intentionally not claimed as working yet.
+The main operator workflow is a whole-pen clip assessment. Upload one video,
+typically around five minutes, and get one aggregate summary of flock activity,
+flock appearance, and feces candidates. It does not invent an infection
+progression or require stable bird identities. The current four adapters are
+deterministic mocks, so every score and classification is marked synthetic and
+non-diagnostic. Re-uploading the same bytes produces the same mock result.
+
+```sh
+curl -F 'file=@whole-pen.mp4;type=video/mp4' \
+  http://127.0.0.1:8000/api/v1/clip-assessments/upload
+```
+
+The uploaded video is stored once by SHA-256 under `.simlab/clips/`. You can
+also assess an installed, hash-verified demo clip with
+`POST /api/v1/clip-assessments/demo/{asset_id}`. List saved assessments with
+`GET /api/v1/clip-assessments`, fetch one with
+`GET /api/v1/clip-assessments/{id}`, and stream its original bytes from the
+assessment's `video.content_url`.
+
+The dashboard's dataset picker comes from the committed reviewed catalog at
+`GET /api/v1/dataset-clips`. An assessable entry without installed bytes can
+still produce deterministic interface sample data through
+`POST /api/v1/clip-assessments/catalog/{clip_id}`. That response is labeled
+`catalog_mock`, has no playable content URL, and says plainly that no video was
+decoded and no model ran. Rejected footage, annotated reference clips, and
+image-only datasets cannot be assessed through that endpoint.
+
+The feces path already has a clean model boundary. Detection produces a
+timestamp, a normalized bounding box, and a lazy RGB crop reference. The next
+adapter consumes that crop as RGB 224 x 224 and returns one of Coccidiosis,
+Healthy, New Castle Disease, or Salmonella. That classifier slot is intended
+for a future model trained from the linked
+[Chicken Disease dataset](https://www.kaggle.com/datasets/allandclive/chicken-disease-1/data),
+but no artifact is configured or executed yet. The dataset page does not state
+a license in the metadata we reviewed, so this repository does not download or
+redistribute its images.
+
+The older scenario runner is still available for deterministic infrastructure
+testing: choose a 100-bird scenario, select or upload a model artifact, run the
+mock executor, and inspect its saved result. That mock does not measure an
+uploaded model's accuracy and should not be confused with the clip assessment.
 
 The QNX Pi is wired as an honest target-validation path, not an inference
 executor: it has no TensorFlow Lite, ONNX, OpenCV, or NumPy runtime, so a QNX
@@ -34,18 +69,27 @@ physical Pi and returns a verified receipt (`evaluation_kind: target_probe`,
 `inference_performed: false`). QNX capability is at best `probe_only`; it
 never reports `ready` until actual inference exists. See
 `POST /api/v1/system/qnx/probe` and the `QNX_*` settings in `.env.example`.
+When `qnxpi.local` is unavailable on a direct Ethernet link, keep
+`QNX_SSH_ALIAS=qnxpi` so the existing identity and host-key policy still
+apply, and set `QNX_SSH_HOSTNAME` to the Pi's current link-local address. The
+checked-in runner helper carries that override through the full validation
+job, including upload, polling, and receipt download.
 
-Committed reference media (one PIO-paper overhead broiler-house image) is
+Committed reference media includes a PIO-paper overhead broiler-house image
+and the team-reviewed Spatiotemporal Annotator whole-pen clip (two complete
+pens, 40 week-one birds, 848 x 480 at 5 fps). It is
 served through `GET /api/v1/media` and `GET /api/v1/media/{id}/content` only
 after the file is present and its SHA-256 matches the committed manifest.
-Fetch it with `make demo-assets`. This imagery is a visual reference only:
+Fetch all committed assets with `make demo-assets`, or pass one manifest id to
+`python3 scripts/fetch_demo_assets.py`. Downloads also have to match the exact
+manifest byte size. This imagery is a visual reference only:
 the scenario's bird positions and outbreak timing are simulated, so the
 combined result is not outbreak footage and is never labeled as one.
 
 ```sh
 make doctor
 make bootstrap
-make demo-assets   # optional: fetch the committed PIO reference image
+make demo-assets   # optional: fetch every committed reference image/video
 make dev
 ```
 
@@ -56,6 +100,9 @@ and are ignored by Git.
   boundaries, run flow, runtime split, and current capability status.
 - [Model handoff](docs/architecture/model-lifecycle.md): importing a completed
   local bundle without coupling the simulator to training infrastructure.
+- [Video preprocessing](docs/architecture/video-preprocessing.md): create and
+  measure color, grayscale, resolution, FPS, and codec variants without
+  confusing storage compression with model inference speed.
 - [Simulation roadmap](docs/roadmap/simulation-lab.md): real footage,
   epidemiological state, optional 3D, and deterministic QNX playback gates.
 - [Contributing](CONTRIBUTING.md): worktrees, contracts, tests, and pull-request

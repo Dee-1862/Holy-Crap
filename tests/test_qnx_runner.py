@@ -11,6 +11,7 @@ from typing import Callable
 import pytest
 
 from holy_crap_simlab.qnx_runner import (
+    DEFAULT_SUBMIT_JOB,
     QnxRunner,
     QnxRunnerConfig,
     QnxRunnerError,
@@ -328,6 +329,10 @@ def test_validate_on_target_exact_argv_without_shell(tmp_path: Path) -> None:
         str(make_config(tmp_path).submit_job),
         "--host",
         "qnxpi",
+        "--ssh-option",
+        "BatchMode=yes",
+        "--ssh-option",
+        "ConnectTimeout=20",
         "--cwd",
         run_dir,
         "--timeout",
@@ -377,6 +382,31 @@ def test_ssh_and_scp_argv_hostname_override(tmp_path: Path) -> None:
         "local.bin",
         "qnxpi:/data/x.bin",
     ]
+
+
+def test_hostname_override_is_forwarded_to_runner_helper(tmp_path: Path) -> None:
+    fake = FakeRunner()
+    fake.receipt_bytes = json.dumps(valid_receipt()).encode("utf-8")
+    config = make_config(tmp_path, ssh_hostname="169.254.55.180")
+    runner = QnxRunner(config)
+    model, scenario = stage_files(tmp_path)
+    fake.on(
+        str(config.submit_job),
+        lambda argv: subprocess.CompletedProcess(argv, 0, stdout="submitted\n", stderr=""),
+    )
+
+    runner.validate_on_target(
+        run_id=RUN_ID,
+        model_path=model,
+        model_name=MODEL_NAME,
+        scenario_path=scenario,
+        scenario_name=SCENARIO_NAME,
+        runner=fake,
+    )
+
+    helper = next(call for call in fake.calls if call[0] == str(config.submit_job))
+    hostname_index = helper.index("HostName=169.254.55.180")
+    assert helper[hostname_index - 1] == "--ssh-option"
 
 
 @pytest.mark.parametrize(
@@ -607,6 +637,7 @@ def test_config_from_env_defaults_and_mode_validation() -> None:
     assert config.ssh_hostname is None
     assert config.ssh_timeout == 20
     assert config.remote_python == "/system/bin/python3"
+    assert config.submit_job == DEFAULT_SUBMIT_JOB
 
     probe_config = QnxRunnerConfig.from_env(
         {

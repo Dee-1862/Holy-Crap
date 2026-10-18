@@ -2,9 +2,15 @@
 
 ## What this system is for
 
-The simulation lab gives the team one repeatable way to answer a practical
-question: how does a candidate model behave on a pen-level scenario before we
-put it in the camera loop on the QNX Raspberry Pi?
+The simulation lab gives the team one repeatable way to inspect a whole-pen
+video and test model handoffs before we put them in the camera loop on the QNX
+Raspberry Pi.
+
+The operator unit is one video, not one chicken and not a simulated outbreak.
+A clip assessment summarizes the entire recording with pen-level activity,
+flock appearance, feces candidates, and a feces-class distribution. It does not
+try to maintain bird identities through occlusion. It also does not turn a
+short recording into an infection-progression story.
 
 The lab evaluates observable anomalies and alert behavior. It does not model a
 veterinary diagnosis, and its output must not be presented as one. A scenario
@@ -20,7 +26,7 @@ playback are later adapters behind the same contracts.
 ## Current implementation status
 
 The first scaffold includes the local API, catalog, mock executor, dashboard,
-and a completed-output importer. The local-directory importer validates the
+clip assessment pipeline, and a completed-output importer. The local-directory importer validates the
 versioned model-bundle contract, the referenced model path, its format, and its
 SHA-256 digest. The simpler browser upload registers one model file for mock
 runs; it is a development convenience, not a validated deployment bundle.
@@ -36,6 +42,46 @@ QNX run stays in run history as failed.
 
 Real-video replay, the EMULSION model, BlenderProc rendering, and measured QNX
 inference are not implemented.
+
+### Whole-pen clip assessment
+
+`POST /api/v1/clip-assessments/upload` accepts one multipart video. The service
+checks its plain filename, declared media type, extension, container signature,
+and configured byte limit before installing it in a content-addressed path
+under `.simlab/clips/blobs/`. Installation uses a staged file, `fsync`, and an
+atomic rename. Existing bytes are never overwritten. `ffprobe` supplies
+duration, dimensions, and frame rate when it is available; missing or invalid
+metadata is reported as unavailable instead of failing the assessment.
+
+`POST /api/v1/clip-assessments/demo/{asset_id}` runs the same pipeline against
+an installed demo video after the demo manifest's SHA-256 has been verified.
+The read endpoints are:
+
+- `GET /api/v1/clip-assessments`
+- `GET /api/v1/clip-assessments/{id}`
+- `GET /api/v1/clip-assessments/{id}/content`
+
+Version 1 has four replaceable adapters:
+
+| Adapter | Current input | Current output | Real artifact |
+|---|---|---|---|
+| Pen activity | One whole-pen clip | Clip-average score, category, motion coverage, and zone scores | Not configured |
+| Flock appearance | Sampled frames from the clip | One clip-average appearance score and review category | Not configured |
+| Feces candidate detector | Sampled frames from the clip | Timestamped normalized boxes and lazy crop references | Not configured |
+| Feces disease classifier | One detected feces crop, RGB 224 x 224 | Coccidiosis, Healthy, New Castle Disease, or Salmonella | Not configured |
+
+For now, each adapter derives repeatable fake values from the video SHA-256.
+The mock classifier consumes the detector's crop contract, which means a real
+classifier can replace that stage without changing the dashboard response.
+No crop pixels are materialized and no model artifact runs in the mock path.
+The response repeats that fact at the assessment, module, and candidate levels.
+
+The planned feces classifier is expected to come from work based on the
+[Chicken Disease dataset](https://www.kaggle.com/datasets/allandclive/chicken-disease-1/data).
+Its published images are 224 x 224, but runtime format, preprocessing,
+quantization, label order, and QNX compatibility still need to be supplied in
+the exported model manifest. The dataset metadata reviewed for this scaffold
+does not state a license, so the lab neither downloads nor bundles it.
 
 ## System context
 
@@ -130,11 +176,20 @@ frame artifacts later.
 
 ### Reference media
 
-`demo-assets/` commits small JSON manifests for real-camera reference imagery
-(the four-frame PIO overhead broiler-house montage from the PIO dataset paper,
-CC BY 4.0, with the required attribution recorded). The binaries themselves are
-not committed; `make demo-assets` fetches them into the runtime home and
-verifies the manifest SHA-256 before install.
+`demo-assets/` commits small JSON manifests for real-camera reference media:
+the four-frame PIO overhead broiler-house montage and the team-reviewed
+Spatiotemporal Annotator whole-pen clip. Both are CC BY 4.0 with source and
+attribution recorded. The clip is a real 19.4-second, 848 x 480, 5 fps overhead
+view of 40 week-one birds in two complete pens. The binaries themselves are not
+committed; `make demo-assets` fetches every manifest into the runtime home and
+verifies both exact byte size and SHA-256 before install. Pass an asset id to
+`scripts/fetch_demo_assets.py` to fetch only one.
+
+The fetcher keeps HTTPS certificate verification enabled. On macOS it falls
+back from Python's configured OpenSSL bundle to `/etc/ssl/cert.pem` and common
+Homebrew bundle paths. A custom trusted bundle can be supplied with `--ca-file`
+or `HOLY_CRAP_CA_FILE`; a missing explicit bundle is an error rather than a
+reason to disable verification.
 
 The media API serves typed metadata (`GET /api/v1/media`) and content
 (`GET /api/v1/media/{asset_id}/content`) only when the installed file exists
@@ -142,11 +197,12 @@ and its bytes match the committed digest, using strictly validated plain-file
 paths under the runtime home. Installed state, source URL, dataset URL, DOI,
 license, attribution, creators, and limitations travel with every asset.
 
-Dataset composition boundary: reference imagery is a visual backdrop, not a
+Dataset composition boundary: reference media is a visual backdrop, not a
 measurement. In `pio-reference-100` the recorded image is explicitly
 non-aligned with the simulated birds, and outbreak timing and positions are
-simulated. That combination is not outbreak footage and is never labeled as
-one.
+simulated. The whole-pen clip has activity labels available in its source
+package but no disease labels, and this dashboard asset is the raw video only.
+Neither source is outbreak footage and neither is labeled as one.
 
 ## Run data flow
 
@@ -185,7 +241,10 @@ A QNX run follows the same store-first discipline but produces a target probe,
 not predictions: the run metadata is written first, the exact catalog model
 blob and canonical scenario file are staged to the Pi, the probe worker
 verifies their hashes there, and the receipt and helper log land in the run
-directory. Any transport failure leaves the run recorded as failed.
+directory. The Pi's clock may be unset after boot, so the user-facing result
+uses host-side UTC timestamps. The untouched receipt remains the source for
+raw target timestamps, including an epoch value when that is what QNX
+reported. Any transport failure leaves the run recorded as failed.
 
 ## Repository layout
 
@@ -194,6 +253,7 @@ The simulation additions use these top-level paths:
 ```text
 contracts/                 Versioned interchange schemas
 scenarios/                 Committed deterministic scenario definitions
+dataset-clips/             Human-reviewed video/image catalog metadata
 src/holy_crap_simlab/      API, catalog, adapters, mock engine, media, and CLI
 target/qnx/                Committed stdlib-only QNX probe worker
 demo-assets/               Committed reference-media manifests (binaries fetched)
@@ -208,6 +268,21 @@ scripts/                   Local development and environment checks
 Generated models, videos, renders, run outputs, and `.simlab/` do not belong in
 Git. Commit their small manifests and SHA-256 digests. Put large shared
 artifacts in agreed external storage or a GitHub release.
+
+## Reviewed clip library
+
+`dataset-clips/reviewed.json` is the dashboard's source of truth for camera
+fit, review verdicts, source links, license notes, and whether an entry is
+appropriate for the aggregate clip workflow. The API adds local install state
+at request time. A verified demo asset gets a playable content URL; a cataloged
+source without local bytes does not.
+
+The catalog-mock endpoint exists so the team can exercise every approved
+selector and result state before downloading large archives. Its stable seed
+comes from canonical catalog metadata, not from pretend video bytes. Returned
+records therefore use `source: catalog_mock`, `bytes_available: false`, a null
+content URL, and an explicit warning that no footage was decoded and no model
+ran. Reference-only, rejected, and image-only entries are never assessable.
 
 ## Runtime boundaries
 

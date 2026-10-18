@@ -1,6 +1,11 @@
 import type {
+  AdapterCapability,
+  ClipAssessment,
+  DatasetClip,
   CreateRunRequest,
+  MediaAssetInfo,
   ModelArtifact,
+  RunResult,
   RunSummary,
   Scenario,
   Snapshot,
@@ -37,6 +42,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 export const api = {
   capabilities: () => request<SystemCapabilities>("/system/capabilities"),
+  probeQnx: () => request<AdapterCapability>("/system/qnx/probe", { method: "POST" }),
   scenarios: () => request<Scenario[]>("/scenarios"),
   models: () => request<ModelArtifact[]>("/models"),
   runs: () => request<RunSummary[]>("/runs"),
@@ -46,8 +52,23 @@ export const api = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     }),
+  result: (id: string) => request<RunResult>(`/runs/${encodeURIComponent(id)}/result`),
   timeline: (id: string) => request<TimelinePoint[]>(`/runs/${encodeURIComponent(id)}/timeline`),
   snapshots: (id: string) => request<Snapshot[]>(`/runs/${encodeURIComponent(id)}/snapshots`),
+  media: () => request<MediaAssetInfo[]>("/media"),
+  clipAssessments: () => request<ClipAssessment[]>("/clip-assessments"),
+  clipAssessment: (id: string) => request<ClipAssessment>(`/clip-assessments/${encodeURIComponent(id)}`),
+  uploadClipAssessment: (file: File) => {
+    const body = new FormData();
+    body.append("file", file);
+    return request<ClipAssessment>("/clip-assessments/upload", { method: "POST", body });
+  },
+  assessDemoClip: (assetId: string) =>
+    request<ClipAssessment>(`/clip-assessments/demo/${encodeURIComponent(assetId)}`, { method: "POST" }),
+  datasetClips: () => request<DatasetClip[]>("/dataset-clips"),
+  datasetClip: (id: string) => request<DatasetClip>(`/dataset-clips/${encodeURIComponent(id)}`),
+  assessCatalogClip: (clipId: string) =>
+    request<ClipAssessment>(`/clip-assessments/catalog/${encodeURIComponent(clipId)}`, { method: "POST" }),
   uploadModel: (file: File, name: string, version: string, source?: string) => {
     const body = new FormData();
     body.append("file", file);

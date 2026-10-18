@@ -44,9 +44,17 @@ def probe_only_report() -> QnxProbeReport:
 class FakeQnxClient:
     """Genuine fake QnxRunner: builds a real receipt from the staged bytes, never touches SSH."""
 
-    def __init__(self, failure: Exception | None = None) -> None:
+    def __init__(
+        self,
+        failure: Exception | None = None,
+        receipt_timestamps: tuple[str, str] = (
+            "2026-10-17T20:00:00+00:00",
+            "2026-10-17T20:00:01+00:00",
+        ),
+    ) -> None:
         self.config = QnxRunnerConfig(mode="probe")
         self.failure = failure
+        self.receipt_timestamps = receipt_timestamps
         self.calls: list[dict] = []
 
     def validate_on_target(self, **kwargs) -> QnxValidationOutcome:
@@ -75,8 +83,8 @@ class FakeQnxClient:
                 "release": "8.0.0",
                 "python_version": "3.14.0",
             },
-            "started_at": "2026-10-17T20:00:00+00:00",
-            "finished_at": "2026-10-17T20:00:01+00:00",
+            "started_at": self.receipt_timestamps[0],
+            "finished_at": self.receipt_timestamps[1],
             "inference_performed": False,
             "inference_reason": "No QNX inference runtime is installed or configured.",
         }
@@ -325,6 +333,38 @@ def test_qnx_target_probe_persists_run_and_result(
     assert "fake probe job" in (run_dir / "run.log").read_text(encoding="utf-8")
 
 
+def test_qnx_result_uses_host_clock_when_target_clock_is_unsynchronized(
+    tmp_path: Path, scenario_directory: Path
+) -> None:
+    epoch_start = "1970-01-01T01:13:20+00:00"
+    epoch_finish = "1970-01-01T01:13:21+00:00"
+    fake = FakeQnxClient(receipt_timestamps=(epoch_start, epoch_finish))
+    client = qnx_client(tmp_path, scenario_directory, fake)
+    model = client.post(
+        "/api/v1/models/upload",
+        data={"name": "Clock test", "version": "1", "source": "test"},
+        files={"file": ("clock.tflite", b"model bytes", "application/octet-stream")},
+    ).json()
+
+    run_response = client.post(
+        "/api/v1/runs",
+        json={"scenario_id": "healthy-100", "model_id": model["id"], "executor": "qnx"},
+    )
+    assert run_response.status_code == 201
+    run = run_response.json()
+    result = client.get(f"/api/v1/runs/{run['id']}/result").json()
+
+    assert result["started_at"] == run["created_at"]
+    assert result["finished_at"] >= result["started_at"]
+    assert result["started_at"] != epoch_start
+    assert result["finished_at"] != epoch_finish
+
+    receipt_path = client.app.state.service.catalog.runs_dir / run["id"] / "receipt.json"
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    assert receipt["started_at"] == epoch_start
+    assert receipt["finished_at"] == epoch_finish
+
+
 def test_qnx_rejects_builtin_zero_byte_mock_model(
     tmp_path: Path, scenario_directory: Path
 ) -> None:
@@ -376,8 +416,8 @@ def test_media_listing_typed_metadata(client: TestClient) -> None:
 
     assert response.status_code == 200
     assets = response.json()
-    assert len(assets) == 1
-    asset = assets[0]
+    assert len(assets) == 2
+    asset = next(item for item in assets if item["id"] == "pio-growth-stages")
     assert asset["id"] == "pio-growth-stages"
     assert asset["installed"] is False
     assert asset["verified"] is False
@@ -387,6 +427,8 @@ def test_media_listing_typed_metadata(client: TestClient) -> None:
     assert asset["doi"] == "10.1038/s41597-026-07114-5"
     assert asset["license"] == "CC-BY-4.0"
     assert asset["media_type"] == "image/jpeg"
+    assert asset["expected_size_bytes"] == 121814
+    assert asset["duration_s"] is None
     assert asset["attribution"]
     assert asset["creators"]
     for limitation in (
@@ -395,6 +437,14 @@ def test_media_listing_typed_metadata(client: TestClient) -> None:
         "not spatially aligned with simulated birds",
     ):
         assert limitation in asset["limitations"]
+
+    video = next(item for item in assets if item["id"] == "spatiotemporal-whole-pen")
+    assert video["media_type"] == "video/mp4"
+    assert video["expected_size_bytes"] == 1322209
+    assert video["duration_s"] == 19.4
+    assert video["frame_rate_fps"] == 5.0
+    assert video["frame_count"] == 97
+    assert video["codec"] == "H.264"
 
 
 def test_media_content_missing_returns_404(client: TestClient) -> None:
@@ -430,6 +480,7 @@ def test_media_content_served_only_after_hash_verification(
         "license_url": "https://creativecommons.org/licenses/by/4.0/",
         "attribution": "Test attribution.",
         "sha256": hashlib.sha256(content).hexdigest(),
+        "file_size_bytes": len(content),
         "media_type": "image/jpeg",
         "width": 640,
         "height": 480,

@@ -528,32 +528,55 @@ static void terminatedScreen(const char* line1, const char* line2) {
   text(line2, CX, 366, C_TER, &fonts::DejaVu12);
 }
 // ----- after the termination: the alien dances, a gold gauntlet snaps, and the alien turns to dust -----
-// 16 by 16 pixel art. # outline, g gold, l gold band, r o y b p G the six gems. SNAP has the middle finger up.
-static const char* G_READY[16] = {
-  ".##....##.##....", "#gg#..#gg#gg#...", "#gg#..#gg#gg#...", "#gg####gg#gg#...",
-  "#gg#gg#gg#gg#.##", "#gg#gg#gg#gg##g#", "#gr#go#gy#gb#gG#", "#ggggggggggggg#.",
-  "#ggggggggggggg#.", "#ggggggppgggg#..", "#gggggpppgggg#..", "#ggggggppgggg#..",
-  ".#gggggggggg#...", ".#llllllllll#...", ".#gggggggggg#...", ".############...",
+// 22 by 30 pixel art of a gold gauntlet. O outline, d g h dark, mid and light gold, w a highlight,
+// o r b p y G the six gems. glow pushes the gems toward white for the snap.
+static const char* GAUNTLET[30] = {
+  "....OOOOOOOOOOOO......",
+  "...OhhgOhhgOhhgOO.....",
+  "..OhggdOhggdOhggdOO...",
+  "..OgddOOgddOOgddOOhO..",
+  "..OdgggggggggggggOhgO.",
+  "..OoogrrggbbggppgOhggO",
+  "..OoodrrddbbddppdOghgO",
+  "..OdgggggggggggggOgggO",
+  "..OggggggOOggggggOggdO",
+  "..OgggggOyyOgggggOgGGO",
+  "..OggggOyhwyOggggOgGGO",
+  "..OddggOywyyOggddOgGGO",
+  "..OgddgOyyyyOgddgOgddO",
+  "..OgggddOyyOddgggOgdO.",
+  "..OggggggOOggggggOddO.",
+  "..OdgggggggggggggOOO..",
+  "...OddddddddddddddO...",
+  "...OgdgggdggdgggdgO...",
+  "...OgdghgdggdghgdgO...",
+  "...OgdghgdggdghgdgO...",
+  "...OgdgggdggdgggdgO...",
+  "...OgdgggdggdgggdgO...",
+  "..OOddddddddddddddOO..",
+  ".OgggdgggdgggdgggdggO.",
+  ".OghgdghgdghgdghgdhgO.",
+  "OgghgdghgdghgdghgdhggO",
+  "OgghgdghgdghgdghgdhggO",
+  "OgggddgggdgggdgggddggO",
+  "OddddddddddddddddddddO",
+  ".OOOOOOOOOOOOOOOOOOOO.",
 };
-static const char* G_SNAP[16] = {
-  ".##.##.##.##....", "#gg#gg#gg#gg#...", "#gg#gg#gg#gg#...", "#gg#gg#gg#gg#...",
-  "#gg#gg#gg#gg#...", "#gg#gg#gg#gg#.##", "#gr#go#gy#gb##G#", "#ggggggggggggg#.",
-  "#ggggggggggggg#.", "#ggggggppgggg#..", "#gggggpppgggg#..", "#ggggggppgggg#..",
-  ".#gggggggggg#...", ".#llllllllll#...", ".#gggggggggg#...", ".############...",
-};
-static void drawGauntlet(lgfx::LGFXBase& d, const char* const* art, int cx, int cy, int cell) {
-  int x0 = cx - 8 * cell, y0 = cy - 8 * cell;
-  for (int r = 0; r < 16; r++) {
-    for (int c = 0; c < 16; c++) {
-      uint16_t col;
-      switch (art[r][c]) {
-        case '#': col = d.color565(40, 25, 5); break;    case 'g': col = d.color565(220, 170, 40); break;
-        case 'l': col = d.color565(160, 110, 20); break; case 'r': col = d.color565(220, 40, 40); break;
-        case 'o': col = d.color565(240, 130, 30); break; case 'y': col = d.color565(250, 220, 50); break;
-        case 'b': col = d.color565(50, 110, 240); break; case 'p': col = d.color565(140, 60, 200); break;
-        case 'G': col = d.color565(40, 190, 80); break;  default: continue;
+static void drawGauntlet(lgfx::LGFXBase& d, int cx, int cy, int cell, float glow = 0) {
+  int x0 = cx - 11 * cell, y0 = cy - 15 * cell;
+  for (int r = 0; r < 30; r++) {
+    for (int c = 0; c < 22; c++) {
+      int R, G, B; bool gem = true;
+      switch (GAUNTLET[r][c]) {
+        case 'O': R = 45; G = 30; B = 8; gem = false; break;      case 'd': R = 125; G = 90; B = 20; gem = false; break;
+        case 'g': R = 185; G = 140; B = 35; gem = false; break;   case 'h': R = 235; G = 195; B = 85; gem = false; break;
+        case 'w': R = 255; G = 255; B = 220; break;               case 'o': R = 245; G = 120; B = 40; break;
+        case 'r': R = 225; G = 45; B = 45; break;                 case 'b': R = 70; G = 140; B = 245; break;
+        case 'p': R = 160; G = 70; B = 210; break;                case 'y': R = 250; G = 225; B = 40; break;
+        case 'G': R = 60; G = 220; B = 70; break;                 default: continue;
       }
-      d.fillRect(x0 + c * cell, y0 + r * cell, cell, cell, col);
+      if (gem && glow > 0) { R += (255 - R) * glow; G += (255 - G) * glow; B += (255 - B) * glow; }
+      d.fillRect(x0 + c * cell, y0 + r * cell, cell, cell, d.color565(R, G, B));
     }
   }
 }
@@ -568,31 +591,34 @@ static void stageBase(M5Canvas& c) {
 static void snapScene() {
   M5Canvas c(&M5.Display);
   if (!c.createSprite(ST_W, ST_H)) return;                         // no memory, keep the still screen
-  const int gx = 262, gy = ST_AY + 12;                             // where the gauntlet stops
+  const int gx = 268, gy = ST_AY + 22;                             // where the gauntlet stops
   static const int8_t DX[4] = {-10, 0, 10, 0}, DY[4] = {0, -8, 0, -8};
   for (int f = 0; f < 20; f++) {                                   // 1 the dance, side to side with a hop
     stageBase(c); drawAlien(160 + DX[f % 4], ST_AY + DY[f % 4], 6, c); c.pushSprite(ST_X, ST_Y); delay(90);
   }
   for (int f = 0; f <= 10; f++) {                                  // 2 the gauntlet slides in from the right
-    stageBase(c); drawAlien(160, ST_AY, 6, c); drawGauntlet(c, G_READY, gx + (10 - f) * 9, gy, 4);
+    stageBase(c); drawAlien(160, ST_AY, 6, c); drawGauntlet(c, gx + (10 - f) * 9, gy, 4);
     c.pushSprite(ST_X, ST_Y); delay(30);
   }
   delay(350);
-  stageBase(c); drawAlien(160, ST_AY, 6, c); drawGauntlet(c, G_SNAP, gx, gy, 4);   // 3 the snap
-  for (int i = 0; i < 5; i++) {                                    // spark lines off the fingertips
-    float a = -PI / 2 - 0.6f + i * 0.3f;
-    int sx = gx - 12 + cosf(a) * 12, sy = gy - 34 + sinf(a) * 12;
-    c.drawWideLine(sx, sy, sx + cosf(a) * 14, sy + sinf(a) * 14, 2, c.color565(255, 240, 160));
+  for (int f = 0; f < 6; f++) {                                    // 3 the snap, the gems flare and the fist jolts
+    float glow = f < 3 ? (f + 1) / 3.0f : (6 - f) / 4.0f;
+    stageBase(c); drawAlien(160, ST_AY, 6, c); drawGauntlet(c, gx + (f % 2 ? 3 : -3), gy, 4, glow);
+    for (int i = 0; i < 7 && f < 4; i++) {                          // sparks off the top of the fist
+      float a = -PI / 2 - 0.9f + i * 0.3f;
+      int sx = gx - 4 + cosf(a) * 64, sy = gy - 22 + sinf(a) * 64;
+      c.drawWideLine(sx, sy, sx + cosf(a) * 12, sy + sinf(a) * 12, 2, c.color565(255, 240, 160));
+    }
+    c.pushSprite(ST_X, ST_Y);
+    if (f == 2) { M5.Power.setVibration(200); delay(70); M5.Power.setVibration(0); } else delay(70);
   }
-  c.pushSprite(ST_X, ST_Y);
-  M5.Power.setVibration(200); delay(70); M5.Power.setVibration(0);
-  delay(300);
+  delay(250);
   uint8_t rnd[17 * 20];                                            // 4 the dust, each pixel goes at its own moment
   for (auto& v : rnd) v = random(256);
   const int cell = 6, ax = 160 - 10 * cell, ay = ST_AY - 17 * cell / 2;
   for (int f = 0; f <= 34; f++) {
     float p = f / 34.0f;
-    stageBase(c); drawGauntlet(c, G_SNAP, gx, gy, 4);
+    stageBase(c); drawGauntlet(c, gx, gy, 4);
     for (int r = 0; r < 17; r++) {
       for (int k = 0; k < 20; k++) {
         char ch = ALIEN[r][k]; if (ch == '.') continue;

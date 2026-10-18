@@ -20,7 +20,7 @@ export default function Privacy() {
 
       <h2>What we collect</h2>
       <ul>
-        <li>Your mobile phone number and name, when you or your farm sign you up for text alerts.</li>
+        <li>Your mobile phone number and name, when you agree to receive text alerts.</li>
         <li>Your consent to receive texts, with the date, time and how it was given.</li>
         <li>Your replies to our texts, including STOP and HELP.</li>
         <li>Records of alerts and actions on the console, such as an alert acknowledged or a vet request.</li>

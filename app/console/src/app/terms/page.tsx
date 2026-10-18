@@ -20,8 +20,8 @@ export default function Terms() {
 
       <h2>Signing up</h2>
       <p>
-        You receive texts only after you, or your farm with your permission, enter your mobile number in the console and you
-        agree to receive alerts. Consent is not a condition of any purchase.
+        You receive texts only after you have agreed to receive barn alerts on your mobile number, given directly to the team
+        that runs the farm's monitoring. Consent is not a condition of any purchase, and you can withdraw it at any time by replying STOP.
       </p>
 
       <h2>How often</h2>

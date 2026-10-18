@@ -28,8 +28,8 @@ export default function Dashboard() {
   const pens = penLevels();
   // pens that have a camera feed, and start on one of them
   const [cams, setCams] = useState<string[]>([]);
-  const frame = useLiveFrame();
   const piCam = selected === LIVE_CAM;
+  const frame = useLiveFrame(piCam);
   useEffect(() => {
     fetch("/api/live/clips", { cache: "no-store" }).then((r) => r.json())
       .then((d: { clips: { pen: string }[] }) => {

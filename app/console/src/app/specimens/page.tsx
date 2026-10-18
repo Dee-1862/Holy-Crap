@@ -27,7 +27,7 @@ export default function Specimens() {
   return (
     <div className={styles.shell}>
       <header className={styles.top}>
-        <h1 className="title">Specimens</h1>
+        <h1 className="title">Droppings</h1>
         <ViewSwitch current="specimens" />
         <span className={styles.grow} />
         <ThemeToggle />
@@ -42,9 +42,9 @@ export default function Specimens() {
         <h2 className={styles.headline}>{sum.headline}</h2>
         <p className={`sub ${styles.detail}`}>{sum.detail}</p>
         <dl className={styles.stats}>
-          <div><dd className="num">{sum.total}</dd><dt>Specimens</dt></div>
+          <div><dd className="num">{sum.total}</dd><dt>Droppings checked</dt></div>
           <div><dd className="num">{sum.abnormal}</dd><dt>Abnormal</dt></div>
-          <div><dd className="num">{sum.mean}</dd><dt>Mean grade</dt></div>
+          <div><dd className="num">{sum.mean}</dd><dt>Average grade</dt></div>
         </dl>
       </section>
 

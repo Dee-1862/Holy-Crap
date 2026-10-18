@@ -18,7 +18,7 @@ const ICON: Record<Tab, React.ReactNode> = {
 const TABS: { id: Tab; label: string }[] = [
   { id: "over", label: "Barn" },
   { id: "alerts", label: "Alerts" },
-  { id: "card", label: "Specimen" },
+  { id: "card", label: "Droppings" },
 ];
 
 // Phone version. Large title, grouped lists and a bottom tab bar. Desktop is at /.
@@ -49,9 +49,9 @@ export default function Mobile() {
               <h2 className={styles.headline}>{sum.headline}</h2>
               <p className={`sub ${styles.detail}`}>{sum.detail}</p>
               <dl className={styles.stats}>
-                <div><dd className="num">{sum.total}</dd><dt>Specimens</dt></div>
+                <div><dd className="num">{sum.total}</dd><dt>Droppings checked</dt></div>
                 <div><dd className="num">{sum.abnormal}</dd><dt>Abnormal</dt></div>
-                <div><dd className="num">{sum.mean}</dd><dt>Mean grade</dt></div>
+                <div><dd className="num">{sum.mean}</dd><dt>Average grade</dt></div>
               </dl>
             </div>
             <h3 className="eyebrow list-h">Health board</h3>

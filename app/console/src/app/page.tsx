@@ -2,19 +2,20 @@
 
 import { useState } from "react";
 import Clock from "@/components/Clock";
+import PenDroppings from "@/components/PenDroppings";
 import Readout from "@/components/Readout";
-import SpecimenSheet from "@/components/SpecimenSheet";
 import SiteMap, { type MapFilter } from "@/components/SiteMap";
+import SpecimenSheet from "@/components/SpecimenSheet";
 import ThemeToggle from "@/components/ThemeToggle";
 import ViewSwitch from "@/components/ViewSwitch";
 import { GROUPS, SPECIMENS } from "@/lib/data";
-import { barnIndex, openAlerts, ranked, tone } from "@/lib/insight";
+import { barnIndex, penLevels, ranked, tone } from "@/lib/insight";
 import styles from "./dashboard.module.css";
 
 const FILTERS: { id: MapFilter; label: string }[] = [
   { id: "all", label: "All" },
-  { id: "watch", label: "Watch" },
-  { id: "action", label: "Action" },
+  { id: "watch", label: "Needs a look" },
+  { id: "action", label: "Urgent" },
 ];
 
 // Main dashboard. Three widgets, the barn floor plan, and the readout for the chosen pen.
@@ -25,7 +26,7 @@ export default function Dashboard() {
   const [openId, setOpenId] = useState<string | null>(null);
   const open = SPECIMENS.find((s) => s.id === openId) ?? null;
   const index = barnIndex();
-  const alerts = openAlerts();
+  const pens = penLevels();
 
   return (
     <div className={styles.shell}>
@@ -40,23 +41,26 @@ export default function Dashboard() {
 
       <section className={styles.widgets} aria-label="Summary">
         <div className={`glass ${styles.widget}`}>
-          <span className="eyebrow">Barn index</span>
-          <b className={`${styles.big} num tone-${tone(Math.round(index / 10))}`}>{index}</b>
-          <span className="foot">Mean grade of the last 15 minutes, out of 100</span>
+          <span className="eyebrow">Barn health</span>
+          <b className={`${styles.big} num tone-${tone(Math.round(index / 10))}`}>{index}<small>/100</small></b>
+          <span className="foot">Average grade, last 15 minutes</span>
         </div>
         <div className={`glass ${styles.widget}`}>
-          <span className="eyebrow">Pens</span>
-          <b className={`${styles.big} num`}>{GROUPS.length}</b>
-          <span className="foot">Two rows of three</span>
+          <span className="eyebrow">Healthy pens</span>
+          <b className={`${styles.big} num tone-good`}>{pens.healthy.length}<small>of {pens.total}</small></b>
+          <span className="foot">Normal droppings</span>
         </div>
         <div className={`glass ${styles.widget}`}>
-          <span className="eyebrow">Open alerts</span>
-          <b className={`${styles.big} num ${alerts ? "tone-bad" : "tone-good"}`}>{alerts}</b>
-          <span className="foot">{alerts ? "Pens that need a look" : "Nothing needs a look"}</span>
+          <span className="eyebrow">Need attention</span>
+          <b className={`${styles.big} num ${pens.look.some((x) => x.status.level === "bad") ? "tone-bad" : pens.look.length ? "tone-warn" : "tone-good"}`}>{pens.look.length}</b>
+          <span className="foot">
+            {pens.look.length ? pens.look.slice(0, 3).map((x) => x.group.name).join(", ") : "Nothing right now"}
+          </span>
         </div>
       </section>
 
       <main className={styles.grid}>
+        <div className={styles.left}>
         <section className={`glass ${styles.map}`} aria-label="Barn site map">
           <div className={styles.mapHead}>
             <h2 className="headline">Floor plan</h2>
@@ -66,16 +70,20 @@ export default function Dashboard() {
               ))}
             </div>
           </div>
-          <SiteMap selected={selected} filter={filter} onSelect={setSelected} />
+          <div className={styles.plan}>
+            <SiteMap selected={selected} filter={filter} onSelect={setSelected} />
+          </div>
           <p className={`foot ${styles.legend}`}>
             <span><i style={{ background: "var(--good)" }} />Healthy</span>
-            <span><i style={{ background: "var(--warn)" }} />Watch</span>
-            <span><i style={{ background: "var(--bad)" }} />Action</span>
+            <span><i style={{ background: "var(--warn)" }} />Needs a look</span>
+            <span><i style={{ background: "var(--bad)" }} />Urgent</span>
           </p>
         </section>
+        <PenDroppings key={selected} groupId={selected} onOpen={setOpenId} />
+        </div>
 
         <aside className={`glass ${styles.side}`} aria-label="Pen readout">
-          <Readout key={selected} groupId={selected} onOpen={setOpenId} />
+          <Readout key={selected} groupId={selected} />
         </aside>
       </main>
 

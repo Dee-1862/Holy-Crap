@@ -2,9 +2,9 @@ import Link from "next/link";
 
 type View = "map" | "specimens" | "mobile";
 const VIEWS: { id: View; label: string; href: string }[] = [
-  { id: "map", label: "Site map", href: "/" },
-  { id: "specimens", label: "Specimens", href: "/specimens" },
-  { id: "mobile", label: "Mobile", href: "/m" },
+  { id: "map", label: "Map", href: "/" },
+  { id: "specimens", label: "Droppings", href: "/specimens" },
+  { id: "mobile", label: "Phone", href: "/m" },
 ];
 
 // Segmented control that switches between the three views.

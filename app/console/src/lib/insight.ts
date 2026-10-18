@@ -84,6 +84,12 @@ export function barnIndex(): number {
 
 export const openAlerts = () => GROUPS.filter((g) => groupStatus(g).level !== "good").length;
 
+// Pens split by whether they need a look. Used for the dashboard widgets.
+export function penLevels() {
+  const r = ranked();
+  return { healthy: r.filter((x) => x.status.level === "good"), look: r.filter((x) => x.status.level !== "good").reverse(), total: r.length };
+}
+
 export function summary() {
   const hot = ranked().filter((r) => r.status.level === "bad").map((r) => r.group.name);
   const abnormal = SPECIMENS.filter((s) => s.type !== "healthy").length;

@@ -1,0 +1,18 @@
+{
+  "test_mAP50": 0.845,
+  "test_mAP50_95": 0.561,
+  "precision": 0.839,
+  "recall": 0.782,
+  "per_class_mAP50": {
+    "cocci": 0.82,
+    "healthy": 0.867,
+    "ncd": 0.782,
+    "salmo": 0.913
+  },
+  "per_class_mAP50_95": {
+    "cocci": 0.629,
+    "healthy": 0.685,
+    "ncd": 0.346,
+    "salmo": 0.585
+  }
+}

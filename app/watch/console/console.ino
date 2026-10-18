@@ -52,8 +52,10 @@ static const int NMENU = 4;
 
 struct Spec {
   char id[10]; uint8_t pen; uint8_t k; uint8_t grade; uint8_t conf; uint8_t mins; uint8_t st;  // st 0 new, 1 checking, 2 normal
-  uint8_t p[4]; uint8_t sub[5]; uint8_t rx, ry; char why[3][72];
+  uint8_t p[4]; uint8_t sub[5]; uint8_t rx, ry; char why[3][72]; bool ph;   // ph, the console has a real photo for it
 };
+static bool penOff[NPEN];              // pens with no camera, offline on the console, so they count nowhere
+static int onlinePens() { int n = 0; for (int i = 0; i < NPEN; i++) n += !penOff[i]; return n; }
 static const int MAXSPEC = 24;
 static Spec SP[MAXSPEC];
 static int NSP = 0;
@@ -100,6 +102,7 @@ static float meanGrade(int pen, bool* any) {
   return nAll ? (float)sumAll / nAll : -1;
 }
 static int level(int pen) {                      // 0 healthy, 1 needs a look, 2 urgent
+  if (penOff[pen]) return 0;
   int bad = abnormal15(pen); bool any; float m = meanGrade(pen, &any);
   return bad >= 3 ? 2 : (bad >= 1 || (any && m < 5)) ? 1 : 0;
 }
@@ -113,7 +116,7 @@ static float barnHealth() {                      // grade out of 100 over the la
 static int order[NPEN];
 static void rankPens() {
   float m[NPEN]; bool any;
-  for (int i = 0; i < NPEN; i++) { m[i] = meanGrade(i, &any); if (!any) m[i] = -1; order[i] = i; }
+  for (int i = 0; i < NPEN; i++) { m[i] = meanGrade(i, &any); if (!any) m[i] = -1; if (penOff[i]) m[i] = -2; order[i] = i; }   // offline last
   for (int i = 1; i < NPEN; i++) { int k = order[i], j = i - 1; while (j >= 0 && m[order[j]] < m[k]) { order[j + 1] = order[j]; j--; } order[j + 1] = k; }
 }
 
@@ -163,10 +166,44 @@ static bool http(const char* method, const String& path, const char* body, JsonD
   h.end();
   return ok;
 }
+// Real specimen photos, 180 by 135 jpegs from the console's public/watch folder. Each is a few kilobytes,
+// fetched the first time its page shows and kept, so paging back and forth never waits on Wi-Fi again.
+static const int NPHOTO = 12;
+static struct { char id[10]; uint8_t* buf; size_t len; } photos[NPHOTO];
+static int photoNext = 0;
+static bool fetchPhoto(const char* id, const uint8_t** buf, size_t* len) {
+  for (auto& p : photos) if (p.buf && !strcmp(p.id, id)) { *buf = p.buf; *len = p.len; return true; }
+  if (WiFi.status() != WL_CONNECTED) return false;
+  static WiFiClientSecure tls;
+  static WiFiClient plain;
+  const bool secure = !strncmp(API_BASE, "https://", 8);
+  HTTPClient h; h.setTimeout(secure ? 8000 : 2500);
+  String url = String(API_BASE) + "/watch/" + id + ".jpg";
+  bool started;
+  if (secure) { tls.setInsecure(); started = h.begin(tls, url); } else started = h.begin(plain, url);
+  if (!started) return false;
+#ifdef VERCEL_BYPASS
+  h.addHeader("x-vercel-protection-bypass", VERCEL_BYPASS);
+#endif
+  int code = h.GET(), size = h.getSize();
+  if (code != 200 || size <= 0 || size > 40000) { h.end(); return false; }
+  uint8_t* b = (uint8_t*)malloc(size);
+  if (!b) { h.end(); return false; }
+  WiFiClient* st = h.getStreamPtr(); int got = 0; uint32_t t0 = millis();
+  while (got < size && millis() - t0 < 8000) { int n = st->readBytes(b + got, size - got); if (n <= 0) delay(5); got += max(n, 0); }
+  h.end();
+  if (got != size) { free(b); return false; }
+  auto& slot = photos[photoNext]; photoNext = (photoNext + 1) % NPHOTO;   // oldest out
+  free(slot.buf); strlcpy(slot.id, id, sizeof slot.id); slot.buf = b; slot.len = size;
+  *buf = b; *len = size;
+  return true;
+}
 static void syncNow() {
   JsonDocument doc;
+  bool was = liveOk;
   liveOk = http("GET", "/api/watch", nullptr, doc);
   lastSync = millis();
+  if (liveOk != was) Serial.printf("sync with %s %s\n", API_BASE, liveOk ? "ok" : "failed");   // log changes only
   if (!liveOk) return;
   NSP = 0;
   for (JsonObject o : doc["specs"].as<JsonArray>()) {
@@ -180,8 +217,10 @@ static void syncNow() {
     for (int j = 0; j < 5; j++) s.sub[j] = o["sub"][j] | 0;
     s.rx = o["rg"][0] | 50; s.ry = o["rg"][1] | 50;
     for (int j = 0; j < 3; j++) strlcpy(s.why[j], o["why"][j] | "", sizeof s.why[j]);
+    s.ph = strlen(o["ph"] | "") > 0;
     NSP++;
   }
+  for (JsonObject o : doc["pens"].as<JsonArray>()) { int pi = penIndex(o["id"] | ""); if (pi >= 0) penOff[pi] = (o["off"] | 0) != 0; }
   vetPen = doc["vet"].isNull() ? -1 : penIndex(doc["vet"]["pen"] | "");
   vetAt = doc["vet"]["ago"] | 0;
   if (scr == PEN || scr == MENUSCR) { loadPen(pen); pg = min(pg, pages() - 1); }
@@ -194,7 +233,12 @@ static void text(const char* s, int x, int y, uint16_t col, const lgfx::IFont* f
   M5.Display.setFont(f); M5.Display.setTextSize(1); M5.Display.setTextDatum(d); M5.Display.setTextColor(col); M5.Display.drawString(s, x, y);
 }
 static void card(int x, int y, int w, int h, int r, uint16_t col) { M5.Display.fillSmoothRoundRect(x, y, w, h, r, col); }
-static void photo(int k, int x, int y) {
+static void photo(const Spec& s, int x, int y) {
+#if LIVE
+  const uint8_t* rb; size_t rn;                    // the specimen's own photo, when the console has one
+  if (s.ph && fetchPhoto(s.id, &rb, &rn)) { M5.Display.drawJpg(rb, rn, x, y); return; }
+#endif
+  int k = s.k;                                     // otherwise the built-in example of its type
   const uint8_t* d = IMG_HEALTHY; uint32_t n = IMG_HEALTHY_LEN;
   if (k == 1) { d = IMG_COCCIDIOSIS; n = IMG_COCCIDIOSIS_LEN; }
   else if (k == 2) { d = IMG_SALMONELLA; n = IMG_SALMONELLA_LEN; }
@@ -246,10 +290,10 @@ static void pageOverview() {
   text("out of 100", CX, 172, C_TER, &fonts::DejaVu12);
   text("Barn health", CX, 224, C_SEC, &fonts::DejaVu12);
 
-  int c[3] = {0, 0, 0}; for (int i = 0; i < NPEN; i++) c[level(i)]++;
+  int c[3] = {0, 0, 0}; for (int i = 0; i < NPEN; i++) if (!penOff[i]) c[level(i)]++;   // offline pens count nowhere
   const int sw = 280, x0 = CX - sw / 2, sy = 248, gap = 4;
   int segs = (c[0] > 0) + (c[1] > 0) + (c[2] > 0);
-  float unit = (sw - gap * max(0, segs - 1)) / (float)NPEN; float x = x0;
+  float unit = (sw - gap * max(0, segs - 1)) / (float)max(1, onlinePens()); float x = x0;
   for (int l = 0; l < 3; l++) {
     if (!c[l]) continue;
     int w = (int)(unit * c[l] + 0.5f);
@@ -289,9 +333,9 @@ static void pageList() {
     else if (r > 0 && r - 1 != sel) M5.Display.drawFastHLine(90, y0, 290, C_SEP);
     bool any; float m = meanGrade(gi, &any); char b[16];
     snprintf(b, sizeof b, "%d", r + 1); text(b, 94, yc, C_TER, &fonts::DejaVu18);
-    text(PEN_NAME[gi], 122, yc, C_TXT, &fonts::DejaVu18, middle_left);
-    if (any) snprintf(b, sizeof b, "%.1f", m); else snprintf(b, sizeof b, "n/a");
-    text(b, 382, yc, any ? levelColor(level(gi)) : C_TER, &fonts::DejaVu18, middle_right);
+    text(PEN_NAME[gi], 122, yc, penOff[gi] ? C_TER : C_TXT, &fonts::DejaVu18, middle_left);
+    if (penOff[gi]) snprintf(b, sizeof b, "Offline"); else if (any) snprintf(b, sizeof b, "%.1f", m); else snprintf(b, sizeof b, "n/a");
+    text(b, 382, yc, any && !penOff[gi] ? levelColor(level(gi)) : C_TER, penOff[gi] ? &fonts::DejaVu12 : &fonts::DejaVu18, middle_right);
   }
 }
 static void stateTag(const Spec& s, int x, int y) {
@@ -305,7 +349,7 @@ static void pagePhoto() {
   text(PEN_NAME[pen], CX, 46, C_TXT, &fonts::DejaVu24);
   snprintf(b, sizeof b, "%d birds", PEN_BIRDS[pen]); text(b, CX, 74, C_TER, &fonts::DejaVu12);
   card(113, 88, 240, 171, 26, C_CARD);
-  photo(s.k, 143, 106);
+  photo(s, 143, 106);
   const int dx[3] = {-23, 27, -4}, dy[3] = {-14, 5, 27};       // same offsets as the web app, in photo pixels
   for (int i = 0; i < 3; i++) {
     if (!s.why[i][0]) continue;
@@ -551,6 +595,19 @@ void loop() {
   bool anyDown = M5.BtnA.wasPressed() || M5.BtnB.wasPressed() || t.wasPressed();
   if (anyDown || pressed) lastInput = now;
 
+#if LIVE
+  // refresh from the console on every screen, and while asleep, so the health board and the pen pages stay current
+  static int wifiWas = -1;
+  if ((int)WiFi.status() != wifiWas) {                    // log Wi-Fi changes, so the laptop can see what happened
+    wifiWas = WiFi.status();
+    if (wifiWas == WL_CONNECTED) Serial.printf("wifi connected to %s as %s\n", WIFI_SSID, WiFi.localIP().toString().c_str());
+    else Serial.printf("wifi status %d\n", wifiWas);
+  }
+  uint32_t every = asleep ? 30000 : 6000;                 // slower while the screen is off
+  bool idle = !pressed && now - lastInput > 1500 && !splashUntil && !toastUntil;   // never stall a press mid-use
+  if (idle && now - lastSync > every && WiFi.status() == WL_CONNECTED) syncNow();
+#endif
+
   if (asleep) { if (anyDown) wake(); delay(10); return; }
   if (splashUntil) {
     if (dirty) render();
@@ -560,21 +617,17 @@ void loop() {
   if (swallow) { if (!pressed) swallow = false; delay(10); return; }
   if (now - lastInput > SLEEP_MS) { sleepNow(); return; }
   if (toastUntil) { if (now > toastUntil) { toastUntil = 0; dirty = true; } delay(10); return; }
-#if LIVE
-  // refresh from the console while idle on the overview or the list
-  if (!pressed && (scr == OVERVIEW || scr == LIST) && now - lastSync > 6000 && WiFi.status() == WL_CONNECTED) syncNow();
-#endif
 
   if (scr == OVERVIEW) {
     if (M5.BtnA.wasClicked() || M5.BtnB.wasClicked()) { scr = LIST; dirty = true; }
   } else if (scr == LIST) {
     if (M5.BtnA.wasClicked()) { sel = (sel + 1) % NPEN; dirty = true; }
-    if (M5.BtnB.wasClicked()) openPen(order[sel]);
+    if (M5.BtnB.wasClicked() && !penOff[order[sel]]) openPen(order[sel]);   // no camera, nothing to open
     if (M5.BtnA.wasHold()) { scr = OVERVIEW; dirty = true; }
     if (t.wasPressed()) { tx0 = t.x; ty0 = t.y; tlx = t.x; tly = t.y; }
     if (t.isPressed()) { tlx = t.x; tly = t.y; }
     if (t.wasReleased() && abs(tlx - tx0) < 25 && abs(tly - ty0) < 25 && tly >= ROW_TOP) {
-      int r = (tly - ROW_TOP) / ROW_H; if (r >= 0 && r < NPEN) { sel = r; openPen(order[r]); }
+      int r = (tly - ROW_TOP) / ROW_H; if (r >= 0 && r < NPEN) { sel = r; if (penOff[order[r]]) dirty = true; else openPen(order[r]); }
     }
   } else if (scr == PEN) {
     if (M5.BtnA.wasClicked()) { pg = (pg + 1) % pages(); dirty = true; }

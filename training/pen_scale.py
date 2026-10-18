@@ -183,11 +183,22 @@ def cmd_frames(args):
 
 
 # ---------------------------------------------------------------- 3. the dataset
-def litter_mask(frame: np.ndarray, bg: np.ndarray) -> np.ndarray:
-    """Pixels that look like the bird free background right now, where a dropping can sit visibly."""
-    diff = cv2.absdiff(frame, bg).max(2)
-    free = (diff < 25).astype(np.uint8)
-    return cv2.erode(free, np.ones((9, 9), np.uint8))
+def litter_colour(bg: np.ndarray) -> np.ndarray:
+    """The most common colour in the lower part of the empty background, which is the floor in these cameras."""
+    lab = cv2.cvtColor(cv2.GaussianBlur(bg, (0, 0), 3), cv2.COLOR_BGR2LAB)[bg.shape[0] // 3:].reshape(-1, 3)
+    q = (lab // 12).astype(np.int32)
+    keys, counts = np.unique(q[:, 0] * 10000 + q[:, 1] * 100 + q[:, 2], return_counts=True)
+    k = keys[np.argmax(counts)]
+    return np.median(lab[(q[:, 0] * 10000 + q[:, 1] * 100 + q[:, 2]) == k], 0)
+
+
+def litter_mask(frame: np.ndarray, bg: np.ndarray, litter: np.ndarray) -> np.ndarray:
+    """Floor pixels with no bird on them right now, where a dropping can sit visibly."""
+    free = cv2.absdiff(frame, bg).max(2) < 25
+    lab = cv2.cvtColor(cv2.GaussianBlur(bg, (0, 0), 3), cv2.COLOR_BGR2LAB).astype(np.float32)
+    floor = np.abs(lab[..., 0] - litter[0]) < 40
+    floor &= np.hypot(lab[..., 1] - litter[1], lab[..., 2] - litter[2]) < 12
+    return cv2.erode((free & floor).astype(np.uint8), np.ones((9, 9), np.uint8))
 
 
 def paste(tile: np.ndarray, free: np.ndarray, drop: np.ndarray, rng: random.Random):
@@ -226,12 +237,14 @@ def build_pen_tiles(split: str, count: int, out: Path, paste_on: bool, seed: int
     img_dir.mkdir(parents=True, exist_ok=True)
     lbl_dir.mkdir(parents=True, exist_ok=True)
     bgs: dict[str, np.ndarray] = {}
-    paths = []
+    litters: dict[str, np.ndarray] = {}
+    paths, meta = [], []
     for i in range(count):
         fp = rng.choice(frames)
         tag = fp.name.split("__")[0]
         if tag not in bgs:
             bgs[tag] = cv2.imread(str(fp.parent / f"{tag}__bg.png"))
+            litters[tag] = litter_colour(bgs[tag])
         frame = cv2.imread(str(fp))
         H, W = frame.shape[:2]
         x0, y0 = rng.randrange(0, max(1, W - TILE + 1)), rng.randrange(0, max(1, H - TILE + 1))
@@ -239,7 +252,7 @@ def build_pen_tiles(split: str, count: int, out: Path, paste_on: bool, seed: int
         part = frame[y0:y0 + TILE, x0:x0 + TILE]
         tile[: part.shape[0], : part.shape[1]] = part
         free = np.zeros((TILE, TILE), np.uint8)
-        free[: part.shape[0], : part.shape[1]] = litter_mask(part, bgs[tag][y0:y0 + TILE, x0:x0 + TILE])
+        free[: part.shape[0], : part.shape[1]] = litter_mask(part, bgs[tag][y0:y0 + TILE, x0:x0 + TILE], litters[tag])
         lines = []
         n = 0 if (not paste_on or rng.random() < 0.2) else rng.randint(1, 6)   # one tile in five stays empty
         for _ in range(n):
@@ -259,6 +272,8 @@ def build_pen_tiles(split: str, count: int, out: Path, paste_on: bool, seed: int
         (img_dir / f"{name}.jpg").write_bytes(buf.tobytes())
         (lbl_dir / f"{name}.txt").write_text("\n".join(lines) + ("\n" if lines else ""))
         paths.append(str(img_dir / f"{name}.jpg"))
+        meta.append({"tile": name, "frame": fp.name, "bg": f"{tag}__bg.png", "x0": x0, "y0": y0})
+    (out / "tiles.json").write_text(json.dumps(meta))             # where each tile came from, for background checks
     return paths
 
 
@@ -295,7 +310,7 @@ def cmd_build(args):
         cls, stem = p[1], p[2][:-4]
         lines = [l.split()[1:] for l in labels.read(name).decode(errors="ignore").splitlines() if len(l.split()) == 5]
         split = split_of.get((cls, stem))
-        if lines and split in ("train", "val", "test"):
+        if lines and split in ("train", "val", "test") and (split == "test" or not args.test_only):
             jobs.append((cls, stem, split, lines))
     for split in ("train", "val", "test"):
         for sub in ("images", "labels"):
@@ -309,8 +324,9 @@ def cmd_build(args):
     print({k: len(v) for k, v in lists.items()}, "close-up entries", flush=True)
 
     pen = WORK / "yolo" / "pen"
-    lists["train"] += build_pen_tiles("train", args.pen_train, pen / "train", True, SEED)
-    lists["val"] += build_pen_tiles("val", args.pen_val, pen / "val", True, SEED + 1)
+    if not args.test_only:                                          # the tests need no training frames
+        lists["train"] += build_pen_tiles("train", args.pen_train, pen / "train", True, SEED)
+        lists["val"] += build_pen_tiles("val", args.pen_val, pen / "val", True, SEED + 1)
     pen_test = build_pen_tiles("test", args.pen_test, pen / "test", True, SEED + 2)        # synthetic, other farm
     real_test = build_pen_tiles("test", args.pen_test, pen / "test_real", False, SEED + 3)  # nothing pasted
 
@@ -333,6 +349,7 @@ def main():
     ap.add_argument("--pen-train", type=int, default=6000)
     ap.add_argument("--pen-val", type=int, default=600)
     ap.add_argument("--pen-test", type=int, default=600)
+    ap.add_argument("--test-only", action="store_true", help="build only the test sets")
     args = ap.parse_args()
     for step in (["bank", "frames", "build"] if args.cmd == "all" else [args.cmd]):
         globals()[f"cmd_{step}"](args)

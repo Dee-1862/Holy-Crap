@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from datetime import datetime, timezone
 from enum import StrEnum
 from typing import Any, Literal
@@ -13,6 +14,10 @@ def utc_now() -> datetime:
     return datetime.now(timezone.utc)
 
 
+PROXY_SHA256_PLACEHOLDER = "TO_BE_FILLED_BY_ORCHESTRATOR"
+_SHA256_PATTERN = r"[a-f0-9]{64}"
+
+
 class StrictModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -20,6 +25,14 @@ class StrictModel(BaseModel):
 class ScenarioMode(StrEnum):
     HEALTHY = "healthy"
     OUTBREAK = "outbreak"
+
+
+class SimulationProfile(StrEnum):
+    """Deterministic demo profile requested by the UI for one assessment."""
+
+    HEALTHY = "healthy"
+    MIXED = "mixed"
+    CONCERNING = "concerning"
 
 
 class PenRegion(StrictModel):
@@ -353,7 +366,7 @@ class ClipModuleArtifactSlot(StrictModel):
 class ClipModule(StrictModel):
     id: str
     label: str
-    mode: Literal["mock", "real"]
+    mode: Literal["mock", "partial", "real"]
     version: str
     status: Literal["completed", "not_configured", "failed"]
     adapter: str
@@ -390,21 +403,103 @@ class NormalizedBoundingBox(StrictModel):
 
 
 class FecesCropReference(StrictModel):
-    """Lazy crop contract passed from detection to disease classification."""
+    """Lazy crop contract passed from detection to feces appearance classification."""
 
     source_video_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
     timestamp_s: float = Field(ge=0)
     bbox: NormalizedBoundingBox
     color_space: Literal["RGB"] = "RGB"
-    target_width: Literal[224] = 224
-    target_height: Literal[224] = 224
+    # 320 matches the committed dropping4_yolo11n_320 model; historical
+    # assessments persisted 224 and must remain readable.
+    target_width: int = 320
+    target_height: int = 320
     materialized: bool = False
 
 
+class FecesClassifierModel(StrictModel):
+    """Provenance of the feces appearance model, whether or not it ran."""
+
+    id: str
+    version: str
+    sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    format: str
+    input_size: list[int]
+    runtime: str
+
+
+class FecesProvenance(StrictModel):
+    """Where each stage of a feces candidate's evidence actually came from."""
+
+    location_source: Literal["observed_video", "deterministic_overlay"]
+    appearance_input: Literal["observed_crop", "curated_proxy"]
+    classification_source: Literal["deterministic_mock", "live_model_run"]
+
+
+class ProxySpecimenReference(StrictModel):
+    """A curated proxy photo standing in for a feces crop from the video."""
+
+    asset_id: str = Field(pattern=r"^[a-z0-9][a-z0-9._-]*$")
+    sha256: str
+    content_url: str | None = None
+    bytes_available: bool = False
+    source_dataset: str
+    source_url: str
+    license: str
+    attribution: str
+    expected_demo_class: Literal[
+        "cocci", "healthy", "ncd", "salmo", "unknown_abnormal"
+    ]
+    mapping_method: Literal["sha256-seeded"] = "sha256-seeded"
+    substitution_reason: str
+
+    @model_validator(mode="after")
+    def _hash_is_placeholder_or_hex(self) -> ProxySpecimenReference:
+        if self.sha256 != PROXY_SHA256_PLACEHOLDER and not re.fullmatch(
+            _SHA256_PATTERN, self.sha256
+        ):
+            raise ValueError(
+                "proxy specimen sha256 must be a 64-character hex digest or the "
+                f"placeholder {PROXY_SHA256_PLACEHOLDER!r}"
+            )
+        return self
+
+
+class ProxySpecimenDatasetCount(StrictModel):
+    """Metadata-only count for one source dataset in the proxy pool."""
+
+    dataset: str
+    count: int = Field(ge=0)
+
+
+class ProxySpecimenPoolSummary(StrictModel):
+    """Cheap inventory that never reads or decodes specimen image bytes."""
+
+    total: int = Field(ge=0)
+    selectable_total: int = Field(ge=0)
+    bytes_present: int = Field(ge=0)
+    verified_cached: int = Field(ge=0)
+    by_expected_class: dict[str, int]
+    selectable_by_expected_class: dict[str, int]
+    by_dataset: list[ProxySpecimenDatasetCount]
+    catalogs_supported: bool = True
+
+
 class FecesClassification(StrictModel):
-    label: Literal["Coccidiosis", "Healthy", "New Castle Disease", "Salmonella"]
+    label: Literal["Coccidiosis", "Healthy", "New Castle Disease", "Salmonella"] | None = None
     confidence: float = Field(ge=0, le=1)
     mode: Literal["mock", "real"]
+    product_label: Literal["normal", "abnormal", "uncertain"] = "uncertain"
+    scores: dict[str, float] = Field(default_factory=dict)
+    input_sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    model: FecesClassifierModel | None = None
+    inference_performed: bool = False
+    model_detection_bbox: NormalizedBoundingBox | None = None
+    fallback_reason: Literal[
+        "specimen_unavailable",
+        "runtime_unavailable",
+        "image_decode_failed",
+        "model_inference_failed",
+    ] | None = None
 
 
 class FecesCandidate(StrictModel):
@@ -414,6 +509,8 @@ class FecesCandidate(StrictModel):
     detection_confidence: float = Field(ge=0, le=1)
     crop: FecesCropReference
     classification: FecesClassification
+    proxy_crop: ProxySpecimenReference | None = None
+    provenance: FecesProvenance | None = None
 
 
 class ClipFecesSummary(StrictModel):
@@ -429,11 +526,25 @@ class ClipOverallSummary(StrictModel):
     notes: list[str]
 
 
+class ClipPenAssessment(StrictModel):
+    """Pen-level policy result computed from deterministic demo evidence."""
+
+    state: Literal["normal", "watch", "review"]
+    score: float = Field(ge=0, le=1)
+    policy_id: Literal["demo-pen-v1"] = "demo-pen-v1"
+    reasons: list[str]
+    activity_contribution: float = Field(ge=0, le=1)
+    feces_contribution: float = Field(ge=0, le=1)
+    evidence_mode: Literal["hybrid_simulation"] = "hybrid_simulation"
+    non_diagnostic: bool = True
+
+
 class ClipSummary(StrictModel):
     activity: ClipActivitySummary
     appearance: ClipAppearanceSummary
     feces: ClipFecesSummary
     overall: ClipOverallSummary
+    pen_assessment: ClipPenAssessment | None = None
 
 
 class ClipAssessment(StrictModel):
@@ -447,3 +558,31 @@ class ClipAssessment(StrictModel):
     modules: list[ClipModule]
     summary: ClipSummary
     non_diagnostic_notice: str
+    profile: SimulationProfile = SimulationProfile.MIXED
+
+
+class QnxEvidenceClaim(StrictModel):
+    """One checked claim in the QNX target evidence document."""
+
+    id: str
+    status: Literal["verified", "os_supported_only", "planned", "unsupported_guard"]
+    summary: str
+    detail: dict[str, Any] | None = None
+
+
+class QnxEvidenceDocument(StrictModel):
+    """Checked, read-only QNX target evidence."""
+
+    schema_version: Literal[1] = 1
+    evidence_id: str
+    verified_at: str
+    thesis: str
+    platform: dict[str, str]
+    claims: list[QnxEvidenceClaim]
+
+
+class QnxEvidenceResponse(StrictModel):
+    """The checked evidence JSON plus per-claim status."""
+
+    evidence: QnxEvidenceDocument
+    claims: list[QnxEvidenceClaim]

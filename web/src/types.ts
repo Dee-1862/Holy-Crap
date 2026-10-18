@@ -140,7 +140,15 @@ export interface MediaAssetInfo {
 }
 
 export type ClipAssessmentStatus = "queued" | "running" | "completed" | "failed" | string;
-export type ClipModuleMode = "mock" | "real";
+export type ClipModuleMode = "mock" | "partial" | "real";
+export type DemoProfile = "healthy" | "mixed" | "concerning";
+
+export interface NormalizedBBox {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
 
 export interface ClipAssessmentVideo {
   name: string;
@@ -151,6 +159,13 @@ export interface ClipAssessmentVideo {
   height: number | null;
   fps: number | null;
   source: string;
+  media_type?: string;
+  bytes_available?: boolean;
+  content_url?: string | null;
+  demo_asset_id?: string | null;
+  catalog_clip_id?: string | null;
+  metadata_source?: string;
+  metadata_warnings?: string[];
 }
 
 export interface ClipAssessmentModule {
@@ -161,17 +176,111 @@ export interface ClipAssessmentModule {
   status: string;
 }
 
+export interface FecesClassifierModelReference {
+  id?: string;
+  version?: string;
+  sha256?: string | null;
+  format?: string;
+  input_size?: number[];
+  runtime?: string;
+}
+
 export interface FecesCandidateClassification {
-  label: string;
+  label: string | null;
   confidence: number;
-  mode: ClipModuleMode;
+  mode: ClipModuleMode | string;
+  product_label?: string | null;
+  scores?: Record<string, number>;
+  input_sha256?: string | null;
+  model?: FecesClassifierModelReference | null;
+  inference_performed?: boolean;
+  model_detection_bbox?: NormalizedBBox | null;
+  fallback_reason?: "specimen_unavailable" | "runtime_unavailable" | "image_decode_failed" | "model_inference_failed" | null;
+}
+
+export interface FecesProvenance {
+  location_source?: string;
+  appearance_input?: string;
+  classification_source?: string;
+}
+
+export interface FecesCropReference {
+  source_video_sha256?: string;
+  timestamp_s?: number;
+  bbox?: NormalizedBBox;
+  target_width?: number;
+  target_height?: number;
+  materialized?: boolean;
+}
+
+export type DemoSpecimenClass = "cocci" | "healthy" | "ncd" | "salmo" | "unknown_abnormal";
+
+export interface ProxySpecimenReference {
+  id?: string;
+  asset_id?: string;
+  sample_id?: string;
+  sha256?: string;
+  content_url?: string | null;
+  expected_label?: string;
+  expected_demo_class?: DemoSpecimenClass;
+  source?: string;
+  source_dataset?: string;
+  source_url?: string;
+  license?: string;
+  attribution?: string;
+  mapping_method?: string;
+  substitution_reason?: string;
+  bytes_available?: boolean;
 }
 
 export interface FecesCandidate {
   id: string;
   timestamp_s: number;
-  bbox: { x: number; y: number; width: number; height: number };
+  bbox: NormalizedBBox;
   classification: FecesCandidateClassification;
+  detection_confidence?: number | null;
+  crop?: FecesCropReference | null;
+  provenance?: FecesProvenance | null;
+  proxy_specimen?: ProxySpecimenReference | null;
+  proxy?: ProxySpecimenReference | null;
+  proxy_crop?: ProxySpecimenReference | null;
+}
+
+export interface ProxySpecimenDatasetCount {
+  dataset: string;
+  count: number;
+}
+
+export interface ProxySpecimenPoolSummary {
+  total: number;
+  selectable_total?: number;
+  bytes_present: number;
+  verified_cached: number;
+  by_expected_class: Partial<Record<DemoSpecimenClass, number>>;
+  selectable_by_expected_class?: Partial<Record<DemoSpecimenClass, number>>;
+  by_dataset: ProxySpecimenDatasetCount[];
+  catalogs_supported: boolean;
+}
+
+export interface ClipPenAssessment {
+  state?: string;
+  score?: number | null;
+  policy_id?: string;
+  reasons?: string[];
+  basis?: string[] | string;
+  signals?: unknown;
+  notes?: string[];
+  activity_contribution?: number | null;
+  feces_contribution?: number | null;
+  evidence_mode?: string;
+  non_diagnostic?: boolean;
+}
+
+export interface ClipOverallSummary {
+  review_state: string;
+  notes: string[];
+  basis?: string[] | string;
+  signals?: unknown;
 }
 
 export interface ClipAssessment {
@@ -197,12 +306,67 @@ export interface ClipAssessment {
       class_distribution: Record<string, number>;
       candidates: FecesCandidate[];
     };
-    overall: {
-      review_state: string;
-      notes: string[];
-    };
+    overall: ClipOverallSummary;
+    pen_assessment?: ClipPenAssessment | null;
   };
   non_diagnostic_notice: string;
+  profile?: string;
+}
+
+export type QnxEvidenceStatus =
+  | "verified"
+  | "os_supported"
+  | "os_supported_only"
+  | "planned"
+  | "unsupported_guard"
+  | string;
+
+export interface QnxEvidenceEntry {
+  id?: string;
+  status?: QnxEvidenceStatus;
+  summary?: string;
+  title?: string;
+  label?: string;
+  category?: string;
+  measured?: boolean;
+  metrics?: Record<string, unknown> | unknown[];
+  values?: Record<string, unknown> | unknown[];
+  detail?: Record<string, unknown> | unknown[] | null;
+  details?: Record<string, unknown> | unknown[] | null;
+  [key: string]: unknown;
+}
+
+export interface QnxEvidenceTarget {
+  id?: string;
+  system?: string;
+  release?: string;
+  machine?: string;
+  hardware?: string;
+  python_version?: string;
+  [key: string]: unknown;
+}
+
+export interface QnxEvidenceDocument {
+  schema_version?: number;
+  evidence_id?: string;
+  verified_at?: string;
+  thesis?: string;
+  platform?: Record<string, unknown> | null;
+  claims?: QnxEvidenceEntry[];
+}
+
+export interface QnxEvidencePayload {
+  schema_version?: number;
+  evidence_id?: string;
+  verified_at?: string;
+  thesis?: string;
+  target?: QnxEvidenceTarget | Record<string, unknown> | string | null;
+  platform?: Record<string, unknown> | null;
+  claims?: QnxEvidenceEntry[];
+  cards?: QnxEvidenceEntry[];
+  entries?: QnxEvidenceEntry[];
+  evidence?: QnxEvidenceDocument | null;
+  [key: string]: unknown;
 }
 
 export type DatasetClipStatus = "ready" | "cataloged" | "reference_only" | "rejected";

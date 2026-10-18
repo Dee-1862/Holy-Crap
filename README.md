@@ -23,9 +23,10 @@ disease and it never makes culling decisions.
 The main operator workflow is a whole-pen clip assessment. Upload one video,
 typically around five minutes, and get one aggregate summary of flock activity,
 flock appearance, and feces candidates. It does not invent an infection
-progression or require stable bird identities. The current four adapters are
-deterministic mocks, so every score and classification is marked synthetic and
-non-diagnostic. Re-uploading the same bytes produces the same mock result.
+progression or require stable bird identities. Activity, appearance, and feces
+locations are deterministic mocks. The feces appearance stage runs the
+committed ONNX model on attributed proxy photos and marks that substitution in
+the result. Re-uploading the same bytes produces the same evidence mix.
 
 ```sh
 curl -F 'file=@whole-pen.mp4;type=video/mp4' \
@@ -47,27 +48,28 @@ still produce deterministic interface sample data through
 decoded and no model ran. Rejected footage, annotated reference clips, and
 image-only datasets cannot be assessed through that endpoint.
 
-The feces path already has a clean model boundary. Detection produces a
-timestamp, a normalized bounding box, and a lazy RGB crop reference. The next
-adapter consumes that crop as RGB 224 x 224 and returns one of Coccidiosis,
-Healthy, New Castle Disease, or Salmonella. That classifier slot is intended
-for a future model trained from the linked
-[Chicken Disease dataset](https://www.kaggle.com/datasets/allandclive/chicken-disease-1/data),
-but no artifact is configured or executed yet. The dataset page does not state
-a license in the metadata we reviewed, so this repository does not download or
-redistribute its images.
+The feces path has a clean model boundary. Detection produces a timestamp, a
+normalized bounding box, and a lazy RGB crop reference. Until the real
+detector is connected, the pipeline selects from the installed attributed
+proxy-photo pools, letterboxes the photo to RGB 320 x 320, and runs the committed YOLO11n
+ONNX model. The dashboard displays the proxy photo, its expected dataset class,
+and the model output separately. The classifier was trained from the linked
+[Chicken Disease dataset](https://www.kaggle.com/datasets/allandclive/chicken-disease-1/data);
+the bundled proxy photos come from the CC BY 4.0 Machuve et al. Zenodo dataset
+and carry their own manifests and attribution.
 
 The older scenario runner is still available for deterministic infrastructure
 testing: choose a 100-bird scenario, select or upload a model artifact, run the
 mock executor, and inspect its saved result. That mock does not measure an
 uploaded model's accuracy and should not be confused with the clip assessment.
 
-The QNX Pi is wired as an honest target-validation path, not an inference
-executor: it has no TensorFlow Lite, ONNX, OpenCV, or NumPy runtime, so a QNX
-run stages one exact catalog model and one canonical scenario JSON onto the
+The dashboard's QNX executor is an honest target-validation path: a QNX run
+stages one exact catalog model and one canonical scenario JSON onto the
 physical Pi and returns a verified receipt (`evaluation_kind: target_probe`,
-`inference_performed: false`). QNX capability is at best `probe_only`; it
-never reports `ready` until actual inference exists. See
+`inference_performed: false`). Separately, the final 320x320 model has now run
+natively through NCNN on the Pi; ten model-only runs averaged 98.4287 ms, and a
+real feces frame matched the ONNX reference closely. That experimental path is
+not yet the production dashboard executor. See
 `POST /api/v1/system/qnx/probe` and the `QNX_*` settings in `.env.example`.
 When `qnxpi.local` is unavailable on a direct Ethernet link, keep
 `QNX_SSH_ALIAS=qnxpi` so the existing identity and host-key policy still

@@ -4,8 +4,9 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+from typing import Literal
 
-from fastapi import FastAPI, File, Form, Request, UploadFile
+from fastapi import FastAPI, File, Form, Query, Request, UploadFile
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
@@ -24,6 +25,8 @@ from .models import (
     MediaAssetInfo,
     ModelArtifact,
     PenSnapshot,
+    ProxySpecimenPoolSummary,
+    QnxEvidenceResponse,
     RunResult,
     Scenario,
     SimulationRun,
@@ -46,6 +49,8 @@ def create_app(
     dataset_clips_directory: Path | None = None,
     qnx_runner=None,
     qnx_prober=None,
+    proxy_specimens_directory: Path | None = None,
+    qnx_evidence_path: Path | None = None,
 ) -> FastAPI:
     resolved_home = home or Path(os.getenv("HOLY_CRAP_HOME", ".simlab"))
     service = SimulationService(
@@ -53,6 +58,8 @@ def create_app(
         scenario_directory,
         demo_assets_directory=demo_assets_directory,
         dataset_clips_directory=dataset_clips_directory,
+        proxy_specimens_directory=proxy_specimens_directory,
+        qnx_evidence_path=qnx_evidence_path,
         qnx_runner=qnx_runner,
         qnx_prober=qnx_prober,
     )
@@ -191,26 +198,35 @@ def create_app(
     @application.post(
         "/api/v1/clip-assessments/upload", response_model=ClipAssessment, status_code=201
     )
-    def assess_uploaded_clip(file: UploadFile = File(...)) -> ClipAssessment:
+    def assess_uploaded_clip(
+        file: UploadFile = File(...),
+        profile: Literal["healthy", "mixed", "concerning"] = Form("mixed"),
+    ) -> ClipAssessment:
         filename = file.filename or ""
         media_type = file.content_type or ""
-        return service.assess_clip_upload(file.file, filename, media_type)
+        return service.assess_clip_upload(file.file, filename, media_type, profile)
 
     @application.post(
         "/api/v1/clip-assessments/demo/{asset_id}",
         response_model=ClipAssessment,
         status_code=201,
     )
-    def assess_demo_clip(asset_id: str) -> ClipAssessment:
-        return service.assess_demo_clip(asset_id)
+    def assess_demo_clip(
+        asset_id: str,
+        profile: Literal["healthy", "mixed", "concerning"] = Query("mixed"),
+    ) -> ClipAssessment:
+        return service.assess_demo_clip(asset_id, profile)
 
     @application.post(
         "/api/v1/clip-assessments/catalog/{clip_id}",
         response_model=ClipAssessment,
         status_code=201,
     )
-    def assess_catalog_clip(clip_id: str) -> ClipAssessment:
-        return service.assess_catalog_clip(clip_id)
+    def assess_catalog_clip(
+        clip_id: str,
+        profile: Literal["healthy", "mixed", "concerning"] = Query("mixed"),
+    ) -> ClipAssessment:
+        return service.assess_catalog_clip(clip_id, profile)
 
     @application.get(
         "/api/v1/clip-assessments/{assessment_id}", response_model=ClipAssessment
@@ -222,5 +238,18 @@ def create_app(
     def clip_assessment_content(assessment_id: str) -> FileResponse:
         assessment, path = service.clip_content_path(assessment_id)
         return FileResponse(path, media_type=assessment.video.media_type)
+
+    @application.get("/api/v1/proxy-specimens", response_model=ProxySpecimenPoolSummary)
+    def proxy_specimens() -> ProxySpecimenPoolSummary:
+        return service.proxy_specimen_summary()
+
+    @application.get("/api/v1/proxy-specimens/{asset_id}/content")
+    def proxy_specimen_content(asset_id: str) -> FileResponse:
+        manifest, path = service.proxy_specimen_content(asset_id)
+        return FileResponse(path, media_type=manifest.media_type)
+
+    @application.get("/api/v1/system/qnx/evidence", response_model=QnxEvidenceResponse)
+    def qnx_evidence() -> QnxEvidenceResponse:
+        return service.qnx_evidence()
 
     return application

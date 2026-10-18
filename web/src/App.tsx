@@ -1,15 +1,25 @@
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import { api } from "./api";
+import { AssessmentVideoViewport } from "./components/AssessmentVideoViewport";
+import { CandidateEvidence } from "./components/CandidateEvidence";
 import { HelpDrawer } from "./components/HelpDrawer";
 import { MediaViewport } from "./components/MediaViewport";
-import type { AdapterCapability, ClipAssessment, ClipAssessmentModule, DatasetClip, DatasetClipStatus, MediaAssetInfo, ModelArtifact, Scenario, SystemCapabilities } from "./types";
+import { QnxEvidencePanel } from "./components/QnxEvidencePanel";
+import { SpecimenPoolSummary } from "./components/SpecimenPoolSummary";
+import type { AdapterCapability, ClipAssessment, ClipAssessmentModule, ClipPenAssessment, DatasetClip, DatasetClipStatus, DemoProfile, FecesCandidate, MediaAssetInfo, ModelArtifact, ProxySpecimenPoolSummary, QnxEvidencePayload, Scenario, SystemCapabilities } from "./types";
 
 const STAGES = [
   { id: "activity", label: "Activity / energy", description: "Measures motion across the pen and summarizes zone-level flock energy." },
   { id: "appearance", label: "Flock appearance", description: "Summarizes visible flock-level appearance without requiring bird identity." },
   { id: "feces_candidates", label: "Feces candidates", description: "Finds likely droppings and records candidate regions and timestamps." },
-  { id: "feces_classifier", label: "Feces disease classifier", description: "Classifies each candidate crop. The incoming feces model will plug in here." },
+  { id: "feces_classifier", label: "Feces appearance classifier", description: "Runs the configured model on each explicitly identified observed or simulated input." },
 ] as const;
+
+const PROFILE_OPTIONS: Array<{ value: DemoProfile; label: string; description: string }> = [
+  { value: "healthy", label: "Healthy", description: "Demo evidence weighted toward healthy specimens." },
+  { value: "mixed", label: "Mixed", description: "Healthy and abnormal demo evidence interleaved." },
+  { value: "concerning", label: "Concerning", description: "Demo evidence weighted toward abnormal specimens." },
+];
 
 const DATASET_GROUPS: Array<{ status: DatasetClipStatus; label: string }> = [
   { status: "ready", label: "Ready locally" },
@@ -60,6 +70,20 @@ function ScoreCard({ label, score, category, detail }: { label: string; score: n
   return <article className="score-card"><span>{label}</span><div><strong>{Math.round(scorePercent(score))}</strong><small>/ 100</small></div><b>{category}</b><p>{detail}</p></article>;
 }
 
+function PenAssessment({ assessment }: { assessment: ClipAssessment }) {
+  const state = penState(assessment);
+  const pen = penAssessment(assessment);
+  return <section className="pen-assessment" aria-labelledby="pen-assessment-title">
+    <div className="subheading"><div><span className="eyebrow">Pen-level assessment</span><h3 id="pen-assessment-title">Operational state</h3></div><span className={`pen-state pen-state--${state.kind}`}>{state.label}</span></div>
+    <dl className="pen-signal-grid">
+      <div><dt>Policy score</dt><dd>{typeof pen?.score === "number" ? Math.round(scorePercent(pen.score)) : "—"}</dd></div>
+      <div><dt>Activity</dt><dd>{typeof pen?.activity_contribution === "number" ? Math.round(pen.activity_contribution * 100) : "—"}%</dd></div>
+      <div><dt>Feces</dt><dd>{typeof pen?.feces_contribution === "number" ? Math.round(pen.feces_contribution * 100) : "—"}%</dd></div>
+    </dl>
+    <p className="pen-assessment-lead">Demo-only pen policy using mock activity plus proxy-assisted feces evidence. Non-diagnostic.</p>
+  </section>;
+}
+
 async function settleAssessment(initial: ClipAssessment): Promise<ClipAssessment> {
   let assessment = initial;
   for (let attempt = 0; attempt < 40 && ["queued", "running"].includes(assessment.status); attempt += 1) {
@@ -67,6 +91,25 @@ async function settleAssessment(initial: ClipAssessment): Promise<ClipAssessment
     assessment = await api.clipAssessment(assessment.id);
   }
   return assessment;
+}
+
+type PenStateKind = "routine" | "watch" | "review" | "demo" | "other";
+
+function penAssessment(assessment: ClipAssessment | null): ClipPenAssessment | null {
+  return assessment?.summary.pen_assessment ?? null;
+}
+
+function penState(assessment: ClipAssessment | null): { label: string; kind: PenStateKind } {
+  const pen = penAssessment(assessment);
+  if (pen?.state) {
+    if (pen.state === "normal") return { label: "routine", kind: "routine" };
+    if (pen.state === "watch") return { label: "watch", kind: "watch" };
+    if (pen.state === "review") return { label: "review", kind: "review" };
+    return { label: pen.state.replaceAll("_", " "), kind: "other" };
+  }
+  const reviewState = assessment?.summary.overall.review_state;
+  if (reviewState === "synthetic-demo-only") return { label: "demo", kind: "demo" };
+  return { label: reviewState?.replaceAll("_", " ") ?? "not reported", kind: "other" };
 }
 
 export default function App() {
@@ -92,11 +135,17 @@ export default function App() {
   const [runtimePending, setRuntimePending] = useState(false);
   const [runtimeMessage, setRuntimeMessage] = useState("");
   const [modelUploadPending, setModelUploadPending] = useState(false);
+  const [profile, setProfile] = useState<DemoProfile>("mixed");
+  const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null);
+  const [qnxEvidence, setQnxEvidence] = useState<QnxEvidencePayload | null>(null);
+  const [qnxEvidenceError, setQnxEvidenceError] = useState("");
+  const [proxyPoolSummary, setProxyPoolSummary] = useState<ProxySpecimenPoolSummary | null>(null);
 
   const selectedDataset = datasetClips.find((clip) => clip.id === selectedDatasetId) ?? datasetClips[0];
   const selectedDemo = selectedDataset?.demo_asset_id
     ? mediaAssets.find((asset) => asset.id === selectedDataset.demo_asset_id && asset.media_type.startsWith("video/") && asset.installed && asset.verified)
     : undefined;
+  const selectedCandidate: FecesCandidate | null = assessment?.summary.feces.candidates.find((candidate) => candidate.id === selectedCandidateId) ?? null;
   const assessmentAllowed = selectedDataset?.assessable ?? false;
   const qnx = qnxCapability(capabilities);
   const qnxEnabled = qnx?.status === "probe_only" || qnx?.status === "ready";
@@ -136,6 +185,23 @@ export default function App() {
       .catch((requestError: unknown) => {
         if (!cancelled) setLibraryError(requestError instanceof Error ? requestError.message : "The dataset library API is unavailable.");
       });
+    void api.qnxEvidence()
+      .then((evidence) => {
+        if (!cancelled) {
+          setQnxEvidence(evidence);
+          setQnxEvidenceError("");
+        }
+      })
+      .catch((requestError: unknown) => {
+        if (!cancelled) setQnxEvidenceError(requestError instanceof Error ? requestError.message : "The QNX evidence endpoint is unavailable.");
+      });
+    void api.proxySpecimens()
+      .then((pool) => {
+        if (!cancelled) setProxyPoolSummary(pool);
+      })
+      .catch(() => {
+        // The pool inventory endpoint may not exist on older backends; fall back to assessment-derived counts.
+      });
     return () => { cancelled = true; };
   }, [refreshAssessments]);
 
@@ -151,23 +217,31 @@ export default function App() {
       let created: ClipAssessment;
       if (sourceMode === "upload") {
         if (!uploadFile) throw new Error("Choose a whole-pen video before starting the assessment.");
-        created = await api.uploadClipAssessment(uploadFile);
+        created = await api.uploadClipAssessment(uploadFile, profile);
       } else {
         if (!selectedDataset) throw new Error("Choose a dataset-library clip before starting an assessment.");
         if (selectedDataset.status === "ready") {
           if (!selectedDataset.demo_asset_id || !selectedDemo) throw new Error("This ready clip does not have verified local video bytes available.");
-          created = await api.assessDemoClip(selectedDataset.demo_asset_id);
+          created = await api.assessDemoClip(selectedDataset.demo_asset_id, profile);
         } else if (selectedDataset.status === "cataloged") {
-          created = await api.assessCatalogClip(selectedDataset.id);
+          created = await api.assessCatalogClip(selectedDataset.id, profile);
         } else {
           throw new Error(`This ${selectedDataset.status.replaceAll("_", " ")} reference is not eligible for clip assessment.`);
         }
       }
-      const completed = await settleAssessment(created); setAssessment(completed); await refreshAssessments();
+      const completed = await settleAssessment(created); setAssessment(completed); setSelectedCandidateId(null); await refreshAssessments();
+      void api.proxySpecimens().then(setProxyPoolSummary).catch(() => {
+        // Preserve the current inventory or assessment-derived fallback on older backends.
+      });
       if (completed.status === "failed") setError("The assessment was stored but did not complete. Review its status and server logs.");
     } catch (requestError) {
       setAssessmentApiError(requestError instanceof Error ? requestError.message : "The clip assessment could not be started.");
     } finally { setProcessing(false); }
+  }
+
+  function selectAssessment(next: ClipAssessment) {
+    setAssessment(next);
+    setSelectedCandidateId(null);
   }
 
   function selectSourceMode(nextMode: "library" | "upload") {
@@ -242,6 +316,15 @@ export default function App() {
           <button role="tab" aria-selected={sourceMode === "library"} className={sourceMode === "library" ? "source-tab source-tab--active" : "source-tab"} onClick={() => selectSourceMode("library")}>Dataset library</button>
           <button role="tab" aria-selected={sourceMode === "upload"} className={sourceMode === "upload" ? "source-tab source-tab--active" : "source-tab"} onClick={() => selectSourceMode("upload")}>Upload video</button>
         </div>
+        <div className="profile-picker" role="group" aria-label="Demo profile">
+          <span className="profile-picker__label">Demo profile</span>
+          <div className="profile-picker__options">
+            {PROFILE_OPTIONS.map((option) => (
+              <button key={option.value} type="button" aria-pressed={profile === option.value} className={profile === option.value ? "profile-option profile-option--active" : "profile-option"} onClick={() => setProfile(option.value)}>{option.label}</button>
+            ))}
+          </div>
+          <p className="profile-picker__note">{PROFILE_OPTIONS.find((option) => option.value === profile)?.description} The profile only shapes deterministic demo evidence; it is not a diagnosis and does not change the assessed video.</p>
+        </div>
         {sourceMode === "library" ? <div className="source-content source-controls">
           <label className="clip-field">Reviewed dataset clip<select value={selectedDatasetId} onChange={(event) => selectDataset(event.target.value)} disabled={!datasetClips.length}>
             {DATASET_GROUPS.map((group) => {
@@ -266,8 +349,9 @@ export default function App() {
       </aside>
 
       <section className="panel viewer-panel" aria-labelledby="viewer-title">
-        <div className="panel-heading"><div><span className="eyebrow">Clip viewer</span><h2 id="viewer-title">Whole-pen observation window</h2></div><span className="index-label">{sourceMode === "library" ? selectedDataset?.status.replaceAll("_", " ") ?? "LIBRARY" : "UPLOAD"}</span></div>
-        {sourceMode === "library"
+        <div className="panel-heading"><div><span className="eyebrow">Clip viewer</span><h2 id="viewer-title">Whole-pen observation window</h2></div><span className="index-label">{assessment ? `ASSESSED · ${assessment.id.slice(0, 8)}` : sourceMode === "library" ? selectedDataset?.status.replaceAll("_", " ") ?? "LIBRARY" : "UPLOAD"}</span></div>
+        {assessment ? <AssessmentVideoViewport assessment={assessment} selectedCandidateId={selectedCandidateId} />
+          : sourceMode === "library"
           ? selectedDemo ? <MediaViewport assets={[selectedDemo]} /> : <div className="viewer-empty viewer-empty--catalog"><span aria-hidden="true">{selectedDataset?.status === "cataloged" ? "MOCK" : "—"}</span><strong>{selectedDataset?.status === "cataloged" ? "No local video bytes" : "Playback unavailable"}</strong><p>{selectedDataset?.status === "cataloged" ? "Generate a persisted deterministic example from this catalog entry. Results remain clearly marked MOCK; the dashboard will not pretend a video was played." : selectedDataset?.status === "ready" ? "This approved clip is not installed locally. Run make demo-assets to fetch and verify its bytes before assessment." : "This entry is retained for research provenance and cannot be assessed from the dashboard."}</p>{selectedDataset ? <div className="viewer-source-links"><a href={selectedDataset.source_url} target="_blank" rel="noreferrer">Open source</a><a href={selectedDataset.dataset_url} target="_blank" rel="noreferrer">Open dataset</a></div> : null}</div>
           : uploadPreview ? <div className="upload-preview-wrap"><video className="upload-preview" src={uploadPreview} controls preload="metadata">Your browser cannot preview this video.</video></div> : <div className="viewer-empty"><span aria-hidden="true">▶</span><strong>Select a whole-pen video</strong><p>The selected clip will remain visible here while you review its aggregate assessment.</p></div>}
         <p className="viewer-boundary">This is a clip-level observation. Bird identities do not need to persist, and the video does not establish infection progression.</p>
@@ -277,7 +361,7 @@ export default function App() {
         <div className="panel-heading"><div><span className="eyebrow">Step 02</span><h2 id="pipeline-title">Assessment pipeline</h2></div><span className="index-label">4 STAGES</span></div>
         <ol className="pipeline-list">{STAGES.map((stage, index) => {
           const module = assessment ? moduleFor(stage.id, assessment.modules) : undefined; const mode = module?.mode ?? "mock";
-          return <li key={stage.id} className="pipeline-stage"><span className="stage-number">{String(index + 1).padStart(2, "0")}</span><div><strong>{stage.label}</strong><p>{stage.description}</p></div><div className="stage-runtime"><span className={`mode-badge mode-badge--${mode}`}>{mode === "real" ? "REAL MODEL" : "MOCK"}</span><small>{module ? `${module.version} · ${module.status}` : "deterministic placeholder · ready"}</small></div></li>;
+          return <li key={stage.id} className="pipeline-stage"><span className="stage-number">{String(index + 1).padStart(2, "0")}</span><div><strong>{stage.label}</strong><p>{stage.description}</p></div><div className="stage-runtime"><span className={`mode-badge mode-badge--${mode}`}>{mode === "real" ? "REAL MODEL" : mode === "partial" ? "PARTIAL" : "MOCK"}</span><small>{module ? `${module.version} · ${module.status}` : "deterministic placeholder · ready"}</small></div></li>;
         })}</ol>
         <p className="pipeline-note"><strong>Current boundary:</strong> mock stages are deterministic and non-diagnostic. Each stage records its mode and version so a real activity, appearance, detector, or feces classifier can replace it independently.</p>
       </section>
@@ -290,29 +374,32 @@ export default function App() {
             <ScoreCard label="Flock appearance" score={assessment.summary.appearance.score} category={assessment.summary.appearance.category} detail={assessment.summary.appearance.notes[0] ?? "No aggregate appearance note reported."} />
             <article className="score-card score-card--count"><span>Feces candidates</span><div><strong>{assessment.summary.feces.candidate_count}</strong></div><b>regions for review</b><p>Candidates are clip-level detections, not confirmed droppings or diagnoses.</p></article>
           </div>
-          <section className="aggregate-distribution" aria-labelledby="distribution-title"><div className="subheading"><div><span className="eyebrow">Classifier output</span><h3 id="distribution-title">Candidate distribution</h3></div><span className={`mode-badge mode-badge--${moduleFor("feces_classifier", assessment.modules)?.mode ?? "mock"}`}>{moduleFor("feces_classifier", assessment.modules)?.mode === "real" ? "REAL" : "MOCK"}</span></div><div className="distribution-list">
+          <section className="aggregate-distribution" aria-labelledby="distribution-title"><div className="subheading"><div><span className="eyebrow">Classifier output</span><h3 id="distribution-title">Candidate distribution</h3></div><span className={`mode-badge mode-badge--${moduleFor("feces_classifier", assessment.modules)?.mode ?? "mock"}`}>{moduleFor("feces_classifier", assessment.modules)?.mode === "real" ? "REAL" : moduleFor("feces_classifier", assessment.modules)?.mode === "partial" ? "PARTIAL" : "MOCK"}</span></div><div className="distribution-list">
             {Object.entries(assessment.summary.feces.class_distribution).map(([label, value]) => <div className="distribution-row" key={label}><span>{label}</span><div><i style={{ width: `${distributionPercent(value, assessment.summary.feces.class_distribution)}%` }} /></div><strong>{value}</strong></div>)}
           </div></section>
           <div className="overall-review"><div><span className="eyebrow">Overall review state</span><strong>{assessment.summary.overall.review_state.replaceAll("_", " ")}</strong></div><ul>{assessment.summary.overall.notes.map((note) => <li key={note}>{note}</li>)}</ul></div>
+          <PenAssessment assessment={assessment} />
           <p className="non-diagnostic"><strong>Non-diagnostic:</strong> {assessment.non_diagnostic_notice}</p>
         </div>}
       </section>
 
       <section className="panel review-panel" aria-labelledby="review-title">
         <div className="panel-heading"><div><span className="eyebrow">Clip review</span><h2 id="review-title">Evidence & candidate rows</h2></div>{assessment ? <span className="index-label">{assessment.summary.feces.candidates.length} CANDIDATES</span> : <span className="index-label">NO RESULT</span>}</div>
-        {!assessment ? <div className="results-empty"><span aria-hidden="true">⌁</span><strong>Evidence will appear here</strong><p>Run the selected video to review pen-zone movement and feces candidate timestamps without tracking individual birds.</p></div> : <div className="assessment-results">
+        {!assessment ? <><SpecimenPoolSummary summary={proxyPoolSummary} assessment={null} /><div className="results-empty"><span aria-hidden="true">⌁</span><strong>Evidence will appear here</strong><p>Run the selected video to review pen-zone movement and feces candidate timestamps without tracking individual birds.</p></div></> : <div className="assessment-results">
           <div className="assessment-provenance"><div><strong>{assessment.video.name}</strong><span>{formatBytes(assessment.video.size_bytes)} · {assessment.video.duration_s == null ? "duration unknown" : formatTime(assessment.video.duration_s)} · {assessment.video.width ?? "?"}×{assessment.video.height ?? "?"} · {assessment.video.fps ?? "?"} FPS</span></div><code title={assessment.video.sha256}>#{assessment.id.slice(0, 12)} · sha256 {assessment.video.sha256.slice(0, 12)}… · {formatDate(assessment.created_at)}</code></div>
           <section className="review-zones" aria-labelledby="zones-title"><div className="subheading"><div><span className="eyebrow">Spatial context</span><h3 id="zones-title">Activity by pen zone</h3></div><span className={`mode-badge mode-badge--${moduleFor("activity", assessment.modules)?.mode ?? "mock"}`}>{moduleFor("activity", assessment.modules)?.mode === "real" ? "REAL MODEL" : "MOCK"}</span></div><dl className="zone-list">{Object.entries(assessment.summary.activity.zone_scores).map(([zone, value]) => <div key={zone}><dt>{zone.replaceAll("_", " ")}</dt><dd>{Math.round(scorePercent(value))}</dd></div>)}</dl><p className="zone-note">Zone averages tolerate occlusion and birds entering or leaving view. Persistent individual tracking is not required.</p></section>
-          <section className="candidate-section" aria-labelledby="candidate-title"><div className="subheading"><div><span className="eyebrow">Review queue</span><h3 id="candidate-title">Feces candidate rows</h3></div><span>{assessment.summary.feces.candidates.length} shown</span></div><div className="candidate-table-wrap"><table className="candidate-table"><thead><tr><th>Candidate</th><th>Time</th><th>Crop box</th><th>Classification</th><th>Confidence</th><th>Mode</th></tr></thead><tbody>{assessment.summary.feces.candidates.map((candidate) => <tr key={candidate.id}><td><code>{candidate.id}</code></td><td>{formatTime(candidate.timestamp_s)}</td><td><code>{candidate.bbox.x.toFixed(2)}, {candidate.bbox.y.toFixed(2)} · {candidate.bbox.width.toFixed(2)}×{candidate.bbox.height.toFixed(2)}</code></td><td>{candidate.classification.label}</td><td>{Math.round(candidate.classification.confidence * 100)}%</td><td><span className={`mode-badge mode-badge--${candidate.classification.mode}`}>{candidate.classification.mode === "real" ? "REAL" : "MOCK"}</span></td></tr>)}</tbody></table></div></section>
+          <SpecimenPoolSummary summary={proxyPoolSummary} assessment={assessment} />
+          <section className="candidate-section" aria-labelledby="candidate-title"><div className="subheading"><div><span className="eyebrow">Review queue</span><h3 id="candidate-title">Feces candidate rows</h3></div><span>{assessment.summary.feces.candidates.length} shown</span></div><div className="candidate-table-wrap"><table className="candidate-table"><thead><tr><th>Candidate</th><th>Time</th><th>Observed location</th><th>Model output</th><th>Confidence</th><th>Mode</th></tr></thead><tbody>{assessment.summary.feces.candidates.map((candidate) => <tr key={candidate.id} role="button" tabIndex={0} aria-pressed={selectedCandidateId === candidate.id} className={selectedCandidateId === candidate.id ? "candidate-row candidate-row--active" : "candidate-row"} onClick={() => setSelectedCandidateId(candidate.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelectedCandidateId(candidate.id); } }}><td><code>{candidate.id}</code></td><td>{formatTime(candidate.timestamp_s)}</td><td><code>{candidate.bbox.x.toFixed(2)}, {candidate.bbox.y.toFixed(2)} · {candidate.bbox.width.toFixed(2)}×{candidate.bbox.height.toFixed(2)}</code></td><td>{candidate.classification.label ?? "—"}</td><td>{Math.round(candidate.classification.confidence * 100)}%</td><td><span className={`mode-badge mode-badge--${candidate.classification.mode}`}>{candidate.classification.mode === "real" ? "REAL" : "MOCK"}</span></td></tr>)}</tbody></table></div>{selectedCandidate ? <CandidateEvidence candidate={selectedCandidate} /> : <p className="candidate-evidence-empty">Select a candidate row to review its observed location, simulated proxy input, and model output. Selecting a row also seeks the assessed video to that candidate's timestamp.</p>}</section>
         </div>}
       </section>
 
-      <section className="panel history-strip" aria-labelledby="history-title"><div className="panel-heading"><div><span className="eyebrow">Saved evidence</span><h2 id="history-title">Recent clip assessments</h2></div><span className="index-label">{assessments.length}</span></div>{assessments.length ? <div className="assessment-history">{assessments.map((item) => <button key={item.id} className={assessment?.id === item.id ? "assessment-history-card assessment-history-card--active" : "assessment-history-card"} onClick={() => setAssessment(item)}><strong>{item.video.name}</strong><span>{formatDate(item.created_at)} · {item.status}</span><small>{Math.round(scorePercent(item.summary.activity.score))} activity · {item.summary.feces.candidate_count} feces candidates</small></button>)}</div> : <p className="empty-copy">No persisted clip assessments yet.</p>}</section>
+      <section className="panel history-strip" aria-labelledby="history-title"><div className="panel-heading"><div><span className="eyebrow">Saved evidence</span><h2 id="history-title">Recent clip assessments</h2></div><span className="index-label">{assessments.length}</span></div>{assessments.length ? <div className="assessment-history">{assessments.map((item) => <button key={item.id} className={assessment?.id === item.id ? "assessment-history-card assessment-history-card--active" : "assessment-history-card"} aria-current={assessment?.id === item.id ? "true" : undefined} onClick={() => selectAssessment(item)}><strong>{item.video.name}</strong><span>{formatDate(item.created_at)} · {item.status}</span><small>{Math.round(scorePercent(item.summary.activity.score))} activity · {item.summary.feces.candidate_count} feces candidates</small></button>)}</div> : <p className="empty-copy">No persisted clip assessments yet.</p>}</section>
 
       <details className="panel runtime-panel"><summary><span><span className="eyebrow">Advanced</span><strong>Model artifacts, QNX target & synthetic engine</strong></span><small>Open runtime controls</small></summary><div className="runtime-content">
         <section><h3>QNX target validation</h3><p>{qnx?.description ?? "The QNX executor has not reported a capability yet."}</p><div className="runtime-actions"><button className="secondary-button" onClick={handleTargetCheck} disabled={runtimePending}>{runtimePending ? "Working…" : "Check target"}</button></div><div className="runtime-grid"><label>Model artifact<select value={modelId} onChange={(event) => setModelId(event.target.value)}>{models.map((model) => <option key={model.id} value={model.id}>{model.name} / {model.version}</option>)}</select></label><label>Synthetic scenario<select value={scenarioId} onChange={(event) => setScenarioId(event.target.value)}>{scenarios.map((scenario) => <option key={scenario.id} value={scenario.id}>{scenario.name}</option>)}</select></label></div>{modelBlockedForQnx ? <p className="blocked-copy">Choose a real, non-empty model artifact for QNX staging.</p> : null}<button className="primary-button" onClick={handleQnxValidation} disabled={runtimePending || !qnxEnabled || modelBlockedForQnx || !scenarioId}>{qnx?.status === "probe_only" ? "Validate artifact on QNX" : "Run on QNX"}</button><p className="form-note">When the target reports validation-only, this stages and verifies bytes but does not run inference. Synthetic scenarios are test plumbing, not the primary clip workflow.</p></section>
         <section><h3>Add a model artifact</h3><form className="runtime-upload" onSubmit={handleModelUpload}><label>Name<input name="name" required placeholder="Feces classifier" /></label><label>Version<input name="version" required placeholder="0.1.0" /></label><label>Source<input name="source" placeholder="Veri / Kaggle chicken-disease-1" /></label><label>Artifact<input name="artifact" type="file" required /></label><button className="secondary-button" disabled={modelUploadPending}>{modelUploadPending ? "Uploading…" : "Upload to catalog"}</button></form><p className="form-note">The incoming feces classifier belongs after candidate localization. Uploading catalogs model bytes and provenance; it does not prove runtime compatibility.</p></section>
       </div>{runtimeMessage ? <p className="runtime-message" role="status">{runtimeMessage}</p> : null}</details>
+      <QnxEvidencePanel evidence={qnxEvidence} error={qnxEvidenceError} />
     </main>
     <HelpDrawer open={helpOpen} onClose={closeHelp} />
   </div>;

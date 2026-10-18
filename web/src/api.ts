@@ -5,6 +5,8 @@ import type {
   CreateRunRequest,
   MediaAssetInfo,
   ModelArtifact,
+  QnxEvidencePayload,
+  ProxySpecimenPoolSummary,
   RunResult,
   RunSummary,
   Scenario,
@@ -58,17 +60,24 @@ export const api = {
   media: () => request<MediaAssetInfo[]>("/media"),
   clipAssessments: () => request<ClipAssessment[]>("/clip-assessments"),
   clipAssessment: (id: string) => request<ClipAssessment>(`/clip-assessments/${encodeURIComponent(id)}`),
-  uploadClipAssessment: (file: File) => {
+  uploadClipAssessment: (file: File, profile?: string) => {
     const body = new FormData();
     body.append("file", file);
+    if (profile) body.append("profile", profile);
     return request<ClipAssessment>("/clip-assessments/upload", { method: "POST", body });
   },
-  assessDemoClip: (assetId: string) =>
-    request<ClipAssessment>(`/clip-assessments/demo/${encodeURIComponent(assetId)}`, { method: "POST" }),
+  assessDemoClip: (assetId: string, profile?: string) => {
+    const query = profile ? `?profile=${encodeURIComponent(profile)}` : "";
+    return request<ClipAssessment>(`/clip-assessments/demo/${encodeURIComponent(assetId)}${query}`, { method: "POST" });
+  },
   datasetClips: () => request<DatasetClip[]>("/dataset-clips"),
   datasetClip: (id: string) => request<DatasetClip>(`/dataset-clips/${encodeURIComponent(id)}`),
-  assessCatalogClip: (clipId: string) =>
-    request<ClipAssessment>(`/clip-assessments/catalog/${encodeURIComponent(clipId)}`, { method: "POST" }),
+  assessCatalogClip: (clipId: string, profile?: string) => {
+    const query = profile ? `?profile=${encodeURIComponent(profile)}` : "";
+    return request<ClipAssessment>(`/clip-assessments/catalog/${encodeURIComponent(clipId)}${query}`, { method: "POST" });
+  },
+  qnxEvidence: () => request<QnxEvidencePayload>("/system/qnx/evidence"),
+  proxySpecimens: () => request<ProxySpecimenPoolSummary>("/proxy-specimens"),
   uploadModel: (file: File, name: string, version: string, source?: string) => {
     const body = new FormData();
     body.append("file", file);

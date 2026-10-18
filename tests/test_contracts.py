@@ -199,4 +199,65 @@ def test_persisted_clip_assessment_conforms_to_contract(tmp_path: Path) -> None:
 
     validate("clip-assessment.schema.json", payload)
     assert payload["summary"]["overall"]["review_state"] == "synthetic-demo-only"
-    assert {module["mode"] for module in payload["modules"]} == {"mock"}
+    assert {module["mode"] for module in payload["modules"]} == {"mock", "real"}
+    assert payload["profile"] == "mixed"
+    pen = payload["summary"]["pen_assessment"]
+    assert pen["policy_id"] == "demo-pen-v1"
+    assert pen["evidence_mode"] == "hybrid_simulation"
+    assert pen["non_diagnostic"] is True
+    candidate = payload["summary"]["feces"]["candidates"][0]
+    assert candidate["crop"]["target_width"] == 320
+    assert candidate["crop"]["target_height"] == 320
+    assert candidate["provenance"]["location_source"] == "observed_video"
+    assert candidate["provenance"]["appearance_input"] == "curated_proxy"
+    assert candidate["provenance"]["classification_source"] == "live_model_run"
+    assert candidate["classification"]["product_label"] in {"normal", "abnormal", "uncertain"}
+    assert candidate["classification"]["inference_performed"] is True
+    assert candidate["classification"]["fallback_reason"] is None
+    assert candidate["proxy_crop"]["mapping_method"] == "sha256-seeded"
+    assert candidate["proxy_crop"]["bytes_available"] is True
+    assert candidate["proxy_crop"]["content_url"].startswith(
+        "/api/v1/proxy-specimens/"
+    )
+
+    candidate["proxy_crop"]["expected_demo_class"] = "unknown_abnormal"
+    validate("clip-assessment.schema.json", payload)
+
+
+def test_clip_contract_declares_320_yolo_detection_not_224_single_label() -> None:
+    schema = json.loads(
+        (ROOT / "contracts" / "clip-assessment.schema.json").read_text(encoding="utf-8")
+    )
+    crop = schema["$defs"]["fecesCandidate"]["properties"]["crop"]["properties"]
+    assert crop["target_width"]["const"] == 320
+    assert crop["target_height"]["const"] == 320
+
+    classifier = schema["$defs"]["fecesCandidate"]["properties"]["classification"]["properties"]
+    assert classifier["label"]["enum"] == [
+        "Coccidiosis",
+        "Healthy",
+        "New Castle Disease",
+        "Salmonella",
+        None,
+    ]
+    assert classifier["product_label"]["enum"] == ["normal", "abnormal", "uncertain"]
+    assert schema["properties"]["modules"]["items"]["properties"]["mode"]["enum"] == [
+        "mock",
+        "partial",
+        "real",
+    ]
+    assert classifier["fallback_reason"]["enum"] == [
+        "specimen_unavailable",
+        "runtime_unavailable",
+        "image_decode_failed",
+        "model_inference_failed",
+        None,
+    ]
+    proxy = schema["$defs"]["proxySpecimen"]
+    assert proxy["properties"]["expected_demo_class"]["enum"] == [
+        "cocci",
+        "healthy",
+        "ncd",
+        "salmo",
+        "unknown_abnormal",
+    ]

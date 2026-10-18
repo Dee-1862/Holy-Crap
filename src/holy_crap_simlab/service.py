@@ -22,6 +22,9 @@ from .models import (
     MediaAssetInfo,
     ModelArtifact,
     PenSnapshot,
+    ProxySpecimenPoolSummary,
+    QnxEvidenceDocument,
+    QnxEvidenceResponse,
     ResultArtifact,
     ResultExecutorReference,
     ResultMetrics,
@@ -34,11 +37,22 @@ from .models import (
     TimelinePoint,
     utc_now,
 )
+from .proxy_specimens import ProxySpecimenManifest, ProxySpecimenRepository
 from .scenarios import ScenarioRepository
 
 
 class NotFoundError(LookupError):
     pass
+
+
+def default_qnx_evidence_path() -> Path:
+    return (
+        Path(__file__).resolve().parents[2]
+        / "target"
+        / "qnx"
+        / "evidence"
+        / "dropping4-laptop-final-320.json"
+    )
 
 
 def _write_text(path: Path, content: str) -> None:
@@ -64,6 +78,8 @@ class SimulationService:
         dataset_clips_directory: Path | None = None,
         qnx_runner=None,
         qnx_prober=None,
+        proxy_specimens_directory: Path | None = None,
+        qnx_evidence_path: Path | None = None,
     ) -> None:
         self.catalog = Catalog(home)
         self.scenarios = ScenarioRepository(scenario_directory)
@@ -78,8 +94,12 @@ class SimulationService:
         self.catalog.seed_mock_model()
         self.media_repository = DemoAssetRepository(demo_assets_directory)
         self.media_store = DemoAssetStore(home)
-        self.clip_assessments = ClipAssessmentService(home)
+        self.proxy_repository = ProxySpecimenRepository(proxy_specimens_directory)
+        self.clip_assessments = ClipAssessmentService(
+            home, proxy_repository=self.proxy_repository
+        )
         self.dataset_clips = DatasetClipRepository(dataset_clips_directory)
+        self.qnx_evidence_path = qnx_evidence_path or default_qnx_evidence_path()
 
     def run(self, request: CreateRunRequest) -> SimulationRun:
         scenario = self.scenarios.get(request.scenario_id)
@@ -312,10 +332,12 @@ class SimulationService:
             )
         return assets
 
-    def assess_clip_upload(self, stream, filename: str, media_type: str) -> ClipAssessment:
-        return self.clip_assessments.assess_upload(stream, filename, media_type)
+    def assess_clip_upload(
+        self, stream, filename: str, media_type: str, profile: str = "mixed"
+    ) -> ClipAssessment:
+        return self.clip_assessments.assess_upload(stream, filename, media_type, profile)
 
-    def assess_demo_clip(self, asset_id: str) -> ClipAssessment:
+    def assess_demo_clip(self, asset_id: str, profile: str = "mixed") -> ClipAssessment:
         manifest = self.media_manifest(asset_id)
         if manifest is None:
             raise NotFoundError(f"media asset not found: {asset_id}")
@@ -343,6 +365,7 @@ class SimulationService:
             width=manifest.width,
             height=manifest.height,
             fps=manifest.frame_rate_fps,
+            profile=profile,
         )
 
     def list_clip_assessments(self) -> list[ClipAssessment]:
@@ -374,16 +397,41 @@ class SimulationService:
             }
         )
 
-    def assess_catalog_clip(self, clip_id: str) -> ClipAssessment:
+    def assess_catalog_clip(self, clip_id: str, profile: str = "mixed") -> ClipAssessment:
         clip = self.require_dataset_clip(clip_id)
         if not clip.assessable:
             raise ClipValidationError(
                 f"catalog entry {clip.id!r} is {clip.status} and cannot be assessed"
             )
         if clip.bytes_available and clip.demo_asset_id:
-            return self.assess_demo_clip(clip.demo_asset_id)
+            return self.assess_demo_clip(clip.demo_asset_id, profile)
         synthetic_sha256 = self.dataset_clips.synthetic_sha256(clip)
-        return self.clip_assessments.assess_catalog_mock(clip, synthetic_sha256)
+        return self.clip_assessments.assess_catalog_mock(clip, synthetic_sha256, profile)
+
+    def proxy_specimen(self, asset_id: str) -> ProxySpecimenManifest | None:
+        return self.proxy_repository.get(asset_id)
+
+    def proxy_specimen_summary(self) -> ProxySpecimenPoolSummary:
+        return self.proxy_repository.summary()
+
+    def proxy_specimen_content(self, asset_id: str) -> tuple[ProxySpecimenManifest, Path]:
+        manifest = self.proxy_repository.get(asset_id)
+        if manifest is None:
+            raise NotFoundError(f"proxy specimen not found: {asset_id}")
+        path = self.proxy_repository.verified_path(manifest)
+        if path is None:
+            raise NotFoundError(
+                f"proxy specimen bytes are unavailable or failed hash verification: {asset_id}"
+            )
+        return manifest, path
+
+    def qnx_evidence(self) -> QnxEvidenceResponse:
+        if not self.qnx_evidence_path.is_file():
+            raise NotFoundError("QNX evidence document is not available")
+        document = QnxEvidenceDocument.model_validate_json(
+            self.qnx_evidence_path.read_text(encoding="utf-8")
+        )
+        return QnxEvidenceResponse(evidence=document, claims=document.claims)
 
     def require_clip_assessment(self, assessment_id: str) -> ClipAssessment:
         result = self.clip_assessments.store.get(assessment_id)

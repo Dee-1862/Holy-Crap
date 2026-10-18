@@ -2,6 +2,9 @@
 
 Record anything that went wrong or was ruled out so we don't repeat it. Format: date, what happened, why, what to do instead.
 
+- 2026-10-18: Veri does not allow downloading outputs of a job whose status is failed. Job f72463aa0e9b finished and exported the chicken detector (test mAP50 0.956) but a DDP classifier crashed at the end, the script exited 1, and all outputs were lost. Entry scripts must always exit 0 after training and record per-model failures in their logs.
+- 2026-10-18: Stopping a Monitor does not kill background loops it started. A stray submit-retry loop later submitted a duplicate 4x A10G job (700a1cd0c7e2, cancelled). Kill retry loops by process, not just by stopping the monitor.
+- 2026-10-18: Monitors expire after 30 min; one expired while both behaviour jobs failed, and the failures went unreported until the user asked. Re-arm monitors on every expiry notice.
 - 2026-10-17: In Git Bash on Windows, `veri volumes upload ... --to /bb_prepared.tar` stored the file as `/C:/Program Files/Git/bb_prepared.tar` (MSYS path conversion). Set `MSYS_NO_PATHCONV=1` for any CLI argument that is a remote path.
 - 2026-10-17: prepare_behavior.py on Veri (Linux, 32 forked processes, each downloading one ~350 MB Big Broiler clip with a single range request) finished 0 of 102 clips in over an hour (jobs 3397d298d843, 95a671910fce), while the same script on Windows (spawn, 12 workers) did 68 clips in 30 min. Root cause unknown (fork, or stalled connections with no timeout error). Do heavy video prep locally and ship a prepared tar via a Veri volume; test Linux code paths before paying for a big box.
 - 2026-10-17: Veri custom scripts cannot mount a whole volume yet (coming soon). Use one tar file per job: volume -> datasets.from_volume -> --dataset-id -> $VERI_DATA_DIR.

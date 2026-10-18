@@ -21,8 +21,7 @@ export async function liveFrame(): Promise<LiveFrame | null> {
 // The Pi sends pictures back to back only while someone has the camera view open, every 10 s otherwise.
 export async function storeFrame(frame: Omit<LiveFrame, "at">): Promise<boolean> {
   mem.__frame = { ...frame, at: Date.now() };
-  await kvSet(FRAME_KEY, mem.__frame, 30);
-  const w = kvEnabled ? await kvGet<number>(WATCH_KEY) : mem.__watching;
+  const [, w] = await Promise.all([kvSet(FRAME_KEY, mem.__frame, 30), kvEnabled ? kvGet<number>(WATCH_KEY) : mem.__watching]);
   return !!w && Date.now() - w < 8000;
 }
 export async function markWatching() {

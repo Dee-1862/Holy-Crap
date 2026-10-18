@@ -18,7 +18,8 @@ export function useLiveFrame(watching: boolean): Frame | null | undefined {
       const t0 = Date.now();
       try {
         const d = (await (await fetch(`/api/edge/frame${watching ? "?watch=1" : ""}`, { cache: "no-store" })).json()) as { frame: Frame | null };
-        if (alive) setFrame(d.frame);
+        // the Pi sends over two connections, so an older picture can land after a newer one: keep the newer
+        if (alive) setFrame((cur) => (cur && d.frame && d.frame.t < cur.t ? cur : d.frame));
       } catch {
         if (alive) setFrame(null);
       }

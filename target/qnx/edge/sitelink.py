@@ -1,9 +1,9 @@
 """Site section: shows this Pi on the deployed console (Vercel) with no laptop in between.
 
 Once a second it reads this Pi's status from the uplink section (127.0.0.1:8088), posts the parts the Pi page shows
-to SITE/api/edge/bridge, and passes any Crash presses made on the site back to the uplink. A second thread sends a small
+to SITE/api/edge/bridge, and passes any Crash presses made on the site back to the uplink. Two more threads send a small
 colour JPEG of the newest camera frame and where recent spots were to SITE/api/edge/frame, for the site's live camera
-view: back to back over one kept open connection while someone has that view open, every IDLE_EVERY seconds otherwise. It only makes outgoing https requests, so it works behind any Wi-Fi router or phone hotspot, whatever address
+view: back to back over two kept open connections while someone has that view open, every IDLE_EVERY seconds otherwise. It only makes outgoing https requests, so it works behind any Wi-Fi router or phone hotspot, whatever address
 the Pi gets.
 
 Settings live in ~/hc-site.json, never in the repository:
@@ -94,9 +94,11 @@ class Picture:
                 "source": status.get("source", ""), "spots": spots}
 
 
-def push_pictures(seen: dict):
+def push_pictures(seen: dict, offset: float = 0.0):
     """Picture thread. One kept open https connection, so each picture costs one round trip, not a new handshake.
-    The site answers each picture with whether someone has the camera view open."""
+    The site answers each picture with whether someone has the camera view open. Two of these run half a round
+    trip apart, so a new picture leaves while the last one is still on its way."""
+    time.sleep(offset)
     picture, conn, watching = Picture(), None, False
     while True:
         t0 = time.time()
@@ -119,7 +121,8 @@ def push_pictures(seen: dict):
 def main():
     last_error = ""
     seen: dict = {}
-    threading.Thread(target=push_pictures, args=(seen,), daemon=True).start()
+    for offset in (0.0, 0.35):
+        threading.Thread(target=push_pictures, args=(seen, offset), daemon=True).start()
     while True:
         t0 = time.time()
         try:

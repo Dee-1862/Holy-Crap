@@ -5,7 +5,6 @@ import CameraLoop from "@/components/CameraLoop";
 import CameraPulse from "@/components/CameraPulse";
 import LiveCam, { LIVE_CAM, useLiveFrame } from "@/components/LiveCam";
 import Clock from "@/components/Clock";
-import PenDroppings from "@/components/PenDroppings";
 import PenActions from "@/components/PenActions";
 import PenFolder from "@/components/PenFolder";
 import Readout from "@/components/Readout";
@@ -86,7 +85,6 @@ export default function Dashboard() {
         </aside>
         <div className={styles.main}>
           {piCam ? <LiveCam frame={frame} /> : <CameraLoop pen={selected} />}
-          {!piCam && isOnlinePen(selected) && <PenDroppings key={selected} groupId={selected} onOpen={setOpenId} />}
         </div>
       </main>
 

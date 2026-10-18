@@ -57,7 +57,7 @@ export default function PenActions({ groupId, onOpen }: { groupId: string; onOpe
         </div>
       )}
 
-      <span className="eyebrow">Most critical{list.length > 1 ? ` of ${list.length}` : ""}</span>
+      <span className="eyebrow">Most critical{list.length > 1 ? ` of ${list.length}` : ""}, demo stream</span>
       {s ? (
         <div className="list on-glass" style={{ marginTop: 6 }}>
         <button className="row" style={{ gridTemplateColumns: "34px 1fr auto" }} onClick={() => onOpen(s.id)}>

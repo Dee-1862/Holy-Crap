@@ -51,6 +51,12 @@ appearance-based labels such as normal-looking, abnormal color, abnormal
 shape, and abnormal water content. See
 [research/evidence/clinical-limits-of-visual-diagnosis.md](research/evidence/clinical-limits-of-visual-diagnosis.md).
 
+The earlier implementation survey and hackathon-oriented data/model/runtime
+recommendations are preserved in [vision-plan.md](vision-plan.md). The
+evidence-backed conclusions on attribution, datasets, and commercial systems
+have been reconciled into the linked research notes above rather than repeated
+here.
+
 ## QNX, camera, and application findings (2026-10-17)
 
 - **Verified physical target:** Raspberry Pi 5, `aarch64le`, running QNX

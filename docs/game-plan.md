@@ -27,6 +27,14 @@ Inference may run on the Pi, the desktop, or both. Benchmarking decides; it is
 not an architectural article of faith. MQTT, WebSocket, HTTP, and video codec
 choices remain open.
 
+## Vision prototype note
+
+The time-boxed data, model, and runtime assessment is in
+[vision-plan.md](vision-plan.md). It recommends a small four-class detector as
+the first training experiment, but no QNX inference runtime is final until it
+is proven on this exact QNX 8.0.0 target. The broader product sequence below
+remains authoritative.
+
 ## Delivery sequence
 
 1. **Read-only target inventory.** Record the installed Pi 5 BSP, Screen,

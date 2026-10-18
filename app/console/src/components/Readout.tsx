@@ -1,19 +1,15 @@
 "use client";
 
 import { GROUPS, SPECIMENS } from "@/lib/data";
-import { SUB_AXES, groupStatus, nextStep, radarOf } from "@/lib/insight";
+import { nextStep, radarOf } from "@/lib/insight";
 import { lastVet } from "@/lib/store";
-import Radar from "./Radar";
-
-const COLOR = { good: "var(--good)", warn: "var(--warn)", bad: "var(--bad)" } as const;
+import ChecksList from "./ChecksList";
 
 // Side panel for the selected pen. The plan and the radar.
 export default function Readout({ groupId }: { groupId: string }) {
   const group = GROUPS.find((g) => g.id === groupId) ?? GROUPS[0];
-  const status = groupStatus(group);
   const list = SPECIMENS.filter((s) => s.group === group.id);
   const mine = radarOf(group.id);
-  const weakest = mine.indexOf(Math.min(...mine));
   const plan = nextStep(list[0]);
 
   return (
@@ -32,12 +28,7 @@ export default function Readout({ groupId }: { groupId: string }) {
         </p>
       )}
 
-      <div className="ro-radar"><Radar group={mine} barn={radarOf()} color={COLOR[status.level]} /></div>
-      <div className="ro-legend">
-        <span><i style={{ background: COLOR[status.level] }} />This pen</span>
-        <span><i className="dash" />Barn average</span>
-      </div>
-      <p className="ro-weak">Weakest signal is {SUB_AXES[weakest].label.toLowerCase()} at {mine[weakest].toFixed(1)} of 10</p>
+      <ChecksList values={mine} title="What we checked in this pen" />
 
     </div>
   );

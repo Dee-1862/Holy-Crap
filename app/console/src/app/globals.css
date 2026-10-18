@@ -150,6 +150,9 @@ button.theme:hover { background: var(--fill); color: var(--label); }
 .ro-legend { display: flex; justify-content: center; gap: 16px; font-size: 13px; color: var(--label-2); }
 .ro-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 6px; }
 .ro-legend i.dash { background: none; border-top: 2px dashed var(--label-3); height: 0; width: 14px; border-radius: 0; vertical-align: middle; }
+.row.check { grid-template-columns: 1fr auto 14px; min-height: 48px; }
+.verdictword { font-size: 15px; font-weight: 500; text-align: right; }
+.cdot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
 .ro-weak { text-align: center; font-size: 13px; color: var(--label-2); margin: 6px 0 0; }
 .ro-seg { margin: 16px 0 12px; display: flex; }
 .ro-seg .seg { width: 100%; } .ro-seg .seg button { flex: 1; }

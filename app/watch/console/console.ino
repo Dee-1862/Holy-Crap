@@ -3,10 +3,10 @@
 //
 // Screens
 //   ACTIVE    splash on boot and on every wake
-//   OVERVIEW  barn health ring and a bar for every pen (aggregate view)
+//   OVERVIEW  barn health ring, a status strip for all pens and the pen to check first
 //   LIST      health board, pens ranked by average grade
 //   PEN       pages for the opened pen: for each specimen a photo page and a why page
-//             (explainability), then one summary page with the score radar
+//             (explainability, in plain words), then one summary page with the five checks
 //   MENU      I'll check it, Looks normal, Call the vet, Cancel
 //
 // Buttons
@@ -40,7 +40,12 @@ static const char* PEN_ID[NPEN]   = {"A1", "A2", "B1", "B2", "C1", "C2"};
 static const char* PEN_NAME[NPEN] = {"Pen A1", "Pen A2", "Pen B1", "Pen B2", "Cage row C1", "Cage row C2"};
 static const int   PEN_BIRDS[NPEN] = {24, 24, 18, 18, 12, 12};
 static const char* KIND[4]  = {"Healthy", "Coccidiosis", "Salmonella", "Newcastle"};
-static const char* AXES[5]  = {"Color", "Firmness", "Urate cap", "Blood", "Foam"};
+static const char* AXES[5]  = {"Color", "Firmness", "White cap", "Blood", "Foam"};
+static const char* LOWER[5] = {"color", "firmness", "white cap", "blood or mucus", "foam"};
+static const char* WORD[5][3] = {            // normal, a bit off, problem
+  {"Normal", "A bit off", "Unusual"}, {"Firm", "Soft", "Watery"}, {"Present", "Thin", "Missing"},
+  {"None seen", "Some", "Seen"}, {"None", "Some", "Foamy"},
+};
 static const char* MENU[]   = {"I'll check it", "Looks normal", "Call the vet", "Cancel"};
 static const int NMENU = 4;
 
@@ -215,25 +220,48 @@ static void pageActive() {
   text(b, CX, 300, C_SEC, &fonts::DejaVu18);
   text(LIVE ? (liveOk ? "Live" : "Connecting") : "Demo data", CX, 334, C_TER, &fonts::DejaVu12);
 }
-// Aggregate view: barn health ring and one bar per pen.
+// Aggregate view: barn health ring, one strip that shows how many pens are healthy, need a look or
+// are urgent, and the pen to check first. The full list of pens is on the health board.
 static void pageOverview() {
   M5.Display.fillScreen(C_BLK);
-  text("Barn", CX, 50, C_SEC, &fonts::DejaVu18);
+  text("Barn", CX, 48, C_SEC, &fonts::DejaVu18);
   float h = barnHealth(); int gi = (int)(h / 10 + 0.5f);
-  ring(CX, 144, 52, 58, h / 100.0f, gradeColor(gi));
-  char b[16]; snprintf(b, sizeof b, "%d", (int)(h + 0.5f));
-  text(b, CX, 140, C_TXT, &fonts::DejaVu40);
-  text("of 100", CX, 172, C_TER, &fonts::DejaVu12);
-  text("Barn health", CX, 226, C_SEC, &fonts::DejaVu12);
-  // bars, grade 10 is 80 px tall
-  const int bw = 34, gap = 12, x0 = CX - (NPEN * bw + (NPEN - 1) * gap) / 2, base = 346;
-  for (int i = 0; i < NPEN; i++) {
-    bool any; float m = meanGrade(i, &any); int bh = any ? (int)(m * 8 + 0.5f) : 0; int x = x0 + i * (bw + gap);
-    M5.Display.fillSmoothRoundRect(x, base - 80, bw, 80, 6, C_CARD);
-    if (bh > 0) M5.Display.fillSmoothRoundRect(x, base - bh, bw, bh, 6, levelColor(level(i)));
-    text(PEN_ID[i], x + bw / 2, base + 16, C_SEC, &fonts::DejaVu12);
+  ring(CX, 142, 54, 60, h / 100.0f, gradeColor(gi));
+  char b[32]; snprintf(b, sizeof b, "%d", (int)(h + 0.5f));
+  text(b, CX, 138, C_TXT, &fonts::DejaVu40);
+  text("out of 100", CX, 172, C_TER, &fonts::DejaVu12);
+  text("Barn health", CX, 224, C_SEC, &fonts::DejaVu12);
+
+  int c[3] = {0, 0, 0}; for (int i = 0; i < NPEN; i++) c[level(i)]++;
+  const int sw = 280, x0 = CX - sw / 2, sy = 248, gap = 4;
+  int segs = (c[0] > 0) + (c[1] > 0) + (c[2] > 0);
+  float unit = (sw - gap * max(0, segs - 1)) / (float)NPEN; float x = x0;
+  for (int l = 0; l < 3; l++) {
+    if (!c[l]) continue;
+    int w = (int)(unit * c[l] + 0.5f);
+    M5.Display.fillSmoothRoundRect((int)x, sy, w, 10, 5, levelColor(l));
+    x += w + gap;
   }
-  text("Average grade by pen", CX, 392, C_TER, &fonts::DejaVu12);
+  const char* lab[3] = {"healthy", "need a look", "urgent"};
+  for (int l = 0; l < 3; l++) {
+    int cxl = 118 + l * 115;
+    M5.Display.fillSmoothCircle(cxl - 34, 284, 4, c[l] ? levelColor(l) : C_SEP);
+    snprintf(b, sizeof b, "%d %s", c[l], lab[l]);
+    text(b, cxl - 24, 284, c[l] ? C_SEC : C_TER, &fonts::DejaVu12, middle_left);
+  }
+
+  int worst = -1; float wm = 99;
+  for (int i = 0; i < NPEN; i++) {
+    bool any; float m = meanGrade(i, &any);
+    if (level(i) > 0 && (worst < 0 || level(i) > level(worst) || (level(i) == level(worst) && any && m < wm))) { worst = i; wm = any ? m : 99; }
+  }
+  if (worst >= 0) {
+    text("Check first", CX, 330, C_TER, &fonts::DejaVu12);
+    text(PEN_NAME[worst], CX, 358, levelColor(level(worst)), &fonts::DejaVu24);
+  } else {
+    text("All pens look calm", CX, 346, C_GOOD, &fonts::DejaVu18);
+  }
+  text(LIVE ? (liveOk ? "Live" : "Offline") : "Demo data", CX, 404, C_TER, &fonts::DejaVu12);
 }
 static const int ROW_TOP = 94, ROW_H = 44;
 static void pageList() {
@@ -282,22 +310,21 @@ static void pagePhoto() {
   if (s.st) stateTag(s, 202, 366); else { snprintf(b, sizeof b, "%d min ago", s.mins); text(b, 202, 366, C_TER, &fonts::DejaVu12, middle_left); }
   snprintf(b, sizeof b, "%d of %d", pg / 2 + 1, gcount); text(b, CX, 410, C_TER, &fonts::DejaVu12);
 }
-// Explainability: how sure the model is of each class, and what it saw.
+// Explainability in plain words: what it most likely is, how sure it is, and what it saw.
 static void pageWhy() {
-  Spec& s = curSpec(); char b[48];
+  Spec& s = curSpec(); char b[64];
   M5.Display.fillScreen(C_BLK);
-  text("Why this result", CX, 50, C_SEC, &fonts::DejaVu18);
-  // class bars, the winning class in white and the rest quiet
-  int top = 0; for (int i = 1; i < 4; i++) if (s.p[i] > s.p[top]) top = i;
-  for (int i = 0; i < 4; i++) {
-    int y = 96 + i * 24;
-    text(KIND[i], 86, y, i == top ? C_TXT : C_SEC, &fonts::DejaVu12, middle_left);
-    M5.Display.fillSmoothRoundRect(190, y - 3, 150, 6, 3, C_SEP);
-    if (s.p[i]) M5.Display.fillSmoothRoundRect(190, y - 3, max(6, s.p[i] * 150 / 100), 6, 3, i == top ? gradeColor(s.grade) : C_TER);
-    snprintf(b, sizeof b, "%d%%", s.p[i]); text(b, 382, y, i == top ? C_TXT : C_SEC, &fonts::DejaVu12, middle_right);
-  }
+  text("Why this result", CX, 48, C_SEC, &fonts::DejaVu18);
+  text(s.k ? "Most likely" : "Looks like", CX, 90, C_TER, &fonts::DejaVu12);
+  text(KIND[s.k], CX, 120, s.k ? C_TXT : C_GOOD, &fonts::DejaVu24);
+  const char* word = s.conf >= 80 ? "Very sure" : s.conf >= 60 ? "Fairly sure" : "Not sure";
+  int dots = s.conf >= 80 ? 3 : s.conf >= 60 ? 2 : 1;
+  for (int i = 0; i < 3; i++) M5.Display.fillSmoothCircle(CX - 74 + i * 15, 158, 5, i < dots ? C_TXT : C_SEP);
+  text(word, CX - 44, 158, C_TXT, &fonts::DejaVu18, middle_left);
+  int second = -1; for (int i = 0; i < 4; i++) if (i != s.k && s.p[i] >= 15 && (second < 0 || s.p[i] > s.p[second])) second = i;
+  if (second >= 0) { snprintf(b, sizeof b, "It could also be %s", KIND[second]); text(b, CX, 190, C_SEC, &fonts::DejaVu12); }
   // evidence lines, numbered like the markers on the photo
-  int y = 206;
+  int y = 222;
   for (int i = 0; i < 3; i++) {
     if (!s.why[i][0]) continue;
     M5.Display.fillSmoothCircle(94, y + 8, 11, C_CARD2);
@@ -307,32 +334,30 @@ static void pageWhy() {
   }
   snprintf(b, sizeof b, "%d of %d", pg / 2 + 1, gcount); text(b, CX, 410, C_TER, &fonts::DejaVu12);
 }
-// Pen summary: score radar built from the pen's specimens.
+// Pen summary: the five checks in plain words, averaged over the pen's specimens.
 static void pageSummary() {
   M5.Display.fillScreen(C_BLK);
   text(PEN_NAME[pen], CX, 46, C_TXT, &fonts::DejaVu24);
+  text("What we checked", CX, 78, C_TER, &fonts::DejaVu12);
   float v[5] = {0}; int n = 0;
-  for (int i = 0; i < gcount; i++) { Spec& s = SP[ge[i]]; if (!counts(s)) continue; n++; for (int j = 0; j < 5; j++) v[j] += s.sub[j]; }
+  for (int i = 0; i < gcount; i++) { Spec& sp = SP[ge[i]]; if (!counts(sp)) continue; n++; for (int j = 0; j < 5; j++) v[j] += sp.sub[j]; }
   for (int j = 0; j < 5; j++) v[j] = n ? v[j] / n : 0;
-  const int cx = CX, cy = 214, R = 92; int lv = level(pen); int px[5], py[5], qx[5], qy[5];
-  for (int ring_i = 1; ring_i <= 4; ring_i++) {                      // guide pentagons
-    for (int j = 0; j < 5; j++) {
-      float a = -PI / 2 + j * 2 * PI / 5, b2 = -PI / 2 + ((j + 1) % 5) * 2 * PI / 5, r = R * ring_i / 4.0f;
-      M5.Display.drawLine(cx + cosf(a) * r, cy + sinf(a) * r, cx + cosf(b2) * r, cy + sinf(b2) * r, C_SEP);
-    }
-  }
+  card(70, 98, 326, 240, 26, C_CARD);
   for (int j = 0; j < 5; j++) {
-    float a = -PI / 2 + j * 2 * PI / 5;
-    px[j] = cx + cosf(a) * R * v[j] / 10.0f; py[j] = cy + sinf(a) * R * v[j] / 10.0f;
-    qx[j] = cx + cosf(a) * (R + 22); qy[j] = cy + sinf(a) * (R + 22);
-    M5.Display.drawLine(cx, cy, cx + cosf(a) * R, cy + sinf(a) * R, C_SEP);
+    int y0 = 104 + j * 46, yc = y0 + 23; int lv = !n ? 0 : v[j] >= 8 ? 0 : v[j] >= 5 ? 1 : 2;
+    if (j > 0) M5.Display.drawFastHLine(94, y0, 278, C_SEP);
+    text(AXES[j], 96, yc, C_TXT, &fonts::DejaVu18, middle_left);
+    text(n ? WORD[j][lv] : "n/a", 350, yc, lv ? levelColor(lv == 2 ? 2 : 1) : C_SEC, &fonts::DejaVu18, middle_right);
+    M5.Display.fillSmoothCircle(374, yc, 5, n ? levelColor(lv) : C_SEP);
   }
-  for (int j = 0; j < 5; j++) M5.Display.fillTriangle(cx, cy, px[j], py[j], px[(j + 1) % 5], py[(j + 1) % 5], levelDim(lv));
-  for (int j = 0; j < 5; j++) { M5.Display.drawLine(px[j], py[j], px[(j + 1) % 5], py[(j + 1) % 5], levelColor(lv)); M5.Display.fillSmoothCircle(px[j], py[j], 4, C_TXT); }
-  for (int j = 0; j < 5; j++) text(AXES[j], qx[j], qy[j], C_SEC, &fonts::DejaVu12);
-  int w = 0; for (int j = 1; j < 5; j++) if (v[j] < v[w]) w = j;
-  char b[56]; snprintf(b, sizeof b, "Weakest is %s at %.1f of 10", AXES[w], v[w]);
-  text(n ? b : "No specimens counted", CX, 366, C_SEC, &fonts::DejaVu12);
+  char b[80];
+  int a = -1, c2 = -1;                                         // the two lowest checks that are off
+  for (int j = 0; j < 5; j++) if (v[j] < 8) { if (a < 0 || v[j] < v[a]) { c2 = a; a = j; } else if (c2 < 0 || v[j] < v[c2]) c2 = j; }
+  if (!n) snprintf(b, sizeof b, "No specimens counted");
+  else if (a < 0) snprintf(b, sizeof b, "All five checks look normal");
+  else if (c2 < 0) snprintf(b, sizeof b, "Mostly %s is off", LOWER[a]);
+  else snprintf(b, sizeof b, "Mostly %s and %s are off", LOWER[a], LOWER[c2]);
+  text(b, CX, 366, C_SEC, &fonts::DejaVu12);
   if (vetPen == pen) { snprintf(b, sizeof b, "Vet requested %d min ago", (int)vetAt); text(b, CX, 388, C_GOOD, &fonts::DejaVu12); }
   text("Pen summary", CX, 410, C_TER, &fonts::DejaVu12);
 }

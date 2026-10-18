@@ -2,17 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { TYPES, type Specimen } from "@/lib/data";
-import { ago, groupName, nextStep, pct, resultOf, sortedProbs, topTwo, uncertainty } from "@/lib/insight";
+import { ago, groupName, nextStep, pct, resultOf, sortedProbs, sureness, topTwo, uncertainty } from "@/lib/insight";
+import ChecksList from "./ChecksList";
 import { callVet, lastVet, markChecking, markNormal, resetState, stateOf } from "@/lib/store";
 import Gauge from "./Gauge";
 import SpecimenCanvas from "./SpecimenCanvas";
 
 const HOLD_MS = 1500;
-const SUBS: [string, keyof Specimen["sub"]][] = [
-  ["Color", "color"], ["Consistency", "consistency"], ["Urate cap", "urates"], ["Blood or mucus", "blood"], ["Foam", "foam"],
-];
-// Scores stay neutral. Only a middling or low score picks up a color.
-const meterClass = (v: number) => (v >= 8 ? "" : v >= 5 ? "w" : "b");
 // Where each numbered marker sits relative to the specimen. Demo layout. In production
 // the explainability model returns a region for every evidence line.
 const MARKER_OFFSETS: [number, number][] = [[-0.13, -0.1], [0.15, 0.04], [-0.02, 0.2]];
@@ -71,7 +67,7 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
         <Gauge grade={s.grade} />
         <div>
           <div className="t">{resultOf(s)}</div>
-          <div className="s">{pct(s.probs[s.type])}% confident. Screening only, not a diagnosis.</div>
+          <div className="s">{sureness(pct(s.probs[s.type]))} ({pct(s.probs[s.type])}%). Screening only, not a diagnosis.</div>
           {state !== "new" && <div className="chip">{state === "checking" ? "Someone is checking this" : "Marked normal, no longer counts toward alerts"}<button onClick={() => resetState(s.id)}>Undo</button></div>}
         </div>
       </div>
@@ -107,14 +103,8 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
         ))}
       </ul>
 
-      <span className="eyebrow sec">Scores</span>
-      <div className="subs">
-        {SUBS.map(([label, k]) => (
-          <div key={k}>
-            {label} <span className="v num">{s.sub[k]}</span>
-            <div className="meter"><i className={meterClass(s.sub[k])} style={{ width: `${s.sub[k] * 10}%` }} /></div>
-          </div>
-        ))}
+      <div style={{ marginTop: 22 }}>
+        <ChecksList values={[s.sub.color, s.sub.consistency, s.sub.urates, s.sub.blood, s.sub.foam]} title="What we checked" />
       </div>
 
       <details>

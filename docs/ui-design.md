@@ -64,3 +64,9 @@ Button names say what they do. Each has a one line caption in the apps.
 Real phone calls are on hold. The apps say plainly when a request was only saved.
 
 Watch screens: Active, Overview (barn health ring and a bar per pen), Health board, Pen pages and an action menu. Each specimen has a photo page with numbered markers and a Why page with class probabilities and the numbered evidence lines. The last pen page is a score radar. The photo and Why pages are the explainability view.
+
+## Plain language update (2026-10-17)
+- The radar chart is gone. A pen and each specimen now show a short checklist, "What we checked": Color, Firmness, White cap, Blood or mucus and Foam, each with a word (Normal, Soft, Watery, Missing, Seen, None) and a colored dot. A scores of 8 or more reads as normal, 5 to 7 as a bit off, under 5 as a problem. One sentence sums it up, for example "Mostly blood or mucus and color are off."
+- Confidence is said in words (Very sure, Fairly sure, Not sure), with the percentage kept next to it on the web.
+- Watch "Why this result" no longer shows four class bars. It names the most likely result, how sure the model is in three dots, a second possibility only when it is at least 15 percent, and the numbered evidence lines.
+- Watch start screen shows the barn health ring, one status strip with the number of healthy, need a look and urgent pens, and the pen to check first. The full list of pens stays on the health board.

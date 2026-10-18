@@ -102,3 +102,26 @@ export function summary() {
     : "No pen has repeated abnormal specimens in the last 15 minutes.";
   return { hot, abnormal, mean, headline, detail, total: all.length };
 }
+
+// ----- plain language checks -----
+// The five things the model looks at, in words a farmer would use. Scores are 0 to 10 where 10 is
+// perfectly normal. 8 or more reads as normal, 5 to 7 as a bit off, under 5 as a problem.
+export const CHECKS: { key: keyof Specimen["sub"]; label: string; words: [string, string, string] }[] = [
+  { key: "color", label: "Color", words: ["Normal", "A bit off", "Unusual"] },
+  { key: "consistency", label: "Firmness", words: ["Firm", "Soft", "Watery"] },
+  { key: "urates", label: "White cap", words: ["Present", "Thin", "Missing"] },
+  { key: "blood", label: "Blood or mucus", words: ["None seen", "Some", "Seen"] },
+  { key: "foam", label: "Foam", words: ["None", "Some", "Foamy"] },
+];
+export const checkLevel = (score: number): 0 | 1 | 2 => (score >= 8 ? 0 : score >= 5 ? 1 : 2);
+
+// "Mostly blood or mucus and firmness are off." or "All five checks look normal."
+export function checksSentence(values: number[]): string {
+  const off = CHECKS.map((c, i) => ({ label: c.label.toLowerCase(), v: values[i] })).filter((x) => checkLevel(x.v) > 0).sort((a, b) => a.v - b.v);
+  if (!off.length) return "All five checks look normal.";
+  const names = off.slice(0, 2).map((x) => x.label);
+  return `${names.length > 1 ? `Mostly ${names[0]} and ${names[1]} are` : `Mostly ${names[0]} is`} off.`;
+}
+
+// How sure the model is, in words. The number stays available for people who want it.
+export const sureness = (confPercent: number) => (confPercent >= 80 ? "Very sure" : confPercent >= 60 ? "Fairly sure" : "Not sure");

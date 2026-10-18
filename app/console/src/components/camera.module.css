@@ -46,3 +46,4 @@
 .behRow b { text-align: right; font-weight: 500; }
 .behRow[data-watch="true"] span, .behRow[data-watch="true"] b { color: var(--label); }
 .behRow[data-watch="true"] s { background: var(--label); }
+.still { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; }

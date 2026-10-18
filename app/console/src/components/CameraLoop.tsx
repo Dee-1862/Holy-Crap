@@ -126,7 +126,7 @@ export default function CameraLoop({ pen }: { pen: string }) {
         <canvas ref={canvas} />
         {spot && <button className={styles.hit} aria-label={`Explain spot ${k + 1}`} onClick={() => setOpen(k)}
           style={{ left: `${((spot.box[0] + spot.box[2]) / 2) * 100}%`, top: `${((spot.box[1] + spot.box[3]) / 2) * 100}%` }} />}
-        <span className={styles.label}>{spot ? `Spot ${k + 1} of ${spots.length} · ${clock(spot.t)}` : "Nothing flagged on this camera"}</span>
+        <span className={styles.label}>{spot ? `Spot ${k + 1} of ${spots.length} · ${clock(spot.t)}` : clip.test ? "Nothing flagged on this camera" : "Behaviour only: droppings are too small to read from a whole-pen camera"}</span>
       </div>
       <div className={styles.thumbs}>
         {spots.map((s, i) => (

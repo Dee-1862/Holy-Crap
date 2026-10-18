@@ -1,0 +1,20 @@
+[
+  {
+    "pair": 0,
+    "distance": 0,
+    "test": "cocci/cocci/cocci.1310.jpg",
+    "train": "cocci/cocci/cocci.1122.jpg"
+  },
+  {
+    "pair": 1,
+    "distance": 40,
+    "test": "healthy/healthy/healthy.572.jpg",
+    "train": "healthy/healthy/healthy.1774.jpg"
+  },
+  {
+    "pair": 2,
+    "distance": 46,
+    "test": "healthy/healthy/healthy.1412.jpg",
+    "train": "healthy/healthy/healthy.1258.jpg"
+  }
+]

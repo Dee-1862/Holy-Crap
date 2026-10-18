@@ -27,6 +27,7 @@ export default function Readout({ groupId }: { groupId: string }) {
   const list = getSpecimens().filter((s) => s.group === group.id);
   const mine = radarOf(group.id);
   const latest = list[0];
+  // the demo stream moves specimens between pens, so a pen can have none for a while
   const plan = latest ? nextStep(latest) : null;
 
   return (
@@ -52,7 +53,7 @@ export default function Readout({ groupId }: { groupId: string }) {
         </p>
       )}
 
-      {latest && <ChecksList values={mine} title="What we checked in this pen" />}
+      {latest ? <ChecksList values={mine} title="What we checked in this pen" /> : <p className="foot">Checks appear once the camera finds a dropping in this pen.</p>}
 
     </div>
   );

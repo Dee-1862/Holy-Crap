@@ -1,0 +1,6 @@
+metric,before,after
+Pen scale: droppings found (recall),0.2895,0.798
+Pen scale: flags that are droppings (precision),0.112,0.9271
+"Pen scale: mAP50, any class",0.0668,0.8751
+"Pen scale: mAP50, right class",0.0272,0.6508
+Close-up photos: mAP50,0.8734,0.8528

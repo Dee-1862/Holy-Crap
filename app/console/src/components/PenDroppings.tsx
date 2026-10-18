@@ -22,7 +22,7 @@ export default function PenDroppings({ groupId, onOpen }: { groupId: string; onO
   return (
     <section className="glass list" aria-label={`Droppings in ${group.name}`}>
       <h3 className="eyebrow list-h" style={{ margin: 0 }}>Droppings in {group.name}</h3>
-      {!list.length && <p className="foot" style={{ margin: 0, padding: "8px 16px 18px" }}>No recent specimens. Waiting for the next detection.</p>}
+      {!list.length && <p className="foot" style={{ margin: 0, padding: "8px 16px 18px" }}>None in the last hour and a half. Waiting for the next detection.</p>}
       {list.map((s) => (
         <button key={s.id} className="row" style={{ gridTemplateColumns: "34px 1fr auto" }} onClick={() => onOpen(s.id)}>
           <b className={`num tone-${stateOf(s.id) === "normal" ? "" : tone(s.grade)}`} style={{ fontSize: 22, fontWeight: 500, textAlign: "center" }}>{s.grade}</b>

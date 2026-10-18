@@ -3,16 +3,19 @@
 import { useState } from "react";
 import { GROUPS } from "@/lib/data";
 import { groupStatus } from "@/lib/insight";
+import { lastVet } from "@/lib/store";
+import { LIVE_CAM } from "./LiveCam";
 import styles from "./folder.module.css";
 
 interface Props {
   selected: string;
   cams: string[];                          // pens with a camera feed
+  live: boolean | null;                    // the Pi's own camera: sending pictures, not sending, not known yet
   onSelect: (groupId: string) => void;
 }
 
 // The barn as two folders: pens with a camera first and open, the rest folded away and shown offline.
-export default function PenFolder({ selected, cams, onSelect }: Props) {
+export default function PenFolder({ selected, cams, live, onSelect }: Props) {
   const [othersOpen, setOthersOpen] = useState(false);
   const withCam = GROUPS.filter((g) => cams.includes(g.id));
   const others = GROUPS.filter((g) => !cams.includes(g.id));
@@ -24,7 +27,7 @@ export default function PenFolder({ selected, cams, onSelect }: Props) {
         <button aria-pressed={selected === g.id} onClick={() => onSelect(g.id)}>
           <i className={cam ? styles[st.level] : styles.off} />
           <span className={styles.name}>{g.name}</span>
-          {cam ? <span className={styles.cam}>Camera</span> : <span className={styles.offline}>Offline</span>}
+          {lastVet(g.id) ? <span className={styles.vet}>Terminated</span> : cam ? <span className={styles.cam}>Camera</span> : <span className={styles.offline}>Offline</span>}
           {cam && <b className="num">{st.mean === null ? "n/a" : st.mean.toFixed(1)}</b>}
         </button>
       </li>
@@ -34,8 +37,17 @@ export default function PenFolder({ selected, cams, onSelect }: Props) {
   return (
     <nav className={`glass ${styles.folder}`} aria-label="Pens">
       <div className={styles.group}>
-        <div className={styles.label}><span aria-hidden>▾</span>Cameras <small>{withCam.length}</small></div>
-        <ul>{withCam.map((g) => row(g, true))}</ul>
+        <div className={styles.label}><span aria-hidden>▾</span>Cameras <small>{withCam.length + 1}</small></div>
+        <ul>
+          {withCam.map((g) => row(g, true))}
+          <li>
+            <button aria-pressed={selected === LIVE_CAM} onClick={() => onSelect(LIVE_CAM)}>
+              <i className={live ? styles.good : styles.off} />
+              <span className={styles.name}>Cam 4 · Pi camera</span>
+              {live ? <span className={styles.cam}>Live</span> : <span className={styles.offline}>{live === null ? "…" : "Offline"}</span>}
+            </button>
+          </li>
+        </ul>
       </div>
       <div className={styles.group}>
         <button className={styles.label} aria-expanded={othersOpen} onClick={() => setOthersOpen((o) => !o)}>

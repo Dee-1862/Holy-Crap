@@ -13,6 +13,6 @@ export async function POST(_req: Request, ctx: { params: Promise<{ id: string; a
   if (!knownSpecimen(id)) return Response.json({ error: "Unknown specimen" }, { status: 404 });
   const st = ACTIONS[action];
   if (!st) return Response.json({ error: "Unknown action" }, { status: 400 });
-  const s = setSpecimenState(id, st);
+  const s = await setSpecimenState(id, st);
   return Response.json({ ok: true, states: s.states, vet: s.vet.slice(0, 10) });
 }

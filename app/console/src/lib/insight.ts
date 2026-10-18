@@ -80,27 +80,10 @@ export function barnIndex(): number {
   return Math.round((list.reduce((a, s) => a + s.grade, 0) / list.length) * 10);
 }
 
-export const openAlerts = () => GROUPS.filter((g) => isOnlinePen(g.id) && groupStatus(g).level !== "good").length;
-
 // Pens split by whether they need a look. Used for the dashboard widgets.
 export function penLevels() {
   const r = ranked();
   return { healthy: r.filter((x) => x.status.level === "good"), look: r.filter((x) => x.status.level !== "good").reverse(), total: r.length };
-}
-
-export function summary() {
-  const hot = ranked().filter((r) => r.status.level === "bad").map((r) => r.group.name);
-  const all = getSpecimens();
-  const abnormal = all.filter((s) => s.type !== "healthy").length;
-  const mean = all.length ? (all.reduce((a, s) => a + s.grade, 0) / all.length).toFixed(1) : "0.0";
-  const headline = hot.length ? `${hot.join(" and ")} ${hot.length > 1 ? "need" : "needs"} attention` : "All pens look calm";
-  // One plain sentence under the headline. Names the worst group and what to do.
-  const worst = ranked().filter((r) => r.status.level === "bad").map((r) => r.group)[0];
-  const n = worst ? groupStatus(worst).bad : 0;
-  const detail = worst
-    ? `${worst.name} has ${n} abnormal specimens in the last 15 minutes. Check the birds on site and call the vet if it continues.`
-    : "No pen has repeated abnormal specimens in the last 15 minutes.";
-  return { hot, abnormal, mean, headline, detail, total: all.length };
 }
 
 // ----- plain language checks -----

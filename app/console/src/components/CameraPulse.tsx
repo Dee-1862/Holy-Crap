@@ -6,8 +6,9 @@ import type { Analysis, Clip } from "@/lib/live";
 interface Feed { clip: Clip; data: Analysis & { activity: number[] } }
 
 // Numbers from the same camera feeds the big camera view shows (per pen, the feed with the most spots).
-// Spots are what the detector flagged in those feeds. Motion is read where each feed is playing now.
-// Measured from the video, not demo data.
+// Droppings only count on the test clip, where test droppings were pasted in at known times: on real whole-pen
+// footage the pen model found 0 real droppings in 34 boxes (docs/audits/dropping4-pen-real-frames.md), so those
+// feeds are used for behaviour only. Motion is read where each feed is playing now. Measured from the video.
 export default function CameraPulse({ className, bigClass }: { className: string; bigClass: string }) {
   const [feeds, setFeeds] = useState<Feed[]>([]);
   const [now, setNow] = useState<number | null>(null);
@@ -39,15 +40,19 @@ export default function CameraPulse({ className, bigClass }: { className: string
       motion += data.activity[i] ?? 0;
     }
   }
-  const spots = feeds.reduce((a, f) => a + (f.data.spots?.length ?? 0), 0);
+  const tests = feeds.filter((f) => f.clip.test && f.data.truth?.length);
+  const keyed = tests.reduce((a, f) => a + (f.data.truth?.length ?? 0), 0);
+  const found = tests.reduce((a, f) => a + (f.data.truth?.filter((t) => t.foundAt !== null).length ?? 0), 0);
 
   return (
     <div className={className}>
       <span className="eyebrow">Cameras</span>
-      <b className={`${bigClass} num`}>{spots}<small>spots flagged</small></b>
+      {keyed
+        ? <b className={`${bigClass} num`}>{found}<small>of {keyed} test droppings found</small></b>
+        : <b className={`${bigClass} num`}>{feeds.length}<small>cameras</small></b>}
       <span className="foot">
         {feeds.length
-          ? `${feeds.map((f) => `${f.clip.pen} ${f.data.spots?.length ?? 0}`).join(", ")}. Flock motion ${(motion / feeds.length).toFixed(1)}% now`
+          ? `${keyed ? `Pasted into the ${tests.map((f) => f.clip.pen).join(", ")} test clip. ` : ""}Real pen footage is read for behaviour. Flock motion ${(motion / feeds.length).toFixed(1)}% now`
           : "No camera feeds installed"}
       </span>
     </div>

@@ -35,3 +35,4 @@ Newest first. One line per change: date, what, why.
 - 2026-10-17: Typography and copy pass. Switched the font to Geist, lighter weights, sentence case labels and plain wording (Barn health, Healthy pens, Need attention, All normal, Urgent). Floor plan capped in size, droppings list moved under the map.
 - 2026-10-17: Made selected states clearer. Segmented controls use a brighter thumb with quieter idle labels, selected rows use a stronger fill, and the status card is tinted red when urgent or green when calm.
 - 2026-10-17: Removed the colored wash from the status cards and lightened numerals to a medium weight with tighter tracking across all views.
+- 2026-10-17: Reflashed the watch with the new look. Black background, iOS grey cards, system green yellow and red, smooth DejaVu text, same wording as the apps, and pen grades averaged over the last hour like the web app.

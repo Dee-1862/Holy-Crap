@@ -135,7 +135,7 @@ note and these agreement figures are released with the paper.
 \begin{table}[t]
 \centering
 \caption{Appearance grade and model accuracy (top class equals the PCR class) on the lab-confirmed photographs. Normal looking means grade 9 or 10.
-$n$ excludes the nine photographs no rater could judge. Detector is our YOLO11n scored on its top class (always answers). Bold marks the values discussed in the text.}
+$n$ excludes the nine photographs no rater could judge. Detector is our YOLO11n scored on its top class (always answers). Bold marks the values discussed in the text. $^{*}$Only one Newcastle photograph looks normal.}
 \label{tab:grades}
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{lrrrrr}
@@ -146,7 +146,7 @@ PCR class & $n$ & Mean & Normal & \multicolumn{2}{c}{Acc. on normal looking} \\
 Healthy & 347 & 8.6 & 62\% & 84\% & 66\% \\
 Salmonella & 347 & 8.0 & 47\% & \textbf{93\%} & \textbf{98\%} \\
 Coccidiosis & 366 & 5.6 & 7\% & \textbf{23\%} & \textbf{23\%} \\
-Newcastle & 186 & 4.6 & 1\% & \multicolumn{2}{c}{1 photograph} \\
+Newcastle & 186 & 4.6 & 1\% & 0\%$^{*}$ & 0\%$^{*}$ \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -204,8 +204,7 @@ we killed a section with \texttt{SIGKILL}, the supervisor started a new copy of 
 the supervisor noticing the exit to the new process being launched. The supervisor checks its children every 100\,ms,
 so a stage can be down for up to about 130\,ms in total, plus the time the new process needs to start serving. We ran these kills by hand on each section during
 development and did not keep a count per section. Killing the spot finder cost the camera one frame and the other
-sections none. These kills test our process structure and supervisor, which would work the same way on Linux. We did
-not kill a QNX driver or system service, such as the camera service or the network stack.
+sections none. These kills test our process structure and supervisor. We did not kill a QNX driver or service, such as the camera service or network stack.
 
 \begin{figure}[t]
 \centering

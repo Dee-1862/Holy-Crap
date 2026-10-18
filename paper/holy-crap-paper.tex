@@ -123,9 +123,7 @@ al.~\cite{guo2017} and Geifman and El-Yaniv~\cite{geifman2017}.
 model, for example by up to 270 times for microcontrollers~\cite{zhang2026tinyml}. Published dropping systems run on a
 phone, a server or a laptop~\cite{degu2023,sakib2026,dhungana2025}. None that we found addresses what happens when part
 of the software fails on an unattended device. Microkernels move drivers and services into isolated processes, so a
-fault stays in one process~\cite{klein2009sel4,qnx8sysarch}. A vendor white paper compares QNX 8 with real-time Linux
-on a Raspberry Pi 5 with a neural accelerator and reports similar throughput with less variation~\cite{qnx2026hailo}.
-It is not peer reviewed and does not measure fault recovery. We measure recovery directly.
+fault stays in one process~\cite{klein2009sel4,qnx8sysarch}. We measure recovery directly.
 
 \section{Methods}
 \label{sec:methods}
@@ -429,7 +427,7 @@ note and these agreement figures are released with the paper.
 \begin{table}[t]
 \centering
 \caption{Appearance grade and model accuracy (top class equals the PCR class) on the lab-confirmed photographs. Normal looking means grade 9 or 10.
-$n$ excludes the nine photographs no rater could judge. Detector is our YOLO11n scored on its top class (always answers). Bold marks the values discussed in the text.}
+$n$ excludes the nine photographs no rater could judge. Detector is our YOLO11n scored on its top class (always answers). Bold marks the values discussed in the text. $^{*}$Only one Newcastle photograph looks normal.}
 \label{tab:grades}
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{lrrrrr}
@@ -440,7 +438,7 @@ PCR class & $n$ & Mean & Normal & \multicolumn{2}{c}{Acc. on normal looking} \\
 Healthy & 347 & 8.6 & 62\% & 84\% & 66\% \\
 Salmonella & 347 & 8.0 & 47\% & \textbf{93\%} & \textbf{98\%} \\
 Coccidiosis & 366 & 5.6 & 7\% & \textbf{23\%} & \textbf{23\%} \\
-Newcastle & 186 & 4.6 & 1\% & \multicolumn{2}{c}{1 photograph} \\
+Newcastle & 186 & 4.6 & 1\% & 0\%$^{*}$ & 0\%$^{*}$ \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -498,8 +496,7 @@ we killed a section with \texttt{SIGKILL}, the supervisor started a new copy of 
 the supervisor noticing the exit to the new process being launched. The supervisor checks its children every 100\,ms,
 so a stage can be down for up to about 130\,ms in total, plus the time the new process needs to start serving. We ran these kills by hand on each section during
 development and did not keep a count per section. Killing the spot finder cost the camera one frame and the other
-sections none. These kills test our process structure and supervisor, which would work the same way on Linux. We did
-not kill a QNX driver or system service, such as the camera service or the network stack.
+sections none. These kills test our process structure and supervisor. We did not kill a QNX driver or service, such as the camera service or network stack.
 
 \begin{figure}[t]
 \centering
@@ -543,11 +540,7 @@ alarms on white birds the explanation step filters out.
 
 \paragraph{Why a microkernel.} A monitor in a barn runs unattended, and a crash in a camera driver or a model runtime
 should cost a few frames, not the device. On QNX each stage of our pipeline is an ordinary process, and the
-supervisor relaunched any stage we killed within 20 to 33\,ms of noticing the exit while the others kept running. The
-same structure is possible on Linux with process supervision. What QNX adds is that the drivers, the file system and
-the network stack are also user processes that can fail and restart the same way~\cite{qnx8sysarch}, but our tests
-killed only our own stages, not a QNX driver or service. We did not compare fault recovery against Linux on the same
-board, so we do not claim QNX recovers faster. Running the model on QNX also needed one fix in the platform's
+supervisor relaunched any stage we killed within 20 to 33\,ms of noticing the exit while the others kept running. On QNX the drivers, the file system and the network stack are also user processes that can fail and restart the same way~\cite{qnx8sysarch}, but our tests killed only our own stages, not a QNX driver or service. Running the model on QNX also needed one fix in the platform's
 packages. The Python binding of ONNX Runtime in the QNX open-source repository does not load, because its build
 script treats QNX as Windows and looks for the wrong extension module. We worked around it with a 111-line C bridge
 to the runtime's C library and have prepared a patch for the package recipe.
@@ -570,8 +563,7 @@ rubric is new and has not been validated against expert grading.
 \paragraph{Future work.} The most useful next step is labelled droppings from fixed pen cameras on more than one
 farm, split by farm. Short of that, the farm collection could be re-split with near-duplicate removal before
 splitting, the size shortcut could be tested by cropping every class to the same framing, and the setting shortcut by
-testing on salmonella and Newcastle photographs taken on farms. On the device, the next steps are a Linux baseline on
-the same Raspberry Pi 5 and fault tests that kill QNX services, not only our own stages. The box score needs
+testing on salmonella and Newcastle photographs taken on farms. On the device, the next step is fault tests that kill QNX services, not only our own stages. The box score needs
 calibration before it is shown to a farmer, and the 0.25 threshold should be chosen from a risk-coverage curve on
 validation data rather than fixed.
 

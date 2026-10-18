@@ -10,6 +10,8 @@ other entry alone. The main setup keeps `qnxpi`; this one is `qnxpi-win` by defa
 With a cable straight between laptop and Pi, both pick a 169.254.x.x address that can change after a
 reboot, so this looks the Pi up by its Raspberry Pi network card prefix each time. HostKeyAlias keeps the
 Pi's host key under the alias name, so a new address does not trigger a host key warning.
+The block pins the SHA-2 MACs. The Pi offers only AES-CTR ciphers, and with those Windows OpenSSH 9.5
+picks umac-128, which fails with "Corrupted MAC on input".
 Then use it like the main setup:  ssh qnxpi-win   or   QNX_SSH_ALIAS=qnxpi-win python scripts/doctor.py
 """
 from __future__ import annotations
@@ -38,7 +40,7 @@ def find_pi() -> str | None:
 def write_alias(alias: str, host: str, user: str, key: Path) -> None:
     begin, end = f"# >>> {alias} (scripts/pi_win.py)", f"# <<< {alias}"
     block = (f"{begin}\nHost {alias}\n    HostName {host}\n    User {user}\n    IdentityFile {key.as_posix()}\n"
-             f"    IdentitiesOnly yes\n    HostKeyAlias {alias}\n    ConnectTimeout 10\n    ServerAliveInterval 30\n{end}\n")
+             f"    IdentitiesOnly yes\n    HostKeyAlias {alias}\n    MACs hmac-sha2-256-etm@openssh.com,hmac-sha2-256\n    ConnectTimeout 10\n    ServerAliveInterval 30\n{end}\n")
     text = CONFIG.read_text() if CONFIG.exists() else ""
     if begin in text:
         text = re.sub(re.escape(begin) + r".*?" + re.escape(end) + r"\n?", block, text, flags=re.S)

@@ -6,6 +6,9 @@
   datasets from conveyor, litter-floor, controlled-cage, manure-belt, and
   smartphone studies; also covers the Big Broiler defecation-action precursor
   and a long-running overhead dataset without health labels.
+- [whole-pen-video-catalog.md](whole-pen-video-catalog.md): reviewed real-camera video sources,
+  direct downloads, licenses, representative clips, and Lance's accept/reject notes for the
+  simulation lab.
 
 ## General caveats
 

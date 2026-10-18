@@ -320,7 +320,7 @@ accuracies of 97.8 to 99.3\% describe photographs like the training photographs,
 \centering
 \caption{Accuracy and macro-F1 on the held-out farm test (679 photographs) and the lab-confirmed photographs (1,255),
 for models trained on the same 5,451 photographs. One training run per model. The detector is scored with its best class in each photograph (always answers) and with the deployed 0.25
-confidence threshold (below it the photograph counts as wrong).}
+confidence threshold (below it the photograph counts as wrong). Bold marks the best value in each column.}
 \label{tab:bench}
 \small
 \resizebox{\columnwidth}{!}{%
@@ -329,8 +329,8 @@ confidence threshold (below it the photograph counts as wrong).}
 & \multicolumn{2}{c}{Farm test} & \multicolumn{2}{c}{Lab-confirmed} \\
 Model & Accuracy & Macro-F1 & Accuracy & Macro-F1 \\
 \midrule
-MobileNetV2~\cite{machuve2022} & 99.6 & 99.7 & 74.6 & 75.3 \\
-EfficientNet-B0~\cite{dhungana2025} & 99.0 & 98.6 & 78.2 & 79.5 \\
+MobileNetV2~\cite{machuve2022} & \textbf{99.6} & \textbf{99.7} & 74.6 & 75.3 \\
+EfficientNet-B0~\cite{dhungana2025} & 99.0 & 98.6 & \textbf{78.2} & \textbf{79.5} \\
 YOLO11n (ours), always answers & 98.5 & 98.3 & 76.3 & 75.1 \\
 YOLO11n (ours), 0.25 threshold & 97.9 & 97.7 & 67.1 & 70.3 \\
 \bottomrule
@@ -429,8 +429,7 @@ note and these agreement figures are released with the paper.
 \begin{table}[t]
 \centering
 \caption{Appearance grade and model accuracy (top class equals the PCR class) on the lab-confirmed photographs. Normal looking means grade 9 or 10.
-$n$ excludes the nine photographs no rater could judge. Detector is our YOLO11n scored on its top class (always
-answers).}
+$n$ excludes the nine photographs no rater could judge. Detector is our YOLO11n scored on its top class (always answers). Bold marks the values discussed in the text.}
 \label{tab:grades}
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{lrrrrr}
@@ -439,8 +438,8 @@ PCR class & $n$ & Mean & Normal & \multicolumn{2}{c}{Acc. on normal looking} \\
  & & grade & looking & Detector & MobileNetV2 \\
 \midrule
 Healthy & 347 & 8.6 & 62\% & 84\% & 66\% \\
-Salmonella & 347 & 8.0 & 47\% & 93\% & 98\% \\
-Coccidiosis & 366 & 5.6 & 7\% & 23\% & 23\% \\
+Salmonella & 347 & 8.0 & 47\% & \textbf{93\%} & \textbf{98\%} \\
+Coccidiosis & 366 & 5.6 & 7\% & \textbf{23\%} & \textbf{23\%} \\
 Newcastle & 186 & 4.6 & 1\% & \multicolumn{2}{c}{1 photograph} \\
 \bottomrule
 \end{tabular}}
@@ -600,24 +599,20 @@ are produced by \texttt{data-visualization/evaluation.py}, the baselines by
 This study used only published photographs and videos. No animals were handled and no new data were collected.
 
 \section*{Compute}
-The detector, the pen-scale fine-tune and the baselines were trained on a local laptop GPU. The pen-scale fine-tune,
-the two baselines and every evaluation in this paper ran on an NVIDIA GeForce RTX 4060 Laptop GPU with 8\,GB of memory.
-The replicate detector run was trained on the Veri cloud platform on one NVIDIA A10G GPU (job \texttt{abe1b30a56c4}).
-All on-device timings were measured on a Raspberry Pi 5 running QNX 8.0.
+The detector was trained on a local laptop GPU. The pen-scale fine-tune, the baselines and every evaluation ran on an
+NVIDIA GeForce RTX 4060 Laptop GPU (8\,GB). The replicate detector was trained on one NVIDIA A10G on the Veri cloud
+platform (job \texttt{abe1b30a56c4}). On-device timings are from a Raspberry Pi 5 running QNX 8.0.
 
 \section*{Use of AI tools}
-The appearance grades in Section~\ref{sec:grades} were produced by three AI models, as described there. AI coding
-and writing assistants were used to write analysis code and to draft and edit the text. The authors checked every
-number against the released result files and every reference against its source, and take responsibility for the
-content.
+Three AI models produced the appearance grades (Section~\ref{sec:grades}). AI assistants helped write analysis code
+and draft the text. The authors checked every number against the result files and every reference against its
+source, and take responsibility for the content.
 
 \section*{Acknowledgements}
-We thank Machuve and colleagues for releasing the farm and PCR-confirmed photographs, and the authors of the PIO and
-NESTLER datasets for releasing their barn videos, all under open licences. We thank the QNX team for the QNX
-Everywhere program and the open-source package repository at \url{https://oss.qnx.com}, whose ONNX Runtime, Python
-and numpy builds made on-device inference possible, and Veri for the cloud GPU time used for the replicate training
-run. This work was carried out at LA Hacks, in its QNX and Veri tracks. We also thank the developers of Ultralytics
-YOLO, PyTorch and ONNX Runtime.
+We thank Machuve and colleagues and the authors of the PIO and NESTLER datasets for releasing their photographs and
+videos under open licences, the QNX team for the QNX Everywhere program and the package repository at
+\url{https://oss.qnx.com}, whose ONNX Runtime, Python and numpy builds made on-device inference possible, and Veri for
+GPU time. This work was carried out at LA Hacks, in its QNX and Veri tracks.
 
 \clearpage
 \bibliographystyle{plainnat}

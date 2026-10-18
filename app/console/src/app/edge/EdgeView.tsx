@@ -22,6 +22,7 @@ const SECTIONS: { id: string; name: string; does: string }[] = [
   { id: "explain", name: "Explain", does: "Explains it" },
   { id: "watch", name: "Watch link", does: "Alerts the watch" },
   { id: "cloud", name: "Cloud link", does: "Syncs to cloud" },
+  { id: "site", name: "Site link", does: "Shows it on the site" },
   { id: "uplink", name: "Dashboard", does: "Serves this page" },
 ];
 const RED_AT_LEAST = 1200;     // ms the killed box stays red, so a 20 ms restart can still be seen

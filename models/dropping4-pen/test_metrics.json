@@ -1,12 +1,12 @@
 {
-  "model": "dropping4-pen (pen1 best, epoch 5)",
+  "model": "dropping4-pen (best of 38 epochs)",
   "imgsz": 640,
-  "closeup_test_map50": 0.7891,
-  "closeup_test_map50_95": 0.5201,
-  "pen_test_map50_any_class": 0.7716,
-  "pen_test_recall_any_class": 0.6781,
-  "pen_test_precision_any_class": 0.849,
-  "pen_test_map50_4class": 0.5174,
-  "pen_test_real_boxes_per_tile_conf0.25": 0.058,
-  "pen_test_real_boxes_per_tile_conf0.4": 0.008
+  "closeup_test_map50": 0.8528,
+  "closeup_test_map50_95": 0.5679,
+  "pen_test_map50_any_class": 0.8751,
+  "pen_test_recall_any_class": 0.798,
+  "pen_test_precision_any_class": 0.9271,
+  "pen_test_map50_4class": 0.6508,
+  "pen_test_real_boxes_per_tile_conf0.25": 0.05,
+  "pen_test_real_boxes_per_tile_conf0.4": 0.012
 }

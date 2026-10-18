@@ -1,7 +1,7 @@
 # dropping4-pen
 
 YOLO11n fine-tuned from dropping4-laptop to find droppings at the size they have in a pen camera (8 to 30 pixels in a 1280 wide frame).
-Trained on the RTX 4060 laptop GPU with training/pen_train.py. This file set is the best checkpoint after 5 epochs of a run that was cut short.
+Trained on the RTX 4060 laptop GPU with training/pen_train.py. Early stopping ended the run at epoch 38, the best epoch was 27 (results.csv, results.png).
 
 Run it on 640 by 640 squares of the frame at camera size (four squares cover a 1280 by 720 frame). No zoom step is needed, unlike the close-up model.
 
@@ -16,13 +16,15 @@ Run it on 640 by 640 squares of the frame at camera size (four squares cover a 1
 
 | | dropping4-laptop | dropping4-pen |
 |---|---|---|
-| Pen test, any class, mAP50 | 0.067 | 0.772 |
-| Pen test recall | 0.29 | 0.68 |
-| Pen test precision | 0.11 | 0.85 |
-| Boxes per real pen tile with nothing pasted, conf 0.25 | 3.55 | 0.06 |
-| Close-up test mAP50 (4 classes) | 0.873 | 0.789 |
+| Pen test, any class, mAP50 | 0.067 | 0.875 |
+| Pen test recall | 0.29 | 0.80 |
+| Pen test precision | 0.11 | 0.93 |
+| Boxes per real pen tile with nothing pasted, conf 0.25 | 3.55 | 0.05 |
+| Close-up test mAP50 (4 classes) | 0.873 | 0.853 |
 
 The pen test uses test split droppings pasted onto held out cameras, so it measures finding a dropping of pen size on unseen litter.
 It is synthetic. No real droppings in these videos are labelled, so field accuracy is not measured yet.
-Disease class at pen size is weak (pen test 4 class mAP50 0.52). Use the pen model to find droppings and the close-up model to judge them.
-Close-up accuracy dropped by 0.08, so keep dropping4-laptop for close-up photos.
+Disease class at pen size is weaker (pen test 4 class mAP50 0.65). Use the pen model to find droppings and the close-up model to judge them.
+
+Overfitting: validation loss flattened from about epoch 25 while training loss kept falling. Early stopping kept epoch 27.
+Of the run time filters, the litter check now lowers recall (0.735 to 0.695 in training/pen_tweaks.py) and the size limit changes nothing, so the live feed uses neither beyond the size limit.

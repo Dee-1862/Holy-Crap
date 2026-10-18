@@ -29,6 +29,7 @@
   #define LIVE 1
   #include <WiFi.h>
   #include <HTTPClient.h>
+  #include <WiFiClientSecure.h>
   #include <ArduinoJson.h>
 #else
   #define LIVE 0
@@ -143,8 +144,16 @@ static Spec& curSpec() { return SP[ge[min(pg / 2, gcount - 1)]]; }
 #if LIVE
 static bool http(const char* method, const String& path, const char* body, JsonDocument& out) {
   if (WiFi.status() != WL_CONNECTED) return false;
-  HTTPClient h; h.setTimeout(2500);
-  if (!h.begin(String(API_BASE) + path)) return false;
+  // https for a deployed console (Vercel), plain http for a laptop on the same Wi-Fi.
+  // The TLS client does not check the certificate yet, fine for a demo, pin Vercel's root before a farm install.
+  static WiFiClientSecure tls;
+  static WiFiClient plain;
+  const bool secure = !strncmp(API_BASE, "https://", 8);
+  HTTPClient h; h.setTimeout(secure ? 8000 : 2500);       // a Vercel function can take a few seconds to wake
+  bool started;
+  if (secure) { tls.setInsecure(); started = h.begin(tls, String(API_BASE) + path); }
+  else started = h.begin(plain, String(API_BASE) + path);
+  if (!started) return false;
   if (body) h.addHeader("Content-Type", "application/json");
   int code = !strcmp(method, "POST") ? h.POST(body ? body : "{}") : h.GET();
   bool ok = code == 200 && !deserializeJson(out, h.getString());

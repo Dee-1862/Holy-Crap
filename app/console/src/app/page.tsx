@@ -31,7 +31,7 @@ export default function Dashboard() {
       .then((d: { clips: { pen: string }[] }) => {
         const pens = [...new Set(d.clips.map((c) => c.pen))].sort();
         setCams(pens);
-        setOnlinePens(pens);                                  // pens without a camera are offline and drop out of the numbers
+        setOnlinePens(pens.length ? pens : null);             // pens without a camera are offline, unless no cameras are known at all
         if (pens.length) setSelected((cur) => (pens.includes(cur) ? cur : pens[0]));
       })
       .catch(() => setCams([]));

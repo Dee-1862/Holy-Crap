@@ -40,7 +40,7 @@ DATA, RAW, RESULTS = HERE / "data", HERE / "data" / "raw", HERE / "results"
 FARM_REC, PCR_REC = "4628934", "5801834"
 CLASSES = ["cocci", "healthy", "ncd", "salmo"]          # model output order, same as training/prepare_data.py
 SEED = 0
-MODEL = REPO / "models" / "dropping4-e37" / "dropping4_yolo11n_640.onnx"
+MODEL = REPO / "models" / "dropping4-laptop" / "dropping4_yolo11n_640.onnx"      # the default final model
 
 
 # ---------------------------------------------------------------- downloading, politely and verified

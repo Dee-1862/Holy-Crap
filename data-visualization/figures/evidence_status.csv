@@ -1,11 +1,13 @@
 Check,Status,Evidence
 A test set exists and is separate from the training files,Verified,"Rebuilt the split, 679 test photos, each photo in one split (section 3)."
 "Oversampling happens after the split, in train only",Verified,Read the code: Newcastle-like photos are repeated only inside the train loop (section 3).
-The model files are the ones reported on,Verified,SHA256 recomputed and matching; the ONNX file loads and runs (section 4).
+The model files are the ones reported on,Verified,SHA256 recomputed for both models and matching; the ONNX file loads and runs (section 4).
 Test scores are real numbers from the run,Reported,"Read from test_metrics.json. Not recomputed here, the test photos are not in the repo."
-Training and validation curves,Not available,results.csv is not in the repository.
-Split by farm or visit,Not available,The split is random by photo. The model README says the same farm can appear on both sides.
+Training and validation curves,Found as images,"results.png for both runs (section 6). The raw results.csv is not committed, so the gap is read by eye."
+Signs of overfitting in the curves,Mild,"Laptop run: validation losses flatten and tick up after about epoch 50 while training loss keeps falling, and the strict score peaks near epoch 50. Early stopping kept epoch 49 of 69. Veri run still improving at epoch 20."
+Validation against test,Reported,"Laptop mAP50 0.878 on validation, 0.873 on test. Strict score 0.602 against 0.573."
+Split by farm or visit,Not available,The split is random by photo. The models README says the same farm can appear on both sides.
 Photo distance as a shortcut,Flag,Healthy boxes are far smaller in frame (median 2.6% of the photo) than the other classes (12 to 22%). Needs a same distance test.
-Near duplicate photos across splits,Not done,Needs the images. A perceptual hash pass would show whether neighbouring shots leak across the split.
-Lab confirmed (PCR) check,Not done,The model README says it has not been run yet.
-Final model,Interim,"The snapshot is epoch 37 of 100, an interim checkpoint."
+Near duplicate photos across splits,Not done,"Needs the images. Being run, see the image audit section when it is finished."
+Lab confirmed (PCR) check,Not done,"Being run, see the image audit section when it is finished."
+Final models,Final,"Laptop (default for the Pi) early stopped at epoch 69. Veri stopped at its 30 minute cap, epoch 20."

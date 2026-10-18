@@ -12,17 +12,16 @@ Open [01_data_and_model_audit.html](01_data_and_model_audit.html) to read it wit
 | Class counts match our docs | Counted from the official YOLO boxes | Boxes match. Two classes differ by 1 and 2 photos only because a few label files are empty |
 | The test set is separate and the size the README says | Rebuilt the split with the same code and seed as `training/prepare_data.py` | 679 test photos, each photo in one split |
 | Oversampling only touches train | Read from `prepare_data.py` | Verified |
-| The model files are the ones reported on | SHA256 recomputed, ONNX loaded and run once | Verified |
-| Reported test scores | Read from `models/dropping4-e37/test_metrics.json` | Reported, not recomputed here |
+| The model files are the ones reported on | SHA256 recomputed for the laptop and Veri models, ONNX loaded and run once | Verified |
+| Reported test scores | Read from `models/dropping4-laptop/test_metrics.json` and `models/dropping4-veri/test_metrics.json` | Reported, not recomputed here |
+| Training against validation curves | `results.png` from each run, shown in the notebook and read by eye | Mild overfitting in the laptop run after about epoch 50, handled by early stopping. The Veri run is still improving |
 
 ## What it does not claim
 
-It does **not** show that the model is free of overfitting, and it says so in the notebook. The pieces that would show it are not in the repository yet:
+It does **not** show that the model will hold up in a new barn. Every score comes from one random split of one collection, so the same farm visit can sit on both sides. What is still missing:
 
-- Training and validation curves (`results.csv` from the training run). The notebook draws them automatically when the file exists. Set `HC_RESULTS_CSV` or drop it in `training/work/train/`.
-- A split by farm or visit. The current split is random by photo, so the same visit can be on both sides.
-- A lab confirmed (PCR) check, and a near duplicate check across splits.
-- A final model. The snapshot is epoch 37 of 100.
+- The raw `results.csv` from the training runs. Only the curve images are committed, so the curves are read by eye, not measured.
+- A split by farm or visit, a lab confirmed (PCR) result, and a near duplicate check across splits. The image audit script produces the last two, see below.
 
 The notebook also flags a possible shortcut: healthy droppings are photographed much smaller in the frame than the other classes (median 2.6% of the photo against 12 to 22%). A model could learn camera distance instead of appearance, so that should be tested before trusting class level scores.
 

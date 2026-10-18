@@ -98,13 +98,19 @@ class Server:
         busy the extra connection is closed and the client's existing reconnect
         logic retries later. close() from any thread unblocks this loop.
         """
+        self.sock.settimeout(0.5)               # wake up regularly, so close() always ends this loop
         while True:
             try:
                 conn, _ = self.sock.accept()
+            except socket.timeout:
+                if self._closed:
+                    return
+                continue
             except OSError:
                 if self._closed:
                     return
                 raise
+            conn.settimeout(None)               # accepted sockets stay blocking
             thread = threading.Thread(
                 target=self._client_loop, args=(conn, handler),
                 daemon=True, name=f"qnxipc/{self.name}")
@@ -148,6 +154,10 @@ class Server:
         if self._closed:
             return
         self._closed = True
+        try:
+            self.sock.shutdown(socket.SHUT_RDWR)  # on Linux, close() alone does not wake a thread blocked in accept()
+        except OSError:
+            pass
         try:
             self.sock.close()
         except OSError:

@@ -104,4 +104,6 @@ Secrets (Wi-Fi, site tokens, API keys) never go in the repository. They live in 
 
 Machuve et al. farm and PCR photos (Zenodo 4628934, 5801834), PIO broiler videos (Zenodo 16686320) and NESTLER poultry videos (Zenodo 15063494) are CC BY 4.0. Big Broiler clips and the behaviour models trained on them are AGPL-3.0. Sources and checks are in [paper/citation-check.md](paper/citation-check.md).
 
+Our code, models and results are released under the [AGPL-3.0](LICENSE). Cite with [CITATION.cff](CITATION.cff).
+
 Built at LA Hacks with the QNX and Veri tracks.

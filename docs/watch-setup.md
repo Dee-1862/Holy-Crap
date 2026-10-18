@@ -38,9 +38,9 @@ Keep Wi-Fi name/password and broker credentials in a local `secrets.h` that is g
 ## Done on this PC (2026-10-17)
 - Watch detected as `COM18` (Espressif USB JTAG/serial, VID 303A PID 1001).
 - Tools: arduino-cli 1.5.1 with the `esp32:esp32` core 3.3.12 (the stock Espressif core has no StopWatch entry, so we use the board from M5Stack's PlatformIO recipe: `esp32:esp32:esp32s3box`). Libraries installed: M5Unified 0.2.26, M5GFX 0.2.33, M5PM1 1.0.7, M5IOE1 1.0.9, PubSubClient 2.8.
-- Bring-up sketch: `app/watch/hello/hello.ino` (display text, button A/B click and hold, touch, serial log).
-- Build: `arduino-cli compile --fqbn esp32:esp32:esp32s3box app/watch/hello`
-- Flash: `arduino-cli upload -p COM18 --fqbn esp32:esp32:esp32s3box app/watch/hello`
+- Firmware: `app/watch/console/console.ino` (the first bring-up sketch was removed once the console firmware replaced it).
+- Build: `arduino-cli compile --fqbn esp32:esp32:esp32s3box app/watch/console`
+- Flash: `arduino-cli upload -p COM18 --fqbn esp32:esp32:esp32s3box app/watch/console`
 - Result: compiled (16% of flash), flashed and hash-verified, boots; serial prints `boot ok, board id 30, display 468x468`. Screen and buttons not yet confirmed visually by anyone.
 - Note: this replaced the watch's factory firmware. The official M5Stack board package (docs say >= 3.3.7, board option M5StopWatch) is the alternative if the generic board misbehaves (display, battery, power).
 

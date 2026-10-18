@@ -53,7 +53,7 @@ export default function SiteMap({ selected, filter, onSelect }: Props) {
             ))}
             <circle cx={x + 18} cy={y + 22} r="4.5" fill={color} />
             <text x={x + 30} y={y + 27} fontSize="15" fontWeight="600" style={{ fill: "var(--label)" }}>{g.name}</text>
-            <text x={x + PEN_W - 16} y={y + 27} fontSize="14" fontWeight="600" textAnchor="end" fill={color}>
+            <text x={x + PEN_W - 16} y={y + 27} fontSize="15" fontWeight="500" textAnchor="end" fill={color}>
               {st.mean === null ? "n/a" : st.mean.toFixed(1)}
             </text>
             <text x={x + 16} y={y + PEN_H - 13} fontSize="13" fontWeight="500" fill={st.bad ? COLOR.bad : undefined} style={st.bad ? undefined : { fill: "var(--label-2)" }}>{st.bad ? `${st.bad} abnormal` : "All normal"}</text>

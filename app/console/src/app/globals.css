@@ -53,7 +53,7 @@
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { margin: 0; color: var(--label); font-family: var(--font); font-size: 16px; line-height: 1.4; -webkit-font-smoothing: antialiased; }
+html, body { margin: 0; color: var(--label); font-family: var(--font); font-size: 16px; line-height: 1.4; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 body { min-height: 100vh; background: var(--bg); overflow-x: hidden; }
 button { font: inherit; color: inherit; cursor: pointer; }
 :focus-visible { outline: 3px solid color-mix(in srgb, var(--label) 45%, transparent); outline-offset: 2px; border-radius: 10px; }
@@ -95,9 +95,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .title { font-size: 30px; line-height: 1.15; font-weight: 600; letter-spacing: -0.025em; margin: 0; }
 .headline { font-size: 16px; font-weight: 600; }
 .sub { font-size: 15px; color: var(--label-2); }
-.foot { font-size: 13px; color: var(--label-2); }
+.foot { font-size: 13px; color: var(--label-2); letter-spacing: 0.005em; }
 .eyebrow { font-size: 14px; color: var(--label-2); font-weight: 500; }
-.num { font-variant-numeric: tabular-nums; }
+.num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
 .tone-good { color: var(--good); } .tone-warn { color: var(--warn); } .tone-bad { color: var(--bad); }
 
 /* grouped list: rows inside one rounded card, hairline separators inset from the left */
@@ -135,7 +135,7 @@ button.theme:hover { background: var(--fill); color: var(--label); }
 .gauge .trk { stroke: var(--fill); }
 .gauge .val { transition: stroke-dashoffset 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
 .gauge .n { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; }
-.gauge .n b { font-size: 32px; font-weight: 600; line-height: 1; letter-spacing: -0.02em; }
+.gauge .n b { font-size: 32px; font-weight: 500; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
 .gauge .n span { font-size: 11px; letter-spacing: 0.02em; color: var(--label-2); font-weight: 600; }
 
 /* group readout */
@@ -153,7 +153,7 @@ button.theme:hover { background: var(--fill); color: var(--label); }
 .ro-hist { list-style: none; margin: 0; padding: 0; }
 .ro-hist li { display: grid; grid-template-columns: 44px 1fr; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid var(--sep); }
 .ro-hist li:first-child { border-top: 0; }
-.ro-hist b { font-size: 24px; font-weight: 600; text-align: center; letter-spacing: -0.02em; }
+.ro-hist b { font-size: 24px; font-weight: 500; text-align: center; letter-spacing: -0.02em; }
 .ro-hist small { display: block; color: var(--label-2); font-size: 13px; }
 
 /* specimen card */

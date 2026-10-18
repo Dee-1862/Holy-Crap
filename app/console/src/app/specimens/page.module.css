@@ -3,8 +3,6 @@
 .grow { flex: 1; }
 
 .status { padding: 20px 22px 18px; margin-bottom: 8px; }
-.status[data-level="bad"] { background: linear-gradient(135deg, color-mix(in srgb, var(--bad) 20%, transparent) 0%, transparent 55%), var(--material); }
-.status[data-level="good"] { background: linear-gradient(135deg, color-mix(in srgb, var(--good) 16%, transparent) 0%, transparent 55%), var(--material); }
 .state { display: flex; align-items: center; gap: 8px; font-weight: 600; }
 .status[data-level="bad"] .state { color: var(--bad); }
 .status[data-level="good"] .state { color: var(--good); }
@@ -15,17 +13,17 @@
 .detail { margin: 0 0 16px; max-width: 56ch; line-height: 1.45; }
 .stats { display: flex; gap: 36px; margin: 0; padding-top: 14px; border-top: 1px solid var(--sep); }
 .stats div { display: flex; flex-direction: column-reverse; }
-.stats dd { margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
+.stats dd { margin: 0; font-size: 26px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; }
 .stats dt { font-size: 13px; color: var(--label-2); }
 
 .columns { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 20px; align-items: start; }
 
 .board { grid-template-columns: 22px 1fr auto; }
 .rk { color: var(--label-2); font-weight: 500; font-size: 15px; }
-.gr { font-size: 19px; font-weight: 600; letter-spacing: -0.02em; }
+.gr { font-size: 19px; font-weight: 500; letter-spacing: -0.02em; }
 
 .item { grid-template-columns: 36px 1fr auto; }
-.grade { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; text-align: center; }
+.grade { font-size: 22px; font-weight: 500; letter-spacing: -0.02em; text-align: center; }
 .what b { display: block; font-weight: 600; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .what small { color: var(--label-2); font-size: 13px; white-space: nowrap; }
 .conf { color: var(--label-2); font-size: 15px; }

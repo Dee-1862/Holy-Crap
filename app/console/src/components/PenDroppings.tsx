@@ -13,7 +13,7 @@ export default function PenDroppings({ groupId, onOpen }: { groupId: string; onO
       <h3 className="eyebrow list-h" style={{ margin: 0 }}>Droppings in {group.name}</h3>
       {list.map((s) => (
         <button key={s.id} className="row" style={{ gridTemplateColumns: "34px 1fr auto" }} onClick={() => onOpen(s.id)}>
-          <b className={`num tone-${tone(s.grade)}`} style={{ fontSize: 22, fontWeight: 600, textAlign: "center" }}>{s.grade}</b>
+          <b className={`num tone-${tone(s.grade)}`} style={{ fontSize: 22, fontWeight: 500, textAlign: "center" }}>{s.grade}</b>
           <span>
             <b style={{ display: "block", fontWeight: 600, fontSize: 16 }}>{resultOf(s)}</b>
             <small className="foot">{ago(s.minsAgo)}</small>

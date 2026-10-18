@@ -1,0 +1,28 @@
+source_commit=7778ee028347acb8793b7fd81d3d92f63ff57d37
+PATH=/proc/boot:/system/bin
+/system/bin/python3
+lrwxrwxrwx  1 root root 10 2026-09-18 18:15 /system/bin/python3 -> python3.14
+lrwxrwxrwx  1 root root 10 2026-09-18 18:15 /usr/bin/python3 -> python3.14
+/system/bin/python3
+3.14.0 (main, Apr 15 2026, 14:04:47) [Clang 21.1.3 ]
+['', '/system/lib/python314.zip', '/system/lib/python3.14', '/system/lib/python3.14/lib-dynload', '/system/lib/python3.14/site-packages']
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import numpy
+ModuleNotFoundError: No module named 'numpy'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import onnxruntime
+ModuleNotFoundError: No module named 'onnxruntime'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import numpy
+ModuleNotFoundError: No module named 'numpy'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import onnxruntime
+ModuleNotFoundError: No module named 'onnxruntime'
+apk-installed-matches:
+runtime-files:
+/data/home/qnxuser/simlab-models/dropping4-e37/dropping4_yolo11n_320.onnx

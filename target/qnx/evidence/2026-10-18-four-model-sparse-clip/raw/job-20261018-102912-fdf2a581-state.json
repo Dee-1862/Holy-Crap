@@ -1,0 +1,33 @@
+{
+  "id": "job-20261018-102912-fdf2a581",
+  "argv": [
+    "/proc/boot/on",
+    "-L",
+    "vmem:8589934592",
+    "/system/bin/ffmpeg",
+    "-hide_banner",
+    "-loglevel",
+    "info",
+    "-nostdin",
+    "-y",
+    "-i",
+    "big-broiler-090-pi-balanced.mp4",
+    "-frames:v",
+    "1",
+    "-pix_fmt",
+    "rgb24",
+    "-f",
+    "rawvideo",
+    "/data/home/qnxuser/hc-four-model-20261018-7778ee0/results/h264-one.rgb"
+  ],
+  "cwd": "/data/home/qnxuser/hc-four-model-20261018-7778ee0/stage",
+  "timeout": 120,
+  "status": "failed",
+  "started_at": "2026-10-18T17:29:12Z",
+  "finished_at": "2026-10-18T17:29:13Z",
+  "exit_code": 234,
+  "timed_out": false,
+  "error": null,
+  "stdout_log": "logs/job-20261018-102912-fdf2a581.out",
+  "stderr_log": "logs/job-20261018-102912-fdf2a581.err"
+}

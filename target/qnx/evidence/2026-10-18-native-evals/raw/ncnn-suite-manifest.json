@@ -1,0 +1,1217 @@
+{
+  "duration_ms": 34864.577,
+  "result": {
+    "results": [
+      {
+        "load_processes": [],
+        "observed_process": {
+          "memory": {
+            "argv": [
+              "pidin",
+              "-p",
+              "9932846",
+              "memory"
+            ],
+            "duration_ms": 82.368,
+            "finished_monotonic_ns": 3287776701537,
+            "returncode": 0,
+            "started_monotonic_ns": 3287694333944,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE                      code  data        stack\n 9932846   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   43M    512K/512K\n             ncnn_bench                    @38f018a000                3776K   32K\n             ldqnx-64.so.2                 @1b4c7c0000                 228K   12K\n             libm.so.3                     @1b4c7fd000                 248K  4096\n             libc.so.6                     @1b4c83d000                 668K  8192\n             libregex.so.1                 @1b4c8f0000                  60K  4096\n             libgcc_s.so.1                 @1b4c901000                  76K  4096\n             libc++.so.1.0                 @1b4c916000                1008K  4096\n             libc++abi.so.1.0              @1b4ca24000                 220K  4096\n             libunwind.so.1.0              @1b4ca61000                  48K  4096\n             libcatalog.so.1               @1b4ca6f000                 8192  4096\n             **zero ELF**                  @1b4c7fc000 (       0)            4096\n             **zero ELF**                  @1b4c83b000 (       0)            4096\n             **zero ELF**                  @1b4c8e4000 (       0)             16K\n             **zero ELF**                  @1b4c8ea000 (       0)             24K\n             **zero ELF**                  @1b4c8ff000 (       0)            4096\n             **zero ELF**                  @1b4c914000 (       0)            4096\n             **zero ELF**                  @1b4ca12000 (       0)             28K\n             **zero ELF**                  @1b4ca1a000 (       0)             40K\n             **zero ELF**                  @1b4ca5b000 (       0)             20K\n             **zero ELF**                  @1b4ca6d000 (       0)            4096\n             **zero ELF**                  @1b4ca71000 (       0)            4096\n             **heap**                      @2fe936d000 (       0)           3168K\n             **heap**                      @2fe96c5000 (       0)           1292K\n             **heap**                      @2fe9819000 (       0)            452K\n             **heap**                      @2fe98bb000 (       0)           1028K\n             **heap**                      @2fe9a1a000 (       0)           5012K\n             **heap**                      @2fe9f20000 (       0)           1416K\n             **heap**                      @2fea083000 (       0)            260K\n             **heap**                      @2fea125000 (       0)           1736K\n             **heap**                      @2fea2f8000 (       0)           1032K\n             **heap**                      @2fea45b000 (       0)            388K\n             **heap**                      @2fea51c000 (       0)           7136K\n             **heap**                      @2feacd5000 (       0)           3080K\n             **heap**                      @2feb0b0000 (       0)             17M\n"
+          },
+          "rlimits": {
+            "argv": [
+              "pidin",
+              "-p",
+              "9932846",
+              "rlimits"
+            ],
+            "duration_ms": 25.067,
+            "finished_monotonic_ns": 3287694308296,
+            "returncode": 0,
+            "started_monotonic_ns": 3287669241704,
+            "stderr": "",
+            "stdout": "\n\nResource limits:                        soft : hard                 \nCPU (seconds)                       infinity : infinity             \nFile size (blocks)                  infinity : infinity             \nCore dump (blocks)                  infinity : infinity             \nData segment size (kB)              infinity : infinity             \nStack size (kB)                     infinity : infinity             \nLocked memory (kB)                  infinity : infinity             \nVirtual memory (kB)                  8388608 : infinity             \nOpen file descriptors                   2000 : 2000                 \nProcesses                           infinity : infinity             \nThreads                             infinity : infinity             \nMemory usage (.1% RAM)              infinity : infinity             \nOpen connections                    infinity : infinity             \nRegistered events                        256 : 256                  \nTimers created                      infinity : infinity             \nChannel limit                            100 : 100                  \n\n"
+          },
+          "rmasks": {
+            "argv": [
+              "pidin",
+              "-p",
+              "9932846",
+              "rmasks"
+            ],
+            "duration_ms": 27.122,
+            "finished_monotonic_ns": 3287669217130,
+            "returncode": 0,
+            "started_monotonic_ns": 3287642095370,
+            "stderr": "",
+            "stdout": "     pid tid name                         \n 9932846   1 1018-1655-7778ee0/ncnn_bench \n\tRunmask     : 0x0000000f\n\tInherit Mask: 0x0000000f\n\n"
+          },
+          "sched": {
+            "argv": [
+              "pidin",
+              "-p",
+              "9932846",
+              "sched"
+            ],
+            "duration_ms": 27.992,
+            "finished_monotonic_ns": 3287642060333,
+            "returncode": 0,
+            "started_monotonic_ns": 3287614068667,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE          cpu ExtSched            \n 9932846   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING          2                     \n"
+          }
+        },
+        "process": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-R",
+            "15",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/ncnn_bench",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.param",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.bin",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/input.raw",
+            "320",
+            "21",
+            "3",
+            "in0",
+            "out0",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ncnn-idle-trial1-calls.csv"
+          ],
+          "duration_ms": 2542.238,
+          "finished_monotonic_ns": 3289885136926,
+          "pid": 9932846,
+          "returncode": 0,
+          "started_monotonic_ns": 3287342898574
+        },
+        "scenario": "idle",
+        "thermal_after": {
+          "thermal": "60.36",
+          "thermal_ext": "temp_in_c: 60.36\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "thermal_before": {
+          "thermal": "59.81",
+          "thermal_ext": "temp_in_c: 59.26\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 1
+      },
+      {
+        "load_processes": [],
+        "observed_process": {
+          "memory": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10072110",
+              "memory"
+            ],
+            "duration_ms": 39.797,
+            "finished_monotonic_ns": 3290334827296,
+            "returncode": 0,
+            "started_monotonic_ns": 3290295030630,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE                      code  data        stack\n10072110   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @30ef81a000                3776K   32K\n             ldqnx-64.so.2                 @494359e000                 228K   12K\n             libm.so.3                     @49435db000                 248K  4096\n             libc.so.6                     @494361b000                 668K  8192\n             libregex.so.1                 @49436ce000                  60K  4096\n             libgcc_s.so.1                 @49436df000                  76K  4096\n             libc++.so.1.0                 @49436f4000                1008K  4096\n             libc++abi.so.1.0              @4943802000                 220K  4096\n             libunwind.so.1.0              @494383f000                  48K  4096\n             libcatalog.so.1               @494384d000                 8192  4096\n             **zero ELF**                  @49435da000 (       0)            4096\n             **zero ELF**                  @4943619000 (       0)            4096\n             **zero ELF**                  @49436c2000 (       0)             16K\n             **zero ELF**                  @49436c8000 (       0)             24K\n             **zero ELF**                  @49436dd000 (       0)            4096\n             **zero ELF**                  @49436f2000 (       0)            4096\n             **zero ELF**                  @49437f0000 (       0)             28K\n             **zero ELF**                  @49437f8000 (       0)             40K\n             **zero ELF**                  @4943839000 (       0)             20K\n             **zero ELF**                  @494384b000 (       0)            4096\n             **zero ELF**                  @494384f000 (       0)            4096\n             **heap**                      @57c6f65000 (       0)           3168K\n             **heap**                      @57c72bd000 (       0)           1292K\n             **heap**                      @57c7411000 (       0)            452K\n             **heap**                      @57c74b3000 (       0)           1028K\n             **heap**                      @57c7612000 (       0)           5012K\n             **heap**                      @57c7b18000 (       0)           1416K\n             **heap**                      @57c7c7b000 (       0)            260K\n             **heap**                      @57c7d1d000 (       0)           1736K\n             **heap**                      @57c7ef0000 (       0)           1032K\n             **heap**                      @57c8053000 (       0)            388K\n             **heap**                      @57c8114000 (       0)           7136K\n             **heap**                      @57c88cd000 (       0)           3080K\n             **heap**                      @57c8ca8000 (       0)             23M\n"
+          },
+          "rlimits": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10072110",
+              "rlimits"
+            ],
+            "duration_ms": 34.691,
+            "finished_monotonic_ns": 3290294978944,
+            "returncode": 0,
+            "started_monotonic_ns": 3290260288074,
+            "stderr": "",
+            "stdout": "\n\nResource limits:                        soft : hard                 \nCPU (seconds)                       infinity : infinity             \nFile size (blocks)                  infinity : infinity             \nCore dump (blocks)                  infinity : infinity             \nData segment size (kB)              infinity : infinity             \nStack size (kB)                     infinity : infinity             \nLocked memory (kB)                  infinity : infinity             \nVirtual memory (kB)                  8388608 : infinity             \nOpen file descriptors                   2000 : 2000                 \nProcesses                           infinity : infinity             \nThreads                             infinity : infinity             \nMemory usage (.1% RAM)              infinity : infinity             \nOpen connections                    infinity : infinity             \nRegistered events                        256 : 256                  \nTimers created                      infinity : infinity             \nChannel limit                            100 : 100                  \n\n"
+          },
+          "rmasks": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10072110",
+              "rmasks"
+            ],
+            "duration_ms": 34.982,
+            "finished_monotonic_ns": 3290260265093,
+            "returncode": 0,
+            "started_monotonic_ns": 3290225282741,
+            "stderr": "",
+            "stdout": "     pid tid name                         \n10072110   1 1018-1655-7778ee0/ncnn_bench \n\tRunmask     : 0x0000000f\n\tInherit Mask: 0x0000000f\n\n"
+          },
+          "sched": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10072110",
+              "sched"
+            ],
+            "duration_ms": 47.159,
+            "finished_monotonic_ns": 3290225236796,
+            "returncode": 0,
+            "started_monotonic_ns": 3290178077815,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE          cpu ExtSched            \n10072110   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING          2                     \n"
+          }
+        },
+        "process": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-R",
+            "15",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/ncnn_bench",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.param",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.bin",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/input.raw",
+            "320",
+            "21",
+            "3",
+            "in0",
+            "out0",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ncnn-idle-trial2-calls.csv"
+          ],
+          "duration_ms": 2283.606,
+          "finished_monotonic_ns": 3292189110481,
+          "pid": 10072110,
+          "returncode": 0,
+          "started_monotonic_ns": 3289905504944
+        },
+        "scenario": "idle",
+        "thermal_after": {
+          "thermal": "59.26",
+          "thermal_ext": "temp_in_c: 58.71\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "thermal_before": {
+          "thermal": "59.81",
+          "thermal_ext": "temp_in_c: 59.81\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 2
+      },
+      {
+        "load_processes": [],
+        "observed_process": {
+          "memory": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10117166",
+              "memory"
+            ],
+            "duration_ms": 43.289,
+            "finished_monotonic_ns": 3292643550148,
+            "returncode": 0,
+            "started_monotonic_ns": 3292600261463,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE                      code  data        stack\n10117166   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @5dee57c000                3776K   32K\n             ldqnx-64.so.2                 @2a9d3b8000                 228K   12K\n             libm.so.3                     @2a9d3f5000                 248K  4096\n             libc.so.6                     @2a9d435000                 668K  8192\n             libregex.so.1                 @2a9d4e8000                  60K  4096\n             libgcc_s.so.1                 @2a9d4f9000                  76K  4096\n             libc++.so.1.0                 @2a9d50e000                1008K  4096\n             libc++abi.so.1.0              @2a9d61c000                 220K  4096\n             libunwind.so.1.0              @2a9d659000                  48K  4096\n             libcatalog.so.1               @2a9d667000                 8192  4096\n             **zero ELF**                  @2a9d3f4000 (       0)            4096\n             **zero ELF**                  @2a9d433000 (       0)            4096\n             **zero ELF**                  @2a9d4dc000 (       0)             16K\n             **zero ELF**                  @2a9d4e2000 (       0)             24K\n             **zero ELF**                  @2a9d4f7000 (       0)            4096\n             **zero ELF**                  @2a9d50c000 (       0)            4096\n             **zero ELF**                  @2a9d60a000 (       0)             28K\n             **zero ELF**                  @2a9d612000 (       0)             40K\n             **zero ELF**                  @2a9d653000 (       0)             20K\n             **zero ELF**                  @2a9d665000 (       0)            4096\n             **zero ELF**                  @2a9d669000 (       0)            4096\n             **heap**                      @44fca80000 (       0)           3168K\n             **heap**                      @44fcdd8000 (       0)           1292K\n             **heap**                      @44fcf2c000 (       0)            452K\n             **heap**                      @44fcfce000 (       0)           1028K\n             **heap**                      @44fd12d000 (       0)           5012K\n             **heap**                      @44fd633000 (       0)           1416K\n             **heap**                      @44fd796000 (       0)            260K\n             **heap**                      @44fd838000 (       0)           1736K\n             **heap**                      @44fda0b000 (       0)           1032K\n             **heap**                      @44fdb6e000 (       0)            388K\n             **heap**                      @44fdc2f000 (       0)           7136K\n             **heap**                      @44fe3e8000 (       0)           3080K\n             **heap**                      @44fe7c3000 (       0)             23M\n"
+          },
+          "rlimits": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10117166",
+              "rlimits"
+            ],
+            "duration_ms": 35.611,
+            "finished_monotonic_ns": 3292600188296,
+            "returncode": 0,
+            "started_monotonic_ns": 3292564577630,
+            "stderr": "",
+            "stdout": "\n\nResource limits:                        soft : hard                 \nCPU (seconds)                       infinity : infinity             \nFile size (blocks)                  infinity : infinity             \nCore dump (blocks)                  infinity : infinity             \nData segment size (kB)              infinity : infinity             \nStack size (kB)                     infinity : infinity             \nLocked memory (kB)                  infinity : infinity             \nVirtual memory (kB)                  8388608 : infinity             \nOpen file descriptors                   2000 : 2000                 \nProcesses                           infinity : infinity             \nThreads                             infinity : infinity             \nMemory usage (.1% RAM)              infinity : infinity             \nOpen connections                    infinity : infinity             \nRegistered events                        256 : 256                  \nTimers created                      infinity : infinity             \nChannel limit                            100 : 100                  \n\n"
+          },
+          "rmasks": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10117166",
+              "rmasks"
+            ],
+            "duration_ms": 35.464,
+            "finished_monotonic_ns": 3292564549537,
+            "returncode": 0,
+            "started_monotonic_ns": 3292529085259,
+            "stderr": "",
+            "stdout": "     pid tid name                         \n10117166   1 1018-1655-7778ee0/ncnn_bench \n\tRunmask     : 0x0000000f\n\tInherit Mask: 0x0000000f\n\n"
+          },
+          "sched": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10117166",
+              "sched"
+            ],
+            "duration_ms": 48.001,
+            "finished_monotonic_ns": 3292529057852,
+            "returncode": 0,
+            "started_monotonic_ns": 3292481056963,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE          cpu ExtSched            \n10117166   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING          3                     \n"
+          }
+        },
+        "process": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-R",
+            "15",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/ncnn_bench",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.param",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.bin",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/input.raw",
+            "320",
+            "21",
+            "3",
+            "in0",
+            "out0",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ncnn-idle-trial3-calls.csv"
+          ],
+          "duration_ms": 2286.568,
+          "finished_monotonic_ns": 3294497090407,
+          "pid": 10117166,
+          "returncode": 0,
+          "started_monotonic_ns": 3292210522556
+        },
+        "scenario": "idle",
+        "thermal_after": {
+          "thermal": "60.36",
+          "thermal_ext": "temp_in_c: 59.81\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "thermal_before": {
+          "thermal": "60.36",
+          "thermal_ext": "temp_in_c: 59.26\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 3
+      },
+      {
+        "load_processes": [],
+        "observed_process": {
+          "memory": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10162222",
+              "memory"
+            ],
+            "duration_ms": 41.363,
+            "finished_monotonic_ns": 3294951564315,
+            "returncode": 0,
+            "started_monotonic_ns": 3294910201389,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE                      code  data        stack\n10162222   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @2b49737000                3776K   32K\n             ldqnx-64.so.2                 @57a1358000                 228K   12K\n             libm.so.3                     @57a1395000                 248K  4096\n             libc.so.6                     @57a13d5000                 668K  8192\n             libregex.so.1                 @57a1488000                  60K  4096\n             libgcc_s.so.1                 @57a1499000                  76K  4096\n             libc++.so.1.0                 @57a14ae000                1008K  4096\n             libc++abi.so.1.0              @57a15bc000                 220K  4096\n             libunwind.so.1.0              @57a15f9000                  48K  4096\n             libcatalog.so.1               @57a1607000                 8192  4096\n             **heap**                      @1b703ff000 (       0)           3168K\n             **heap**                      @1b70757000 (       0)           1292K\n             **heap**                      @1b708ab000 (       0)            452K\n             **heap**                      @1b7094d000 (       0)           1028K\n             **heap**                      @1b70aac000 (       0)           5012K\n             **heap**                      @1b70fb2000 (       0)           1416K\n             **heap**                      @1b71115000 (       0)            260K\n             **heap**                      @1b711b7000 (       0)           1736K\n             **heap**                      @1b7138a000 (       0)           1032K\n             **heap**                      @1b714ed000 (       0)            388K\n             **heap**                      @1b715ae000 (       0)           7136K\n             **heap**                      @1b71d67000 (       0)           3080K\n             **heap**                      @1b72142000 (       0)             23M\n             **zero ELF**                  @57a1394000 (       0)            4096\n             **zero ELF**                  @57a13d3000 (       0)            4096\n             **zero ELF**                  @57a147c000 (       0)             16K\n             **zero ELF**                  @57a1482000 (       0)             24K\n             **zero ELF**                  @57a1497000 (       0)            4096\n             **zero ELF**                  @57a14ac000 (       0)            4096\n             **zero ELF**                  @57a15aa000 (       0)             28K\n             **zero ELF**                  @57a15b2000 (       0)             40K\n             **zero ELF**                  @57a15f3000 (       0)             20K\n             **zero ELF**                  @57a1605000 (       0)            4096\n             **zero ELF**                  @57a1609000 (       0)            4096\n"
+          },
+          "rlimits": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10162222",
+              "rlimits"
+            ],
+            "duration_ms": 35.12,
+            "finished_monotonic_ns": 3294910145963,
+            "returncode": 0,
+            "started_monotonic_ns": 3294875025833,
+            "stderr": "",
+            "stdout": "\n\nResource limits:                        soft : hard                 \nCPU (seconds)                       infinity : infinity             \nFile size (blocks)                  infinity : infinity             \nCore dump (blocks)                  infinity : infinity             \nData segment size (kB)              infinity : infinity             \nStack size (kB)                     infinity : infinity             \nLocked memory (kB)                  infinity : infinity             \nVirtual memory (kB)                  8388608 : infinity             \nOpen file descriptors                   2000 : 2000                 \nProcesses                           infinity : infinity             \nThreads                             infinity : infinity             \nMemory usage (.1% RAM)              infinity : infinity             \nOpen connections                    infinity : infinity             \nRegistered events                        256 : 256                  \nTimers created                      infinity : infinity             \nChannel limit                            100 : 100                  \n\n"
+          },
+          "rmasks": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10162222",
+              "rmasks"
+            ],
+            "duration_ms": 34.348,
+            "finished_monotonic_ns": 3294874982426,
+            "returncode": 0,
+            "started_monotonic_ns": 3294840634833,
+            "stderr": "",
+            "stdout": "     pid tid name                         \n10162222   1 1018-1655-7778ee0/ncnn_bench \n\tRunmask     : 0x0000000f\n\tInherit Mask: 0x0000000f\n\n"
+          },
+          "sched": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10162222",
+              "sched"
+            ],
+            "duration_ms": 49.46,
+            "finished_monotonic_ns": 3294840589759,
+            "returncode": 0,
+            "started_monotonic_ns": 3294791130167,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE          cpu ExtSched            \n10162222   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING          2                     \n"
+          }
+        },
+        "process": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-R",
+            "15",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/ncnn_bench",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.param",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.bin",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/input.raw",
+            "320",
+            "21",
+            "3",
+            "in0",
+            "out0",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ncnn-idle-trial4-calls.csv"
+          ],
+          "duration_ms": 2284.522,
+          "finished_monotonic_ns": 3296805061519,
+          "pid": 10162222,
+          "returncode": 0,
+          "started_monotonic_ns": 3294520539667
+        },
+        "scenario": "idle",
+        "thermal_after": {
+          "thermal": "60.36",
+          "thermal_ext": "temp_in_c: 58.71\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "thermal_before": {
+          "thermal": "60.36",
+          "thermal_ext": "temp_in_c: 60.36\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 4
+      },
+      {
+        "load_processes": [],
+        "observed_process": {
+          "memory": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10207278",
+              "memory"
+            ],
+            "duration_ms": 42.337,
+            "finished_monotonic_ns": 3297259100944,
+            "returncode": 0,
+            "started_monotonic_ns": 3297216764056,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE                      code  data        stack\n10207278   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @1377203000                3776K   32K\n             ldqnx-64.so.2                 @204289d000                 228K   12K\n             libm.so.3                     @20428da000                 248K  4096\n             libc.so.6                     @204291a000                 668K  8192\n             libregex.so.1                 @20429cd000                  60K  4096\n             libgcc_s.so.1                 @20429de000                  76K  4096\n             libc++.so.1.0                 @20429f3000                1008K  4096\n             libc++abi.so.1.0              @2042b01000                 220K  4096\n             libunwind.so.1.0              @2042b3e000                  48K  4096\n             libcatalog.so.1               @2042b4c000                 8192  4096\n             **zero ELF**                  @20428d9000 (       0)            4096\n             **zero ELF**                  @2042918000 (       0)            4096\n             **zero ELF**                  @20429c1000 (       0)             16K\n             **zero ELF**                  @20429c7000 (       0)             24K\n             **zero ELF**                  @20429dc000 (       0)            4096\n             **zero ELF**                  @20429f1000 (       0)            4096\n             **zero ELF**                  @2042aef000 (       0)             28K\n             **zero ELF**                  @2042af7000 (       0)             40K\n             **zero ELF**                  @2042b38000 (       0)             20K\n             **zero ELF**                  @2042b4a000 (       0)            4096\n             **zero ELF**                  @2042b4e000 (       0)            4096\n             **heap**                      @414998f000 (       0)           3168K\n             **heap**                      @4149ce7000 (       0)           1292K\n             **heap**                      @4149e3b000 (       0)            452K\n             **heap**                      @4149edd000 (       0)           1028K\n             **heap**                      @414a03c000 (       0)           5012K\n             **heap**                      @414a542000 (       0)           1416K\n             **heap**                      @414a6a5000 (       0)            260K\n             **heap**                      @414a747000 (       0)           1736K\n             **heap**                      @414a91a000 (       0)           1032K\n             **heap**                      @414aa7d000 (       0)            388K\n             **heap**                      @414ab3e000 (       0)           7136K\n             **heap**                      @414b2f7000 (       0)           3080K\n             **heap**                      @414b6d2000 (       0)             23M\n"
+          },
+          "rlimits": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10207278",
+              "rlimits"
+            ],
+            "duration_ms": 34.244,
+            "finished_monotonic_ns": 3297216635556,
+            "returncode": 0,
+            "started_monotonic_ns": 3297182391278,
+            "stderr": "",
+            "stdout": "\n\nResource limits:                        soft : hard                 \nCPU (seconds)                       infinity : infinity             \nFile size (blocks)                  infinity : infinity             \nCore dump (blocks)                  infinity : infinity             \nData segment size (kB)              infinity : infinity             \nStack size (kB)                     infinity : infinity             \nLocked memory (kB)                  infinity : infinity             \nVirtual memory (kB)                  8388608 : infinity             \nOpen file descriptors                   2000 : 2000                 \nProcesses                           infinity : infinity             \nThreads                             infinity : infinity             \nMemory usage (.1% RAM)              infinity : infinity             \nOpen connections                    infinity : infinity             \nRegistered events                        256 : 256                  \nTimers created                      infinity : infinity             \nChannel limit                            100 : 100                  \n\n"
+          },
+          "rmasks": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10207278",
+              "rmasks"
+            ],
+            "duration_ms": 34.571,
+            "finished_monotonic_ns": 3297182368241,
+            "returncode": 0,
+            "started_monotonic_ns": 3297147796944,
+            "stderr": "",
+            "stdout": "     pid tid name                         \n10207278   1 1018-1655-7778ee0/ncnn_bench \n\tRunmask     : 0x0000000f\n\tInherit Mask: 0x0000000f\n\n"
+          },
+          "sched": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10207278",
+              "sched"
+            ],
+            "duration_ms": 48.706,
+            "finished_monotonic_ns": 3297147756704,
+            "returncode": 0,
+            "started_monotonic_ns": 3297099050833,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE          cpu ExtSched            \n10207278   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING          1                     \n"
+          }
+        },
+        "process": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-R",
+            "15",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/ncnn_bench",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.param",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.bin",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/input.raw",
+            "320",
+            "21",
+            "3",
+            "in0",
+            "out0",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ncnn-idle-trial5-calls.csv"
+          ],
+          "duration_ms": 2287.541,
+          "finished_monotonic_ns": 3299113093259,
+          "pid": 10207278,
+          "returncode": 0,
+          "started_monotonic_ns": 3296825551944
+        },
+        "scenario": "idle",
+        "thermal_after": {
+          "thermal": "59.81",
+          "thermal_ext": "temp_in_c: 59.26\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "thermal_before": {
+          "thermal": "58.71",
+          "thermal_ext": "temp_in_c: 60.36\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 5
+      },
+      {
+        "load_processes": [
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "0",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "4.5"
+            ],
+            "duration_ms": 4595.362,
+            "finished_monotonic_ns": 3303721060981,
+            "pid": 10252334,
+            "returncode": 0,
+            "started_monotonic_ns": 3299125699093
+          },
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "1",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "4.5"
+            ],
+            "duration_ms": 4574.026,
+            "finished_monotonic_ns": 3303721228926,
+            "pid": 10256432,
+            "returncode": 0,
+            "started_monotonic_ns": 3299147203000
+          },
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "2",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "4.5"
+            ],
+            "duration_ms": 4553.319,
+            "finished_monotonic_ns": 3303721306722,
+            "pid": 10264625,
+            "returncode": 0,
+            "started_monotonic_ns": 3299167987685
+          }
+        ],
+        "observed_process": {
+          "memory": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10276914",
+              "memory"
+            ],
+            "duration_ms": 46.628,
+            "finished_monotonic_ns": 3299927890444,
+            "returncode": 0,
+            "started_monotonic_ns": 3299881262796,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE                      code  data        stack\n10276914   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   47M    512K/512K\n             ncnn_bench                    @151253d000                3776K   32K\n             ldqnx-64.so.2                 @49177e2000                 228K   12K\n             libm.so.3                     @491781f000                 248K  4096\n             libc.so.6                     @491785f000                 668K  8192\n             libregex.so.1                 @4917912000                  60K  4096\n             libgcc_s.so.1                 @4917923000                  76K  4096\n             libc++.so.1.0                 @4917938000                1008K  4096\n             libc++abi.so.1.0              @4917a46000                 220K  4096\n             libunwind.so.1.0              @4917a83000                  48K  4096\n             libcatalog.so.1               @4917a91000                 8192  4096\n             **heap**                      @2141444000 (       0)           3168K\n             **heap**                      @214179c000 (       0)           1292K\n             **heap**                      @21418f0000 (       0)            452K\n             **heap**                      @2141992000 (       0)           1028K\n             **heap**                      @2141af1000 (       0)           5012K\n             **heap**                      @2141ff7000 (       0)           1416K\n             **heap**                      @214215a000 (       0)            260K\n             **heap**                      @21421fc000 (       0)           1736K\n             **heap**                      @21423cf000 (       0)           1032K\n             **heap**                      @2142532000 (       0)            388K\n             **heap**                      @21425f3000 (       0)           7136K\n             **heap**                      @2142dac000 (       0)           3080K\n             **heap**                      @2143187000 (       0)             21M\n             **zero ELF**                  @491781e000 (       0)            4096\n             **zero ELF**                  @491785d000 (       0)            4096\n             **zero ELF**                  @4917906000 (       0)             16K\n             **zero ELF**                  @491790c000 (       0)             24K\n             **zero ELF**                  @4917921000 (       0)            4096\n             **zero ELF**                  @4917936000 (       0)            4096\n             **zero ELF**                  @4917a34000 (       0)             28K\n             **zero ELF**                  @4917a3c000 (       0)             40K\n             **zero ELF**                  @4917a7d000 (       0)             20K\n             **zero ELF**                  @4917a8f000 (       0)            4096\n             **zero ELF**                  @4917a93000 (       0)            4096\n"
+          },
+          "rlimits": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10276914",
+              "rlimits"
+            ],
+            "duration_ms": 58.945,
+            "finished_monotonic_ns": 3299881231907,
+            "returncode": 0,
+            "started_monotonic_ns": 3299822287315,
+            "stderr": "",
+            "stdout": "\n\nResource limits:                        soft : hard                 \nCPU (seconds)                       infinity : infinity             \nFile size (blocks)                  infinity : infinity             \nCore dump (blocks)                  infinity : infinity             \nData segment size (kB)              infinity : infinity             \nStack size (kB)                     infinity : infinity             \nLocked memory (kB)                  infinity : infinity             \nVirtual memory (kB)                  8388608 : infinity             \nOpen file descriptors                   2000 : 2000                 \nProcesses                           infinity : infinity             \nThreads                             infinity : infinity             \nMemory usage (.1% RAM)              infinity : infinity             \nOpen connections                    infinity : infinity             \nRegistered events                        256 : 256                  \nTimers created                      infinity : infinity             \nChannel limit                            100 : 100                  \n\n"
+          },
+          "rmasks": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10276914",
+              "rmasks"
+            ],
+            "duration_ms": 47.282,
+            "finished_monotonic_ns": 3299822259815,
+            "returncode": 0,
+            "started_monotonic_ns": 3299774977722,
+            "stderr": "",
+            "stdout": "     pid tid name                         \n10276914   1 1018-1655-7778ee0/ncnn_bench \n\tRunmask     : 0x0000000f\n\tInherit Mask: 0x0000000f\n\n"
+          },
+          "sched": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10276914",
+              "sched"
+            ],
+            "duration_ms": 52.783,
+            "finished_monotonic_ns": 3299774955407,
+            "returncode": 0,
+            "started_monotonic_ns": 3299722172796,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE          cpu ExtSched            \n10276914   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING          1                     \n"
+          }
+        },
+        "process": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-R",
+            "15",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/ncnn_bench",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.param",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.bin",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/input.raw",
+            "320",
+            "21",
+            "3",
+            "in0",
+            "out0",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ncnn-bounded-load-trial1-calls.csv"
+          ],
+          "duration_ms": 2365.454,
+          "finished_monotonic_ns": 3301816072352,
+          "pid": 10276914,
+          "returncode": 0,
+          "started_monotonic_ns": 3299450618352
+        },
+        "scenario": "bounded-load",
+        "thermal_after": {
+          "thermal": "60.91",
+          "thermal_ext": "temp_in_c: 59.81\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "thermal_before": {
+          "thermal": "60.36",
+          "thermal_ext": "temp_in_c: 60.36\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 1
+      },
+      {
+        "load_processes": [
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "0",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "4.5"
+            ],
+            "duration_ms": 4624.175,
+            "finished_monotonic_ns": 3308359051315,
+            "pid": 10334254,
+            "returncode": 0,
+            "started_monotonic_ns": 3303734876778
+          },
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "1",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "4.5"
+            ],
+            "duration_ms": 4602.111,
+            "finished_monotonic_ns": 3308359174833,
+            "pid": 10338352,
+            "returncode": 0,
+            "started_monotonic_ns": 3303757063352
+          },
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "2",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "4.5"
+            ],
+            "duration_ms": 4580.807,
+            "finished_monotonic_ns": 3308359265500,
+            "pid": 10346545,
+            "returncode": 0,
+            "started_monotonic_ns": 3303778458907
+          }
+        ],
+        "observed_process": {
+          "memory": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10358834",
+              "memory"
+            ],
+            "duration_ms": 44.63,
+            "finished_monotonic_ns": 3304568712778,
+            "returncode": 0,
+            "started_monotonic_ns": 3304524083185,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE                      code  data        stack\n10358834   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @2c952e1000                3776K   32K\n             ldqnx-64.so.2                 @4e1b529000                 228K   12K\n             libm.so.3                     @4e1b566000                 248K  4096\n             libc.so.6                     @4e1b5a6000                 668K  8192\n             libregex.so.1                 @4e1b659000                  60K  4096\n             libgcc_s.so.1                 @4e1b66a000                  76K  4096\n             libc++.so.1.0                 @4e1b67f000                1008K  4096\n             libc++abi.so.1.0              @4e1b78d000                 220K  4096\n             libunwind.so.1.0              @4e1b7ca000                  48K  4096\n             libcatalog.so.1               @4e1b7d8000                 8192  4096\n             **zero ELF**                  @4e1b565000 (       0)            4096\n             **zero ELF**                  @4e1b5a4000 (       0)            4096\n             **zero ELF**                  @4e1b64d000 (       0)             16K\n             **zero ELF**                  @4e1b653000 (       0)             24K\n             **zero ELF**                  @4e1b668000 (       0)            4096\n             **zero ELF**                  @4e1b67d000 (       0)            4096\n             **zero ELF**                  @4e1b77b000 (       0)             28K\n             **zero ELF**                  @4e1b783000 (       0)             40K\n             **zero ELF**                  @4e1b7c4000 (       0)             20K\n             **zero ELF**                  @4e1b7d6000 (       0)            4096\n             **zero ELF**                  @4e1b7da000 (       0)            4096\n             **heap**                      @578331e000 (       0)           3168K\n             **heap**                      @5783676000 (       0)           1292K\n             **heap**                      @57837ca000 (       0)            452K\n             **heap**                      @578386c000 (       0)           1028K\n             **heap**                      @57839cb000 (       0)           5012K\n             **heap**                      @5783ed1000 (       0)           1416K\n             **heap**                      @5784034000 (       0)            260K\n             **heap**                      @57840d6000 (       0)           1736K\n             **heap**                      @57842a9000 (       0)           1032K\n             **heap**                      @578440c000 (       0)            388K\n             **heap**                      @57844cd000 (       0)           7136K\n             **heap**                      @5784c86000 (       0)           3080K\n             **heap**                      @5785061000 (       0)             23M\n"
+          },
+          "rlimits": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10358834",
+              "rlimits"
+            ],
+            "duration_ms": 53.378,
+            "finished_monotonic_ns": 3304524020852,
+            "returncode": 0,
+            "started_monotonic_ns": 3304470643315,
+            "stderr": "",
+            "stdout": "\n\nResource limits:                        soft : hard                 \nCPU (seconds)                       infinity : infinity             \nFile size (blocks)                  infinity : infinity             \nCore dump (blocks)                  infinity : infinity             \nData segment size (kB)              infinity : infinity             \nStack size (kB)                     infinity : infinity             \nLocked memory (kB)                  infinity : infinity             \nVirtual memory (kB)                  8388608 : infinity             \nOpen file descriptors                   2000 : 2000                 \nProcesses                           infinity : infinity             \nThreads                             infinity : infinity             \nMemory usage (.1% RAM)              infinity : infinity             \nOpen connections                    infinity : infinity             \nRegistered events                        256 : 256                  \nTimers created                      infinity : infinity             \nChannel limit                            100 : 100                  \n\n"
+          },
+          "rmasks": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10358834",
+              "rmasks"
+            ],
+            "duration_ms": 57.102,
+            "finished_monotonic_ns": 3304470614000,
+            "returncode": 0,
+            "started_monotonic_ns": 3304413511944,
+            "stderr": "",
+            "stdout": "     pid tid name                         \n10358834   1 1018-1655-7778ee0/ncnn_bench \n\tRunmask     : 0x0000000f\n\tInherit Mask: 0x0000000f\n\n"
+          },
+          "sched": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10358834",
+              "sched"
+            ],
+            "duration_ms": 77.398,
+            "finished_monotonic_ns": 3304413486667,
+            "returncode": 0,
+            "started_monotonic_ns": 3304336088185,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE          cpu ExtSched            \n10358834   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING          1                     \n"
+          }
+        },
+        "process": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-R",
+            "15",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/ncnn_bench",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.param",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.bin",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/input.raw",
+            "320",
+            "21",
+            "3",
+            "in0",
+            "out0",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ncnn-bounded-load-trial2-calls.csv"
+          ],
+          "duration_ms": 2287.503,
+          "finished_monotonic_ns": 3306352060037,
+          "pid": 10358834,
+          "returncode": 0,
+          "started_monotonic_ns": 3304064557093
+        },
+        "scenario": "bounded-load",
+        "thermal_after": {
+          "thermal": "60.36",
+          "thermal_ext": "temp_in_c: 59.26\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "thermal_before": {
+          "thermal": "58.71",
+          "thermal_ext": "temp_in_c: 59.81\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 2
+      },
+      {
+        "load_processes": [
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "0",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "4.5"
+            ],
+            "duration_ms": 4605.396,
+            "finished_monotonic_ns": 3312977036611,
+            "pid": 10416174,
+            "returncode": 0,
+            "started_monotonic_ns": 3308371640815
+          },
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "1",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "4.5"
+            ],
+            "duration_ms": 4583.562,
+            "finished_monotonic_ns": 3312977157796,
+            "pid": 10420272,
+            "returncode": 0,
+            "started_monotonic_ns": 3308393595722
+          },
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "2",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "4.5"
+            ],
+            "duration_ms": 4560.026,
+            "finished_monotonic_ns": 3312977255315,
+            "pid": 10428465,
+            "returncode": 0,
+            "started_monotonic_ns": 3308417229037
+          }
+        ],
+        "observed_process": {
+          "memory": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10440754",
+              "memory"
+            ],
+            "duration_ms": 61.776,
+            "finished_monotonic_ns": 3309189768944,
+            "returncode": 0,
+            "started_monotonic_ns": 3309127992722,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE                      code  data        stack\n10440754   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @3e9e470000                3776K   32K\n             ldqnx-64.so.2                 @4a16094000                 228K   12K\n             libm.so.3                     @4a160d1000                 248K  4096\n             libc.so.6                     @4a16111000                 668K  8192\n             libregex.so.1                 @4a161c4000                  60K  4096\n             libgcc_s.so.1                 @4a161d5000                  76K  4096\n             libc++.so.1.0                 @4a161ea000                1008K  4096\n             libc++abi.so.1.0              @4a162f8000                 220K  4096\n             libunwind.so.1.0              @4a16335000                  48K  4096\n             libcatalog.so.1               @4a16343000                 8192  4096\n             **zero ELF**                  @4a160d0000 (       0)            4096\n             **zero ELF**                  @4a1610f000 (       0)            4096\n             **zero ELF**                  @4a161b8000 (       0)             16K\n             **zero ELF**                  @4a161be000 (       0)             24K\n             **zero ELF**                  @4a161d3000 (       0)            4096\n             **zero ELF**                  @4a161e8000 (       0)            4096\n             **zero ELF**                  @4a162e6000 (       0)             28K\n             **zero ELF**                  @4a162ee000 (       0)             40K\n             **zero ELF**                  @4a1632f000 (       0)             20K\n             **zero ELF**                  @4a16341000 (       0)            4096\n             **zero ELF**                  @4a16345000 (       0)            4096\n             **heap**                      @5d73f6f000 (       0)           3168K\n             **heap**                      @5d742c7000 (       0)           1292K\n             **heap**                      @5d7441b000 (       0)            452K\n             **heap**                      @5d744bd000 (       0)           1028K\n             **heap**                      @5d7461c000 (       0)           5012K\n             **heap**                      @5d74b22000 (       0)           1416K\n             **heap**                      @5d74c85000 (       0)            260K\n             **heap**                      @5d74d27000 (       0)           1736K\n             **heap**                      @5d74efa000 (       0)           1032K\n             **heap**                      @5d7505d000 (       0)            388K\n             **heap**                      @5d7511e000 (       0)           7136K\n             **heap**                      @5d758d7000 (       0)           3080K\n             **heap**                      @5d75cb2000 (       0)             23M\n"
+          },
+          "rlimits": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10440754",
+              "rlimits"
+            ],
+            "duration_ms": 52.781,
+            "finished_monotonic_ns": 3309127965315,
+            "returncode": 0,
+            "started_monotonic_ns": 3309075184056,
+            "stderr": "",
+            "stdout": "\n\nResource limits:                        soft : hard                 \nCPU (seconds)                       infinity : infinity             \nFile size (blocks)                  infinity : infinity             \nCore dump (blocks)                  infinity : infinity             \nData segment size (kB)              infinity : infinity             \nStack size (kB)                     infinity : infinity             \nLocked memory (kB)                  infinity : infinity             \nVirtual memory (kB)                  8388608 : infinity             \nOpen file descriptors                   2000 : 2000                 \nProcesses                           infinity : infinity             \nThreads                             infinity : infinity             \nMemory usage (.1% RAM)              infinity : infinity             \nOpen connections                    infinity : infinity             \nRegistered events                        256 : 256                  \nTimers created                      infinity : infinity             \nChannel limit                            100 : 100                  \n\n"
+          },
+          "rmasks": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10440754",
+              "rmasks"
+            ],
+            "duration_ms": 48.322,
+            "finished_monotonic_ns": 3309075145056,
+            "returncode": 0,
+            "started_monotonic_ns": 3309026822704,
+            "stderr": "",
+            "stdout": "     pid tid name                         \n10440754   1 1018-1655-7778ee0/ncnn_bench \n\tRunmask     : 0x0000000f\n\tInherit Mask: 0x0000000f\n\n"
+          },
+          "sched": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10440754",
+              "sched"
+            ],
+            "duration_ms": 52.594,
+            "finished_monotonic_ns": 3309026737889,
+            "returncode": 0,
+            "started_monotonic_ns": 3308974143722,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE          cpu ExtSched            \n10440754   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING          1                     \n"
+          }
+        },
+        "process": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-R",
+            "15",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/ncnn_bench",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.param",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.bin",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/input.raw",
+            "320",
+            "21",
+            "3",
+            "in0",
+            "out0",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ncnn-bounded-load-trial3-calls.csv"
+          ],
+          "duration_ms": 2319.531,
+          "finished_monotonic_ns": 3311021100778,
+          "pid": 10440754,
+          "returncode": 0,
+          "started_monotonic_ns": 3308701569481
+        },
+        "scenario": "bounded-load",
+        "thermal_after": {
+          "thermal": "60.36",
+          "thermal_ext": "temp_in_c: 59.81\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "thermal_before": {
+          "thermal": "59.81",
+          "thermal_ext": "temp_in_c: 59.81\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 3
+      },
+      {
+        "load_processes": [
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "0",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "4.5"
+            ],
+            "duration_ms": 4568.428,
+            "finished_monotonic_ns": 3317559056741,
+            "pid": 10543150,
+            "returncode": 0,
+            "started_monotonic_ns": 3312990629111
+          },
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "1",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "4.5"
+            ],
+            "duration_ms": 4545.993,
+            "finished_monotonic_ns": 3317559192611,
+            "pid": 10547248,
+            "returncode": 0,
+            "started_monotonic_ns": 3313013199611
+          },
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "2",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "4.5"
+            ],
+            "duration_ms": 4522.424,
+            "finished_monotonic_ns": 3317559255741,
+            "pid": 10559537,
+            "returncode": 0,
+            "started_monotonic_ns": 3313036831648
+          }
+        ],
+        "observed_process": {
+          "memory": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10592306",
+              "memory"
+            ],
+            "duration_ms": 59.742,
+            "finished_monotonic_ns": 3313815632500,
+            "returncode": 0,
+            "started_monotonic_ns": 3313755890463,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE                      code  data        stack\n10592306   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @28bc1cd000                3776K   32K\n             ldqnx-64.so.2                 @51f7b9b000                 228K   12K\n             libm.so.3                     @51f7bd8000                 248K  4096\n             libc.so.6                     @51f7c18000                 668K  8192\n             libregex.so.1                 @51f7ccb000                  60K  4096\n             libgcc_s.so.1                 @51f7cdc000                  76K  4096\n             libc++.so.1.0                 @51f7cf1000                1008K  4096\n             libc++abi.so.1.0              @51f7dff000                 220K  4096\n             libunwind.so.1.0              @51f7e3c000                  48K  4096\n             libcatalog.so.1               @51f7e4a000                 8192  4096\n             **heap**                      @35d7ad8000 (       0)           3168K\n             **heap**                      @35d7e30000 (       0)           1292K\n             **heap**                      @35d7f84000 (       0)            452K\n             **heap**                      @35d8026000 (       0)           1028K\n             **heap**                      @35d8185000 (       0)           5012K\n             **heap**                      @35d868b000 (       0)           1416K\n             **heap**                      @35d87ee000 (       0)            260K\n             **heap**                      @35d8890000 (       0)           1736K\n             **heap**                      @35d8a63000 (       0)           1032K\n             **heap**                      @35d8bc6000 (       0)            388K\n             **heap**                      @35d8c87000 (       0)           7136K\n             **heap**                      @35d9440000 (       0)           3080K\n             **heap**                      @35d981b000 (       0)             23M\n             **zero ELF**                  @51f7bd7000 (       0)            4096\n             **zero ELF**                  @51f7c16000 (       0)            4096\n             **zero ELF**                  @51f7cbf000 (       0)             16K\n             **zero ELF**                  @51f7cc5000 (       0)             24K\n             **zero ELF**                  @51f7cda000 (       0)            4096\n             **zero ELF**                  @51f7cef000 (       0)            4096\n             **zero ELF**                  @51f7ded000 (       0)             28K\n             **zero ELF**                  @51f7df5000 (       0)             40K\n             **zero ELF**                  @51f7e36000 (       0)             20K\n             **zero ELF**                  @51f7e48000 (       0)            4096\n             **zero ELF**                  @51f7e4c000 (       0)            4096\n"
+          },
+          "rlimits": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10592306",
+              "rlimits"
+            ],
+            "duration_ms": 57.47,
+            "finished_monotonic_ns": 3313755865944,
+            "returncode": 0,
+            "started_monotonic_ns": 3313698395704,
+            "stderr": "",
+            "stdout": "\n\nResource limits:                        soft : hard                 \nCPU (seconds)                       infinity : infinity             \nFile size (blocks)                  infinity : infinity             \nCore dump (blocks)                  infinity : infinity             \nData segment size (kB)              infinity : infinity             \nStack size (kB)                     infinity : infinity             \nLocked memory (kB)                  infinity : infinity             \nVirtual memory (kB)                  8388608 : infinity             \nOpen file descriptors                   2000 : 2000                 \nProcesses                           infinity : infinity             \nThreads                             infinity : infinity             \nMemory usage (.1% RAM)              infinity : infinity             \nOpen connections                    infinity : infinity             \nRegistered events                        256 : 256                  \nTimers created                      infinity : infinity             \nChannel limit                            100 : 100                  \n\n"
+          },
+          "rmasks": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10592306",
+              "rmasks"
+            ],
+            "duration_ms": 58.065,
+            "finished_monotonic_ns": 3313698320778,
+            "returncode": 0,
+            "started_monotonic_ns": 3313640256056,
+            "stderr": "",
+            "stdout": "     pid tid name                         \n10592306   1 1018-1655-7778ee0/ncnn_bench \n\tRunmask     : 0x0000000f\n\tInherit Mask: 0x0000000f\n\n"
+          },
+          "sched": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10592306",
+              "sched"
+            ],
+            "duration_ms": 47.113,
+            "finished_monotonic_ns": 3313640170111,
+            "returncode": 0,
+            "started_monotonic_ns": 3313593056870,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE          cpu ExtSched            \n10592306   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING          1                     \n"
+          }
+        },
+        "process": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-R",
+            "15",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/ncnn_bench",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.param",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.bin",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/input.raw",
+            "320",
+            "21",
+            "3",
+            "in0",
+            "out0",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ncnn-bounded-load-trial4-calls.csv"
+          ],
+          "duration_ms": 2333.583,
+          "finished_monotonic_ns": 3315654116093,
+          "pid": 10592306,
+          "returncode": 0,
+          "started_monotonic_ns": 3313320533185
+        },
+        "scenario": "bounded-load",
+        "thermal_after": {
+          "thermal": "60.36",
+          "thermal_ext": "temp_in_c: 59.81\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "thermal_before": {
+          "thermal": "60.36",
+          "thermal_ext": "temp_in_c: 59.81\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 4
+      },
+      {
+        "load_processes": [
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "0",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "4.5"
+            ],
+            "duration_ms": 4594.434,
+            "finished_monotonic_ns": 3322164053667,
+            "pid": 10649646,
+            "returncode": 0,
+            "started_monotonic_ns": 3317569619667
+          },
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "1",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "4.5"
+            ],
+            "duration_ms": 4572.283,
+            "finished_monotonic_ns": 3322164187130,
+            "pid": 10653744,
+            "returncode": 0,
+            "started_monotonic_ns": 3317591903685
+          },
+          {
+            "argv": [
+              "/proc/boot/on",
+              "-L",
+              "vmem:8589934592",
+              "-C",
+              "2",
+              "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/cpu_stress",
+              "4.5"
+            ],
+            "duration_ms": 4551.041,
+            "finished_monotonic_ns": 3322164314889,
+            "pid": 10661937,
+            "returncode": 0,
+            "started_monotonic_ns": 3317613273630
+          }
+        ],
+        "observed_process": {
+          "memory": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10674226",
+              "memory"
+            ],
+            "duration_ms": 42.024,
+            "finished_monotonic_ns": 3318364151759,
+            "returncode": 0,
+            "started_monotonic_ns": 3318322127426,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE                      code  data        stack\n10674226   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING                   6340K   48M    512K/512K\n             ncnn_bench                    @2cc2a8a000                3776K   32K\n             ldqnx-64.so.2                 @53127a7000                 228K   12K\n             libm.so.3                     @53127e4000                 248K  4096\n             libc.so.6                     @5312824000                 668K  8192\n             libregex.so.1                 @53128d7000                  60K  4096\n             libgcc_s.so.1                 @53128e8000                  76K  4096\n             libc++.so.1.0                 @53128fd000                1008K  4096\n             libc++abi.so.1.0              @5312a0b000                 220K  4096\n             libunwind.so.1.0              @5312a48000                  48K  4096\n             libcatalog.so.1               @5312a56000                 8192  4096\n             **heap**                      @46360f1000 (       0)           3168K\n             **heap**                      @4636449000 (       0)           1292K\n             **heap**                      @463659d000 (       0)            452K\n             **heap**                      @463663f000 (       0)           1028K\n             **heap**                      @463679e000 (       0)           5012K\n             **heap**                      @4636ca4000 (       0)           1416K\n             **heap**                      @4636e07000 (       0)            260K\n             **heap**                      @4636ea9000 (       0)           1736K\n             **heap**                      @463707c000 (       0)           1032K\n             **heap**                      @46371df000 (       0)            388K\n             **heap**                      @46372a0000 (       0)           7136K\n             **heap**                      @4637a59000 (       0)           3080K\n             **heap**                      @4637e34000 (       0)             23M\n             **zero ELF**                  @53127e3000 (       0)            4096\n             **zero ELF**                  @5312822000 (       0)            4096\n             **zero ELF**                  @53128cb000 (       0)             16K\n             **zero ELF**                  @53128d1000 (       0)             24K\n             **zero ELF**                  @53128e6000 (       0)            4096\n             **zero ELF**                  @53128fb000 (       0)            4096\n             **zero ELF**                  @53129f9000 (       0)             28K\n             **zero ELF**                  @5312a01000 (       0)             40K\n             **zero ELF**                  @5312a42000 (       0)             20K\n             **zero ELF**                  @5312a54000 (       0)            4096\n             **zero ELF**                  @5312a58000 (       0)            4096\n"
+          },
+          "rlimits": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10674226",
+              "rlimits"
+            ],
+            "duration_ms": 42.454,
+            "finished_monotonic_ns": 3318322101648,
+            "returncode": 0,
+            "started_monotonic_ns": 3318279647685,
+            "stderr": "",
+            "stdout": "\n\nResource limits:                        soft : hard                 \nCPU (seconds)                       infinity : infinity             \nFile size (blocks)                  infinity : infinity             \nCore dump (blocks)                  infinity : infinity             \nData segment size (kB)              infinity : infinity             \nStack size (kB)                     infinity : infinity             \nLocked memory (kB)                  infinity : infinity             \nVirtual memory (kB)                  8388608 : infinity             \nOpen file descriptors                   2000 : 2000                 \nProcesses                           infinity : infinity             \nThreads                             infinity : infinity             \nMemory usage (.1% RAM)              infinity : infinity             \nOpen connections                    infinity : infinity             \nRegistered events                        256 : 256                  \nTimers created                      infinity : infinity             \nChannel limit                            100 : 100                  \n\n"
+          },
+          "rmasks": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10674226",
+              "rmasks"
+            ],
+            "duration_ms": 53.393,
+            "finished_monotonic_ns": 3318279599833,
+            "returncode": 0,
+            "started_monotonic_ns": 3318226207148,
+            "stderr": "",
+            "stdout": "     pid tid name                         \n10674226   1 1018-1655-7778ee0/ncnn_bench \n\tRunmask     : 0x0000000f\n\tInherit Mask: 0x0000000f\n\n"
+          },
+          "sched": {
+            "argv": [
+              "pidin",
+              "-p",
+              "10674226",
+              "sched"
+            ],
+            "duration_ms": 54.137,
+            "finished_monotonic_ns": 3318226178537,
+            "returncode": 0,
+            "started_monotonic_ns": 3318172041722,
+            "stderr": "",
+            "stdout": "     pid tid name                         prio STATE          cpu ExtSched            \n10674226   1 1018-1655-7778ee0/ncnn_bench  10r RUNNING          2                     \n"
+          }
+        },
+        "process": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8589934592",
+            "-R",
+            "15",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/ncnn_bench",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.param",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/model/model.ncnn.bin",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/input.raw",
+            "320",
+            "21",
+            "3",
+            "in0",
+            "out0",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/ncnn-bounded-load-trial5-calls.csv"
+          ],
+          "duration_ms": 2308.236,
+          "finished_monotonic_ns": 3320208066444,
+          "pid": 10674226,
+          "returncode": 0,
+          "started_monotonic_ns": 3317899830722
+        },
+        "scenario": "bounded-load",
+        "thermal_after": {
+          "thermal": "59.81",
+          "thermal_ext": "temp_in_c: 60.91\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "thermal_before": {
+          "thermal": "60.36",
+          "thermal_ext": "temp_in_c: 60.36\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 5
+      }
+    ],
+    "suite": "ncnn",
+    "trials_per_scenario": 5
+  },
+  "schema": "holy-crap-qnx-native-eval-v1",
+  "source_commit": "7778ee028347acb8793b7fd81d3d92f63ff57d37",
+  "suite": "ncnn",
+  "target": "QNX 8.0 RaspberryPi5 aarch64le",
+  "thermal_after": {
+    "thermal": "59.81",
+    "thermal_ext": "temp_in_c: 60.36\nfan_control: resmgr\nfan_speed_pct: 50.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+  },
+  "thermal_before": {
+    "thermal": "58.71",
+    "thermal_ext": "temp_in_c: 58.71\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+  },
+  "virtual_memory_soft_limit_kib": 8388608
+}

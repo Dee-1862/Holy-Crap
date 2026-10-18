@@ -1,0 +1,6 @@
+CPU:AARCH64 Release:8.0.0  FreeMem:7447MB/8128MB BootTime:Oct 18 16:02:54 UTC 2026
+Processes: 4, Threads: 4
+Processor1: 1095749809 Cortex-A76 1500MHz FPU 
+Processor2: 1095749809 Cortex-A76 1500MHz FPU 
+Processor3: 1095749809 Cortex-A76 1500MHz FPU 
+Processor4: 1095749809 Cortex-A76 1500MHz FPU 

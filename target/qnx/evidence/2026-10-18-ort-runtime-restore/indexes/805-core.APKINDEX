@@ -1,0 +1,3027 @@
+C:Q1tb7TIae87OoAUgYB1VEGnYdlKd0=
+P:abuild
+V:3.16.0_p1-r1
+A:aarch64
+S:98023
+I:308988
+T:APK build toolchain, adapted for QNX
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1785422958
+c:374ad248d2b560bfa388fa1d1b3af85ac4e11c30
+D:qnx-utils nproc apk-tools fakeroot busybox openssl pkgconf pax-utils libssl3 libcrypto3 zlib-ng gawk curl bc tar gzip bzip2 zstd xz lzip
+
+C:Q1j+LCm5u4je2QyQvZbGp/tGlDqiA=
+P:abuild
+V:3.16.0_p1-r2
+A:aarch64
+S:98026
+I:308988
+T:APK build toolchain, adapted for QNX
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1785429415
+c:5812b0943f7c8942203ad1873f754c1f305f6b61
+D:qnx-utils nproc apk-tools fakeroot busybox openssl pkgconf pax-utils libssl3 libcrypto3 zlib-ng gawk curl bc tar gzip bzip2 zstd xz lzip patch
+
+C:Q1yi6ji0Rxxlc/CJO7gSeTA+f9jCk=
+P:abuild
+V:3.16.0_p2-r0
+A:aarch64
+S:97947
+I:309028
+T:APK build toolchain, adapted for QNX
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1786336672
+c:c71219f00a9cb61c9857433cbcc82802e2a81740
+D:qnx-utils nproc apk-tools fakeroot busybox openssl pkgconf pax-utils libssl3 libcrypto3 zlib-ng gawk curl bc tar gzip bzip2 zstd xz lzip patch
+
+C:Q1EVVj/oX4YPpnYU4rflLbf13Elxw=
+P:abuild
+V:3.16.0_p3-r0
+A:aarch64
+S:96015
+I:308988
+T:APK build toolchain, adapted for QNX
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1788988332
+c:edd69c859fbd855cbcaa4dad66dcbe7bcb6ada6a
+D:qnx-utils nproc apk-tools fakeroot busybox openssl pkgconf pax-utils libssl3 libcrypto3 zlib-ng gawk curl bc tar gzip bzip2 zstd xz lzip patch
+
+C:Q1I/+h9/m35lCFJoy96sDJl0w74EI=
+P:abuild
+V:3.16.0_p4-r0
+A:aarch64
+S:96051
+I:308988
+T:APK build toolchain, adapted for QNX
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1789054146
+c:cb168d50d57b8906802d64d2b98eac8e05de35de
+D:qnx-utils nproc apk-tools fakeroot busybox openssl pkgconf pax-utils libssl3 libcrypto3 zlib-ng gawk curl bc tar gzip bzip2 zstd xz lzip patch
+
+C:Q170Xlf8XMviW6DWd4bWgA/Xa9SQ8=
+P:abuild
+V:3.16.0_p5-r0
+A:aarch64
+S:96012
+I:308848
+T:APK build toolchain, adapted for QNX
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1790695514
+c:70a316dc21455d53163b29dcbeda684a4baf73fe
+D:qnx-utils nproc apk-tools fakeroot busybox openssl pkgconf pax-utils libssl3 libcrypto3 zlib-ng gawk curl bc tar gzip bzip2 zstd xz lzip patch
+
+C:Q1kQHO+8sV/5UJREsa2Xm24zbLp04=
+P:abuild-cmake
+V:4.2.3-r1
+A:aarch64
+S:2525
+T:Cross-platform, open-source make system (abuild wrapper)
+U:https://www.cmake.org/
+L:BSD-3-Clause
+o:cmake
+t:1782237868
+c:37bf313b9e67bdbaa42770bd07a04231a32538df
+D:cmake=4.2.3-r1 abuild ninja
+i:cmake=4.2.3-r1 abuild
+
+C:Q1miauYwa1T7Y0loV2oQcKXgqcqEo=
+P:abuild-cmake
+V:4.4.2-r0
+A:aarch64
+S:4066
+T:Cross-platform, open-source make system (abuild wrapper)
+U:https://www.cmake.org/
+L:BSD-3-Clause
+o:cmake
+t:1786329539
+c:a62eae50cc6cb9a329f8ef4884a42b32d31f7f41
+D:cmake=4.4.2-r0 abuild ninja
+i:cmake=4.4.2-r0 abuild
+
+C:Q1khYJshIiWsY2y69GjDsvKoZpmgk=
+P:abuild-doc
+V:3.16.0_p1-r1
+A:aarch64
+S:17299
+I:12338
+T:APK build toolchain, adapted for QNX (documentation)
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1785422958
+c:374ad248d2b560bfa388fa1d1b3af85ac4e11c30
+i:docs abuild=3.16.0_p1-r1
+
+C:Q1Tg9H6c7EknkAUeHOhxNlUq6cNA8=
+P:abuild-doc
+V:3.16.0_p1-r2
+A:aarch64
+S:17302
+I:12338
+T:APK build toolchain, adapted for QNX (documentation)
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1785429415
+c:5812b0943f7c8942203ad1873f754c1f305f6b61
+i:docs abuild=3.16.0_p1-r2
+
+C:Q1mB61HQ9mWT4mgs9MR7rgeArmFFQ=
+P:abuild-doc
+V:3.16.0_p2-r0
+A:aarch64
+S:17238
+I:12338
+T:APK build toolchain, adapted for QNX (documentation)
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1786336672
+c:c71219f00a9cb61c9857433cbcc82802e2a81740
+i:docs abuild=3.16.0_p2-r0
+
+C:Q1f0xfG3x4IFSE7hmt58xFYbHYwaA=
+P:abuild-doc
+V:3.16.0_p3-r0
+A:aarch64
+S:15314
+I:12330
+T:APK build toolchain, adapted for QNX (documentation)
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1788988332
+c:edd69c859fbd855cbcaa4dad66dcbe7bcb6ada6a
+i:docs abuild=3.16.0_p3-r0
+
+C:Q1SuN1ZfOyn3RAwjeGPydqgZxfULM=
+P:abuild-doc
+V:3.16.0_p4-r0
+A:aarch64
+S:15332
+I:12339
+T:APK build toolchain, adapted for QNX (documentation)
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1789054146
+c:cb168d50d57b8906802d64d2b98eac8e05de35de
+i:docs abuild=3.16.0_p4-r0
+
+C:Q1s3g+Sb8VUeonjHIkhmCFdgmWOk8=
+P:abuild-doc
+V:3.16.0_p5-r0
+A:aarch64
+S:15328
+I:12339
+T:APK build toolchain, adapted for QNX (documentation)
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1790695514
+c:70a316dc21455d53163b29dcbeda684a4baf73fe
+i:docs abuild=3.16.0_p5-r0
+
+C:Q1ynSN5p+sP0vCtTsHQAw45ewrhEo=
+P:bash
+V:5.3.3-r5
+A:aarch64
+S:419128
+I:903332
+T:The GNU Bourne Again shell
+U:https://git.savannah.gnu.org/cgit/bash.git/
+L:GPL-3.0-or-later
+o:bash
+t:1786559898
+c:94f4e6f7223c6e932c8da0479f09d08f6482fd8c
+k:1
+D:ncurses readline qnx-io-sock libintl libiconv
+p:/bin/sh
+
+C:Q1oFm2vPFFQQCP7ClDh7PnceROPPA=
+P:bash-doc
+V:5.3.3-r5
+A:aarch64
+S:812699
+I:2968723
+T:The GNU Bourne Again shell (documentation)
+U:https://git.savannah.gnu.org/cgit/bash.git/
+L:GPL-3.0-or-later
+o:bash
+t:1786559898
+c:94f4e6f7223c6e932c8da0479f09d08f6482fd8c
+k:1
+i:docs bash=5.3.3-r5
+
+C:Q1bX3lb4eXtZlxMeHydCPGh7K6eWA=
+P:bash-lang
+V:5.3.3-r5
+A:aarch64
+S:1688875
+I:5424834
+T:Languages for package bash
+U:https://git.savannah.gnu.org/cgit/bash.git/
+L:GPL-3.0-or-later
+o:bash
+t:1786559898
+c:94f4e6f7223c6e932c8da0479f09d08f6482fd8c
+k:1
+i:bash=5.3.3-r5 lang
+
+C:Q15siUV0l+dpYZl0XZAhmd6ac6y2w=
+P:busybox
+V:1.36.1_p0-r0
+A:aarch64
+S:212173
+I:341544
+T:Size optimized toolbox of many common UNIX utilities
+U:https://www.busybox.net
+L:GPL-2.0-only
+o:busybox
+m:Leo Shen <yishen@qnx.com>
+t:1784665942
+c:ca60d073391b6423e8ac2cf8c9bbf3bc63f8ea01
+D:qnx-io-sock
+
+C:Q1leNirh2yktIOeqVwuwR9bLxh29M=
+P:busybox
+V:1.36.1_p0-r1
+A:aarch64
+S:212170
+I:341544
+T:Size optimized toolbox of many common UNIX utilities
+U:https://www.busybox.net
+L:GPL-2.0-only
+o:busybox
+m:Leo Shen <yishen@qnx.com>
+t:1784731989
+c:8e4c98f1b5c4b4cf993152630ebfdb1581af99f8
+D:qnx-io-sock
+
+C:Q11Vk5kG4fANz0uaDablwmxiYGyc8=
+P:busybox-doc
+V:1.36.1_p0-r0
+A:aarch64
+S:23778
+I:19506
+T:Size optimized toolbox of many common UNIX utilities (documentation)
+U:https://www.busybox.net
+L:GPL-2.0-only
+o:busybox
+m:Leo Shen <yishen@qnx.com>
+t:1784665942
+c:ca60d073391b6423e8ac2cf8c9bbf3bc63f8ea01
+i:docs busybox=1.36.1_p0-r0
+
+C:Q1cdrTgsAwsQ/y/ft7D5zhPtX/2mU=
+P:busybox-doc
+V:1.36.1_p0-r1
+A:aarch64
+S:23779
+I:19506
+T:Size optimized toolbox of many common UNIX utilities (documentation)
+U:https://www.busybox.net
+L:GPL-2.0-only
+o:busybox
+m:Leo Shen <yishen@qnx.com>
+t:1784731989
+c:8e4c98f1b5c4b4cf993152630ebfdb1581af99f8
+i:docs busybox=1.36.1_p0-r1
+
+C:Q1YrRvF9HLO4bHIf2xQuein2Tjvss=
+P:bzip2
+V:1.0.8-r8
+A:aarch64
+S:146720
+I:291373
+T:A high-quality data compression program
+U:https://sourceware.org/bzip2/
+L:bzip2-1.0.6
+o:bzip2
+t:1787250476
+c:72877b39a165ece8353eccde5bec7106f27b8284
+
+C:Q1WNwyRlozYJ7TTZLmxllZ5iZCd3g=
+P:bzip2-dev
+V:1.0.8-r8
+A:aarch64
+S:6141
+I:6466
+T:A high-quality data compression program (development files)
+U:https://sourceware.org/bzip2/
+L:bzip2-1.0.6
+o:bzip2
+t:1787250476
+c:72877b39a165ece8353eccde5bec7106f27b8284
+D:libbz2=1.0.8-r8 pkgconfig
+p:pc:pc:bzip2=1.0.8
+
+C:Q1nxxcR8KVUBQY4akwsLa1azXmrEI=
+P:bzip2-doc
+V:1.0.8-r8
+A:aarch64
+S:14501
+I:9721
+T:A high-quality data compression program (documentation)
+U:https://sourceware.org/bzip2/
+L:bzip2-1.0.6
+o:bzip2
+t:1787250476
+c:72877b39a165ece8353eccde5bec7106f27b8284
+i:docs bzip2=1.0.8-r8
+
+C:Q1Bh/QUz2cFLEGK/dfbvWToZZMcLc=
+P:bzip2-static
+V:1.0.8-r8
+A:aarch64
+S:41982
+I:84570
+T:A high-quality data compression program (static library)
+U:https://sourceware.org/bzip2/
+L:bzip2-1.0.6
+o:bzip2
+t:1787250476
+c:72877b39a165ece8353eccde5bec7106f27b8284
+
+C:Q1X79whQgqdzdFysTrK5boAEgjaxk=
+P:ca-certificates
+V:1-r4
+A:aarch64
+S:6228
+I:4724
+T:CA certificates provider
+U:https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/
+L:GPL-2.0-or-later
+o:ca-certificates
+m:Leo Shen <yishen@qnx.com>
+t:1786484017
+c:3063d6261089fb845279f509186acb47d0fb51eb
+D:p11-kit ca-certificates-bundle /bin/sh
+
+C:Q1bUbsjMCFIlsoJE/49+697qIYG2Q=
+P:ca-certificates
+V:1-r5
+A:aarch64
+S:4343
+I:4724
+T:CA certificates provider
+U:https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/
+L:GPL-2.0-or-later
+o:ca-certificates
+m:Leo Shen <yishen@qnx.com>
+t:1786637920
+c:8fc03933c724cccded3bc56da84531566f0fafcf
+D:p11-kit ca-certificates-bundle /bin/sh
+
+C:Q1hNB4s/vYJkmxV23byoq84XkmLCA=
+P:ca-certificates-mozilla
+V:3.117-r4
+A:aarch64
+S:135913
+I:230752
+T:Mozilla's set of trusted CA certificates
+U:https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/
+L:GPL-2.0-or-later
+o:ca-certificates
+m:Leo Shen <yishen@qnx.com>
+t:1786484017
+c:3063d6261089fb845279f509186acb47d0fb51eb
+k:1
+p:ca-certificates-bundle
+
+C:Q1QZN+Z128sQzHbtyl+ATHYsFzcQs=
+P:ca-certificates-mozilla
+V:3.117-r5
+A:aarch64
+S:134076
+I:230752
+T:Mozilla's set of trusted CA certificates
+U:https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/
+L:GPL-2.0-or-later
+o:ca-certificates
+m:Leo Shen <yishen@qnx.com>
+t:1786637920
+c:8fc03933c724cccded3bc56da84531566f0fafcf
+k:1
+p:ca-certificates-bundle
+
+C:Q149cWg3hzGzXSO8uJGppIMuq+J20=
+P:clang
+V:22-r0
+A:aarch64
+S:3177
+I:629
+T:C language family frontend for LLVM, default version
+U:https://clang.llvm.org/
+L:Apache-2.0
+o:clang
+m:Leo Shen <yishen@qnx.com>
+t:1779293002
+c:7d131dedaddb85ccbefdbd90deb77ebf424b54d7
+D:clang22
+
+C:Q1i09CF3VqLl0bPnK88GFZrjRA/YU=
+P:clang-bash-completion
+V:22-r0
+A:aarch64
+S:2401
+T:C language family frontend for LLVM, default version (bash completion)
+U:https://clang.llvm.org/
+L:Apache-2.0
+o:clang
+m:Leo Shen <yishen@qnx.com>
+t:1779293002
+c:7d131dedaddb85ccbefdbd90deb77ebf424b54d7
+D:clang22-bash-completion
+
+C:Q1hcxE2oCPbAlz/JhbdApbC8R9A+s=
+P:clang-ccache
+V:22-r0
+A:aarch64
+S:2402
+T:C language family frontend for LLVM, default version (ccache binaries)
+U:https://clang.llvm.org/
+L:Apache-2.0
+o:clang
+m:Leo Shen <yishen@qnx.com>
+t:1779293002
+c:7d131dedaddb85ccbefdbd90deb77ebf424b54d7
+D:clang22-ccache
+
+C:Q1d5EOy1I6G8BmeIy5S46yaMh+dF4=
+P:clang-dev
+V:22-r0
+A:aarch64
+S:2402
+T:C language family frontend for LLVM, default version (development files)
+U:https://clang.llvm.org/
+L:Apache-2.0
+o:clang
+m:Leo Shen <yishen@qnx.com>
+t:1779293002
+c:7d131dedaddb85ccbefdbd90deb77ebf424b54d7
+D:clang22-dev
+
+C:Q1X9uItwJ/ViYDipveqN1CutzWa1c=
+P:clang-doc
+V:22-r0
+A:aarch64
+S:2402
+T:C language family frontend for LLVM, default version (documentations)
+U:https://clang.llvm.org/
+L:Apache-2.0
+o:clang
+m:Leo Shen <yishen@qnx.com>
+t:1779293002
+c:7d131dedaddb85ccbefdbd90deb77ebf424b54d7
+D:clang22-doc
+
+C:Q15jyxKqFxQU/d2/+sqFswpAbBAEY=
+P:clang-static
+V:22-r0
+A:aarch64
+S:2404
+T:C language family frontend for LLVM, default version (static libraries)
+U:https://clang.llvm.org/
+L:Apache-2.0
+o:clang
+m:Leo Shen <yishen@qnx.com>
+t:1779293002
+c:7d131dedaddb85ccbefdbd90deb77ebf424b54d7
+D:clang22-static
+
+C:Q1JDi6zVwdJ9gQWZ9j6qPekKvRadU=
+P:clang22
+V:22.1.4_p1-r0
+A:aarch64
+S:34853205
+I:118585560
+T:C language family front-end for LLVM
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:clang22
+m:Leo Shen <yishen@qnx.com>
+t:1781028240
+c:48b10454f440da4c6e12f74d5843b522ce273ed0
+D:libxml2 llvm22-libs binutils qnx-gcc qnx-gcc-libs
+
+C:Q1jnLRw53vkPZGUN+/W0EJH5jJYOw=
+P:clang22
+V:22.1.8_p1-r0
+A:aarch64
+S:34795525
+I:118479064
+T:C language family front-end for LLVM
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:clang22
+m:Leo Shen <yishen@qnx.com>
+t:1787196861
+c:805dfe9a271a21f841301456e16014c6623388cb
+D:llvm22-libs binutils qnx-gcc qnx-gcc-libs
+
+C:Q1Yjm/zVdvhiHdMCUPSQbKe/h/8FQ=
+P:clang22-bash-completion
+V:22.1.4_p1-r0
+A:aarch64
+S:4106
+I:2250
+T:Bash completions for clang22
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:clang22
+m:Leo Shen <yishen@qnx.com>
+t:1781028240
+c:48b10454f440da4c6e12f74d5843b522ce273ed0
+i:clang22=22.1.4_p1-r0 bash-completion
+
+C:Q1AhBfO67UvdtVUKqijNIpZnDhvBQ=
+P:clang22-bash-completion
+V:22.1.8_p1-r0
+A:aarch64
+S:5461
+I:2250
+T:Bash completions for clang22
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:clang22
+m:Leo Shen <yishen@qnx.com>
+t:1787196861
+c:805dfe9a271a21f841301456e16014c6623388cb
+i:clang22=22.1.8_p1-r0 bash-completion
+
+C:Q1E6G2RTFsvJjWSaoAEfeD4iCyscI=
+P:clang22-ccache
+V:22.1.4_p1-r0
+A:aarch64
+S:3126
+I:1
+T:C language family front-end for LLVM (ccache symlinks)
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:clang22
+m:Leo Shen <yishen@qnx.com>
+t:1781028240
+c:48b10454f440da4c6e12f74d5843b522ce273ed0
+D:libxml2 llvm22-libs binutils qnx-gcc qnx-gcc-libs
+i:clang22=22.1.4_p1-r0 ccache
+
+C:Q1t1C7su+EZJskYmTknavysb9fjbg=
+P:clang22-ccache
+V:22.1.8_p1-r0
+A:aarch64
+S:4469
+I:1
+T:C language family front-end for LLVM (ccache symlinks)
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:clang22
+m:Leo Shen <yishen@qnx.com>
+t:1787196861
+c:805dfe9a271a21f841301456e16014c6623388cb
+D:llvm22-libs binutils qnx-gcc qnx-gcc-libs
+i:clang22=22.1.8_p1-r0 ccache
+
+C:Q1PdvVYx+iSDqgWv8NR/wfGdc8AXo=
+P:clang22-dev
+V:22.1.4_p1-r0
+A:aarch64
+S:4109028
+I:31546016
+T:C language family front-end for LLVM (development files for linking to libclang)
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:clang22
+m:Leo Shen <yishen@qnx.com>
+t:1781028240
+c:48b10454f440da4c6e12f74d5843b522ce273ed0
+D:libxml2 llvm22-libs binutils qnx-gcc qnx-gcc-libs
+
+C:Q1NW5lReKQlO68fZhr/e/UFUESTxU=
+P:clang22-dev
+V:22.1.8_p1-r0
+A:aarch64
+S:4110421
+I:31546856
+T:C language family front-end for LLVM (development files for linking to libclang)
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:clang22
+m:Leo Shen <yishen@qnx.com>
+t:1787196861
+c:805dfe9a271a21f841301456e16014c6623388cb
+D:llvm22-libs binutils qnx-gcc qnx-gcc-libs
+
+C:Q1QIhtI7n/NVFyHipXCJRoDJVwNQ4=
+P:clang22-doc
+V:22.1.4_p1-r0
+A:aarch64
+S:42237
+I:38762
+T:C language family front-end for LLVM (documentation)
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:clang22
+m:Leo Shen <yishen@qnx.com>
+t:1781028240
+c:48b10454f440da4c6e12f74d5843b522ce273ed0
+i:docs clang22=22.1.4_p1-r0
+
+C:Q18zp4FFePYcKN9HmW/3yxuOl3A+4=
+P:clang22-doc
+V:22.1.8_p1-r0
+A:aarch64
+S:43583
+I:38764
+T:C language family front-end for LLVM (documentation)
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:clang22
+m:Leo Shen <yishen@qnx.com>
+t:1787196861
+c:805dfe9a271a21f841301456e16014c6623388cb
+i:docs clang22=22.1.8_p1-r0
+
+C:Q1IPgx7GRU+mg4AQ5XrUoaMsM+0SA=
+P:clang22-extra-tools
+V:22.1.4_p1-r0
+A:aarch64
+S:41568
+I:115465
+T:Extra tools built using Clang's tooling APIs
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:clang22
+m:Leo Shen <yishen@qnx.com>
+t:1781028240
+c:48b10454f440da4c6e12f74d5843b522ce273ed0
+D:libxml2 llvm22-libs binutils qnx-gcc qnx-gcc-libs
+
+C:Q1IRCEMWLIr/Jb1830Yi4C3+YvKBQ=
+P:clang22-extra-tools
+V:22.1.8_p1-r0
+A:aarch64
+S:42955
+I:115465
+T:Extra tools built using Clang's tooling APIs
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:clang22
+m:Leo Shen <yishen@qnx.com>
+t:1787196861
+c:805dfe9a271a21f841301456e16014c6623388cb
+D:llvm22-libs binutils qnx-gcc qnx-gcc-libs clang22=22.1.8_p1-r0
+
+C:Q1sW5C+vEVAj2iRzXggv8glxWPnpI=
+P:clang22-static
+V:22.1.4_p1-r0
+A:aarch64
+S:34152627
+I:168401630
+T:C language family front-end for LLVM (static library)
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:clang22
+m:Leo Shen <yishen@qnx.com>
+t:1781028240
+c:48b10454f440da4c6e12f74d5843b522ce273ed0
+
+C:Q1rfUVUO8IYxOeT8qhSIkX7uHEm6g=
+P:clang22-static
+V:22.1.8_p1-r0
+A:aarch64
+S:34134858
+I:168560862
+T:C language family front-end for LLVM (static library)
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:clang22
+m:Leo Shen <yishen@qnx.com>
+t:1787196861
+c:805dfe9a271a21f841301456e16014c6623388cb
+
+C:Q18AHAs24Wl6q8BRlcGp5w1EX0KBA=
+P:cmake
+V:4.2.3-r1
+A:aarch64
+S:17734910
+I:46896261
+T:Cross-platform, open-source make system
+U:https://www.cmake.org/
+L:BSD-3-Clause
+o:cmake
+t:1782237868
+c:37bf313b9e67bdbaa42770bd07a04231a32538df
+D:libbz2 libexpat libarchive ncurses xz-libs libuv zlib-ng lz4-libs nghttp2 libcurl libc++
+
+C:Q1PBv4zDvB/k77909RH6sUYipJZ7s=
+P:cmake
+V:4.4.2-r0
+A:aarch64
+S:18998660
+I:50498439
+T:Cross-platform, open-source make system
+U:https://www.cmake.org/
+L:BSD-3-Clause
+o:cmake
+t:1786329539
+c:a62eae50cc6cb9a329f8ef4884a42b32d31f7f41
+D:libbz2 libexpat libarchive ncurses xz-libs libuv zlib-ng lz4-libs nghttp2 libcurl libc++
+
+C:Q1FTvCQKl39rAaYUQRus2TO/jpSEc=
+P:cmake-bash-completion
+V:4.2.3-r1
+A:aarch64
+S:5718
+I:15910
+T:Bash completions for cmake
+U:https://www.cmake.org/
+L:BSD-3-Clause
+o:cmake
+t:1782237868
+c:37bf313b9e67bdbaa42770bd07a04231a32538df
+i:cmake=4.2.3-r1 bash-completion
+
+C:Q169qeXbxMjaUXtKKDsrMzk9yhmkY=
+P:cmake-bash-completion
+V:4.4.2-r0
+A:aarch64
+S:7486
+I:16912
+T:Bash completions for cmake
+U:https://www.cmake.org/
+L:BSD-3-Clause
+o:cmake
+t:1786329539
+c:a62eae50cc6cb9a329f8ef4884a42b32d31f7f41
+i:cmake=4.4.2-r0 bash-completion
+
+C:Q1VgS4tI7v6YAtdYEOaKx4T4kjv58=
+P:cmake-doc
+V:4.2.3-r1
+A:aarch64
+S:6297
+I:8281
+T:Cross-platform, open-source make system (documentation)
+U:https://www.cmake.org/
+L:BSD-3-Clause
+o:cmake
+t:1782237868
+c:37bf313b9e67bdbaa42770bd07a04231a32538df
+i:docs cmake=4.2.3-r1
+
+C:Q1mJJ4e7+ELgcWmwNuJL1osdKVGTc=
+P:cmake-doc
+V:4.4.2-r0
+A:aarch64
+S:7889
+I:8449
+T:Cross-platform, open-source make system (documentation)
+U:https://www.cmake.org/
+L:BSD-3-Clause
+o:cmake
+t:1786329539
+c:a62eae50cc6cb9a329f8ef4884a42b32d31f7f41
+i:docs cmake=4.4.2-r0
+
+C:Q1wbqGoNz0po0dkAH4lxTm2ppJNxc=
+P:compiler-rt
+V:22.1.7_p0-r0
+A:aarch64
+S:545900
+I:2991112
+T:LLVM compiler-rt runtime libraries
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1781028178
+c:bdca1c4eb3d3e6106280a9c3e3c583e537c64f0c
+
+C:Q1RB7hHVtWgWzB7Qve/tIT9rg3G5I=
+P:compiler-rt
+V:22.1.8_p0-r0
+A:aarch64
+S:551992
+I:3013084
+T:LLVM compiler-rt runtime libraries
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1786649184
+c:830863c37530cc36b9e898c61e860f253f984466
+
+C:Q1ZBfoa+OoXhKM1I56za9oV0R4oWg=
+P:compiler-rt
+V:22.1.8_p0-r1
+A:aarch64
+S:551724
+I:3013084
+T:LLVM compiler-rt runtime libraries
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1788875884
+c:fac959e39aa88ccd076f5aaf082307a77277e413
+
+C:Q1zCHKh3iefd8g3RNAt7R4aCt9W3U=
+P:doxygen
+V:1.17.0-r0
+A:aarch64
+S:5741108
+I:20123104
+T:Documentation system for C++, C, Java, IDL and PHP
+U:https://www.doxygen.nl/
+L:GPL-2.0-or-later
+o:doxygen
+m:Aaron Bassett <abassett@qnx.com>
+t:1786044502
+c:dde40caaad18696d2e82a69e0c6fd5a10b748906
+D:libc++ libiconv sqlite-libs
+
+C:Q194KwcSqdUKqfBk9H/oaGBjcqhLE=
+P:doxygen-doc
+V:1.17.0-r0
+A:aarch64
+S:5455
+I:1043
+T:Documentation system for C++, C, Java, IDL and PHP (documentation)
+U:https://www.doxygen.nl/
+L:GPL-2.0-or-later
+o:doxygen
+m:Aaron Bassett <abassett@qnx.com>
+t:1786044502
+c:dde40caaad18696d2e82a69e0c6fd5a10b748906
+i:docs doxygen=1.17.0-r0
+
+C:Q1VNFRyDfhvW1Kl+0qGOFUsX/5hsc=
+P:ed
+V:1.22.5-r0
+A:aarch64
+S:28721
+I:50921
+T:Line-oriented text editor used to create, display, modify and otherwise manipulate text files
+U:https://www.gnu.org/software/ed/
+L:GPL-2.0-or-later
+o:ed
+m:jscaffidi <jscaffidi@qnx.com>
+t:1785427362
+c:bee113280802d67155470cbf3f9a8bf169e311ea
+
+C:Q11Q9FHc/NdWT2A2WgOtpCBZthyLI=
+P:ed-doc
+V:1.22.5-r0
+A:aarch64
+S:29661
+I:74660
+T:Line-oriented text editor used to create, display, modify and otherwise manipulate text files (documentation)
+U:https://www.gnu.org/software/ed/
+L:GPL-2.0-or-later
+o:ed
+m:jscaffidi <jscaffidi@qnx.com>
+t:1785427362
+c:bee113280802d67155470cbf3f9a8bf169e311ea
+i:docs ed=1.22.5-r0
+
+C:Q1mufzBtB5IgpQEmc2IXxW8nBXizc=
+P:fakeroot
+V:1.38.1-r0
+A:aarch64
+S:24832
+I:61731
+T:Tool for simulating superuser privileges
+U:https://packages.debian.org/fakeroot
+L:GPL-3.0-or-later
+o:fakeroot
+m:Leo Shen <yishen@qnx.com>
+t:1781746502
+c:952ac1217f36ed79e089f4ef81415e3c0bfae879-dirty
+D:qnx-io-sock
+
+C:Q1ctr2bfsNssaIPC+4IR6yDOC0dQw=
+P:fakeroot
+V:1.38.1-r1
+A:aarch64
+S:24818
+I:61731
+T:Tool for simulating superuser privileges
+U:https://packages.debian.org/fakeroot
+L:GPL-3.0-or-later
+o:fakeroot
+m:Leo Shen <yishen@qnx.com>
+t:1781708477
+c:1302c071c28f98a30cec84e9337560efef87faba
+D:qnx-io-sock
+
+C:Q1ngG17VkwHP3Qw5dhCnHwhc1q9lM=
+P:fakeroot-doc
+V:1.38.1-r0
+A:aarch64
+S:53597
+I:48746
+T:Tool for simulating superuser privileges (documentation)
+U:https://packages.debian.org/fakeroot
+L:GPL-3.0-or-later
+o:fakeroot
+m:Leo Shen <yishen@qnx.com>
+t:1781746502
+c:952ac1217f36ed79e089f4ef81415e3c0bfae879-dirty
+i:docs fakeroot=1.38.1-r0
+
+C:Q10sxDbcd8l3jMhU9BP8K2UfWQN74=
+P:fakeroot-doc
+V:1.38.1-r1
+A:aarch64
+S:53591
+I:48746
+T:Tool for simulating superuser privileges (documentation)
+U:https://packages.debian.org/fakeroot
+L:GPL-3.0-or-later
+o:fakeroot
+m:Leo Shen <yishen@qnx.com>
+t:1781708477
+c:1302c071c28f98a30cec84e9337560efef87faba
+i:docs fakeroot=1.38.1-r1
+
+C:Q1KaXOOTiKBJVyYwNPqst0bIUY5Iw=
+P:filesystem
+V:1-r4
+A:aarch64
+S:12510
+I:16944
+T:Base file system layout and files
+U:https://www.qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:filesystem
+m:Leo Shen <yishen@qnx.com>
+t:1787685503
+c:9fc8fe65895e12115d4a66044981a5293e6a2d8b
+
+C:Q112dYSUxIY6Eq3aivcnVOuL9zjq0=
+P:filesystem
+V:1-r5
+A:aarch64
+S:12625
+I:16944
+T:Base file system layout and files
+U:https://www.qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:filesystem
+m:Leo Shen <yishen@qnx.com>
+t:1787704356
+c:cf96a3e76732d062ef05a84d673837c47e546551
+
+C:Q1WZXuVFJdt3t6yOZeOffba6b2YOs=
+P:flang22
+V:22.1.4_p1-r1
+A:aarch64
+S:137590263
+I:982121632
+T:Fortran language front-end for LLVM
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:flang22
+m:Leo Shen <yishen@qnx.com>
+t:1785535166
+c:f027db30d54c47f0166ddd2298e7748471d4cea6
+D:llvm22-libs clang22 libc++ libunwind binutils mlir22
+
+C:Q1+FJ7xx37PRESKcz65hpDGy8Hmnc=
+P:flang22
+V:22.1.8_p1-r0
+A:aarch64
+S:137591056
+I:982259152
+T:Fortran language front-end for LLVM
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:flang22
+m:Leo Shen <yishen@qnx.com>
+t:1787228918
+c:d93c4bbf71e6ad716df32ac77fc4aa6d346f92ca
+D:llvm22-libs clang22 libc++ libunwind binutils mlir22
+
+C:Q1f5i5BYi3IQ4cvmlFVLME8ptvyNk=
+P:gettext
+V:0.26-r1
+A:aarch64
+S:1524532
+I:10054858
+T:GNU locale utilities
+U:https://www.gnu.org/software/gettext/gettext.html
+L:GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT
+o:gettext
+t:1786308531
+c:6d80755e3fa02d6511cc781340e09eda0a5babd3-dirty
+D:gettext-envsubst=0.26-r1 gettext-libs=0.26-r1 libxml2
+
+C:Q1PiThyPmRvJ7YHKEAUzLW1wJH1yI=
+P:gettext-dev
+V:0.26-r1
+A:aarch64
+S:712355
+I:1082937
+T:GNU locale utilities (development files)
+U:https://www.gnu.org/software/gettext/gettext.html
+L:GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT
+o:gettext
+t:1786308531
+c:6d80755e3fa02d6511cc781340e09eda0a5babd3-dirty
+D:gettext=0.26-r1
+
+C:Q1oWjSk3XEexBwi30Vzii+pgrtk6o=
+P:gettext-doc
+V:0.26-r1
+A:aarch64
+S:319897
+I:1154482
+T:GNU locale utilities (documentation)
+U:https://www.gnu.org/software/gettext/gettext.html
+L:GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT
+o:gettext
+t:1786308531
+c:6d80755e3fa02d6511cc781340e09eda0a5babd3-dirty
+i:docs gettext=0.26-r1
+
+C:Q1ktG0LS+wy2r3nxaDF6Ic+ZHekfc=
+P:gettext-envsubst
+V:0.26-r1
+A:aarch64
+S:23605
+I:42680
+T:GNU gettext envsubst binary
+U:https://www.gnu.org/software/gettext/gettext.html
+L:GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT
+o:gettext
+t:1786308531
+c:6d80755e3fa02d6511cc781340e09eda0a5babd3-dirty
+D:libintl=0.26-r1
+p:envsubst
+
+C:Q1L9/CWKXjjZ4qR8VH6hX5eoWCKzU=
+P:gettext-lang
+V:0.26-r1
+A:aarch64
+S:1201029
+I:4063785
+T:Languages for package gettext
+U:https://www.gnu.org/software/gettext/gettext.html
+L:GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT
+o:gettext
+t:1786308531
+c:6d80755e3fa02d6511cc781340e09eda0a5babd3-dirty
+i:gettext=0.26-r1 lang
+
+C:Q13Kff4AACfJRkr7WIziijuP/ns5E=
+P:gettext-libs
+V:0.26-r1
+A:aarch64
+S:428979
+I:1150488
+T:GNU locale utilities (libraries)
+U:https://www.gnu.org/software/gettext/gettext.html
+L:GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT
+o:gettext
+t:1786308531
+c:6d80755e3fa02d6511cc781340e09eda0a5babd3-dirty
+D:libintl libiconv libunistring ncurses qnx-io-sock
+
+C:Q1d4s6ha6Uo5sIac32tFh738y456c=
+P:gettext-static
+V:0.26-r1
+A:aarch64
+S:1044775
+I:3982376
+T:GNU locale utilities (static library)
+U:https://www.gnu.org/software/gettext/gettext.html
+L:GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT
+o:gettext
+t:1786308531
+c:6d80755e3fa02d6511cc781340e09eda0a5babd3-dirty
+
+C:Q1YKhSNt0DOLz3Lfwpf4gigjaHnVo=
+P:less
+V:691-r1
+A:aarch64
+S:112065
+I:261104
+T:File pager
+U:https://www.greenwoodsoftware.com/less/
+L:GPL-3.0-or-later OR BSD-2-Clause
+o:less
+m:Leo Shen <yishen@qnx.com>
+t:1790711981
+c:b1d6423eb8e40f73053bc47ddd7a7c6007f73ed9
+D:ncurses
+p:cmd:lesskey=691-r1
+
+C:Q1ApJBzm8MIOx/hgXMgeXu1njBWiE=
+P:less-dbg
+V:691-r1
+A:aarch64
+S:225849
+I:485488
+T:File pager (debug symbols)
+U:https://www.greenwoodsoftware.com/less/
+L:GPL-3.0-or-later OR BSD-2-Clause
+o:less
+m:Leo Shen <yishen@qnx.com>
+t:1790711981
+c:b1d6423eb8e40f73053bc47ddd7a7c6007f73ed9
+
+C:Q1nin25e4XKugQ0sGlZS45UJov5l4=
+P:less-doc
+V:691-r1
+A:aarch64
+S:41545
+I:38583
+T:File pager (documentation)
+U:https://www.greenwoodsoftware.com/less/
+L:GPL-3.0-or-later OR BSD-2-Clause
+o:less
+m:Leo Shen <yishen@qnx.com>
+t:1790711981
+c:b1d6423eb8e40f73053bc47ddd7a7c6007f73ed9
+i:docs less=691-r1
+
+C:Q1VeZ/q/EMTeTi5FRK4iUbHkYXPy4=
+P:libarchive
+V:3.8.9-r0
+A:aarch64
+S:316639
+I:673464
+T:Multi-format archive and compression library
+U:https://libarchive.org/
+L:BSD-2-Clause AND BSD-3-Clause AND LicenseRef-scancode-public-domain
+o:libarchive
+t:1786286992
+c:b2eee83ca71b9b20a963fd33be7c2cc78b1bdad7
+D:libbz2 libcrypto3 lz4-libs xz-libs zlib-ng zstd-libs
+
+C:Q1InaZAXun1q/ew7TuGqB/nJY2/Bs=
+P:libarchive-dev
+V:3.8.9-r0
+A:aarch64
+S:1618585
+I:3694634
+T:Multi-format archive and compression library (development files)
+U:https://libarchive.org/
+L:BSD-2-Clause AND BSD-3-Clause AND LicenseRef-scancode-public-domain
+o:libarchive
+t:1786286992
+c:b2eee83ca71b9b20a963fd33be7c2cc78b1bdad7
+D:bzip2-dev lz4-dev openssl-dev xz-dev zlib-ng-dev zstd-dev pkgconfig
+p:pc:pc:libarchive=3.8.9
+
+C:Q1YP7oBmHJ0qCDv9iQE5pceTmQm8Y=
+P:libarchive-doc
+V:3.8.9-r0
+A:aarch64
+S:142781
+I:134200
+T:Multi-format archive and compression library (documentation)
+U:https://libarchive.org/
+L:BSD-2-Clause AND BSD-3-Clause AND LicenseRef-scancode-public-domain
+o:libarchive
+t:1786286992
+c:b2eee83ca71b9b20a963fd33be7c2cc78b1bdad7
+i:docs libarchive=3.8.9-r0
+
+C:Q1B2/a/JyX+6wcBtP0XEjGhN37qso=
+P:libarchive-tools
+V:3.8.9-r0
+A:aarch64
+S:695734
+I:1436536
+T:libarchive tools bsdtar and bsdcpio
+U:https://libarchive.org/
+L:BSD-2-Clause AND BSD-3-Clause AND LicenseRef-scancode-public-domain
+o:libarchive
+t:1786286992
+c:b2eee83ca71b9b20a963fd33be7c2cc78b1bdad7
+D:libarchive=3.8.9-r0
+
+C:Q17VmjGFRhvfTN5inz2fSVaz4d5T0=
+P:libbz2
+V:1.0.8-r8
+A:aarch64
+S:39823
+I:70080
+T:Shared library for bz2
+U:https://sourceware.org/bzip2/
+L:bzip2-1.0.6
+o:bzip2
+t:1787250476
+c:72877b39a165ece8353eccde5bec7106f27b8284
+
+C:Q1iXtBUQ4xsVYEclBUaaSs76mVGTs=
+P:libc++
+V:22.1.7_p0-r0
+A:aarch64
+S:424277
+I:1302904
+T:LLVM libc++ library
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1781028178
+c:bdca1c4eb3d3e6106280a9c3e3c583e537c64f0c
+D:libunwind
+
+C:Q1H8CRz/F3EHxPpYin0UZyqSm6G6I=
+P:libc++
+V:22.1.8_p0-r0
+A:aarch64
+S:425618
+I:1307096
+T:LLVM libc++ library
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1786649184
+c:830863c37530cc36b9e898c61e860f253f984466
+D:libunwind
+
+C:Q1U0HxVH22588JUyBT5fdhq8tXJDo=
+P:libc++
+V:22.1.8_p0-r1
+A:aarch64
+S:425192
+I:1306880
+T:LLVM libc++ library
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1788875884
+c:fac959e39aa88ccd076f5aaf082307a77277e413
+D:libunwind
+
+C:Q1nF1zYRJaiVHVly4kMVXz6P7TxUI=
+P:libc++-dbg
+V:22.1.8_p0-r1
+A:aarch64
+S:1836443
+I:7513168
+T:LLVM libc++ library (debug symbols) (debug symbols)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1788875884
+c:fac959e39aa88ccd076f5aaf082307a77277e413
+
+C:Q1Q6pysC8EG+CVYWVSF7cQbFo1aSE=
+P:libc++-dev
+V:22.1.7_p0-r0
+A:aarch64
+S:1860032
+I:12744863
+T:LLVM libc++ library (development files)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1781028178
+c:bdca1c4eb3d3e6106280a9c3e3c583e537c64f0c
+D:libc++=22.1.7_p0-r0 liblocale-shim-dev libunwind-dev
+p:libc++-dev-bootstrap=22.1.7_p0-r0
+
+C:Q1cQjYJg9JJqJWYI40CSsEAXWsDvI=
+P:libc++-dev
+V:22.1.8_p0-r0
+A:aarch64
+S:1861687
+I:12745046
+T:LLVM libc++ library (development files)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1786649184
+c:830863c37530cc36b9e898c61e860f253f984466
+D:libc++=22.1.8_p0-r0 liblocale-shim-dev libunwind-dev libc++=22.1.8_p0-r0
+p:libc++-dev-bootstrap=22.1.8_p0-r0
+
+C:Q1I3qHr9YWvyNYi6m9ulV31y2HG7Y=
+P:libc++-dev
+V:22.1.8_p0-r1
+A:aarch64
+S:1861331
+I:12745046
+T:LLVM libc++ library (development files)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1788875884
+c:fac959e39aa88ccd076f5aaf082307a77277e413
+D:libc++=22.1.8_p0-r1 liblocale-shim-dev libunwind-dev libc++=22.1.8_p0-r1
+p:libc++-dev-bootstrap=22.1.8_p0-r1
+
+C:Q19hw3XlbolLl5zUUEOImPa08KUZs=
+P:libc++-static
+V:22.1.7_p0-r0
+A:aarch64
+S:2914564
+I:11882938
+T:LLVM libc++ library (static libraries)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1781028178
+c:bdca1c4eb3d3e6106280a9c3e3c583e537c64f0c
+
+C:Q14oUUEJjmuaB8u9vfXX6mUbzJGRk=
+P:libc++-static
+V:22.1.8_p0-r0
+A:aarch64
+S:2987396
+I:12377206
+T:LLVM libc++ library (static libraries)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1786649184
+c:830863c37530cc36b9e898c61e860f253f984466
+
+C:Q1eWkYsZcOwhPu2H4mrY/8WdtCeq8=
+P:libc++-static
+V:22.1.8_p0-r1
+A:aarch64
+S:2987322
+I:12377206
+T:LLVM libc++ library (static libraries)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1788875884
+c:fac959e39aa88ccd076f5aaf082307a77277e413
+
+C:Q1SFBhRTfMz6wiDUNB4u73ubckvPk=
+P:libcrypto3
+V:3.6.3-r0
+A:aarch64
+S:1640748
+I:4487718
+T:Crypto library from openssl
+U:https://www.openssl.org/
+L:Apache-2.0
+o:openssl
+t:1786473936
+c:7d014752ec862ede9e742de9df9d552d006200c5
+D:qnx-crypto qnx-io-sock
+
+C:Q19sAyH7yQxl4eI4iWzX6/VNatI8A=
+P:libintl
+V:0.26-r1
+A:aarch64
+S:41272
+I:132768
+T:GNU gettext runtime library
+U:https://www.gnu.org/software/gettext/gettext.html
+L:LGPL-2.1-or-later
+o:gettext
+t:1786308531
+c:6d80755e3fa02d6511cc781340e09eda0a5babd3-dirty
+D:libiconv
+
+C:Q1l+LLz3m3EG7F0Ulr+YdXZAIt4Q4=
+P:libltdl
+V:2.5.4-r3
+A:aarch64
+S:19981
+I:38424
+T:Runtime libraries for GNU Libtool Dynamic Module Loader
+U:https://www.gnu.org/software/libtool
+L:LGPL-2.0-or-later AND GPL-2.0-or-later
+o:libtool
+t:1788429726
+c:a77e64c7416160158276bf5ec762d6db5a6c85c8-dirty
+
+C:Q1zsFi4bX9C6tKTpeeTab12/ASjR8=
+P:libltdl-static
+V:2.5.4-r3
+A:aarch64
+S:24192
+I:70916
+T:A generic library support script (static library)
+U:https://www.gnu.org/software/libtool
+L:LGPL-2.0-or-later AND GPL-2.0-or-later
+o:libtool
+t:1788429726
+c:a77e64c7416160158276bf5ec762d6db5a6c85c8-dirty
+
+C:Q1M5JoWq0pk6tnjdHPKmBeDxtwJG0=
+P:libssl3
+V:3.6.3-r0
+A:aarch64
+S:367445
+I:892432
+T:SSL shared libraries
+U:https://www.openssl.org/
+L:Apache-2.0
+o:openssl
+t:1786473936
+c:7d014752ec862ede9e742de9df9d552d006200c5
+D:libcrypto3=3.6.3-r0
+
+C:Q1KUOw/zM+KlEd9HeBdMdbvKbe62E=
+P:libsysv-ipc-shim
+V:0.1.0-r3
+A:aarch64
+S:6693
+I:9664
+T:QNX ipc.h shim
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:libsysv-ipc-shim
+m:Aaron Bassett <abassett@qnx.com>
+t:1785157134
+c:c925c3fa36e3d358696d474de22ee2c9bb265953
+
+C:Q1zX4X+AJSC+pT605QO1hr7M9H0So=
+P:libsysv-ipc-shim
+V:0.1.0-r4
+A:aarch64
+S:6679
+I:9664
+T:QNX ipc.h shim
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:libsysv-ipc-shim
+m:Aaron Bassett <abassett@qnx.com>
+t:1785176567
+c:78bc6d0d0b1506ee13b803c1df065689b8d71df7
+
+C:Q1w2dWKdrziLdgOF0Y7/LtNSPBJ7M=
+P:libsysv-ipc-shim-dev
+V:0.1.0-r3
+A:aarch64
+S:6671
+I:6598
+T:QNX ipc.h shim (development files)
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:libsysv-ipc-shim
+m:Aaron Bassett <abassett@qnx.com>
+t:1785157134
+c:c925c3fa36e3d358696d474de22ee2c9bb265953
+D:libsysv-ipc-shim=0.1.0-r3
+
+C:Q1wtoPExcvipKSryAydetmJ6IlwRE=
+P:libsysv-ipc-shim-dev
+V:0.1.0-r4
+A:aarch64
+S:6700
+I:6598
+T:QNX ipc.h shim (development files)
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:libsysv-ipc-shim
+m:Aaron Bassett <abassett@qnx.com>
+t:1785176567
+c:78bc6d0d0b1506ee13b803c1df065689b8d71df7
+D:libsysv-ipc-shim=0.1.0-r4
+
+C:Q1TGZOPMGuCPhI2BMJ8uzPDWKuIME=
+P:libtool
+V:2.5.4-r3
+A:aarch64
+S:551553
+I:2227998
+T:A generic library support script
+U:https://www.gnu.org/software/libtool
+L:LGPL-2.0-or-later AND GPL-2.0-or-later
+o:libtool
+t:1788429726
+c:a77e64c7416160158276bf5ec762d6db5a6c85c8-dirty
+D:perl libltdl
+
+C:Q18OTPmMQD1UnxakxGFqbMiDply1k=
+P:libtool-doc
+V:2.5.4-r3
+A:aarch64
+S:110142
+I:377946
+T:A generic library support script (documentation)
+U:https://www.gnu.org/software/libtool
+L:LGPL-2.0-or-later AND GPL-2.0-or-later
+o:libtool
+t:1788429726
+c:a77e64c7416160158276bf5ec762d6db5a6c85c8-dirty
+i:docs libtool=2.5.4-r3
+
+C:Q1SH8IQ1uviLo215RatPp4YXIFBN4=
+P:libunwind
+V:22.1.7_p0-r0
+A:aarch64
+S:22988
+I:50816
+T:LLVM libunwind library
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1781028178
+c:bdca1c4eb3d3e6106280a9c3e3c583e537c64f0c
+
+C:Q1TinB5vOd1dDVNmUtI8OpwSIomWE=
+P:libunwind
+V:22.1.8_p0-r0
+A:aarch64
+S:24725
+I:50824
+T:LLVM libunwind library
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1786649184
+c:830863c37530cc36b9e898c61e860f253f984466
+
+C:Q1KT3ja6w2sq0jNj09seZQv6EZTq8=
+P:libunwind
+V:22.1.8_p0-r1
+A:aarch64
+S:24405
+I:50752
+T:LLVM libunwind library
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1788875884
+c:fac959e39aa88ccd076f5aaf082307a77277e413
+
+C:Q1Q/u70oHIGDJhGpO/iInKCHZQ23M=
+P:libunwind-dbg
+V:22.1.8_p0-r1
+A:aarch64
+S:59947
+I:178464
+T:LLVM libunwind library (debug symbols)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1788875884
+c:fac959e39aa88ccd076f5aaf082307a77277e413
+D:libunwind=22.1.8_p0-r1
+
+C:Q14vhHhKzw85nyfvMYSdB0gAmBvv8=
+P:libunwind-dev
+V:22.1.7_p0-r0
+A:aarch64
+S:22426
+I:81893
+T:LLVM libunwind library (development files)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1781028178
+c:bdca1c4eb3d3e6106280a9c3e3c583e537c64f0c
+D:libunwind=22.1.7_p0-r0
+
+C:Q1865sAnH2AwKS7LGgK2VzJryz6Y4=
+P:libunwind-dev
+V:22.1.8_p0-r0
+A:aarch64
+S:24183
+I:81893
+T:LLVM libunwind library (development files)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1786649184
+c:830863c37530cc36b9e898c61e860f253f984466
+D:libunwind=22.1.8_p0-r0 libunwind=22.1.8_p0-r0
+
+C:Q1htsdLnQi7Q+FrQeQ3N3U4YdEcqU=
+P:libunwind-dev
+V:22.1.8_p0-r1
+A:aarch64
+S:23928
+I:81893
+T:LLVM libunwind library (development files)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1788875884
+c:fac959e39aa88ccd076f5aaf082307a77277e413
+D:libunwind=22.1.8_p0-r1 libunwind=22.1.8_p0-r1
+
+C:Q1mW5jRU8ZjClK/XRivOAHKmfHFDw=
+P:libunwind-static
+V:22.1.7_p0-r0
+A:aarch64
+S:96311
+I:322396
+T:LLVM libunwind library (development files)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1781028178
+c:bdca1c4eb3d3e6106280a9c3e3c583e537c64f0c
+
+C:Q1ZmNmNElg1SYUBf4xf9VUCfJZZ3Q=
+P:libunwind-static
+V:22.1.8_p0-r0
+A:aarch64
+S:98615
+I:322964
+T:LLVM libunwind library (development files)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1786649184
+c:830863c37530cc36b9e898c61e860f253f984466
+
+C:Q1gWInVZWRGXgSrg1IGPXx3u3oDfk=
+P:libunwind-static
+V:22.1.8_p0-r1
+A:aarch64
+S:98353
+I:322964
+T:LLVM libunwind library (development files)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1788875884
+c:fac959e39aa88ccd076f5aaf082307a77277e413
+
+C:Q1sq/cvwo7Wjy1zAumONHjje4rakg=
+P:libxml2
+V:2.15.3-r0
+A:aarch64
+S:486839
+I:1137136
+T:XML parsing library, version 2
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1786151334
+c:25cd018655d59114a7ab9f2dac0b7df2609b8059
+D:zlib-ng xz-libs qnx-io-sock libiconv
+
+C:Q1eibuQYjjsnfHxxkjylJe8qrPidk=
+P:libxml2-dev
+V:2.15.3-r0
+A:aarch64
+S:86420
+I:400562
+T:XML parsing library, version 2 (development files)
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1786151334
+c:25cd018655d59114a7ab9f2dac0b7df2609b8059
+D:zlib-ng-dev xz-dev qnx-io-sock-dev pkgconfig
+
+C:Q1U5OKmRNApBkBlXo2oA6L6An7NAg=
+P:libxml2-doc
+V:2.15.3-r0
+A:aarch64
+S:929079
+I:6489867
+T:XML parsing library, version 2 (documentation)
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1786151334
+c:25cd018655d59114a7ab9f2dac0b7df2609b8059
+i:docs libxml2=2.15.3-r0
+
+C:Q1B4iDI6UWxgriYe26kxLZb9nWKEY=
+P:libxml2-static
+V:2.15.3-r0
+A:aarch64
+S:700089
+I:2377850
+T:XML parsing library, version 2 (static library)
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1786151334
+c:25cd018655d59114a7ab9f2dac0b7df2609b8059
+
+C:Q12CvU51Hf5M9a76MFxvDNyxjBTG8=
+P:libxml2-utils
+V:2.15.3-r0
+A:aarch64
+S:35305
+I:81000
+T:XML utilities
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1786151334
+c:25cd018655d59114a7ab9f2dac0b7df2609b8059
+D:libxml2=2.15.3-r0
+
+C:Q1/ftgMJ9q3WBA7uqsy9dNwN4x8F0=
+P:libxml2.13
+V:2.13.9-r0
+A:aarch64
+S:519830
+I:1260208
+T:XML parsing library, version 2.13
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2.13
+m:Aaron Bassett <abassett@qnx.com>
+t:1786041544
+c:3128bab275f40abf4acc8d89552c6d13079d4e8d
+D:zlib-ng xz-libs qnx-io-sock
+
+C:Q1fI0AdAIx7+hvW5u25r4U80SB1nA=
+P:libxml2.13-dev
+V:2.13.9-r0
+A:aarch64
+S:88800
+I:418212
+T:XML parsing library, version 2.13 (development files)
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2.13
+m:Aaron Bassett <abassett@qnx.com>
+t:1786041544
+c:3128bab275f40abf4acc8d89552c6d13079d4e8d
+D:zlib-ng-dev xz-dev qnx-io-sock-dev !libxml2-dev pkgconfig
+p:pc:pc:libxml-2.0=2.13.9
+
+C:Q1rTJeH00VwhqXfPUCjrtqmUhB94w=
+P:libxml2.13-static
+V:2.13.9-r0
+A:aarch64
+S:644984
+I:2049078
+T:XML parsing library, version 2.13 (static library)
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2.13
+m:Aaron Bassett <abassett@qnx.com>
+t:1786041544
+c:3128bab275f40abf4acc8d89552c6d13079d4e8d
+
+C:Q1SqQHDh8nQwaWU4DRABrGGsV0YLM=
+P:lld22
+V:22.1.8_p2-r0
+A:aarch64
+S:94314
+I:193472
+T:The LLVM Linker
+U:https://llvm.org/
+L:Apache-2.0
+o:lld22
+m:Aaron Bassett <abassett@qnx.com>
+t:1787277221
+c:cbb66ea5855f119ba3c65fc8361f594dc8eec5c0
+D:lld22-libs
+
+C:Q1CTQyMTEvUF5UHPwHeqNBP/uwirM=
+P:lld22-dbg
+V:22.1.8_p2-r0
+A:aarch64
+S:5494323
+I:23363728
+T:The LLVM Linker (debug symbols)
+U:https://llvm.org/
+L:Apache-2.0
+o:lld22
+m:Aaron Bassett <abassett@qnx.com>
+t:1787277221
+c:cbb66ea5855f119ba3c65fc8361f594dc8eec5c0
+
+C:Q1VlFNRbRL7v9gIhwUmVN6BUBt8tI=
+P:lld22-dev
+V:22.1.8_p2-r0
+A:aarch64
+S:21711
+I:58458
+T:The LLVM Linker (development files)
+U:https://llvm.org/
+L:Apache-2.0
+o:lld22
+m:Aaron Bassett <abassett@qnx.com>
+t:1787277221
+c:cbb66ea5855f119ba3c65fc8361f594dc8eec5c0
+D:lld22=22.1.8_p2-r0 lld22-libs=22.1.8_p2-r0
+
+C:Q1anxhhiCbtCPW2xL/P+kyy3jyHcg=
+P:lld22-doc
+V:22.1.8_p2-r0
+A:aarch64
+S:14938
+I:10321
+T:The LLVM Linker (documentation)
+U:https://llvm.org/
+L:Apache-2.0
+o:lld22
+m:Aaron Bassett <abassett@qnx.com>
+t:1787277221
+c:cbb66ea5855f119ba3c65fc8361f594dc8eec5c0
+i:docs lld22=22.1.8_p2-r0
+
+C:Q1J3X0fCT6j9/l7QGmXFR01cepy94=
+P:lld22-libs
+V:22.1.8_p2-r0
+A:aarch64
+S:2161903
+I:5924864
+T:The LLVM Linker
+U:https://llvm.org/
+L:Apache-2.0
+o:lld22
+m:Aaron Bassett <abassett@qnx.com>
+t:1787277221
+c:cbb66ea5855f119ba3c65fc8361f594dc8eec5c0
+
+C:Q19iBY60t24fK0l3sVYBR+jZrBt68=
+P:llvm
+V:22-r0
+A:aarch64
+S:7989
+I:1
+T:Low Level Virtual Machine compiler system, default version.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Aaron Bassett <abassett@qnx.com>
+t:1784224192
+c:d64e067fa9fcc81aae789e3e7dd594d00e621050
+D:llvm22
+
+C:Q1POAgsfvsDcRgBjVYup6U+9qnTtM=
+P:llvm-dev
+V:22-r0
+A:aarch64
+S:3259
+I:1
+T:Low Level Virtual Machine compiler system, default version.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Aaron Bassett <abassett@qnx.com>
+t:1784224192
+c:d64e067fa9fcc81aae789e3e7dd594d00e621050
+D:llvm22-dev
+
+C:Q13+LPeIiEnUrsgpH9HmW6ue2MT0c=
+P:llvm-gtest
+V:22-r0
+A:aarch64
+S:2666
+T:LLVM default gtest static libraries
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Aaron Bassett <abassett@qnx.com>
+t:1784224192
+c:d64e067fa9fcc81aae789e3e7dd594d00e621050
+D:llvm22-gtest
+
+C:Q1ZIH1O1yN75cnRiyUK+1fj2fKxSM=
+P:llvm-libs
+V:22-r0
+A:aarch64
+S:2657
+T:LLVM 22 runtime library
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Aaron Bassett <abassett@qnx.com>
+t:1784224192
+c:d64e067fa9fcc81aae789e3e7dd594d00e621050
+D:llvm22-libs
+
+C:Q1dj9sRd90GwpCEs0YoNJV2aELFzw=
+P:llvm-runtimes
+V:22.1.7_p0-r0
+A:aarch64
+S:2510
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1781028178
+c:bdca1c4eb3d3e6106280a9c3e3c583e537c64f0c
+
+C:Q1awJbMBnAq41OtXVtA5jfjkQTF/g=
+P:llvm-runtimes
+V:22.1.8_p0-r0
+A:aarch64
+S:4263
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1786649184
+c:830863c37530cc36b9e898c61e860f253f984466
+
+C:Q1YfoJMS/xNuzfwQkMPrbaAvMR4bs=
+P:llvm-runtimes
+V:22.1.8_p0-r1
+A:aarch64
+S:4013
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm-runtimes
+m:Leo Shen <yishen@qnx.com>
+t:1788875884
+c:fac959e39aa88ccd076f5aaf082307a77277e413
+
+C:Q1hcQ8LE5mcEJ3W9epFUvlJcFp/8k=
+P:llvm-static
+V:22-r0
+A:aarch64
+S:2659
+T:LLVM 22 static libraries
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Aaron Bassett <abassett@qnx.com>
+t:1784224192
+c:d64e067fa9fcc81aae789e3e7dd594d00e621050
+D:llvm22-static
+
+C:Q1Mm3rDrMf6J90y/tDAKBPwEyyrc0=
+P:llvm22
+V:22.1.7-r0
+A:aarch64
+S:27839591
+I:81948025
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm22
+m:Felix Xing <fxing@qnx.com>
+t:1781028221
+c:f448a8f2fb33617f482fe8556c60f25a551a8826
+D:qnx-io-sock libc++ libffi libunwind libxml2 zlib-ng zstd-libs libcurl qnx-gcc binutils llvm22-libs=22.1.7-r0
+
+C:Q1b8w1pMCkrtg4jZEmtlRix6URhEM=
+P:llvm22
+V:22.1.7-r1
+A:aarch64
+S:27702122
+I:81762233
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm22
+m:Felix Xing <fxing@qnx.com>
+t:1786112594
+c:56254546419f94e5de723cd3d22fb801dd1ead46
+D:qnx-io-sock libc++ libffi libunwind libxml2.13 zlib-ng zstd-libs libcurl qnx-gcc binutils llvm22-libs=22.1.7-r1
+
+C:Q1eo/oQajsW//8VK2OAehlqNyUndQ=
+P:llvm22
+V:22.1.8_p1-r0
+A:aarch64
+S:27707094
+I:81755513
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm22
+m:Leo Shen <yishen@qnx.com@qnx.com>
+t:1787096120
+c:080ddae77ce232245a1458ae74cdab6528b239d9
+D:qnx-io-sock libc++ libffi libunwind libxml2 zlib-ng zstd-libs libcurl qnx-gcc binutils llvm22-libs=22.1.8_p1-r0
+
+C:Q1FppclePlkaUug1EqFwz8dd0naQU=
+P:llvm22-dev
+V:22.1.7-r0
+A:aarch64
+S:6979368
+I:38055879
+T:Low Level Virtual Machine compiler system. (development files)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm22
+m:Felix Xing <fxing@qnx.com>
+t:1781028221
+c:f448a8f2fb33617f482fe8556c60f25a551a8826
+D:qnx-io-sock libc++ libffi libunwind libxml2 zlib-ng zstd-libs libcurl libc++-dev libffi-dev libunwind-dev libxml2-dev zlib-ng-dev zstd-dev curl-dev qnx-io-sock-dev
+p:py3.14:lit=22.1.7-r0
+
+C:Q1kRqfZggMiyM+h88n0+YWtsIUSng=
+P:llvm22-dev
+V:22.1.7-r1
+A:aarch64
+S:6980132
+I:38056119
+T:Low Level Virtual Machine compiler system. (development files)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm22
+m:Felix Xing <fxing@qnx.com>
+t:1786112594
+c:56254546419f94e5de723cd3d22fb801dd1ead46
+D:qnx-io-sock libc++ libffi libunwind libxml2.13 zlib-ng zstd-libs libcurl libc++-dev libffi-dev libunwind-dev libxml2.13-dev zlib-ng-dev zstd-dev curl-dev qnx-io-sock-dev
+p:py3.14:lit=22.1.7-r1
+
+C:Q1WmgcOHata55MQegPmWqDivsORRM=
+P:llvm22-dev
+V:22.1.8_p1-r0
+A:aarch64
+S:6980180
+I:38055869
+T:Low Level Virtual Machine compiler system. (development files)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm22
+m:Leo Shen <yishen@qnx.com@qnx.com>
+t:1787096120
+c:080ddae77ce232245a1458ae74cdab6528b239d9
+D:qnx-io-sock libc++ libffi libunwind libxml2 zlib-ng zstd-libs libcurl libc++-dev libffi-dev libunwind-dev libxml2-dev zlib-ng-dev zstd-dev curl-dev qnx-io-sock-dev llvm22-libs=22.1.8_p1-r0 python3~3.14
+p:py3.14:lit=22.1.8_p1-r0
+
+C:Q1KJUHGDtLZXxCaoFCoK/HBDtePCs=
+P:llvm22-gtest
+V:22.1.7-r0
+A:aarch64
+S:488015
+I:2159181
+T:LLVM 22 gtest static libraries
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm22
+m:Felix Xing <fxing@qnx.com>
+t:1781028221
+c:f448a8f2fb33617f482fe8556c60f25a551a8826
+
+C:Q1sjYEZKZBhOvVT2jEkp6ANUw++CE=
+P:llvm22-gtest
+V:22.1.7-r1
+A:aarch64
+S:488500
+I:2161033
+T:LLVM 22 gtest static libraries
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm22
+m:Felix Xing <fxing@qnx.com>
+t:1786112594
+c:56254546419f94e5de723cd3d22fb801dd1ead46
+
+C:Q1ZLBPzFzTLOW5MPk46jtxbN9U918=
+P:llvm22-gtest
+V:22.1.8_p1-r0
+A:aarch64
+S:488823
+I:2161033
+T:LLVM 22 gtest static libraries
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm22
+m:Leo Shen <yishen@qnx.com@qnx.com>
+t:1787096120
+c:080ddae77ce232245a1458ae74cdab6528b239d9
+
+C:Q1KY+iFOEtXV+OVNvBaOz+92TQS/o=
+P:llvm22-libs
+V:22.1.7-r0
+A:aarch64
+S:32342830
+I:95403200
+T:LLVM 22 runtime library
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm22
+m:Felix Xing <fxing@qnx.com>
+t:1781028221
+c:f448a8f2fb33617f482fe8556c60f25a551a8826
+D:qnx-io-sock libc++ libffi libunwind libxml2 zlib-ng zstd-libs libcurl qnx-gcc binutils
+
+C:Q1n8r8sDzgoRAFyvrhwd5LvhMxmS8=
+P:llvm22-libs
+V:22.1.7-r1
+A:aarch64
+S:32218457
+I:95132944
+T:LLVM 22 runtime library
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm22
+m:Felix Xing <fxing@qnx.com>
+t:1786112594
+c:56254546419f94e5de723cd3d22fb801dd1ead46
+D:qnx-io-sock libc++ libffi libunwind libxml2.13 zlib-ng zstd-libs libcurl qnx-gcc binutils
+
+C:Q1Y4anYKavBeJDq2Qxq4PLQFZykQc=
+P:llvm22-libs
+V:22.1.8_p1-r0
+A:aarch64
+S:32213528
+I:95136960
+T:LLVM 22 runtime library
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm22
+m:Leo Shen <yishen@qnx.com@qnx.com>
+t:1787096120
+c:080ddae77ce232245a1458ae74cdab6528b239d9
+D:qnx-io-sock libc++ libffi libunwind libxml2 zlib-ng zstd-libs libcurl qnx-gcc binutils
+
+C:Q1xPBXebE3uMwomm55lqK3SmE2yKg=
+P:llvm22-static
+V:22.1.7-r0
+A:aarch64
+S:56774646
+I:238675266
+T:LLVM 22 static libraries
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm22
+m:Felix Xing <fxing@qnx.com>
+t:1781028221
+c:f448a8f2fb33617f482fe8556c60f25a551a8826
+
+C:Q1Y6LJyekZ8xuQwxdJ1F3TcJPDPug=
+P:llvm22-static
+V:22.1.7-r1
+A:aarch64
+S:56807538
+I:239247976
+T:LLVM 22 static libraries
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm22
+m:Felix Xing <fxing@qnx.com>
+t:1786112594
+c:56254546419f94e5de723cd3d22fb801dd1ead46
+
+C:Q1mkgphERJlbmzMkfg1npKYX0Nid0=
+P:llvm22-static
+V:22.1.8_p1-r0
+A:aarch64
+S:56808115
+I:239249872
+T:LLVM 22 static libraries
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm22
+m:Leo Shen <yishen@qnx.com@qnx.com>
+t:1787096120
+c:080ddae77ce232245a1458ae74cdab6528b239d9
+
+C:Q1XyqzKLBRO+RjprTMdB3xRvTIvOM=
+P:lzip
+V:1.26-r0
+A:aarch64
+S:45788
+I:79640
+T:Lzip is a lossless data compressor
+U:https://www.nongnu.org/lzip/
+L:GPL-2.0-or-later
+o:lzip
+m:jscaffidi <jscaffidi@qnx.com>
+t:1785348063
+c:47c0d89b5bfd0dbfd103664067658cbbb3e7b7d5
+D:libc++
+
+C:Q1WLhSI/J6V4RPRgqN15tdY0YQR20=
+P:lzip-doc
+V:1.26-r0
+A:aarch64
+S:31416
+I:76711
+T:Lzip is a lossless data compressor (documentation)
+U:https://www.nongnu.org/lzip/
+L:GPL-2.0-or-later
+o:lzip
+m:jscaffidi <jscaffidi@qnx.com>
+t:1785348063
+c:47c0d89b5bfd0dbfd103664067658cbbb3e7b7d5
+i:docs lzip=1.26-r0
+
+C:Q10C9kHKikFSJVJIrg1aFeeXCekEk=
+P:mlir22
+V:22.1.4_p1-r0
+A:aarch64
+S:30988333
+I:120758078
+T:Multi-Level IR Compiler for LLVM
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:mlir22
+m:Leo Shen <yishen@qnx.com>
+t:1785536996
+c:4ac2073444e489403816763efcd853fc3d740695-dirty
+D:llvm22-libs
+
+C:Q1QvX2/QqfQf6UhAX/NGRrg50AQLs=
+P:mlir22
+V:22.1.8_p1-r0
+A:aarch64
+S:30981279
+I:120753982
+T:Multi-Level IR Compiler for LLVM
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:mlir22
+m:Leo Shen <yishen@qnx.com>
+t:1787198453
+c:d0aa1b036da9b5ae1eb5f6e5b551bdd305af6ef0
+D:llvm22-libs
+
+C:Q1yk/DWrh2UNA7SSwM6XLVuGonNmE=
+P:mlir22-dev
+V:22.1.4_p1-r0
+A:aarch64
+S:8508234
+I:112632061
+T:Multi-Level IR Compiler for LLVM (development files)
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:mlir22
+m:Leo Shen <yishen@qnx.com>
+t:1785536996
+c:4ac2073444e489403816763efcd853fc3d740695-dirty
+D:mlir22=22.1.4_p1-r0 llvm22 llvm22-dev llvm22-gtest llvm22-static libc++ libunwind zlib-ng zstd-libs
+
+C:Q1FOgERd94ghE3l85NJyeQAUtWXWo=
+P:mlir22-dev
+V:22.1.8_p1-r0
+A:aarch64
+S:8509875
+I:112632061
+T:Multi-Level IR Compiler for LLVM (development files)
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:mlir22
+m:Leo Shen <yishen@qnx.com>
+t:1787198453
+c:d0aa1b036da9b5ae1eb5f6e5b551bdd305af6ef0
+D:mlir22=22.1.8_p1-r0 llvm22 llvm22-dev llvm22-gtest llvm22-static
+
+C:Q1Mx64HvRj1OHK8l+NJL8y16GfugE=
+P:mlir22-static
+V:22.1.4_p1-r0
+A:aarch64
+S:49075151
+I:374276794
+T:Multi-Level IR Compiler for LLVM (static library)
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:mlir22
+m:Leo Shen <yishen@qnx.com>
+t:1785536996
+c:4ac2073444e489403816763efcd853fc3d740695-dirty
+
+C:Q1TqJiGHMbSHt6M9Xmq7F6Gs24Zd0=
+P:mlir22-static
+V:22.1.8_p1-r0
+A:aarch64
+S:49079277
+I:374276794
+T:Multi-Level IR Compiler for LLVM (static library)
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:mlir22
+m:Leo Shen <yishen@qnx.com>
+t:1787198453
+c:d0aa1b036da9b5ae1eb5f6e5b551bdd305af6ef0
+
+C:Q19WaJaT/4Tzpa6dG0PS7GrbFlg9Y=
+P:openmp
+V:22.1.4_p1-r1
+A:aarch64
+S:313081
+I:899968
+T:LLVM OpenMP Runtime Library
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:openmp
+m:Leo Shen <yishen@qnx.com>
+t:1785853547
+c:2017ebf3761e5b434d61be35f5cb550c164ef75a-dirty
+D:qnx-io-sock libc++
+
+C:Q1SZ6z2M2dQWMgwbDWuat0RK7NXE0=
+P:openmp
+V:22.1.8_p1-r0
+A:aarch64
+S:314482
+I:899968
+T:LLVM OpenMP Runtime Library
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:openmp
+m:Leo Shen <yishen@qnx.com>
+t:1787273310
+c:77a2db32b4941521dfb02542587d3b1022200896
+D:qnx-io-sock libc++
+
+C:Q1PktfHfHju8rVlDTTtyo7f4mTo7E=
+P:openmp-dev
+V:22.1.4_p1-r1
+A:aarch64
+S:46094
+I:292169
+T:LLVM OpenMP Runtime Library (development files)
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:openmp
+m:Leo Shen <yishen@qnx.com>
+t:1785853547
+c:2017ebf3761e5b434d61be35f5cb550c164ef75a-dirty
+D:openmp=22.1.4_p1-r1 qnx-io-sock-dev libc++-dev
+
+C:Q19Hk9an+NQqUpSvimgluxlQXI1fc=
+P:openmp-dev
+V:22.1.8_p1-r0
+A:aarch64
+S:47486
+I:292169
+T:LLVM OpenMP Runtime Library (development files)
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:openmp
+m:Leo Shen <yishen@qnx.com>
+t:1787273310
+c:77a2db32b4941521dfb02542587d3b1022200896
+D:openmp=22.1.8_p1-r0 qnx-io-sock-dev libc++-dev openmp=22.1.8_p1-r0
+
+C:Q1Zdgu2K5gg3GD6/75lsX1U7ctWzU=
+P:openmp-static
+V:22.1.4_p1-r1
+A:aarch64
+S:25868
+I:80904
+T:LLVM OpenMP Runtime Library (static library)
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:openmp
+m:Leo Shen <yishen@qnx.com>
+t:1785853547
+c:2017ebf3761e5b434d61be35f5cb550c164ef75a-dirty
+
+C:Q1o9oqlTUmhLBFTw0OhHbfDvz5/Zw=
+P:openmp-static
+V:22.1.8_p1-r0
+A:aarch64
+S:27261
+I:80904
+T:LLVM OpenMP Runtime Library (static library)
+U:https://llvm.org
+L:Apache-2.0 WITH LLVM-exception
+o:openmp
+m:Leo Shen <yishen@qnx.com>
+t:1787273310
+c:77a2db32b4941521dfb02542587d3b1022200896
+
+C:Q1FIaetJUaG1XO3QsFMuf48rcAOjA=
+P:openrc
+V:0.63.1-r1
+A:aarch64
+S:243905
+I:1292607
+T:OpenRC manages the services, startup and shutdown of a host
+U:https://github.com/OpenRC/openrc
+L:BSD-3-Clause
+o:openrc
+m:Leo Shen <yishen@qnx.com>
+t:1783628102
+c:923791d54000df0d8d7d6ee0083cb06532d83b03
+D:qnx-security qnx-memstream qnx-io-sock
+
+C:Q15nAS2PojxxnrWuO8/kT0R5o1lHQ=
+P:openrc
+V:0.63.1_p1-r0
+A:aarch64
+S:245231
+I:1292607
+T:OpenRC manages the services, startup and shutdown of a host
+U:https://github.com/OpenRC/openrc
+L:BSD-3-Clause
+o:openrc
+m:Leo Shen <yishen@qnx.com>
+t:1784914227
+c:0f71bc91fe83b632087fe2e69c9a1086b6daa13d
+D:qnx-security qnx-memstream qnx-io-sock
+
+C:Q1rNVn8wspFllL+O1dGP3UcLFsEGw=
+P:openrc
+V:0.63.1_p2-r0
+A:aarch64
+S:245390
+I:1292607
+T:OpenRC manages the services, startup and shutdown of a host
+U:https://github.com/OpenRC/openrc
+L:BSD-3-Clause
+o:openrc
+m:Leo Shen <yishen@qnx.com>
+t:1787681914
+c:0109aaef83944b095c723b6acb6070d7f565f381
+D:qnx-security qnx-memstream qnx-io-sock
+
+C:Q14wLoqh7DKw+jOSH/y5CrW/aiUzc=
+P:openrc-bash-completion
+V:0.63.1-r1
+A:aarch64
+S:4791
+I:6253
+T:Bash completions for openrc
+U:https://github.com/OpenRC/openrc
+L:BSD-3-Clause
+o:openrc
+m:Leo Shen <yishen@qnx.com>
+t:1783628102
+c:923791d54000df0d8d7d6ee0083cb06532d83b03
+i:openrc=0.63.1-r1 bash-completion
+
+C:Q1xoKCyB1beowMewgINAUOvntyAgI=
+P:openrc-bash-completion
+V:0.63.1_p1-r0
+A:aarch64
+S:5954
+I:6253
+T:Bash completions for openrc
+U:https://github.com/OpenRC/openrc
+L:BSD-3-Clause
+o:openrc
+m:Leo Shen <yishen@qnx.com>
+t:1784914227
+c:0f71bc91fe83b632087fe2e69c9a1086b6daa13d
+i:openrc=0.63.1_p1-r0 bash-completion
+
+C:Q1u6feDK5dzoLeyB6cP9QPSVXiTuk=
+P:openrc-bash-completion
+V:0.63.1_p2-r0
+A:aarch64
+S:6097
+I:6253
+T:Bash completions for openrc
+U:https://github.com/OpenRC/openrc
+L:BSD-3-Clause
+o:openrc
+m:Leo Shen <yishen@qnx.com>
+t:1787681914
+c:0109aaef83944b095c723b6acb6070d7f565f381
+i:openrc=0.63.1_p2-r0 bash-completion
+
+C:Q1NMflXI3zaesnOGWlFE+lmFmrczE=
+P:openrc-dev
+V:0.63.1-r1
+A:aarch64
+S:10762
+I:27010
+T:OpenRC manages the services, startup and shutdown of a host (development files)
+U:https://github.com/OpenRC/openrc
+L:BSD-3-Clause
+o:openrc
+m:Leo Shen <yishen@qnx.com>
+t:1783628102
+c:923791d54000df0d8d7d6ee0083cb06532d83b03
+D:qnx-security-dev qnx-memstream-dev qnx-io-sock-dev ncurses-dev pkgconfig
+p:pc:pc:openrc=0.63.1
+
+C:Q1ShKvK7WztMHgTA+vc4qUegWBJrk=
+P:openrc-dev
+V:0.63.1_p1-r0
+A:aarch64
+S:11932
+I:27010
+T:OpenRC manages the services, startup and shutdown of a host (development files)
+U:https://github.com/OpenRC/openrc
+L:BSD-3-Clause
+o:openrc
+m:Leo Shen <yishen@qnx.com>
+t:1784914227
+c:0f71bc91fe83b632087fe2e69c9a1086b6daa13d
+D:qnx-security-dev qnx-memstream-dev qnx-io-sock-dev ncurses-dev pkgconfig
+p:pc:pc:openrc=0.63.1
+
+C:Q1lRubk3dawOJdA0YgqKtgvvF8v9A=
+P:openrc-dev
+V:0.63.1_p2-r0
+A:aarch64
+S:12077
+I:27030
+T:OpenRC manages the services, startup and shutdown of a host (development files)
+U:https://github.com/OpenRC/openrc
+L:BSD-3-Clause
+o:openrc
+m:Leo Shen <yishen@qnx.com>
+t:1787681914
+c:0109aaef83944b095c723b6acb6070d7f565f381
+D:qnx-security-dev qnx-memstream-dev qnx-io-sock-dev ncurses-dev openrc=0.63.1_p2-r0 pkgconfig
+p:pc:pc:openrc=0.63.1
+
+C:Q16o5yiiWpJOoNo458DWY5ox7TFxo=
+P:openrc-doc
+V:0.63.1-r1
+A:aarch64
+S:36057
+I:29003
+T:OpenRC manages the services, startup and shutdown of a host (documentation)
+U:https://github.com/OpenRC/openrc
+L:BSD-3-Clause
+o:openrc
+m:Leo Shen <yishen@qnx.com>
+t:1783628102
+c:923791d54000df0d8d7d6ee0083cb06532d83b03
+i:docs openrc=0.63.1-r1
+
+C:Q1TJY+RZ4lqceE4WCqcglLD1oTKHU=
+P:openrc-doc
+V:0.63.1_p1-r0
+A:aarch64
+S:37221
+I:29003
+T:OpenRC manages the services, startup and shutdown of a host (documentation)
+U:https://github.com/OpenRC/openrc
+L:BSD-3-Clause
+o:openrc
+m:Leo Shen <yishen@qnx.com>
+t:1784914227
+c:0f71bc91fe83b632087fe2e69c9a1086b6daa13d
+i:docs openrc=0.63.1_p1-r0
+
+C:Q1CSfSfdZ8bf2gj3JbtJrHndKNHu0=
+P:openrc-doc
+V:0.63.1_p2-r0
+A:aarch64
+S:37365
+I:29003
+T:OpenRC manages the services, startup and shutdown of a host (documentation)
+U:https://github.com/OpenRC/openrc
+L:BSD-3-Clause
+o:openrc
+m:Leo Shen <yishen@qnx.com>
+t:1787681914
+c:0109aaef83944b095c723b6acb6070d7f565f381
+i:docs openrc=0.63.1_p2-r0
+
+C:Q1i0EImjQSWFS4AcgfaCofLJyKT4M=
+P:openrc-zsh-completion
+V:0.63.1-r1
+A:aarch64
+S:4691
+I:5020
+T:Zsh completions for openrc
+U:https://github.com/OpenRC/openrc
+L:BSD-3-Clause
+o:openrc
+m:Leo Shen <yishen@qnx.com>
+t:1783628102
+c:923791d54000df0d8d7d6ee0083cb06532d83b03
+i:openrc=0.63.1-r1 zsh
+
+C:Q1Y3EH0SHabgiyaPzXsQxv0TkEDrU=
+P:openrc-zsh-completion
+V:0.63.1_p1-r0
+A:aarch64
+S:5863
+I:5020
+T:Zsh completions for openrc
+U:https://github.com/OpenRC/openrc
+L:BSD-3-Clause
+o:openrc
+m:Leo Shen <yishen@qnx.com>
+t:1784914227
+c:0f71bc91fe83b632087fe2e69c9a1086b6daa13d
+i:openrc=0.63.1_p1-r0 zsh
+
+C:Q1IOB492LHGq2kFy088gZ+0/L6CnY=
+P:openrc-zsh-completion
+V:0.63.1_p2-r0
+A:aarch64
+S:5995
+I:5020
+T:Zsh completions for openrc
+U:https://github.com/OpenRC/openrc
+L:BSD-3-Clause
+o:openrc
+m:Leo Shen <yishen@qnx.com>
+t:1787681914
+c:0109aaef83944b095c723b6acb6070d7f565f381
+i:openrc=0.63.1_p2-r0 zsh
+
+C:Q1at82yUhX0rbWfD6LvwF072gKmRk=
+P:openssh
+V:10.3_p1-r0
+A:aarch64
+S:2274520
+I:5811274
+T:Port of OpenBSD's free SSH release
+U:https://www.openssh.com/portable.html
+L:SSH-OpenSSH
+o:openssh
+m:Leo Shen <yishen@qnx.com>
+t:1784223864
+c:3d83bd6dfeeb0ebb5c4440fc46acaa42e79a89fa
+D:libcrypto3 zlib-ng qnx-io-sock qnx-security
+
+C:Q1tBpepEaTrBvgSNpNzQdpKmTOW2U=
+P:openssh
+V:10.3_p1-r1
+A:aarch64
+S:2272755
+I:5811274
+T:Port of OpenBSD's free SSH release
+U:https://www.openssh.com/portable.html
+L:SSH-OpenSSH
+o:openssh
+m:Leo Shen <yishen@qnx.com>
+t:1786564279
+c:d8f8e39f73ea19605f26be72c138b704b5d80841
+D:libcrypto3 zlib-ng qnx-io-sock qnx-security
+
+C:Q1/+rTbnFGn8fn+UIlPW7o8pG3kwo=
+P:openssh-doc
+V:10.3_p1-r0
+A:aarch64
+S:126769
+I:157723
+T:Port of OpenBSD's free SSH release (documentation)
+U:https://www.openssh.com/portable.html
+L:SSH-OpenSSH
+o:openssh
+m:Leo Shen <yishen@qnx.com>
+t:1784223864
+c:3d83bd6dfeeb0ebb5c4440fc46acaa42e79a89fa
+i:docs openssh=10.3_p1-r0
+
+C:Q1/FVPbZl4ZaegB6L0pfxCe2Q+Yhc=
+P:openssh-doc
+V:10.3_p1-r1
+A:aarch64
+S:125150
+I:157714
+T:Port of OpenBSD's free SSH release (documentation)
+U:https://www.openssh.com/portable.html
+L:SSH-OpenSSH
+o:openssh
+m:Leo Shen <yishen@qnx.com>
+t:1786564279
+c:d8f8e39f73ea19605f26be72c138b704b5d80841
+i:docs openssh=10.3_p1-r1
+
+C:Q1NpV81cGoqPIVyndVwJJYgiLDoT4=
+P:openssh-openrc
+V:10.3_p1-r0
+A:aarch64
+S:5837
+I:4076
+T:Port of OpenBSD's free SSH release (OpenRC init scripts)
+U:https://www.openssh.com/portable.html
+L:SSH-OpenSSH
+o:openssh
+m:Leo Shen <yishen@qnx.com>
+t:1784223864
+c:3d83bd6dfeeb0ebb5c4440fc46acaa42e79a89fa
+i:openrc openssh=10.3_p1-r0
+
+C:Q1uN3KtZSDKTjjE3fZPxJHrkOuNoE=
+P:openssh-openrc
+V:10.3_p1-r1
+A:aarch64
+S:4231
+I:4076
+T:Port of OpenBSD's free SSH release (OpenRC init scripts)
+U:https://www.openssh.com/portable.html
+L:SSH-OpenSSH
+o:openssh
+m:Leo Shen <yishen@qnx.com>
+t:1786564279
+c:d8f8e39f73ea19605f26be72c138b704b5d80841
+i:openrc openssh=10.3_p1-r1
+
+C:Q1BNnlA65+/CMoBLUVDl7+13+9Kks=
+P:openssl
+V:3.6.3-r0
+A:aarch64
+S:367729
+I:984896
+T:Toolkit for Transport Layer Security (TLS)
+U:https://www.openssl.org/
+L:Apache-2.0
+o:openssl
+t:1786473936
+c:7d014752ec862ede9e742de9df9d552d006200c5
+D:libssl3=3.6.3-r0 libcrypto3=3.6.3-r0
+p:openssl3=3.6.3-r0
+
+C:Q1Q8QuenqikPdxyTFffxkJ34u4cSY=
+P:openssl-dev
+V:3.6.3-r0
+A:aarch64
+S:369396
+I:2020652
+T:Toolkit for Transport Layer Security (TLS) (development files)
+U:https://www.openssl.org/
+L:Apache-2.0
+o:openssl
+t:1786473936
+c:7d014752ec862ede9e742de9df9d552d006200c5
+D:libcrypto3=3.6.3-r0 libssl3=3.6.3-r0 pkgconfig
+p:pc:pc:openssl=3.6.3
+
+C:Q1k4V5rgBWwqb4fhzNwDDNS0Jdae4=
+P:openssl-libs-static
+V:3.6.3-r0
+A:aarch64
+S:2944639
+I:11493248
+T:Toolkit for Transport Layer Security (TLS) (static library)
+U:https://www.openssl.org/
+L:Apache-2.0
+o:openssl
+t:1786473936
+c:7d014752ec862ede9e742de9df9d552d006200c5
+
+C:Q1jvjzv5Ls80HnRGiIPKyAPsSeqeI=
+P:openssl-misc
+V:3.6.3-r0
+A:aarch64
+S:8899
+I:20144
+T:Various perl scripts from openssl
+U:https://www.openssl.org/
+L:Apache-2.0
+o:openssl
+t:1786473936
+c:7d014752ec862ede9e742de9df9d552d006200c5
+D:openssl=3.6.3-r0 perl
+
+C:Q1cqM23I84pNTX8FX+fxhOJYt54S4=
+P:patch
+V:2.8-r0
+A:aarch64
+S:74480
+I:145416
+T:Utility to apply diffs to files
+U:https://www.gnu.org/software/patch/patch.html
+L:GPL-3.0-or-later
+o:patch
+m:jscaffidi <jscaffidi@qnx.com>
+t:1785429001
+c:8a1da1beec54641f2c9c5d33156fba43dd0a019e
+
+C:Q1lFqw4NxZfjwQLgpI+FHyaAp0ssE=
+P:patch
+V:2.8-r1
+A:aarch64
+S:72895
+I:145416
+T:Utility to apply diffs to files
+U:https://www.gnu.org/software/patch/patch.html
+L:GPL-3.0-or-later
+o:patch
+m:jscaffidi <jscaffidi@qnx.com>
+t:1786112911
+c:a191f09996e08c4a57339ffa8424330576ba9bf6
+
+C:Q1CiCRWfHdnTo/efHUUBrKLP2Skdk=
+P:patch
+V:2.8-r2
+A:aarch64
+S:75666
+I:145496
+T:Utility to apply diffs to files
+U:https://www.gnu.org/software/patch/patch.html
+L:GPL-3.0-or-later
+o:patch
+m:jscaffidi <jscaffidi@qnx.com>
+t:1786415506
+c:5ff164571ed331313a750d18c71a8c5c089ceacc-dirty
+
+C:Q14cfgK0Zqg2kBLIz9kWWXtqXlQZk=
+P:patch-doc
+V:2.8-r0
+A:aarch64
+S:15951
+I:11385
+T:Utility to apply diffs to files (documentation)
+U:https://www.gnu.org/software/patch/patch.html
+L:GPL-3.0-or-later
+o:patch
+m:jscaffidi <jscaffidi@qnx.com>
+t:1785429001
+c:8a1da1beec54641f2c9c5d33156fba43dd0a019e
+i:docs patch=2.8-r0
+
+C:Q1WBfJhnTx/dN/1XJq26IjslyjgWw=
+P:patch-doc
+V:2.8-r1
+A:aarch64
+S:14339
+I:11385
+T:Utility to apply diffs to files (documentation)
+U:https://www.gnu.org/software/patch/patch.html
+L:GPL-3.0-or-later
+o:patch
+m:jscaffidi <jscaffidi@qnx.com>
+t:1786112911
+c:a191f09996e08c4a57339ffa8424330576ba9bf6
+i:docs patch=2.8-r1
+
+C:Q1sftAo0WCtAaz8LYDi7RgfHlEOCQ=
+P:patch-doc
+V:2.8-r2
+A:aarch64
+S:15804
+I:11385
+T:Utility to apply diffs to files (documentation)
+U:https://www.gnu.org/software/patch/patch.html
+L:GPL-3.0-or-later
+o:patch
+m:jscaffidi <jscaffidi@qnx.com>
+t:1786415506
+c:5ff164571ed331313a750d18c71a8c5c089ceacc-dirty
+i:docs patch=2.8-r2
+
+C:Q1wCPl/Ns27VfnRhvZ0FqaNAgC5Qg=
+P:python3
+V:3.14.0-r5
+A:aarch64
+S:20181871
+I:63974311
+T:High-level scripting language
+U:https://www.python.org/
+L:PSF-2.0
+o:python3
+m:Leo Shen <yishen@qnx.com>
+t:1787343164
+c:ee09220435aaca16d02803a3bb7ab09322c863cb
+D:sqlite sqlite-libs zlib-ng xz-libs readline libffi expat bzip2 lz4 libssl3 libcrypto3 ncurses qnx-io-sock qnx-fd-notify
+p:python
+
+C:Q1yY+iR+o1riLdMTjK67GQkzxjQSI=
+P:python3-dev
+V:3.14.0-r5
+A:aarch64
+S:12437706
+I:38497375
+T:High-level scripting language (development files)
+U:https://www.python.org/
+L:PSF-2.0
+o:python3
+m:Leo Shen <yishen@qnx.com>
+t:1787343164
+c:ee09220435aaca16d02803a3bb7ab09322c863cb
+D:python3=3.14.0-r5 sqlite-dev zlib-ng-dev xz-dev readline-dev libffi-dev expat-dev bzip2-dev lz4-dev openssl-dev ncurses-dev qnx-crypto-dev qnx-io-sock-dev qnx-fd-notify-dev pkgconfig
+p:pc:pc:python3=3.14
+
+C:Q1ugbaRru6yzx/47SPjJhmIwAB4oE=
+P:python3-doc
+V:3.14.0-r5
+A:aarch64
+S:13331
+I:8811
+T:High-level scripting language (documentation)
+U:https://www.python.org/
+L:PSF-2.0
+o:python3
+m:Leo Shen <yishen@qnx.com>
+t:1787343164
+c:ee09220435aaca16d02803a3bb7ab09322c863cb
+i:docs python3=3.14.0-r5
+
+C:Q1xQ4/vICi+pCy4NzzqWtQz1xNOVg=
+P:python3-libxml2
+V:2.15.3-r0
+A:aarch64
+S:401225
+I:1737508
+T:libxml2 python3 bindings
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1786151334
+c:25cd018655d59114a7ab9f2dac0b7df2609b8059
+D:python3 libxml2=2.15.3-r0
+
+C:Q1iTWUWidkPtoNUTxZbRo3hTaLuWA=
+P:python3-tests
+V:3.14.0-r5
+A:aarch64
+S:36278183
+I:146000216
+T:The test modules from the main python package
+U:https://www.python.org/
+L:PSF-2.0
+o:python3
+m:Leo Shen <yishen@qnx.com>
+t:1787343164
+c:ee09220435aaca16d02803a3bb7ab09322c863cb
+D:sqlite sqlite-libs zlib-ng xz-libs readline libffi expat bzip2 lz4 libssl3 libcrypto3 ncurses qnx-io-sock qnx-fd-notify
+
+C:Q1YV3j0Xsk97KQ4Z+vVzSQOOBOt14=
+P:sudo
+V:1.9.17_p2-r5
+A:aarch64
+S:892725
+I:2246705
+T:Give certain users the ability to run some commands as root
+U:https://www.sudo.ws
+L:LicenseRef-ISC
+o:sudo
+m:Leo Shen <yishen@qnx.com>
+t:1790608883
+c:924cfd6f7e828aefb49afe423ae2c2d7e676a974
+D:qnx-security qnx-io-sock openssl
+
+C:Q1jr8203g5lRuFEC5R8RswzbSbu/E=
+P:sudo-dev
+V:1.9.17_p2-r5
+A:aarch64
+S:5691
+I:12071
+T:Give certain users the ability to run some commands as root (development files)
+U:https://www.sudo.ws
+L:LicenseRef-ISC
+o:sudo
+m:Leo Shen <yishen@qnx.com>
+t:1790608883
+c:924cfd6f7e828aefb49afe423ae2c2d7e676a974
+
+C:Q1yjrg3g8yKyEgL4wN3YSnEMP+F8I=
+P:sudo-doc
+V:1.9.17_p2-r5
+A:aarch64
+S:244100
+I:447273
+T:Give certain users the ability to run some commands as root (documentation)
+U:https://www.sudo.ws
+L:LicenseRef-ISC
+o:sudo
+m:Leo Shen <yishen@qnx.com>
+t:1790608883
+c:924cfd6f7e828aefb49afe423ae2c2d7e676a974
+i:docs sudo=1.9.17_p2-r5
+
+C:Q1+iFWkxiERYFEt+CDgWtvtvJYCyo=
+P:tar
+V:1.35-r1
+A:aarch64
+S:252295
+I:709880
+T:Utility used to store, backup, and transport files
+U:https://www.gnu.org/software/tar/
+L:GPL-3.0-or-later
+o:tar
+m:Aaron Bassett <abassett@qnx.com>
+t:1787689607
+c:876b42b38aa81f1dabac58512b8e0c59fc06cafa
+D:qnx-io-sock
+
+C:Q1ZMlPLVz/whugzM20vm446wR0CFw=
+P:tar-doc
+V:1.35-r1
+A:aarch64
+S:210887
+I:698578
+T:Utility used to store, backup, and transport files (documentation)
+U:https://www.gnu.org/software/tar/
+L:GPL-3.0-or-later
+o:tar
+m:Aaron Bassett <abassett@qnx.com>
+t:1787689607
+c:876b42b38aa81f1dabac58512b8e0c59fc06cafa
+i:docs tar=1.35-r1
+

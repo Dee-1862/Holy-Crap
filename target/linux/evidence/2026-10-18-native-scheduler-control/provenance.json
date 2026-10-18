@@ -1,0 +1,15 @@
+{
+  "execution_host": "ssh alias pi",
+  "notes": [
+    "All benchmark and bounded-load children inherited RLIMIT_AS=8 GiB.",
+    "SCHED_FIFO was requested via sudo chrt -f 40; the benchmark self-observed FIFO policy and priority 40 in every FIFO trial.",
+    "The host process snapshot includes unrelated pre-existing services; none were stopped or modified.",
+    "An unattended package operation was allowed to finish before the suite began."
+  ],
+  "production_code_modified": false,
+  "source_description": "portable absolute-sleep wakeup-lateness benchmark; reported generically on Linux",
+  "source_git_branch_or_state": "## HEAD (no branch)",
+  "source_git_commit": "7778ee028347acb8793b7fd81d3d92f63ff57d37",
+  "source_path_relative_to_repo": "target/qnx/evals/jitter_bench.c",
+  "source_sha256": "c455646ff9ec0cf3c8b745fb49c850ba29257845237d0256707af6fbb0925278"
+}

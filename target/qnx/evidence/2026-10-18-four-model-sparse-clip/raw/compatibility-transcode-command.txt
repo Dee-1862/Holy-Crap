@@ -1,0 +1,7 @@
+Input: /Users/lancestreuber/worktrees/Holy-Crap/20261017-simulation-lab/.simlab/preprocessed/big-broiler-090-pi-balanced.mp4
+Input SHA-256: 92a5c5124d9d6708ea66631b48f2c38fa39ed044f9175fcbb3014510c007e653
+Command: ffmpeg -hide_banner -loglevel error -nostdin -y -i INPUT -map 0:v:0 -an -c:v mpeg4 -q:v 4 -pix_fmt yuv420p -movflags +faststart OUTPUT
+Output: /tmp/big-broiler-090-pi-balanced-mpeg4.mp4
+Output bytes: 4041146
+Output SHA-256: 3e7eac34c28fdc8c4382191a2ee70d681c736cf04afce69b4efa90be52578efc
+Purpose: temporary compatibility transcode because the official QNX FFmpeg build disables the H.264 decoder.

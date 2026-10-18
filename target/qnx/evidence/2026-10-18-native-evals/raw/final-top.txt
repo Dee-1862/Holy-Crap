@@ -1,0 +1,285 @@
+Computing times...[H[2J[H4 online CPUs; 48 processes; 306 threads;[K
+CPU states: 24.5% user, 4.4% kernel[K
+Memory: 8128M total, 7442M avail, page size 4K[K
+[K
+      PID   TID PRI STATE    HH:MM:SS    CPU  COMMAND             [K
+   868370    12  63 Run      00:36:45  14.81% drm-rpi5            [K
+   868370    24 254 Run      00:22:32   9.12% drm-rpi5            [K
+        1     6 255 Intr     00:06:52   2.87% kernel              [K
+        1     5 255 Run      00:03:08   1.31% kernel              [K
+   163854    45  21 Rcv      00:00:09   0.10% io-sock             [K
+        1    27  10 Run      00:00:04   0.06% kernel              [K
+ 15761456     1  10 Rply     00:00:00   0.05% top                 [K
+        1     7 255 Run      00:00:09   0.04% kernel              [K
+   163854    33  21 Rcv      00:00:03   0.04% io-sock             [K
+        1    10 254 Intr     00:00:05   0.04% kernel              [K
+  1327151     1  10 SigW     00:00:03   0.03% mdnsd               [K
+        1    11 254 Intr     00:00:05   0.03% kernel              [K
+        1     9 254 Intr     00:00:05   0.03% kernel              [K
+   868370    43  15 Rcv      00:00:02   0.03% drm-rpi5            [K
+        1    12 254 Intr     00:00:05   0.03% kernel              [K
+   905245     3  15 SigW     00:00:04   0.02% screen              [K
+   868370     4  10 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370     3  10 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370    38 140 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370    40 140 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370    39 140 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370     2  10 CdV      00:00:03   0.02% drm-rpi5            [K
+        1     8 255 Intr     00:00:14   0.02% kernel              [K
+   868370    41 140 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370    21 140 CdV      00:00:03   0.02% drm-rpi5            [K
+        1    15  21 Rcv      00:00:02   0.02% kernel              [K
+   532503    22  21 Rcv      00:00:01   0.01% io-usb-otg          [K
+   163854    42  21 Sem      00:00:02   0.01% io-sock             [K
+   163854    24  21 CdV      00:00:02   0.01% io-sock             [K
+   163854    17  21 Rcv      00:00:01   0.01% io-sock             [K
+  1093642     1  10 NSlp     00:00:00   0.00% python3             [K
+    28677    15  21 Rcv      00:00:01   0.00% devb-sdmmc-bcm2712  [K
+   868370    36 254 Intr     00:00:00   0.00% drm-rpi5            [K
+   163854    19  21 Rcv      00:00:00   0.00% io-sock             [K
+   163854    46 254 Intr     00:00:00   0.00% io-sock             [K
+    28677     5  21 Rcv      00:00:01   0.00% devb-sdmmc-bcm2712  [K
+   868370    19  10 NSlp     00:00:00   0.00% drm-rpi5            [K
+  1052710     4  29 Intr     00:00:00   0.00% sensor              [K
+  1052710     3  29 Intr     00:00:00   0.00% sensor              [K
+  1052710     5  29 Intr     00:00:00   0.00% sensor              [K
+    28677     6  21 Rcv      00:00:00   0.00% devb-sdmmc-bcm2712  [K
+  1179693     1  10 NSlp     00:00:00   0.00% vncserv             [K
+   163846     2  10 NSlp     00:00:00   0.00% random              [K
+    28677     3  21 Rcv      00:00:00   0.00% devb-sdmmc-bcm2712  [K
+   163854    20  21 Rcv      00:00:00   0.00% io-sock             [K
+   532503     8  10 Rcv      00:00:00   0.00% io-usb-otg          [K
+    28677     4 254 Intr     00:00:00   0.00% devb-sdmmc-bcm2712  [K
+    28677     2  21 Rcv      00:00:00   0.00% devb-sdmmc-bcm2712  [K
+        1    26  10 Rcv      00:00:05   0.00% kernel              [K
+        1    30  10 Rcv      00:00:04   0.00% kernel              [K
+        1    29  10 Rcv      00:00:04   0.00% kernel              [K
+    28677    12  10 Rcv      00:00:03   0.00% devb-sdmmc-bcm2712  [K
+    28677    16  10 Rcv      00:00:03   0.00% devb-sdmmc-bcm2712  [K
+    28677    13  10 Rcv      00:00:02   0.00% devb-sdmmc-bcm2712  [K
+        1    28  10 Rcv      00:00:02   0.00% kernel              [K
+   868370    20  15 Rcv      00:00:02   0.00% drm-rpi5            [K
+   868370    42  15 Rcv      00:00:01   0.00% drm-rpi5            [K
+   532503     5  21 Rcv      00:00:01   0.00% io-usb-otg          [K
+  2175018     1  10 SigW     00:00:00   0.00% sshd-session        [K
+   163854    43  21 Intr     00:00:00   0.00% io-sock             [K
+   532503     9  21 Rcv      00:00:00   0.00% io-usb-otg          [K
+   163854    35  21 Rcv      00:00:00   0.00% io-sock             [K
+   163854    51  21 Rcv      00:00:00   0.00% io-sock             [K
+  1118248     1  10 Rply     00:00:00   0.00% demolauncher        [K
+   868370     1  10 SigW     00:00:00   0.00% drm-rpi5            [K
+   163846     3  10 Rcv      00:00:00   0.00% random              [K
+    16387     1  10 Rcv      00:00:00   0.00% slogger2            [K
+   163854    29  21 Rcv      00:00:00   0.00% io-sock             [K
+   163854    18  21 Rcv      00:00:00   0.00% io-sock             [K
+  1163307     1  10 SigW     00:00:00   0.00% sshd                [K
+   905245     5  15 CdV      00:00:00   0.00% screen              [K
+   942113     1  10 Rcv      00:00:00   0.00% rpi_thermal         [K
+   163854    53  21 Rcv      00:00:00   0.00% io-sock             [K
+  1052710     1  10 SigW     00:00:00   0.00% sensor              [K
+   163854    30  21 Rcv      00:00:00   0.00% io-sock             [K
+   905245     1  10 SigW     00:00:00   0.00% screen              [K
+    12290     1  30 Rcv      00:00:00   0.00% slm                 [K
+   905245     4  10 CdV      00:00:00   0.00% screen              [K
+   163854     1  21 SigW     00:00:00   0.00% io-sock             [K
+   163854    52  21 Rcv      00:00:00   0.00% io-sock             [K
+[K
+  Idle:      Curr     Min     Max     Avg [K
+CPU  0:     29.6%     29%     29%     29% [K
+CPU  1:     66.3%     66%     66%     66% [K
+CPU  2:     92.4%     92%     92%     92% [K
+CPU  3:     95.5%     95%     95%     95% [K
+Mem Avail:          7442M   7442M   7442M[K
+Processes:            48      48      48[K
+Threads:             306     306     306[K
+[K
+[H4 online CPUs; 48 processes; 306 threads;[K
+CPU states: 24.3% user, 4.4% kernel[K
+Memory: 8128M total, 7442M avail, page size 4K[K
+[K
+      PID   TID PRI STATE    HH:MM:SS    CPU  COMMAND             [K
+   868370    12  63 Run      00:36:45  14.78% drm-rpi5            [K
+   868370    24 254 Intr     00:22:32   9.13% drm-rpi5            [K
+        1     6 255 Intr     00:06:53   2.83% kernel              [K
+        1     5 255 Intr     00:03:08   1.37% kernel              [K
+ 15761456     1  10 Rply     00:00:00   0.06% top                 [K
+        1    10 254 Intr     00:00:05   0.04% kernel              [K
+        1    27  10 Rcv      00:00:04   0.04% kernel              [K
+        1    15  21 Rcv      00:00:02   0.04% kernel              [K
+        1     7 255 Intr     00:00:09   0.03% kernel              [K
+        1     9 254 Intr     00:00:05   0.03% kernel              [K
+        1    11 254 Intr     00:00:05   0.03% kernel              [K
+   163854    45  21 Rcv      00:00:09   0.03% io-sock             [K
+   868370    43  15 Rcv      00:00:02   0.03% drm-rpi5            [K
+        1    12 254 Intr     00:00:05   0.03% kernel              [K
+   905245     3  15 SigW     00:00:04   0.02% screen              [K
+   868370     4  10 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370    38 140 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370     3  10 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370    40 140 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370     2  10 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370    41 140 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370    21 140 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370    39 140 CdV      00:00:03   0.02% drm-rpi5            [K
+        1     8 255 Intr     00:00:14   0.01% kernel              [K
+   532503    22  21 Rcv      00:00:01   0.01% io-usb-otg          [K
+   163854    42  21 Sem      00:00:02   0.01% io-sock             [K
+   163854    24  21 CdV      00:00:02   0.01% io-sock             [K
+  1327151     1  10 SigW     00:00:03   0.00% mdnsd               [K
+   163854    33  21 Rcv      00:00:03   0.00% io-sock             [K
+   163854    17  21 Rcv      00:00:01   0.00% io-sock             [K
+    28677    15  21 Rcv      00:00:01   0.00% devb-sdmmc-bcm2712  [K
+    28677     5  21 Rcv      00:00:01   0.00% devb-sdmmc-bcm2712  [K
+   868370    36 254 Intr     00:00:00   0.00% drm-rpi5            [K
+   868370    20  15 Rcv      00:00:02   0.00% drm-rpi5            [K
+   163854    19  21 Rcv      00:00:00   0.00% io-sock             [K
+    28677     3  21 Rcv      00:00:00   0.00% devb-sdmmc-bcm2712  [K
+   868370    19  10 NSlp     00:00:00   0.00% drm-rpi5            [K
+    28677     6  21 Rcv      00:00:00   0.00% devb-sdmmc-bcm2712  [K
+  1093642     1  10 NSlp     00:00:00   0.00% python3             [K
+  1052710     5  29 Intr     00:00:00   0.00% sensor              [K
+  1052710     3  29 Intr     00:00:00   0.00% sensor              [K
+  1052710     4  29 Intr     00:00:00   0.00% sensor              [K
+    28677     4 254 Intr     00:00:00   0.00% devb-sdmmc-bcm2712  [K
+   163854    46 254 Intr     00:00:00   0.00% io-sock             [K
+  1179693     1  10 NSlp     00:00:00   0.00% vncserv             [K
+   163854    18  21 Rcv      00:00:00   0.00% io-sock             [K
+   163854    20  21 Rcv      00:00:00   0.00% io-sock             [K
+   532503     8  10 Rcv      00:00:00   0.00% io-usb-otg          [K
+    28677     2  21 Rcv      00:00:00   0.00% devb-sdmmc-bcm2712  [K
+        1    26  10 Rcv      00:00:05   0.00% kernel              [K
+        1    30  10 Rcv      00:00:04   0.00% kernel              [K
+        1    29  10 Rcv      00:00:04   0.00% kernel              [K
+    28677    12  10 Rcv      00:00:03   0.00% devb-sdmmc-bcm2712  [K
+    28677    16  10 Rcv      00:00:03   0.00% devb-sdmmc-bcm2712  [K
+    28677    13  10 Rcv      00:00:02   0.00% devb-sdmmc-bcm2712  [K
+        1    28  10 Rcv      00:00:02   0.00% kernel              [K
+   868370    42  15 Rcv      00:00:01   0.00% drm-rpi5            [K
+   532503     5  21 Rcv      00:00:01   0.00% io-usb-otg          [K
+  2175018     1  10 SigW     00:00:00   0.00% sshd-session        [K
+   163854    43  21 Intr     00:00:00   0.00% io-sock             [K
+   532503     9  21 Rcv      00:00:00   0.00% io-usb-otg          [K
+   163854    35  21 Rcv      00:00:00   0.00% io-sock             [K
+   163854    51  21 Rcv      00:00:00   0.00% io-sock             [K
+  1118248     1  10 Rply     00:00:00   0.00% demolauncher        [K
+   868370     1  10 SigW     00:00:00   0.00% drm-rpi5            [K
+   163846     3  10 Rcv      00:00:00   0.00% random              [K
+    16387     1  10 Rcv      00:00:00   0.00% slogger2            [K
+   163854    29  21 Rcv      00:00:00   0.00% io-sock             [K
+  1163307     1  10 SigW     00:00:00   0.00% sshd                [K
+   905245     5  15 CdV      00:00:00   0.00% screen              [K
+   942113     1  10 Rcv      00:00:00   0.00% rpi_thermal         [K
+   163854    53  21 Rcv      00:00:00   0.00% io-sock             [K
+  1052710     1  10 SigW     00:00:00   0.00% sensor              [K
+   163854    30  21 Rcv      00:00:00   0.00% io-sock             [K
+   905245     1  10 SigW     00:00:00   0.00% screen              [K
+    12290     1  30 Rcv      00:00:00   0.00% slm                 [K
+   905245     4  10 CdV      00:00:00   0.00% screen              [K
+   163854     1  21 SigW     00:00:00   0.00% io-sock             [K
+   163854    52  21 Rcv      00:00:00   0.00% io-sock             [K
+    28677    14  10 Rcv      00:00:00   0.00% devb-sdmmc-bcm2712  [K
+[K
+  Idle:      Curr     Min     Max     Avg [K
+CPU  0:     30.6%     29%     30%     29% [K
+CPU  1:     68.0%     66%     68%     67% [K
+CPU  2:     91.1%     91%     92%     91% [K
+CPU  3:     94.9%     94%     95%     94% [K
+Mem Avail:          7442M   7442M   7442M[K
+Processes:            48      48      48[K
+Threads:             306     306     306[K
+[K
+[H4 online CPUs; 48 processes; 306 threads;[K
+CPU states: 24.3% user, 4.4% kernel[K
+Memory: 8128M total, 7442M avail, page size 4K[K
+[K
+      PID   TID PRI STATE    HH:MM:SS    CPU  COMMAND             [K
+   868370    12  63 Run      00:36:46  14.74% drm-rpi5            [K
+   868370    24 254 Intr     00:22:32   9.15% drm-rpi5            [K
+        1     6 255 Intr     00:06:53   2.80% kernel              [K
+        1     5 255 Intr     00:03:08   1.38% kernel              [K
+ 15761456     1  10 Rply     00:00:00   0.06% top                 [K
+        1    10 254 Intr     00:00:05   0.03% kernel              [K
+        1    15  10 Run      00:00:02   0.03% kernel              [K
+        1     7 255 Intr     00:00:09   0.03% kernel              [K
+        1    27  10 Run      00:00:04   0.03% kernel              [K
+   163854    45  21 Rcv      00:00:09   0.03% io-sock             [K
+        1     9 254 Intr     00:00:05   0.03% kernel              [K
+        1    11 254 Intr     00:00:05   0.03% kernel              [K
+   868370    43  15 Rcv      00:00:02   0.03% drm-rpi5            [K
+        1    12 254 Intr     00:00:05   0.03% kernel              [K
+   905245     3  15 SigW     00:00:04   0.02% screen              [K
+   868370     4  10 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370    40 140 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370    38 140 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370     3  10 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370    21 140 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370    41 140 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370    39 140 CdV      00:00:03   0.02% drm-rpi5            [K
+   868370     2  10 CdV      00:00:03   0.02% drm-rpi5            [K
+        1     8 255 Intr     00:00:14   0.02% kernel              [K
+   163854    24  21 CdV      00:00:02   0.01% io-sock             [K
+   163854    42  21 Sem      00:00:02   0.01% io-sock             [K
+   163854    33  21 Rcv      00:00:03   0.01% io-sock             [K
+   532503    22  21 Rcv      00:00:01   0.00% io-usb-otg          [K
+  1327151     1  10 SigW     00:00:03   0.00% mdnsd               [K
+   163854    17  21 Rcv      00:00:01   0.00% io-sock             [K
+    28677    15  21 Rcv      00:00:01   0.00% devb-sdmmc-bcm2712  [K
+   532503     9  21 Rcv      00:00:00   0.00% io-usb-otg          [K
+  1093642     1  10 NSlp     00:00:00   0.00% python3             [K
+    28677     5  21 Rcv      00:00:01   0.00% devb-sdmmc-bcm2712  [K
+    28677    13  10 Rcv      00:00:02   0.00% devb-sdmmc-bcm2712  [K
+    28677     3  21 Rcv      00:00:00   0.00% devb-sdmmc-bcm2712  [K
+   868370    36 254 Intr     00:00:00   0.00% drm-rpi5            [K
+   163854    19  21 Rcv      00:00:00   0.00% io-sock             [K
+   868370    20  15 Rcv      00:00:02   0.00% drm-rpi5            [K
+   868370    19  10 NSlp     00:00:00   0.00% drm-rpi5            [K
+  1052710     4  29 Intr     00:00:00   0.00% sensor              [K
+  1052710     3  29 Intr     00:00:00   0.00% sensor              [K
+  1052710     5  29 Intr     00:00:00   0.00% sensor              [K
+    28677     4 254 Intr     00:00:00   0.00% devb-sdmmc-bcm2712  [K
+   163854    46 254 Intr     00:00:00   0.00% io-sock             [K
+    28677     6  21 Rcv      00:00:00   0.00% devb-sdmmc-bcm2712  [K
+  1179693     1  10 NSlp     00:00:00   0.00% vncserv             [K
+   163854    18  21 Rcv      00:00:00   0.00% io-sock             [K
+   905245     6  10 NSlp     00:00:00   0.00% screen              [K
+   700442     5  10 Rcv      00:00:00   0.00% io-hid              [K
+   163854    20  21 Rcv      00:00:00   0.00% io-sock             [K
+    28677    12  21 Rcv      00:00:03   0.00% devb-sdmmc-bcm2712  [K
+   532503     8  10 Rcv      00:00:00   0.00% io-usb-otg          [K
+    28677     2  21 Rcv      00:00:00   0.00% devb-sdmmc-bcm2712  [K
+        1    26  10 Rcv      00:00:05   0.00% kernel              [K
+        1    30  10 Rcv      00:00:04   0.00% kernel              [K
+        1    29  10 Rcv      00:00:04   0.00% kernel              [K
+    28677    16  10 Rcv      00:00:03   0.00% devb-sdmmc-bcm2712  [K
+        1    28  10 Rcv      00:00:02   0.00% kernel              [K
+   868370    42  15 Rcv      00:00:01   0.00% drm-rpi5            [K
+   532503     5  21 Rcv      00:00:01   0.00% io-usb-otg          [K
+  2175018     1  10 SigW     00:00:00   0.00% sshd-session        [K
+   163854    43  21 Intr     00:00:00   0.00% io-sock             [K
+   163854    35  21 Rcv      00:00:00   0.00% io-sock             [K
+   163854    51  21 Rcv      00:00:00   0.00% io-sock             [K
+  1118248     1  10 Rply     00:00:00   0.00% demolauncher        [K
+   868370     1  10 SigW     00:00:00   0.00% drm-rpi5            [K
+   163846     3  10 Rcv      00:00:00   0.00% random              [K
+    16387     1  10 Rcv      00:00:00   0.00% slogger2            [K
+   163854    29  21 Rcv      00:00:00   0.00% io-sock             [K
+  1163307     1  10 SigW     00:00:00   0.00% sshd                [K
+   905245     5  15 CdV      00:00:00   0.00% screen              [K
+   942113     1  10 Rcv      00:00:00   0.00% rpi_thermal         [K
+   163854    53  21 Rcv      00:00:00   0.00% io-sock             [K
+  1052710     1  10 SigW     00:00:00   0.00% sensor              [K
+   163854    30  21 Rcv      00:00:00   0.00% io-sock             [K
+   905245     1  10 SigW     00:00:00   0.00% screen              [K
+    12290     1  30 Rcv      00:00:00   0.00% slm                 [K
+   905245     4  10 CdV      00:00:00   0.00% screen              [K
+   163854     1  21 SigW     00:00:00   0.00% io-sock             [K
+[K
+  Idle:      Curr     Min     Max     Avg [K
+CPU  0:     31.1%     29%     31%     30% [K
+CPU  1:     66.2%     66%     68%     66% [K
+CPU  2:     93.2%     91%     93%     92% [K
+CPU  3:     94.0%     94%     95%     94% [K
+Mem Avail:          7442M   7442M   7442M[K
+Processes:            48      48      48[K
+Threads:             306     306     306[K
+[K

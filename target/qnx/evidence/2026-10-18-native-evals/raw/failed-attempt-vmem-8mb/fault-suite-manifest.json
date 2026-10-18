@@ -1,0 +1,252 @@
+{
+  "duration_ms": 15938.849,
+  "result": {
+    "results": [
+      {
+        "independent_high_priority_timer": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8388608",
+            "-C",
+            "3",
+            "-p",
+            "40f",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/jitter_bench",
+            "3000",
+            "1000",
+            "100",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial1-jitter.csv"
+          ],
+          "duration_ms": 3169.862,
+          "finished_monotonic_ns": 3090172056796,
+          "pid": 5943342,
+          "returncode": 0,
+          "started_monotonic_ns": 3087002194611
+        },
+        "supervisor": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8388608",
+            "-C",
+            "0",
+            "/system/bin/python3",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/fault_supervisor.py",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial1-worker"
+          ],
+          "duration_ms": 22.141,
+          "finished_monotonic_ns": 3087295294463,
+          "returncode": 1,
+          "started_monotonic_ns": 3087273153296,
+          "stderr": "on: Not enough memory (/system/bin/python3)\n",
+          "stdout": ""
+        },
+        "thermal_after": {
+          "thermal": "57.06",
+          "thermal_ext": "temp_in_c: 58.16\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 1
+      },
+      {
+        "independent_high_priority_timer": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8388608",
+            "-C",
+            "3",
+            "-p",
+            "40f",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/jitter_bench",
+            "3000",
+            "1000",
+            "100",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial2-jitter.csv"
+          ],
+          "duration_ms": 3167.466,
+          "finished_monotonic_ns": 3093357048130,
+          "pid": 5967918,
+          "returncode": 0,
+          "started_monotonic_ns": 3090189582481
+        },
+        "supervisor": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8388608",
+            "-C",
+            "0",
+            "/system/bin/python3",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/fault_supervisor.py",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial2-worker"
+          ],
+          "duration_ms": 23.508,
+          "finished_monotonic_ns": 3090482663259,
+          "returncode": 1,
+          "started_monotonic_ns": 3090459154889,
+          "stderr": "on: Not enough memory (/system/bin/python3)\n",
+          "stdout": ""
+        },
+        "thermal_after": {
+          "thermal": "57.61",
+          "thermal_ext": "temp_in_c: 57.61\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 2
+      },
+      {
+        "independent_high_priority_timer": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8388608",
+            "-C",
+            "3",
+            "-p",
+            "40f",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/jitter_bench",
+            "3000",
+            "1000",
+            "100",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial3-jitter.csv"
+          ],
+          "duration_ms": 3167.579,
+          "finished_monotonic_ns": 3096540039648,
+          "pid": 6111278,
+          "returncode": 0,
+          "started_monotonic_ns": 3093372460870
+        },
+        "supervisor": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8388608",
+            "-C",
+            "0",
+            "/system/bin/python3",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/fault_supervisor.py",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial3-worker"
+          ],
+          "duration_ms": 22.122,
+          "finished_monotonic_ns": 3093665278222,
+          "returncode": 1,
+          "started_monotonic_ns": 3093643155778,
+          "stderr": "on: Not enough memory (/system/bin/python3)\n",
+          "stdout": ""
+        },
+        "thermal_after": {
+          "thermal": "58.71",
+          "thermal_ext": "temp_in_c: 57.06\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 3
+      },
+      {
+        "independent_high_priority_timer": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8388608",
+            "-C",
+            "3",
+            "-p",
+            "40f",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/jitter_bench",
+            "3000",
+            "1000",
+            "100",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial4-jitter.csv"
+          ],
+          "duration_ms": 3169.419,
+          "finished_monotonic_ns": 3099724038500,
+          "pid": 6189102,
+          "returncode": 0,
+          "started_monotonic_ns": 3096554620000
+        },
+        "supervisor": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8388608",
+            "-C",
+            "0",
+            "/system/bin/python3",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/fault_supervisor.py",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial4-worker"
+          ],
+          "duration_ms": 22.241,
+          "finished_monotonic_ns": 3096847384185,
+          "returncode": 1,
+          "started_monotonic_ns": 3096825142926,
+          "stderr": "on: Not enough memory (/system/bin/python3)\n",
+          "stdout": ""
+        },
+        "thermal_after": {
+          "thermal": "58.16",
+          "thermal_ext": "temp_in_c: 57.61\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 4
+      },
+      {
+        "independent_high_priority_timer": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8388608",
+            "-C",
+            "3",
+            "-p",
+            "40f",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/jitter_bench",
+            "3000",
+            "1000",
+            "100",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial5-jitter.csv"
+          ],
+          "duration_ms": 3168.506,
+          "finished_monotonic_ns": 3102903047963,
+          "pid": 6213678,
+          "returncode": 0,
+          "started_monotonic_ns": 3099734542241
+        },
+        "supervisor": {
+          "argv": [
+            "/proc/boot/on",
+            "-L",
+            "vmem:8388608",
+            "-C",
+            "0",
+            "/system/bin/python3",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/src/fault_supervisor.py",
+            "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/fault-trial5-worker"
+          ],
+          "duration_ms": 23.942,
+          "finished_monotonic_ns": 3100029089111,
+          "returncode": 1,
+          "started_monotonic_ns": 3100005147019,
+          "stderr": "on: Not enough memory (/system/bin/python3)\n",
+          "stdout": ""
+        },
+        "thermal_after": {
+          "thermal": "56.52",
+          "thermal_ext": "temp_in_c: 57.61\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+        },
+        "trial": 5
+      }
+    ],
+    "suite": "fault_isolation",
+    "trials": 5
+  },
+  "schema": "holy-crap-qnx-native-eval-v1",
+  "source_commit": "7778ee028347acb8793b7fd81d3d92f63ff57d37",
+  "suite": "fault",
+  "target": "QNX 8.0 RaspberryPi5 aarch64le",
+  "thermal_after": {
+    "thermal": "57.61",
+    "thermal_ext": "temp_in_c: 56.52\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+  },
+  "thermal_before": {
+    "thermal": "58.16",
+    "thermal_ext": "temp_in_c: 57.61\nfan_control: resmgr\nfan_speed_pct: 30.20\nfan_thresholds: (0.00c, 0%) (50.00c, 30%) (60.00c, 50%) (67.50c, 70%) (75.00c, 100%)"
+  },
+  "virtual_memory_soft_limit_kib": 8388608
+}

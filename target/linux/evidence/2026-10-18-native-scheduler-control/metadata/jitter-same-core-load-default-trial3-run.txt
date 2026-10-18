@@ -1,0 +1,9 @@
+scenario=same-core-load-default
+trial=3
+fixed_priority_requested=false
+load_cpus=3
+benchmark_cpu=3
+returncode=0
+started_epoch_ns=1792342902756111208
+finished_epoch_ns=1792342907863693274
+duration_ns=5107582066

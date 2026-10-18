@@ -1,0 +1,8 @@
+file:///data/share/packages/8.0.5/qnx-core
+file:///data/share/packages/8.0.5/qnx-extra
+https://repo.oss.qnx.com/8.0.5/qnx-extra
+https://repo.oss.qnx.com/8.0.5/core
+https://repo.oss.qnx.com/8.0.5/extra
+https://repo.oss.qnx.com/8.0.4/core
+https://repo.oss.qnx.com/8.0.3/core
+https://repo.oss.qnx.com/8.0.3/extra

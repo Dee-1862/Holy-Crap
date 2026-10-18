@@ -1,0 +1,7 @@
+scenario,policy,priority,wakes,mean_us,p50_us,p95_us,p99_us,max_us,deadline_misses,deadline_miss_rate
+cross-core-load-default,other,0,25000,59.289,52.476,55.322,95.785,6435.031,235,0.0094
+cross-core-load-fifo40,fifo,40,25000,2.067,1.785,4.038,5.557,24.354,0,0.0
+idle-default,other,0,25000,55.333,54.085,57.299,62.994,2137.568,130,0.0052
+idle-fifo40,fifo,40,25000,3.273,2.91,5.791,8.067,37.82,0,0.0
+same-core-load-default,other,0,25000,58.268,52.364,53.008,62.526,5210.337,111,0.00444
+same-core-load-fifo40,fifo,40,25000,2.175,2.134,2.507,3.422,9.788,0,0.0

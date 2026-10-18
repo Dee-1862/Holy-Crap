@@ -10,7 +10,7 @@ import threading
 import uuid
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import Callable
+from typing import Any, Callable
 
 from .adapters import AdapterError, MockExecutor, QnxExecutor, VeriArtifactImporter
 from .catalog import Catalog, atomic_json, safe_part
@@ -25,17 +25,30 @@ from .dataset_videos import DatasetVideoLookupError, LocalDatasetVideoStore
 from .media import DemoAssetManifest, DemoAssetRepository, DemoAssetStore
 from .models import (
     AdapterCapability,
+    BenchmarkEvidenceResponse,
+    BenchmarkTestContext,
     ClipAssessment,
     ClipAssessmentJob,
     ClipAssessmentTarget,
     CreateRunRequest,
     DatasetClip,
+    LinuxBenchmarkComparator,
+    LinuxBenchmarkFifoScenario,
     MediaAssetInfo,
     ModelArtifact,
     PenSnapshot,
     ProxySpecimenPoolSummary,
+    QnxBenchmarkFaultIsolation,
+    QnxBenchmarkIpc,
+    QnxBenchmarkJitter,
+    QnxBenchmarkNcnn,
+    QnxBenchmarkSourceIdentity,
     QnxEvidenceDocument,
     QnxEvidenceResponse,
+    QnxFaultTestResponse,
+    QnxRuntimeResponse,
+    QnxRuntimeStatus,
+    QnxVerifiedBenchmarkEvidence,
     ResultArtifact,
     ResultExecutorReference,
     ResultMetrics,
@@ -50,7 +63,12 @@ from .models import (
     utc_now,
 )
 from .proxy_specimens import ProxySpecimenManifest, ProxySpecimenRepository
-from .qnx_runner import QnxRunnerError
+from .qnx_runner import (
+    EDGE_FAULT_TEST_PROCESSES,
+    QnxRunnerError,
+    normalize_edge_crash_response,
+    normalize_edge_status,
+)
 from .scenarios import ScenarioRepository
 from .telemetry import LocalTelemetrySampler, local_target_identity
 
@@ -63,6 +81,14 @@ class QnxAssessmentBlocked(RuntimeError):
     """The target was contacted but could not execute the configured contract."""
 
 
+class QnxFaultTestError(RuntimeError):
+    """A fault-test request was refused by local policy before any target contact."""
+
+    def __init__(self, message: str, status_code: int = 403) -> None:
+        super().__init__(message)
+        self.status_code = status_code
+
+
 def default_qnx_evidence_path() -> Path:
     return (
         Path(__file__).resolve().parents[2]
@@ -71,6 +97,258 @@ def default_qnx_evidence_path() -> Path:
         / "evidence"
         / "dropping4-laptop-final-320.json"
     )
+
+
+QNX_BENCHMARK_SCHEMA_MARKER = "holy-crap-qnx-native-eval-summary-v1"
+LINUX_BENCHMARK_SUITE_MARKER = "linux_scheduler_wakeup_jitter_control"
+QNX_BENCHMARK_TEST_CONTEXT = (
+    "QNX 8.0 native C/C++ harness · CLOCK_MONOTONIC · native MsgSend"
+)
+LINUX_BENCHMARK_TEST_CONTEXT = (
+    "Debian/Linux on Raspberry Pi 5 (aarch64) · CLOCK_MONOTONIC · "
+    "SCHED_FIFO priority 40"
+)
+
+
+def _repository_root() -> Path:
+    return Path(__file__).resolve().parents[2]
+
+
+def default_qnx_benchmark_evidence_path() -> Path:
+    return (
+        _repository_root()
+        / "target"
+        / "qnx"
+        / "evidence"
+        / "2026-10-18-native-evals"
+        / "summary.json"
+    )
+
+
+def default_linux_benchmark_evidence_path() -> Path:
+    return (
+        _repository_root()
+        / "target"
+        / "linux"
+        / "evidence"
+        / "2026-10-18-native-scheduler-control"
+        / "summary.json"
+    )
+
+
+def _read_benchmark_summary(path: Path) -> dict[str, Any] | None:
+    """Parse a summary file, ignoring unknown keys; None when unusable."""
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, ValueError):
+        return None
+    if not isinstance(raw, dict):
+        return None
+    return raw
+
+
+def _benchmark_manifest_valid(summary_path: Path) -> bool:
+    """Verify every file listed by the evidence bundle's SHA256SUMS.
+
+    The summary itself must be present in the manifest. Paths outside the
+    evidence directory, malformed lines, duplicate entries, missing files,
+    and digest mismatches all fail closed.
+    """
+    manifest_path = summary_path.parent / "SHA256SUMS"
+    try:
+        root = summary_path.parent.resolve(strict=True)
+        resolved_summary = summary_path.resolve(strict=True)
+        lines = manifest_path.read_text(encoding="utf-8").splitlines()
+    except (OSError, UnicodeError):
+        return False
+    if not lines:
+        return False
+    seen: set[Path] = set()
+    summary_seen = False
+    for line in lines:
+        if len(line) < 67 or line[64:65] != " ":
+            return False
+        expected = line[:64].lower()
+        if len(expected) != 64 or any(char not in "0123456789abcdef" for char in expected):
+            return False
+        name = line[65:]
+        if name.startswith(" ") or name.startswith("*"):
+            name = name[1:]
+        if not name:
+            return False
+        relative = Path(name)
+        if relative.is_absolute():
+            return False
+        try:
+            candidate = (root / relative).resolve(strict=True)
+            candidate.relative_to(root)
+        except (OSError, ValueError):
+            return False
+        if candidate in seen or not candidate.is_file():
+            return False
+        seen.add(candidate)
+        if candidate == resolved_summary:
+            summary_seen = True
+        digest = hashlib.sha256()
+        try:
+            with candidate.open("rb") as handle:
+                while chunk := handle.read(1024 * 1024):
+                    digest.update(chunk)
+        except OSError:
+            return False
+        if digest.hexdigest() != expected:
+            return False
+    return summary_seen
+
+
+def _benchmark_number(value: Any) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise TypeError("benchmark value is not a number")
+    return float(value)
+
+
+def _benchmark_integer(value: Any) -> int:
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise TypeError("benchmark value is not an integer")
+    return value
+
+
+def _benchmark_string(value: Any) -> str:
+    if not isinstance(value, str) or not value:
+        raise TypeError("benchmark value is not a non-empty string")
+    return value
+
+
+def _qnx_benchmark_evidence(path: Path) -> QnxVerifiedBenchmarkEvidence:
+    raw = _read_benchmark_summary(path)
+    if raw is None:
+        return QnxVerifiedBenchmarkEvidence(
+            status="unavailable" if not path.is_file() else "invalid"
+        )
+    if not _benchmark_manifest_valid(path):
+        return QnxVerifiedBenchmarkEvidence(status="invalid")
+    if raw.get("schema") != QNX_BENCHMARK_SCHEMA_MARKER:
+        return QnxVerifiedBenchmarkEvidence(status="invalid")
+    target = raw.get("target")
+    jitter = raw.get("jitter")
+    ipc = raw.get("ipc")
+    ncnn = raw.get("ncnn_feces_320_fp32")
+    fault = raw.get("fault_isolation")
+    if not all(
+        isinstance(part, dict) for part in (target, jitter, ipc, ncnn, fault)
+    ):
+        return QnxVerifiedBenchmarkEvidence(status="invalid")
+    scenarios = jitter.get("scenarios")
+    if not isinstance(scenarios, dict):
+        return QnxVerifiedBenchmarkEvidence(status="invalid")
+    control = scenarios.get("same-core-load-control")
+    fifo40 = scenarios.get("same-core-load-fifo40")
+    ncnn_idle = ncnn.get("idle")
+    if not all(
+        isinstance(part, dict) for part in (control, fifo40, ncnn_idle)
+    ):
+        return QnxVerifiedBenchmarkEvidence(status="invalid")
+    try:
+        ratio: float | None = None
+        comparisons = jitter.get("comparisons")
+        if isinstance(comparisons, dict) and (
+            "same_core_control_to_fifo_p50_ratio" in comparisons
+        ):
+            ratio = _benchmark_number(
+                comparisons["same_core_control_to_fifo_p50_ratio"]
+            )
+        return QnxVerifiedBenchmarkEvidence(
+            status="available",
+            source_identity=QnxBenchmarkSourceIdentity(
+                source_commit=_benchmark_string(raw["source_commit"]),
+                os=_benchmark_string(target["os"]),
+                board=_benchmark_string(target["board"]),
+                architecture=_benchmark_string(target["architecture"]),
+                cpu=_benchmark_string(target["cpu"]),
+            ),
+            jitter=QnxBenchmarkJitter(
+                same_core_control_p50_us=_benchmark_number(control["p50_us"]),
+                fifo40_p50_us=_benchmark_number(fifo40["p50_us"]),
+                fifo40_deadline_miss_rate=_benchmark_number(
+                    fifo40["deadline_miss_rate"]
+                ),
+                deadline_threshold_us=_benchmark_number(jitter["deadline_us"]),
+                same_core_control_to_fifo_p50_ratio=ratio,
+            ),
+            ipc=QnxBenchmarkIpc(
+                mechanism=_benchmark_string(ipc["mechanism"]),
+                payload_bytes=_benchmark_integer(ipc["payload_bytes"]),
+                p50_us=_benchmark_number(ipc["p50_us"]),
+            ),
+            ncnn=QnxBenchmarkNcnn(
+                idle_calls_per_second=_benchmark_number(
+                    ncnn_idle["calls_per_second"]
+                ),
+                observed_data_memory_mb=_benchmark_integer(
+                    ncnn["observed_data_memory_mb"]
+                ),
+            ),
+            fault_isolation=QnxBenchmarkFaultIsolation(
+                subject=_benchmark_string(fault["fault"]),
+                detect_mean_ms=_benchmark_number(fault["detect_mean_ms"]),
+                first_result_mean_ms=_benchmark_number(
+                    fault["first_result_mean_ms"]
+                ),
+            ),
+        )
+    except (KeyError, TypeError, ValueError):
+        return QnxVerifiedBenchmarkEvidence(status="invalid")
+
+
+def _linux_benchmark_evidence(path: Path) -> LinuxBenchmarkComparator:
+    raw = _read_benchmark_summary(path)
+    if raw is None:
+        return LinuxBenchmarkComparator(
+            status="unavailable" if not path.is_file() else "invalid"
+        )
+    if not _benchmark_manifest_valid(path):
+        return LinuxBenchmarkComparator(status="invalid")
+    if raw.get("suite") != LINUX_BENCHMARK_SUITE_MARKER:
+        return LinuxBenchmarkComparator(status="invalid")
+    scenarios = raw.get("scenarios")
+    if not isinstance(scenarios, dict):
+        return LinuxBenchmarkComparator(status="invalid")
+    parts: dict[str, tuple[dict[str, Any], dict[str, Any]]] = {}
+    for name in ("idle-fifo40", "cross-core-load-fifo40", "same-core-load-fifo40"):
+        scenario = scenarios.get(name)
+        if not isinstance(scenario, dict):
+            return LinuxBenchmarkComparator(status="invalid")
+        pooled = scenario.get("pooled_lateness_us")
+        if not isinstance(pooled, dict):
+            return LinuxBenchmarkComparator(status="invalid")
+        parts[name] = (scenario, pooled)
+    try:
+        idle, idle_pooled = parts["idle-fifo40"]
+        cross, cross_pooled = parts["cross-core-load-fifo40"]
+        same, same_pooled = parts["same-core-load-fifo40"]
+        return LinuxBenchmarkComparator(
+            status="available",
+            deadline_threshold_us=_benchmark_number(
+                raw["deadline_lateness_threshold_us"]
+            ),
+            idle=LinuxBenchmarkFifoScenario(
+                p50_lateness_us=_benchmark_number(idle_pooled["p50"]),
+                deadline_misses=_benchmark_integer(idle["deadline_misses"]),
+                total_wakes=_benchmark_integer(idle["total_wakes"]),
+            ),
+            cross_core_load=LinuxBenchmarkFifoScenario(
+                p50_lateness_us=_benchmark_number(cross_pooled["p50"]),
+                deadline_misses=_benchmark_integer(cross["deadline_misses"]),
+                total_wakes=_benchmark_integer(cross["total_wakes"]),
+            ),
+            same_core_load=LinuxBenchmarkFifoScenario(
+                p50_lateness_us=_benchmark_number(same_pooled["p50"]),
+                deadline_misses=_benchmark_integer(same["deadline_misses"]),
+                total_wakes=_benchmark_integer(same["total_wakes"]),
+            ),
+        )
+    except (KeyError, TypeError, ValueError):
+        return LinuxBenchmarkComparator(status="invalid")
 
 
 def _write_text(path: Path, content: str) -> None:
@@ -99,6 +377,8 @@ class SimulationService:
         proxy_specimens_directory: Path | None = None,
         qnx_evidence_path: Path | None = None,
         dataset_videos_directory: Path | None = None,
+        qnx_benchmark_evidence_path: Path | None = None,
+        linux_benchmark_evidence_path: Path | None = None,
     ) -> None:
         self.catalog = Catalog(home)
         self.scenarios = ScenarioRepository(scenario_directory)
@@ -131,6 +411,13 @@ class SimulationService:
             max_workers=1, thread_name_prefix="clip-assessment"
         )
         self.qnx_evidence_path = qnx_evidence_path or default_qnx_evidence_path()
+        self.qnx_benchmark_evidence_path = (
+            qnx_benchmark_evidence_path or default_qnx_benchmark_evidence_path()
+        )
+        self.linux_benchmark_evidence_path = (
+            linux_benchmark_evidence_path
+            or default_linux_benchmark_evidence_path()
+        )
 
     def close(self) -> None:
         self._assessment_executor.shutdown(wait=False, cancel_futures=True)
@@ -889,6 +1176,112 @@ class SimulationService:
             self.qnx_evidence_path.read_text(encoding="utf-8")
         )
         return QnxEvidenceResponse(evidence=document, claims=document.claims)
+
+    def benchmark_evidence(self) -> BenchmarkEvidenceResponse:
+        """Read-only benchmark evidence from the committed summary files.
+
+        Missing files report ``unavailable`` and unparsable or unknown-schema
+        files report ``invalid``; the endpoint never runs a benchmark and
+        never substitutes or invents a metric.
+        """
+        return BenchmarkEvidenceResponse(
+            qnx=_qnx_benchmark_evidence(self.qnx_benchmark_evidence_path),
+            linux=_linux_benchmark_evidence(self.linux_benchmark_evidence_path),
+            test_context=BenchmarkTestContext(
+                qnx=QNX_BENCHMARK_TEST_CONTEXT,
+                linux=LINUX_BENCHMARK_TEST_CONTEXT,
+            ),
+        )
+
+    def qnx_runtime(self) -> QnxRuntimeResponse:
+        """A truthful read-only snapshot of the target edge pipeline.
+
+        Always returns the typed schema: not_configured when the executor is
+        disabled, unreachable on transport failure, and otherwise the
+        normalized (ready or partial) target status. Fault tests are never
+        triggered here.
+        """
+        config = self.qnx_runner.config
+        if not config.enabled:
+            return QnxRuntimeResponse(
+                status=QnxRuntimeStatus.NOT_CONFIGURED,
+                captured_at=utc_now(),
+                detail=(
+                    "QNX runtime status is not configured (QNX_EXECUTOR_MODE=%r); "
+                    "no Pi contact is attempted. This endpoint describes the edge stream, "
+                    "not the clip-assessment worker" % config.mode
+                ),
+                fault_tests_enabled=False,
+                target_fault_tests_enabled=None,
+            )
+        try:
+            outcome = self.qnx_runner.edge_status()
+        except QnxRunnerError as exc:
+            return QnxRuntimeResponse(
+                status=QnxRuntimeStatus.UNREACHABLE,
+                captured_at=utc_now(),
+                detail=(
+                    "edge-stream runtime is unreachable; this endpoint does not describe "
+                    "the clip-assessment worker: %s" % exc
+                ),
+                fault_tests_enabled=False,
+                target_fault_tests_enabled=None,
+            )
+        return normalize_edge_status(
+            outcome.output,
+            ssh_alias=config.ssh_alias,
+            fault_tests_enabled=config.edge_fault_tests,
+        )
+
+    def qnx_fault_test(self, process_name: str) -> QnxFaultTestResponse:
+        """Ask the target edge to crash one allowlisted supervised process.
+
+        The allowlist is checked before any configuration or subprocess work,
+        and a disabled gate raises the dedicated safe error rather than
+        contacting anything.
+        """
+        if process_name not in EDGE_FAULT_TEST_PROCESSES:
+            raise QnxFaultTestError(
+                "fault test target %r is not allowed; expected one of: %s"
+                % (process_name, ", ".join(EDGE_FAULT_TEST_PROCESSES)),
+                status_code=422,
+            )
+        config = self.qnx_runner.config
+        if not config.edge_fault_tests:
+            raise QnxFaultTestError(
+                "fault tests are disabled (QNX_EDGE_FAULT_TESTS is not enabled)",
+                status_code=403,
+            )
+        if not config.enabled:
+            raise QnxFaultTestError(
+                "fault tests require the QNX executor to be enabled "
+                "(QNX_EXECUTOR_MODE=%r)" % config.mode,
+                status_code=403,
+            )
+        try:
+            status_outcome = self.qnx_runner.edge_status()
+        except QnxRunnerError as exc:
+            raise QnxFaultTestError(
+                "target fault-test gate could not be verified: %s" % exc,
+                status_code=502,
+            ) from exc
+        runtime = normalize_edge_status(
+            status_outcome.output,
+            ssh_alias=config.ssh_alias,
+            fault_tests_enabled=config.edge_fault_tests,
+        )
+        if runtime.target_fault_tests_enabled is not True:
+            raise QnxFaultTestError(
+                "fault tests are disabled on the QNX target",
+                status_code=403,
+            )
+        try:
+            outcome = self.qnx_runner.edge_crash(process_name)
+        except QnxRunnerError as exc:
+            raise QnxFaultTestError(
+                "target fault test failed: %s" % exc, status_code=502
+            ) from exc
+        return normalize_edge_crash_response(process_name, outcome.payload, outcome.output)
 
     def require_clip_assessment(self, assessment_id: str) -> ClipAssessment:
         result = self.clip_assessments.store.get(assessment_id)

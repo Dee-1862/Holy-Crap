@@ -1,0 +1,381 @@
+captured_at=2026-10-18T12:59:33-04:00
+Linux raspberrypi 6.12.62+rpt-rpi-2712 #1 SMP PREEMPT Debian 1:6.12.62-1+rpt1 (2025-12-18) aarch64 GNU/Linux
+online_cpus=0-3
+isolated_cpus=
+kernel_cmdline=reboot=w coherent_pool=1M 8250.nr_uarts=1 pci=pcie_bus_safe cgroup_disable=memory numa_policy=interleave nvme.max_host_mem_size_mb=0  numa=fake=8 system_heap.max_order=0 smsc95xx.macaddr=88:A2:9E:36:16:E5 vc_mem.mem_base=0x3fc00000 vc_mem.mem_size=0x40000000  console=ttyAMA10,115200 console=tty1 root=PARTUUID=5dd93de6-02 rootfstype=ext4 fsck.repair=yes rootwait quiet splash plymouth.ignore-serial-consoles cfg80211.ieee80211_regdom=US
+
+clocksource_current=arch_sys_counter
+clocksource_available=arch_sys_counter 
+loadavg=0.87 1.30 1.24 1/711 60425
+uptime=3397.95 10900.16
+memory=MemTotal:       16608192 kB
+MemAvailable:   13499104 kB
+SwapTotal:       2097136 kB
+SwapFree:        2097136 kB
+rt_runtime_us=950000
+rt_period_us=1000000
+shell_limits_begin
+real-time non-blocking time  (microseconds, -R) unlimited
+core file size              (blocks, -c) 0
+data seg size               (kbytes, -d) unlimited
+scheduling priority                 (-e) 0
+file size                   (blocks, -f) unlimited
+pending signals                     (-i) 64542
+max locked memory           (kbytes, -l) 8192
+max memory size             (kbytes, -m) unlimited
+open files                          (-n) 1024
+pipe size                (512 bytes, -p) 8
+POSIX message queues         (bytes, -q) 819200
+real-time priority                  (-r) 0
+stack size                  (kbytes, -s) 8192
+cpu time                   (seconds, -t) unlimited
+max user processes                  (-u) 64542
+virtual memory              (kbytes, -v) 8388608
+file locks                          (-x) unlimited
+shell_limits_end
+cpu_governors_begin
+/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor=ondemand
+/sys/devices/system/cpu/cpu1/cpufreq/scaling_governor=ondemand
+/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor=ondemand
+/sys/devices/system/cpu/cpu3/cpufreq/scaling_governor=ondemand
+cpu_governors_end
+cpu_info_begin
+Architecture:                            aarch64
+CPU op-mode(s):                          32-bit, 64-bit
+Byte Order:                              Little Endian
+CPU(s):                                  4
+On-line CPU(s) list:                     0-3
+Vendor ID:                               ARM
+Model name:                              Cortex-A76
+Model:                                   1
+Thread(s) per core:                      1
+Core(s) per cluster:                     4
+Socket(s):                               -
+Cluster(s):                              1
+Stepping:                                r4p1
+CPU(s) scaling MHz:                      62%
+CPU max MHz:                             2400.0000
+CPU min MHz:                             1500.0000
+BogoMIPS:                                108.00
+Flags:                                   fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+L1d cache:                               256 KiB (4 instances)
+L1i cache:                               256 KiB (4 instances)
+L2 cache:                                2 MiB (4 instances)
+L3 cache:                                2 MiB (1 instance)
+NUMA node(s):                            8
+NUMA node0 CPU(s):                       0-3
+NUMA node1 CPU(s):                       0-3
+NUMA node2 CPU(s):                       0-3
+NUMA node3 CPU(s):                       0-3
+NUMA node4 CPU(s):                       0-3
+NUMA node5 CPU(s):                       0-3
+NUMA node6 CPU(s):                       0-3
+NUMA node7 CPU(s):                       0-3
+Vulnerability Gather data sampling:      Not affected
+Vulnerability Indirect target selection: Not affected
+Vulnerability Itlb multihit:             Not affected
+Vulnerability L1tf:                      Not affected
+Vulnerability Mds:                       Not affected
+Vulnerability Meltdown:                  Not affected
+Vulnerability Mmio stale data:           Not affected
+Vulnerability Reg file data sampling:    Not affected
+Vulnerability Retbleed:                  Not affected
+Vulnerability Spec rstack overflow:      Not affected
+Vulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl
+Vulnerability Spectre v1:                Mitigation; __user pointer sanitization
+Vulnerability Spectre v2:                Mitigation; CSV2, BHB
+Vulnerability Srbds:                     Not affected
+Vulnerability Tsa:                       Not affected
+Vulnerability Tsx async abort:           Not affected
+Vulnerability Vmscape:                   Not affected
+cpu_info_end
+process_snapshot_begin
+    PID PSR CLS RTPRIO PRI  NI %CPU %MEM   RSS    VSZ ELAPSED COMMAND         COMMAND
+  60411   2  TS      -  19   0 33.3  0.0  3424   7200       0 bash            bash ./run-linux-scheduler-control.sh
+   1656   1  TS      -  19   0  1.3  2.1 357360 6066320  3383 claude          claude --resume c59a689b-195f-48bd-be3d-b0fe1931cbea
+   1655   3  TS      -  19   0  1.2  2.0 346560 6066320  3383 claude          claude --resume 62cabf61-52d0-40e2-91c1-b92c4aa538a7
+   1657   2  TS      -  19   0  0.9  1.8 315280 6066320  3383 claude          claude --resume 1f65454e-214d-477d-aa05-b230a296d17e
+  60401   1  TS      -  19   0  0.8  0.0 11568  21872       1 sshd-session    sshd-session: lancestreuber [priv]
+   1052   1  TS      -  19   0  0.7  0.5 92896 1354464   3389 tailscaled      /usr/sbin/tailscaled --state=/var/lib/tailscale/tailscaled.state --socket=/run/tailscale/tailscaled.sock --port=41641
+   1683   2  TS      -  19   0  0.4  1.6 281664 383232   3383 python          /home/lancestreuber/venvs/rankrent/bin/python -m worker.main
+    673   1  TS      -  39 -20  0.3  0.0     0      0    3392 kworker/u21:2-b [kworker/u21:2-brcmf_wq/mmc1:0001:1]
+   1182   1  TS      -  19   0  0.2  0.1 19312  68288    3387 herdr           /home/lancestreuber/.local/bin/herdr server
+   1681   2  TS      -  19   0  0.2  0.7 129664 227744   3383 python          /home/lancestreuber/venvs/rankrent/bin/python -m worker.main
+      1   2  TS      -  19   0  0.1  0.0 15760  25760    3397 systemd         /usr/lib/systemd/systemd --system --deserialize=84 splash
+   1680   1  TS      -  19   0  0.1  0.6 106736 134096   3383 python          /home/lancestreuber/venvs/rankrent/bin/python -m worker.main
+   1186   0  TS      -  19   0  0.1  0.1 31200 1842976   3387 kartsd          /home/lancestreuber/.local/share/karts-pilot/bin/kartsd -addr 127.0.0.1:8080 -auth=true -db /home/lancestreuber/.local/share/karts-pilot/karts.db -orchestration-db /home/lancestreuber/.local/share/karts-pilot/orchestration.db -root /home/lancestreuber/.local/share/karts-pilot/sandboxes -environment-root /home/lancestreuber/.local/share/karts-pilot/environments -environment-default karts-dev -ui-dir /home/lancestreuber/karts/desktop/dist -git-credentials-file /home/lancestreuber/.local/share/karts-pilot/git-credentials -allow-git-credential-update -sandbox-git-credential -sandbox-ro-bind /home/lancestreuber/.local/share/karts-pilot/tools:/opt/karts/tools -sandbox-path /opt/karts/tools:/usr/local/bin:/usr/bin:/bin -sandbox-ro-bind /home/lancestreuber/.local/share/karts-pilot/deploy-tools:/opt/karts/deploy
+   1835   1  TS      -  19   0  0.1  0.3 57712 834080    3380 wf-panel-pi     /usr/bin/wf-panel-pi
+    776   2  TS      -  19   0  0.0  0.0  6368  10160    3391 dbus-daemon     /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+   2600   0  TS      -  19   0  0.0  0.5 95200 1483504   3371 npm exec @upsta npm exec @upstash/context7-mcp
+   2508   1  TS      -  19   0  0.0  0.5 93984 1483120   3372 npm exec @upsta npm exec @upstash/context7-mcp
+   2912   2  TS      -  19   0  0.0  0.5 94640 1483328   3360 npm exec @model npm exec @modelcontextprotocol/server-sequential-thinking
+   2603   1  TS      -  19   0  0.0  0.5 94560 1483360   3371 npm exec @model npm exec @modelcontextprotocol/server-memory
+   2934   1  TS      -  19   0  0.0  0.5 95104 1483328   3359 npm exec @model npm exec @modelcontextprotocol/server-sequential-thinking
+   2906   1  TS      -  19   0  0.0  0.5 94720 1483344   3360 npm exec @model npm exec @modelcontextprotocol/server-sequential-thinking
+   2509   3  TS      -  19   0  0.0  0.5 93872 1483664   3372 npm exec @model npm exec @modelcontextprotocol/server-memory
+   2895   3  TS      -  19   0  0.0  0.5 95472 1484304   3360 npm exec @playw npm exec @playwright/mcp@latest
+   2569   0  TS      -  19   0  0.0  0.5 95440 1483344   3372 npm exec @upsta npm exec @upstash/context7-mcp
+   2865   1  TS      -  19   0  0.0  0.5 95248 1484272   3361 npm exec @playw npm exec @playwright/mcp@latest
+   2574   0  TS      -  19   0  0.0  0.5 95376 1483616   3372 npm exec @model npm exec @modelcontextprotocol/server-memory
+   2872   3  TS      -  19   0  0.0  0.5 94336 1483472   3361 npm exec @playw npm exec @playwright/mcp@latest
+   2819   0  TS      -  19   0  0.0  0.5 83472 1183504   3362 node-MainThread node /home/lancestreuber/.npm/_npx/eea2bd7412d4593b/node_modules/.bin/context7-mcp
+   1259   1  TS      -  19   0  0.0  0.1 17952  51072    3386 x11vnc          /usr/bin/x11vnc -display :99 -forever -shared -rfbport 5901 -listen 100.78.99.26 -noipv6 -rfbauth /home/lancestreuber/.rankrent/vnc_passwd -noxdamage
+   2973   1  TS      -  19   0  0.0  0.6 109184 1214896  3356 node-MainThread node /home/lancestreuber/.npm/_npx/9833c18b2d85bc59/node_modules/.bin/playwright-mcp
+  48877   1  TS      -  19   0  0.0  0.1 21600 348128     120 packagekitd     /usr/libexec/packagekitd
+   2811   2  TS      -  19   0  0.0  0.5 83584 1183600   3363 node-MainThread node /home/lancestreuber/.npm/_npx/eea2bd7412d4593b/node_modules/.bin/context7-mcp
+   2989   2  TS      -  19   0  0.0  0.6 114160 1215248  3355 node-MainThread node /home/lancestreuber/.npm/_npx/9833c18b2d85bc59/node_modules/.bin/playwright-mcp
+   2981   0  TS      -  19   0  0.0  0.6 108960 1214752  3355 node-MainThread node /home/lancestreuber/.npm/_npx/9833c18b2d85bc59/node_modules/.bin/playwright-mcp
+   1679   1  TS      -  19   0  0.0  0.4 69520  89808    3383 python          /home/lancestreuber/venvs/rankrent/bin/python -m worker.session_manager
+  48624   2  TS      -  19   0  0.0  0.0 15568 409616     128 udisksd         /usr/libexec/udisks2/udisksd
+   2854   1  TS      -  19   0  0.0  0.5 83616 1183888   3361 node-MainThread node /home/lancestreuber/.npm/_npx/eea2bd7412d4593b/node_modules/.bin/context7-mcp
+   1191   1  TS      -  19   0  0.0  0.1 17376 1240688   3387 rpi-connectd    /usr/bin/rpi-connectd -socket /run/user/1000/rpi-connect-wayvnc.sock
+   1706   1  TS      -  19   0  0.0  0.5 84736 2095232   3383 dockerd         /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+  11085   0  TS      -  19   0  0.0  0.0 12208  51648     460 systemd-journal /usr/lib/systemd/systemd-journald
+   6283   0  TS      -  19   0  0.0  0.0     0      0    1148 kworker/0:1-eve [kworker/0:1-events]
+   1184   1  TS      -  19   0  0.0  0.6 105760 502640   3387 labwc           /usr/bin/labwc -m
+   1063   1  TS      -  19   0  0.0  0.3 54736 2028768   3389 containerd      /usr/bin/containerd
+   2803   2  TS      -  19   0  0.0  0.4 69312 1205456   3363 node-MainThread node /home/lancestreuber/.npm/_npx/15b07286cbcc3329/node_modules/.bin/mcp-server-memory
+   2795   2  TS      -  19   0  0.0  0.4 68960 1205120   3363 node-MainThread node /home/lancestreuber/.npm/_npx/15b07286cbcc3329/node_modules/.bin/mcp-server-memory
+   2997   2  TS      -  19   0  0.0  0.4 67824 1172000   3354 node-MainThread node /home/lancestreuber/.npm/_npx/de2bd410102f5eda/node_modules/.bin/mcp-server-sequential-thinking
+   2827   3  TS      -  19   0  0.0  0.4 69264 1205184   3362 node-MainThread node /home/lancestreuber/.npm/_npx/15b07286cbcc3329/node_modules/.bin/mcp-server-memory
+     18   2  TS      -  19   0  0.0  0.0     0      0    3397 rcu_preempt     [rcu_preempt]
+   3005   2  TS      -  19   0  0.0  0.4 67664 1171776   3353 node-MainThread node /home/lancestreuber/.npm/_npx/de2bd410102f5eda/node_modules/.bin/mcp-server-sequential-thinking
+   1846   3  TS      -  19   0  0.0  0.2 47760 657408    3380 pcmanfm         pcmanfm --desktop
+    785   1  TS      -  19   0  0.0  0.0  9200  19568    3391 systemd-logind  /usr/lib/systemd/systemd-logind
+   3013   1  TS      -  19   0  0.0  0.4 68464 1172512   3352 node-MainThread node /home/lancestreuber/.npm/_npx/de2bd410102f5eda/node_modules/.bin/mcp-server-sequential-thinking
+  11419   3  TS      -  19   0  0.0  0.0 11648  36672     458 systemd-udevd   /usr/lib/systemd/systemd-udevd
+   6849   2  TS      -  19   0  0.0  0.0     0      0     735 kworker/2:0-mm_ [kworker/2:0-mm_percpu_wq]
+    895   3  TS      -  19   0  0.0  0.1 21936 343104    3390 NetworkManager  /usr/sbin/NetworkManager --no-daemon
+    206   3  TS      -  19   0  0.0  0.0     0      0    3395 jbd2/mmcblk0p2- [jbd2/mmcblk0p2-8]
+  44758   1  TS      -  19   0  0.0  0.0  7760  11728     271 sshd            sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+   1260   3  TS      -  19   0  0.0  0.2 37376 230096    3386 websockify      /usr/bin/python3 /usr/bin/websockify --web=/usr/share/novnc 127.0.0.1:6080 localhost:5901
+   9737   1  TS      -  39 -20  0.0  0.0     0      0     498 kworker/1:1H-kb [kworker/1:1H-kblockd]
+    780   1  TS      -  19   0  0.0  0.0 10208 383392    3391 polkitd         /usr/lib/polkit-1/polkitd --no-debug --log-level=notice
+   8905   0  TS      -  19   0  0.0  0.0     0      0     527 kworker/0:3-eve [kworker/0:3-events]
+    588   0  TS      -  19   0  0.0  0.0     0      0    3392 brcmf_wdog/mmc1 [brcmf_wdog/mmc1:0001:1]
+   6566   1  TS      -  19   0  0.0  0.0     0      0     926 kworker/1:0-eve [kworker/1:0-events]
+   1061   3  TS      -  19   0  0.0  0.0 13280  23648    3389 systemd         /usr/lib/systemd/systemd --user --deserialize=8
+   1678   1  TS      -  19   0  0.0  0.1 19888  33456    3383 python          /home/lancestreuber/venvs/rankrent/bin/python -m scripts.preview_server
+  11265   3  TS      -  19   0  0.0  0.0     0      0     458 kworker/u19:2-k [kworker/u19:2-kvfree_rcu_reclaim]
+   1082   1  TS      -  19   0  0.0  0.2 45840 434832    3389 wayvnc          wayvnc --detached --gpu --config /etc/wayvnc/config --socket /tmp/wayvnc/wayvncctl.sock
+     38   0  TS      -  19   0  0.0  0.0     0      0    3397 kworker/u17:0-k [kworker/u17:0-kvfree_rcu_reclaim]
+    108   0  FF     50  90   -  0.0  0.0     0      0    3397 irq/162-mmc1    [irq/162-mmc1]
+    103   0  FF     50  90   -  0.0  0.0     0      0    3397 irq/161-mmc0    [irq/161-mmc0]
+     57   3  TS      -  19   0  0.0  0.0     0      0    3397 kworker/3:1-eve [kworker/3:1-events]
+   1192   0  TS      -  19   0  0.0  0.1 29648 656368    3387 wireplumber     /usr/bin/wireplumber
+   3613   0  TS      -  39 -20  0.0  0.0     0      0    2902 kworker/0:0H-kb [kworker/0:0H-kblockd]
+   2311   2  TS      -  19   0  0.0  0.2 49728 439328    3376 wayvnc          /usr/bin/wayvnc --config /etc/rpi-connect/wayvnc.config --render-cursor --unix-socket --socket=/run/user/1000/rpi-connect-wayvnc-ctl.sock /run/user/1000/rpi-connect-wayvnc.sock
+   8491   3  TS      -  19   0  0.0  0.0     0      0     531 kworker/3:2-eve [kworker/3:2-events]
+   3413   1  TS      -  39 -20  0.0  0.0     0      0    3078 kworker/1:0H-kb [kworker/1:0H-kblockd]
+    770   0  TS      -  19   0  0.0  0.0  8384 311040    3391 accounts-daemon /usr/libexec/accounts-daemon
+    166   3  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/3:1H-kb [kworker/3:1H-kblockd]
+  11250   2  TS      -  19   0  0.0  0.0  8368  92560     459 systemd-timesyn /usr/lib/systemd/systemd-timesyncd
+   1817   3  TS      -  19   0  0.0  0.1 20992 413840    3380 polkit-mate-aut /usr/libexec/polkit-mate-authentication-agent-1
+     93   2  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/2:1H-kb [kworker/2:1H-kblockd]
+    921   0  TS      -  19   0  0.0  0.0 14240 325488    3390 ModemManager    /usr/sbin/ModemManager
+     17   0  TS      -  19   0  0.0  0.0     0      0    3397 ksoftirqd/0     [ksoftirqd/0]
+   7859   1  TS      -  19   0  0.0  0.0     0      0     617 kworker/1:1-eve [kworker/1:1-events_power_efficient]
+     30   2  TS      -  19   0  0.0  0.0     0      0    3397 ksoftirqd/2     [ksoftirqd/2]
+     35   3  TS      -  19   0  0.0  0.0     0      0    3397 ksoftirqd/3     [ksoftirqd/3]
+   1053   3  TS      -  19   0  0.0  0.1 31888 129712    3389 unattended-upgr /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+     25   1  TS      -  19   0  0.0  0.0     0      0    3397 ksoftirqd/1     [ksoftirqd/1]
+   1043   1  TS      -  19   0  0.0  0.4 68432 267376    3389 Xvfb            /usr/bin/Xvfb :99 -screen 0 1440x1150x24 -ac -nolisten tcp
+  43832   1  TS      -  19   0  0.0  0.1 30320 219280     288 postgres        /usr/lib/postgresql/17/bin/postgres -D /var/lib/postgresql/17/main -c config_file=/etc/postgresql/17/main/postgresql.conf
+    896   0  TS      -  19   0  0.0  0.0 12992  19168    3390 wpa_supplicant  /usr/sbin/wpa_supplicant -u -s -O DIR=/run/wpa_supplicant GROUP=netdev
+    772   1  TS      -  19   0  0.0  0.0  3552   6032    3391 avahi-daemon    avahi-daemon: running [raspberrypi.local]
+   3399   3  TS      -  19   0  0.0  0.0  4704  22896    3080 herdr           /home/lancestreuber/.local/bin/herdr remote-client-bridge --idle-timeout-v1
+   6479   2  TS      -  19   0  0.0  0.0     0      0    1041 kworker/2:1-eve [kworker/2:1-events]
+   1998   3  TS      -  19   0  0.0  0.1 22688 414672    3379 xdg-desktop-por /usr/libexec/xdg-desktop-portal-gtk
+   1181   3  TS      -  19   0  0.0  0.0  4880   8496    3387 dbus-daemon     /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+   5657   1  TS      -  19   0  0.0  0.0     0      0    1540 kworker/u18:0-w [kworker/u18:0-writeback]
+   2024   3  TS      -  19   0  0.0  0.0  9024 391376    3379 gvfs-afc-volume /usr/libexec/gvfs-afc-volume-monitor
+   1843   2  TS      -  19   0  0.0  0.1 20112 413472    3380 gtk-nop         gtk-nop
+   1556   0  TS      -  19   0  0.0  0.1 20864  33136    3385 python          python /usr/sbin/wayvnc-control.py
+     69   1  TS      -  19   0  0.0  0.0     0      0    3397 kworker/u18:1-w [kworker/u18:1-writeback]
+     40   2  TS      -  19   0  0.0  0.0     0      0    3397 kworker/u19:0-k [kworker/u19:0-kvfree_rcu_reclaim]
+   3392   1  TS      -  19   0  0.0  0.0  8192  22176    3081 sshd-session    sshd-session: lancestreuber@notty
+   1856   0  TS      -  19   0  0.0  0.4 82224 304768    3380 Xwayland        /usr/bin/Xwayland -auth /home/lancestreuber/.Xauthority :0 -rootless -core -terminate 10 -listenfd 32 -listenfd 33 -displayfd 58 -wm 55
+   1059   1  TS      -  19   0  0.0  0.0  8048 382144    3389 lightdm         /usr/sbin/lightdm
+   1044   0  TS      -  19   0  0.0  0.1 19760 115136    3389 openbox         /usr/bin/openbox
+   1041   3  TS      -  19   0  0.0  0.0  8896  22800    3389 cupsd           /usr/sbin/cupsd -l
+   2567   1  TS      -  19   0  0.0  0.0  9664  17616    3372 ssh             /usr/bin/ssh -T -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -o ServerAliveInterval=15 -o ServerAliveCountMax=4 macbook-pro-4 exec /usr/bin/python3 /Users/lancestreuber/.codex/skills/outlook/scripts/outlook-broker-connect.py mcp
+   1964   1  TS      -  19   0  0.0  0.1 19856 636560    3379 xdg-desktop-por /usr/libexec/xdg-desktop-portal
+     47   0  TS      -  19   0  0.0  0.0     0      0    3397 kworker/u17:1-k [kworker/u17:1-kvfree_rcu_reclaim]
+     62   1  TS      -  19   0  0.0  0.0     0      0    3397 kworker/u20:2-k [kworker/u20:2-kvfree_rcu_reclaim]
+     41   3  TS      -  19   0  0.0  0.0     0      0    3397 kworker/u20:0-e [kworker/u20:0-events_unbound]
+   2963   0  TS      -  19   0  0.0  0.0  9920  17888    3358 ssh             /usr/bin/ssh -T -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -o ServerAliveInterval=15 -o ServerAliveCountMax=4 macbook-pro-4 exec /Users/lancestreuber/.local/bin/thunderbird-mcp
+   2950   2  TS      -  19   0  0.0  0.0 10176  18144    3358 ssh             /usr/bin/ssh -T -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -o ServerAliveInterval=15 -o ServerAliveCountMax=4 macbook-pro-4 exec /Users/lancestreuber/.local/bin/thunderbird-mcp
+   2935   2  TS      -  19   0  0.0  0.0  9776  17632    3358 ssh             /usr/bin/ssh -T -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -o ServerAliveInterval=15 -o ServerAliveCountMax=4 macbook-pro-4 exec /Users/lancestreuber/.local/bin/thunderbird-mcp
+   2599   0  TS      -  19   0  0.0  0.0  9664  17616    3371 ssh             /usr/bin/ssh -T -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -o ServerAliveInterval=15 -o ServerAliveCountMax=4 macbook-pro-4 exec /usr/bin/python3 /Users/lancestreuber/.codex/skills/outlook/scripts/outlook-broker-connect.py mcp
+   2502   3  TS      -  19   0  0.0  0.0  9680  17616    3373 ssh             /usr/bin/ssh -T -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -o ServerAliveInterval=15 -o ServerAliveCountMax=4 macbook-pro-4 exec /usr/bin/python3 /Users/lancestreuber/.codex/skills/outlook/scripts/outlook-broker-connect.py mcp
+   2028   3  TS      -  19   0  0.0  0.3 57456 352912    3378 xdg-desktop-por /usr/libexec/xdg-desktop-portal-wlr
+   1985   3  TS      -  19   0  0.0  0.0 11888 393248    3379 gvfs-udisks2-vo /usr/libexec/gvfs-udisks2-volume-monitor
+    774   1  TS      -  19   0  0.0  0.0  6592  13296    3391 bluetoothd      /usr/libexec/bluetooth/bluetoothd
+     49   3  TS      -  19   0  0.0  0.0     0      0    3397 kcompactd0      [kcompactd0]
+     50   3  TS      -  19   0  0.0  0.0     0      0    3397 kcompactd1      [kcompactd1]
+     51   2  TS      -  19   0  0.0  0.0     0      0    3397 kcompactd2      [kcompactd2]
+     52   2  TS      -  19   0  0.0  0.0     0      0    3397 kcompactd3      [kcompactd3]
+     53   0  TS      -  19   0  0.0  0.0     0      0    3397 kcompactd4      [kcompactd4]
+     54   0  TS      -  19   0  0.0  0.0     0      0    3397 kcompactd5      [kcompactd5]
+     55   1  TS      -  19   0  0.0  0.0     0      0    3397 kcompactd6      [kcompactd6]
+     56   0  TS      -  19   0  0.0  0.0     0      0    3397 kcompactd7      [kcompactd7]
+   3380   3  TS      -  19   0  0.0  0.0 11584  21808    3082 sshd-session    sshd-session: lancestreuber [priv]
+   2642   3  TS      -  19   0  0.0  0.0  6640  10288    3371 ssh-agent       /usr/bin/ssh-agent -D
+   2052   0  TS      -  19   0  0.0  0.0  9328 535680    3378 gvfsd-trash     /usr/libexec/gvfsd-trash --spawner :1.20 /org/gtk/gvfs/exec_spaw/0
+   1601   0  TS      -  19   0  0.0  0.0  6384   9568    3384 bash            /bin/bash
+   1603   1  TS      -  19   0  0.0  0.0  6400   9568    3384 bash            /bin/bash
+   1606   3  TS      -  19   0  0.0  0.0  6352   9568    3384 bash            /bin/bash
+   1507   1  TS      -  19   0  0.0  0.0  6368   9568    3385 bash            /bin/bash
+   1195   0  TS      -  19   0  0.0  0.0  8768 101344    3387 pipewire-pulse  /usr/bin/pipewire-pulse
+   1188   0  TS      -  19   0  0.0  0.0 11856 103920    3387 pipewire        /usr/bin/pipewire
+    496   0  TS      -  19   0  0.0  0.0     0      0    3392 kworker/u17:2-w [kworker/u17:2-writeback]
+   2009   2  TS      -  19   0  0.0  0.0  6976 309152    3379 gvfs-mtp-volume /usr/libexec/gvfs-mtp-volume-monitor
+   1981   1  TS      -  19   0  0.0  0.0  7456 544336    3379 xdg-document-po /usr/libexec/xdg-document-portal
+   1976   0  TS      -  19   0  0.0  0.0  6800 309968    3379 xdg-permission- /usr/libexec/xdg-permission-store
+   1899   1  TS      -  19   0  0.0  0.0  8336 313952    3380 gvfsd           /usr/libexec/gvfsd
+   1716   2  TS      -  19   0  0.0  0.0  6352   9584    3383 bash            -bash
+   1189   3  TS      -  19   0  0.0  0.0  4832  85504    3387 pipewire        /usr/bin/pipewire -c filter-chain.conf
+   1126   3  TS      -  19   0  0.0  0.0  2624   7456    3388 agetty          /sbin/agetty -o -- \u --noreset --noclear --keep-baud 115200,57600,38400,9600 - vt220
+   1128   1  TS      -  19   0  0.0  0.0  9296 173056    3388 lightdm         lightdm --session-child 11 14
+   1125   3  TS      -  19   0  0.0  0.0  4608   9536    3388 login           login -- lancestreuber
+    104   0  TS      -  19   0  0.0  0.0     0      0    3397 kworker/u19:4-e [kworker/u19:4-events_unbound]
+      2   3  TS      -  19   0  0.0  0.0     0      0    3397 kthreadd        [kthreadd]
+      3   0  TS      -  19   0  0.0  0.0     0      0    3397 pool_workqueue_ [pool_workqueue_release]
+      4   0  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-kvfre [kworker/R-kvfree_rcu_reclaim]
+      5   0  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-rcu_g [kworker/R-rcu_gp]
+      6   0  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-sync_ [kworker/R-sync_wq]
+      7   0  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-slub_ [kworker/R-slub_flushwq]
+      8   0  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-netns [kworker/R-netns]
+     13   0  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-mm_pe [kworker/R-mm_percpu_wq]
+     14   0  TS      -  19   0  0.0  0.0     0      0    3397 rcu_tasks_kthre [rcu_tasks_kthread]
+     15   0  TS      -  19   0  0.0  0.0     0      0    3397 rcu_tasks_rude_ [rcu_tasks_rude_kthread]
+     16   0  TS      -  19   0  0.0  0.0     0      0    3397 rcu_tasks_trace [rcu_tasks_trace_kthread]
+     19   0  TS      -  19   0  0.0  0.0     0      0    3397 rcu_exp_par_gp_ [rcu_exp_par_gp_kthread_worker/0]
+     20   3  TS      -  19   0  0.0  0.0     0      0    3397 rcu_exp_gp_kthr [rcu_exp_gp_kthread_worker]
+     21   0  FF     99 139   -  0.0  0.0     0      0    3397 migration/0     [migration/0]
+     22   0  TS      -  19   0  0.0  0.0     0      0    3397 cpuhp/0         [cpuhp/0]
+     23   1  TS      -  19   0  0.0  0.0     0      0    3397 cpuhp/1         [cpuhp/1]
+     24   1  FF     99 139   -  0.0  0.0     0      0    3397 migration/1     [migration/1]
+     28   2  TS      -  19   0  0.0  0.0     0      0    3397 cpuhp/2         [cpuhp/2]
+     29   2  FF     99 139   -  0.0  0.0     0      0    3397 migration/2     [migration/2]
+     33   3  TS      -  19   0  0.0  0.0     0      0    3397 cpuhp/3         [cpuhp/3]
+     34   3  FF     99 139   -  0.0  0.0     0      0    3397 migration/3     [migration/3]
+     42   3  TS      -  19   0  0.0  0.0     0      0    3397 kdevtmpfs       [kdevtmpfs]
+     43   3  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-inet_ [kworker/R-inet_frag_wq]
+     44   3  TS      -  19   0  0.0  0.0     0      0    3397 kauditd         [kauditd]
+     45   0  TS      -  19   0  0.0  0.0     0      0    3397 khungtaskd      [khungtaskd]
+     46   3  TS      -  19   0  0.0  0.0     0      0    3397 oom_reaper      [oom_reaper]
+     48   3  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-write [kworker/R-writeback]
+     58   1  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-kinte [kworker/R-kintegrityd]
+     59   1  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-kbloc [kworker/R-kblockd]
+     60   1  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-blkcg [kworker/R-blkcg_punt_bio]
+     63   1  FF     50  90   -  0.0  0.0     0      0    3397 watchdogd       [watchdogd]
+     65   3  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-quota [kworker/R-quota_events_unbound]
+     67   3  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-rpcio [kworker/R-rpciod]
+     68   3  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-xprti [kworker/R-xprtiod]
+     70   3  TS      -  19   0  0.0  0.0     0      0    3397 kswapd0         [kswapd0]
+     71   3  TS      -  19   0  0.0  0.0     0      0    3397 kswapd1         [kswapd1]
+     72   3  TS      -  19   0  0.0  0.0     0      0    3397 kswapd2         [kswapd2]
+     73   3  TS      -  19   0  0.0  0.0     0      0    3397 kswapd3         [kswapd3]
+     74   3  TS      -  19   0  0.0  0.0     0      0    3397 kswapd4         [kswapd4]
+     75   3  TS      -  19   0  0.0  0.0     0      0    3397 kswapd5         [kswapd5]
+     76   3  TS      -  19   0  0.0  0.0     0      0    3397 kswapd6         [kswapd6]
+     77   3  TS      -  19   0  0.0  0.0     0      0    3397 kswapd7         [kswapd7]
+     78   3  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-nfsio [kworker/R-nfsiod]
+     79   3  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-kthro [kworker/R-kthrotld]
+     86   0  TS      -  19   0  0.0  0.0     0      0    3397 hwrng           [hwrng]
+     87   1  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-iscsi [kworker/R-iscsi_conn_cleanup]
+     88   3  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-nvme- [kworker/R-nvme-wq]
+     89   1  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-nvme- [kworker/R-nvme-reset-wq]
+     90   1  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-nvme- [kworker/R-nvme-delete-wq]
+     91   1  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-DWC N [kworker/R-DWC Notification WorkQ]
+     92   1  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-uas   [kworker/R-uas]
+     94   2  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/u21:0-h [kworker/u21:0-hci0]
+     95   1  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/u22:0   [kworker/u22:0]
+     96   1  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/u23:0   [kworker/u23:0]
+     97   1  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/u24:0   [kworker/u24:0]
+     98   1  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/u25:0   [kworker/u25:0]
+    100   0  FF     50  90   -  0.0  0.0     0      0    3397 irq/38-aerdrv   [irq/38-aerdrv]
+    101   1  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-sdhci [kworker/R-sdhci]
+    107   1  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-sdhci [kworker/R-sdhci]
+    169   2  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-mmc_c [kworker/R-mmc_complete]
+    170   0  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-v3d_b [kworker/R-v3d_bin]
+    171   0  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-v3d_r [kworker/R-v3d_render]
+    172   0  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-v3d_t [kworker/R-v3d_tfu]
+    173   0  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-v3d_c [kworker/R-v3d_csd]
+    174   0  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-v3d_c [kworker/R-v3d_cache_clean]
+    175   0  TS      -  39 -20  0.0  0.0     0      0    3397 kworker/R-v3d_c [kworker/R-v3d_cpu]
+    207   2  TS      -  39 -20  0.0  0.0     0      0    3395 kworker/R-ext4- [kworker/R-ext4-rsv-conversion]
+    226   2  TS      -  39 -20  0.0  0.0     0      0    3394 kworker/R-mld   [kworker/R-mld]
+    227   0  TS      -  39 -20  0.0  0.0     0      0    3394 kworker/R-ipv6_ [kworker/R-ipv6_addrconf]
+    228   0  TS      -  19   0  0.0  0.0     0      0    3394 kworker/u16:1-i [kworker/u16:1-ipv6_addrconf]
+    515   1  TS      -  19   0  0.0  0.0     0      0    3392 spi10           [spi10]
+    546   3  FF     50  90   -  0.0  0.0     0      0    3392 irq/172-vc4 hdm [irq/172-vc4 hdmi hpd connected]
+    547   3  FF     50  90   -  0.0  0.0     0      0    3392 irq/174-vc4 hdm [irq/174-vc4 hdmi hpd disconnected]
+    548   3  TS      -  19   0  0.0  0.0     0      0    3392 cec-vc4-hdmi-0  [cec-vc4-hdmi-0]
+    549   1  FF     50  90   -  0.0  0.0     0      0    3392 irq/175-vc4 hdm [irq/175-vc4 hdmi cec rx]
+    550   1  FF     50  90   -  0.0  0.0     0      0    3392 irq/176-vc4 hdm [irq/176-vc4 hdmi cec tx]
+    551   0  FF     50  90   -  0.0  0.0     0      0    3392 irq/177-1000800 [irq/177-1000800000.codec]
+    562   3  TS      -  39 -20  0.0  0.0     0      0    3392 kworker/R-cfg80 [kworker/R-cfg80211]
+    563   1  FF     50  90   -  0.0  0.0     0      0    3392 irq/178-vc4 hdm [irq/178-vc4 hdmi hpd connected]
+    564   1  FF     50  90   -  0.0  0.0     0      0    3392 irq/179-vc4 hdm [irq/179-vc4 hdmi hpd disconnected]
+    565   1  TS      -  19   0  0.0  0.0     0      0    3392 cec-vc4-hdmi-1  [cec-vc4-hdmi-1]
+    567   3  FF     50  90   -  0.0  0.0     0      0    3392 irq/180-vc4 hdm [irq/180-vc4 hdmi cec rx]
+    575   1  FF     50  90   -  0.0  0.0     0      0    3392 irq/181-vc4 hdm [irq/181-vc4 hdmi cec tx]
+    587   3  TS      -  39 -20  0.0  0.0     0      0    3392 kworker/R-brcmf [kworker/R-brcmf_wq/mmc1:0001:1]
+    590   3  FF     50  90   -  0.0  0.0     0      0    3392 card1-crtc0     [card1-crtc0]
+    591   3  FF     50  90   -  0.0  0.0     0      0    3392 card1-crtc1     [card1-crtc1]
+    592   3  FF     50  90   -  0.0  0.0     0      0    3392 card1-crtc2     [card1-crtc2]
+    593   3  FF     50  90   -  0.0  0.0     0      0    3392 card1-crtc3     [card1-crtc3]
+    775   1  TS      -  19   0  0.0  0.0  2928   7152    3391 cron            /usr/sbin/cron -f
+    806   2  TS      -  19   0  0.0  0.0  1872   5856    3391 avahi-daemon    avahi-daemon: chroot helper
+    922   1  TS      -  29 -10  0.0  0.0     0      0    3390 krfcommd        [krfcommd]
+   1054   0  TS      -  19   0  0.0  0.0  1600   2480    3389 sh              /bin/sh /usr/sbin/wayvnc-run.sh
+   1106   1  TS      -  19   0  0.0  0.0  4640  24400    3388 (sd-pam)        (sd-pam)
+   1232   3  TS      -  19   0  0.0  0.0  3552   7328    3387 mpris-proxy     /usr/bin/mpris-proxy
+   1432   0  TS      -  19   0  0.0  0.0  2064  10288    3386 ssh-agent       /usr/bin/ssh-agent /usr/bin/labwc-pi
+   1782   0  TS      -  19   0  0.0  0.0     0      0    3381 kworker/u16:2-v [kworker/u16:2-v3d_bin]
+   1794   1  TS      -  19   0  0.0  0.0  1536   2480    3381 lwrespawn       /bin/sh /usr/bin/lwrespawn /usr/bin/pcmanfm-pi
+   1795   1  TS      -  19   0  0.0  0.0  1600   2480    3381 lwrespawn       /bin/sh /usr/bin/lwrespawn /usr/bin/wf-panel-pi
+   1796   1  TS      -  19   0  0.0  0.0  1744   2704    3381 kanshi          /usr/bin/kanshi
+   1832   2  TS      -  19   0  0.0  0.0  7264  18576    3380 systemd-inhibit systemd-inhibit --what=handle-power-key gtk-nop
+   1836   0  TS      -  19   0  0.0  0.0  1520   2480    3380 pcmanfm-pi      /bin/sh /usr/bin/pcmanfm-pi
+   1848   1  TS      -  19   0  0.0  0.0  2928   5856    3380 xcompmgr        xcompmgr -aR
+   1857   0  TS      -  19   0  0.0  0.0  4240   7904    3380 xsettingsd      xsettingsd
+   1942   3  TS      -  19   0  0.0  0.0  7552 399776    3379 gvfsd-fuse      /usr/libexec/gvfsd-fuse /run/user/1000/gvfs -f
+   1988   3  TS      -  19   0  0.0  0.0  1824   2384    3379 fusermount3     fusermount3 -o rw,nosuid,nodev,fsname=portal,auto_unmount,subtype=portal -- /run/user/1000/doc
+   2018   1  TS      -  19   0  0.0  0.0  6688 308880    3379 gvfs-goa-volume /usr/libexec/gvfs-goa-volume-monitor
+   2034   0  TS      -  19   0  0.0  0.0  7440 310544    3378 gvfs-gphoto2-vo /usr/libexec/gvfs-gphoto2-volume-monitor
+   2794   0  TS      -  19   0  0.0  0.0  1552   2480    3363 sh              sh -c "mcp-server-memory"
+   2802   1  TS      -  19   0  0.0  0.0  1536   2480    3363 sh              sh -c "mcp-server-memory"
+   2810   2  TS      -  19   0  0.0  0.0  1536   2480    3363 sh              sh -c "context7-mcp"
+   2818   3  TS      -  19   0  0.0  0.0  1552   2480    3362 sh              sh -c "context7-mcp"
+   2826   1  TS      -  19   0  0.0  0.0  1536   2480    3362 sh              sh -c "mcp-server-memory"
+   2853   3  TS      -  19   0  0.0  0.0  1552   2480    3361 sh              sh -c "context7-mcp"
+   2972   1  TS      -  19   0  0.0  0.0  1536   2480    3356 sh              sh -c "playwright-mcp"
+   2980   1  TS      -  19   0  0.0  0.0  1552   2480    3355 sh              sh -c "playwright-mcp"
+   2988   3  TS      -  19   0  0.0  0.0  1552   2480    3355 sh              sh -c "playwright-mcp"
+   2996   2  TS      -  19   0  0.0  0.0  1552   2480    3354 sh              sh -c "mcp-server-sequential-thinking"
+   3004   2  TS      -  19   0  0.0  0.0  1552   2480    3353 sh              sh -c "mcp-server-sequential-thinking"
+   3012   0  TS      -  19   0  0.0  0.0  1552   2480    3352 sh              sh -c "mcp-server-sequential-thinking"
+   8917   0  TS      -  39 -20  0.0  0.0     0      0     527 kworker/0:1H-kb [kworker/0:1H-kblockd]
+  10671   2  TS      -  39 -20  0.0  0.0     0      0     467 kworker/2:2H-kb [kworker/2:2H-kblockd]
+  10877   3  TS      -  39 -20  0.0  0.0     0      0     461 kworker/3:2H-kb [kworker/3:2H-kblockd]
+  11101   1  TS      -  19   0  0.0  0.0     0      0     459 kworker/u18:3   [kworker/u18:3]
+  22207   3  TS      -  19   0  0.0  0.0     0      0     380 kworker/u20:1   [kworker/u20:1]
+  43833   1  TS      -  19   0  0.0  0.0  7168 219440     288 postgres        postgres: 17/main: checkpointer 
+  43834   2  TS      -  19   0  0.0  0.0  8512 219424     288 postgres        postgres: 17/main: background writer 
+  43836   3  TS      -  19   0  0.0  0.0 11440 219424     288 postgres        postgres: 17/main: walwriter 
+  43837   0  TS      -  19   0  0.0  0.0 10624 220896     288 postgres        postgres: 17/main: autovacuum launcher 
+  43838   2  TS      -  19   0  0.0  0.0  9792 220912     288 postgres        postgres: 17/main: logical replication launcher 
+  46027   3  TS      -  19   0  0.0  0.0     0      0     228 kworker/3:0     [kworker/3:0]
+  46709   0  TS      -  19   0  0.0  0.0     0      0     199 kworker/0:0     [kworker/0:0]
+  47976   1  TS      -  19   0  0.0  0.0     0      0     143 kworker/1:2-mm_ [kworker/1:2-mm_percpu_wq]
+  48470   0  TS      -  19   0  0.0  0.0     0      0     128 kworker/u19:1   [kworker/u19:1]
+  48625   2  TS      -  19   0  0.0  0.0     0      0     128 kworker/2:2-cgr [kworker/2:2-cgroup_release]
+  54311   2  TS      -  39 -20  0.0  0.0     0      0      81 kworker/2:0H-kb [kworker/2:0H-kblockd]
+  59316   3  TS      -  39 -20  0.0  0.0     0      0      58 kworker/3:0H    [kworker/3:0H]
+  59653   3  TS      -  19   0  0.0  0.0     0      0      42 kworker/u17:3   [kworker/u17:3]
+  60410   3  TS      -  19   0  0.0  0.0  8176  22240       0 sshd-session    sshd-session: lancestreuber@notty
+  60435   3  TS      -  19   0  0.0  0.0  4160   9632       0 ps              ps -eo pid,psr,cls,rtprio,pri,ni,pcpu,pmem,rss,vsz,etimes,comm,args --sort=-pcpu
+process_snapshot_end

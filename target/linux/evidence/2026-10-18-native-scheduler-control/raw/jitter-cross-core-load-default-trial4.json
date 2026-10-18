@@ -1,0 +1,1 @@
+{"tool":"wakeup_jitter_bench","pid":60689,"clock":"CLOCK_MONOTONIC","iterations":5000,"period_us":1000,"deadline_us":100,"scheduler_policy":"other","scheduler_policy_id":0,"priority":0,"lateness_us":{"mean":69.297,"p50":52.470,"p95":55.259,"p99":200.177,"max":6435.031},"deadline_misses":61,"deadline_miss_rate":0.012200000}

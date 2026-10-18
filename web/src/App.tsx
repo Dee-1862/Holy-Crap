@@ -11,7 +11,7 @@ import { QnxEvidencePanel } from "./components/QnxEvidencePanel";
 import { SpecimenPoolSummary } from "./components/SpecimenPoolSummary";
 import { StageProvenance } from "./components/StageProvenance";
 import { activityEvidence, assessmentAnnotations, locationSourceShortLabel, moduleFor, orderedBehaviorDistribution } from "./evidence";
-import type { AdapterCapability, AssessmentExecutor, ClipAssessment, ClipAssessmentJob, ClipPenAssessment, ClipTelemetrySample, DatasetClip, DatasetClipStatus, DemoProfile, FecesCandidate, MediaAssetInfo, ModelArtifact, ProxySpecimenPoolSummary, QnxEvidencePayload, Scenario, SystemCapabilities, VideoAnnotation } from "./types";
+import type { AdapterCapability, AssessmentExecutor, BenchmarkEvidenceResponse, ClipAssessment, ClipAssessmentJob, ClipPenAssessment, ClipTelemetrySample, DatasetClip, DatasetClipStatus, DemoProfile, FecesCandidate, LinuxBenchmarkComparator, MediaAssetInfo, ModelArtifact, ProxySpecimenPoolSummary, QnxEvidencePayload, QnxRuntimeResponse, Scenario, SystemCapabilities, VideoAnnotation } from "./types";
 
 const STAGES = [
   { id: "activity", label: "Activity / energy" },
@@ -39,6 +39,9 @@ const EXECUTOR_OPTIONS: Array<{ value: AssessmentExecutor; label: string }> = [
 ];
 
 const DEFAULT_SEGMENT_SECONDS = 20;
+const ASSESSMENTS_PER_PAGE = 6;
+const QNX_FAULT_TARGETS = ["infer", "model", "cloud", "site"] as const;
+type QnxFaultTarget = (typeof QNX_FAULT_TARGETS)[number];
 
 function defaultSegmentEnd(duration: number | null | undefined): number {
   return duration != null && Number.isFinite(duration)
@@ -126,6 +129,260 @@ function JobTelemetry({ job }: { job: ClipAssessmentJob }) {
       <div><dt>Process RSS</dt><dd>{sample?.process_ram_bytes != null ? formatBytes(sample.process_ram_bytes) : "—"}</dd></div>
     </dl>
   </div>;
+}
+
+function present(value: string | number | null | undefined, suffix = ""): string {
+  return value == null || value === "" ? "—" : `${value}${suffix}`;
+}
+
+function presentBoolean(value: boolean | null | undefined): string {
+  return value == null ? "—" : value ? "yes" : "no";
+}
+
+function formatRuntimeTime(value: string | null): string {
+  if (!value) return "—";
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? value : formatClock(value);
+}
+
+function formatAge(value: string | null | undefined, now: number): string {
+  if (!value) return "";
+  const timestamp = new Date(value).getTime();
+  if (!Number.isFinite(timestamp)) return "";
+  const seconds = Math.max(0, Math.round((now - timestamp) / 1000));
+  if (seconds < 5) return "just now";
+  if (seconds < 60) return `${seconds}s ago`;
+  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+  return `${Math.floor(seconds / 3600)}h ago`;
+}
+
+type RuntimeCorrelationKind = "correlated" | "not_correlated" | "independent";
+
+function runtimeCorrelation(runtime: QnxRuntimeResponse, job: ClipAssessmentJob | null, assessment: ClipAssessment | null): { kind: RuntimeCorrelationKind; label: string } {
+  const reported = runtime.correlation ?? null;
+  const jobId = job?.id;
+  const clipSha256 = assessment?.video.sha256;
+  const compared: string[] = [];
+  if (job?.assessment_id && assessment && job.assessment_id !== assessment.id) {
+    return { kind: "not_correlated", label: "not correlated · selected assessment is not the current job result" };
+  }
+  if (jobId && reported?.job_id) {
+    if (jobId !== reported.job_id) return { kind: "not_correlated", label: "not correlated · job id does not match" };
+    compared.push("job id");
+  }
+  if (clipSha256 && reported?.clip_sha256) {
+    if (clipSha256 !== reported.clip_sha256) return { kind: "not_correlated", label: "not correlated · clip sha256 does not match" };
+    compared.push("clip sha256");
+  }
+  if (!compared.length) return { kind: "independent", label: "not correlated · independent stream" };
+  const subject = compared.includes("clip sha256") ? "selected assessment" : "current job";
+  return { kind: "correlated", label: `correlated with the ${subject} · ${compared.join(" and ")} match` };
+}
+
+interface QnxRuntimePanelProps {
+  runtime: QnxRuntimeResponse | null;
+  error: string;
+  loading: boolean;
+  job: ClipAssessmentJob | null;
+  assessment: ClipAssessment | null;
+}
+
+function QnxRuntimePanel({ runtime, error, loading, job, assessment }: QnxRuntimePanelProps) {
+  const [armedFault, setArmedFault] = useState<QnxFaultTarget | null>(null);
+  const [faultPending, setFaultPending] = useState<QnxFaultTarget | null>(null);
+  const [faultMessage, setFaultMessage] = useState("");
+  const [now, setNow] = useState(() => Date.now());
+
+  useEffect(() => {
+    const interval = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  async function triggerFault(process: QnxFaultTarget) {
+    if (armedFault !== process) {
+      setArmedFault(process);
+      setFaultMessage("");
+      return;
+    }
+    setFaultPending(process);
+    setFaultMessage("");
+    try {
+      const response = await api.runQnxFaultTest(process);
+      setFaultMessage(response.accepted ? `${process} termination accepted; waiting for supervisor evidence.` : response.detail ?? `${process} termination was not accepted.`);
+    } catch (requestError) {
+      setFaultMessage(requestError instanceof Error ? requestError.message : "Fault test failed.");
+    } finally {
+      setFaultPending(null);
+      setArmedFault(null);
+    }
+  }
+
+  const status = runtime?.status;
+  const compact = !runtime || status === "unreachable" || status === "not_configured";
+  const target = runtime?.target;
+  const capture = runtime?.capture;
+  const resources = runtime?.resources;
+  const modelTiming = runtime?.model_timing;
+  const fault = runtime?.latest_fault;
+  const correlation = runtime ? runtimeCorrelation(runtime, job, assessment) : null;
+  const age = runtime ? formatAge(runtime.captured_at, now) : "";
+  const statusLabel = loading && !runtime ? "connecting" : status?.replaceAll("_", " ") ?? "unavailable";
+  return <section className="panel qnx-runtime-panel" aria-labelledby="qnx-runtime-title">
+    <div className="panel-heading"><div><span className="eyebrow">QNX runtime</span><h2 id="qnx-runtime-title">Live edge stream</h2></div><span className={`qnx-runtime-status qnx-runtime-status--${status ?? "loading"}`}>{statusLabel}</span></div>
+    <p className="qnx-runtime-scope">Separate live QNX edge stream reported by the target. It is independent of the selected clip assessment unless correlation is proven.</p>
+    {compact ? <div className="qnx-runtime-unavailable" role="status"><strong>{loading && !runtime ? "Connecting" : status?.replaceAll("_", " ") ?? "No snapshot"}</strong><span>{error || runtime?.detail || "No runtime snapshot is available."}</span></div> : <>
+      {runtime && correlation ? <p className={`qnx-runtime-correlation qnx-runtime-correlation--${correlation.kind}`} role="status"><strong>{correlation.kind === "correlated" ? "Correlated" : "Not correlated"}</strong><span>{correlation.label}</span></p> : null}
+      <div className="qnx-runtime-summary">
+        <dl className="qnx-runtime-facts">
+          <div><dt>Target</dt><dd>{target?.hostname ?? "—"}</dd><small>{target == null ? "—" : target.verified ? "verified QNX executor" : "not verified"}</small></div>
+          <div><dt>Native IPC</dt><dd>{presentBoolean(runtime?.native_ipc)}</dd></div>
+          <div><dt>Source</dt><dd>{present(runtime?.source_mode)}</dd></div>
+          <div><dt>Launch profile</dt><dd>{present(runtime?.scheduler_profile)}</dd><small>configured priority path: {presentBoolean(runtime?.qnx_priorities_active)}</small></div>
+          <div><dt>System CPU</dt><dd>{resources?.cpu_percent == null ? "—" : `${resources.cpu_percent.toFixed(1)}%`}</dd></div>
+          <div><dt>System RAM</dt><dd>{resources?.ram_used_bytes == null ? "—" : formatBytes(resources.ram_used_bytes)}</dd><small>{resources?.ram_total_bytes == null ? "not reported" : `of ${formatBytes(resources.ram_total_bytes)}`}</small></div>
+          <div><dt>Latest worker CPU</dt><dd>{resources?.process_cpu_percent == null ? "—" : `${resources.process_cpu_percent.toFixed(1)}%`}</dd></div>
+          <div><dt>Latest worker data</dt><dd>{resources?.process_ram_bytes == null ? "—" : formatBytes(resources.process_ram_bytes)}</dd></div>
+        </dl>
+        <dl className="qnx-capture-facts">
+          <div><dt>Capture FPS</dt><dd>{capture?.fps == null ? "—" : capture.fps}</dd></div>
+          <div><dt>p50</dt><dd>{present(capture?.period_p50_ms, " ms")}</dd></div>
+          <div><dt>p95</dt><dd>{present(capture?.period_p95_ms, " ms")}</dd></div>
+          <div><dt>p99</dt><dd>{present(capture?.period_p99_ms, " ms")}</dd></div>
+          <div><dt>max</dt><dd>{present(capture?.period_max_ms, " ms")}</dd></div>
+          <div><dt>Deadline misses</dt><dd>{present(capture?.deadline_misses)}</dd><small>{capture?.deadline_miss_percent == null ? "—" : `${capture.deadline_miss_percent}%`}</small></div>
+          <div><dt>Frames / dropped</dt><dd>{capture?.frames == null ? "—" : `${capture.frames} / ${present(capture.dropped)}`}</dd></div>
+          <div><dt>Frame age</dt><dd>{present(capture?.last_frame_age_s, " s")}</dd></div>
+        </dl>
+      </div>
+      {modelTiming ? <div className="qnx-model-timing" aria-label="Model outcomes"><span className="qnx-model-timing__label">Successful inference</span><dl>
+        <div><dt>last</dt><dd>{present(modelTiming.last_ms, " ms")}</dd></div>
+        <div><dt>p50</dt><dd>{present(modelTiming.p50_ms, " ms")}</dd></div>
+        <div><dt>p95</dt><dd>{present(modelTiming.p95_ms, " ms")}</dd></div>
+        <div><dt>p99</dt><dd>{present(modelTiming.p99_ms, " ms")}</dd></div>
+        <div><dt>max</dt><dd>{present(modelTiming.max_ms, " ms")}</dd></div>
+        <div><dt>samples</dt><dd>{present(modelTiming.sample_count)}</dd></div>
+        <div><dt>failed attempts</dt><dd>{present(modelTiming.failed_sample_count)}</dd></div>
+        <div><dt>failed p50</dt><dd>{present(modelTiming.failed_p50_ms, " ms")}</dd></div>
+        <div><dt>checked</dt><dd>{present(modelTiming.checked)}</dd></div>
+        <div><dt>unreachable</dt><dd>{present(modelTiming.unreachable)}</dd></div>
+        <div><dt>worker errors</dt><dd>{present(modelTiming.worker_errors)}</dd></div>
+        <div><dt>evicted / dropped</dt><dd>{`${present(modelTiming.evicted)} / ${present(modelTiming.dropped)}`}</dd></div>
+      </dl></div> : null}
+      <div className="qnx-runtime-detail-grid">
+        <section className="qnx-processes" aria-labelledby="qnx-processes-title"><div className="subheading"><div><span className="eyebrow">Supervisor</span><h3 id="qnx-processes-title">Processes</h3></div></div>
+          {runtime?.processes.length ? <div className="qnx-process-table-wrap"><table className="qnx-process-table"><thead><tr><th>Process</th><th>PID</th><th>Configured</th><th>Observed</th><th>Policy</th><th>Runmask</th><th>Restarts</th><th>Ready</th></tr></thead><tbody>{runtime.processes.map((process) => <tr key={process.name} title={process.observation_detail ?? undefined}><td><strong>{process.name}</strong></td><td>{present(process.pid)}</td><td>{present(process.configured_priority)}</td><td>{present(process.observed_priority)}</td><td>{present(process.scheduling_policy)}</td><td>{present(process.runmask)}</td><td>{present(process.restarts)}</td><td>{presentBoolean(process.ready)}</td></tr>)}</tbody></table><p className="qnx-process-note">Observed priority, policy, and runmask come from the target sampler. Hover a row for sampler detail.</p></div> : <p className="qnx-empty">No process evidence.</p>}
+        </section>
+        <section className="qnx-faults" aria-labelledby="qnx-faults-title"><div className="subheading"><div><span className="eyebrow">Supervised fault</span><h3 id="qnx-faults-title">Latest timeline</h3></div>{fault ? <span>{fault.process}</span> : null}</div>
+          {fault ? <><ol className="qnx-fault-timeline">
+            <li><span>Requested</span><time>{formatRuntimeTime(fault.requested_at)}</time></li>
+            <li><span>Detected</span><time>{formatRuntimeTime(fault.detected_at)}</time></li>
+            <li><span>Respawned</span><time>{formatRuntimeTime(fault.spawned_at)}</time></li>
+            <li><span>Ready</span><time>{formatRuntimeTime(fault.ready_at)}</time></li>
+            <li><span>First result</span><time>{formatRuntimeTime(fault.first_result_at)}</time></li>
+          </ol><dl className="qnx-recovery-metrics"><div><dt>Respawn</dt><dd>{present(fault.respawn_ms, " ms")}</dd></div><div><dt>Full recovery</dt><dd>{present(fault.recovery_ms, " ms")}</dd></div></dl></> : <p className="qnx-empty">No fault event reported.</p>}
+          {runtime?.fault_tests_enabled && runtime.target_fault_tests_enabled === true ? <details className="qnx-fault-advanced"><summary>Advanced fault test</summary><div className="qnx-fault-controls"><span>Fault test</span><div>{QNX_FAULT_TARGETS.map((process) => <button key={process} type="button" className={armedFault === process ? "qnx-fault-button qnx-fault-button--armed" : "qnx-fault-button"} disabled={faultPending !== null} onClick={() => void triggerFault(process)}>{faultPending === process ? "Running…" : armedFault === process ? `Confirm ${process}` : process}</button>)}</div>{armedFault ? <button type="button" className="qnx-fault-cancel" onClick={() => setArmedFault(null)}>Cancel</button> : null}</div></details> : null}
+          {faultMessage ? <p className="qnx-fault-message" role="status">{faultMessage}</p> : null}
+        </section>
+      </div>
+      <p className="qnx-runtime-meta">Snapshot {runtime ? formatClock(runtime.captured_at) : "—"}{age ? ` · ${age}` : ""}{runtime?.target_status_schema ? ` · status schema ${runtime.target_status_schema}${runtime.target_status_version != null ? ` v${runtime.target_status_version}` : ""}` : ""}</p>
+      {runtime?.detail ? <p className="qnx-runtime-detail">{runtime.detail}</p> : null}
+    </>}
+  </section>;
+}
+
+function BenchmarkStatusBadge({ status }: { status: string | null | undefined }) {
+  return <span className={`benchmark-status benchmark-status--${status ?? "unknown"}`}>{status ?? "unknown"}</span>;
+}
+
+function formatUs(value: number | null | undefined): string {
+  return value == null ? "—" : `${value} µs`;
+}
+
+function formatMs(value: number | null | undefined): string {
+  return value == null ? "—" : `${value} ms`;
+}
+
+const LINUX_FIFO_SCENARIOS: Array<[string, keyof Pick<LinuxBenchmarkComparator, "idle" | "cross_core_load" | "same_core_load">]> = [
+  ["idle", "idle"],
+  ["cross-core", "cross_core_load"],
+  ["same-core", "same_core_load"],
+];
+
+interface BenchmarkEvidencePanelProps {
+  evidence: BenchmarkEvidenceResponse | null;
+  error: string;
+  loading: boolean;
+}
+
+function BenchmarkEvidencePanel({ evidence, error, loading }: BenchmarkEvidencePanelProps) {
+  const qnx = evidence?.qnx ?? null;
+  const linux = evidence?.linux ?? null;
+  const qnxAvailable = qnx?.status === "available";
+  const qnxJitter = qnxAvailable ? qnx.jitter : null;
+  const qnxIpc = qnxAvailable ? qnx.ipc : null;
+  const qnxNcnn = qnxAvailable ? qnx.ncnn : null;
+  const qnxFault = qnxAvailable ? qnx.fault_isolation : null;
+  const qnxIdentity = qnxAvailable ? qnx.source_identity : null;
+  const identity = qnxIdentity
+    ? [qnxIdentity.os, qnxIdentity.board, qnxIdentity.architecture, qnxIdentity.cpu].filter((part): part is string => typeof part === "string" && part.length > 0).join(" · ")
+    : "";
+  const contexts = evidence
+    ? [["QNX", evidence.test_context.qnx], ["Linux", evidence.test_context.linux]] as const
+    : [];
+  const modelsCompleted = evidence?.full_qnx_pipeline_models_completed ?? 0;
+  const pipelineStatus = (evidence?.full_qnx_pipeline_status ?? "not_run").replaceAll("_", " ");
+  return (
+    <details className="panel benchmark-evidence-panel">
+      <summary><span><span className="eyebrow">Static evidence</span><strong>Verified target benchmarks</strong></span><small>Open benchmark evidence</small></summary>
+      <div className="benchmark-content">
+        <p className="benchmark-pipeline-status" role="status"><strong>Full four-model QNX pipeline</strong><span>— {pipelineStatus} ({modelsCompleted}/4)</span></p>
+        {contexts.length ? <p className="benchmark-context-chips" aria-label="Benchmark test context">{contexts.map(([platform, context]) => <span key={platform} className="benchmark-chip"><strong>{platform}</strong> · {context}</span>)}</p> : null}
+        {loading && !evidence ? <p className="benchmark-empty">Loading benchmark evidence…</p> : null}
+        {!loading && !evidence ? <p className="benchmark-empty">{error || "Benchmark evidence is unavailable."}</p> : null}
+        {evidence ? <div className="benchmark-platforms">
+          <section className="benchmark-platform" aria-labelledby="benchmark-qnx-title">
+            <div className="benchmark-platform-heading">
+              <div><span className="eyebrow">QNX</span><h3 id="benchmark-qnx-title">Native evals</h3></div>
+              <BenchmarkStatusBadge status={qnx?.status} />
+            </div>
+            {!qnxAvailable ? <p className="benchmark-empty">Benchmark evidence {qnx?.status === "invalid" ? "is invalid" : "is unavailable"}.</p> : <>
+              {identity ? <p className="benchmark-identity">commit <code>{qnxIdentity?.source_commit ? qnxIdentity.source_commit.slice(0, 12) : "—"}</code> · {identity}</p> : null}
+              <dl className="benchmark-facts">
+                <div><dt>Same-core control p50</dt><dd>{formatUs(qnxJitter?.same_core_control_p50_us)}</dd></div>
+                <div><dt>FIFO40 p50</dt><dd>{formatUs(qnxJitter?.fifo40_p50_us)}</dd></div>
+                <div><dt>FIFO40 miss rate</dt><dd>{qnxJitter?.fifo40_deadline_miss_rate ?? "—"}</dd></div>
+                <div><dt>Deadline threshold</dt><dd>{formatUs(qnxJitter?.deadline_threshold_us)}</dd></div>
+                <div><dt>Same-core ratio</dt><dd>{qnxJitter?.same_core_control_to_fifo_p50_ratio == null ? "ratio not reported" : `${qnxJitter.same_core_control_to_fifo_p50_ratio}×`}</dd></div>
+                <div><dt>Native IPC</dt><dd>{qnxIpc?.mechanism ?? "—"}</dd></div>
+                <div><dt>IPC payload</dt><dd>{qnxIpc?.payload_bytes == null ? "—" : `${qnxIpc.payload_bytes} B`}</dd></div>
+                <div><dt>IPC p50</dt><dd>{formatUs(qnxIpc?.p50_us)}</dd></div>
+                <div><dt>NCNN idle</dt><dd>{qnxNcnn?.idle_calls_per_second == null ? "—" : `${qnxNcnn.idle_calls_per_second} calls/s`}</dd></div>
+                <div><dt>NCNN data RAM</dt><dd>{qnxNcnn?.observed_data_memory_mb == null ? "—" : `${qnxNcnn.observed_data_memory_mb} MB`}</dd></div>
+                <div><dt>Disposable worker fault</dt><dd>{qnxFault?.subject ?? "—"}</dd></div>
+                <div><dt>Disposable worker detect</dt><dd>{formatMs(qnxFault?.detect_mean_ms)}</dd></div>
+                <div><dt>Disposable worker first result</dt><dd>{formatMs(qnxFault?.first_result_mean_ms)}</dd></div>
+              </dl>
+            </>}
+          </section>
+          <section className="benchmark-platform" aria-labelledby="benchmark-linux-title">
+            <div className="benchmark-platform-heading">
+              <div><span className="eyebrow">Linux</span><h3 id="benchmark-linux-title">Scheduler control</h3></div>
+              <BenchmarkStatusBadge status={linux?.status} />
+            </div>
+            {linux?.status !== "available" ? <p className="benchmark-empty">Benchmark evidence {linux?.status === "invalid" ? "is invalid" : "is unavailable"}.</p> : <>
+              <p className="benchmark-identity">Deadline threshold {formatUs(linux.deadline_threshold_us)}</p>
+              <dl className="benchmark-linux-grid">
+                {LINUX_FIFO_SCENARIOS.map(([label, key]) => {
+                  const scenario = linux[key];
+                  return <div key={label} className="benchmark-linux-scenario"><dt>{label} FIFO p50</dt><dd>{formatUs(scenario?.p50_lateness_us)}</dd><dd className="benchmark-linux-minor"><small>misses</small>{scenario?.deadline_misses ?? "—"}</dd><dd className="benchmark-linux-minor"><small>wakes</small>{scenario?.total_wakes ?? "—"}</dd></div>;
+                })}
+              </dl>
+            </>}
+          </section>
+        </div> : null}
+      </div>
+    </details>
+  );
 }
 
 function ScoreCard({ label, score, category, detail }: { label: string; score: number; category: string; detail: string }) {
@@ -229,6 +486,13 @@ export default function App() {
   const [qnxEvidence, setQnxEvidence] = useState<QnxEvidencePayload | null>(null);
   const [qnxEvidenceError, setQnxEvidenceError] = useState("");
   const [proxyPoolSummary, setProxyPoolSummary] = useState<ProxySpecimenPoolSummary | null>(null);
+  const [qnxRuntime, setQnxRuntime] = useState<QnxRuntimeResponse | null>(null);
+  const [qnxRuntimeError, setQnxRuntimeError] = useState("");
+  const [qnxRuntimeLoading, setQnxRuntimeLoading] = useState(false);
+  const [assessmentPage, setAssessmentPage] = useState(1);
+  const [benchmarkEvidence, setBenchmarkEvidence] = useState<BenchmarkEvidenceResponse | null>(null);
+  const [benchmarkEvidenceError, setBenchmarkEvidenceError] = useState("");
+  const [benchmarkEvidenceLoading, setBenchmarkEvidenceLoading] = useState(true);
 
   const selectedDataset = datasetClips.find((clip) => clip.id === selectedDatasetId) ?? datasetClips[0];
   const selectedDemo = selectedDataset?.demo_asset_id
@@ -248,11 +512,16 @@ export default function App() {
     && segmentEnd > segmentStart
     && segmentEnd <= sourceDuration;
   const selectedSegment = segmentValid ? { start_s: segmentStart, end_s: segmentEnd } : undefined;
+  const qnxRuntimeVisible = executor === "qnx"
+    || (((assessmentJob?.status === "queued" || assessmentJob?.status === "running") && (assessmentJob?.requested_executor === "qnx" || assessmentJob?.effective_executor === "qnx")) ?? false);
+  const assessmentPageCount = Math.max(1, Math.ceil(assessments.length / ASSESSMENTS_PER_PAGE));
+  const pagedAssessments = assessments.slice((assessmentPage - 1) * ASSESSMENTS_PER_PAGE, assessmentPage * ASSESSMENTS_PER_PAGE);
 
   const refreshAssessments = useCallback(async () => {
     try {
       const next = await api.clipAssessments();
       setAssessments(next);
+      setAssessmentPage(1);
       setAssessmentApiError("");
       return next;
     } catch (requestError) {
@@ -299,8 +568,56 @@ export default function App() {
       .catch(() => {
         // The pool inventory endpoint may not exist on older backends; fall back to assessment-derived counts.
       });
+    void api.benchmarkEvidence()
+      .then((evidence) => {
+        if (!cancelled) {
+          setBenchmarkEvidence(evidence);
+          setBenchmarkEvidenceError("");
+        }
+      })
+      .catch((requestError: unknown) => {
+        if (!cancelled) setBenchmarkEvidenceError(requestError instanceof Error ? requestError.message : "The benchmark evidence endpoint is unavailable.");
+      })
+      .finally(() => {
+        if (!cancelled) setBenchmarkEvidenceLoading(false);
+      });
     return () => { cancelled = true; };
   }, [refreshAssessments]);
+
+  useEffect(() => {
+    setAssessmentPage((current) => Math.min(Math.max(1, current), assessmentPageCount));
+  }, [assessmentPageCount]);
+
+  useEffect(() => {
+    if (!qnxRuntimeVisible) return;
+    let stopped = false;
+    let timer: number | undefined;
+    const poll = async () => {
+      setQnxRuntimeLoading(true);
+      try {
+        const next = await api.qnxRuntime();
+        if (!stopped) {
+          setQnxRuntime(next);
+          setQnxRuntimeError("");
+        }
+      } catch (requestError) {
+        if (!stopped) {
+          setQnxRuntime(null);
+          setQnxRuntimeError(requestError instanceof Error ? requestError.message : "QNX runtime status is unavailable.");
+        }
+      } finally {
+        if (!stopped) {
+          setQnxRuntimeLoading(false);
+          timer = window.setTimeout(() => void poll(), 2000);
+        }
+      }
+    };
+    void poll();
+    return () => {
+      stopped = true;
+      if (timer !== undefined) window.clearTimeout(timer);
+    };
+  }, [qnxRuntimeVisible]);
 
   useEffect(() => {
     if (!uploadFile) { setUploadPreview(""); return; }
@@ -560,7 +877,7 @@ export default function App() {
 
       <section className="panel review-panel" aria-labelledby="review-title">
         <div className="panel-heading"><div><span className="eyebrow">Clip review</span><h2 id="review-title">Evidence & candidate rows</h2></div>{assessment ? <span className="index-label">{assessment.summary.feces.candidates.length} CANDIDATES</span> : <span className="index-label">NO RESULT</span>}</div>
-        {!assessment ? <><SpecimenPoolSummary summary={proxyPoolSummary} assessment={null} /><div className="results-empty"><span aria-hidden="true">⌁</span><strong>Evidence will appear here</strong><p>Run the selected video to review zone movement and feces candidates.</p></div></> : <div className="assessment-results">
+        {!assessment ? <div className="results-empty"><span aria-hidden="true">⌁</span><strong>Evidence will appear here</strong><p>Run the selected video to review zone movement and feces candidates.</p></div> : <div className="assessment-results">
           <div className="assessment-provenance"><div><strong>{assessment.video.name}</strong><span>{formatBytes(assessment.video.size_bytes)} · source {assessment.video.duration_s == null ? "duration unknown" : formatTime(assessment.video.duration_s)} · segment {formatTime(assessment.video.segment_start_s ?? 0)} to {assessment.video.segment_end_s == null ? "end unknown" : formatTime(assessment.video.segment_end_s)}{assessment.video.segment_end_s == null ? "" : ` (${formatTime(assessment.video.segment_end_s - (assessment.video.segment_start_s ?? 0))})`} · {assessment.video.width ?? "?"}×{assessment.video.height ?? "?"} · {assessment.video.fps ?? "?"} FPS</span></div><code title={assessment.video.sha256}>#{assessment.id.slice(0, 12)} · sha256 {assessment.video.sha256.slice(0, 12)}… · {formatDate(assessment.created_at)}</code></div>
           <section className="review-zones" aria-labelledby="zones-title"><div className="subheading"><div><span className="eyebrow">Spatial context</span><h3 id="zones-title">Activity by pen zone</h3></div><ModeBadge mode={moduleFor("activity", assessment.modules)?.mode} /></div><dl className="zone-list">{Object.entries(assessment.summary.activity.zone_scores).map(([zone, value]) => <div key={zone}><dt>{zone.replaceAll("_", " ")}</dt><dd>{Math.round(scorePercent(value))}</dd></div>)}</dl></section>
           <SpecimenPoolSummary summary={proxyPoolSummary} assessment={assessment} />
@@ -568,13 +885,20 @@ export default function App() {
         </div>}
       </section>
 
-      <section className="panel history-strip" aria-labelledby="history-title"><div className="panel-heading"><div><span className="eyebrow">Saved evidence</span><h2 id="history-title">Recent clip assessments</h2></div><span className="index-label">{assessments.length}</span></div>{assessments.length ? <div className="assessment-history">{assessments.map((item) => <button key={item.id} className={assessment?.id === item.id ? "assessment-history-card assessment-history-card--active" : "assessment-history-card"} aria-current={assessment?.id === item.id ? "true" : undefined} onClick={() => selectAssessment(item)}><strong>{item.video.name}</strong><span>{formatDate(item.created_at)} · {item.status}</span><small>{Math.round(scorePercent(item.summary.activity.score))} activity · {item.summary.feces.candidate_count} feces candidates</small></button>)}</div> : <p className="empty-copy">No persisted clip assessments yet.</p>}</section>
+      <section className="panel history-strip" aria-labelledby="history-title"><div className="panel-heading"><div><span className="eyebrow">Saved evidence</span><h2 id="history-title">Recent clip assessments</h2></div><span className="index-label">{assessments.length}</span></div>{assessments.length ? <><div className="assessment-history">{pagedAssessments.map((item) => <button key={item.id} className={assessment?.id === item.id ? "assessment-history-card assessment-history-card--active" : "assessment-history-card"} aria-current={assessment?.id === item.id ? "true" : undefined} onClick={() => selectAssessment(item)}><strong>{item.video.name}</strong><span>{formatDate(item.created_at)} · {item.status}</span><small>{Math.round(scorePercent(item.summary.activity.score))} activity · {item.summary.feces.candidate_count} feces candidates</small></button>)}</div><nav className="assessment-pagination" aria-label="Assessment history pages"><button type="button" disabled={assessmentPage <= 1} onClick={() => setAssessmentPage((page) => Math.max(1, page - 1))}>Previous</button><span>{assessmentPage} / {assessmentPageCount}</span><button type="button" disabled={assessmentPage >= assessmentPageCount} onClick={() => setAssessmentPage((page) => Math.min(assessmentPageCount, page + 1))}>Next</button></nav></> : <p className="empty-copy">No persisted clip assessments yet.</p>}</section>
+
+      {qnxRuntimeVisible ? <QnxRuntimePanel runtime={qnxRuntime} error={qnxRuntimeError} loading={qnxRuntimeLoading} job={assessmentJob} assessment={assessment} /> : null}
+
+      <BenchmarkEvidencePanel evidence={benchmarkEvidence} error={benchmarkEvidenceError} loading={benchmarkEvidenceLoading} />
 
       <details className="panel runtime-panel"><summary><span><span className="eyebrow">Advanced</span><strong>Model artifacts, QNX target & synthetic engine</strong></span><small>Open runtime controls</small></summary><div className="runtime-content">
         <section><h3>QNX target validation</h3><div className="runtime-actions"><button className="secondary-button" onClick={handleTargetCheck} disabled={runtimePending}>{runtimePending ? "Working…" : "Check target"}</button></div><div className="runtime-grid"><label>Model artifact<select value={modelId} onChange={(event) => setModelId(event.target.value)}>{models.map((model) => <option key={model.id} value={model.id}>{model.name} / {model.version}</option>)}</select></label><label>Synthetic scenario<select value={scenarioId} onChange={(event) => setScenarioId(event.target.value)}>{scenarios.map((scenario) => <option key={scenario.id} value={scenario.id}>{scenario.name}</option>)}</select></label></div>{modelBlockedForQnx ? <p className="blocked-copy">Choose a real, non-empty model artifact.</p> : null}<button className="primary-button" onClick={handleQnxValidation} disabled={runtimePending || !qnxEnabled || modelBlockedForQnx || !scenarioId}>{qnx?.status === "probe_only" ? "Validate artifact on QNX" : "Run on QNX"}</button></section>
         <section><h3>Add a model artifact</h3><form className="runtime-upload" onSubmit={handleModelUpload}><label>Name<input name="name" required placeholder="Feces classifier" /></label><label>Version<input name="version" required placeholder="0.1.0" /></label><label>Source<input name="source" placeholder="Veri / Kaggle chicken-disease-1" /></label><label>Artifact<input name="artifact" type="file" required /></label><button className="secondary-button" disabled={modelUploadPending}>{modelUploadPending ? "Uploading…" : "Upload to catalog"}</button></form></section>
       </div>{runtimeMessage ? <p className="runtime-message" role="status">{runtimeMessage}</p> : null}</details>
-      <QnxEvidencePanel evidence={qnxEvidence} error={qnxEvidenceError} />
+      <div className="qnx-evidence-wrap">
+        <p className="qnx-evidence-context">Historical, static QNX target evidence — independent of the live edge stream and of any selected clip assessment.</p>
+        <QnxEvidencePanel evidence={qnxEvidence} error={qnxEvidenceError} />
+      </div>
     </main>
     <HelpDrawer open={helpOpen} onClose={closeHelp} />
   </div>;

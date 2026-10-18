@@ -1,0 +1,1113 @@
+{
+  "claimBoundary": "Linux TCP fallback and application supervisor; not QNX evidence",
+  "faultTests": [
+    {
+      "applicationFirstResultAt": null,
+      "applicationReadyAt": null,
+      "applicationRecoveryMs": null,
+      "externalMonotonic": {
+        "firstNewResultMs": null,
+        "firstNewResultNs": null,
+        "httpResponseMs": 15.856,
+        "httpResponseNs": 2907851519737,
+        "pidChangeMs": 177.933,
+        "pidChangedNs": 2908013596412,
+        "requestStartedNs": 2907835663606,
+        "workerProbeReadyMs": 415.924,
+        "workerProbeReadyNs": 2908251587142
+      },
+      "newPid": 10004,
+      "oldPid": 7868,
+      "process": "infer",
+      "rawFaultEvent": {
+        "detectedAt": 1792342283.2944264,
+        "firstResultAt": null,
+        "newPid": 10004,
+        "oldPid": 7868,
+        "proc": "infer",
+        "readyAt": null,
+        "recoveryMs": null,
+        "requestedAt": 1792342283.2090142,
+        "respawnMs": 0.336,
+        "spawnedAt": 1792342283.2947633,
+        "state": "respawned"
+      },
+      "regime": "stress",
+      "unrelatedPidChanges": {}
+    },
+    {
+      "applicationFirstResultAt": null,
+      "applicationReadyAt": null,
+      "applicationRecoveryMs": null,
+      "externalMonotonic": {
+        "firstNewResultMs": null,
+        "firstNewResultNs": null,
+        "httpResponseMs": 4.554,
+        "httpResponseNs": 2910273028404,
+        "pidChangeMs": 75.243,
+        "pidChangedNs": 2910343717281,
+        "requestStartedNs": 2910268474717,
+        "workerProbeReadyMs": 176.529,
+        "workerProbeReadyNs": 2910445004078
+      },
+      "newPid": 10066,
+      "oldPid": 7879,
+      "process": "model",
+      "rawFaultEvent": {
+        "detectedAt": 1792342285.6632352,
+        "firstResultAt": null,
+        "newPid": 10066,
+        "oldPid": 7879,
+        "proc": "model",
+        "readyAt": null,
+        "recoveryMs": null,
+        "requestedAt": 1792342285.6353528,
+        "respawnMs": 0.262,
+        "spawnedAt": 1792342285.6634974,
+        "state": "respawned"
+      },
+      "regime": "stress",
+      "unrelatedPidChanges": {}
+    },
+    {
+      "applicationFirstResultAt": null,
+      "applicationReadyAt": null,
+      "applicationRecoveryMs": null,
+      "externalMonotonic": {
+        "firstNewResultMs": null,
+        "firstNewResultNs": null,
+        "httpResponseMs": 1.603,
+        "httpResponseNs": 2912460272537,
+        "pidChangeMs": 162.467,
+        "pidChangedNs": 2912621137330,
+        "requestStartedNs": 2912458669934,
+        "workerProbeReadyMs": 202.758,
+        "workerProbeReadyNs": 2912661428036
+      },
+      "newPid": 10148,
+      "oldPid": 7838,
+      "process": "cloud",
+      "rawFaultEvent": {
+        "detectedAt": 1792342287.922969,
+        "firstResultAt": null,
+        "newPid": 10148,
+        "oldPid": 7838,
+        "proc": "cloud",
+        "readyAt": null,
+        "recoveryMs": null,
+        "requestedAt": 1792342287.822531,
+        "respawnMs": 1.046,
+        "spawnedAt": 1792342287.9240177,
+        "state": "respawned"
+      },
+      "regime": "stress",
+      "unrelatedPidChanges": {}
+    },
+    {
+      "applicationFirstResultAt": null,
+      "applicationReadyAt": null,
+      "applicationRecoveryMs": null,
+      "externalMonotonic": {
+        "firstNewResultMs": null,
+        "firstNewResultNs": null,
+        "httpResponseMs": 1.634,
+        "httpResponseNs": 2914679664771,
+        "pidChangeMs": 74.142,
+        "pidChangedNs": 2914752173723,
+        "requestStartedNs": 2914678031260,
+        "workerProbeReadyMs": null,
+        "workerProbeReadyNs": null
+      },
+      "newPid": 10197,
+      "oldPid": 7853,
+      "process": "site",
+      "rawFaultEvent": {
+        "detectedAt": 1792342290.0792973,
+        "firstResultAt": null,
+        "newPid": 10197,
+        "oldPid": 7853,
+        "proc": "site",
+        "readyAt": null,
+        "recoveryMs": null,
+        "requestedAt": 1792342290.0419686,
+        "respawnMs": 0.438,
+        "spawnedAt": 1792342290.0797358,
+        "state": "respawned"
+      },
+      "regime": "stress",
+      "unrelatedPidChanges": {}
+    }
+  ],
+  "guard": {
+    "aggregateThresholdWasExceeded": false
+  },
+  "phases": {
+    "fault-stress-cloud": {
+      "aggregateRssBytes": {
+        "max": 422608896,
+        "mean": 413302784.0,
+        "p95": 422608896.0
+      },
+      "cloudQueueLinesMax": 44,
+      "combinedRssAndStageFileBytes": {
+        "max": 1439505772,
+        "mean": 1430195841.6,
+        "p95": 1439505772.0
+      },
+      "dropsDelta": 0,
+      "durationMonotonicMs": 2107.693,
+      "endingCaptureWindow": {
+        "deadlineMissPercent": 51.25,
+        "deadlineMisses": 123,
+        "periodMaxMs": 255.626,
+        "periodP50Ms": 200.224,
+        "periodP95Ms": 227.532,
+        "periodP99Ms": 246.702,
+        "sampleCount": 240,
+        "targetPeriodMs": 200.0
+      },
+      "endingFps": 5.0,
+      "endingModelStats": {
+        "checked": 2,
+        "inferenceTiming": {
+          "lastMs": 553.326,
+          "maxMs": 680.417,
+          "p50Ms": 616.871,
+          "p95Ms": 674.062,
+          "p99Ms": 679.146,
+          "sampleCount": 2
+        },
+        "patches": 2,
+        "skipped": 0,
+        "stale": 0,
+        "unreachable": 0
+      },
+      "framesDelta": 10,
+      "perProcessCpuPercent": {
+        "camera": {
+          "max": 37.219,
+          "mean": 21.908,
+          "p95": 31.561
+        },
+        "cloud": {
+          "max": 3.909,
+          "mean": 0.434,
+          "p95": 2.345
+        },
+        "explain": {
+          "max": 3.909,
+          "mean": 0.391,
+          "p95": 2.15
+        },
+        "infer": {
+          "max": 136.822,
+          "mean": 13.682,
+          "p95": 75.252
+        },
+        "model": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "pid:7827": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "pid:8318": {
+          "max": 106.793,
+          "mean": 92.419,
+          "p95": 105.26
+        },
+        "pid:8319": {
+          "max": 103.387,
+          "mean": 81.641,
+          "p95": 102.365
+        },
+        "site": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "spotter": {
+          "max": 17.519,
+          "mean": 13.113,
+          "p95": 16.957
+        },
+        "uplink": {
+          "max": 16.82,
+          "mean": 6.681,
+          "p95": 16.288
+        },
+        "watch": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        }
+      },
+      "samples": 10,
+      "stageFileBytes": {
+        "max": 1016896876,
+        "mean": 1016893057.6
+      },
+      "temperatureC": {
+        "max": 70.5,
+        "mean": 68.905,
+        "min": 67.75
+      }
+    },
+    "fault-stress-infer": {
+      "aggregateRssBytes": {
+        "max": 494878720,
+        "mean": 363713331.2,
+        "p95": 433839308.8
+      },
+      "cloudQueueLinesMax": 42,
+      "combinedRssAndStageFileBytes": {
+        "max": 1511675053,
+        "mean": 1380534183.4,
+        "p95": 1450649433.85
+      },
+      "dropsDelta": 0,
+      "durationMonotonicMs": 2194.634,
+      "endingCaptureWindow": {
+        "deadlineMissPercent": 52.083,
+        "deadlineMisses": 125,
+        "periodMaxMs": 255.626,
+        "periodP50Ms": 200.31,
+        "periodP95Ms": 222.499,
+        "periodP99Ms": 240.709,
+        "sampleCount": 240,
+        "targetPeriodMs": 200.0
+      },
+      "endingFps": 5.0,
+      "endingModelStats": {
+        "checked": 33,
+        "inferenceTiming": {
+          "lastMs": 369.64,
+          "maxMs": 852.15,
+          "p50Ms": 336.397,
+          "p95Ms": 713.035,
+          "p99Ms": 834.307,
+          "sampleCount": 33
+        },
+        "patches": 33,
+        "skipped": 0,
+        "stale": 0,
+        "unreachable": 0
+      },
+      "framesDelta": 10,
+      "perProcessCpuPercent": {
+        "camera": {
+          "max": 31.735,
+          "mean": 22.456,
+          "p95": 30.645
+        },
+        "cloud": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "explain": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "infer": {
+          "max": 103.243,
+          "mean": 11.471,
+          "p95": 61.946
+        },
+        "model": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "pid:7827": {
+          "max": 4.301,
+          "mean": 0.43,
+          "p95": 2.366
+        },
+        "pid:8318": {
+          "max": 103.227,
+          "mean": 87.411,
+          "p95": 102.826
+        },
+        "pid:8319": {
+          "max": 103.227,
+          "mean": 90.493,
+          "p95": 102.942
+        },
+        "site": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "spotter": {
+          "max": 21.984,
+          "mean": 13.088,
+          "p95": 21.391
+        },
+        "uplink": {
+          "max": 20.689,
+          "mean": 7.666,
+          "p95": 17.787
+        },
+        "watch": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        }
+      },
+      "samples": 10,
+      "stageFileBytes": {
+        "max": 1016826982,
+        "mean": 1016820852.2
+      },
+      "temperatureC": {
+        "max": 69.4,
+        "mean": 68.85,
+        "min": 67.75
+      }
+    },
+    "fault-stress-model": {
+      "aggregateRssBytes": {
+        "max": 419250176,
+        "mean": 356162673.778,
+        "p95": 415200051.2
+      },
+      "cloudQueueLinesMax": 42,
+      "combinedRssAndStageFileBytes": {
+        "max": 1436108868,
+        "mean": 1373017842.444,
+        "p95": 1432058743.2
+      },
+      "dropsDelta": 0,
+      "durationMonotonicMs": 1977.661,
+      "endingCaptureWindow": {
+        "deadlineMissPercent": 51.25,
+        "deadlineMisses": 123,
+        "periodMaxMs": 255.626,
+        "periodP50Ms": 200.224,
+        "periodP95Ms": 227.532,
+        "periodP99Ms": 246.702,
+        "sampleCount": 240,
+        "targetPeriodMs": 200.0
+      },
+      "endingFps": 5.0,
+      "endingModelStats": {
+        "checked": 33,
+        "inferenceTiming": {
+          "lastMs": 369.64,
+          "maxMs": 852.15,
+          "p50Ms": 336.397,
+          "p95Ms": 713.035,
+          "p99Ms": 834.307,
+          "sampleCount": 33
+        },
+        "patches": 33,
+        "skipped": 0,
+        "stale": 0,
+        "unreachable": 0
+      },
+      "framesDelta": 10,
+      "perProcessCpuPercent": {
+        "camera": {
+          "max": 37.654,
+          "mean": 23.067,
+          "p95": 36.851
+        },
+        "cloud": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "explain": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "infer": {
+          "max": 181.474,
+          "mean": 39.386,
+          "p95": 170.962
+        },
+        "model": {
+          "max": 8.905,
+          "mean": 1.113,
+          "p95": 5.788
+        },
+        "pid:7827": {
+          "max": 3.241,
+          "mean": 0.36,
+          "p95": 1.945
+        },
+        "pid:8318": {
+          "max": 106.863,
+          "mean": 77.062,
+          "p95": 104.603
+        },
+        "pid:8319": {
+          "max": 108.779,
+          "mean": 81.758,
+          "p95": 108.013
+        },
+        "site": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "spotter": {
+          "max": 22.003,
+          "mean": 14.434,
+          "p95": 20.99
+        },
+        "uplink": {
+          "max": 21.811,
+          "mean": 5.971,
+          "p95": 16.434
+        },
+        "watch": {
+          "max": 4.434,
+          "mean": 0.493,
+          "p95": 2.66
+        }
+      },
+      "samples": 9,
+      "stageFileBytes": {
+        "max": 1016858692,
+        "mean": 1016855168.667
+      },
+      "temperatureC": {
+        "max": 69.95,
+        "mean": 68.972,
+        "min": 67.75
+      }
+    },
+    "fault-stress-site": {
+      "aggregateRssBytes": {
+        "max": 425230336,
+        "mean": 419503217.778,
+        "p95": 425223782.4
+      },
+      "cloudQueueLinesMax": 44,
+      "combinedRssAndStageFileBytes": {
+        "max": 1442165033,
+        "mean": 1436437914.778,
+        "p95": 1442158479.4
+      },
+      "dropsDelta": 0,
+      "durationMonotonicMs": 1869.619,
+      "endingCaptureWindow": {
+        "deadlineMissPercent": 51.25,
+        "deadlineMisses": 123,
+        "periodMaxMs": 255.626,
+        "periodP50Ms": 200.224,
+        "periodP95Ms": 227.866,
+        "periodP99Ms": 249.426,
+        "sampleCount": 240,
+        "targetPeriodMs": 200.0
+      },
+      "endingFps": 5.0,
+      "endingModelStats": {
+        "checked": 2,
+        "inferenceTiming": {
+          "lastMs": 553.326,
+          "maxMs": 680.417,
+          "p50Ms": 616.871,
+          "p95Ms": 674.062,
+          "p99Ms": 679.146,
+          "sampleCount": 2
+        },
+        "patches": 2,
+        "skipped": 0,
+        "stale": 0,
+        "unreachable": 0
+      },
+      "framesDelta": 9,
+      "perProcessCpuPercent": {
+        "camera": {
+          "max": 31.295,
+          "mean": 20.563,
+          "p95": 27.67
+        },
+        "cloud": {
+          "max": 7.765,
+          "mean": 0.863,
+          "p95": 4.659
+        },
+        "explain": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "infer": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "model": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "pid:7827": {
+          "max": 4.462,
+          "mean": 0.496,
+          "p95": 2.677
+        },
+        "pid:8318": {
+          "max": 102.636,
+          "mean": 96.202,
+          "p95": 102.313
+        },
+        "pid:8319": {
+          "max": 102.266,
+          "mean": 93.936,
+          "p95": 102.091
+        },
+        "site": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "spotter": {
+          "max": 19.559,
+          "mean": 13.982,
+          "p95": 19.5
+        },
+        "uplink": {
+          "max": 11.647,
+          "mean": 5.106,
+          "p95": 8.773
+        },
+        "watch": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        }
+      },
+      "samples": 9,
+      "stageFileBytes": {
+        "max": 1016934697,
+        "mean": 1016934697.0
+      },
+      "temperatureC": {
+        "max": 69.95,
+        "mean": 68.911,
+        "min": 68.3
+      }
+    },
+    "recovery": {
+      "aggregateRssBytes": {
+        "max": 403226624,
+        "mean": 386823633.455,
+        "p95": 403111936.0
+      },
+      "cloudQueueLinesMax": 45,
+      "combinedRssAndStageFileBytes": {
+        "max": 1420248067,
+        "mean": 1403843300.205,
+        "p95": 1420157062.55
+      },
+      "dropsDelta": 0,
+      "durationMonotonicMs": 9916.474,
+      "endingCaptureWindow": {
+        "deadlineMissPercent": 51.25,
+        "deadlineMisses": 123,
+        "periodMaxMs": 251.938,
+        "periodP50Ms": 200.266,
+        "periodP95Ms": 223.036,
+        "periodP99Ms": 246.702,
+        "sampleCount": 240,
+        "targetPeriodMs": 200.0
+      },
+      "endingFps": 5.0,
+      "endingModelStats": {
+        "checked": 2,
+        "inferenceTiming": {
+          "lastMs": 553.326,
+          "maxMs": 680.417,
+          "p50Ms": 616.871,
+          "p95Ms": 674.062,
+          "p99Ms": 679.146,
+          "sampleCount": 2
+        },
+        "patches": 2,
+        "skipped": 0,
+        "stale": 0,
+        "unreachable": 0
+      },
+      "framesDelta": 49,
+      "perProcessCpuPercent": {
+        "camera": {
+          "max": 34.272,
+          "mean": 22.258,
+          "p95": 32.996
+        },
+        "cloud": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "explain": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "infer": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "model": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "pid:7827": {
+          "max": 4.451,
+          "mean": 0.393,
+          "p95": 4.222
+        },
+        "site": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "spotter": {
+          "max": 26.296,
+          "mean": 13.388,
+          "p95": 17.797
+        },
+        "uplink": {
+          "max": 8.907,
+          "mean": 4.429,
+          "p95": 8.887
+        },
+        "watch": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        }
+      },
+      "samples": 44,
+      "stageFileBytes": {
+        "max": 1017077179,
+        "mean": 1017019666.75
+      },
+      "temperatureC": {
+        "max": 67.75,
+        "mean": 63.862,
+        "min": 60.6
+      }
+    },
+    "startup": {
+      "aggregateRssBytes": {
+        "max": 264503296,
+        "mean": 129836032.0,
+        "p95": 227233792.0
+      },
+      "cloudQueueLinesMax": 0,
+      "combinedRssAndStageFileBytes": {
+        "max": 1280079512,
+        "mean": 1100610258.312,
+        "p95": 1206970221.5
+      },
+      "dropsDelta": 0,
+      "durationMonotonicMs": 3251.248,
+      "endingCaptureWindow": {
+        "deadlineMissPercent": null,
+        "deadlineMisses": null,
+        "periodMaxMs": null,
+        "periodP50Ms": null,
+        "periodP95Ms": null,
+        "periodP99Ms": null,
+        "sampleCount": 0,
+        "targetPeriodMs": null
+      },
+      "endingFps": 0.0,
+      "endingModelStats": {},
+      "framesDelta": 1,
+      "perProcessCpuPercent": {
+        "pid:7827": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "pid:7830": {
+          "max": 9.247,
+          "mean": 0.93,
+          "p95": 6.069
+        },
+        "pid:7838": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "pid:7846": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "pid:7853": {
+          "max": 12.451,
+          "mean": 1.245,
+          "p95": 6.848
+        },
+        "pid:7861": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "pid:7868": {
+          "max": 46.491,
+          "mean": 7.748,
+          "p95": 34.868
+        },
+        "pid:7879": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "pid:7886": {
+          "max": 4.707,
+          "mean": 2.353,
+          "p95": 4.472
+        }
+      },
+      "samples": 16,
+      "stageFileBytes": {
+        "max": 1015576216,
+        "mean": 970774226.312
+      },
+      "temperatureC": {
+        "max": 58.4,
+        "mean": 57.163,
+        "min": 55.65
+      }
+    },
+    "stress": {
+      "aggregateRssBytes": {
+        "max": 511508480,
+        "mean": 503301769.26,
+        "p95": 510459904.0
+      },
+      "cloudQueueLinesMax": 42,
+      "combinedRssAndStageFileBytes": {
+        "max": 1528285117,
+        "mean": 1519841015.306,
+        "p95": 1527118717.6
+      },
+      "dropsDelta": 0,
+      "durationMonotonicMs": 54730.544,
+      "endingCaptureWindow": {
+        "deadlineMissPercent": 51.25,
+        "deadlineMisses": 123,
+        "periodMaxMs": 255.626,
+        "periodP50Ms": 200.224,
+        "periodP95Ms": 222.402,
+        "periodP99Ms": 240.709,
+        "sampleCount": 240,
+        "targetPeriodMs": 200.0
+      },
+      "endingFps": 5.0,
+      "endingModelStats": {
+        "checked": 33,
+        "inferenceTiming": {
+          "lastMs": 369.64,
+          "maxMs": 852.15,
+          "p50Ms": 336.397,
+          "p95Ms": 713.035,
+          "p99Ms": 834.307,
+          "sampleCount": 33
+        },
+        "patches": 33,
+        "skipped": 0,
+        "stale": 0,
+        "unreachable": 0
+      },
+      "framesDelta": 273,
+      "perProcessCpuPercent": {
+        "camera": {
+          "max": 39.161,
+          "mean": 21.266,
+          "p95": 33.257
+        },
+        "cloud": {
+          "max": 4.094,
+          "mean": 0.017,
+          "p95": 0.0
+        },
+        "explain": {
+          "max": 3.927,
+          "mean": 0.017,
+          "p95": 0.0
+        },
+        "infer": {
+          "max": 142.738,
+          "mean": 2.033,
+          "p95": 0.0
+        },
+        "model": {
+          "max": 4.381,
+          "mean": 0.019,
+          "p95": 0.0
+        },
+        "pid:7827": {
+          "max": 8.26,
+          "mean": 0.251,
+          "p95": 3.784
+        },
+        "pid:8318": {
+          "max": 108.78,
+          "mean": 92.72,
+          "p95": 103.4
+        },
+        "pid:8319": {
+          "max": 110.589,
+          "mean": 96.232,
+          "p95": 103.592
+        },
+        "site": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "spotter": {
+          "max": 26.288,
+          "mean": 13.331,
+          "p95": 21.881
+        },
+        "uplink": {
+          "max": 8.898,
+          "mean": 4.17,
+          "p95": 8.476
+        },
+        "watch": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        }
+      },
+      "samples": 235,
+      "stageFileBytes": {
+        "max": 1016796333,
+        "mean": 1016539246.047
+      },
+      "temperatureC": {
+        "max": 69.95,
+        "mean": 67.663,
+        "min": 61.15
+      }
+    },
+    "unloaded": {
+      "aggregateRssBytes": {
+        "max": 525123584,
+        "mean": 475210760.605,
+        "p95": 486342656.0
+      },
+      "cloudQueueLinesMax": 36,
+      "combinedRssAndStageFileBytes": {
+        "max": 1541196907,
+        "mean": 1491222306.433,
+        "p95": 1502538249.0
+      },
+      "dropsDelta": 0,
+      "durationMonotonicMs": 54883.629,
+      "endingCaptureWindow": {
+        "deadlineMissPercent": 49.167,
+        "deadlineMisses": 118,
+        "periodMaxMs": 244.51,
+        "periodP50Ms": 199.964,
+        "periodP95Ms": 210.181,
+        "periodP99Ms": 216.96,
+        "sampleCount": 240,
+        "targetPeriodMs": 200.0
+      },
+      "endingFps": 5.0,
+      "endingModelStats": {
+        "checked": 31,
+        "inferenceTiming": {
+          "lastMs": 303.076,
+          "maxMs": 852.15,
+          "p50Ms": 333.527,
+          "p95Ms": 726.928,
+          "p99Ms": 835.422,
+          "sampleCount": 31
+        },
+        "patches": 31,
+        "skipped": 0,
+        "stale": 0,
+        "unreachable": 0
+      },
+      "framesDelta": 274,
+      "perProcessCpuPercent": {
+        "camera": {
+          "max": 47.815,
+          "mean": 21.687,
+          "p95": 34.565
+        },
+        "cloud": {
+          "max": 3.96,
+          "mean": 0.017,
+          "p95": 0.0
+        },
+        "explain": {
+          "max": 4.29,
+          "mean": 0.097,
+          "p95": 0.0
+        },
+        "infer": {
+          "max": 257.341,
+          "mean": 12.454,
+          "p95": 109.811
+        },
+        "model": {
+          "max": 4.489,
+          "mean": 0.037,
+          "p95": 0.0
+        },
+        "pid:7827": {
+          "max": 8.882,
+          "mean": 0.268,
+          "p95": 3.944
+        },
+        "site": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "spotter": {
+          "max": 26.549,
+          "mean": 13.494,
+          "p95": 21.997
+        },
+        "uplink": {
+          "max": 8.977,
+          "mean": 4.303,
+          "p95": 8.914
+        },
+        "watch": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        }
+      },
+      "samples": 238,
+      "stageFileBytes": {
+        "max": 1016271003,
+        "mean": 1016011545.828
+      },
+      "temperatureC": {
+        "max": 66.1,
+        "mean": 61.166,
+        "min": 58.95
+      }
+    },
+    "warmup": {
+      "aggregateRssBytes": {
+        "max": 474398720,
+        "mean": 357425152.0,
+        "p95": 465805312.0
+      },
+      "cloudQueueLinesMax": 18,
+      "combinedRssAndStageFileBytes": {
+        "max": 1490137631,
+        "mean": 1373064447.303,
+        "p95": 1481513898.0
+      },
+      "dropsDelta": 0,
+      "durationMonotonicMs": 14710.752,
+      "endingCaptureWindow": {
+        "deadlineMissPercent": 53.333,
+        "deadlineMisses": 40,
+        "periodMaxMs": 302.604,
+        "periodP50Ms": 200.418,
+        "periodP95Ms": 230.65,
+        "periodP99Ms": 290.934,
+        "sampleCount": 75,
+        "targetPeriodMs": 200.0
+      },
+      "endingFps": 4.99,
+      "endingModelStats": {
+        "checked": 17,
+        "inferenceTiming": {
+          "lastMs": 424.806,
+          "maxMs": 466.636,
+          "p50Ms": 344.302,
+          "p95Ms": 435.306,
+          "p99Ms": 460.37,
+          "sampleCount": 17
+        },
+        "patches": 18,
+        "skipped": 0,
+        "stale": 0,
+        "unreachable": 0
+      },
+      "framesDelta": 74,
+      "perProcessCpuPercent": {
+        "camera": {
+          "max": 39.538,
+          "mean": 22.969,
+          "p95": 35.392
+        },
+        "cloud": {
+          "max": 9.377,
+          "mean": 0.252,
+          "p95": 0.0
+        },
+        "explain": {
+          "max": 4.479,
+          "mean": 0.42,
+          "p95": 3.973
+        },
+        "infer": {
+          "max": 247.292,
+          "mean": 60.071,
+          "p95": 233.292
+        },
+        "model": {
+          "max": 4.695,
+          "mean": 0.365,
+          "p95": 3.976
+        },
+        "pid:7827": {
+          "max": 4.692,
+          "mean": 0.271,
+          "p95": 3.274
+        },
+        "site": {
+          "max": 0.0,
+          "mean": 0.0,
+          "p95": 0.0
+        },
+        "spotter": {
+          "max": 46.976,
+          "mean": 11.963,
+          "p95": 23.966
+        },
+        "uplink": {
+          "max": 4.698,
+          "mean": 1.486,
+          "p95": 4.671
+        },
+        "watch": {
+          "max": 4.117,
+          "mean": 0.062,
+          "p95": 0.0
+        }
+      },
+      "samples": 66,
+      "stageFileBytes": {
+        "max": 1015738911,
+        "mean": 1015639295.303
+      },
+      "temperatureC": {
+        "max": 65.0,
+        "mean": 59.508,
+        "min": 56.2
+      }
+    }
+  }
+}

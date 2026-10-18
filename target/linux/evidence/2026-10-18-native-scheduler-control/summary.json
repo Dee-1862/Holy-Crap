@@ -1,0 +1,185 @@
+{
+  "address_space_limit_bytes": 8589934592,
+  "benchmark_cpu": 3,
+  "deadline_lateness_threshold_us": 100,
+  "iterations_per_trial": 5000,
+  "period_us": 1000,
+  "scenarios": {
+    "cross-core-load-default": {
+      "between_trial_max_us": {
+        "max": 6435.031,
+        "median": 3916.477,
+        "min": 2060.888
+      },
+      "between_trial_p99_us": {
+        "max": 200.177,
+        "median": 95.662,
+        "min": 84.579
+      },
+      "deadline_miss_rate": 0.0094,
+      "deadline_misses": 235,
+      "pooled_lateness_us": {
+        "max": 6435.031,
+        "mean": 59.289,
+        "p50": 52.476,
+        "p95": 55.322,
+        "p99": 95.785
+      },
+      "priorities_observed": [
+        0
+      ],
+      "scheduler_policies_observed": [
+        "other"
+      ],
+      "total_wakes": 25000,
+      "trials": 5
+    },
+    "cross-core-load-fifo40": {
+      "between_trial_max_us": {
+        "max": 24.354,
+        "median": 11.412,
+        "min": 9.599
+      },
+      "between_trial_p99_us": {
+        "max": 5.829,
+        "median": 5.469,
+        "min": 5.372
+      },
+      "deadline_miss_rate": 0.0,
+      "deadline_misses": 0,
+      "pooled_lateness_us": {
+        "max": 24.354,
+        "mean": 2.067,
+        "p50": 1.785,
+        "p95": 4.038,
+        "p99": 5.557
+      },
+      "priorities_observed": [
+        40
+      ],
+      "scheduler_policies_observed": [
+        "fifo"
+      ],
+      "total_wakes": 25000,
+      "trials": 5
+    },
+    "idle-default": {
+      "between_trial_max_us": {
+        "max": 2137.568,
+        "median": 776.254,
+        "min": 387.694
+      },
+      "between_trial_p99_us": {
+        "max": 75.216,
+        "median": 63.281,
+        "min": 61.05
+      },
+      "deadline_miss_rate": 0.0052,
+      "deadline_misses": 130,
+      "pooled_lateness_us": {
+        "max": 2137.568,
+        "mean": 55.333,
+        "p50": 54.085,
+        "p95": 57.299,
+        "p99": 62.994
+      },
+      "priorities_observed": [
+        0
+      ],
+      "scheduler_policies_observed": [
+        "other"
+      ],
+      "total_wakes": 25000,
+      "trials": 5
+    },
+    "idle-fifo40": {
+      "between_trial_max_us": {
+        "max": 37.82,
+        "median": 14.869,
+        "min": 14.211
+      },
+      "between_trial_p99_us": {
+        "max": 8.344,
+        "median": 7.937,
+        "min": 7.755
+      },
+      "deadline_miss_rate": 0.0,
+      "deadline_misses": 0,
+      "pooled_lateness_us": {
+        "max": 37.82,
+        "mean": 3.273,
+        "p50": 2.91,
+        "p95": 5.791,
+        "p99": 8.067
+      },
+      "priorities_observed": [
+        40
+      ],
+      "scheduler_policies_observed": [
+        "fifo"
+      ],
+      "total_wakes": 25000,
+      "trials": 5
+    },
+    "same-core-load-default": {
+      "between_trial_max_us": {
+        "max": 5210.337,
+        "median": 3975.113,
+        "min": 2968.655
+      },
+      "between_trial_p99_us": {
+        "max": 130.564,
+        "median": 55.269,
+        "min": 53.99
+      },
+      "deadline_miss_rate": 0.00444,
+      "deadline_misses": 111,
+      "pooled_lateness_us": {
+        "max": 5210.337,
+        "mean": 58.268,
+        "p50": 52.364,
+        "p95": 53.008,
+        "p99": 62.526
+      },
+      "priorities_observed": [
+        0
+      ],
+      "scheduler_policies_observed": [
+        "other"
+      ],
+      "total_wakes": 25000,
+      "trials": 5
+    },
+    "same-core-load-fifo40": {
+      "between_trial_max_us": {
+        "max": 9.788,
+        "median": 7.051,
+        "min": 5.579
+      },
+      "between_trial_p99_us": {
+        "max": 3.582,
+        "median": 3.398,
+        "min": 3.24
+      },
+      "deadline_miss_rate": 0.0,
+      "deadline_misses": 0,
+      "pooled_lateness_us": {
+        "max": 9.788,
+        "mean": 2.175,
+        "p50": 2.134,
+        "p95": 2.507,
+        "p99": 3.422
+      },
+      "priorities_observed": [
+        40
+      ],
+      "scheduler_policies_observed": [
+        "fifo"
+      ],
+      "total_wakes": 25000,
+      "trials": 5
+    }
+  },
+  "suite": "linux_scheduler_wakeup_jitter_control",
+  "trials_per_scenario": 5
+}

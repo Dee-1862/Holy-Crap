@@ -1,0 +1,15 @@
+{
+  "limit_bytes": 8053063680,
+  "limit_gib": 7.5,
+  "aggregate_limit_exceeded": false,
+  "peak_aggregate_rss_bytes": 694042624,
+  "peak_aggregate_rss_mib": 661.891,
+  "mean_sampled_aggregate_rss_mib": 587.166,
+  "samples": 2035,
+  "sample_interval_s": 0.1,
+  "temperature_start_c": 51.25,
+  "temperature_max_c": 76.55,
+  "temperature_end_c": 70.5,
+  "wall_s": 299.07467,
+  "returncode": 0
+}

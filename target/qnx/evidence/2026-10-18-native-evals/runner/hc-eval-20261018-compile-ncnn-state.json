@@ -1,0 +1,26 @@
+{
+  "id": "hc-eval-20261018-compile-ncnn",
+  "argv": [
+    "clang++",
+    "-std=c++17",
+    "-O3",
+    "-DNDEBUG",
+    "-I/data/home/qnxuser/simlab-build/ncnn-20260526/ncnn-20260526/src",
+    "-I/data/home/qnxuser/simlab-build/ncnn-20260526/ncnn-20260526/build/src",
+    "src/ncnn_bench.cpp",
+    "/data/home/qnxuser/simlab-build/ncnn-20260526/ncnn-20260526/build/src/libncnn.a",
+    "-lm",
+    "-o",
+    "ncnn_bench"
+  ],
+  "cwd": "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0",
+  "timeout": 180,
+  "status": "done",
+  "started_at": "2026-10-18T16:52:53Z",
+  "finished_at": "2026-10-18T16:53:01Z",
+  "exit_code": 0,
+  "timed_out": false,
+  "error": null,
+  "stdout_log": "logs/hc-eval-20261018-compile-ncnn.out",
+  "stderr_log": "logs/hc-eval-20261018-compile-ncnn.err"
+}

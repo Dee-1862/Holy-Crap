@@ -1,0 +1,9 @@
+scenario=cross-core-load-fifo40
+trial=5
+fixed_priority_requested=true
+load_cpus=0,1,2
+benchmark_cpu=3
+returncode=0
+started_epoch_ns=1792342883251850402
+finished_epoch_ns=1792342888368740974
+duration_ns=5116890572

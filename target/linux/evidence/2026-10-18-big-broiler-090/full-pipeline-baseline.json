@@ -1,0 +1,4996 @@
+{
+  "benchmark_contract": {
+    "bird_count_semantics": "per-frame observations, not unique tracked birds",
+    "feces_count_semantics": "persistent stationary candidates retained across sampled frames",
+    "pipeline": "production Simulation Lab adapters",
+    "score_semantics": "model scores are raw/normalized ranking scores and are not calibrated probabilities",
+    "stage_timing_semantics": "stage wall clocks are nested and must not be summed; per-model call timings are contained within their owning stages",
+    "strict_pass_requires": "every retained feces candidate has observed_video location, observed_crop input, materialized crop, real mode, and inference_performed=true; close-up inference call count must equal retained candidates"
+  },
+  "clip": {
+    "duration_s": 20.08,
+    "fps": 25.0,
+    "height": 1080,
+    "metadata_source": "ffprobe",
+    "path": "/tmp/hc-full-pipeline-bench/clip.mp4",
+    "sha256": "13e82b2a07f0d7e6ba2659d2da8c196cbb9ec6af3fda94502f4c3997f1d340e4",
+    "size_bytes": 6061986,
+    "width": 1920
+  },
+  "execution_modules": [
+    {
+      "adapter": "WholePenVideoInference",
+      "artifact": {
+        "compatibility_verified": true,
+        "expected_formats": [
+          "tflite",
+          "onnx"
+        ],
+        "model_id": "behaviour-v1/chicken-yolo11n-640+behaviour7-yolo11n-cls-224",
+        "required_for_real_mode": true,
+        "status": "configured"
+      },
+      "id": "pen-activity",
+      "input_contract": {
+        "kind": "whole_pen_video",
+        "unit": "one_complete_clip"
+      },
+      "label": "Pen activity / energy",
+      "mode": "real",
+      "notice": "Decoded a uniform cap of 120 frames and localized 1090 individual-sized bird observations; classified 219 bounded crops with behaviour-v1/chicken-yolo11n-640+behaviour7-yolo11n-cls-224. Overlapping multi-scale tiles improve small-bird recall. Group-sized regions are rejected before behavior inference. The score combines frame-to-frame pixel motion with aggregate single-frame behavior evidence; it is not individual tracking.",
+      "output_contract": {
+        "bird_observations": 1090,
+        "fields": [
+          "score",
+          "category",
+          "motion_coverage",
+          "zone_scores",
+          "sampled_frames",
+          "bird_observations",
+          "behavior_distribution"
+        ],
+        "individual_tracking": false,
+        "kind": "clip_activity_aggregate",
+        "sampled_frames": 120,
+        "video_annotation_count": 1090
+      },
+      "status": "completed",
+      "version": "behaviour-v1"
+    },
+    {
+      "adapter": "DeterministicAppearanceAdapter",
+      "artifact": {
+        "compatibility_verified": false,
+        "expected_formats": [
+          "tflite",
+          "onnx"
+        ],
+        "model_id": null,
+        "required_for_real_mode": true,
+        "status": "not_configured"
+      },
+      "id": "flock-appearance",
+      "input_contract": {
+        "kind": "whole_pen_video",
+        "unit": "sampled_clip_frames"
+      },
+      "label": "Flock appearance",
+      "mode": "mock",
+      "notice": "Synthetic deterministic adapter; no model artifact was executed.",
+      "output_contract": {
+        "individual_tracking": false,
+        "kind": "clip_appearance_aggregate"
+      },
+      "status": "completed",
+      "version": "mock-1"
+    },
+    {
+      "adapter": "WholePenVideoInference",
+      "artifact": {
+        "compatibility_verified": true,
+        "expected_formats": [
+          "tflite",
+          "onnx"
+        ],
+        "model_id": "dropping4-pen/dropping4pen-yolo11n-640",
+        "required_for_real_mode": true,
+        "status": "configured"
+      },
+      "id": "feces-candidate-detector",
+      "input_contract": {
+        "kind": "whole_pen_video",
+        "unit": "sampled_clip_frames"
+      },
+      "label": "Feces candidate detection",
+      "mode": "real",
+      "notice": "Ran dropping4-pen/dropping4pen-yolo11n-640 on 120 real decoded frames and retained 6 candidate crop(s). Field accuracy is not established.",
+      "output_contract": {
+        "bbox_coordinates": "normalized_xywh",
+        "crop_handoff": "lazy RGB crop reference",
+        "kind": "feces_candidate_list",
+        "persistent_annotation_count": 388,
+        "sampled_frames": 120
+      },
+      "status": "completed",
+      "version": "dropping4-pen-v1"
+    },
+    {
+      "adapter": "DroppingOnnxAdapter",
+      "artifact": {
+        "compatibility_verified": true,
+        "expected_formats": [
+          "onnx"
+        ],
+        "model_id": "dropping4-laptop",
+        "required_for_real_mode": true,
+        "status": "configured"
+      },
+      "id": "feces-disease-classifier",
+      "input_contract": {
+        "color_space": "RGB",
+        "height": 320,
+        "kind": "detected_feces_crop_or_curated_proxy",
+        "upstream": "feces-candidate-detector",
+        "width": 320
+      },
+      "label": "Feces appearance classification",
+      "mode": "real",
+      "notice": "Live YOLO11n ONNX ran on 6 crop(s) cut from real sampled video frames. Results remain non-diagnostic and field accuracy is not established.",
+      "output_contract": {
+        "bbox_coordinates": "normalized_xywh",
+        "execution_coverage": "full",
+        "fallback_candidate_count": 0,
+        "fallback_reason_counts": {},
+        "kind": "detection_with_appearance_classification",
+        "labels": [
+          "Coccidiosis",
+          "Healthy",
+          "New Castle Disease",
+          "Salmonella"
+        ],
+        "objectness": false,
+        "real_candidate_count": 6
+      },
+      "status": "completed",
+      "version": "yolo11n-320"
+    }
+  ],
+  "generated_at_utc": "2026-10-18T16:31:39Z",
+  "git": {
+    "branch": null,
+    "commit": null,
+    "dirty": false
+  },
+  "host": {
+    "hostname": "raspberrypi",
+    "load_average": [
+      0.42578125,
+      0.263671875,
+      0.267578125
+    ],
+    "logical_cpu_count": 4,
+    "machine": "aarch64",
+    "release": "6.12.62+rpt-rpi-2712",
+    "system": "Linux"
+  },
+  "models": {
+    "behavior_classifier": {
+      "exists": true,
+      "path": "models/behaviour-v1/behaviour7_yolo11n-cls_224.onnx",
+      "sha256": "7d9765fcaebea13aebba20b3797a68ee127cd8f8f16daf3677ea008fc4e1f8b7",
+      "size_bytes": 6186652
+    },
+    "chicken_detector": {
+      "exists": true,
+      "path": "models/behaviour-v1/chicken_yolo11n_640.onnx",
+      "sha256": "fdb0a991da9ae0990520d1e66724274d4e21440e9540f5d8d05be34e91dfb848",
+      "size_bytes": 10604536
+    },
+    "feces_crop_classifier": {
+      "exists": true,
+      "path": "models/dropping4-laptop/dropping4_yolo11n_320.onnx",
+      "sha256": "154407ca791330b8d6fd4ab94e5f683beceaa6ded79d34e24d05b379fe0634f8",
+      "size_bytes": 10480798
+    },
+    "pen_feces_locator": {
+      "exists": true,
+      "path": "models/dropping4-pen/dropping4pen_yolo11n_640.onnx",
+      "sha256": "bfe181bdfc8080f6d4ca17159c87fa12bf1fb59d135288b1487c82147653ba18",
+      "size_bytes": 10606944
+    }
+  },
+  "observations": {
+    "activity": {
+      "behavior_distribution": {
+        "drinking": 0.005,
+        "eating": 0.11,
+        "inactive": 0.781,
+        "moving": 0.055,
+        "other": 0.0,
+        "panting": 0.0,
+        "preening": 0.05
+      },
+      "bird_observations": 1090,
+      "category": "low",
+      "motion_coverage": 0.001,
+      "sampled_frames": 120,
+      "score": 0.106,
+      "zone_scores": {
+        "northeast": 0.004,
+        "northwest": 0.0,
+        "southeast": 0.0,
+        "southwest": 0.007
+      }
+    },
+    "birds": {
+      "frames": 120,
+      "meaning": "accepted individual-sized bird detections per sampled frame; these observations are not tracked identities and are NOT a unique chicken count",
+      "per_frame_counts": [
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        10,
+        9,
+        10,
+        9,
+        11,
+        10,
+        10,
+        10,
+        10,
+        9,
+        9,
+        9,
+        9,
+        9,
+        10,
+        10,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9
+      ],
+      "per_frame_summary": {
+        "max": 11,
+        "mean": 9.083,
+        "median": 9.0,
+        "min": 9,
+        "p95": 10.0
+      },
+      "total_frame_observations": 1090
+    },
+    "feces": {
+      "actual_classification_count": 6,
+      "candidates": [
+        {
+          "bbox_normalized_xywh": {
+            "height": 0.056412,
+            "width": 0.031682,
+            "x": 0.358278,
+            "y": 0.134468
+          },
+          "classification": {
+            "class_scores": {
+              "cocci": 0.767,
+              "healthy": 0.0,
+              "ncd": 0.0,
+              "salmo": 0.0
+            },
+            "fallback_reason": null,
+            "inference_performed": true,
+            "label": "Coccidiosis",
+            "mode": "real",
+            "model": {
+              "format": "onnx",
+              "id": "dropping4-laptop",
+              "input_size": [
+                1,
+                3,
+                320,
+                320
+              ],
+              "runtime": "onnxruntime 1.21.0",
+              "sha256": null,
+              "version": "yolo11n-320"
+            },
+            "product_label": "abnormal",
+            "score_semantics": "raw model ranking scores in [0,1], not calibrated probabilities",
+            "top_score": 0.767
+          },
+          "crop": {
+            "input_sha256": "ff551e48b5e7f88724b65d8d0a3f29d9c16086d340246fc7e45b911cbe709d0f",
+            "materialized": true,
+            "source_video_sha256": "13e82b2a07f0d7e6ba2659d2da8c196cbb9ec6af3fda94502f4c3997f1d340e4",
+            "target_height": 320,
+            "target_width": 320
+          },
+          "detection_confidence": 0.747,
+          "id": "feces-001",
+          "persistence": {
+            "active_until_s": 20.0,
+            "canonical_bbox": {
+              "height": 0.056412,
+              "width": 0.031682,
+              "x": 0.358278,
+              "y": 0.134468
+            },
+            "confirmed_s": 0.25,
+            "first_observed_s": 0.083,
+            "last_observed_s": 19.917,
+            "observation_count": 120,
+            "persistence_basis": "stationary_recurrence_across_sampled_frames"
+          },
+          "provenance": {
+            "appearance_input": "observed_crop",
+            "classification_source": "live_model_run",
+            "location_source": "observed_video"
+          },
+          "timestamp_s": 10.75
+        },
+        {
+          "bbox_normalized_xywh": {
+            "height": 0.054273,
+            "width": 0.037115,
+            "x": 0.199197,
+            "y": 0.356988
+          },
+          "classification": {
+            "class_scores": {
+              "cocci": 0.585,
+              "healthy": 0.0,
+              "ncd": 0.0,
+              "salmo": 0.0
+            },
+            "fallback_reason": null,
+            "inference_performed": true,
+            "label": "Coccidiosis",
+            "mode": "real",
+            "model": {
+              "format": "onnx",
+              "id": "dropping4-laptop",
+              "input_size": [
+                1,
+                3,
+                320,
+                320
+              ],
+              "runtime": "onnxruntime 1.21.0",
+              "sha256": null,
+              "version": "yolo11n-320"
+            },
+            "product_label": "abnormal",
+            "score_semantics": "raw model ranking scores in [0,1], not calibrated probabilities",
+            "top_score": 0.585
+          },
+          "crop": {
+            "input_sha256": "1004c2f2d26e696c8630d1338c061f1405f570aaaf4e4a6a21022bd374a9cd97",
+            "materialized": true,
+            "source_video_sha256": "13e82b2a07f0d7e6ba2659d2da8c196cbb9ec6af3fda94502f4c3997f1d340e4",
+            "target_height": 320,
+            "target_width": 320
+          },
+          "detection_confidence": 0.711,
+          "id": "feces-002",
+          "persistence": {
+            "active_until_s": 20.0,
+            "canonical_bbox": {
+              "height": 0.054273,
+              "width": 0.037115,
+              "x": 0.199197,
+              "y": 0.356988
+            },
+            "confirmed_s": 0.417,
+            "first_observed_s": 0.25,
+            "last_observed_s": 19.917,
+            "observation_count": 112,
+            "persistence_basis": "stationary_recurrence_across_sampled_frames"
+          },
+          "provenance": {
+            "appearance_input": "observed_crop",
+            "classification_source": "live_model_run",
+            "location_source": "observed_video"
+          },
+          "timestamp_s": 3.25
+        },
+        {
+          "bbox_normalized_xywh": {
+            "height": 0.057413,
+            "width": 0.031823,
+            "x": 0.27893,
+            "y": 0.245358
+          },
+          "classification": {
+            "class_scores": {
+              "cocci": 0.766,
+              "healthy": 0.0,
+              "ncd": 0.0,
+              "salmo": 0.0
+            },
+            "fallback_reason": null,
+            "inference_performed": true,
+            "label": "Coccidiosis",
+            "mode": "real",
+            "model": {
+              "format": "onnx",
+              "id": "dropping4-laptop",
+              "input_size": [
+                1,
+                3,
+                320,
+                320
+              ],
+              "runtime": "onnxruntime 1.21.0",
+              "sha256": null,
+              "version": "yolo11n-320"
+            },
+            "product_label": "abnormal",
+            "score_semantics": "raw model ranking scores in [0,1], not calibrated probabilities",
+            "top_score": 0.766
+          },
+          "crop": {
+            "input_sha256": "c8fc723754c99f5510e4da31695b7ae63db594f5bb2b264c4b62243011d0750b",
+            "materialized": true,
+            "source_video_sha256": "13e82b2a07f0d7e6ba2659d2da8c196cbb9ec6af3fda94502f4c3997f1d340e4",
+            "target_height": 320,
+            "target_width": 320
+          },
+          "detection_confidence": 0.697,
+          "id": "feces-003",
+          "persistence": {
+            "active_until_s": 20.0,
+            "canonical_bbox": {
+              "height": 0.057413,
+              "width": 0.031823,
+              "x": 0.27893,
+              "y": 0.245358
+            },
+            "confirmed_s": 0.25,
+            "first_observed_s": 0.083,
+            "last_observed_s": 19.917,
+            "observation_count": 120,
+            "persistence_basis": "stationary_recurrence_across_sampled_frames"
+          },
+          "provenance": {
+            "appearance_input": "observed_crop",
+            "classification_source": "live_model_run",
+            "location_source": "observed_video"
+          },
+          "timestamp_s": 15.417
+        },
+        {
+          "bbox_normalized_xywh": {
+            "height": 0.051047,
+            "width": 0.030375,
+            "x": 0.139652,
+            "y": 0.466992
+          },
+          "classification": {
+            "class_scores": {
+              "cocci": 0.631,
+              "healthy": 0.0,
+              "ncd": 0.0,
+              "salmo": 0.0
+            },
+            "fallback_reason": null,
+            "inference_performed": true,
+            "label": "Coccidiosis",
+            "mode": "real",
+            "model": {
+              "format": "onnx",
+              "id": "dropping4-laptop",
+              "input_size": [
+                1,
+                3,
+                320,
+                320
+              ],
+              "runtime": "onnxruntime 1.21.0",
+              "sha256": null,
+              "version": "yolo11n-320"
+            },
+            "product_label": "abnormal",
+            "score_semantics": "raw model ranking scores in [0,1], not calibrated probabilities",
+            "top_score": 0.631
+          },
+          "crop": {
+            "input_sha256": "7b2267f0870dc790bcbbf9a3924a35cffaed4f5f88dba1038dbdc30b5b6553b7",
+            "materialized": true,
+            "source_video_sha256": "13e82b2a07f0d7e6ba2659d2da8c196cbb9ec6af3fda94502f4c3997f1d340e4",
+            "target_height": 320,
+            "target_width": 320
+          },
+          "detection_confidence": 0.395,
+          "id": "feces-004",
+          "persistence": {
+            "active_until_s": 20.0,
+            "canonical_bbox": {
+              "height": 0.051047,
+              "width": 0.030375,
+              "x": 0.139652,
+              "y": 0.466992
+            },
+            "confirmed_s": 0.75,
+            "first_observed_s": 0.083,
+            "last_observed_s": 19.75,
+            "observation_count": 23,
+            "persistence_basis": "stationary_recurrence_across_sampled_frames"
+          },
+          "provenance": {
+            "appearance_input": "observed_crop",
+            "classification_source": "live_model_run",
+            "location_source": "observed_video"
+          },
+          "timestamp_s": 19.75
+        },
+        {
+          "bbox_normalized_xywh": {
+            "height": 0.025607,
+            "width": 0.012922,
+            "x": 0.479036,
+            "y": 0.378867
+          },
+          "classification": {
+            "class_scores": {
+              "cocci": 0.0,
+              "healthy": 0.0,
+              "ncd": 0.0,
+              "salmo": 0.0
+            },
+            "fallback_reason": null,
+            "inference_performed": true,
+            "label": null,
+            "mode": "real",
+            "model": {
+              "format": "onnx",
+              "id": "dropping4-laptop",
+              "input_size": [
+                1,
+                3,
+                320,
+                320
+              ],
+              "runtime": "onnxruntime 1.21.0",
+              "sha256": null,
+              "version": "yolo11n-320"
+            },
+            "product_label": "uncertain",
+            "score_semantics": "raw model ranking scores in [0,1], not calibrated probabilities",
+            "top_score": 0.0
+          },
+          "crop": {
+            "input_sha256": "c97317104a5f6d9cbd2beec1a61ecef118970912d2463c9cd11665632ccc34ca",
+            "materialized": true,
+            "source_video_sha256": "13e82b2a07f0d7e6ba2659d2da8c196cbb9ec6af3fda94502f4c3997f1d340e4",
+            "target_height": 320,
+            "target_width": 320
+          },
+          "detection_confidence": 0.334,
+          "id": "feces-005",
+          "persistence": {
+            "active_until_s": 20.0,
+            "canonical_bbox": {
+              "height": 0.025607,
+              "width": 0.012922,
+              "x": 0.479036,
+              "y": 0.378867
+            },
+            "confirmed_s": 5.583,
+            "first_observed_s": 5.417,
+            "last_observed_s": 17.417,
+            "observation_count": 5,
+            "persistence_basis": "stationary_recurrence_across_sampled_frames"
+          },
+          "provenance": {
+            "appearance_input": "observed_crop",
+            "classification_source": "live_model_run",
+            "location_source": "observed_video"
+          },
+          "timestamp_s": 5.417
+        },
+        {
+          "bbox_normalized_xywh": {
+            "height": 0.020086,
+            "width": 0.015887,
+            "x": 0.390888,
+            "y": 0.0
+          },
+          "classification": {
+            "class_scores": {
+              "cocci": 0.0,
+              "healthy": 0.0,
+              "ncd": 0.0,
+              "salmo": 0.0
+            },
+            "fallback_reason": null,
+            "inference_performed": true,
+            "label": null,
+            "mode": "real",
+            "model": {
+              "format": "onnx",
+              "id": "dropping4-laptop",
+              "input_size": [
+                1,
+                3,
+                320,
+                320
+              ],
+              "runtime": "onnxruntime 1.21.0",
+              "sha256": null,
+              "version": "yolo11n-320"
+            },
+            "product_label": "uncertain",
+            "score_semantics": "raw model ranking scores in [0,1], not calibrated probabilities",
+            "top_score": 0.0
+          },
+          "crop": {
+            "input_sha256": "a99e4100fbc072d03b8ab55b0872f50577d4251217b10e2b00eb17df06ac8ad4",
+            "materialized": true,
+            "source_video_sha256": "13e82b2a07f0d7e6ba2659d2da8c196cbb9ec6af3fda94502f4c3997f1d340e4",
+            "target_height": 320,
+            "target_width": 320
+          },
+          "detection_confidence": 0.317,
+          "id": "feces-006",
+          "persistence": {
+            "active_until_s": 20.0,
+            "canonical_bbox": {
+              "height": 0.020086,
+              "width": 0.015887,
+              "x": 0.390888,
+              "y": 0.0
+            },
+            "confirmed_s": 8.25,
+            "first_observed_s": 8.083,
+            "last_observed_s": 8.25,
+            "observation_count": 2,
+            "persistence_basis": "stationary_recurrence_across_sampled_frames"
+          },
+          "provenance": {
+            "appearance_input": "observed_crop",
+            "classification_source": "live_model_run",
+            "location_source": "observed_video"
+          },
+          "timestamp_s": 8.083
+        }
+      ],
+      "class_distribution": {
+        "Coccidiosis": 4,
+        "Healthy": 0,
+        "New Castle Disease": 0,
+        "Salmonella": 0
+      },
+      "fallback_classification_count": 0,
+      "persistent_candidate_count": 6
+    },
+    "pen_aggregate": {
+      "activity_contribution": 0.313,
+      "evidence_mode": "hybrid_simulation",
+      "feces_contribution": 0.433,
+      "non_diagnostic": true,
+      "policy_id": "demo-pen-v1",
+      "reasons": [
+        "Pen activity combines motion measured on sparse real frames with aggregate behavior classifications; it does not track individual birds.",
+        "Dropping locations and crops came from the whole-pen detector on sampled real frames; disease labels remain non-diagnostic.",
+        "Requested demo profile mixed deterministically shaped the evidence mix."
+      ],
+      "score": 0.746,
+      "state": "review"
+    },
+    "video_inference_modes": {
+      "activity": "real",
+      "feces_detector": "real"
+    }
+  },
+  "progress_events": [
+    {
+      "elapsed_ms": 0.042,
+      "message": "Reading video metadata and validating the selected segment",
+      "percent": 8,
+      "stage": "preparing"
+    },
+    {
+      "elapsed_ms": 0.196,
+      "message": "Decoding the selected video segment",
+      "percent": 12,
+      "stage": "decoding"
+    },
+    {
+      "elapsed_ms": 13111.748,
+      "message": "Decoded 120 frames; locating chickens",
+      "percent": 18,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 14792.494,
+      "message": "Located chickens in 1 of 120 frames",
+      "percent": 18,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 16489.976,
+      "message": "Located chickens in 2 of 120 frames",
+      "percent": 19,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 18156.824,
+      "message": "Located chickens in 3 of 120 frames",
+      "percent": 19,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 19791.496,
+      "message": "Located chickens in 4 of 120 frames",
+      "percent": 19,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 21429.892,
+      "message": "Located chickens in 5 of 120 frames",
+      "percent": 19,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 23069.304,
+      "message": "Located chickens in 6 of 120 frames",
+      "percent": 20,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 24691.026,
+      "message": "Located chickens in 7 of 120 frames",
+      "percent": 20,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 26374.954,
+      "message": "Located chickens in 8 of 120 frames",
+      "percent": 20,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 27996.417,
+      "message": "Located chickens in 9 of 120 frames",
+      "percent": 20,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 29623.951,
+      "message": "Located chickens in 10 of 120 frames",
+      "percent": 21,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 31286.874,
+      "message": "Located chickens in 11 of 120 frames",
+      "percent": 21,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 32936.677,
+      "message": "Located chickens in 12 of 120 frames",
+      "percent": 21,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 34572.879,
+      "message": "Located chickens in 13 of 120 frames",
+      "percent": 21,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 36292.066,
+      "message": "Located chickens in 14 of 120 frames",
+      "percent": 22,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 37952.576,
+      "message": "Located chickens in 15 of 120 frames",
+      "percent": 22,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 39580.079,
+      "message": "Located chickens in 16 of 120 frames",
+      "percent": 22,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 41221.475,
+      "message": "Located chickens in 17 of 120 frames",
+      "percent": 23,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 42876.928,
+      "message": "Located chickens in 18 of 120 frames",
+      "percent": 23,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 44523.98,
+      "message": "Located chickens in 19 of 120 frames",
+      "percent": 23,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 46251.989,
+      "message": "Located chickens in 20 of 120 frames",
+      "percent": 23,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 47900.993,
+      "message": "Located chickens in 21 of 120 frames",
+      "percent": 24,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 49536.518,
+      "message": "Located chickens in 22 of 120 frames",
+      "percent": 24,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 51176.503,
+      "message": "Located chickens in 23 of 120 frames",
+      "percent": 24,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 52895.406,
+      "message": "Located chickens in 24 of 120 frames",
+      "percent": 24,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 54541.581,
+      "message": "Located chickens in 25 of 120 frames",
+      "percent": 25,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 56188.942,
+      "message": "Located chickens in 26 of 120 frames",
+      "percent": 25,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 57841.43,
+      "message": "Located chickens in 27 of 120 frames",
+      "percent": 25,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 59469.761,
+      "message": "Located chickens in 28 of 120 frames",
+      "percent": 25,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 61108.988,
+      "message": "Located chickens in 29 of 120 frames",
+      "percent": 26,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 62781.323,
+      "message": "Located chickens in 30 of 120 frames",
+      "percent": 26,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 64410.548,
+      "message": "Located chickens in 31 of 120 frames",
+      "percent": 26,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 66044.418,
+      "message": "Located chickens in 32 of 120 frames",
+      "percent": 27,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 67680.092,
+      "message": "Located chickens in 33 of 120 frames",
+      "percent": 27,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 69310.067,
+      "message": "Located chickens in 34 of 120 frames",
+      "percent": 27,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 70939.382,
+      "message": "Located chickens in 35 of 120 frames",
+      "percent": 27,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 72597.963,
+      "message": "Located chickens in 36 of 120 frames",
+      "percent": 28,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 74267.731,
+      "message": "Located chickens in 37 of 120 frames",
+      "percent": 28,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 75940.778,
+      "message": "Located chickens in 38 of 120 frames",
+      "percent": 28,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 77603.072,
+      "message": "Located chickens in 39 of 120 frames",
+      "percent": 28,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 79300.652,
+      "message": "Located chickens in 40 of 120 frames",
+      "percent": 29,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 80960.006,
+      "message": "Located chickens in 41 of 120 frames",
+      "percent": 29,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 82632.747,
+      "message": "Located chickens in 42 of 120 frames",
+      "percent": 29,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 84315.641,
+      "message": "Located chickens in 43 of 120 frames",
+      "percent": 29,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 85953.302,
+      "message": "Located chickens in 44 of 120 frames",
+      "percent": 30,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 87589.421,
+      "message": "Located chickens in 45 of 120 frames",
+      "percent": 30,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 89230.328,
+      "message": "Located chickens in 46 of 120 frames",
+      "percent": 30,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 90986.984,
+      "message": "Located chickens in 47 of 120 frames",
+      "percent": 31,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 92668.144,
+      "message": "Located chickens in 48 of 120 frames",
+      "percent": 31,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 94429.075,
+      "message": "Located chickens in 49 of 120 frames",
+      "percent": 31,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 96282.683,
+      "message": "Located chickens in 50 of 120 frames",
+      "percent": 31,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 98022.061,
+      "message": "Located chickens in 51 of 120 frames",
+      "percent": 32,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 99743.911,
+      "message": "Located chickens in 52 of 120 frames",
+      "percent": 32,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 101413.124,
+      "message": "Located chickens in 53 of 120 frames",
+      "percent": 32,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 103052.239,
+      "message": "Located chickens in 54 of 120 frames",
+      "percent": 32,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 104725.034,
+      "message": "Located chickens in 55 of 120 frames",
+      "percent": 33,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 106396.307,
+      "message": "Located chickens in 56 of 120 frames",
+      "percent": 33,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 108024.826,
+      "message": "Located chickens in 57 of 120 frames",
+      "percent": 33,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 109666.077,
+      "message": "Located chickens in 58 of 120 frames",
+      "percent": 33,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 111313.822,
+      "message": "Located chickens in 59 of 120 frames",
+      "percent": 34,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 112952.828,
+      "message": "Located chickens in 60 of 120 frames",
+      "percent": 34,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 114576.743,
+      "message": "Located chickens in 61 of 120 frames",
+      "percent": 34,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 116262.714,
+      "message": "Located chickens in 62 of 120 frames",
+      "percent": 35,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 117912.213,
+      "message": "Located chickens in 63 of 120 frames",
+      "percent": 35,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 119542.044,
+      "message": "Located chickens in 64 of 120 frames",
+      "percent": 35,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 121163.652,
+      "message": "Located chickens in 65 of 120 frames",
+      "percent": 35,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 122801.117,
+      "message": "Located chickens in 66 of 120 frames",
+      "percent": 36,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 124440.564,
+      "message": "Located chickens in 67 of 120 frames",
+      "percent": 36,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 126098.586,
+      "message": "Located chickens in 68 of 120 frames",
+      "percent": 36,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 127784.032,
+      "message": "Located chickens in 69 of 120 frames",
+      "percent": 36,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 129476.417,
+      "message": "Located chickens in 70 of 120 frames",
+      "percent": 37,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 131114.014,
+      "message": "Located chickens in 71 of 120 frames",
+      "percent": 37,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 132773.705,
+      "message": "Located chickens in 72 of 120 frames",
+      "percent": 37,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 134411.643,
+      "message": "Located chickens in 73 of 120 frames",
+      "percent": 37,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 136041.963,
+      "message": "Located chickens in 74 of 120 frames",
+      "percent": 38,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 137666.224,
+      "message": "Located chickens in 75 of 120 frames",
+      "percent": 38,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 139321.588,
+      "message": "Located chickens in 76 of 120 frames",
+      "percent": 38,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 140954.94,
+      "message": "Located chickens in 77 of 120 frames",
+      "percent": 39,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 142731.988,
+      "message": "Located chickens in 78 of 120 frames",
+      "percent": 39,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 144358.914,
+      "message": "Located chickens in 79 of 120 frames",
+      "percent": 39,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 145989.009,
+      "message": "Located chickens in 80 of 120 frames",
+      "percent": 39,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 147633.564,
+      "message": "Located chickens in 81 of 120 frames",
+      "percent": 40,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 149299.036,
+      "message": "Located chickens in 82 of 120 frames",
+      "percent": 40,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 150931.688,
+      "message": "Located chickens in 83 of 120 frames",
+      "percent": 40,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 152563.404,
+      "message": "Located chickens in 84 of 120 frames",
+      "percent": 40,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 154182.867,
+      "message": "Located chickens in 85 of 120 frames",
+      "percent": 41,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 155807.618,
+      "message": "Located chickens in 86 of 120 frames",
+      "percent": 41,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 157442.671,
+      "message": "Located chickens in 87 of 120 frames",
+      "percent": 41,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 159070.929,
+      "message": "Located chickens in 88 of 120 frames",
+      "percent": 41,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 160701.993,
+      "message": "Located chickens in 89 of 120 frames",
+      "percent": 42,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 162343.639,
+      "message": "Located chickens in 90 of 120 frames",
+      "percent": 42,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 163989.403,
+      "message": "Located chickens in 91 of 120 frames",
+      "percent": 42,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 165642.782,
+      "message": "Located chickens in 92 of 120 frames",
+      "percent": 43,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 167261.424,
+      "message": "Located chickens in 93 of 120 frames",
+      "percent": 43,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 168895.755,
+      "message": "Located chickens in 94 of 120 frames",
+      "percent": 43,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 170543.305,
+      "message": "Located chickens in 95 of 120 frames",
+      "percent": 43,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 172165.059,
+      "message": "Located chickens in 96 of 120 frames",
+      "percent": 44,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 173804.877,
+      "message": "Located chickens in 97 of 120 frames",
+      "percent": 44,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 175423.443,
+      "message": "Located chickens in 98 of 120 frames",
+      "percent": 44,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 177064.766,
+      "message": "Located chickens in 99 of 120 frames",
+      "percent": 44,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 178723.267,
+      "message": "Located chickens in 100 of 120 frames",
+      "percent": 45,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 180375.103,
+      "message": "Located chickens in 101 of 120 frames",
+      "percent": 45,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 182039.146,
+      "message": "Located chickens in 102 of 120 frames",
+      "percent": 45,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 183663.386,
+      "message": "Located chickens in 103 of 120 frames",
+      "percent": 45,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 185283.625,
+      "message": "Located chickens in 104 of 120 frames",
+      "percent": 46,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 186902.303,
+      "message": "Located chickens in 105 of 120 frames",
+      "percent": 46,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 188547.162,
+      "message": "Located chickens in 106 of 120 frames",
+      "percent": 46,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 190209.612,
+      "message": "Located chickens in 107 of 120 frames",
+      "percent": 47,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 191850.308,
+      "message": "Located chickens in 108 of 120 frames",
+      "percent": 47,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 193486.467,
+      "message": "Located chickens in 109 of 120 frames",
+      "percent": 47,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 195124.368,
+      "message": "Located chickens in 110 of 120 frames",
+      "percent": 47,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 196754.918,
+      "message": "Located chickens in 111 of 120 frames",
+      "percent": 48,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 198383.134,
+      "message": "Located chickens in 112 of 120 frames",
+      "percent": 48,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 200034.635,
+      "message": "Located chickens in 113 of 120 frames",
+      "percent": 48,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 201675.119,
+      "message": "Located chickens in 114 of 120 frames",
+      "percent": 48,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 203345.466,
+      "message": "Located chickens in 115 of 120 frames",
+      "percent": 49,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 204972.446,
+      "message": "Located chickens in 116 of 120 frames",
+      "percent": 49,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 206600.139,
+      "message": "Located chickens in 117 of 120 frames",
+      "percent": 49,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 208228.253,
+      "message": "Located chickens in 118 of 120 frames",
+      "percent": 49,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 209944.627,
+      "message": "Located chickens in 119 of 120 frames",
+      "percent": 50,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 211672.017,
+      "message": "Located chickens in 120 of 120 frames",
+      "percent": 50,
+      "stage": "detecting_chickens"
+    },
+    {
+      "elapsed_ms": 211677.878,
+      "message": "Measured activity in 1 of 120 frames",
+      "percent": 50,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 211684.191,
+      "message": "Measured activity in 2 of 120 frames",
+      "percent": 50,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 211811.549,
+      "message": "Measured activity in 3 of 120 frames",
+      "percent": 50,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 211817.834,
+      "message": "Measured activity in 4 of 120 frames",
+      "percent": 51,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 211824.031,
+      "message": "Measured activity in 5 of 120 frames",
+      "percent": 51,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 211830.173,
+      "message": "Measured activity in 6 of 120 frames",
+      "percent": 51,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 211836.28,
+      "message": "Measured activity in 7 of 120 frames",
+      "percent": 51,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 211940.266,
+      "message": "Measured activity in 8 of 120 frames",
+      "percent": 51,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 211946.593,
+      "message": "Measured activity in 9 of 120 frames",
+      "percent": 51,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 211955.891,
+      "message": "Measured activity in 10 of 120 frames",
+      "percent": 52,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 211962.077,
+      "message": "Measured activity in 11 of 120 frames",
+      "percent": 52,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 211968.163,
+      "message": "Measured activity in 12 of 120 frames",
+      "percent": 52,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212072.163,
+      "message": "Measured activity in 13 of 120 frames",
+      "percent": 52,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212078.847,
+      "message": "Measured activity in 14 of 120 frames",
+      "percent": 52,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212085.282,
+      "message": "Measured activity in 15 of 120 frames",
+      "percent": 52,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212091.599,
+      "message": "Measured activity in 16 of 120 frames",
+      "percent": 52,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212097.807,
+      "message": "Measured activity in 17 of 120 frames",
+      "percent": 53,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212204.428,
+      "message": "Measured activity in 18 of 120 frames",
+      "percent": 53,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212210.82,
+      "message": "Measured activity in 19 of 120 frames",
+      "percent": 53,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212217.048,
+      "message": "Measured activity in 20 of 120 frames",
+      "percent": 53,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212223.402,
+      "message": "Measured activity in 21 of 120 frames",
+      "percent": 53,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212229.688,
+      "message": "Measured activity in 22 of 120 frames",
+      "percent": 53,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212334.546,
+      "message": "Measured activity in 23 of 120 frames",
+      "percent": 53,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212340.801,
+      "message": "Measured activity in 24 of 120 frames",
+      "percent": 54,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212347.018,
+      "message": "Measured activity in 25 of 120 frames",
+      "percent": 54,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212353.408,
+      "message": "Measured activity in 26 of 120 frames",
+      "percent": 54,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212359.677,
+      "message": "Measured activity in 27 of 120 frames",
+      "percent": 54,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212466.067,
+      "message": "Measured activity in 28 of 120 frames",
+      "percent": 54,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212472.344,
+      "message": "Measured activity in 29 of 120 frames",
+      "percent": 54,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212478.487,
+      "message": "Measured activity in 30 of 120 frames",
+      "percent": 54,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212484.718,
+      "message": "Measured activity in 31 of 120 frames",
+      "percent": 55,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212490.82,
+      "message": "Measured activity in 32 of 120 frames",
+      "percent": 55,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212595.791,
+      "message": "Measured activity in 33 of 120 frames",
+      "percent": 55,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212602.102,
+      "message": "Measured activity in 34 of 120 frames",
+      "percent": 55,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212608.287,
+      "message": "Measured activity in 35 of 120 frames",
+      "percent": 55,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212614.375,
+      "message": "Measured activity in 36 of 120 frames",
+      "percent": 55,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212620.564,
+      "message": "Measured activity in 37 of 120 frames",
+      "percent": 56,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212735.674,
+      "message": "Measured activity in 38 of 120 frames",
+      "percent": 56,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212742.164,
+      "message": "Measured activity in 39 of 120 frames",
+      "percent": 56,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212748.38,
+      "message": "Measured activity in 40 of 120 frames",
+      "percent": 56,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212754.486,
+      "message": "Measured activity in 41 of 120 frames",
+      "percent": 56,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212760.59,
+      "message": "Measured activity in 42 of 120 frames",
+      "percent": 56,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212875.822,
+      "message": "Measured activity in 43 of 120 frames",
+      "percent": 56,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212882.543,
+      "message": "Measured activity in 44 of 120 frames",
+      "percent": 57,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212888.744,
+      "message": "Measured activity in 45 of 120 frames",
+      "percent": 57,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212894.843,
+      "message": "Measured activity in 46 of 120 frames",
+      "percent": 57,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 212900.91,
+      "message": "Measured activity in 47 of 120 frames",
+      "percent": 57,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213005.32,
+      "message": "Measured activity in 48 of 120 frames",
+      "percent": 57,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213011.917,
+      "message": "Measured activity in 49 of 120 frames",
+      "percent": 57,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213018.281,
+      "message": "Measured activity in 50 of 120 frames",
+      "percent": 58,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213024.451,
+      "message": "Measured activity in 51 of 120 frames",
+      "percent": 58,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213030.57,
+      "message": "Measured activity in 52 of 120 frames",
+      "percent": 58,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213144.886,
+      "message": "Measured activity in 53 of 120 frames",
+      "percent": 58,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213151.328,
+      "message": "Measured activity in 54 of 120 frames",
+      "percent": 58,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213157.68,
+      "message": "Measured activity in 55 of 120 frames",
+      "percent": 58,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213163.823,
+      "message": "Measured activity in 56 of 120 frames",
+      "percent": 58,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213169.901,
+      "message": "Measured activity in 57 of 120 frames",
+      "percent": 59,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213278.85,
+      "message": "Measured activity in 58 of 120 frames",
+      "percent": 59,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213285.139,
+      "message": "Measured activity in 59 of 120 frames",
+      "percent": 59,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213291.445,
+      "message": "Measured activity in 60 of 120 frames",
+      "percent": 59,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213297.617,
+      "message": "Measured activity in 61 of 120 frames",
+      "percent": 59,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213303.711,
+      "message": "Measured activity in 62 of 120 frames",
+      "percent": 59,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213411.529,
+      "message": "Measured activity in 63 of 120 frames",
+      "percent": 59,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213417.875,
+      "message": "Measured activity in 64 of 120 frames",
+      "percent": 60,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213424.133,
+      "message": "Measured activity in 65 of 120 frames",
+      "percent": 60,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213430.302,
+      "message": "Measured activity in 66 of 120 frames",
+      "percent": 60,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213436.435,
+      "message": "Measured activity in 67 of 120 frames",
+      "percent": 60,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213539.891,
+      "message": "Measured activity in 68 of 120 frames",
+      "percent": 60,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213546.148,
+      "message": "Measured activity in 69 of 120 frames",
+      "percent": 60,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213552.614,
+      "message": "Measured activity in 70 of 120 frames",
+      "percent": 60,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213558.858,
+      "message": "Measured activity in 71 of 120 frames",
+      "percent": 61,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213564.988,
+      "message": "Measured activity in 72 of 120 frames",
+      "percent": 61,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213668.462,
+      "message": "Measured activity in 73 of 120 frames",
+      "percent": 61,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213674.786,
+      "message": "Measured activity in 74 of 120 frames",
+      "percent": 61,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213681.519,
+      "message": "Measured activity in 75 of 120 frames",
+      "percent": 61,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213687.908,
+      "message": "Measured activity in 76 of 120 frames",
+      "percent": 61,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213694.26,
+      "message": "Measured activity in 77 of 120 frames",
+      "percent": 62,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213798.739,
+      "message": "Measured activity in 78 of 120 frames",
+      "percent": 62,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213805.049,
+      "message": "Measured activity in 79 of 120 frames",
+      "percent": 62,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213811.192,
+      "message": "Measured activity in 80 of 120 frames",
+      "percent": 62,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213817.382,
+      "message": "Measured activity in 81 of 120 frames",
+      "percent": 62,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213823.721,
+      "message": "Measured activity in 82 of 120 frames",
+      "percent": 62,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213928.26,
+      "message": "Measured activity in 83 of 120 frames",
+      "percent": 62,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213934.514,
+      "message": "Measured activity in 84 of 120 frames",
+      "percent": 63,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213940.696,
+      "message": "Measured activity in 85 of 120 frames",
+      "percent": 63,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213946.805,
+      "message": "Measured activity in 86 of 120 frames",
+      "percent": 63,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 213952.92,
+      "message": "Measured activity in 87 of 120 frames",
+      "percent": 63,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214058.227,
+      "message": "Measured activity in 88 of 120 frames",
+      "percent": 63,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214064.767,
+      "message": "Measured activity in 89 of 120 frames",
+      "percent": 63,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214070.96,
+      "message": "Measured activity in 90 of 120 frames",
+      "percent": 64,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214077.087,
+      "message": "Measured activity in 91 of 120 frames",
+      "percent": 64,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214083.162,
+      "message": "Measured activity in 92 of 120 frames",
+      "percent": 64,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214186.822,
+      "message": "Measured activity in 93 of 120 frames",
+      "percent": 64,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214193.162,
+      "message": "Measured activity in 94 of 120 frames",
+      "percent": 64,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214200.177,
+      "message": "Measured activity in 95 of 120 frames",
+      "percent": 64,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214206.374,
+      "message": "Measured activity in 96 of 120 frames",
+      "percent": 64,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214212.513,
+      "message": "Measured activity in 97 of 120 frames",
+      "percent": 65,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214317.919,
+      "message": "Measured activity in 98 of 120 frames",
+      "percent": 65,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214324.21,
+      "message": "Measured activity in 99 of 120 frames",
+      "percent": 65,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214330.57,
+      "message": "Measured activity in 100 of 120 frames",
+      "percent": 65,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214336.879,
+      "message": "Measured activity in 101 of 120 frames",
+      "percent": 65,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214343.014,
+      "message": "Measured activity in 102 of 120 frames",
+      "percent": 65,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214447.646,
+      "message": "Measured activity in 103 of 120 frames",
+      "percent": 65,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214453.93,
+      "message": "Measured activity in 104 of 120 frames",
+      "percent": 66,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214460.103,
+      "message": "Measured activity in 105 of 120 frames",
+      "percent": 66,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214466.683,
+      "message": "Measured activity in 106 of 120 frames",
+      "percent": 66,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214473.002,
+      "message": "Measured activity in 107 of 120 frames",
+      "percent": 66,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214576.797,
+      "message": "Measured activity in 108 of 120 frames",
+      "percent": 66,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214583.098,
+      "message": "Measured activity in 109 of 120 frames",
+      "percent": 66,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214589.294,
+      "message": "Measured activity in 110 of 120 frames",
+      "percent": 66,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214595.451,
+      "message": "Measured activity in 111 of 120 frames",
+      "percent": 67,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214601.769,
+      "message": "Measured activity in 112 of 120 frames",
+      "percent": 67,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214709.848,
+      "message": "Measured activity in 113 of 120 frames",
+      "percent": 67,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214716.131,
+      "message": "Measured activity in 114 of 120 frames",
+      "percent": 67,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214722.328,
+      "message": "Measured activity in 115 of 120 frames",
+      "percent": 67,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214728.452,
+      "message": "Measured activity in 116 of 120 frames",
+      "percent": 67,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214734.624,
+      "message": "Measured activity in 117 of 120 frames",
+      "percent": 68,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214839.493,
+      "message": "Measured activity in 118 of 120 frames",
+      "percent": 68,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214845.915,
+      "message": "Measured activity in 119 of 120 frames",
+      "percent": 68,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 214852.432,
+      "message": "Measured activity in 120 of 120 frames",
+      "percent": 68,
+      "stage": "classifying_activity"
+    },
+    {
+      "elapsed_ms": 215579.009,
+      "message": "Checked feces candidates in 1 of 120 frames",
+      "percent": 68,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 216244.773,
+      "message": "Checked feces candidates in 2 of 120 frames",
+      "percent": 68,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 216923.443,
+      "message": "Checked feces candidates in 3 of 120 frames",
+      "percent": 69,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 217626.121,
+      "message": "Checked feces candidates in 4 of 120 frames",
+      "percent": 69,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 218314.557,
+      "message": "Checked feces candidates in 5 of 120 frames",
+      "percent": 69,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 219010.805,
+      "message": "Checked feces candidates in 6 of 120 frames",
+      "percent": 69,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 219687.605,
+      "message": "Checked feces candidates in 7 of 120 frames",
+      "percent": 69,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 220371.807,
+      "message": "Checked feces candidates in 8 of 120 frames",
+      "percent": 69,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 221066.623,
+      "message": "Checked feces candidates in 9 of 120 frames",
+      "percent": 70,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 221738.638,
+      "message": "Checked feces candidates in 10 of 120 frames",
+      "percent": 70,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 222418.463,
+      "message": "Checked feces candidates in 11 of 120 frames",
+      "percent": 70,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 223094.388,
+      "message": "Checked feces candidates in 12 of 120 frames",
+      "percent": 70,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 223769.641,
+      "message": "Checked feces candidates in 13 of 120 frames",
+      "percent": 70,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 224453.062,
+      "message": "Checked feces candidates in 14 of 120 frames",
+      "percent": 71,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 225128.748,
+      "message": "Checked feces candidates in 15 of 120 frames",
+      "percent": 71,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 225800.56,
+      "message": "Checked feces candidates in 16 of 120 frames",
+      "percent": 71,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 226489.977,
+      "message": "Checked feces candidates in 17 of 120 frames",
+      "percent": 71,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 227179.526,
+      "message": "Checked feces candidates in 18 of 120 frames",
+      "percent": 71,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 227858.558,
+      "message": "Checked feces candidates in 19 of 120 frames",
+      "percent": 71,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 228532.834,
+      "message": "Checked feces candidates in 20 of 120 frames",
+      "percent": 72,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 229205.793,
+      "message": "Checked feces candidates in 21 of 120 frames",
+      "percent": 72,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 229878.401,
+      "message": "Checked feces candidates in 22 of 120 frames",
+      "percent": 72,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 230555.348,
+      "message": "Checked feces candidates in 23 of 120 frames",
+      "percent": 72,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 231225.016,
+      "message": "Checked feces candidates in 24 of 120 frames",
+      "percent": 72,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 231920.84,
+      "message": "Checked feces candidates in 25 of 120 frames",
+      "percent": 73,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 232598.032,
+      "message": "Checked feces candidates in 26 of 120 frames",
+      "percent": 73,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 233273.475,
+      "message": "Checked feces candidates in 27 of 120 frames",
+      "percent": 73,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 233958.382,
+      "message": "Checked feces candidates in 28 of 120 frames",
+      "percent": 73,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 234632.803,
+      "message": "Checked feces candidates in 29 of 120 frames",
+      "percent": 73,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 235328.668,
+      "message": "Checked feces candidates in 30 of 120 frames",
+      "percent": 74,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 236000.238,
+      "message": "Checked feces candidates in 31 of 120 frames",
+      "percent": 74,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 236677.939,
+      "message": "Checked feces candidates in 32 of 120 frames",
+      "percent": 74,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 237368.31,
+      "message": "Checked feces candidates in 33 of 120 frames",
+      "percent": 74,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 238046.094,
+      "message": "Checked feces candidates in 34 of 120 frames",
+      "percent": 74,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 238721.446,
+      "message": "Checked feces candidates in 35 of 120 frames",
+      "percent": 74,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 239408.258,
+      "message": "Checked feces candidates in 36 of 120 frames",
+      "percent": 75,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 240080.152,
+      "message": "Checked feces candidates in 37 of 120 frames",
+      "percent": 75,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 240762.323,
+      "message": "Checked feces candidates in 38 of 120 frames",
+      "percent": 75,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 241440.056,
+      "message": "Checked feces candidates in 39 of 120 frames",
+      "percent": 75,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 242118.422,
+      "message": "Checked feces candidates in 40 of 120 frames",
+      "percent": 75,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 242808.766,
+      "message": "Checked feces candidates in 41 of 120 frames",
+      "percent": 76,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 243480.998,
+      "message": "Checked feces candidates in 42 of 120 frames",
+      "percent": 76,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 244152.809,
+      "message": "Checked feces candidates in 43 of 120 frames",
+      "percent": 76,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 244822.392,
+      "message": "Checked feces candidates in 44 of 120 frames",
+      "percent": 76,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 245496.004,
+      "message": "Checked feces candidates in 45 of 120 frames",
+      "percent": 76,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 246188.04,
+      "message": "Checked feces candidates in 46 of 120 frames",
+      "percent": 76,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 246862.011,
+      "message": "Checked feces candidates in 47 of 120 frames",
+      "percent": 77,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 247583.97,
+      "message": "Checked feces candidates in 48 of 120 frames",
+      "percent": 77,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 248262.201,
+      "message": "Checked feces candidates in 49 of 120 frames",
+      "percent": 77,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 248936.75,
+      "message": "Checked feces candidates in 50 of 120 frames",
+      "percent": 77,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 249620.742,
+      "message": "Checked feces candidates in 51 of 120 frames",
+      "percent": 77,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 250298.609,
+      "message": "Checked feces candidates in 52 of 120 frames",
+      "percent": 78,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 250969.453,
+      "message": "Checked feces candidates in 53 of 120 frames",
+      "percent": 78,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 251644.782,
+      "message": "Checked feces candidates in 54 of 120 frames",
+      "percent": 78,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 252322.91,
+      "message": "Checked feces candidates in 55 of 120 frames",
+      "percent": 78,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 253006.357,
+      "message": "Checked feces candidates in 56 of 120 frames",
+      "percent": 78,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 253722.557,
+      "message": "Checked feces candidates in 57 of 120 frames",
+      "percent": 78,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 254421.923,
+      "message": "Checked feces candidates in 58 of 120 frames",
+      "percent": 79,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 255107.689,
+      "message": "Checked feces candidates in 59 of 120 frames",
+      "percent": 79,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 255778.605,
+      "message": "Checked feces candidates in 60 of 120 frames",
+      "percent": 79,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 256455.846,
+      "message": "Checked feces candidates in 61 of 120 frames",
+      "percent": 79,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 257130.886,
+      "message": "Checked feces candidates in 62 of 120 frames",
+      "percent": 79,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 257818.103,
+      "message": "Checked feces candidates in 63 of 120 frames",
+      "percent": 80,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 258493.369,
+      "message": "Checked feces candidates in 64 of 120 frames",
+      "percent": 80,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 259168.092,
+      "message": "Checked feces candidates in 65 of 120 frames",
+      "percent": 80,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 259844.198,
+      "message": "Checked feces candidates in 66 of 120 frames",
+      "percent": 80,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 260526.924,
+      "message": "Checked feces candidates in 67 of 120 frames",
+      "percent": 80,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 261197.394,
+      "message": "Checked feces candidates in 68 of 120 frames",
+      "percent": 80,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 261876.488,
+      "message": "Checked feces candidates in 69 of 120 frames",
+      "percent": 81,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 262551.682,
+      "message": "Checked feces candidates in 70 of 120 frames",
+      "percent": 81,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 263224.511,
+      "message": "Checked feces candidates in 71 of 120 frames",
+      "percent": 81,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 263901.17,
+      "message": "Checked feces candidates in 72 of 120 frames",
+      "percent": 81,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 264592.236,
+      "message": "Checked feces candidates in 73 of 120 frames",
+      "percent": 81,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 265271.247,
+      "message": "Checked feces candidates in 74 of 120 frames",
+      "percent": 82,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 265946.759,
+      "message": "Checked feces candidates in 75 of 120 frames",
+      "percent": 82,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 266619.14,
+      "message": "Checked feces candidates in 76 of 120 frames",
+      "percent": 82,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 267309.509,
+      "message": "Checked feces candidates in 77 of 120 frames",
+      "percent": 82,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 267987.891,
+      "message": "Checked feces candidates in 78 of 120 frames",
+      "percent": 82,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 268666.009,
+      "message": "Checked feces candidates in 79 of 120 frames",
+      "percent": 82,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 269350.541,
+      "message": "Checked feces candidates in 80 of 120 frames",
+      "percent": 83,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 270028.658,
+      "message": "Checked feces candidates in 81 of 120 frames",
+      "percent": 83,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 270733.917,
+      "message": "Checked feces candidates in 82 of 120 frames",
+      "percent": 83,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 271428.025,
+      "message": "Checked feces candidates in 83 of 120 frames",
+      "percent": 83,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 272396.225,
+      "message": "Checked feces candidates in 84 of 120 frames",
+      "percent": 83,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 273179.766,
+      "message": "Checked feces candidates in 85 of 120 frames",
+      "percent": 84,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 273871.771,
+      "message": "Checked feces candidates in 86 of 120 frames",
+      "percent": 84,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 274555.655,
+      "message": "Checked feces candidates in 87 of 120 frames",
+      "percent": 84,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 275242.468,
+      "message": "Checked feces candidates in 88 of 120 frames",
+      "percent": 84,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 275929.136,
+      "message": "Checked feces candidates in 89 of 120 frames",
+      "percent": 84,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 276634.842,
+      "message": "Checked feces candidates in 90 of 120 frames",
+      "percent": 84,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 277363.746,
+      "message": "Checked feces candidates in 91 of 120 frames",
+      "percent": 85,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 278049.169,
+      "message": "Checked feces candidates in 92 of 120 frames",
+      "percent": 85,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 278761.818,
+      "message": "Checked feces candidates in 93 of 120 frames",
+      "percent": 85,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 279454.031,
+      "message": "Checked feces candidates in 94 of 120 frames",
+      "percent": 85,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 280301.659,
+      "message": "Checked feces candidates in 95 of 120 frames",
+      "percent": 85,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 281006.686,
+      "message": "Checked feces candidates in 96 of 120 frames",
+      "percent": 86,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 281703.02,
+      "message": "Checked feces candidates in 97 of 120 frames",
+      "percent": 86,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 282377.968,
+      "message": "Checked feces candidates in 98 of 120 frames",
+      "percent": 86,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 283062.209,
+      "message": "Checked feces candidates in 99 of 120 frames",
+      "percent": 86,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 283733.203,
+      "message": "Checked feces candidates in 100 of 120 frames",
+      "percent": 86,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 284412.744,
+      "message": "Checked feces candidates in 101 of 120 frames",
+      "percent": 87,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 285088.05,
+      "message": "Checked feces candidates in 102 of 120 frames",
+      "percent": 87,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 285769.346,
+      "message": "Checked feces candidates in 103 of 120 frames",
+      "percent": 87,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 286451.054,
+      "message": "Checked feces candidates in 104 of 120 frames",
+      "percent": 87,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 287134.56,
+      "message": "Checked feces candidates in 105 of 120 frames",
+      "percent": 87,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 287809.217,
+      "message": "Checked feces candidates in 106 of 120 frames",
+      "percent": 87,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 288480.296,
+      "message": "Checked feces candidates in 107 of 120 frames",
+      "percent": 88,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 289154.289,
+      "message": "Checked feces candidates in 108 of 120 frames",
+      "percent": 88,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 289842.025,
+      "message": "Checked feces candidates in 109 of 120 frames",
+      "percent": 88,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 290527.247,
+      "message": "Checked feces candidates in 110 of 120 frames",
+      "percent": 88,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 291198.209,
+      "message": "Checked feces candidates in 111 of 120 frames",
+      "percent": 88,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 291874.569,
+      "message": "Checked feces candidates in 112 of 120 frames",
+      "percent": 89,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 292550.18,
+      "message": "Checked feces candidates in 113 of 120 frames",
+      "percent": 89,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 293219.12,
+      "message": "Checked feces candidates in 114 of 120 frames",
+      "percent": 89,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 293901.4,
+      "message": "Checked feces candidates in 115 of 120 frames",
+      "percent": 89,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 294582.018,
+      "message": "Checked feces candidates in 116 of 120 frames",
+      "percent": 89,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 295250.64,
+      "message": "Checked feces candidates in 117 of 120 frames",
+      "percent": 89,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 295931.727,
+      "message": "Checked feces candidates in 118 of 120 frames",
+      "percent": 90,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 296609.654,
+      "message": "Checked feces candidates in 119 of 120 frames",
+      "percent": 90,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 297304.824,
+      "message": "Checked feces candidates in 120 of 120 frames",
+      "percent": 90,
+      "stage": "detecting_feces"
+    },
+    {
+      "elapsed_ms": 297502.802,
+      "message": "Aggregating activity and feces evidence",
+      "percent": 92,
+      "stage": "summarizing"
+    },
+    {
+      "elapsed_ms": 297596.605,
+      "message": "Classified feces candidate 1 of 6",
+      "percent": 93,
+      "stage": "classifying_feces"
+    },
+    {
+      "elapsed_ms": 297644.649,
+      "message": "Classified feces candidate 2 of 6",
+      "percent": 93,
+      "stage": "classifying_feces"
+    },
+    {
+      "elapsed_ms": 297702.004,
+      "message": "Classified feces candidate 3 of 6",
+      "percent": 94,
+      "stage": "classifying_feces"
+    },
+    {
+      "elapsed_ms": 297749.035,
+      "message": "Classified feces candidate 4 of 6",
+      "percent": 95,
+      "stage": "classifying_feces"
+    },
+    {
+      "elapsed_ms": 297796.816,
+      "message": "Classified feces candidate 5 of 6",
+      "percent": 95,
+      "stage": "classifying_feces"
+    },
+    {
+      "elapsed_ms": 297853.372,
+      "message": "Classified feces candidate 6 of 6",
+      "percent": 96,
+      "stage": "classifying_feces"
+    },
+    {
+      "elapsed_ms": 297855.351,
+      "message": "Saving the completed assessment",
+      "percent": 97,
+      "stage": "persisting"
+    }
+  ],
+  "resources": {
+    "ceiling_bytes": 8053063680,
+    "ceiling_crossed": false,
+    "ceiling_mib": 7680.0,
+    "max_rss_bytes": 694845440,
+    "max_rss_mib": 662.656,
+    "measurement": "linux_proc_process_tree_rss",
+    "sample_count": 3544,
+    "sample_interval_ms": 50.0
+  },
+  "runtime": {
+    "ffmpeg": "ffmpeg version 7.1.3-0+deb13u1+rpt1 Copyright (c) 2000-2025 the FFmpeg developers",
+    "ffprobe": "ffprobe version 7.1.3-0+deb13u1+rpt1 Copyright (c) 2007-2025 the FFmpeg developers",
+    "onnxruntime": "1.21.0",
+    "python": "3.13.5",
+    "python_implementation": "CPython"
+  },
+  "schema_version": 1,
+  "segment": {
+    "actual_end_s": 20.0,
+    "actual_start_s": 0.0,
+    "decoded_sampled_frames": 120,
+    "requested_end_s": 20.0,
+    "requested_start_s": 0.0,
+    "sampling_mode": "uniform_bounded_sample",
+    "source_frames_estimated": 500,
+    "video_seconds": 20.0
+  },
+  "status": "completed",
+  "timing": {
+    "average_process_tree_logical_core_utilization_percent": 318.246,
+    "completed_child_process_cpu_ms": 33916.695,
+    "models": {
+      "behavior_classifier": {
+        "every_inference_call_ms": [
+          9.505,
+          10.075,
+          8.856,
+          8.671,
+          8.658,
+          8.641,
+          8.766,
+          9.836,
+          13.048,
+          9.257,
+          8.967,
+          9.654,
+          9.447,
+          8.704,
+          8.796,
+          8.92,
+          9.359,
+          9.696,
+          9.149,
+          8.871,
+          8.673,
+          9.339,
+          9.829,
+          8.837,
+          9.096,
+          9.17,
+          9.555,
+          9.307,
+          8.857,
+          9.06,
+          9.352,
+          9.606,
+          9.48,
+          9.026,
+          10.091,
+          10.497,
+          9.333,
+          8.767,
+          8.68,
+          8.645,
+          10.514,
+          9.521,
+          9.573,
+          9.546,
+          8.925,
+          9.101,
+          8.69,
+          8.879,
+          8.9,
+          9.06,
+          10.917,
+          10.016,
+          9.796,
+          9.538,
+          9.681,
+          9.573,
+          8.875,
+          8.671,
+          8.79,
+          8.674,
+          9.652,
+          9.661,
+          9.802,
+          8.939,
+          8.715,
+          8.852,
+          9.504,
+          9.624,
+          8.706,
+          8.758,
+          9.557,
+          9.593,
+          10.103,
+          8.975,
+          8.701,
+          8.953,
+          9.584,
+          9.431,
+          8.728,
+          9.436,
+          9.718,
+          9.332,
+          9.597,
+          9.214,
+          8.858,
+          9.05,
+          9.643,
+          9.359,
+          9.514,
+          9.682,
+          8.962,
+          8.748,
+          9.175,
+          8.752,
+          8.68,
+          9.69,
+          9.617,
+          9.583,
+          9.63,
+          8.864,
+          8.813,
+          8.763,
+          9.043,
+          9.473,
+          8.895,
+          9.156,
+          10.372,
+          10.427,
+          9.604,
+          10.445,
+          9.589,
+          9.043,
+          9.284,
+          9.561,
+          9.183,
+          8.861,
+          8.666,
+          8.668,
+          9.333,
+          13.968,
+          9.387,
+          8.842,
+          8.758,
+          9.725,
+          9.536,
+          8.745,
+          8.664,
+          8.961,
+          9.533,
+          8.991,
+          8.842,
+          8.671,
+          8.792,
+          9.608,
+          9.413,
+          8.707,
+          9.692,
+          9.499,
+          8.977,
+          8.815,
+          8.786,
+          9.061,
+          9.526,
+          9.546,
+          9.071,
+          9.594,
+          9.685,
+          8.973,
+          8.763,
+          8.79,
+          8.7,
+          8.941,
+          9.718,
+          9.653,
+          9.88,
+          9.531,
+          9.854,
+          9.613,
+          8.867,
+          8.673,
+          8.724,
+          8.814,
+          9.209,
+          9.783,
+          10.11,
+          9.021,
+          8.743,
+          9.039,
+          9.687,
+          9.39,
+          9.049,
+          8.76,
+          9.141,
+          9.633,
+          9.091,
+          9.032,
+          8.677,
+          9.423,
+          9.666,
+          9.214,
+          9.86,
+          9.594,
+          9.63,
+          9.337,
+          8.731,
+          8.67,
+          8.841,
+          9.607,
+          9.491,
+          9.309,
+          9.701,
+          9.392,
+          9.18,
+          8.701,
+          8.661,
+          8.671,
+          9.086,
+          9.576,
+          9.619,
+          9.499,
+          9.319,
+          9.729,
+          8.727,
+          8.659,
+          8.685,
+          9.083,
+          12.385,
+          9.729,
+          9.57,
+          9.657,
+          9.087,
+          8.91,
+          9.498,
+          9.222,
+          8.804,
+          8.706,
+          8.94,
+          9.684,
+          10.451
+        ],
+        "inference_calls": {
+          "count": 219,
+          "max_ms": 13.968,
+          "mean_ms": 9.301,
+          "median_ms": 9.214,
+          "min_ms": 8.641,
+          "p95_ms": 10.103,
+          "total_ms": 2036.996
+        },
+        "session_initialization": {
+          "count": 1,
+          "max_ms": 18.185,
+          "mean_ms": 18.185,
+          "median_ms": 18.185,
+          "min_ms": 18.185,
+          "p95_ms": 18.185,
+          "total_ms": 18.185
+        }
+      },
+      "chicken_detector": {
+        "every_inference_call_ms": [
+          171.999,
+          168.695,
+          165.571,
+          164.085,
+          164.043,
+          166.276,
+          161.504,
+          162.369,
+          164.513,
+          167.23,
+          168.484,
+          164.604,
+          183.876,
+          169.543,
+          163.642,
+          165.797,
+          183.129,
+          174.147,
+          166.2,
+          162.453,
+          166.006,
+          167.152,
+          166.434,
+          171.414,
+          167.277,
+          179.055,
+          170.964,
+          165.002,
+          165.231,
+          166.319,
+          165.418,
+          167.373,
+          165.419,
+          162.769,
+          162.975,
+          163.909,
+          165.179,
+          163.082,
+          166.742,
+          165.27,
+          166.437,
+          165.515,
+          165.856,
+          164.759,
+          165.984,
+          162.478,
+          162.199,
+          165.992,
+          176.935,
+          164.787,
+          163.275,
+          165.493,
+          164.129,
+          164.024,
+          162.937,
+          161.454,
+          161.412,
+          162.754,
+          165.998,
+          165.248,
+          165.59,
+          162.801,
+          163.815,
+          165.059,
+          164.316,
+          163.21,
+          204.199,
+          161.843,
+          171.393,
+          167.724,
+          164.887,
+          162.432,
+          161.711,
+          164.064,
+          164.707,
+          162.797,
+          165.699,
+          163.992,
+          162.032,
+          162.474,
+          162.718,
+          163.842,
+          163.679,
+          161.952,
+          162.718,
+          165.134,
+          165.698,
+          165.094,
+          162.395,
+          162.369,
+          164.086,
+          164.882,
+          162.461,
+          164.873,
+          166.607,
+          162.682,
+          164.918,
+          167.832,
+          189.735,
+          180.659,
+          163.998,
+          163.393,
+          168.166,
+          164.286,
+          162.293,
+          164.522,
+          164.934,
+          165.16,
+          161.65,
+          165.567,
+          163.973,
+          164.328,
+          165.216,
+          168.854,
+          169.454,
+          163.578,
+          163.413,
+          162.697,
+          174.662,
+          163.764,
+          172.098,
+          165.862,
+          184.234,
+          166.467,
+          170.23,
+          204.845,
+          184.295,
+          164.941,
+          165.039,
+          163.327,
+          165.69,
+          171.888,
+          162.615,
+          165.588,
+          166.73,
+          164.18,
+          165.871,
+          164.146,
+          163.2,
+          163.617,
+          162.186,
+          165.325,
+          164.96,
+          164.082,
+          161.925,
+          166.117,
+          164.631,
+          167.087,
+          163.871,
+          165.428,
+          168.246,
+          167.114,
+          167.043,
+          187.578,
+          162.361,
+          162.952,
+          165.816,
+          166.195,
+          167.087,
+          163.967,
+          166.86,
+          163.222,
+          165.194,
+          162.978,
+          162.155,
+          163.57,
+          164.804,
+          176.496,
+          163.563,
+          166.354,
+          168.527,
+          166.056,
+          168.283,
+          169.825,
+          181.477,
+          202.596,
+          171.427,
+          181.131,
+          169.452,
+          165.764,
+          162.537,
+          164.268,
+          167.203,
+          164.819,
+          168.055,
+          168.025,
+          174.502,
+          160.573,
+          161.138,
+          164.75,
+          167.594,
+          163.575,
+          161.914,
+          164.231,
+          164.489,
+          166.525,
+          164.227,
+          163.19,
+          163.343,
+          162.741,
+          163.665,
+          164.694,
+          172.689,
+          163.775,
+          162.636,
+          165.505,
+          170.511,
+          163.498,
+          162.413,
+          161.377,
+          194.703,
+          179.495,
+          167.774,
+          167.239,
+          177.801,
+          188.592,
+          174.856,
+          165.819,
+          165.816,
+          162.942,
+          162.453,
+          166.847,
+          171.502,
+          162.795,
+          162.399,
+          176.128,
+          164.32,
+          162.989,
+          164.864,
+          163.535,
+          164.926,
+          166.122,
+          166.728,
+          166.004,
+          166.386,
+          168.113,
+          163.128,
+          163.202,
+          165.019,
+          164.335,
+          163.541,
+          167.28,
+          180.547,
+          164.179,
+          162.964,
+          164.939,
+          163.838,
+          165.118,
+          164.045,
+          165.479,
+          166.234,
+          161.852,
+          162.756,
+          164.225,
+          166.331,
+          164.125,
+          166.441,
+          163.066,
+          164.321,
+          171.108,
+          162.678,
+          164.61,
+          164.426,
+          167.392,
+          163.939,
+          162.662,
+          165.965,
+          171.279,
+          189.794,
+          172.768,
+          166.801,
+          164.077,
+          167.727,
+          163.637,
+          163.529,
+          161.908,
+          163.528,
+          165.587,
+          161.562,
+          166.048,
+          164.695,
+          163.138,
+          169.95,
+          165.481,
+          163.569,
+          162.491,
+          164.205,
+          164.142,
+          162.579,
+          165.816,
+          165.04,
+          165.128,
+          163.298,
+          165.577,
+          167.773,
+          163.678,
+          162.789,
+          164.784,
+          164.716,
+          164.777,
+          163.716,
+          164.127,
+          164.554,
+          166.121,
+          163.845,
+          163.364,
+          163.168,
+          161.801,
+          161.672,
+          165.515,
+          162.511,
+          165.537,
+          168.701,
+          163.308,
+          165.734,
+          174.659,
+          166.073,
+          165.366,
+          163.889,
+          162.674,
+          171.549,
+          171.292,
+          165.757,
+          166.149,
+          166.879,
+          164.527,
+          163.304,
+          179.988,
+          175.189,
+          162.57,
+          165.813,
+          175.466,
+          164.913,
+          165.438,
+          184.389,
+          173.276,
+          175.275,
+          166.411,
+          166.511,
+          164.736,
+          162.984,
+          163.179,
+          167.214,
+          165.233,
+          161.804,
+          163.603,
+          172.466,
+          178.342,
+          172.666,
+          165.12,
+          164.897,
+          176.234,
+          184.703,
+          173.042,
+          175.568,
+          167.232,
+          164.252,
+          165.077,
+          166.752,
+          172.25,
+          161.965,
+          162.544,
+          167.775,
+          173.981,
+          173.521,
+          169.091,
+          171.769,
+          163.463,
+          162.548,
+          166.099,
+          165.828,
+          163.997,
+          164.794,
+          165.017,
+          164.089,
+          170.58,
+          174.799,
+          180.207,
+          176.549,
+          162.338,
+          188.858,
+          163.407,
+          164.815,
+          164.1,
+          165.808,
+          179.961,
+          167.147,
+          165.096,
+          167.403,
+          164.943,
+          163.591,
+          163.608,
+          166.679,
+          166.72,
+          162.449,
+          164.03,
+          165.454,
+          164.214,
+          162.141,
+          163.42,
+          163.286,
+          161.515,
+          167.837,
+          170.67,
+          164.184,
+          162.478,
+          165.32,
+          165.65,
+          174.748,
+          164.492,
+          162.81,
+          164.0,
+          166.369,
+          164.388,
+          173.885,
+          165.709,
+          162.376,
+          169.473,
+          167.58,
+          189.631,
+          197.956,
+          182.766,
+          181.419,
+          192.704,
+          165.283,
+          169.188,
+          165.38,
+          164.122,
+          171.325,
+          168.216,
+          163.898,
+          169.592,
+          168.169,
+          178.059,
+          183.119,
+          177.439,
+          164.677,
+          185.585,
+          180.436,
+          178.185,
+          195.307,
+          182.635,
+          201.218,
+          164.142,
+          183.152,
+          192.098,
+          204.156,
+          168.111,
+          210.256,
+          191.971,
+          168.368,
+          176.009,
+          166.82,
+          187.954,
+          169.472,
+          177.389,
+          172.209,
+          178.557,
+          188.897,
+          168.686,
+          185.713,
+          190.945,
+          178.601,
+          192.08,
+          165.911,
+          164.958,
+          163.037,
+          161.27,
+          166.389,
+          165.909,
+          168.128,
+          167.836,
+          187.747,
+          166.502,
+          165.558,
+          165.292,
+          165.393,
+          161.243,
+          162.989,
+          165.207,
+          165.589,
+          163.617,
+          164.933,
+          176.439,
+          165.521,
+          162.415,
+          166.028,
+          166.419,
+          164.503,
+          164.095,
+          177.478,
+          181.086,
+          166.014,
+          166.309,
+          170.413,
+          172.558,
+          169.618,
+          173.787,
+          168.36,
+          164.636,
+          163.94,
+          165.133,
+          163.866,
+          176.688,
+          161.399,
+          163.327,
+          164.75,
+          165.061,
+          163.913,
+          163.137,
+          164.289,
+          162.326,
+          163.007,
+          162.595,
+          162.401,
+          167.938,
+          176.24,
+          163.938,
+          165.001,
+          164.62,
+          165.529,
+          162.314,
+          162.988,
+          164.212,
+          169.415,
+          162.804,
+          163.62,
+          166.662,
+          172.461,
+          164.083,
+          165.829,
+          162.155,
+          163.471,
+          178.124,
+          164.591,
+          167.849,
+          161.775,
+          164.03,
+          163.19,
+          162.926,
+          163.799,
+          164.091,
+          164.329,
+          164.635,
+          162.768,
+          164.326,
+          163.838,
+          162.601,
+          163.833,
+          161.111,
+          162.223,
+          173.822,
+          166.587,
+          184.247,
+          162.106,
+          184.248,
+          176.4,
+          164.332,
+          167.209,
+          163.916,
+          162.765,
+          164.918,
+          162.361,
+          163.995,
+          169.842,
+          167.038,
+          174.949,
+          162.159,
+          162.006,
+          165.004,
+          162.289,
+          173.657,
+          162.815,
+          163.22,
+          163.464,
+          164.396,
+          164.338,
+          161.89,
+          164.73,
+          164.56,
+          163.593,
+          161.976,
+          163.421,
+          163.18,
+          163.017,
+          162.661,
+          163.232,
+          162.351,
+          174.28,
+          163.471,
+          166.934,
+          164.91,
+          164.301,
+          163.218,
+          164.257,
+          166.726,
+          168.234,
+          163.123,
+          164.652,
+          163.748,
+          162.276,
+          167.392,
+          164.459,
+          164.207,
+          163.162,
+          166.186,
+          174.773,
+          165.474,
+          165.026,
+          164.102,
+          164.842,
+          179.438,
+          175.157,
+          162.795,
+          163.455,
+          164.183,
+          177.527,
+          164.32,
+          162.774,
+          168.922,
+          190.912,
+          179.19,
+          206.85,
+          165.302,
+          164.849,
+          165.532,
+          165.08,
+          166.107,
+          166.128,
+          162.521,
+          164.227,
+          167.887,
+          163.172,
+          165.348,
+          164.508,
+          176.761,
+          161.259,
+          162.162,
+          161.709,
+          166.087,
+          167.349,
+          167.574,
+          162.916,
+          171.571,
+          174.977,
+          169.961,
+          164.55,
+          164.575,
+          174.298,
+          165.588,
+          165.325,
+          163.606,
+          163.903,
+          162.137,
+          163.762,
+          165.678,
+          162.288,
+          161.808,
+          162.162,
+          164.188,
+          167.352,
+          166.232,
+          164.771,
+          162.518,
+          167.223,
+          164.404,
+          163.14,
+          161.815,
+          163.649,
+          167.23,
+          163.166,
+          164.425,
+          165.878,
+          163.513,
+          162.453,
+          162.295,
+          164.083,
+          166.819,
+          177.823,
+          161.887,
+          164.001,
+          172.451,
+          164.357,
+          163.921,
+          164.255,
+          164.27,
+          164.848,
+          164.26,
+          166.475,
+          166.262,
+          163.271,
+          162.528,
+          164.783,
+          164.241,
+          178.406,
+          215.32,
+          162.96,
+          175.75,
+          186.919,
+          175.163,
+          199.27,
+          162.065,
+          165.299,
+          163.256,
+          163.455,
+          162.285,
+          163.254,
+          164.081,
+          164.852,
+          163.203,
+          164.347,
+          163.643,
+          163.562,
+          162.527,
+          162.923,
+          164.192,
+          163.792,
+          174.182,
+          161.639,
+          163.697,
+          165.356,
+          168.968,
+          163.433,
+          161.851,
+          164.015,
+          165.453,
+          168.337,
+          162.465,
+          171.646,
+          164.594,
+          165.15,
+          170.521,
+          163.094,
+          163.957,
+          176.974,
+          173.031,
+          165.774,
+          165.145,
+          162.142,
+          162.269,
+          164.177,
+          168.069,
+          162.299,
+          163.981,
+          166.367,
+          164.678,
+          165.27,
+          161.124,
+          164.337,
+          166.393,
+          162.429,
+          161.015,
+          163.975,
+          179.075,
+          161.449,
+          161.518,
+          163.889,
+          164.333,
+          163.385,
+          168.811,
+          160.975,
+          159.746,
+          160.836,
+          162.558,
+          164.964,
+          164.973,
+          163.246,
+          162.048,
+          163.533,
+          162.72,
+          163.799,
+          163.192,
+          163.21,
+          162.727,
+          164.441,
+          162.412,
+          164.788,
+          162.703,
+          162.352,
+          161.485,
+          175.541,
+          167.158,
+          160.755,
+          161.431,
+          162.455,
+          165.233,
+          165.171,
+          163.454,
+          160.406,
+          163.512,
+          169.411,
+          163.563,
+          165.75,
+          163.195,
+          164.041,
+          162.482,
+          164.303,
+          164.132,
+          167.901,
+          164.571,
+          163.85,
+          163.274,
+          162.871,
+          165.298,
+          177.346,
+          161.358,
+          161.494,
+          163.174,
+          165.805,
+          164.161,
+          164.211,
+          167.348,
+          166.705,
+          165.783,
+          168.241,
+          167.216,
+          163.715,
+          161.956,
+          164.08,
+          181.033,
+          173.53,
+          166.096,
+          163.705,
+          162.807,
+          164.164,
+          166.1,
+          162.6,
+          163.285,
+          161.758,
+          164.625,
+          162.523,
+          162.389,
+          163.615,
+          163.551,
+          163.193,
+          164.026,
+          162.737,
+          164.222,
+          162.294,
+          161.074,
+          164.812,
+          173.67,
+          163.405,
+          163.083,
+          163.538,
+          163.643,
+          179.684,
+          172.128,
+          164.269,
+          161.779,
+          161.2,
+          165.998,
+          164.559,
+          163.988,
+          163.922,
+          164.682,
+          163.127,
+          162.319,
+          164.789,
+          163.291,
+          164.681,
+          162.283,
+          162.486,
+          163.152,
+          170.812,
+          165.038,
+          163.566,
+          162.26,
+          163.011,
+          163.66,
+          171.352,
+          162.0,
+          162.965,
+          162.585,
+          163.74,
+          163.369,
+          162.787,
+          164.054,
+          161.839,
+          161.63,
+          162.985,
+          163.803,
+          163.601,
+          165.569,
+          165.688,
+          162.37,
+          165.494,
+          164.845,
+          162.842,
+          163.121,
+          178.122,
+          165.43,
+          164.575,
+          164.947,
+          163.343,
+          162.863,
+          165.492,
+          168.891,
+          168.923,
+          183.252,
+          183.211,
+          162.865,
+          172.12,
+          163.2,
+          161.797,
+          162.936,
+          164.952,
+          163.41,
+          165.253,
+          164.072,
+          163.441,
+          169.68,
+          164.914,
+          165.133,
+          189.025,
+          167.209,
+          164.76,
+          164.656,
+          166.154,
+          162.95,
+          163.119,
+          163.045,
+          162.922,
+          162.493,
+          167.584,
+          162.01,
+          160.902,
+          160.868,
+          163.157,
+          163.662,
+          166.821,
+          162.288,
+          161.723,
+          164.292,
+          163.492,
+          164.056,
+          162.892,
+          161.501,
+          163.532,
+          163.512,
+          163.259,
+          164.724,
+          163.669,
+          163.185,
+          162.494,
+          162.781,
+          174.287,
+          163.705,
+          170.01,
+          166.922,
+          163.144,
+          162.52,
+          165.831,
+          165.141,
+          163.423,
+          162.431,
+          185.17,
+          164.637,
+          182.267,
+          162.513,
+          162.184,
+          163.973,
+          165.033,
+          172.149,
+          162.117,
+          163.001,
+          164.548,
+          166.759,
+          166.003,
+          169.373,
+          163.596,
+          162.964,
+          161.929,
+          167.239,
+          165.008,
+          162.996,
+          163.521,
+          163.79,
+          170.044,
+          164.065,
+          164.47,
+          163.348,
+          168.895,
+          168.178,
+          166.65,
+          167.713,
+          162.005,
+          161.645,
+          163.778,
+          164.207,
+          166.5,
+          163.183,
+          162.102,
+          165.231,
+          164.115,
+          162.051,
+          165.477,
+          163.478,
+          164.432,
+          163.927,
+          163.928,
+          162.887,
+          164.981,
+          167.441,
+          162.631,
+          161.567,
+          165.167,
+          166.226,
+          163.357,
+          175.577,
+          168.196,
+          163.931,
+          173.078,
+          165.133,
+          161.811,
+          164.829,
+          164.872,
+          165.544,
+          163.941,
+          165.342,
+          164.099,
+          164.312,
+          163.127,
+          172.267,
+          166.978,
+          161.68,
+          163.387,
+          166.122,
+          167.231,
+          164.853,
+          177.524,
+          182.42,
+          164.215,
+          165.379,
+          169.956,
+          164.641,
+          163.954,
+          163.231,
+          164.961,
+          164.848,
+          163.374,
+          163.99,
+          164.158,
+          163.975,
+          164.087,
+          164.319,
+          163.873,
+          162.775,
+          162.414,
+          164.206,
+          165.606,
+          162.192,
+          164.784,
+          161.857,
+          163.353,
+          164.371,
+          167.611,
+          163.747,
+          164.362,
+          163.938,
+          164.371,
+          164.44,
+          163.647,
+          183.665,
+          171.429,
+          171.125,
+          168.008,
+          173.776,
+          169.024,
+          165.289,
+          199.515,
+          192.606,
+          195.382,
+          182.105,
+          170.513,
+          184.217,
+          161.391,
+          163.465,
+          162.8,
+          164.563
+        ],
+        "inference_calls": {
+          "count": 1080,
+          "max_ms": 215.32,
+          "mean_ms": 166.908,
+          "median_ms": 164.628,
+          "min_ms": 159.746,
+          "p95_ms": 181.509,
+          "total_ms": 180261.03
+        },
+        "session_initialization": {
+          "count": 1,
+          "max_ms": 42.157,
+          "mean_ms": 42.157,
+          "median_ms": 42.157,
+          "min_ms": 42.157,
+          "p95_ms": 42.157,
+          "total_ms": 42.157
+        }
+      },
+      "feces_crop_classifier": {
+        "every_inference_call_ms": [
+          45.037,
+          37.681,
+          45.492,
+          36.641,
+          38.048,
+          40.138
+        ],
+        "inference_calls": {
+          "count": 6,
+          "max_ms": 45.492,
+          "mean_ms": 40.506,
+          "median_ms": 39.093,
+          "min_ms": 36.641,
+          "p95_ms": 45.378,
+          "total_ms": 243.036
+        },
+        "session_initialization": {
+          "count": 1,
+          "max_ms": 38.066,
+          "mean_ms": 38.066,
+          "median_ms": 38.066,
+          "min_ms": 38.066,
+          "p95_ms": 38.066,
+          "total_ms": 38.066
+        }
+      },
+      "pen_feces_locator": {
+        "every_inference_call_ms": [
+          170.669,
+          164.994,
+          167.727,
+          162.414,
+          162.031,
+          160.493,
+          161.476,
+          162.604,
+          164.321,
+          166.174,
+          165.693,
+          164.154,
+          166.233,
+          172.966,
+          183.417,
+          161.269,
+          164.028,
+          164.292,
+          164.538,
+          176.842,
+          172.185,
+          176.691,
+          163.846,
+          164.308,
+          164.446,
+          166.197,
+          164.454,
+          162.969,
+          163.389,
+          164.433,
+          170.519,
+          166.357,
+          184.28,
+          164.758,
+          162.641,
+          164.458,
+          161.714,
+          165.213,
+          163.455,
+          163.232,
+          163.848,
+          166.894,
+          166.703,
+          163.459,
+          163.712,
+          163.959,
+          163.596,
+          164.002,
+          164.343,
+          165.609,
+          163.184,
+          162.979,
+          161.494,
+          163.588,
+          174.315,
+          165.554,
+          165.202,
+          163.164,
+          164.454,
+          163.911,
+          165.084,
+          161.755,
+          163.018,
+          163.496,
+          163.332,
+          164.177,
+          167.498,
+          175.462,
+          163.22,
+          161.93,
+          175.652,
+          168.694,
+          166.041,
+          164.605,
+          163.075,
+          166.235,
+          162.995,
+          163.626,
+          164.425,
+          164.443,
+          163.242,
+          163.41,
+          165.17,
+          162.155,
+          165.509,
+          163.044,
+          162.943,
+          162.628,
+          162.985,
+          164.035,
+          166.172,
+          164.879,
+          163.922,
+          162.776,
+          162.464,
+          161.561,
+          170.054,
+          165.229,
+          163.36,
+          178.608,
+          165.488,
+          163.913,
+          164.889,
+          164.142,
+          163.337,
+          163.437,
+          164.375,
+          165.443,
+          166.024,
+          163.597,
+          165.973,
+          169.717,
+          165.056,
+          162.782,
+          163.838,
+          164.44,
+          162.266,
+          162.719,
+          187.238,
+          164.731,
+          163.079,
+          161.619,
+          164.032,
+          164.557,
+          163.816,
+          166.292,
+          165.51,
+          163.696,
+          164.737,
+          164.583,
+          169.464,
+          172.883,
+          165.874,
+          164.752,
+          164.274,
+          163.748,
+          164.958,
+          164.034,
+          163.646,
+          164.269,
+          164.591,
+          164.479,
+          164.502,
+          174.258,
+          164.882,
+          162.466,
+          162.019,
+          164.165,
+          163.446,
+          164.787,
+          172.679,
+          162.721,
+          164.18,
+          166.345,
+          163.41,
+          165.52,
+          163.381,
+          163.6,
+          164.455,
+          168.455,
+          168.307,
+          168.757,
+          167.168,
+          167.039,
+          162.228,
+          161.76,
+          165.959,
+          163.915,
+          162.863,
+          161.965,
+          163.796,
+          164.311,
+          164.786,
+          163.887,
+          161.969,
+          160.257,
+          162.084,
+          163.679,
+          163.456,
+          165.96,
+          166.564,
+          179.691,
+          164.226,
+          162.352,
+          165.608,
+          164.231,
+          162.568,
+          163.193,
+          164.217,
+          199.807,
+          168.261,
+          170.74,
+          163.768,
+          165.938,
+          164.681,
+          165.338,
+          165.539,
+          164.745,
+          163.026,
+          162.497,
+          166.573,
+          170.029,
+          164.716,
+          163.989,
+          163.524,
+          164.191,
+          165.249,
+          166.169,
+          164.127,
+          161.243,
+          162.664,
+          164.425,
+          163.432,
+          163.991,
+          165.766,
+          163.818,
+          163.68,
+          163.692,
+          166.133,
+          166.331,
+          165.637,
+          166.453,
+          162.935,
+          169.551,
+          163.299,
+          172.934,
+          173.678,
+          187.201,
+          167.945,
+          163.755,
+          181.876,
+          165.532,
+          173.002,
+          166.498,
+          163.837,
+          163.914,
+          164.652,
+          164.495,
+          161.459,
+          161.75,
+          163.967,
+          165.695,
+          164.368,
+          164.828,
+          164.234,
+          163.168,
+          164.878,
+          164.047,
+          168.846,
+          175.541,
+          162.718,
+          161.604,
+          161.344,
+          163.236,
+          166.948,
+          164.966,
+          164.28,
+          165.644,
+          163.027,
+          162.833,
+          162.387,
+          164.425,
+          167.581,
+          162.911,
+          163.996,
+          164.886,
+          166.623,
+          168.419,
+          164.057,
+          162.478,
+          161.709,
+          163.574,
+          168.323,
+          164.449,
+          163.27,
+          164.318,
+          165.275,
+          164.19,
+          163.432,
+          163.016,
+          162.57,
+          163.193,
+          163.837,
+          164.753,
+          166.077,
+          165.192,
+          161.969,
+          164.106,
+          162.718,
+          164.983,
+          171.134,
+          173.494,
+          168.892,
+          165.551,
+          164.016,
+          161.903,
+          164.885,
+          163.741,
+          164.092,
+          164.38,
+          164.84,
+          163.174,
+          163.738,
+          161.36,
+          162.524,
+          162.762,
+          166.718,
+          180.044,
+          170.215,
+          163.746,
+          161.504,
+          163.504,
+          163.882,
+          165.508,
+          165.649,
+          164.591,
+          174.973,
+          164.449,
+          162.748,
+          163.929,
+          164.301,
+          163.385,
+          167.428,
+          164.598,
+          176.774,
+          173.566,
+          172.637,
+          162.929,
+          174.765,
+          171.045,
+          163.291,
+          165.592,
+          223.555,
+          245.09,
+          226.282,
+          251.248,
+          239.889,
+          186.653,
+          167.513,
+          166.343,
+          170.503,
+          166.704,
+          163.977,
+          171.326,
+          173.983,
+          162.93,
+          162.518,
+          163.901,
+          165.281,
+          163.071,
+          162.195,
+          177.395,
+          164.872,
+          164.494,
+          172.879,
+          165.585,
+          170.92,
+          183.387,
+          165.065,
+          167.74,
+          168.302,
+          183.519,
+          165.107,
+          191.231,
+          172.126,
+          165.021,
+          164.934,
+          163.299,
+          164.408,
+          168.947,
+          187.396,
+          167.149,
+          172.321,
+          166.312,
+          166.389,
+          167.586,
+          185.145,
+          163.736,
+          221.127,
+          256.38,
+          170.521,
+          180.483,
+          167.763,
+          166.687,
+          180.243,
+          164.374,
+          165.368,
+          167.169,
+          161.727,
+          162.97,
+          167.042,
+          164.604,
+          165.496,
+          171.87,
+          163.469,
+          164.384,
+          163.734,
+          161.549,
+          163.756,
+          163.572,
+          163.361,
+          164.996,
+          167.751,
+          165.027,
+          169.262,
+          162.593,
+          162.479,
+          162.43,
+          165.412,
+          166.796,
+          166.057,
+          163.715,
+          169.858,
+          164.871,
+          164.116,
+          164.136,
+          162.349,
+          162.59,
+          164.228,
+          175.784,
+          166.438,
+          165.622,
+          163.07,
+          161.124,
+          162.21,
+          162.358,
+          163.569,
+          164.679,
+          162.895,
+          164.204,
+          164.058,
+          164.25,
+          164.047,
+          165.947,
+          163.29,
+          175.801,
+          173.004,
+          166.164,
+          164.107,
+          163.305,
+          163.38,
+          162.781,
+          163.207,
+          162.971,
+          165.433,
+          164.558,
+          164.048,
+          163.25,
+          163.309,
+          166.277,
+          163.55,
+          163.248,
+          161.106,
+          162.535,
+          162.597,
+          164.272,
+          164.225,
+          173.568,
+          163.379,
+          162.296,
+          161.139,
+          163.597,
+          162.289,
+          174.889,
+          163.147,
+          162.706,
+          161.606,
+          162.391,
+          162.988,
+          163.522,
+          164.89,
+          170.795,
+          170.754,
+          163.369,
+          163.396,
+          161.375,
+          164.26,
+          162.945,
+          163.929,
+          185.42
+        ],
+        "inference_calls": {
+          "count": 480,
+          "max_ms": 256.38,
+          "mean_ms": 166.943,
+          "median_ms": 164.371,
+          "min_ms": 160.257,
+          "p95_ms": 178.663,
+          "total_ms": 80132.616
+        },
+        "session_initialization": {
+          "count": 1,
+          "max_ms": 39.023,
+          "mean_ms": 39.023,
+          "median_ms": 39.023,
+          "min_ms": 39.023,
+          "p95_ms": 39.023,
+          "total_ms": 39.023
+        }
+      }
+    },
+    "process_tree_cpu_ms": 947912.032,
+    "python_process_cpu_ms": 913995.337,
+    "stages": {
+      "aggregate_clip_assessment": {
+        "count": 1,
+        "max_ms": 297855.35,
+        "mean_ms": 297855.35,
+        "median_ms": 297855.35,
+        "min_ms": 297855.35,
+        "p95_ms": 297855.35,
+        "total_ms": 297855.35
+      },
+      "chicken_detection": {
+        "count": 120,
+        "max_ms": 1853.575,
+        "mean_ms": 1654.636,
+        "median_ms": 1641.257,
+        "min_ms": 1618.533,
+        "p95_ms": 1727.391,
+        "total_ms": 198556.271
+      },
+      "feces_crop_classification": {
+        "count": 1,
+        "max_ms": 350.49,
+        "mean_ms": 350.49,
+        "median_ms": 350.49,
+        "min_ms": 350.49,
+        "p95_ms": 350.49,
+        "total_ms": 350.49
+      },
+      "feces_detection_and_persistence": {
+        "count": 1,
+        "max_ms": 82648.664,
+        "mean_ms": 82648.664,
+        "median_ms": 82648.664,
+        "min_ms": 82648.664,
+        "p95_ms": 82648.664,
+        "total_ms": 82648.664
+      },
+      "motion_and_behavior_aggregation": {
+        "count": 1,
+        "max_ms": 3180.604,
+        "mean_ms": 3180.604,
+        "median_ms": 3180.604,
+        "min_ms": 3180.604,
+        "p95_ms": 3180.604,
+        "total_ms": 3180.604
+      },
+      "video_decode_probe_and_frames": {
+        "count": 1,
+        "max_ms": 13111.522,
+        "mean_ms": 13111.522,
+        "median_ms": 13111.522,
+        "min_ms": 13111.522,
+        "p95_ms": 13111.522,
+        "total_ms": 13111.522
+      },
+      "whole_pen_video_inference": {
+        "count": 1,
+        "max_ms": 297502.599,
+        "mean_ms": 297502.599,
+        "median_ms": 297502.599,
+        "min_ms": 297502.599,
+        "p95_ms": 297502.599,
+        "total_ms": 297502.599
+      }
+    },
+    "total_wall_ms": 297855.369,
+    "video_seconds_per_wall_second": 0.067147
+  },
+  "validation": {
+    "actual_closeup_classifier_calls": 6,
+    "all_configured_models_executed": true,
+    "expected_closeup_classifier_calls": 6,
+    "missing_model_executions": [],
+    "overall_pass": true,
+    "retained_candidate_count": 6,
+    "strict_real_pipeline_pass": true,
+    "violations": []
+  }
+}

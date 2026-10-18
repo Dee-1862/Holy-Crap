@@ -1,0 +1,43 @@
+spool: /data/home/qnxuser/qnx-runner
+runner: running (pid 1097738)
+inbox: 0
+running: 0
+done: 28
+failed: 4
+--- last runner.log lines ---
+2026-10-18T17:13:48Z job job-20261018-101322-12cbc312 finished: status=done exit=0
+2026-10-18T17:15:01Z job job-20261018-101459-fbf379d5 started: /proc/boot/on -L vmem:8589934592 clang -O2 -shared -fPIC hc_ort.c -I /data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/stage/include-root/usr/include/onnxruntime -l:libonnxruntime.so.1 -o libhcort.so
+2026-10-18T17:15:04Z job job-20261018-101459-fbf379d5 finished: status=done exit=0
+2026-10-18T17:15:12Z job job-20261018-101511-24295379 started: /proc/boot/on -L vmem:8589934592 /system/bin/python3 qnx_smoke.py --model /data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/stage/dropping4_yolo11n_320.onnx --input /data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/stage/smoke-input-f32.bin --ortlite /data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/stage/ortlite --output /data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/results/qnx-output-f32.bin --result /data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/results/qnx-smoke.json
+2026-10-18T17:15:15Z job job-20261018-101511-24295379 finished: status=done exit=0
+--- target stage ---
+76066	/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0
+{
+  "runtime": "QNX libonnxruntime through checked-in libhcort/ortlite",
+  "model_sha256": "154407ca791330b8d6fd4ab94e5f683beceaa6ded79d34e24d05b379fe0634f8",
+  "input_shape": [
+    1,
+    3,
+    320,
+    320
+  ],
+  "input_sha256": "bb9f9e5d882f6293825ca4a620ca861481da9e364ce0773485750be445e624fc",
+  "output_shape": [
+    1,
+    8,
+    2100
+  ],
+  "output_sha256": "7afafa5ad3416f4c2130f419041bafbc4a97a6d01eac570d736b18074151cde2",
+  "output_elements": 16800,
+  "output_min": 0.0,
+  "output_max": 336.9556884765625,
+  "load_ms": 1018.392259,
+  "timings_ms": [
+    145.645611,
+    122.635723,
+    115.570278,
+    135.4495,
+    126.691685
+  ],
+  "timing_mean_ms": 129.1985594
+}

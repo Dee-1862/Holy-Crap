@@ -1,0 +1,1 @@
+ffmpeg-8.0-r5 aarch64 {ffmpeg} (GPL-2.0-or-later AND LGPL-2.1-or-later) [installed]

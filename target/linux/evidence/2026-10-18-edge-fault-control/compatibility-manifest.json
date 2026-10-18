@@ -1,0 +1,35 @@
+{
+  "claimBoundary": "Linux TCP/application-supervisor control; not QNX",
+  "clipSourceSha256": "9dbbfef9127cc466fb274ab47e5f8f8eed50b41fb8fb906fcdac01b1e628aee0",
+  "compatibilityOnly": true,
+  "ffmpegArgv": [
+    "ffmpeg",
+    "-nostdin",
+    "-v",
+    "error",
+    "-i",
+    "/tmp/hc-edge-fault-bench-run-20261018/source.mp4",
+    "-an",
+    "-vf",
+    "fps=5.0",
+    "-c:v",
+    "rawvideo",
+    "-pix_fmt",
+    "argb",
+    "/tmp/hc-edge-fault-bench-run-20261018/replay-argb.mov"
+  ],
+  "modelSha256": "3906fe0ffd3d9f1351a854fce4df731356a2e4aab26477bbae996e674e69053e",
+  "replayArgbMovSha256": "1633f7677c73f50f2bf7d6d85f0c3d038a2af78df641bd954bf3bd6821c67309",
+  "sourceHashesBeforeCompatibilityPatch": {
+    "edge/ortlite/ortlite.py": "396d104833163145b05b0f1c3c4c790188af8726c8acdef8fdcbeb85e24c5702",
+    "edge/qnxipc.py": "9c0a30e9562417ceeeec218165ac7830d3dd2e8be89f48ada8e6b9d423bbc979",
+    "edge/shm.py": "5202b86e92a080c3a32b786111d6ac81650dfb896386ae8d1c498f22ce0ada50",
+    "edge/watchlink.py": "be0df725d65c4054240167c05533732d2cd4776d1d1080e4b0873d7909442284"
+  },
+  "stageHashesAfterCompatibilityPatch": {
+    "edge/ortlite/ortlite.py": "7d73d77900ffced870301d386469ed1d01284464704521dcdefbaa69fac06de8",
+    "edge/qnxipc.py": "b24ef962f225fcbd1378004b562f86b442b86f2114eb2a33a735359aeda41bf9",
+    "edge/shm.py": "2120db360e862d5dbb50f933a2be37b8f5e256153198d7b15816faedd2879bdd",
+    "edge/watchlink.py": "b3159f35862c0a7ebaa8b95ffe5de7d86fdd2bb37d8397f7964c704890f5e6c8"
+  }
+}

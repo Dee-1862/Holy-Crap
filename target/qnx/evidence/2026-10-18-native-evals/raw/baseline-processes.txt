@@ -1,0 +1,49 @@
+     pid Arguments
+       1 procnto-smp-instr -mr -d 022 -u 066 -F 2000 
+   12290 slm -Vvv /proc/boot/slm.cfg -n /dev/slm-init 
+   16387 slogger2 -U 21:21 
+   16388 pci-server --aspace-enable --config=/proc/boot/pci_server.cfg 
+   28677 devb-sdmmc-bcm2712 cam cam user=20:20 blk cache=64M,auto=partition,vnode=2000,ncache=2000,commit=low sdio addr=0x1000fff000,irq=305 disk name=hd 
+   28679 msix-rp1 --mode=server 
+  110601 /proc/boot/ksh /boot/qnx-runner-launcher.sh 
+  163846 random -U 22:22 -s /data/var/random/rnd-seed 
+  163848 devc-serpl011-rpi5 -e -b115200 -c44236800 -e -F -u10 -D 0x107d001000^2,153 
+  163851 pipe -U 24:24 
+  163852 dumper -U 30:30 -d /data/var/dumper -M 1000 -D cores 
+  163853 devc-pty 
+  163854 io-sock -m phy -m pci -m fdt -d cgem -m usb -d axe -d axge -d cdce -d smsc -o config=/system/etc/io-sock.conf -d qwdi_dhd_sdio-2_11-rpi5 
+  163855 mqueue 
+  163857 fsevmgr 
+  200720 wpa_supplicant-2.11 -Dqwdi -t -Z100 -i bcm0 -c /data/var/etc/settings/wpa_supplicant.conf 
+  241685 dhcpcd: [manager] [ip4] [ip6] -bq -f /system/etc/dhcpcd/dhcpcd.conf -c /system/etc/dhcpcd/dhcpcd-run-hooks 
+  311316 qconn 
+  532503 /system/sbin/io-usb-otg -v -d dwc3-xhci ioport=0x1f00200000,irq=0xbf,iosize=0x100000,bmstr=0x1000000000,ioport=0x1f00300000,irq=0xc4,iosize=0x100000,bmstr=0x1000000000 
+  696339 usblauncher_otg -0 -l 
+  700442 io-hid -dusb 
+  737307 /system/bin/i2c-dwc-rpi5 -p0x1f00074000 -c200000000 -q0xa8 
+  770076 /system/bin/spi-dwc -c /system/etc/spi.conf 
+  802846 /system/sbin/fan-rpi5 
+  868370 drm-rpi5 -u 36:36 
+  905245 screen -u 36:36 -c /usr/share/screen/graphics-rpi5-hdmi1.conf 
+  925727 mtouch -c /system/etc/system/config/mtouch.conf -r 
+  929824 rpi_mbox -U 523:523 
+  942113 rpi_thermal 
+  954402 rpi_gpio -u 522:522 
+  966691 io-snd -c /system/etc/system/config/sound/io_snd.conf 
+  995364 /system/bin/i2c-dwc-rpi5 -p0x1f00088000 -c200000000 -q0xad 
+ 1024037 /system/bin/i2c-dwc-rpi5 -p0x1f00080000 -c200000000 -q0xab 
+ 1052710 sensor -U 521:521 -b external -r /data/share/sensor -c /etc/config/sensor/sensor_rpi5.conf 
+ 1093642 /system/bin/python3 /data/home/qnxuser/qnx-runner-app/qnx-runner.py --spool /data/home/qnxuser/qnx-runner 
+ 1118233 fullscreen-winmgr -s demolauncher,st,gtk 
+ 1118248 demolauncher -a /system/etc/desktop_files 
+ 1130520 login 
+ 1163305 /bin/sh /usr/etc/startup/startup_ssh.sh 
+ 1163307 /usr/bin/sshd -f /etc/ssh/sshd_config -D 
+ 1171495 mm-renderer -C /etc/mm/mm-renderer.conf 
+ 1179693 vncserv -display=1 -auth 
+ 1327151 mdnsd -U 49:49 -z 
+ 2162710 /usr/lib/ssh/sshd-session -f /etc/ssh/sshd_config -D -R 
+ 2175018 /usr/lib/ssh/sshd-session -f /etc/ssh/sshd_config -D -R 
+ 5640236 bash -c sudo -n pidin ar > '/data/home/qnxuser/hc-eval-20261018-1655-7778ee0/raw/baseline-processes.txt' 
+ 5644334 sudo -n pidin ar 
+ 5648432 pidin ar 

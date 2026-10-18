@@ -1,0 +1,21 @@
+cc (Debian 14.2.0-19) 14.2.0
+Copyright (C) 2024 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+  File: wakeup_jitter_bench
+  Size: 71392     	Blocks: 96         IO Block: 16384  regular file
+Device: 0,31	Inode: 9492        Links: 1
+Access: (0775/-rwxrwxr-x)  Uid: ( 1000/lancestreuber)   Gid: ( 1000/lancestreuber)
+Access: 2026-10-18 12:58:16.662413362 -0400
+Modify: 2026-10-18 12:58:16.594410477 -0400
+Change: 2026-10-18 12:58:16.594410477 -0400
+ Birth: 2026-10-18 12:58:16.538408101 -0400
+  File: bounded_cpu_stress
+  Size: 70784     	Blocks: 96         IO Block: 16384  regular file
+Device: 0,31	Inode: 9498        Links: 1
+Access: (0775/-rwxrwxr-x)  Uid: ( 1000/lancestreuber)   Gid: ( 1000/lancestreuber)
+Access: 2026-10-18 12:58:16.662413362 -0400
+Modify: 2026-10-18 12:58:16.658413193 -0400
+Change: 2026-10-18 12:58:16.658413193 -0400
+ Birth: 2026-10-18 12:58:16.642412514 -0400

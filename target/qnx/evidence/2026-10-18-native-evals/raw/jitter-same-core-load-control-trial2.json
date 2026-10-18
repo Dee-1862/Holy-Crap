@@ -1,0 +1,1 @@
+{"tool":"qnx_jitter_bench","pid":8699952,"clock":"CLOCK_MONOTONIC","iterations":5000,"period_us":1000,"deadline_us":100,"scheduler_policy":"round_robin","scheduler_policy_id":2,"priority":10,"lateness_us":{"mean":2539174.954,"p50":2557030.269,"p95":4261823.996,"p99":4413996.673,"max":4451939.148},"deadline_misses":5000,"deadline_miss_rate":1.000000000}

@@ -1,0 +1,93 @@
+{
+  "schema": "holy-crap-qnx-ort-runtime-restore-v1",
+  "source_commit": "7778ee028347acb8793b7fd81d3d92f63ff57d37",
+  "target": {
+    "os": "QNX 8.0.0",
+    "board": "RaspberryPi5",
+    "architecture": "aarch64le",
+    "staging_directory": "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0"
+  },
+  "package_transaction": {
+    "official_runtime_apks": 107,
+    "simulation_exit_code": 0,
+    "simulated_installs": 107,
+    "simulated_existing_package_upgrades": 0,
+    "simulated_existing_package_downgrades": 0,
+    "simulated_existing_package_removals": 0,
+    "installed_packages_before": 649,
+    "installed_packages_after": 756,
+    "preexisting_exact_entries_changed_or_removed": 0,
+    "new_exact_entries": 107,
+    "onnxruntime_package": "1.24.4-r0",
+    "numpy_package": "2.4.1-r0",
+    "python3_onnxruntime_installed": false,
+    "python3_onnxruntime_reason": "official package omits its compiled binding; ortlite uses the C library"
+  },
+  "bridge": {
+    "source_sha256": "0e78489d984567d24cef0edecc371516bd1b65aeead3e83630109c12005390c0",
+    "binary_sha256": "437d2edb5999297d020d50346d406368bdc792c72fe30117a231d80f5ec65b53",
+    "architecture": "AArch64",
+    "needed_runtime": "libonnxruntime.so.1"
+  },
+    "smoke": {
+    "model_sha256": "154407ca791330b8d6fd4ab94e5f683beceaa6ded79d34e24d05b379fe0634f8",
+    "specimen_sha256": "f6c4791f976a0ba2b32d08eeec2172214c6e703e39b1d1b94790dcfe643946eb",
+    "input_sha256": "bb9f9e5d882f6293825ca4a620ca861481da9e364ce0773485750be445e624fc",
+    "input_shape": [1, 3, 320, 320],
+    "output_shape": [1, 8, 2100],
+    "qnx_session_load_ms": 1018.392259,
+    "qnx_warm_calls": 5,
+    "qnx_mean_warm_inference_ms": 129.1985594,
+    "qnx_output_sha256": "7afafa5ad3416f4c2130f419041bafbc4a97a6d01eac570d736b18074151cde2",
+    "mac_reference_runtime": "onnxruntime 1.31.0",
+    "mac_mean_warm_inference_ms": 14.3799668,
+    "mac_output_sha256": "52796af4a1bb008e9512d4c4919177caf7674db78921bf258e22f8ca904f9b8e",
+    "max_abs_difference": 0.0001678466796875,
+    "mean_abs_difference": 0.000004193007498543011,
+    "allclose_rtol_1e-4_atol_1e-5": true,
+        "address_space_soft_limit_bytes": 8589934592
+    },
+    "http_smoke": {
+        "runner_job_id": "job-20261018-102446-dbc22f46",
+        "bind": "127.0.0.1",
+        "port": 18771,
+        "model_side": 320,
+        "threads": 2,
+        "model_sha256": "154407ca791330b8d6fd4ab94e5f683beceaa6ded79d34e24d05b379fe0634f8",
+        "infer_source_sha256": "ed608cfd9d996b5453f6c83d6ce9ab957f5f179374309d5f7a53046b0159ea8c",
+        "rgb_payload_sha256": "c49fb5494c1136d0a1c01f6ea1cae60c3da9c01b71e8f311488140213d9540aa",
+        "rgb_payload_width": 180,
+        "rgb_payload_height": 135,
+        "get_http_status": 200,
+        "get_total_ms": 3.499,
+        "post_http_status": 200,
+        "post_service_ms": 111.4,
+        "post_total_ms": 115.583,
+        "top_class": "cocci",
+        "top_score": 0.874,
+        "process_data_mib_after_request": 65,
+        "address_space_soft_limit_bytes": 8589934592,
+        "controlled_shutdown_signal": 15,
+        "post_shutdown_connection_refused": true,
+        "runner_healthy_after_shutdown": true
+    },
+    "input_side_configuration": {
+        "environment_variable": "HC_MODEL_SIDE",
+        "default": 640,
+        "minimum": 32,
+        "maximum": 4096,
+        "multiple_of": 32,
+        "validated_before_server_start": true,
+        "focused_tests_passed": 23,
+        "combined_edge_tests_passed": 39,
+        "invalid_target_value_tested": 641,
+        "invalid_target_value_rejected": true
+    },
+    "deployment": {
+        "full_clip_worker_deployed": false,
+        "persistent_service_enabled": false,
+        "boot_or_camera_configuration_changed": false,
+        "infer_server_320_ready": true,
+        "infer_server_320_verified_ephemerally": true
+    }
+}

@@ -1,0 +1,1 @@
+{"iterations": 1000, "native_qnx_message_passing": true, "payload_bytes": 57600, "reply_bytes": 16, "round_trip_us": {"max": 200.037, "mean": 96.221, "p50": 89.63, "p95": 137.663, "p99": 187.633}, "tool": "qnx_msgsend_eval", "warmups": 20}

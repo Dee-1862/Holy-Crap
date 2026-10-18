@@ -1,0 +1,107 @@
+abseil-cpp-20250814.1-r0 - Abseil Common Libraries (C++)
+abseil-cpp-base-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-base
+abseil-cpp-city-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-city
+abseil-cpp-civil-time-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-civil-time
+abseil-cpp-cord-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-cord
+abseil-cpp-cord-internal-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-cord-internal
+abseil-cpp-cordz-functions-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-cordz-functions
+abseil-cpp-cordz-handle-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-cordz-handle
+abseil-cpp-cordz-info-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-cordz-info
+abseil-cpp-cordz-sample-token-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-cordz-sample-token
+abseil-cpp-crc-cord-state-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-crc-cord-state
+abseil-cpp-crc-cpu-detect-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-crc-cpu-detect
+abseil-cpp-crc-internal-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-crc-internal
+abseil-cpp-crc32c-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-crc32c
+abseil-cpp-debugging-internal-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-debugging-internal
+abseil-cpp-decode-rust-punycode-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-decode-rust-punycode
+abseil-cpp-demangle-internal-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-demangle-internal
+abseil-cpp-demangle-rust-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-demangle-rust
+abseil-cpp-die-if-null-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-die-if-null
+abseil-cpp-examine-stack-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-examine-stack
+abseil-cpp-exponential-biased-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-exponential-biased
+abseil-cpp-failure-signal-handler-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-failure-signal-handler
+abseil-cpp-flags-commandlineflag-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-flags-commandlineflag
+abseil-cpp-flags-commandlineflag-internal-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-flags-commandlineflag-internal
+abseil-cpp-flags-config-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-flags-config
+abseil-cpp-flags-internal-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-flags-internal
+abseil-cpp-flags-marshalling-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-flags-marshalling
+abseil-cpp-flags-parse-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-flags-parse
+abseil-cpp-flags-private-handle-accessor-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-flags-private-handle-accessor
+abseil-cpp-flags-program-name-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-flags-program-name
+abseil-cpp-flags-reflection-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-flags-reflection
+abseil-cpp-flags-usage-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-flags-usage
+abseil-cpp-flags-usage-internal-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-flags-usage-internal
+abseil-cpp-graphcycles-internal-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-graphcycles-internal
+abseil-cpp-hash-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-hash
+abseil-cpp-hashtable-profiler-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-hashtable-profiler
+abseil-cpp-hashtablez-sampler-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-hashtablez-sampler
+abseil-cpp-int128-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-int128
+abseil-cpp-kernel-timeout-internal-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-kernel-timeout-internal
+abseil-cpp-leak-check-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-leak-check
+abseil-cpp-log-entry-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-log-entry
+abseil-cpp-log-flags-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-log-flags
+abseil-cpp-log-globals-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-log-globals
+abseil-cpp-log-initialize-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-log-initialize
+abseil-cpp-log-internal-check-op-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-log-internal-check-op
+abseil-cpp-log-internal-conditions-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-log-internal-conditions
+abseil-cpp-log-internal-fnmatch-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-log-internal-fnmatch
+abseil-cpp-log-internal-format-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-log-internal-format
+abseil-cpp-log-internal-globals-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-log-internal-globals
+abseil-cpp-log-internal-log-sink-set-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-log-internal-log-sink-set
+abseil-cpp-log-internal-message-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-log-internal-message
+abseil-cpp-log-internal-nullguard-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-log-internal-nullguard
+abseil-cpp-log-internal-proto-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-log-internal-proto
+abseil-cpp-log-internal-structured-proto-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-log-internal-structured-proto
+abseil-cpp-log-severity-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-log-severity
+abseil-cpp-log-sink-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-log-sink
+abseil-cpp-malloc-internal-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-malloc-internal
+abseil-cpp-periodic-sampler-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-periodic-sampler
+abseil-cpp-poison-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-poison
+abseil-cpp-profile-builder-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-profile-builder
+abseil-cpp-random-distributions-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-random-distributions
+abseil-cpp-random-internal-distribution-test-util-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-random-internal-distribution-test-util
+abseil-cpp-random-internal-entropy-pool-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-random-internal-entropy-pool
+abseil-cpp-random-internal-platform-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-random-internal-platform
+abseil-cpp-random-internal-randen-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-random-internal-randen
+abseil-cpp-random-internal-randen-hwaes-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-random-internal-randen-hwaes
+abseil-cpp-random-internal-randen-hwaes-impl-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-random-internal-randen-hwaes-impl
+abseil-cpp-random-internal-randen-slow-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-random-internal-randen-slow
+abseil-cpp-random-internal-seed-material-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-random-internal-seed-material
+abseil-cpp-random-seed-gen-exception-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-random-seed-gen-exception
+abseil-cpp-random-seed-sequences-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-random-seed-sequences
+abseil-cpp-raw-hash-set-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-raw-hash-set
+abseil-cpp-raw-logging-internal-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-raw-logging-internal
+abseil-cpp-scoped-set-env-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-scoped-set-env
+abseil-cpp-spinlock-wait-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-spinlock-wait
+abseil-cpp-stacktrace-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-stacktrace
+abseil-cpp-status-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-status
+abseil-cpp-statusor-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-statusor
+abseil-cpp-str-format-internal-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-str-format-internal
+abseil-cpp-strerror-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-strerror
+abseil-cpp-string-view-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-string-view
+abseil-cpp-strings-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-strings
+abseil-cpp-strings-internal-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-strings-internal
+abseil-cpp-symbolize-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-symbolize
+abseil-cpp-synchronization-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-synchronization
+abseil-cpp-throw-delegate-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-throw-delegate
+abseil-cpp-time-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-time
+abseil-cpp-time-zone-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-time-zone
+abseil-cpp-tracing-internal-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-tracing-internal
+abseil-cpp-utf8-for-code-point-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-utf8-for-code-point
+abseil-cpp-vlog-config-internal-20250814.1-r0 - Abseil Common C++ library: abseil-cpp-vlog-config-internal
+eigen-5.0.1-r0 - Eigen is a C++ template library for linear algebra
+flatbuffers-25.12.19-r0 - Memory Efficient Serialization Library
+libprotobuf-31.1-r1 - Runtime library for C++ users of protocol buffers
+libprotobuf-lite-31.1-r1 - Runtime library for C++ users with 'lite runtime' setting of protocol buffers
+libprotoc-31.1-r1 - Runtime library for Protocol Buffer compiler
+libutf8-range-31.1-r1 - UTF-8 range library used by protobuf
+onnx-1.20.1-r0 - Open standard for machine learning interoperability
+onnxruntime-1.24.4-r0 - Cross-platform, high performance ML inferencing and training accelerator
+protobuf-31.1-r1 - Library for extensible, efficient structure packing
+protobuf-vim-31.1-r1 - Vim syntax for protobuf
+protoc-31.1-r1 - Protocol buffer compiler binary and library
+python3-numpy-2.4.1-r0 - Scientific tools for Python
+python3-numpy-tests-2.4.1-r0 - Tests for python3-numpy
+python3-pybind11-3.0.1-r0 - Seamless operability between C++11 and Python
+python3-re2-2025.11.05-r0 - Python3 wrapper for Google re2
+re2-2025.11.05-r0 - Efficient, principled regular expression library

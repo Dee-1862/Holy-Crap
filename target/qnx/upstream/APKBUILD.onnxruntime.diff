@@ -1,0 +1,13 @@
+--- a/extra/onnxruntime/APKBUILD
++++ b/extra/onnxruntime/APKBUILD
+@@ source=
+     $pkgname-$pkgver.tar.gz::https://github.com/microsoft/onnxruntime/archive/refs/tags/v$pkgver.tar.gz
+     0001-add-qnx-build.patch
++    0002-qnx-package-python-module.patch
+     "
+@@ check() {
+   _test_exclude="onnxruntime_test_all|onnxruntime_provider_test"
+   ctest --test-dir build -E $_test_exclude
++  # the Python package must import, this is what failed silently before
++  cd build && PYTHONPATH="$PWD" python3 -c "import onnxruntime; print(onnxruntime.get_device())"
+ }

@@ -1,0 +1,239 @@
+submitted job-20261018-101322-12cbc312 (113 argv elements) to qnxpi
+{
+  "id": "job-20261018-101322-12cbc312",
+  "argv": [
+    "sudo",
+    "apk",
+    "add",
+    "--no-network",
+    "--repositories-file",
+    "/dev/null",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-base-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-city-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-civil-time-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-cord-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-cord-internal-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-cordz-functions-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-cordz-handle-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-cordz-info-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-cordz-sample-token-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-crc-cord-state-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-crc-cpu-detect-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-crc-internal-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-crc32c-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-debugging-internal-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-decode-rust-punycode-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-demangle-internal-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-demangle-rust-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-die-if-null-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-examine-stack-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-exponential-biased-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-failure-signal-handler-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-flags-commandlineflag-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-flags-commandlineflag-internal-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-flags-config-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-flags-internal-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-flags-marshalling-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-flags-parse-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-flags-private-handle-accessor-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-flags-program-name-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-flags-reflection-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-flags-usage-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-flags-usage-internal-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-graphcycles-internal-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-hash-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-hashtable-profiler-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-hashtablez-sampler-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-int128-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-kernel-timeout-internal-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-leak-check-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-log-entry-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-log-flags-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-log-globals-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-log-initialize-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-log-internal-check-op-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-log-internal-conditions-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-log-internal-fnmatch-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-log-internal-format-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-log-internal-globals-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-log-internal-log-sink-set-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-log-internal-message-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-log-internal-nullguard-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-log-internal-proto-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-log-internal-structured-proto-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-log-severity-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-log-sink-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-malloc-internal-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-periodic-sampler-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-poison-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-profile-builder-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-random-distributions-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-random-internal-distribution-test-util-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-random-internal-entropy-pool-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-random-internal-platform-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-random-internal-randen-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-random-internal-randen-hwaes-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-random-internal-randen-hwaes-impl-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-random-internal-randen-slow-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-random-internal-seed-material-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-random-seed-gen-exception-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-random-seed-sequences-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-raw-hash-set-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-raw-logging-internal-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-scoped-set-env-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-spinlock-wait-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-stacktrace-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-status-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-statusor-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-str-format-internal-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-strerror-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-string-view-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-strings-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-strings-internal-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-symbolize-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-synchronization-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-throw-delegate-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-time-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-time-zone-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-tracing-internal-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-utf8-for-code-point-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/abseil-cpp-vlog-config-internal-20250814.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/eigen-5.0.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/flatbuffers-25.12.19-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/libprotobuf-31.1-r1.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/libprotobuf-lite-31.1-r1.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/libprotoc-31.1-r1.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/libutf8-range-31.1-r1.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/onnx-1.20.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/onnxruntime-1.24.4-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/protobuf-31.1-r1.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/protobuf-vim-31.1-r1.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/protoc-31.1-r1.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/python3-numpy-2.4.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/python3-numpy-tests-2.4.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/python3-pybind11-3.0.1-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/python3-re2-2025.11.05-r0.apk",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/bundle/re2-2025.11.05-r0.apk"
+  ],
+  "cwd": null,
+  "timeout": 600,
+  "status": "done",
+  "started_at": "2026-10-18T17:13:24Z",
+  "finished_at": "2026-10-18T17:13:48Z",
+  "exit_code": 0,
+  "timed_out": false,
+  "error": null,
+  "stdout_log": "logs/job-20261018-101322-12cbc312.out",
+  "stderr_log": "logs/job-20261018-101322-12cbc312.err"
+}
+--- stdout ---
+(  1/107) Installing abseil-cpp-base (20250814.1-r0)
+(  2/107) Installing abseil-cpp-city (20250814.1-r0)
+(  3/107) Installing abseil-cpp-civil-time (20250814.1-r0)
+(  4/107) Installing abseil-cpp-cord (20250814.1-r0)
+(  5/107) Installing abseil-cpp-cord-internal (20250814.1-r0)
+(  6/107) Installing abseil-cpp-cordz-functions (20250814.1-r0)
+(  7/107) Installing abseil-cpp-cordz-handle (20250814.1-r0)
+(  8/107) Installing abseil-cpp-cordz-info (20250814.1-r0)
+(  9/107) Installing abseil-cpp-cordz-sample-token (20250814.1-r0)
+( 10/107) Installing abseil-cpp-crc32c (20250814.1-r0)
+( 11/107) Installing abseil-cpp-crc-cord-state (20250814.1-r0)
+( 12/107) Installing abseil-cpp-crc-cpu-detect (20250814.1-r0)
+( 13/107) Installing abseil-cpp-crc-internal (20250814.1-r0)
+( 14/107) Installing abseil-cpp-debugging-internal (20250814.1-r0)
+( 15/107) Installing abseil-cpp-decode-rust-punycode (20250814.1-r0)
+( 16/107) Installing abseil-cpp-demangle-internal (20250814.1-r0)
+( 17/107) Installing abseil-cpp-demangle-rust (20250814.1-r0)
+( 18/107) Installing abseil-cpp-die-if-null (20250814.1-r0)
+( 19/107) Installing abseil-cpp-examine-stack (20250814.1-r0)
+( 20/107) Installing abseil-cpp-exponential-biased (20250814.1-r0)
+( 21/107) Installing abseil-cpp-failure-signal-handler (20250814.1-r0)
+( 22/107) Installing abseil-cpp-flags-commandlineflag (20250814.1-r0)
+( 23/107) Installing abseil-cpp-flags-commandlineflag-internal (20250814.1-r0)
+( 24/107) Installing abseil-cpp-flags-config (20250814.1-r0)
+( 25/107) Installing abseil-cpp-flags-internal (20250814.1-r0)
+( 26/107) Installing abseil-cpp-flags-marshalling (20250814.1-r0)
+( 27/107) Installing abseil-cpp-flags-parse (20250814.1-r0)
+( 28/107) Installing abseil-cpp-flags-private-handle-accessor (20250814.1-r0)
+( 29/107) Installing abseil-cpp-flags-program-name (20250814.1-r0)
+( 30/107) Installing abseil-cpp-flags-reflection (20250814.1-r0)
+( 31/107) Installing abseil-cpp-flags-usage (20250814.1-r0)
+( 32/107) Installing abseil-cpp-flags-usage-internal (20250814.1-r0)
+( 33/107) Installing abseil-cpp-graphcycles-internal (20250814.1-r0)
+( 34/107) Installing abseil-cpp-hash (20250814.1-r0)
+( 35/107) Installing abseil-cpp-hashtable-profiler (20250814.1-r0)
+( 36/107) Installing abseil-cpp-hashtablez-sampler (20250814.1-r0)
+( 37/107) Installing abseil-cpp-int128 (20250814.1-r0)
+( 38/107) Installing abseil-cpp-kernel-timeout-internal (20250814.1-r0)
+( 39/107) Installing abseil-cpp-leak-check (20250814.1-r0)
+( 40/107) Installing abseil-cpp-log-entry (20250814.1-r0)
+( 41/107) Installing abseil-cpp-log-flags (20250814.1-r0)
+( 42/107) Installing abseil-cpp-log-globals (20250814.1-r0)
+( 43/107) Installing abseil-cpp-log-initialize (20250814.1-r0)
+( 44/107) Installing abseil-cpp-log-internal-check-op (20250814.1-r0)
+( 45/107) Installing abseil-cpp-log-internal-conditions (20250814.1-r0)
+( 46/107) Installing abseil-cpp-log-internal-fnmatch (20250814.1-r0)
+( 47/107) Installing abseil-cpp-log-internal-format (20250814.1-r0)
+( 48/107) Installing abseil-cpp-log-internal-globals (20250814.1-r0)
+( 49/107) Installing abseil-cpp-log-internal-log-sink-set (20250814.1-r0)
+( 50/107) Installing abseil-cpp-log-internal-message (20250814.1-r0)
+( 51/107) Installing abseil-cpp-log-internal-nullguard (20250814.1-r0)
+( 52/107) Installing abseil-cpp-log-internal-proto (20250814.1-r0)
+( 53/107) Installing abseil-cpp-log-internal-structured-proto (20250814.1-r0)
+( 54/107) Installing abseil-cpp-log-severity (20250814.1-r0)
+( 55/107) Installing abseil-cpp-log-sink (20250814.1-r0)
+( 56/107) Installing abseil-cpp-malloc-internal (20250814.1-r0)
+( 57/107) Installing abseil-cpp-periodic-sampler (20250814.1-r0)
+( 58/107) Installing abseil-cpp-poison (20250814.1-r0)
+( 59/107) Installing abseil-cpp-profile-builder (20250814.1-r0)
+( 60/107) Installing abseil-cpp-random-distributions (20250814.1-r0)
+( 61/107) Installing abseil-cpp-random-internal-distribution-test-util (20250814.1-r0)
+( 62/107) Installing abseil-cpp-random-internal-entropy-pool (20250814.1-r0)
+( 63/107) Installing abseil-cpp-random-internal-platform (20250814.1-r0)
+( 64/107) Installing abseil-cpp-random-internal-randen (20250814.1-r0)
+( 65/107) Installing abseil-cpp-random-internal-randen-hwaes (20250814.1-r0)
+( 66/107) Installing abseil-cpp-random-internal-randen-hwaes-impl (20250814.1-r0)
+( 67/107) Installing abseil-cpp-random-internal-randen-slow (20250814.1-r0)
+( 68/107) Installing abseil-cpp-random-internal-seed-material (20250814.1-r0)
+( 69/107) Installing abseil-cpp-random-seed-gen-exception (20250814.1-r0)
+( 70/107) Installing abseil-cpp-random-seed-sequences (20250814.1-r0)
+( 71/107) Installing abseil-cpp-raw-hash-set (20250814.1-r0)
+( 72/107) Installing abseil-cpp-raw-logging-internal (20250814.1-r0)
+( 73/107) Installing abseil-cpp-scoped-set-env (20250814.1-r0)
+( 74/107) Installing abseil-cpp-spinlock-wait (20250814.1-r0)
+( 75/107) Installing abseil-cpp-stacktrace (20250814.1-r0)
+( 76/107) Installing abseil-cpp-status (20250814.1-r0)
+( 77/107) Installing abseil-cpp-statusor (20250814.1-r0)
+( 78/107) Installing abseil-cpp-str-format-internal (20250814.1-r0)
+( 79/107) Installing abseil-cpp-strerror (20250814.1-r0)
+( 80/107) Installing abseil-cpp-string-view (20250814.1-r0)
+( 81/107) Installing abseil-cpp-strings (20250814.1-r0)
+( 82/107) Installing abseil-cpp-strings-internal (20250814.1-r0)
+( 83/107) Installing abseil-cpp-symbolize (20250814.1-r0)
+( 84/107) Installing abseil-cpp-synchronization (20250814.1-r0)
+( 85/107) Installing abseil-cpp-throw-delegate (20250814.1-r0)
+( 86/107) Installing abseil-cpp-time (20250814.1-r0)
+( 87/107) Installing abseil-cpp-time-zone (20250814.1-r0)
+( 88/107) Installing abseil-cpp-tracing-internal (20250814.1-r0)
+( 89/107) Installing abseil-cpp-utf8-for-code-point (20250814.1-r0)
+( 90/107) Installing abseil-cpp-vlog-config-internal (20250814.1-r0)
+( 91/107) Installing abseil-cpp (20250814.1-r0)
+( 92/107) Installing eigen (5.0.1-r0)
+( 93/107) Installing flatbuffers (25.12.19-r0)
+( 94/107) Installing libutf8-range (31.1-r1)
+( 95/107) Installing libprotobuf (31.1-r1)
+( 96/107) Installing libprotobuf-lite (31.1-r1)
+( 97/107) Installing libprotoc (31.1-r1)
+( 98/107) Installing onnx (1.20.1-r0)
+( 99/107) Installing protoc (31.1-r1)
+(100/107) Installing protobuf (31.1-r1)
+(101/107) Installing re2 (2025.11.05-r0)
+(102/107) Installing python3-pybind11 (3.0.1-r0)
+(103/107) Installing python3-re2 (2025.11.05-r0)
+(104/107) Installing onnxruntime (1.24.4-r0)
+(105/107) Installing protobuf-vim (31.1-r1)
+(106/107) Installing python3-numpy (2.4.1-r0)
+(107/107) Installing python3-numpy-tests (2.4.1-r0)
+Executing busybox-1.36.1_p0-r1.trigger
+OK: 2946.6 MiB in 756 packages

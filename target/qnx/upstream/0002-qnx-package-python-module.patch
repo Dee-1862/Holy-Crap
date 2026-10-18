@@ -1,0 +1,21 @@
+QNX: package the onnxruntime Python module
+
+setup.py picks the compiled files to package by platform.system(). On QNX that
+returns "QNX", which falls into the Windows branch, so setup.py looks for
+onnxruntime_pybind11_state.pyd, finds nothing and silently leaves the real
+onnxruntime_pybind11_state.so out of the package. `import onnxruntime` then
+fails with "No module named 'onnxruntime.capi.onnxruntime_pybind11_state'".
+QNX shares the Linux layout, so treat it like Linux.
+
+
+--- a/setup.py
++++ b/setup.py
+@@ -361,7 +361,7 @@
+ dl_libs = []
+ libs = []
+ 
+-if platform.system() == "Linux" or platform.system() == "AIX":
++if platform.system() in ("Linux", "AIX", "QNX"):
+     libs = [
+         "onnxruntime_pybind11_state.so",
+         "libdnnl.so.2",

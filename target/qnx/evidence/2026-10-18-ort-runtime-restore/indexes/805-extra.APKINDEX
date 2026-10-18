@@ -1,0 +1,6265 @@
+C:Q1JNHRlIi8mmO1/m/1SxGyhQ3bk3k=
+P:adwaita-icon-theme
+V:50.0-r0
+A:aarch64
+S:1895359
+I:13218698
+T:Adwaita icon theme
+U:https://gitlab.gnome.org/GNOME/adwaita-icon-theme
+L:LGPL-3.0-or-later OR CC-BY-SA-3.0
+o:adwaita-icon-theme
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786630731
+c:a545c2bbdc816120b16943576475eb4bce12c415
+
+C:Q1r80k+Qc17QbM6UeYH5orASsW0S8=
+P:adwaita-icon-theme-dev
+V:50.0-r0
+A:aarch64
+S:4889
+I:110
+T:Adwaita icon theme (development files)
+U:https://gitlab.gnome.org/GNOME/adwaita-icon-theme
+L:LGPL-3.0-or-later OR CC-BY-SA-3.0
+o:adwaita-icon-theme
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786630731
+c:a545c2bbdc816120b16943576475eb4bce12c415
+D:pkgconfig
+p:pc:pc:adwaita-icon-theme=50.0
+
+C:Q1e7ce6uYS4bV8t70YTukHIHL5Vuc=
+P:adwaita-icon-theme-doc
+V:50.0-r0
+A:aarch64
+S:7909
+I:8513
+T:Adwaita icon theme (documentation)
+U:https://gitlab.gnome.org/GNOME/adwaita-icon-theme
+L:LGPL-3.0-or-later OR CC-BY-SA-3.0
+o:adwaita-icon-theme
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786630731
+c:a545c2bbdc816120b16943576475eb4bce12c415
+i:docs adwaita-icon-theme=50.0-r0
+
+C:Q1LL/iEGxwhUx26+mgMHkK6LX+8EU=
+P:asciidoc
+V:10.2.1-r1
+A:aarch64
+S:551916
+I:1739899
+T:Text based documentation
+U:https://asciidoc.org/
+L:GPL-2.0-or-later AND MIT
+o:asciidoc
+m:Leo Shen <yishen@qnx.com>
+t:1786482389
+c:300ad19d6ea076b0860e6a4e5c1306b23702eb42
+D:python3 libxml2-utils docbook-xsl python3~3.14
+p:py3.14:asciidoc=10.2.1-r1
+
+C:Q1IqJqfTArMgaenlde/1W4CU9ujt0=
+P:asciidoc-doc
+V:10.2.1-r1
+A:aarch64
+S:14938
+I:10218
+T:Text based documentation (documentation)
+U:https://asciidoc.org/
+L:GPL-2.0-or-later AND MIT
+o:asciidoc
+m:Leo Shen <yishen@qnx.com>
+t:1786482389
+c:300ad19d6ea076b0860e6a4e5c1306b23702eb42
+i:docs asciidoc=10.2.1-r1
+
+C:Q1XTgruMQP1UDk+rtDSzmUqYIastw=
+P:aws-c-cal
+V:0.9.13-r0
+A:aarch64
+S:32606
+I:93336
+T:Aws Crypto Abstraction Layer: Cross-Platform, C99 wrapper for cryptography primitives.
+U:https://github.com/awslabs/aws-c-cal
+L:Apache-2.0
+o:aws-c-cal
+m:Deep Chordia <dchordia@blackberry.com>
+t:1771834744
+c:d8d325dc47c83021a09b755b4174352afa44905f
+
+C:Q13QBn/fDFTXJNvfXtI3ridSe3X9Q=
+P:aws-c-cal-dev
+V:0.9.13-r0
+A:aarch64
+S:14738
+I:55106
+T:Aws Crypto Abstraction Layer: Cross-Platform, C99 wrapper for cryptography primitives. (development files)
+U:https://github.com/awslabs/aws-c-cal
+L:Apache-2.0
+o:aws-c-cal
+m:Deep Chordia <dchordia@blackberry.com>
+t:1771834744
+c:d8d325dc47c83021a09b755b4174352afa44905f
+D:aws-c-cal=0.9.13-r0
+
+C:Q16QjSjTmbm8LMRUEVLPKOfC1/BKQ=
+P:aws-c-common
+V:0.12.6-r0
+A:aarch64
+S:115968
+I:308464
+T:Core c99 package for AWS SDK for C. Includes cross-platform primitives, configuration, data structures, and error handling.
+U:https://github.com/awslabs/aws-c-common
+L:Apache-2.0
+o:aws-c-common
+m:Deep Chordia <dchordia@qnx.com>
+t:1787237109
+c:646452889baa9263efce045893f18762de3f7a43
+
+C:Q1JWM1McMe4pqxRHQNTu2aAuA/Png=
+P:aws-c-common-dev
+V:0.12.6-r0
+A:aarch64
+S:143707
+I:729479
+T:Core c99 package for AWS SDK for C. Includes cross-platform primitives, configuration, data structures, and error handling. (development files)
+U:https://github.com/awslabs/aws-c-common
+L:Apache-2.0
+o:aws-c-common
+m:Deep Chordia <dchordia@qnx.com>
+t:1787237109
+c:646452889baa9263efce045893f18762de3f7a43
+D:qnx-io-sock-dev aws-c-common=0.12.6-r0
+
+C:Q1qOVnO+vHNIkc5pcYW6k0S1aoBTg=
+P:aws-c-io
+V:0.26.1-r0
+A:aarch64
+S:104015
+I:305056
+T:Module for the AWS SDK for C handling all IO and TLS work for application protocols
+U:https://github.com/awslabs/aws-c-io
+L:Apache-2.0
+o:aws-c-io
+m:Deep Chordia <dchordia@blackberry.com>
+t:1790607752
+c:5e9f1725ba79fd699f62f0dc1c9081524b2906be
+D:qnx-fd-notify openssl aws-c-common aws-c-cal s2n-tls
+
+C:Q1NOcfB9wfFpFiDN/+uDQC5xcWYww=
+P:aws-c-io-dev
+V:0.26.1-r0
+A:aarch64
+S:59652
+I:259912
+T:Module for the AWS SDK for C handling all IO and TLS work for application protocols (development files)
+U:https://github.com/awslabs/aws-c-io
+L:Apache-2.0
+o:aws-c-io
+m:Deep Chordia <dchordia@blackberry.com>
+t:1790607752
+c:5e9f1725ba79fd699f62f0dc1c9081524b2906be
+D:qnx-fd-notify-dev openssl-dev aws-c-common-dev aws-c-cal-dev s2n-tls-dev aws-c-io=0.26.1-r0
+
+C:Q1mC7G6gZq0sVKCGn6xxQXmeez9kU=
+P:btop
+V:1.4.6-r0
+A:aarch64
+S:538403
+I:1334454
+T:Resource monitor
+U:https://github.com/aristocratos/btop
+L:Apache-2.0
+o:btop
+m:jscaffidi <jscaffidi@qnx.com>
+t:1786047359
+c:72c7ab0c3441dca49c77b7554df71e01f55cabc4
+D:libc++
+
+C:Q1HMKjWLpK/nD4rudESjfqvUHF4VQ=
+P:cairo
+V:1.18.4-r1
+A:aarch64
+S:573094
+I:1683224
+T:A vector graphics library
+U:https://cairographics.org/
+L:LGPL-2.1-or-later OR MPL-1.1
+o:cairo
+m:Felix Lionardo <flionardo@qnx.com>
+t:1785178219
+c:96a1d4a30974845a0f428d450748c90aa0a5b4bd
+D:fontconfig freetype pixman glib zlib-ng libsysv-ipc-shim
+
+C:Q1YoSOwM4DWNCslN2khPlZMl0Mqb8=
+P:cairo-dev
+V:1.18.4-r1
+A:aarch64
+S:39234
+I:164410
+T:A vector graphics library (development files)
+U:https://cairographics.org/
+L:LGPL-2.1-or-later OR MPL-1.1
+o:cairo
+m:Felix Lionardo <flionardo@qnx.com>
+t:1785178219
+c:96a1d4a30974845a0f428d450748c90aa0a5b4bd
+D:fontconfig-dev freetype-dev pixman-dev pkgconfig
+p:pc:pc:cairo=1.18.4
+
+C:Q1VmgceC0baasDiE1lhFTJsCFyLSI=
+P:cairo-gobject
+V:1.18.4-r1
+A:aarch64
+S:13410
+I:38408
+T:A vector graphics library (gobject bindings)
+U:https://cairographics.org/
+L:LGPL-2.1-or-later OR MPL-1.1
+o:cairo
+m:Felix Lionardo <flionardo@qnx.com>
+t:1785178219
+c:96a1d4a30974845a0f428d450748c90aa0a5b4bd
+D:fontconfig freetype pixman glib zlib-ng libsysv-ipc-shim
+
+C:Q1L9K8ZFwJiONmuEIz0IFXJxzXkX4=
+P:cairo-static
+V:1.18.4-r1
+A:aarch64
+S:802915
+I:2871064
+T:A vector graphics library (static library)
+U:https://cairographics.org/
+L:LGPL-2.1-or-later OR MPL-1.1
+o:cairo
+m:Felix Lionardo <flionardo@qnx.com>
+t:1785178219
+c:96a1d4a30974845a0f428d450748c90aa0a5b4bd
+
+C:Q1oTqHm1eucnKvFWZiJzd0ahQUR+w=
+P:capnproto
+V:1.3.0-r0
+A:aarch64
+S:1934160
+I:5967112
+T:Cap'n Proto serialization/RPC system - core tools and C++ library
+U:https://capnproto.org/
+L:MIT
+o:capnproto
+m:Deep Chordia <dchordia@qnx.com>
+t:1787237084
+c:2b074d8802b3dac0d789338699fd56e08a920965
+D:zlib-ng openssl libucontext libc++
+
+C:Q10RXdxLJgsyylQpu+nFgTE3gomDM=
+P:capnproto-dev
+V:1.3.0-r0
+A:aarch64
+S:476788
+I:2379621
+T:Cap'n Proto serialization/RPC system - core tools and C++ library (development files)
+U:https://capnproto.org/
+L:MIT
+o:capnproto
+m:Deep Chordia <dchordia@qnx.com>
+t:1787237084
+c:2b074d8802b3dac0d789338699fd56e08a920965
+D:zlib-ng-dev openssl-dev libucontext-dev libc++-dev qnx-io-sock-dev capnproto=1.3.0-r0 pkgconfig
+p:pc:pc:kj=1.3.0
+
+C:Q1HZMBaXvBmvAfRqB4ShurjT0a23E=
+P:capstone
+V:5.0.9-r0
+A:aarch64
+S:1120064
+I:9117232
+T:The Ultimate Disassembler
+U:https://www.capstone-engine.org
+L:BSD-3-Clause-Clear
+o:capstone
+m:Ethan Leir <eleir@qnx.com>
+t:1787343271
+c:786d635fb13c0bb2c825f77331ba98475b2e9f31
+
+C:Q1CuOM4dy8w3VOkGkShuGfmjVJbcQ=
+P:capstone-dev
+V:5.0.9-r0
+A:aarch64
+S:82746
+I:389897
+T:The Ultimate Disassembler (development files)
+U:https://www.capstone-engine.org
+L:BSD-3-Clause-Clear
+o:capstone
+m:Ethan Leir <eleir@qnx.com>
+t:1787343271
+c:786d635fb13c0bb2c825f77331ba98475b2e9f31
+D:capstone=5.0.9-r0 capstone=5.0.9-r0 pkgconfig
+p:pc:pc:capstone=5.0.9
+
+C:Q1sPCDXsaJu4XUo6Yq3WxekZ95M58=
+P:capstone-static
+V:5.0.9-r0
+A:aarch64
+S:1238252
+I:10294368
+T:The Ultimate Disassembler (static library)
+U:https://www.capstone-engine.org
+L:BSD-3-Clause-Clear
+o:capstone
+m:Ethan Leir <eleir@qnx.com>
+t:1787343271
+c:786d635fb13c0bb2c825f77331ba98475b2e9f31
+
+C:Q1Xfnkbz1hCAb0I42anDZen2XjHUA=
+P:chrony
+V:4.8-r3
+A:aarch64
+S:192023
+I:385281
+T:Advanced NTP client and server
+U:https://gitlab.com/chrony/chrony/
+L:GPL-2.0-or-later
+o:chrony
+m:J. Scaffidi <jscaffidi@qnx.com>
+t:1786645678
+c:8492ba14a7dce702c13df5b663ae802b5e1ae1ee
+D:qnx-io-sock nettle gnutls /bin/sh
+
+C:Q1MF2bpU8BPfmlrs4iEOmC/UPIvN8=
+P:chrony-dbg
+V:4.8-r3
+A:aarch64
+S:461359
+I:992256
+T:Advanced NTP client and server (debug symbols)
+U:https://gitlab.com/chrony/chrony/
+L:GPL-2.0-or-later
+o:chrony
+m:J. Scaffidi <jscaffidi@qnx.com>
+t:1786645678
+c:8492ba14a7dce702c13df5b663ae802b5e1ae1ee
+
+C:Q1Xegu4b5PqUfuaV/ceGO+bTJE8Bw=
+P:chrony-openrc
+V:4.8-r3
+A:aarch64
+S:3728
+I:1585
+T:Advanced NTP client and server (OpenRC init scripts)
+U:https://gitlab.com/chrony/chrony/
+L:GPL-2.0-or-later
+o:chrony
+m:J. Scaffidi <jscaffidi@qnx.com>
+t:1786645678
+c:8492ba14a7dce702c13df5b663ae802b5e1ae1ee
+i:openrc chrony=4.8-r3
+
+C:Q1vTK/G0MxibMXcMHHxACfd+66Nio=
+P:computelibrary
+V:52.8.0-r0
+A:aarch64
+S:3404013
+I:11460016
+T:Computer vision and machine learning functions optimised for Arm CPUs and GPUs using SIMD.
+U:https://www.arm.com/products/development-tools/embedded-and-software/compute-library
+L:MIT AND Apache-2.0 AND BSD-3-Clause
+o:computelibrary
+m:Deep Chordia <dchordia@qnx.com>
+t:1791990794
+c:c86e7dbca245883ddbd21b4319764c408edfa13b
+D:libc++ qnx-opencl
+p:so:libarm_compute_graph.so=0
+
+C:Q1MEDk97V1xRX8ZEvjjFRhuNjZWHA=
+P:computelibrary-dev
+V:52.8.0-r0
+A:aarch64
+S:542857
+I:3732027
+T:Computer vision and machine learning functions optimised for Arm CPUs and GPUs using SIMD. (development files)
+U:https://www.arm.com/products/development-tools/embedded-and-software/compute-library
+L:MIT AND Apache-2.0 AND BSD-3-Clause
+o:computelibrary
+m:Deep Chordia <dchordia@qnx.com>
+t:1791990794
+c:c86e7dbca245883ddbd21b4319764c408edfa13b
+D:libc++-dev opencl-headers
+
+C:Q13sddkgCdAamIDv7fDCgGNNPuriM=
+P:computelibrary-tests
+V:52.8.0-r0
+A:aarch64
+S:6353744
+I:22032016
+T:Tests and benchmarks for ComputeLibrary
+U:https://www.arm.com/products/development-tools/embedded-and-software/compute-library
+L:MIT AND Apache-2.0 AND BSD-3-Clause
+o:computelibrary
+m:Deep Chordia <dchordia@qnx.com>
+t:1791990794
+c:c86e7dbca245883ddbd21b4319764c408edfa13b
+D:computelibrary=52.8.0-r0
+p:cmd:arm_compute_validation=52.8.0-r0
+
+C:Q1ErGQFhvbZlmHa7L1fGkE/L19ZA4=
+P:cstool
+V:5.0.9-r0
+A:aarch64
+S:1135182
+I:9154184
+T:cstool for capstone disassembler
+U:https://www.capstone-engine.org
+L:BSD-3-Clause-Clear
+o:capstone
+m:Ethan Leir <eleir@qnx.com>
+t:1787343271
+c:786d635fb13c0bb2c825f77331ba98475b2e9f31
+
+C:Q1zv3bp0WxP4BY80I8tHlL6Kokv9A=
+P:cunit
+V:2.1.3-r0
+A:aarch64
+S:115832
+I:379841
+T:Automated testing framework for C
+U:https://cunit.sourceforge.net/
+L:GPL-2.0-or-later
+o:cunit
+m:Nnarayana Murthy <nnarayanamurthy@qnx.com>
+t:1787253433
+c:8ead6c0c6f9f28ee6d8be5938c403b0c43047648
+
+C:Q1ZQTIxreZmA4hcWF18QGgaNJUQzE=
+P:cunit-dev
+V:2.1.3-r0
+A:aarch64
+S:47137
+I:228694
+T:Automated testing framework for C (development files)
+U:https://cunit.sourceforge.net/
+L:GPL-2.0-or-later
+o:cunit
+m:Nnarayana Murthy <nnarayanamurthy@qnx.com>
+t:1787253433
+c:8ead6c0c6f9f28ee6d8be5938c403b0c43047648
+D:cunit=2.1.3-r0 pkgconfig
+p:pc:pc:cunit=2.1.3
+
+C:Q1RryZFkKjDqPSbQZF2xDufRO7vco=
+P:cunit-doc
+V:2.1.3-r0
+A:aarch64
+S:10813
+I:8164
+T:Automated testing framework for C (documentation)
+U:https://cunit.sourceforge.net/
+L:GPL-2.0-or-later
+o:cunit
+m:Nnarayana Murthy <nnarayanamurthy@qnx.com>
+t:1787253433
+c:8ead6c0c6f9f28ee6d8be5938c403b0c43047648
+i:docs cunit=2.1.3-r0
+
+C:Q1wHYmBP2WHZGUJwhPyS8wFbzxy04=
+P:dhcpcd
+V:10.2.4-r3
+A:aarch64
+S:159183
+I:330346
+T:RFC2131 compliant DHCP client
+U:https://roy.marples.name/projects/dhcpcd
+L:BSD-2-Clause
+o:dhcpcd
+m:Aaron Bassett <abassett@qnx.com>
+t:1784905310
+c:9da3c274016c032d0619fd6db01370299a6aa36c
+D:qnx-io-sock
+
+C:Q1ypBFwBvIkVE7Wh2fD9B1rxC1tKI=
+P:dhcpcd
+V:10.2.4-r4
+A:aarch64
+S:159194
+I:330346
+T:RFC2131 compliant DHCP client
+U:https://roy.marples.name/projects/dhcpcd
+L:BSD-2-Clause
+o:dhcpcd
+m:Aaron Bassett <abassett@qnx.com>
+t:1785163580
+c:f1d951959b8e48068a659eb7501ee77b05de65bf
+D:qnx-io-sock
+
+C:Q1ww0Bk0F+al8S0O7VseVWpp94YoA=
+P:dhcpcd-doc
+V:10.2.4-r3
+A:aarch64
+S:28222
+I:23716
+T:RFC2131 compliant DHCP client (documentation)
+U:https://roy.marples.name/projects/dhcpcd
+L:BSD-2-Clause
+o:dhcpcd
+m:Aaron Bassett <abassett@qnx.com>
+t:1784905310
+c:9da3c274016c032d0619fd6db01370299a6aa36c
+i:docs dhcpcd=10.2.4-r3
+
+C:Q1s7Qi/gsLGubpoftpZB/6sjasPw4=
+P:dhcpcd-doc
+V:10.2.4-r4
+A:aarch64
+S:28222
+I:23716
+T:RFC2131 compliant DHCP client (documentation)
+U:https://roy.marples.name/projects/dhcpcd
+L:BSD-2-Clause
+o:dhcpcd
+m:Aaron Bassett <abassett@qnx.com>
+t:1785163580
+c:f1d951959b8e48068a659eb7501ee77b05de65bf
+i:docs dhcpcd=10.2.4-r4
+
+C:Q1GD0xS73/Rjp/Wk7afQymdPYbjpQ=
+P:dhcpcd-openrc
+V:10.2.4-r3
+A:aarch64
+S:4262
+I:401
+T:RFC2131 compliant DHCP client (OpenRC init scripts)
+U:https://roy.marples.name/projects/dhcpcd
+L:BSD-2-Clause
+o:dhcpcd
+m:Aaron Bassett <abassett@qnx.com>
+t:1784905310
+c:9da3c274016c032d0619fd6db01370299a6aa36c
+i:openrc dhcpcd=10.2.4-r3
+
+C:Q1jj7mX3P6QEq8OGGRvquRRLTIfkQ=
+P:dhcpcd-openrc
+V:10.2.4-r4
+A:aarch64
+S:4354
+I:592
+T:RFC2131 compliant DHCP client (OpenRC init scripts)
+U:https://roy.marples.name/projects/dhcpcd
+L:BSD-2-Clause
+o:dhcpcd
+m:Aaron Bassett <abassett@qnx.com>
+t:1785163580
+c:f1d951959b8e48068a659eb7501ee77b05de65bf
+i:openrc dhcpcd=10.2.4-r4
+
+C:Q1yvuPieubcVHY8rdlvYNXL/ttD4Y=
+P:emacs
+V:30.2-r2
+A:aarch64
+S:6525220
+I:15157501
+T:Extensible, customizable, self-documenting real-time display editor (common files)
+U:https://www.gnu.org/software/emacs/emacs.html
+L:GPL-3.0-or-later
+o:emacs
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786312751
+c:84cf3b061da35f1af0fd18cc76fbf1abd03dd376
+
+C:Q1GiRQLgsq4Nq4ckTCzft3HQSOE8Y=
+P:emacs-doc
+V:30.2-r2
+A:aarch64
+S:5830825
+I:5861427
+T:Extensible, customizable, self-documenting real-time display editor (documentation)
+U:https://www.gnu.org/software/emacs/emacs.html
+L:GPL-3.0-or-later
+o:emacs
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786312751
+c:84cf3b061da35f1af0fd18cc76fbf1abd03dd376
+i:docs emacs=30.2-r2
+
+C:Q1Q7oaBr86KOFw++5glntcQXygboA=
+P:emacs-nox
+V:30.2-r2
+A:aarch64
+S:44802183
+I:108921781
+T:Extensible, customizable, self-documenting real-time display editor - non-graphical
+U:https://www.gnu.org/software/emacs/emacs.html
+L:GPL-3.0-or-later
+o:emacs
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786312751
+c:84cf3b061da35f1af0fd18cc76fbf1abd03dd376
+D:emacs=30.2-r2 !emacs-pgtk dbus gmp gnutls ncurses sqlite-libs tree-sitter libxml2 zlib-ng
+
+C:Q1v77guO3v/dbTSvrtmiiLlFpCH5Q=
+P:emacs-pgtk
+V:30.2-r2
+A:aarch64
+S:45228775
+I:110014999
+T:Extensible, customizable, self-documenting real-time display editor - with pure GTK
+U:https://www.gnu.org/software/emacs/emacs.html
+L:GPL-3.0-or-later
+o:emacs
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786312751
+c:84cf3b061da35f1af0fd18cc76fbf1abd03dd376
+D:emacs=30.2-r2 !emacs-nox dbus gmp gnutls ncurses sqlite-libs tree-sitter libxml2 zlib-ng desktop-file-utils hicolor-icon-theme gtk3 glib harfbuzz libjpeg-turbo libpng libwebpdecoder libwebpdemux pango giflib
+
+C:Q1Q/zJ31qXPH/kMGRKSqVXg3HAiCo=
+P:epiphany
+V:43.1-r3
+A:aarch64
+S:762052
+I:1959183
+T:A simple, clean, beautiful view of the web
+U:https://wiki.gnome.org/Apps/Web
+L:GPL-3.0-or-later
+o:epiphany
+m:Yongxin Dai <yodai@qnx.com>
+t:1786385354
+c:eac647c7a5bbd315d87bd5de43c25a3a9e77b827
+D:desktop-file-utils icu-libs gcr gsettings-desktop-schemas gtk3 json-glib libarchive libdazzle libhandy libnotify libportal libportal-gtk3 libsecret libsoup3 libxml2 nettle sqlite-libs webkit2gtk-4.1
+
+C:Q1URoqCtvksoRlJVwoMyfXICXB0Dg=
+P:epiphany-dbg
+V:43.1-r3
+A:aarch64
+S:1981516
+I:6030800
+T:A simple, clean, beautiful view of the web (debug symbols)
+U:https://wiki.gnome.org/Apps/Web
+L:GPL-3.0-or-later
+o:epiphany
+m:Yongxin Dai <yodai@qnx.com>
+t:1786385354
+c:eac647c7a5bbd315d87bd5de43c25a3a9e77b827
+
+C:Q120etlu6rYw0Z8srIRjzS591jmKg=
+P:epiphany-doc
+V:43.1-r3
+A:aarch64
+S:1624844
+I:2764488
+T:A simple, clean, beautiful view of the web (documentation)
+U:https://wiki.gnome.org/Apps/Web
+L:GPL-3.0-or-later
+o:epiphany
+m:Yongxin Dai <yodai@qnx.com>
+t:1786385354
+c:eac647c7a5bbd315d87bd5de43c25a3a9e77b827
+i:docs epiphany=43.1-r3
+
+C:Q1Obaahb5oMNJc5DSYohIWY2mfngk=
+P:epiphany-lang
+V:43.1-r3
+A:aarch64
+S:2383227
+I:6775876
+T:Languages for package epiphany
+U:https://wiki.gnome.org/Apps/Web
+L:GPL-3.0-or-later
+o:epiphany
+m:Yongxin Dai <yodai@qnx.com>
+t:1786385354
+c:eac647c7a5bbd315d87bd5de43c25a3a9e77b827
+i:epiphany=43.1-r3 lang
+
+C:Q1VQltoxkunfSg2L2GyafT1wysjQY=
+P:exiv2
+V:0.28.7-r1
+A:aarch64
+S:119515
+I:296752
+T:Exif and Iptc metadata manipulation library and tools.
+U:https://exiv2.org/
+L:GPL-2.0-or-later
+o:exiv2
+m:Roberto Speranza <rsperanza@qnx.com>
+t:1787763061
+c:39110816e48fea8233dc68624da6f4d33ecf0f26
+D:libc++ exiv2-libs=0.28.7-r1
+
+C:Q1hBP0SwEZkmGixsOlswGrCgRFSp0=
+P:exiv2-dev
+V:0.28.7-r1
+A:aarch64
+S:88837
+I:396790
+T:Exif and Iptc metadata manipulation library and tools. (development files)
+U:https://exiv2.org/
+L:GPL-2.0-or-later
+o:exiv2
+m:Roberto Speranza <rsperanza@qnx.com>
+t:1787763061
+c:39110816e48fea8233dc68624da6f4d33ecf0f26
+D:brotli-dev expat-dev inih-dev inih-inireader-dev zlib-dev exiv2-libs=0.28.7-r1 pkgconfig
+p:pc:pc:exiv2=0.28.7
+
+C:Q1rrkGOQ9cU/+Y6m57pPOr4WKF7W8=
+P:exiv2-doc
+V:0.28.7-r1
+A:aarch64
+S:2757
+I:145
+T:Exif and Iptc metadata manipulation library and tools. (documentation)
+U:https://exiv2.org/
+L:GPL-2.0-or-later
+o:exiv2
+m:Roberto Speranza <rsperanza@qnx.com>
+t:1787763061
+c:39110816e48fea8233dc68624da6f4d33ecf0f26
+i:docs exiv2=0.28.7-r1
+
+C:Q15Tt3RDPYV3MsHi+YnXwkMQApfwM=
+P:exiv2-libs
+V:0.28.7-r1
+A:aarch64
+S:1099912
+I:3561304
+T:Exif and Iptc metadata manipulation library and tools. (libraries)
+U:https://exiv2.org/
+L:GPL-2.0-or-later
+o:exiv2
+m:Roberto Speranza <rsperanza@qnx.com>
+t:1787763061
+c:39110816e48fea8233dc68624da6f4d33ecf0f26
+D:brotli inih-inireader libc++ libexpat zlib-ng qnx-io-sock
+
+C:Q1lItUJqgNFuD+Ve4CRSVDfx5x0DY=
+P:ffmpeg
+V:8.0-r5
+A:aarch64
+S:250456
+I:627526
+T:Complete and free Internet live audio and video broadcasting solution for Linux/Unix
+U:https://ffmpeg.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:ffmpeg
+m:Felix Xing <fxing@qnx.com>
+t:1786337415
+c:a1b6b3440bdfc605bc426ba91e4c55485ed3ee93
+D:ffmpeg-libs=8.0-r5
+
+C:Q1zoWwVXcEFD+LurEenSXCmlNxwLo=
+P:ffmpeg-dbg
+V:8.0-r5
+A:aarch64
+S:36765
+I:17356280
+T:Complete and free Internet live audio and video broadcasting solution for Linux/Unix (debug symbols)
+U:https://ffmpeg.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:ffmpeg
+m:Felix Xing <fxing@qnx.com>
+t:1786337415
+c:a1b6b3440bdfc605bc426ba91e4c55485ed3ee93
+
+C:Q1E6ZhSkWpRETQIi5fVqEKA9pHIKE=
+P:ffmpeg-dev
+V:8.0-r5
+A:aarch64
+S:368099
+I:1526208
+T:Complete and free Internet live audio and video broadcasting solution for Linux/Unix (development files)
+U:https://ffmpeg.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:ffmpeg
+m:Felix Xing <fxing@qnx.com>
+t:1786337415
+c:a1b6b3440bdfc605bc426ba91e4c55485ed3ee93
+D:ffmpeg-libavcodec=8.0-r5 ffmpeg-libavdevice=8.0-r5 ffmpeg-libavfilter=8.0-r5 ffmpeg-libavformat=8.0-r5 ffmpeg-libavutil=8.0-r5 ffmpeg-libswresample=8.0-r5 ffmpeg-libswscale=8.0-r5 pkgconfig
+p:pc:pc:libswscale=9.1.100
+
+C:Q13+MQwRcn8Rc5KzLk9rp1su6EuzM=
+P:ffmpeg-doc
+V:8.0-r5
+A:aarch64
+S:1469453
+I:1463415
+T:Complete and free Internet live audio and video broadcasting solution for Linux/Unix (documentation)
+U:https://ffmpeg.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:ffmpeg
+m:Felix Xing <fxing@qnx.com>
+t:1786337415
+c:a1b6b3440bdfc605bc426ba91e4c55485ed3ee93
+i:docs ffmpeg=8.0-r5
+
+C:Q1LZ/NVeaWvnO0LEuuRP9oPPzZGbw=
+P:ffmpeg-libavcodec
+V:8.0-r5
+A:aarch64
+S:4999951
+I:9678104
+T:Complete and free Internet live audio and video broadcasting solution for Linux/Unix (libavcodec library)
+U:https://ffmpeg.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:ffmpeg
+m:Felix Xing <fxing@qnx.com>
+t:1786337415
+c:a1b6b3440bdfc605bc426ba91e4c55485ed3ee93
+D:ffmpeg-libswresample=8.0-r5 ffmpeg-libavutil=8.0-r5 libvpx libwebpmux libiconv libdav1d aom-libs gsm libjxl lame-libs opus libSvtAv1Enc libtheora libvorbis libwebp xvidcore zlib
+
+C:Q11K7oRCWEKOcxXDuvDlv9pt4yNc8=
+P:ffmpeg-libavdevice
+V:8.0-r5
+A:aarch64
+S:19616
+I:38672
+T:Complete and free Internet live audio and video broadcasting solution for Linux/Unix (libavdevice library)
+U:https://ffmpeg.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:ffmpeg
+m:Felix Xing <fxing@qnx.com>
+t:1786337415
+c:a1b6b3440bdfc605bc426ba91e4c55485ed3ee93
+D:qnx-alsa ffmpeg-libavfilter=8.0-r5 ffmpeg-libavformat=8.0-r5 ffmpeg-libavcodec=8.0-r5 ffmpeg-libavutil=8.0-r5
+
+C:Q1BKRru/gW0IUKgklrWqZryHmMgpA=
+P:ffmpeg-libavfilter
+V:8.0-r5
+A:aarch64
+S:1872421
+I:4409152
+T:Complete and free Internet live audio and video broadcasting solution for Linux/Unix (libavfilter library)
+U:https://ffmpeg.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:ffmpeg
+m:Felix Xing <fxing@qnx.com>
+t:1786337415
+c:a1b6b3440bdfc605bc426ba91e4c55485ed3ee93
+D:ffmpeg-libswscale=8.0-r5 ffmpeg-libavformat=8.0-r5 ffmpeg-libavcodec=8.0-r5 ffmpeg-libswresample=8.0-r5 ffmpeg-libavutil=8.0-r5 harfbuzz fribidi libass vidstab zimg fontconfig freetype
+
+C:Q1ZhNwWUGmN3Y2IkRQ2yLp5rFS3yw=
+P:ffmpeg-libavformat
+V:8.0-r5
+A:aarch64
+S:1286476
+I:2754320
+T:Complete and free Internet live audio and video broadcasting solution for Linux/Unix (libavformat library)
+U:https://ffmpeg.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:ffmpeg
+m:Felix Xing <fxing@qnx.com>
+t:1786337415
+c:a1b6b3440bdfc605bc426ba91e4c55485ed3ee93
+D:ffmpeg-libavcodec=8.0-r5 ffmpeg-libavutil=8.0-r5 libxml2 libbz2 zlib libssl3 libcrypto3 qnx-io-sock libiconv libtheora
+
+C:Q1pYg/U7vTQ1K4u6Bb4gS2u/kfSkk=
+P:ffmpeg-libavutil
+V:8.0-r5
+A:aarch64
+S:306490
+I:674504
+T:Complete and free Internet live audio and video broadcasting solution for Linux/Unix (libavutil library)
+U:https://ffmpeg.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:ffmpeg
+m:Felix Xing <fxing@qnx.com>
+t:1786337415
+c:a1b6b3440bdfc605bc426ba91e4c55485ed3ee93
+D:libcrypto3
+
+C:Q1ryUm149MVUTl7ycTnYNBHZlgvAA=
+P:ffmpeg-libs
+V:8.0-r5
+A:aarch64
+S:4318
+T:compat hack for all ffmpeg libs
+U:https://ffmpeg.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:ffmpeg
+m:Felix Xing <fxing@qnx.com>
+t:1786337415
+c:a1b6b3440bdfc605bc426ba91e4c55485ed3ee93
+D:ffmpeg-libavcodec=8.0-r5 ffmpeg-libavdevice=8.0-r5 ffmpeg-libavfilter=8.0-r5 ffmpeg-libavformat=8.0-r5 ffmpeg-libavutil=8.0-r5 ffmpeg-libswresample=8.0-r5 ffmpeg-libswscale=8.0-r5
+
+C:Q1PSFyvD0A/SrSTcL2zftwFUOY6N0=
+P:ffmpeg-libswresample
+V:8.0-r5
+A:aarch64
+S:49041
+I:100112
+T:Complete and free Internet live audio and video broadcasting solution for Linux/Unix (libswresample library)
+U:https://ffmpeg.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:ffmpeg
+m:Felix Xing <fxing@qnx.com>
+t:1786337415
+c:a1b6b3440bdfc605bc426ba91e4c55485ed3ee93
+D:ffmpeg-libavutil=8.0-r5 soxr
+
+C:Q1wD1KHxhw8L3zRR36YxWKjBQnTbk=
+P:ffmpeg-libswscale
+V:8.0-r5
+A:aarch64
+S:394839
+I:878376
+T:Complete and free Internet live audio and video broadcasting solution for Linux/Unix (libswscale library)
+U:https://ffmpeg.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:ffmpeg
+m:Felix Xing <fxing@qnx.com>
+t:1786337415
+c:a1b6b3440bdfc605bc426ba91e4c55485ed3ee93
+D:ffmpeg-libavutil=8.0-r5
+
+C:Q1UYxdX8LQYqFRjFd+n+Xu/3k2V0M=
+P:freeimage
+V:3.18.0-r0
+A:aarch64
+S:2175674
+I:6423560
+T:Open Source library project for developers who would like to support popular graphics image formats.
+U:https://freeimage.sourceforge.net/
+L:GPL-2.0-or-later AND FreeImage
+o:freeimage
+m:Felix Lionardo <flionardo@qnx.com>
+t:1791906698
+c:30c66408276abfeda47ddad47e03a3708096478d
+D:qnx-io-sock
+p:so:libfreeimage.so.3=0
+
+C:Q18dtgwIlpiIVLe080zI4Sn/jR7+g=
+P:freeimage-dev
+V:3.18.0-r0
+A:aarch64
+S:2958900
+I:11084844
+T:Open Source library project for developers who would like to support popular graphics image formats. (development files)
+U:https://freeimage.sourceforge.net/
+L:GPL-2.0-or-later AND FreeImage
+o:freeimage
+m:Felix Lionardo <flionardo@qnx.com>
+t:1791906698
+c:30c66408276abfeda47ddad47e03a3708096478d
+D:freeimage=3.18.0-r0
+
+C:Q1rBG690JY+aXwOoy+SXLJ16ti6Ms=
+P:geany-plugins
+V:2.1-r2
+A:aarch64
+S:4943
+I:1
+T:Plugins for Geany
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany-plugins-addons geany-plugins-autoclose geany-plugins-automark geany-plugins-codenav geany-plugins-commander geany-plugins-defineformat geany-plugins-geanyctags geany-plugins-geanydoc geany-plugins-geanyextrasel geany-plugins-geanyinsertnum geany-plugins-latex geany-plugins-geanylua geany-plugins-geanymacro geany-plugins-geanyminiscript geany-plugins-geanynumberedbookmarks geany-plugins-geanyprj geany-plugins-geanyvc geany-plugins-lineoperations geany-plugins-lipsum geany-plugins-overview geany-plugins-pairtaghighlighter geany-plugins-pohelper geany-plugins-projectorganizer geany-plugins-sendmail geany-plugins-shiftcolumn geany-plugins-tableconvert geany-plugins-treebrowser geany-plugins-vimode geany-plugins-xmlsnippets geany-plugins-keyrecord geany-plugins-utils geany-plugins-scope geany-plugins-lang geany-plugins-lsp geany-plugins-pretty-printer
+
+C:Q1RtSMEEGp5kjVJn52ay5kZa0iXf8=
+P:geany-plugins-addons
+V:2.1-r2
+A:aarch64
+S:31486
+I:75560
+T:Miscellaneous Addons for Geany
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1uqtH+RqhH7auGPs0xGPjQN821tY=
+P:geany-plugins-autoclose
+V:2.1-r2
+A:aarch64
+S:15551
+I:30248
+T:Auto-closing features for Geany
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1gbqMORYzKwepDFgXD9Bhn+r6rvI=
+P:geany-plugins-automark
+V:2.1-r2
+A:aarch64
+S:7447
+I:9736
+T:Highlights all words that match current word
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1amwj6CMxec9gaa0UZsJVRdYBaL8=
+P:geany-plugins-codenav
+V:2.1-r2
+A:aarch64
+S:14156
+I:26056
+T:Navigate through your source code easily
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1K9VC+JNzqO7RlSaNQZGe44wiW14=
+P:geany-plugins-commander
+V:2.1-r2
+A:aarch64
+S:12227
+I:21960
+T:Control Geany using commands from a command panel
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1U+GopfYEk2H3lkqO1FSgKG43Jvk=
+P:geany-plugins-defineformat
+V:2.1-r2
+A:aarch64
+S:8228
+I:9736
+T:Plugin to write multiline defines with aligned backslash
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1rDeYte8USDW4eFHkwdE9QUT9XKk=
+P:geany-plugins-dev
+V:2.1-r2
+A:aarch64
+S:4807
+I:1
+T:Plugins for Geany (development files)
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany-plugins-utils=2.1-r2
+
+C:Q1nNhN0V3Vr086uF58gOn5qHJR+0I=
+P:geany-plugins-doc
+V:2.1-r2
+A:aarch64
+S:879238
+I:1897489
+T:Plugins for Geany (documentation)
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+i:docs geany-plugins=2.1-r2
+
+C:Q1gMLZ4jx0BaSSE0UBwdtuMkuwxJw=
+P:geany-plugins-geanyctags
+V:2.1-r2
+A:aarch64
+S:16802
+I:30280
+T:Generate and query ctags files for a Geany project
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q19NoqH5ykZ5BB90bUnG7OzRyLOZg=
+P:geany-plugins-geanydoc
+V:2.1-r2
+A:aarch64
+S:11716
+I:21960
+T:Call documentation from within Geany
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1ZGTBSUXIFvkhW4HFNVmdaS/EJ/s=
+P:geany-plugins-geanyextrasel
+V:2.1-r2
+A:aarch64
+S:10675
+I:18160
+T:Additional features for selecting code
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1xfYuv0wkGUE6GwiaEAH1ZEzitn0=
+P:geany-plugins-geanyinsertnum
+V:2.1-r2
+A:aarch64
+S:11485
+I:17864
+T:Insert huge number ranges with small efforts
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q16zeAWsgbIclCbjHoTuMw1yARulM=
+P:geany-plugins-geanylua
+V:2.1-r2
+A:aarch64
+S:65814
+I:189697
+T:Lua Scripting for Geany
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany lua libintl
+
+C:Q1FqkYGLykO3P0XXEKfhqjTcBdpD4=
+P:geany-plugins-geanymacro
+V:2.1-r2
+A:aarch64
+S:20683
+I:42656
+T:User defined Macros for Geany
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1nyZ/KIyrvp94kZAy+l22JLlWijg=
+P:geany-plugins-geanyminiscript
+V:2.1-r2
+A:aarch64
+S:13430
+I:26112
+T:Geany Mini-Script filter plugin
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1roiuRJl9hjKfxvww1U9Byv2QDkg=
+P:geany-plugins-geanynumberedbookmarks
+V:2.1-r2
+A:aarch64
+S:16029
+I:31888
+T:Provide users 10 numbered Bookmarks
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1f+Qmp2jnGDcA4yT0lBQwNWp0TIU=
+P:geany-plugins-geanyprj
+V:2.1-r2
+A:aarch64
+S:19664
+I:42656
+T:Alternate project management tool for Geany
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1K7nWlvgnXl7ldYB3ERVyd9ZE0a4=
+P:geany-plugins-geanyvc
+V:2.1-r2
+A:aarch64
+S:33377
+I:87144
+T:Version Control for Geany
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1xrbyfU4J72Qx3fpy+LNSUmWJHrk=
+P:geany-plugins-keyrecord
+V:2.1-r2
+A:aarch64
+S:7993
+I:9776
+T:Record a sequence of keystrokes and replay it
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1fkqLf/yhagQ2jruc6DRkjCHMvUk=
+P:geany-plugins-lang
+V:2.1-r2
+A:aarch64
+S:553427
+I:1481837
+T:Languages for package geany-plugins
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+i:geany-plugins=2.1-r2 lang
+
+C:Q1BDC9naw3cFkk+yxeVYsqcs+0i/8=
+P:geany-plugins-latex
+V:2.1-r2
+A:aarch64
+S:36626
+I:93776
+T:LaTeX support for Geany
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1wY0VZj0vp3kKfHeGvQfiUtWLOfs=
+P:geany-plugins-lineoperations
+V:2.1-r2
+A:aarch64
+S:12094
+I:22032
+T:Assortment of simple line functions that can be applied to an open file
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1pzBydmJYUD5LkbdyaAqGLfenTes=
+P:geany-plugins-lipsum
+V:2.1-r2
+A:aarch64
+S:8823
+I:13768
+T:Lorem Ipsum generator for Inserting Placeholder Text
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1fJn+X8j+xZLFZvSV72zDOgaW9B4=
+P:geany-plugins-lsp
+V:2.1-r2
+A:aarch64
+S:161335
+I:422472
+T:LSP plugin for the Geany editor
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q14+ppwpinjeveCDKtX9Dr1ZCWDxM=
+P:geany-plugins-overview
+V:2.1-r2
+A:aarch64
+S:27833
+I:81662
+T:Overview over the code in a sidebar
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1gz5JPBlepJkxRnUPNg7ODg5jLWA=
+P:geany-plugins-pairtaghighlighter
+V:2.1-r2
+A:aarch64
+S:9592
+I:13864
+T:Finds and highlights matching HTML tag
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1v8mv+x4ITP22a0htKVm76ICFaoI=
+P:geany-plugins-pohelper
+V:2.1-r2
+A:aarch64
+S:20054
+I:57816
+T:A plugin for Geany that improves the support for GetText translation files
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1GCC5lvTiibrfUNwYfaYKp0l+RoI=
+P:geany-plugins-pretty-printer
+V:2.1-r2
+A:aarch64
+S:16736
+I:30152
+T:XML pretty printing plugin for Geany
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany libxml2
+
+C:Q13NNymfDU+YkTIRvfb9lMXTeX5C0=
+P:geany-plugins-projectorganizer
+V:2.1-r2
+A:aarch64
+S:37387
+I:91944
+T:Extension of Geany's project management
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1tjHI3urZJz1DlzYP8SfQ5h9iX94=
+P:geany-plugins-scope
+V:2.1-r2
+A:aarch64
+S:150235
+I:675878
+T:Graphical GDB front-end
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany geany-plugins-utils vte3
+
+C:Q1+L03GaEuZB4jjGWhs4rrnP77khY=
+P:geany-plugins-sendmail
+V:2.1-r2
+A:aarch64
+S:11647
+I:22344
+T:Send E-Mails from within Geany
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1GopzbZpkKGAFGDobGgD6N8cFpsI=
+P:geany-plugins-shiftcolumn
+V:2.1-r2
+A:aarch64
+S:8631
+I:13768
+T:Move Blocks of Text horizontally
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1lRJ/sFiruLBq1h4IMyw1roUsHAM=
+P:geany-plugins-tableconvert
+V:2.1-r2
+A:aarch64
+S:10223
+I:18312
+T:Helps on converting a tabulator separated selection into a table
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q15PhziktMdQfeysa2JjN502AkS8I=
+P:geany-plugins-treebrowser
+V:2.1-r2
+A:aarch64
+S:21842
+I:46624
+T:Alternate file browser plugin
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1ZPptCxoPaypUoRkwzeR6fKfU5sE=
+P:geany-plugins-utils
+V:2.1-r2
+A:aarch64
+S:8668
+I:9744
+T:Reusable shared library used by geany-plugins
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany-plugins-addons geany-plugins-autoclose geany-plugins-automark geany-plugins-codenav geany-plugins-commander geany-plugins-defineformat geany-plugins-geanyctags geany-plugins-geanydoc geany-plugins-geanyextrasel geany-plugins-geanyinsertnum geany-plugins-latex geany-plugins-geanylua geany-plugins-geanymacro geany-plugins-geanyminiscript geany-plugins-geanynumberedbookmarks geany-plugins-geanyprj geany-plugins-geanyvc geany-plugins-lineoperations geany-plugins-lipsum geany-plugins-overview geany-plugins-pairtaghighlighter geany-plugins-pohelper geany-plugins-projectorganizer geany-plugins-sendmail geany-plugins-shiftcolumn geany-plugins-tableconvert geany-plugins-treebrowser geany-plugins-vimode geany-plugins-xmlsnippets geany-plugins-keyrecord geany-plugins-scope geany-plugins-lang geany-plugins-lsp geany-plugins-pretty-printer
+
+C:Q1TV/wufpy2LgszvxnpdNWf/p5x+g=
+P:geany-plugins-vimode
+V:2.1-r2
+A:aarch64
+S:37745
+I:243328
+T:A Vim mode for Geany
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1NqEMeG8WnJwHNE7qwwLC5+C459E=
+P:geany-plugins-xmlsnippets
+V:2.1-r2
+A:aarch64
+S:8769
+I:9736
+T:Extends XML/HTML tag autocompletion provided by Geany
+U:https://plugins.geany.org/
+L:GPL-3.0-or-later
+o:geany-plugins
+m:Aaron Bassett <abassett@qnx.com>
+t:1786391572
+c:6543a554fc4dd86a56f4efdac1b844e273310db6
+D:geany
+
+C:Q1kZw1K23Bk5G5r1YmdwNv9eQYMZY=
+P:glfw
+V:3.4-r0
+A:aarch64
+S:62966
+I:162584
+T:A multi-platform library for OpenGL, OpenGL ES, Vulkan, window and input
+U:https://github.com/glfw/glfw
+L:Zlib
+o:glfw
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787341857
+c:cf84e2c60f09f8bf2ffc488cc5797770bf35ba0a
+D:libxkbcommon wayland qnx-fd-notify qnx-hid
+
+C:Q11Jbbkpx4w+qBq0kZapvZkI0XvFs=
+P:glfw-dbg
+V:3.4-r0
+A:aarch64
+S:176359
+I:546800
+T:A multi-platform library for OpenGL, OpenGL ES, Vulkan, window and input (debug symbols)
+U:https://github.com/glfw/glfw
+L:Zlib
+o:glfw
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787341857
+c:cf84e2c60f09f8bf2ffc488cc5797770bf35ba0a
+
+C:Q1cHZifWihLkBzPx77XkOq6LPhvmY=
+P:glfw-dev
+V:3.4-r0
+A:aarch64
+S:52500
+I:271465
+T:A multi-platform library for OpenGL, OpenGL ES, Vulkan, window and input (development files)
+U:https://github.com/glfw/glfw
+L:Zlib
+o:glfw
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787341857
+c:cf84e2c60f09f8bf2ffc488cc5797770bf35ba0a
+D:glfw=3.4-r0 pkgconfig
+p:pc:pc:glfw3=3.4.0
+
+C:Q1+LDvoDd4UV6Z9dx2DWJ6PD0Y/sw=
+P:gnupg
+V:2.4.9-r0
+A:aarch64
+S:2279547
+I:4916742
+T:GNU Privacy Guard 2 - meta package for full GnuPG suite
+U:https://www.gnupg.org/
+L:GPL-3.0-or-later
+o:gnupg
+m:Leo Shen <yishen@qnx.com>
+t:1786642029
+c:99e99dd6a82a12638123b69e5287f204284e51e8
+D:libiconv libbz2 gettext sqlite-libs zlib xz-libs gnutls libassuan libgcrypt libgpg-error libksba npth pinentry qnx-io-sock
+
+C:Q1GUf2YXpQXsmn4zCGvF95NAbO26o=
+P:graphicsmagick
+V:1.3.46-r1
+A:aarch64
+S:1202733
+I:3300018
+T:Image processing system
+U:http://www.graphicsmagick.org/
+L:MIT
+o:graphicsmagick
+m:Felix Lionardo <flionardo@qnx.com>
+t:1786333296
+c:e79ef30acb4fa98284fbb83f7af7fa99190e376a
+D:freetype libheif libjpeg-turbo libltdl libpng libwebp libwebp-tools libxml2 libjxl tiff xz-libs zlib-ng zstd-libs lcms2-plugins libc++
+
+C:Q1kVI4GGOn4fVyvhLsjLazmLtq6Dk=
+P:graphicsmagick-c++
+V:1.3.46-r1
+A:aarch64
+S:118604
+I:428761
+T:Image processing system (c++ module)
+U:http://www.graphicsmagick.org/
+L:MIT
+o:graphicsmagick
+m:Felix Lionardo <flionardo@qnx.com>
+t:1786333296
+c:e79ef30acb4fa98284fbb83f7af7fa99190e376a
+D:freetype libheif libjpeg-turbo libltdl libpng libwebp libwebp-tools libxml2 libjxl tiff xz-libs zlib-ng zstd-libs lcms2-plugins libc++
+
+C:Q17w9vUTNkkVeTZGnpd2FcFgfNJZM=
+P:graphicsmagick-dev
+V:1.3.46-r1
+A:aarch64
+S:125822
+I:642017
+T:Image processing system (development files)
+U:http://www.graphicsmagick.org/
+L:MIT
+o:graphicsmagick
+m:Felix Lionardo <flionardo@qnx.com>
+t:1786333296
+c:e79ef30acb4fa98284fbb83f7af7fa99190e376a
+D:pkgconfig
+p:pc:pc:GraphicsMagickWand=1.3.46
+
+C:Q1ey26Dr19tjaIdzRiCcw/RcLZqHo=
+P:graphicsmagick-doc
+V:1.3.46-r1
+A:aarch64
+S:1769443
+I:8331210
+T:Image processing system (documentation)
+U:http://www.graphicsmagick.org/
+L:MIT
+o:graphicsmagick
+m:Felix Lionardo <flionardo@qnx.com>
+t:1786333296
+c:e79ef30acb4fa98284fbb83f7af7fa99190e376a
+i:docs graphicsmagick=1.3.46-r1
+
+C:Q107c669CfWDIUHU7BayGx998VzjE=
+P:grpc
+V:1.76.0-r0
+A:aarch64
+S:5131
+I:1
+T:The C based gRPC
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:ca-certificates
+
+C:Q12AE5Y7+eY4215xnnGYnvbg+7Cu0=
+P:grpc-cpp
+V:1.76.0-r0
+A:aarch64
+S:799342
+I:2767920
+T:C++ language bindings for gRPC
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0 libc++ libgpr libupb_hash_lib libupb_mem_lib libupb_message_lib libupb_wire_lib libgrpc libgrpc_unsecure abseil-cpp libprotobuf libprotoc
+
+C:Q1RTM88VUrgog8J9t5Mi1iyhn5t2o=
+P:grpc-dev
+V:1.76.0-r0
+A:aarch64
+S:257204
+I:1218077
+T:The C based gRPC (development files)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc-cpp=1.76.0-r0 grpc-plugins=1.76.0-r0 abseil-cpp-dev libc++-dev protobuf-dev c-ares-dev openssl-dev>3 re2-dev zlib-ng-dev grpc-cpp=1.76.0-r0 libaddress_sorting=1.76.0-r0 libgpr=1.76.0-r0 libgrpc=1.76.0-r0 libgrpc_authorization_provider=1.76.0-r0 libgrpc_unsecure=1.76.0-r0 libupb_base_lib=1.76.0-r0 libupb_hash_lib=1.76.0-r0 libupb_json_lib=1.76.0-r0 libupb_lex_lib=1.76.0-r0 libupb_mem_lib=1.76.0-r0 libupb_message_lib=1.76.0-r0 libupb_mini_descriptor_lib=1.76.0-r0 libupb_mini_table_lib=1.76.0-r0 libupb_reflection_lib=1.76.0-r0 libupb_textformat_lib=1.76.0-r0 libupb_wire_lib=1.76.0-r0 libutf8_range_lib=1.76.0-r0 pkgconfig
+p:pc:pc:grpcpp_otel_plugin=1.76.0
+
+C:Q1LfjDIigBHV3giYHItsWFf1epijk=
+P:grpc-doc
+V:1.76.0-r0
+A:aarch64
+S:5443143
+I:6605321
+T:The C based gRPC (documentation)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+i:docs grpc=1.76.0-r0
+
+C:Q1CP45xCm6+3wORgQx1q8+jZELMCs=
+P:grpc-plugins
+V:1.76.0-r0
+A:aarch64
+S:76564
+I:216584
+T:Protocol buffers compiler plugins for gRPC
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc-cpp=1.76.0-r0 protobuf abseil-cpp-hash abseil-cpp-raw-hash-set libc++ libprotobuf libprotoc
+
+C:Q18+m/S14Rlk9qMWY+VuLUIq/lOk0=
+P:gst-plugins-bad
+V:1.26.8-r1
+A:aarch64
+S:2858898
+I:7637551
+T:GStreamer streaming media framework bad plug-ins
+U:https://gstreamer.freedesktop.org/
+L:GPL-2.0-or-later LGPL-2.0-or-later
+o:gst-plugins-bad
+m:Felix Xing <fxing@qnx.com>
+t:1786339342
+c:e980030dec3a3069316c1ff8e2d3178143014f37
+D:aom-libs cairo glib gsm gst-plugins-base gstreamer lcms2 libass libbz2 libc++ libcrypto3 libcurl libintl libssl3 libSvtAv1Enc libwebp libwebpmux libxml2 openjpeg opus orc pango qnx-io-sock qnx-vulkan wayland
+
+C:Q1QhLdO2D6nE3k8Zv6tVIdI8IWA28=
+P:gst-plugins-bad-dbg
+V:1.26.8-r1
+A:aarch64
+S:9743488
+I:28989672
+T:GStreamer streaming media framework bad plug-ins (debug symbols)
+U:https://gstreamer.freedesktop.org/
+L:GPL-2.0-or-later LGPL-2.0-or-later
+o:gst-plugins-bad
+m:Felix Xing <fxing@qnx.com>
+t:1786339342
+c:e980030dec3a3069316c1ff8e2d3178143014f37
+
+C:Q1Ht3X/8Iu0gvbmcbk1jccjGCkbBg=
+P:gst-plugins-bad-dev
+V:1.26.8-r1
+A:aarch64
+S:427324
+I:3639782
+T:GStreamer streaming media framework bad plug-ins (development files)
+U:https://gstreamer.freedesktop.org/
+L:GPL-2.0-or-later LGPL-2.0-or-later
+o:gst-plugins-bad
+m:Felix Xing <fxing@qnx.com>
+t:1786339342
+c:e980030dec3a3069316c1ff8e2d3178143014f37
+D:gstreamer-dev gst-plugins-base-dev wayland-dev gst-plugins-bad=1.26.8-r1 pkgconfig
+p:pc:pc:gstreamer-webrtc-1.0=1.26.8
+
+C:Q1s+G4QYWAGAirjXirO4lOTvKPSX0=
+P:gst-plugins-bad-lang
+V:1.26.8-r1
+A:aarch64
+S:42553
+I:139810
+T:Languages for package gst-plugins-bad
+U:https://gstreamer.freedesktop.org/
+L:GPL-2.0-or-later LGPL-2.0-or-later
+o:gst-plugins-bad
+m:Felix Xing <fxing@qnx.com>
+t:1786339342
+c:e980030dec3a3069316c1ff8e2d3178143014f37
+i:gst-plugins-bad=1.26.8-r1 lang
+
+C:Q1NAP84ZCiOvZVKogG7QtqQxC4oXg=
+P:gst-plugins-base
+V:1.26.8-r1
+A:aarch64
+S:2352821
+I:6301064
+T:GStreamer streaming media framework base plug-ins
+U:https://gstreamer.freedesktop.org
+L:GPL-2.0-or-later AND LGPL-2.0-or-later
+o:gst-plugins-base
+m:Aaron Bassett <abassett@qnx.com>
+t:1787689073
+c:a4f4e62dad51e3611a0947f1f704970bf50b9351
+D:gstreamer glib qnx-egl qnx-gles libintl orc opus libtheora libvorbis libpng wayland graphene pango libjpeg-turbo qnx-alsa
+
+C:Q1lgawhCAXOcGtkYPFmfnwOhLoqZQ=
+P:gst-plugins-base-dbg
+V:1.26.8-r1
+A:aarch64
+S:6456881
+I:20117432
+T:GStreamer streaming media framework base plug-ins (debug symbols)
+U:https://gstreamer.freedesktop.org
+L:GPL-2.0-or-later AND LGPL-2.0-or-later
+o:gst-plugins-base
+m:Aaron Bassett <abassett@qnx.com>
+t:1787689073
+c:a4f4e62dad51e3611a0947f1f704970bf50b9351
+
+C:Q1OMOXLiZLJWPUpJT9aCFMmd4LdN0=
+P:gst-plugins-base-dev
+V:1.26.8-r1
+A:aarch64
+S:705428
+I:6257312
+T:GStreamer streaming media framework base plug-ins (development files)
+U:https://gstreamer.freedesktop.org
+L:GPL-2.0-or-later AND LGPL-2.0-or-later
+o:gst-plugins-base
+m:Aaron Bassett <abassett@qnx.com>
+t:1787689073
+c:a4f4e62dad51e3611a0947f1f704970bf50b9351
+D:wayland-dev gstreamer-dev orc-dev gst-plugins-base=1.26.8-r1 pkgconfig
+p:pc:pc:gstreamer-video-1.0=1.26.8
+
+C:Q1F72Z6RY84IKJ2rYf4aBRsm2t8EM=
+P:gst-plugins-base-doc
+V:1.26.8-r1
+A:aarch64
+S:7434
+I:2415
+T:GStreamer streaming media framework base plug-ins (documentation)
+U:https://gstreamer.freedesktop.org
+L:GPL-2.0-or-later AND LGPL-2.0-or-later
+o:gst-plugins-base
+m:Aaron Bassett <abassett@qnx.com>
+t:1787689073
+c:a4f4e62dad51e3611a0947f1f704970bf50b9351
+i:docs gst-plugins-base=1.26.8-r1
+
+C:Q1tom8Xv//1gIp5O4VXPs7TY+KnJE=
+P:gst-plugins-base-lang
+V:1.26.8-r1
+A:aarch64
+S:175643
+I:665005
+T:Languages for package gst-plugins-base
+U:https://gstreamer.freedesktop.org
+L:GPL-2.0-or-later AND LGPL-2.0-or-later
+o:gst-plugins-base
+m:Aaron Bassett <abassett@qnx.com>
+t:1787689073
+c:a4f4e62dad51e3611a0947f1f704970bf50b9351
+i:gst-plugins-base=1.26.8-r1 lang
+
+C:Q1ZjS9ZllbRvf7WCN4OCZ9N+t9yKk=
+P:gst-plugins-good
+V:1.26.8-r0
+A:aarch64
+S:2276201
+I:5643388
+T:GStreamer streaming media framework good plugins
+U:https://gstreamer.freedesktop.org
+L:GPL-2.0-or-later LGPL-2.0-or-later
+o:gst-plugins-good
+m:Felix Xing <fxing@qnx.com>
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+D:libsoup3 libflac glib libpng cairo cairo-gobject orc gdk-pixbuf libintl libjpeg-turbo lame-libs libvpx gstreamer gst-plugins-base
+
+C:Q1d1AgD2ZPtvgxqa2/CWSNwbieoAA=
+P:gst-plugins-good-dbg
+V:1.26.8-r0
+A:aarch64
+S:7168466
+I:21582648
+T:GStreamer streaming media framework good plugins (debug symbols)
+U:https://gstreamer.freedesktop.org
+L:GPL-2.0-or-later LGPL-2.0-or-later
+o:gst-plugins-good
+m:Felix Xing <fxing@qnx.com>
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+
+C:Q1jdq4iTQx5beR3WqQdoZijpCvgcc=
+P:gst-plugins-good-gtk
+V:1.26.8-r0
+A:aarch64
+S:24099
+I:54864
+T:Gstreamer gtk-3 plugin
+U:https://gstreamer.freedesktop.org
+L:GPL-2.0-or-later LGPL-2.0-or-later
+o:gst-plugins-good
+m:Felix Xing <fxing@qnx.com>
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+D:gst-plugins-good=1.26.8-r0 gtk3
+
+C:Q1oVB75bOulQWziqUb5rc15e+BqTg=
+P:gst-plugins-good-lang
+V:1.26.8-r0
+A:aarch64
+S:113704
+I:470818
+T:Languages for package gst-plugins-good
+U:https://gstreamer.freedesktop.org
+L:GPL-2.0-or-later LGPL-2.0-or-later
+o:gst-plugins-good
+m:Felix Xing <fxing@qnx.com>
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+i:gst-plugins-good=1.26.8-r0 lang
+
+C:Q13St17PRK4XiJEEagyNGcwlyiXGE=
+P:gstreamer
+V:1.26.8-r2
+A:aarch64
+S:1078906
+I:2879610
+T:GStreamer streaming media framework
+U:https://gstreamer.freedesktop.org
+L:LGPL-2.0-or-later
+o:gstreamer
+m:Felix Xing <fxing@qnx.com>
+t:1786338977
+c:7168c2e65c9211e84a479235bb65006a08564ccc
+D:glib qnx-io-sock
+
+C:Q1DV2ZFnEhv7v4K6nanSKmGG41htM=
+P:gstreamer-dbg
+V:1.26.8-r2
+A:aarch64
+S:2842042
+I:8909024
+T:GStreamer streaming media framework (debug symbols)
+U:https://gstreamer.freedesktop.org
+L:LGPL-2.0-or-later
+o:gstreamer
+m:Felix Xing <fxing@qnx.com>
+t:1786338977
+c:7168c2e65c9211e84a479235bb65006a08564ccc
+
+C:Q1LwmSE2EovhThrGzzOkBZjwLTZfs=
+P:gstreamer-dev
+V:1.26.8-r2
+A:aarch64
+S:856154
+I:6673455
+T:GStreamer streaming media framework (development files)
+U:https://gstreamer.freedesktop.org
+L:LGPL-2.0-or-later
+o:gstreamer
+m:Felix Xing <fxing@qnx.com>
+t:1786338977
+c:7168c2e65c9211e84a479235bb65006a08564ccc
+D:libxml2-dev glib-dev gobject-introspection-dev gstreamer=1.26.8-r2 pkgconfig
+p:pc:pc:gstreamer-net-1.0=1.26.8
+
+C:Q1sZBIYfry4XQfWsRpvJSuzXXc6us=
+P:gstreamer-doc
+V:1.26.8-r2
+A:aarch64
+S:14449
+I:9498
+T:GStreamer streaming media framework (documentation)
+U:https://gstreamer.freedesktop.org
+L:LGPL-2.0-or-later
+o:gstreamer
+m:Felix Xing <fxing@qnx.com>
+t:1786338977
+c:7168c2e65c9211e84a479235bb65006a08564ccc
+i:docs gstreamer=1.26.8-r2
+
+C:Q1fDyI5147FMo26/JRiCZD/rauINc=
+P:gstreamer-tools
+V:1.26.8-r2
+A:aarch64
+S:50882
+I:133184
+T:Tools for GStreamer streaming media framework
+U:https://gstreamer.freedesktop.org
+L:LGPL-2.0-or-later
+o:gstreamer
+m:Felix Xing <fxing@qnx.com>
+t:1786338977
+c:7168c2e65c9211e84a479235bb65006a08564ccc
+D:pkgconfig gstreamer libintl
+
+C:Q1pj5geHIGLAdLLk4UcK+Y73lfOhs=
+P:htop
+V:3.5.0-r1
+A:aarch64
+S:104919
+I:248645
+T:Interactive process viewer
+U:https://htop.dev/
+L:GPL-2.0-or-later
+o:htop
+m:jscaffidi <jscaffidi@qnx.com>
+t:1786631108
+c:568b44275235c4bffc3b4c358972928cd6a5e6b5
+D:ncurses
+
+C:Q1K4NtsNcPmgKfbNQoOmwUbMDl6I8=
+P:htop-doc
+V:3.5.0-r1
+A:aarch64
+S:13464
+I:8714
+T:Interactive process viewer (documentation)
+U:https://htop.dev/
+L:GPL-2.0-or-later
+o:htop
+m:jscaffidi <jscaffidi@qnx.com>
+t:1786631108
+c:568b44275235c4bffc3b4c358972928cd6a5e6b5
+i:docs htop=3.5.0-r1
+
+C:Q1z5WjAjkZccruIXY52IMTOdgMdZI=
+P:itstool
+V:2.0.7-r4
+A:aarch64
+S:21820
+I:96870
+T:ITS-based XML translation tool
+U:https://itstool.org/
+L:GPL-3.0-or-later
+o:itstool
+m:Aaron Bassett <abassett@qnx.com>
+t:1786461019
+c:428b584156b2342f6dc73fe32f3bd12cc0f41bec
+D:python3-libxml2 python3
+
+C:Q1UYb6K5R/BvmbEKgkdPa8+daI/v4=
+P:itstool-doc
+V:2.0.7-r4
+A:aarch64
+S:5618
+I:1231
+T:ITS-based XML translation tool (documentation)
+U:https://itstool.org/
+L:GPL-3.0-or-later
+o:itstool
+m:Aaron Bassett <abassett@qnx.com>
+t:1786461019
+c:428b584156b2342f6dc73fe32f3bd12cc0f41bec
+i:docs itstool=2.0.7-r4
+
+C:Q1+lXv4RvpXoJYACOGUGr8w22XKT0=
+P:jsoncpp
+V:1.8.4-r0
+A:aarch64
+S:82716
+I:218744
+T:A C++ library for interacting with JSON.
+U:https://github.com/open-source-parsers/jsoncpp
+L:MIT
+o:jsoncpp
+m:Terence Ang <taang@qnx.com>
+t:1787341639
+c:04dd5384547cfeb6496c506d997944fc22569839
+D:libc++
+
+C:Q110BRHkjSBlsNVSgPRnIWYdZbsBs=
+P:jsoncpp-dbg
+V:1.8.4-r0
+A:aarch64
+S:431475
+I:1621632
+T:A C++ library for interacting with JSON. (debug symbols)
+U:https://github.com/open-source-parsers/jsoncpp
+L:MIT
+o:jsoncpp
+m:Terence Ang <taang@qnx.com>
+t:1787341639
+c:04dd5384547cfeb6496c506d997944fc22569839
+
+C:Q1VeNllIWUG7kh+pq+9oXmS4WhqbM=
+P:jsoncpp-dev
+V:1.8.4-r0
+A:aarch64
+S:24405
+I:75525
+T:A C++ library for interacting with JSON. (development files)
+U:https://github.com/open-source-parsers/jsoncpp
+L:MIT
+o:jsoncpp
+m:Terence Ang <taang@qnx.com>
+t:1787341639
+c:04dd5384547cfeb6496c506d997944fc22569839
+D:jsoncpp=1.8.4-r0 pkgconfig
+p:pc:pc:jsoncpp=1.8.4
+
+C:Q1Lh9lcgZ/Fy8KefXsJ2FhAbKKhvE=
+P:jsoncpp-doc
+V:1.8.4-r0
+A:aarch64
+S:3298218
+I:6484413
+T:A C++ library for interacting with JSON. (documentation)
+U:https://github.com/open-source-parsers/jsoncpp
+L:MIT
+o:jsoncpp
+m:Terence Ang <taang@qnx.com>
+t:1787341639
+c:04dd5384547cfeb6496c506d997944fc22569839
+i:docs jsoncpp=1.8.4-r0
+
+C:Q1hkh1GVXZFYmwhPUsscoJG8DllX0=
+P:jsoncpp-static
+V:1.8.4-r0
+A:aarch64
+S:597143
+I:2325580
+T:A C++ library for interacting with JSON. (static library)
+U:https://github.com/open-source-parsers/jsoncpp
+L:MIT
+o:jsoncpp
+m:Terence Ang <taang@qnx.com>
+t:1787341639
+c:04dd5384547cfeb6496c506d997944fc22569839
+
+C:Q1BLS58o/twu0wdfkp+pTrVkiFZp8=
+P:lcm
+V:1.5.2-r0
+A:aarch64
+S:309184
+I:783432
+T:Lightweight Communications and Marshalling
+U:https://github.com/lcm-proj/lcm
+L:LGPL-2.1-or-later
+o:lcm
+m:nnarayanamurthy <nnarayanamurthy@qnx.com>
+t:1785302058
+c:497ea0fc0560ac97d6efaf6eeb6de5aa1edfba78
+D:glib libc++ qnx-io-sock qnx-gcc-libs
+
+C:Q1bt4q2IXw3v+9yK1behOJWfb2jEg=
+P:lcm-dev
+V:1.5.2-r0
+A:aarch64
+S:78223
+I:281498
+T:Lightweight Communications and Marshalling (development files)
+U:https://github.com/lcm-proj/lcm
+L:LGPL-2.1-or-later
+o:lcm
+m:nnarayanamurthy <nnarayanamurthy@qnx.com>
+t:1785302058
+c:497ea0fc0560ac97d6efaf6eeb6de5aa1edfba78
+D:pkgconfig
+p:pc:pc:lcm=1.5.2
+
+C:Q1gUg/p0p9JXIbiZhz4amKJ5tWlVM=
+P:lcm-doc
+V:1.5.2-r0
+A:aarch64
+S:13548
+I:8448
+T:Lightweight Communications and Marshalling (documentation)
+U:https://github.com/lcm-proj/lcm
+L:LGPL-2.1-or-later
+o:lcm
+m:nnarayanamurthy <nnarayanamurthy@qnx.com>
+t:1785302058
+c:497ea0fc0560ac97d6efaf6eeb6de5aa1edfba78
+i:docs lcm=1.5.2-r0
+
+C:Q1bBekCQlu2VJ1B1QmjJbLJHKDu7w=
+P:libaddress_sorting
+V:1.76.0-r0
+A:aarch64
+S:8261
+I:9664
+T:The C based gRPC (libaddress_sorting library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0
+
+C:Q1L0jShTNVR+CqqYMbEoxKdMRQPyk=
+P:libaec
+V:1.1.4-r0
+A:aarch64
+S:16516
+I:30144
+T:Adaptive Entropy Coding library
+U:https://gitlab.dkrz.de/k202009/libaec
+L:BSD-2-Clause
+o:libaec
+m:Ethan Leir <eleir@qnx.com>
+t:1790602665
+c:80de85821554ed1d7809f5b2667a9c15556fbd43
+
+C:Q1AUTr0iBFcsaTyGnQeC6lo9YanHg=
+P:libaec-dev
+V:1.1.4-r0
+A:aarch64
+S:9283
+I:22781
+T:Adaptive Entropy Coding library (development files)
+U:https://gitlab.dkrz.de/k202009/libaec
+L:BSD-2-Clause
+o:libaec
+m:Ethan Leir <eleir@qnx.com>
+t:1790602665
+c:80de85821554ed1d7809f5b2667a9c15556fbd43
+D:libaec=1.1.4-r0 libsz=1.1.4-r0
+
+C:Q1n1fma4LgCIlbwAAxJAhngTxxiZ8=
+P:libepoxy
+V:1.5.10-r2
+A:aarch64
+S:257637
+I:1155280
+T:Direct Rendering Manager runtime library
+U:https://github.com/anholt/libepoxy
+L:MIT
+o:libepoxy
+t:1787089310
+c:e520182e6b8aa7516c27caf3e71b31bc1232746b
+D:qnx-gles
+
+C:Q1sx7sl1ZSaJVRIkqrieuFhS4HcAA=
+P:libepoxy-dev
+V:1.5.10-r2
+A:aarch64
+S:165116
+I:1596388
+T:Direct Rendering Manager runtime library (development files)
+U:https://github.com/anholt/libepoxy
+L:MIT
+o:libepoxy
+t:1787089310
+c:e520182e6b8aa7516c27caf3e71b31bc1232746b
+D:gles-headers egl-headers qnx-screen-dev libepoxy=1.5.10-r2 pkgconfig
+p:pc:pc:epoxy=1.5.10
+
+C:Q1B+hgGEw/5o9DEBezq2g+Pr2lgo4=
+P:libgpr
+V:1.76.0-r0
+A:aarch64
+S:47251
+I:122616
+T:The C based gRPC (libgpr library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0 abseil-cpp libc++
+
+C:Q1lUMpIu60II3mb6+0cbA+iKti4KE=
+P:libgrpc
+V:1.76.0-r0
+A:aarch64
+S:3540080
+I:10933864
+T:The C based gRPC (libgrpc library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0 libaddress_sorting libgpr libupb_base_lib libupb_hash_lib libupb_json_lib libupb_mem_lib libupb_message_lib libupb_reflection_lib libupb_textformat_lib libupb_wire_lib abseil-cpp c-ares libc++ libcrypto3 libssl3 qnx-io-sock re2 zlib-ng
+
+C:Q1nkt4aW4pyvPpMFbpFSvxfEHZYAU=
+P:libgrpc_authorization_provider
+V:1.76.0-r0
+A:aarch64
+S:1105011
+I:3098704
+T:The C based gRPC (libgrpc_authorization_provider library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0 libaddress_sorting libgpr libupb_mem_lib libupb_message_lib libupb_reflection_lib libupb_textformat_lib libupb_wire_lib abseil-cpp c-ares libc++ qnx-io-sock re2 zlib-ng
+
+C:Q1Sp1afOGLUC3ZgImdLzQ0OfYompU=
+P:libgrpc_unsecure
+V:1.76.0-r0
+A:aarch64
+S:2449357
+I:7654968
+T:The C based gRPC (libgrpc_unsecure library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0 libaddress_sorting libgpr libupb_mem_lib libupb_message_lib libupb_reflection_lib libupb_textformat_lib libupb_wire_lib abseil-cpp c-ares libc++ qnx-io-sock zlib-ng
+
+C:Q1PhuMEIHnPwGU0bOxtiBYbSXWdrA=
+P:libgsf
+V:1.14.53-r1
+A:aarch64
+S:123699
+I:331732
+T:Utility library for reading and writing structured file formats
+U:https://gitlab.gnome.org/GNOME/libgsf
+L:LGPL-2.1-only
+o:libgsf
+m:Aaron Bassett <abassett@qnx.com>
+t:1786326900
+c:5f9cd8b1b8b079bbfddfaa3fd5912b28ab94b36a
+D:libbz2 glib libxml2 zlib-ng libintl
+
+C:Q1oSGtMQzz8KIf8xD0UykGaWdR5yk=
+P:libgsf-dev
+V:1.14.53-r1
+A:aarch64
+S:68194
+I:547469
+T:Utility library for reading and writing structured file formats (development files)
+U:https://gitlab.gnome.org/GNOME/libgsf
+L:LGPL-2.1-only
+o:libgsf
+m:Aaron Bassett <abassett@qnx.com>
+t:1786326900
+c:5f9cd8b1b8b079bbfddfaa3fd5912b28ab94b36a
+D:bzip2-dev glib-dev libxml2-dev pkgconfig
+p:pc:pc:libgsf-1=1.14.53
+
+C:Q1Am5z0s6/OvxUI4k4e33IxGwMm/Y=
+P:libgsf-doc
+V:1.14.53-r1
+A:aarch64
+S:90198
+I:764018
+T:Utility library for reading and writing structured file formats (documentation)
+U:https://gitlab.gnome.org/GNOME/libgsf
+L:LGPL-2.1-only
+o:libgsf
+m:Aaron Bassett <abassett@qnx.com>
+t:1786326900
+c:5f9cd8b1b8b079bbfddfaa3fd5912b28ab94b36a
+i:docs libgsf=1.14.53-r1
+
+C:Q1b4+jOpi9R5Q+jRzPf8wUrYaIBps=
+P:libgsf-lang
+V:1.14.53-r1
+A:aarch64
+S:157396
+I:607333
+T:Languages for package libgsf
+U:https://gitlab.gnome.org/GNOME/libgsf
+L:LGPL-2.1-only
+o:libgsf
+m:Aaron Bassett <abassett@qnx.com>
+t:1786326900
+c:5f9cd8b1b8b079bbfddfaa3fd5912b28ab94b36a
+i:libgsf=1.14.53-r1 lang
+
+C:Q1GuJGYkYYtOnfysDEp5xpAIul5uU=
+P:libmd
+V:1.1.0-r0
+A:aarch64
+S:22969
+I:42648
+T:Message Digest functions from BSD systems
+U:https://www.hadrons.org/software/libmd/
+L:BSD-3-Clause AND BSD-2-Clause AND ISC AND Beerware AND LicenseRef-scancode-public-domain
+o:libmd
+m:jscaffidi <jscaffidi@qnx.com>
+t:1786650727
+c:a68710ca857ee6921248f8ed6f212c6cdc7a59d3
+
+C:Q1TQIUZZGDJ+c7tQN0dccNxs/RJ00=
+P:libmd-dev
+V:1.1.0-r0
+A:aarch64
+S:27842
+I:90480
+T:Message Digest functions from BSD systems (development files)
+U:https://www.hadrons.org/software/libmd/
+L:BSD-3-Clause AND BSD-2-Clause AND ISC AND Beerware AND LicenseRef-scancode-public-domain
+o:libmd
+m:jscaffidi <jscaffidi@qnx.com>
+t:1786650727
+c:a68710ca857ee6921248f8ed6f212c6cdc7a59d3
+D:libmd=1.1.0-r0 pkgconfig
+p:pc:pc:libmd=1.1.0
+
+C:Q1634hY9RKwL6ectUPZq2Em+ARVKs=
+P:libmd-doc
+V:1.1.0-r0
+A:aarch64
+S:24601
+I:25277
+T:Message Digest functions from BSD systems (documentation)
+U:https://www.hadrons.org/software/libmd/
+L:BSD-3-Clause AND BSD-2-Clause AND ISC AND Beerware AND LicenseRef-scancode-public-domain
+o:libmd
+m:jscaffidi <jscaffidi@qnx.com>
+t:1786650727
+c:a68710ca857ee6921248f8ed6f212c6cdc7a59d3
+i:docs libmd=1.1.0-r0
+
+C:Q1IvxhOLwyB9v2B+HbLiLNEz3k3EA=
+P:libprotobuf
+V:31.1-r1
+A:aarch64
+S:920015
+I:2572840
+T:Runtime library for C++ users of protocol buffers
+U:https://github.com/protocolbuffers/protobuf
+L:BSD-3-Clause
+o:protobuf
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786643269
+c:d6b9d3da3b4b21704b99447a7b523976928908c4
+D:abseil-cpp>=20250814.1 libc++ libutf8-range=31.1-r1 zlib-ng
+
+C:Q1E9P0HM1hWxsRsADunsnGXajZEJ0=
+P:libprotobuf-lite
+V:31.1-r1
+A:aarch64
+S:172322
+I:534480
+T:Runtime library for C++ users with 'lite runtime' setting of protocol buffers
+U:https://github.com/protocolbuffers/protobuf
+L:BSD-3-Clause
+o:protobuf
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786643269
+c:d6b9d3da3b4b21704b99447a7b523976928908c4
+D:abseil-cpp>=20250814.1 libc++ libutf8-range=31.1-r1
+
+C:Q10DlycNn76id+wmg+uCEUsFtLgnw=
+P:libprotoc
+V:31.1-r1
+A:aarch64
+S:1285939
+I:3831024
+T:Runtime library for Protocol Buffer compiler
+U:https://github.com/protocolbuffers/protobuf
+L:BSD-3-Clause
+o:protobuf
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786643269
+c:d6b9d3da3b4b21704b99447a7b523976928908c4
+D:abseil-cpp>=20250814.1 libc++ libprotobuf=31.1-r1 libutf8-range=31.1-r1
+
+C:Q1I43R/+WmfkL3ZvKymE7cGnrg0kI=
+P:libsfdo
+V:0.1.4-r0
+A:aarch64
+S:33437
+I:79616
+T:A collection of libraries which implement freedesktop.org specifications
+U:https://gitlab.freedesktop.org/vyivel/libsfdo
+L:BSD-2-Clause
+o:libsfdo
+m:Aaron Bassett <abassett@qnx.com>
+t:1791922639
+c:55b8b93a8af610e74a189d3d06877a6b070813e1
+p:so:libsfdo-icon.so.0=0
+
+C:Q1KvTHjwqrcxjh+Tr8oqWdUlSGFCc=
+P:libsfdo-dev
+V:0.1.4-r0
+A:aarch64
+S:8774
+I:27067
+T:A collection of libraries which implement freedesktop.org specifications (development files)
+U:https://gitlab.freedesktop.org/vyivel/libsfdo
+L:BSD-2-Clause
+o:libsfdo
+m:Aaron Bassett <abassett@qnx.com>
+t:1791922639
+c:55b8b93a8af610e74a189d3d06877a6b070813e1
+D:libsfdo=0.1.4-r0 pkgconfig
+p:pc:libsfdo-icon=0.1.4
+
+C:Q1NQjMFopKtjMxdfuNfzx6gc636BI=
+P:libsoup
+V:2.74.3-r1
+A:aarch64
+S:268283
+I:735764
+T:Gnome HTTP client/server Library
+U:https://gitlab.gnome.org/GNOME/libsoup
+L:LGPL-2.0-or-later
+o:libsoup
+m:Felix Xing <fxing@qnx.com>
+t:1786325588
+c:dfc514773b5dec17891f0fee9980526378cfa69a
+D:glib-networking gsettings-desktop-schemas brotli glib libintl libpsl sqlite-libs libxml2 zlib-ng
+
+C:Q1Z5CkAIgJ9ij0TAh8PumnDvuEUEo=
+P:libsoup-dbg
+V:2.74.3-r1
+A:aarch64
+S:731692
+I:2293960
+T:Gnome HTTP client/server Library (debug symbols)
+U:https://gitlab.gnome.org/GNOME/libsoup
+L:LGPL-2.0-or-later
+o:libsoup
+m:Felix Xing <fxing@qnx.com>
+t:1786325588
+c:dfc514773b5dec17891f0fee9980526378cfa69a
+
+C:Q1j+xQIkUj8M6i+fukeTxkmwhWTqo=
+P:libsoup-dev
+V:2.74.3-r1
+A:aarch64
+S:212631
+I:1747159
+T:Gnome HTTP client/server Library (development files)
+U:https://gitlab.gnome.org/GNOME/libsoup
+L:LGPL-2.0-or-later
+o:libsoup
+m:Felix Xing <fxing@qnx.com>
+t:1786325588
+c:dfc514773b5dec17891f0fee9980526378cfa69a
+D:glib-dev libxml2-dev sqlite-dev libpsl-dev brotli-dev pkgconfig
+p:pc:pc:libsoup-gnome-2.4=2.74.3
+
+C:Q1GUjzgaIwLrW2EIFfrc9SegGfew8=
+P:libsoup-lang
+V:2.74.3-r1
+A:aarch64
+S:78720
+I:273300
+T:Languages for package libsoup
+U:https://gitlab.gnome.org/GNOME/libsoup
+L:LGPL-2.0-or-later
+o:libsoup
+m:Felix Xing <fxing@qnx.com>
+t:1786325588
+c:dfc514773b5dec17891f0fee9980526378cfa69a
+i:libsoup=2.74.3-r1 lang
+
+C:Q1F8+mZ687MtvXPYq/txx7blTD+GA=
+P:libssh2
+V:1.11.1-r0
+A:aarch64
+S:114724
+I:260224
+T:library for accessing ssh1/ssh2 protocol servers
+U:https://libssh2.org/
+L:BSD-3-Clause
+o:libssh2
+m:Narayana Murthy <nnarayanamurthy@qnx.com>
+t:1787762971
+c:ce082b5a9872465dea35fd831edfd250ff6a6ae8
+D:qnx-io-sock zlib-ng libssl3 libcrypto3
+
+C:Q1N5yVuwl6IneBwPoihzioUoCqirE=
+P:libssh2-dbg
+V:1.11.1-r0
+A:aarch64
+S:297547
+I:894376
+T:library for accessing ssh1/ssh2 protocol servers (debug symbols)
+U:https://libssh2.org/
+L:BSD-3-Clause
+o:libssh2
+m:Narayana Murthy <nnarayanamurthy@qnx.com>
+t:1787762971
+c:ce082b5a9872465dea35fd831edfd250ff6a6ae8
+
+C:Q1qp49VHGPkJocCAQQLo5y9lGu30k=
+P:libssh2-dev
+V:1.11.1-r0
+A:aarch64
+S:20520
+I:83619
+T:library for accessing ssh1/ssh2 protocol servers (development files)
+U:https://libssh2.org/
+L:BSD-3-Clause
+o:libssh2
+m:Narayana Murthy <nnarayanamurthy@qnx.com>
+t:1787762971
+c:ce082b5a9872465dea35fd831edfd250ff6a6ae8
+D:libssh2=1.11.1-r0 pkgconfig
+p:pc:pc:libssh2=1.11.1
+
+C:Q1HI406t/94okVOqu4iuDSuvsb9bc=
+P:libssh2-doc
+V:1.11.1-r0
+A:aarch64
+S:128768
+I:110974
+T:library for accessing ssh1/ssh2 protocol servers (documentation)
+U:https://libssh2.org/
+L:BSD-3-Clause
+o:libssh2
+m:Narayana Murthy <nnarayanamurthy@qnx.com>
+t:1787762971
+c:ce082b5a9872465dea35fd831edfd250ff6a6ae8
+i:docs libssh2=1.11.1-r0
+
+C:Q1oH5x0Q+eiF6SKWCPnaSoWeB40J0=
+P:libssh2-static
+V:1.11.1-r0
+A:aarch64
+S:596175
+I:1687534
+T:library for accessing ssh1/ssh2 protocol servers (static library)
+U:https://libssh2.org/
+L:BSD-3-Clause
+o:libssh2
+m:Narayana Murthy <nnarayanamurthy@qnx.com>
+t:1787762971
+c:ce082b5a9872465dea35fd831edfd250ff6a6ae8
+
+C:Q1nfeEmij27GFefUqQtUe8CAi5C4E=
+P:libsz
+V:1.1.4-r0
+A:aarch64
+S:17962
+I:34240
+T:Free drop-in replacement for the SZIP compression library
+U:https://gitlab.dkrz.de/k202009/libaec
+L:BSD-2-Clause
+o:libaec
+m:Ethan Leir <eleir@qnx.com>
+t:1790602665
+c:80de85821554ed1d7809f5b2667a9c15556fbd43
+
+C:Q1jugOKoWHcRrQDoEI5Rw8dt4R/Q4=
+P:libupb_base_lib
+V:1.76.0-r0
+A:aarch64
+S:6980
+I:5496
+T:The C based gRPC (libupb_base_lib library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0
+
+C:Q1wPAAOXnFhPxcfzNvTw1BqLa9Beo=
+P:libupb_hash_lib
+V:1.76.0-r0
+A:aarch64
+S:12364
+I:17856
+T:The C based gRPC (libupb_hash_lib library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0
+
+C:Q1wk2m5T9oyFT36Iy7wvNGW3uqNDM=
+P:libupb_json_lib
+V:1.76.0-r0
+A:aarch64
+S:21640
+I:38336
+T:The C based gRPC (libupb_json_lib library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0 libupb_base_lib libupb_lex_lib libupb_mem_lib libupb_message_lib libupb_reflection_lib libupb_wire_lib
+
+C:Q15uRRAxYLIGbtQqFF8l0s3F2Nsv4=
+P:libupb_lex_lib
+V:1.76.0-r0
+A:aarch64
+S:7944
+I:9664
+T:The C based gRPC (libupb_lex_lib library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0
+
+C:Q1URB08SLWgr53GT/ypRccaiaKt0U=
+P:libupb_mem_lib
+V:1.76.0-r0
+A:aarch64
+S:9382
+I:9680
+T:The C based gRPC (libupb_mem_lib library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0
+
+C:Q1dO33CT7FSjKuI6vvJlcWtVnoobg=
+P:libupb_message_lib
+V:1.76.0-r0
+A:aarch64
+S:16911
+I:30232
+T:The C based gRPC (libupb_message_lib library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0 libupb_hash_lib libupb_mem_lib libupb_mini_table_lib
+
+C:Q1pQPCVwNEEnemvQOVmBdjcl1BEto=
+P:libupb_mini_descriptor_lib
+V:1.76.0-r0
+A:aarch64
+S:15689
+I:21952
+T:The C based gRPC (libupb_mini_descriptor_lib library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0 libupb_base_lib libupb_mem_lib libupb_mini_table_lib
+
+C:Q1tpIiC5U3JqMYBipT1nD7ph7lGto=
+P:libupb_mini_table_lib
+V:1.76.0-r0
+A:aarch64
+S:8029
+I:9744
+T:The C based gRPC (libupb_mini_table_lib library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0 libupb_hash_lib libupb_mem_lib
+
+C:Q1TH56a9kFLDvqwgYF9s9C3E78pfA=
+P:libupb_reflection_lib
+V:1.76.0-r0
+A:aarch64
+S:51119
+I:125136
+T:The C based gRPC (libupb_reflection_lib library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0 libupb_base_lib libupb_hash_lib libupb_mem_lib libupb_message_lib libupb_mini_descriptor_lib libupb_mini_table_lib libupb_wire_lib
+
+C:Q1Jv/CeTQaESRAHTwL8KY9GSL6LBc=
+P:libupb_textformat_lib
+V:1.76.0-r0
+A:aarch64
+S:11591
+I:17856
+T:The C based gRPC (libupb_textformat_lib library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0 libupb_lex_lib libupb_mem_lib libupb_message_lib libupb_reflection_lib libupb_wire_lib libutf8_range_lib
+
+C:Q1n9gmz8pWppWwf0Rx9mP6rEBhUKs=
+P:libupb_wire_lib
+V:1.76.0-r0
+A:aarch64
+S:21468
+I:38344
+T:The C based gRPC (libupb_wire_lib library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0 libupb_hash_lib libupb_mem_lib libupb_message_lib libupb_mini_table_lib libutf8_range_lib
+
+C:Q1B7E8Rj1eRqQ3xMkprchU9zyFhFw=
+P:libusb
+V:1.0.23-r0
+A:aarch64
+S:37466
+I:83496
+T:Cross-platform user-mode USB device library
+U:https://libusb.info/
+L:LGPL-2.1-or-later
+o:libusb
+m:Ramya santoshi <rtimmaraju@qnx.com>
+t:1792085215
+c:cc8b37e0b965f06ec98d69cce7a7387d512676ee
+D:libc++ qnx-libpci qnx-usb
+p:so:libusb-1.0.so.0=0.2.0
+
+C:Q1HWsRPMIEBM9/Dij2Facug+VAZAc=
+P:libusb-dev
+V:1.0.23-r0
+A:aarch64
+S:20541
+I:74200
+T:Cross-platform user-mode USB device library (development files)
+U:https://libusb.info/
+L:LGPL-2.1-or-later
+o:libusb
+m:Ramya santoshi <rtimmaraju@qnx.com>
+t:1792085215
+c:cc8b37e0b965f06ec98d69cce7a7387d512676ee
+D:libusb=1.0.23-r0 pkgconfig
+p:pc:libusb-1.0=1.0.23
+
+C:Q1DFaPtzr9AjhG+gqKU4W5NxLZ0fU=
+P:libutf8-range
+V:31.1-r1
+A:aarch64
+S:5576
+I:11136
+T:UTF-8 range library used by protobuf
+U:https://github.com/protocolbuffers/protobuf
+L:BSD-3-Clause
+o:protobuf
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786643269
+c:d6b9d3da3b4b21704b99447a7b523976928908c4
+
+C:Q13xJcvG9xZ4wl0mK7OJwEeaA9NOY=
+P:libutf8_range_lib
+V:1.76.0-r0
+A:aarch64
+S:7285
+I:5568
+T:The C based gRPC (libutf8_range_lib library)
+U:https://grpc.io/
+L:Apache-2.0 AND BSD-3-Clause AND MIT
+o:grpc
+m:Ethan Leir <eleir@qnx.com>
+t:1787694756
+c:cb454e95641cb75f7488c18aa21aa1f8969e4e80
+D:grpc=1.76.0-r0
+
+C:Q102oFKaoM4ZpT8skayHVD53Ops68=
+P:libwebsockets
+V:4.5.8-r0
+A:aarch64
+S:275364
+I:590840
+T:C library for lightweight websocket clients and servers
+U:https://libwebsockets.org/
+L:MIT
+o:libwebsockets
+m:Narayana Murthy <nnarayanamurthy@qnx.com>
+t:1790702308
+c:a0b36528aea213c460ebc9407b8f03ece9f76e07
+D:libcrypto3 libssl3 qnx-io-sock libuv
+p:so:libwebsockets.so.21=21
+
+C:Q1OSfAb/X7X7MKnISveY/72Qzti4c=
+P:libwebsockets-dev
+V:4.5.8-r0
+A:aarch64
+S:245455
+I:928688
+T:C library for lightweight websocket clients and servers (development files)
+U:https://libwebsockets.org/
+L:MIT
+o:libwebsockets
+m:Narayana Murthy <nnarayanamurthy@qnx.com>
+t:1790702308
+c:a0b36528aea213c460ebc9407b8f03ece9f76e07
+D:libwebsockets=4.5.8-r0 pkgconfig
+p:pc:libwebsockets_static=4.5.8
+
+C:Q1YmI5v3MmA7TdViqNZ4J11JrDo1E=
+P:libwebsockets-doc
+V:4.5.8-r0
+A:aarch64
+S:9369
+I:19205
+T:C library for lightweight websocket clients and servers (documentation)
+U:https://libwebsockets.org/
+L:MIT
+o:libwebsockets
+m:Narayana Murthy <nnarayanamurthy@qnx.com>
+t:1790702308
+c:a0b36528aea213c460ebc9407b8f03ece9f76e07
+i:docs libwebsockets=4.5.8-r0
+
+C:Q1z84mQtBA+AhN1jk+iP0+Vn52Yjg=
+P:libwebsockets-test
+V:4.5.8-r0
+A:aarch64
+S:2968568
+I:3246852
+T:C library for lightweight websocket clients and servers (test server)
+U:https://libwebsockets.org/
+L:MIT
+o:libwebsockets
+m:Narayana Murthy <nnarayanamurthy@qnx.com>
+t:1790702308
+c:a0b36528aea213c460ebc9407b8f03ece9f76e07
+D:libwebsockets=4.5.8-r0 libcrypto3 libssl3 qnx-io-sock libuv
+p:cmd:libwebsockets-test-server=4.5.8-r0
+
+C:Q1Yl6m/h97Tdv1eCtWw5ypJlV8fmM=
+P:libweston
+V:14.0.2-r11
+A:aarch64
+S:189167
+I:589504
+T:Reference Wayland server (libraries)
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1786039953
+c:eb25d488c1763bc6ed31c1311d4ef9e0c9999589
+
+C:Q1CXl79fGtiOq4qo4RKskrphIk0t4=
+P:libweston
+V:14.0.2-r12
+A:aarch64
+S:189186
+I:589504
+T:Reference Wayland server (libraries)
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1787947568
+c:7fc1231369f416cdd13c11480ea9939287ea8d5b
+
+C:Q1P9jcx9uuKq0pgWpzN8VnM6s/WXQ=
+P:libxcursor
+V:1.2.3-r0
+A:aarch64
+S:19517
+I:38336
+T:X cursor management library
+U:https://xorg.freedesktop.org/
+L:MIT
+o:libxcursor
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787252919
+c:e20ddda39352c1daa6e1b13cf220a7b522e15a17
+D:libx11 libxfixes libxrender
+
+C:Q1h+qI2rO5V1uZ+zxYqStcXWiJJJ0=
+P:libxcursor-dev
+V:1.2.3-r0
+A:aarch64
+S:26195
+I:70872
+T:X cursor management library (development files)
+U:https://xorg.freedesktop.org/
+L:MIT
+o:libxcursor
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787252919
+c:e20ddda39352c1daa6e1b13cf220a7b522e15a17
+D:libxcursor=1.2.3-r0 pkgconfig
+p:pc:pc:xcursor=1.2.3
+
+C:Q1aKg8mrzoDTfJmWA7EAMQ33dwiNE=
+P:libxcursor-doc
+V:1.2.3-r0
+A:aarch64
+S:12178
+I:9764
+T:X cursor management library (documentation)
+U:https://xorg.freedesktop.org/
+L:MIT
+o:libxcursor
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787252919
+c:e20ddda39352c1daa6e1b13cf220a7b522e15a17
+i:docs libxcursor=1.2.3-r0
+
+C:Q1q8w0yVl7FbXxah50/J/aI9pTjxk=
+P:libxcvt
+V:0.1.3-r0
+A:aarch64
+S:7690
+I:15304
+T:xorg xcvt library and cvt program
+U:https://gitlab.freedesktop.org/xorg/lib/libxcvt
+L:HPND-sell-variant AND MIT
+o:libxcvt
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787252124
+c:dd0ef50ef6c531ad80c3e9e2a9bdf3626731b779
+
+C:Q1at+1oblFox/POY3GAUU5K8WaLWE=
+P:libxcvt-dev
+V:0.1.3-r0
+A:aarch64
+S:4464
+I:4058
+T:xorg xcvt library and cvt program (development files)
+U:https://gitlab.freedesktop.org/xorg/lib/libxcvt
+L:HPND-sell-variant AND MIT
+o:libxcvt
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787252124
+c:dd0ef50ef6c531ad80c3e9e2a9bdf3626731b779
+D:libxcvt=0.1.3-r0 pkgconfig
+p:pc:pc:libxcvt=0.1.3
+
+C:Q1Wys0HMbulj614DBQ/23CsTxQeMM=
+P:libxcvt-doc
+V:0.1.3-r0
+A:aarch64
+S:4647
+I:4123
+T:xorg xcvt library and cvt program (documentation)
+U:https://gitlab.freedesktop.org/xorg/lib/libxcvt
+L:HPND-sell-variant AND MIT
+o:libxcvt
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787252124
+c:dd0ef50ef6c531ad80c3e9e2a9bdf3626731b779
+i:docs libxcvt=0.1.3-r0
+
+C:Q1JRUkXT+34fpp9e7l3+bCF0+nDgI=
+P:libxfce4panel
+V:4.21.0-r2
+A:aarch64
+S:32017
+I:91656
+T:Panel for the Xfce desktop environment (libraries)
+U:https://xfce.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:xfce4-panel
+m:Felix Xing <fxing@qnx.com>
+t:1785179969
+c:d2454eb9854216ac35fb44bb7bc37c061bd06f76
+
+C:Q1oUe3QikeOUIxk/eGc43PHoDeHtM=
+P:libxfont2
+V:2.0.7-r0
+A:aarch64
+S:103612
+I:193416
+T:X.Org X11 libXfont2 runtime library
+U:https://www.x.org
+L:MIT
+o:libxfont2
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787251682
+c:c643329e8712d724e9d90124e8dd1165ed20a434
+D:freetype zlib libfontenc ncurses qnx-io-sock
+
+C:Q1J/ptRkXz7L2cbQ3hVCv/FCNSXiU=
+P:libxfont2-dev
+V:2.0.7-r0
+A:aarch64
+S:5009
+I:5580
+T:X.Org X11 libXfont2 runtime library (development files)
+U:https://www.x.org
+L:MIT
+o:libxfont2
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787251682
+c:c643329e8712d724e9d90124e8dd1165ed20a434
+D:freetype zlib libfontenc ncurses qnx-io-sock xorgproto libxfont2=2.0.7-r0 pkgconfig
+p:pc:pc:xfont2=2.0.7
+
+C:Q1MEdAfGckhakVkgJD+r0pbv+5HfQ=
+P:libxkbcommon
+V:1.8.0-r3
+A:aarch64
+S:139828
+I:306448
+T:keyboard handling library
+U:https://xkbcommon.org/
+L:MIT AND MIT-open-group AND HPND AND HPND-sell-variant AND LicenseRef-digital-equipment-corporation
+o:libxkbcommon
+t:1786315982
+c:31334a50aeda6550cdf08da9e24f3e00853c9d0c
+D:xkeyboard-config libx11 qnx-io-sock libxml2
+
+C:Q12s6vAgwrru1QlbTCeR5Ex3ExFng=
+P:libxkbcommon-dev
+V:1.8.0-r3
+A:aarch64
+S:78742
+I:373114
+T:keyboard handling library (development files)
+U:https://xkbcommon.org/
+L:MIT AND MIT-open-group AND HPND AND HPND-sell-variant AND LicenseRef-digital-equipment-corporation
+o:libxkbcommon
+t:1786315982
+c:31334a50aeda6550cdf08da9e24f3e00853c9d0c
+D:libxkbcommon=1.8.0-r3 libx11-dev pkgconfig
+p:pc:pc:xkbregistry=1.8.0
+
+C:Q1SdkQsUY4kKQXKO20kGbVHcOyRLA=
+P:libxkbcommon-doc
+V:1.8.0-r3
+A:aarch64
+S:9004
+I:3994
+T:keyboard handling library (documentation)
+U:https://xkbcommon.org/
+L:MIT AND MIT-open-group AND HPND AND HPND-sell-variant AND LicenseRef-digital-equipment-corporation
+o:libxkbcommon
+t:1786315982
+c:31334a50aeda6550cdf08da9e24f3e00853c9d0c
+i:docs libxkbcommon=1.8.0-r3
+
+C:Q1l0mTZaj+OEUhqP1tjDXffP+5WwA=
+P:libxkbcommon-static
+V:1.8.0-r3
+A:aarch64
+S:174647
+I:492996
+T:keyboard handling library (static library)
+U:https://xkbcommon.org/
+L:MIT AND MIT-open-group AND HPND AND HPND-sell-variant AND LicenseRef-digital-equipment-corporation
+o:libxkbcommon
+t:1786315982
+c:31334a50aeda6550cdf08da9e24f3e00853c9d0c
+
+C:Q18xp7EW6vPx9oUdt0bqF/mWD1Xv0=
+P:libxkbfile
+V:1.2.0-r0
+A:aarch64
+S:60771
+I:129576
+T:X11 keyboard file manipulation library
+U:https://xorg.freedesktop.org/
+L:MIT
+o:libxkbfile
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787251995
+c:dd3c60dd7ce52b8e778b63739b6758e63df04c3e
+D:libx11
+
+C:Q1V20uBMw7Gu2rdStkcOvpebgEYHY=
+P:libxkbfile-dev
+V:1.2.0-r0
+A:aarch64
+S:11416
+I:40565
+T:X11 keyboard file manipulation library (development files)
+U:https://xorg.freedesktop.org/
+L:MIT
+o:libxkbfile
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787251995
+c:dd3c60dd7ce52b8e778b63739b6758e63df04c3e
+D:libxkbfile=1.2.0-r0 pkgconfig
+p:pc:pc:xkbfile=1.2.0
+
+C:Q13mem3bOXCrhD61A2x0cGfjcN9C4=
+P:libxkbfile-doc
+V:1.2.0-r0
+A:aarch64
+S:3756
+I:3316
+T:X11 keyboard file manipulation library (documentation)
+U:https://xorg.freedesktop.org/
+L:MIT
+o:libxkbfile
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787251995
+c:dd3c60dd7ce52b8e778b63739b6758e63df04c3e
+i:docs libxkbfile=1.2.0-r0
+
+C:Q1QeHn2ZKpSzib3PUJBdurDxCXXd4=
+P:libxmu
+V:1.3.1-r0
+A:aarch64
+S:49678
+I:110680
+T:X11 miscellaneous micro-utility library
+U:https://xorg.freedesktop.org/
+L:MIT
+o:libxmu
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787252602
+c:c56e0436e35e7f361361b2fac2bf95f4ce24a530
+D:libx11 libxext libxt
+
+C:Q1QSvIoCKaCpzhkhATtTfLp4PnWdY=
+P:libxmu-dev
+V:1.3.1-r0
+A:aarch64
+S:77447
+I:278382
+T:X11 miscellaneous micro-utility library (development files)
+U:https://xorg.freedesktop.org/
+L:MIT
+o:libxmu
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787252602
+c:c56e0436e35e7f361361b2fac2bf95f4ce24a530
+D:libxmu=1.3.1-r0 pkgconfig
+p:pc:pc:xmuu=1.3.1
+
+C:Q10Lo4h8LYFsLJEF5xPxZYqPYkOTU=
+P:libxmu-doc
+V:1.3.1-r0
+A:aarch64
+S:24834
+I:159799
+T:X11 miscellaneous micro-utility library (documentation)
+U:https://xorg.freedesktop.org/
+L:MIT
+o:libxmu
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787252602
+c:c56e0436e35e7f361361b2fac2bf95f4ce24a530
+i:docs libxmu=1.3.1-r0
+
+C:Q16KWuEI3Ukg3A0MGj5VVlNet/udg=
+P:libxshmfence
+V:1.3.3-r0
+A:aarch64
+S:4533
+I:9664
+T:X11 shared memory fences
+U:https://www.x.org/
+L:MIT
+o:libxshmfence
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787251753
+c:d3296cd57c9a9e15554a62fdef1768fd3814e359
+
+C:Q1UbIF6QBPHm+h/unq7gVKLNEJyhs=
+P:libxshmfence-dev
+V:1.3.3-r0
+A:aarch64
+S:3638
+I:1966
+T:X11 shared memory fences (development files)
+U:https://www.x.org/
+L:MIT
+o:libxshmfence
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787251753
+c:d3296cd57c9a9e15554a62fdef1768fd3814e359
+D:libxshmfence=1.3.3-r0 pkgconfig
+p:pc:pc:xshmfence=1.3.3
+
+C:Q1Zjv1KSykm2PhiSiTnjSmXKYJ7YI=
+P:libxslt
+V:1.1.45-r0
+A:aarch64
+S:129606
+I:312632
+T:XML stylesheet transformation library
+U:http://xmlsoft.org/XSLT/
+L:X11
+o:libxslt
+t:1786381563
+c:8331d3892876b04d9913d9300064068894cdcbca
+D:libxml2
+
+C:Q1dslIJz9stCh8D34L4NzVE1NOlVw=
+P:libxslt-dev
+V:1.1.45-r0
+A:aarch64
+S:34845
+I:127792
+T:XML stylesheet transformation library (development files)
+U:http://xmlsoft.org/XSLT/
+L:X11
+o:libxslt
+t:1786381563
+c:8331d3892876b04d9913d9300064068894cdcbca
+D:libxslt=1.1.45-r0 pkgconfig
+p:pc:pc:libxslt=1.1.45
+
+C:Q1YlshBeEvwTGWsyT4w5ymI+SNVUY=
+P:libxslt-doc
+V:1.1.45-r0
+A:aarch64
+S:98131
+I:596625
+T:XML stylesheet transformation library (documentation)
+U:http://xmlsoft.org/XSLT/
+L:X11
+o:libxslt
+t:1786381563
+c:8331d3892876b04d9913d9300064068894cdcbca
+i:docs libxslt=1.1.45-r0
+
+C:Q14QfWbNkJ9Le2EtK7LOkDH8Bahe4=
+P:libxslt-static
+V:1.1.45-r0
+A:aarch64
+S:161558
+I:534482
+T:XML stylesheet transformation library (static library)
+U:http://xmlsoft.org/XSLT/
+L:X11
+o:libxslt
+t:1786381563
+c:8331d3892876b04d9913d9300064068894cdcbca
+
+C:Q1FAktME52fAGeCu1KxED6/zXuXAI=
+P:linux-headers-input-codes
+V:7.2.9-r0
+A:aarch64
+S:12723
+I:31675
+T:Provides input-event-codes for packages from kernel uapi
+U:https://github.com/torvalds/linux
+L:GPL-2.0 WITH Linux-syscall-note
+o:linux-headers-input-codes
+m:jscaffidi <jscaffidi@qnx.com>
+t:1791403536
+c:98ea688804200e8a7b58e56c898e13a622e9fcbd
+
+C:Q1MxzXXB9SnDWnK0TJni6MucQW+W0=
+P:mate-calc
+V:1.28.0-r1
+A:aarch64
+S:169835
+I:448589
+T:Calculator for MATE
+U:https://github.com/mate-desktop/mate-calc
+L:GPL-2.0-or-later
+o:mate-calc
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786332526
+c:a9e67de95a062d1a52fe32bf22f9bc218db06e2e
+D:glib gmp gtk3 libxml2 mpfr mpc1
+
+C:Q15b7Sh96o3v1lkNTx+zoqRCSWQlU=
+P:mate-calc-doc
+V:1.28.0-r1
+A:aarch64
+S:901222
+I:3625556
+T:Calculator for MATE (documentation)
+U:https://github.com/mate-desktop/mate-calc
+L:GPL-2.0-or-later
+o:mate-calc
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786332526
+c:a9e67de95a062d1a52fe32bf22f9bc218db06e2e
+i:docs mate-calc=1.28.0-r1
+
+C:Q1kPN9u59J1xCy04GystHGpaomHzQ=
+P:mate-calc-lang
+V:1.28.0-r1
+A:aarch64
+S:955712
+I:2568711
+T:Languages for package mate-calc
+U:https://github.com/mate-desktop/mate-calc
+L:GPL-2.0-or-later
+o:mate-calc
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786332526
+c:a9e67de95a062d1a52fe32bf22f9bc218db06e2e
+i:mate-calc=1.28.0-r1 lang
+
+C:Q1z7e4S8J3RdMXHq9kcfnde72wjcw=
+P:mimalloc
+V:3.2.8-r0
+A:aarch64
+S:75718
+I:216744
+T:mimalloc is a compact general purpose allocator with excellent performance.
+U:https://github.com/microsoft/mimalloc
+L:MIT
+o:mimalloc
+m:Deep Chordia <dchordia@blackberry.com>
+t:1771834781
+c:f83b501655645542bcb966fc10d0824e26d02647
+
+C:Q1A6tyQXUpkjbyjv0CAdDQxImgg5U=
+P:mimalloc-dev
+V:3.2.8-r0
+A:aarch64
+S:116969
+I:427116
+T:mimalloc is a compact general purpose allocator with excellent performance. (development files)
+U:https://github.com/microsoft/mimalloc
+L:MIT
+o:mimalloc
+m:Deep Chordia <dchordia@blackberry.com>
+t:1771834781
+c:f83b501655645542bcb966fc10d0824e26d02647
+D:mimalloc=3.2.8-r0 pkgconfig
+p:pc:pc:mimalloc=3.2
+
+C:Q1e26MEBKVXUV6hRDoe4KII6TaFUc=
+P:miniz
+V:3.1.2-r0
+A:aarch64
+S:47614
+I:91656
+T:Single-file zlib replacement library
+U:https://github.com/richgel999/miniz
+L:MIT
+o:miniz
+m:Ramya santoshi <rtimmaraju@qnx.com>
+t:1786644310
+c:ae762a06f565ec31ffe6691dea71574ac383a301
+D:libc++
+
+C:Q1CQG1ihMCEhZwC5nOm4mEY+TfMQM=
+P:miniz-dev
+V:3.1.2-r0
+A:aarch64
+S:25377
+I:85608
+T:Single-file zlib replacement library (development files)
+U:https://github.com/richgel999/miniz
+L:MIT
+o:miniz
+m:Ramya santoshi <rtimmaraju@qnx.com>
+t:1786644310
+c:ae762a06f565ec31ffe6691dea71574ac383a301
+D:miniz=3.1.2-r0 pkgconfig
+p:pc:pc:miniz=3.1.2
+
+C:Q1CIRBKVww07xJZXSrp4OgpbbaMKs=
+P:mujoco
+V:3.10.0-r0
+A:aarch64
+S:1406460
+I:3454288
+T:MuJoCo physics engine
+U:https://github.com/google-deepmind/mujoco
+L:Apache-2.0
+o:mujoco
+m:Ramya santoshi <rtimmaraju@qnx.com>
+t:1791903397
+c:c95f8b09a6adacf4a3bdb46823ea42e537dd6fe6
+D:miniz libc++
+p:so:libmujoco.so.3.10.0=3.10.0
+
+C:Q1Tvqa76zKTajWUMg2vIm8jQnt6RQ=
+P:mujoco-dev
+V:3.10.0-r0
+A:aarch64
+S:94222
+I:427385
+T:MuJoCo physics engine (development files)
+U:https://github.com/google-deepmind/mujoco
+L:Apache-2.0
+o:mujoco
+m:Ramya santoshi <rtimmaraju@qnx.com>
+t:1791903397
+c:c95f8b09a6adacf4a3bdb46823ea42e537dd6fe6
+D:mujoco=3.10.0-r0
+
+C:Q1yLSbJN1+39UaD0lqJxEm73j5Cv4=
+P:mujoco-models
+V:3.10.0-r0
+A:aarch64
+S:9855450
+I:12818910
+T:MuJoCo physics engine
+U:https://github.com/google-deepmind/mujoco
+L:Apache-2.0
+o:mujoco
+m:Ramya santoshi <rtimmaraju@qnx.com>
+t:1791903397
+c:c95f8b09a6adacf4a3bdb46823ea42e537dd6fe6
+D:miniz libc++
+
+C:Q1uhCYas2qhItBWrF85gQDbiUfGBA=
+P:ncnn
+V:20260526-r0
+A:aarch64
+S:4832
+T:High-performance neural network inference framework optimized for mobile/embedded platforms
+U:https://github.com/Tencent/ncnn
+L:BSD-3-Clause
+o:ncnn
+m:Marcin Sochacki <msochacki@qnx.com>
+t:1787193145
+c:7be02a1d8271b544d7d9d07f44242324684a0eeb
+D:ncnn-libs=20260526-r0
+
+C:Q1siMhP9wcjX2Ig2i4lxrcr5ay5HA=
+P:ncnn-dev
+V:20260526-r0
+A:aarch64
+S:74146
+I:405288
+T:High-performance neural network inference framework optimized for mobile/embedded platforms (development files)
+U:https://github.com/Tencent/ncnn
+L:BSD-3-Clause
+o:ncnn
+m:Marcin Sochacki <msochacki@qnx.com>
+t:1787193145
+c:7be02a1d8271b544d7d9d07f44242324684a0eeb
+D:libc++-dev openmp-dev vulkan-headers ncnn-libs=20260526-r0 pkgconfig
+p:pc:pc:ncnn=1.0.20260820
+
+C:Q1gIZP/DEE5NaIrM2AHlf45L24jKs=
+P:ncnn-libs
+V:20260526-r0
+A:aarch64
+S:1995574
+I:5506896
+T:High-performance neural network inference framework optimized for mobile/embedded platforms (libraries)
+U:https://github.com/Tencent/ncnn
+L:BSD-3-Clause
+o:ncnn
+m:Marcin Sochacki <msochacki@qnx.com>
+t:1787193145
+c:7be02a1d8271b544d7d9d07f44242324684a0eeb
+D:libc++ openmp>=22.1.4_p1 qnx-vulkan glslang-libs
+
+C:Q1/DlWZKsHrU8F2u/T/Jy+7oMRV4Y=
+P:ncnn-tools
+V:20260526-r0
+A:aarch64
+S:355608
+I:976416
+T:High-performance neural network inference framework optimized for mobile/embedded platforms (model conversion and optimization tools)
+U:https://github.com/Tencent/ncnn
+L:BSD-3-Clause
+o:ncnn
+m:Marcin Sochacki <msochacki@qnx.com>
+t:1787193145
+c:7be02a1d8271b544d7d9d07f44242324684a0eeb
+D:libc++ ncnn-libs=20260526-r0 libprotobuf abseil-cpp>=20250814.1
+
+C:Q1ozmvzq7XU07QliZ6b2mQoQc1590=
+P:neovim
+V:0.12.3-r0
+A:aarch64
+S:6291099
+I:21268653
+T:Vim-fork focused on extensibility and agility
+U:https://neovim.io/
+L:Apache-2.0 AND Vim
+o:neovim
+m:Aaron Bassett <abassett@qnx.com>
+t:1787240421
+c:23ec4b9baa7d99446d124425f1279f5412e46ab3
+D:lua5.1-lpeg libiconv luajit libluv tree-sitter unibilium utf8proc libuv tree-sitter-c tree-sitter-lua tree-sitter-vim tree-sitter-vimdoc tree-sitter-query tree-sitter-markdown
+
+C:Q1Qf9e1KBZlTPCmmtaWWiQ4Pq5ST0=
+P:neovim-doc
+V:0.12.3-r0
+A:aarch64
+S:1590190
+I:5221312
+T:Vim-fork focused on extensibility and agility (documentation)
+U:https://neovim.io/
+L:Apache-2.0 AND Vim
+o:neovim
+m:Aaron Bassett <abassett@qnx.com>
+t:1787240421
+c:23ec4b9baa7d99446d124425f1279f5412e46ab3
+i:docs neovim=0.12.3-r0
+
+C:Q1RW+aCxw664BSiVFbDaGMzuAL28M=
+P:nginx
+V:1.29.2-r2
+A:aarch64
+S:638846
+I:1523889
+T:Lightweight HTTP server and IMAP/POP3 proxy server
+U:nginx.org/
+L:BSD-2-Clause
+o:nginx
+m:Felix Xing <fxing@qnx.com>
+t:1786331480
+c:2a49e493453043df35b7aa59415b47eb25b5f513
+D:qnx-io-sock libssl3 libcrypto3 zlib pcre2 libxml2 libxslt libgd geoip libxcrypt /bin/sh
+
+C:Q1Bkhdw4f6s02yR6A1eQ1wCzdbgmU=
+P:nginx-debug
+V:1.29.2-r2
+A:aarch64
+S:588903
+I:1453736
+T:nginx built with support for debugging log
+U:nginx.org/
+L:BSD-2-Clause
+o:nginx
+m:Felix Xing <fxing@qnx.com>
+t:1786331480
+c:2a49e493453043df35b7aa59415b47eb25b5f513
+D:nginx=1.29.2-r2
+
+C:Q1GzE7CGmJ7zjed8l1q1yD5XvySIY=
+P:nginx-doc
+V:1.29.2-r2
+A:aarch64
+S:13186
+I:18051
+T:Lightweight HTTP server and IMAP/POP3 proxy server (documentation)
+U:nginx.org/
+L:BSD-2-Clause
+o:nginx
+m:Felix Xing <fxing@qnx.com>
+t:1786331480
+c:2a49e493453043df35b7aa59415b47eb25b5f513
+i:docs nginx=1.29.2-r2
+
+C:Q1E5bh9S1QpVEPD8zt3A98iDiOey0=
+P:onnx
+V:1.20.1-r0
+A:aarch64
+S:1301435
+I:4646444
+T:Open standard for machine learning interoperability
+U:https://onnx.ai
+L:Apache-2.0
+o:onnx
+m:Deep Chordia <dchordia@qnx.com>
+t:1787159188
+c:544b68c9f8daa2364ecab84f41c169e8386167fa
+D:libc++
+
+C:Q1D4wOdxpwacuoljCmFMmBCj6Kdus=
+P:onnx-dev
+V:1.20.1-r0
+A:aarch64
+S:232898
+I:1618290
+T:Open standard for machine learning interoperability (development files)
+U:https://onnx.ai
+L:Apache-2.0
+o:onnx
+m:Deep Chordia <dchordia@qnx.com>
+t:1787159188
+c:544b68c9f8daa2364ecab84f41c169e8386167fa
+D:libc++-dev protobuf-dev
+
+C:Q1lxGTz3gnb5f89h/1TDxrN/b+06U=
+P:onnxruntime
+V:1.24.4-r0
+A:aarch64
+S:10907632
+I:31941647
+T:Cross-platform, high performance ML inferencing and training accelerator
+U:https://onnxruntime.ai
+L:MIT
+o:onnxruntime
+m:Deep Chordia <dchordia@blackberry.com>
+t:1790604530
+c:57cfafd144bf5c010563c36edaa80955bd02eb47
+D:abseil-cpp flatbuffers protobuf onnx re2 eigen libiconv
+
+C:Q1EiuxdkMxikimzHGmRsENa3ghNUc=
+P:onnxruntime-dev
+V:1.24.4-r0
+A:aarch64
+S:168191
+I:902448
+T:Cross-platform, high performance ML inferencing and training accelerator (development files)
+U:https://onnxruntime.ai
+L:MIT
+o:onnxruntime
+m:Deep Chordia <dchordia@blackberry.com>
+t:1790604530
+c:57cfafd144bf5c010563c36edaa80955bd02eb47
+D:abseil-cpp-dev flatbuffers-dev protobuf-dev onnx-dev re2-dev eigen-dev libiconv-dev python3-dev python3-numpy-dev python3-pybind11-dev onnxruntime=1.24.4-r0 pkgconfig
+p:pc:pc:libonnxruntime=1.24.4
+
+C:Q1d0ivMk+fVsfP34gsXklDUlHG6sg=
+P:openblas
+V:0.3.31-r1
+A:aarch64
+S:5222449
+I:11968072
+T:OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+U:http://www.openmathlib.org/OpenBLAS/
+L:BSD-3-Clause
+o:openblas
+m:Deep Chordia <dchordia@blackberry.com>
+t:1788449077
+c:4f112ac7a6601bc2a7ec20330878904349b1ba71
+D:openmp
+
+C:Q1pca0VCY39Ln1ZF6ihvFmb/B9gcg=
+P:openblas-dev
+V:0.3.31-r1
+A:aarch64
+S:113358
+I:1771984
+T:OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version. (development files)
+U:http://www.openmathlib.org/OpenBLAS/
+L:BSD-3-Clause
+o:openblas
+m:Deep Chordia <dchordia@blackberry.com>
+t:1788449077
+c:4f112ac7a6601bc2a7ec20330878904349b1ba71
+D:flang22 openmp-dev openblas=0.3.31-r1 pkgconfig
+p:pc:pc:openblas=0.3.31
+
+C:Q1l9yXMWhc2WEpgD/5v4+Nazj8jaM=
+P:openttd
+V:15.2-r0
+A:aarch64
+S:5002320
+I:12707153
+T:Open source version of the Transport Tycoon Deluxe simulator
+U:https://www.openttd.org
+L:GPL-2.0-or-later
+o:openttd
+m:abdulahmoda <abahmoda@qnx.com>
+t:1787254264
+c:4e21c6b48101340de297eae697d184cf2daff31c
+D:libcurl harfbuzz libpng lzo sdl2-compat sdl2-compat-static
+
+C:Q1V4zaMAxCBySE1hvaTRFnlMeORuc=
+P:openttd-doc
+V:15.2-r0
+A:aarch64
+S:286628
+I:807317
+T:Open source version of the Transport Tycoon Deluxe simulator (documentation)
+U:https://www.openttd.org
+L:GPL-2.0-or-later
+o:openttd
+m:abdulahmoda <abahmoda@qnx.com>
+t:1787254264
+c:4e21c6b48101340de297eae697d184cf2daff31c
+i:docs openttd=15.2-r0
+
+C:Q1lc2GgVE5iE6TnFG0m5SLbThVzDA=
+P:openttd-lang
+V:15.2-r0
+A:aarch64
+S:3779154
+I:12521888
+T:Open source version of the Transport Tycoon Deluxe simulator (localizations)
+U:https://www.openttd.org
+L:GPL-2.0-or-later
+o:openttd
+m:abdulahmoda <abahmoda@qnx.com>
+t:1787254264
+c:4e21c6b48101340de297eae697d184cf2daff31c
+D:libcurl harfbuzz libpng lzo sdl2-compat sdl2-compat-static
+
+C:Q1I3VCZv+Q+p6MdtlRWXHsqxeEgmM=
+P:openttd-opengfx
+V:8.0-r0
+A:aarch64
+S:3565281
+I:5323665
+T:Free graphics set for OpenTTD
+U:https://www.openttd.org/
+L:GPL-2.0-or-later
+o:openttd-opengfx
+m:abdulahmoda <abahmoda@qnx.com>
+t:1787254264
+c:4e21c6b48101340de297eae697d184cf2daff31c
+i:openttd
+
+C:Q1ABoeNxG5u6nI+dmxbC1KZWHQgNw=
+P:openttd-openmsx
+V:0.4.2-r0
+A:aarch64
+S:131875
+I:737696
+T:Music Base Set for OpenTTD
+U:https://www.openttd.org/
+L:GPL-2.0-or-later
+o:openttd-openmsx
+m:abdulahmoda <abahmoda@qnx.com>
+t:1787254264
+c:4e21c6b48101340de297eae697d184cf2daff31c
+i:openttd
+
+C:Q1bnqWj7nq7Gf4Ho57wwVLYpzRuU8=
+P:openttd-opensfx
+V:1.0.3-r0
+A:aarch64
+S:11544894
+I:13205816
+T:Free sound effect set for OpenTTD
+U:https://www.openttd.org/
+L:CC-BY-SA-3.0 AND GPL-2.0-or-later AND CDDL-1.1
+o:openttd-opensfx
+m:abdulahmoda <abahmoda@qnx.com>
+t:1787254264
+c:4e21c6b48101340de297eae697d184cf2daff31c
+i:openttd
+
+C:Q1E+t0dzh2xFF9//b7bkdbAMhoGHw=
+P:perl-io-tty
+V:1.20-r2
+A:aarch64
+S:19591
+I:51219
+T:Pseudo ttys and constants
+U:https://metacpan.org/release/IO-Tty/
+L:GPL-1.0-or-later OR Artistic-1.0-Perl
+o:perl-io-tty
+m:abdulahmoda <abahmoda@qnx.com>
+t:1787240929
+c:441c8d5b4ac2f980f9f82f99ca89b65e4042057f
+D:perl
+
+C:Q1mxAhpyMZTbE9z0eZt3icXJYIpDQ=
+P:perl-io-tty-doc
+V:1.20-r2
+A:aarch64
+S:12134
+I:9285
+T:Pseudo ttys and constants (documentation)
+U:https://metacpan.org/release/IO-Tty/
+L:GPL-1.0-or-later OR Artistic-1.0-Perl
+o:perl-io-tty
+m:abdulahmoda <abahmoda@qnx.com>
+t:1787240929
+c:441c8d5b4ac2f980f9f82f99ca89b65e4042057f
+i:docs perl-io-tty=1.20-r2
+
+C:Q1yr5NHql6NY2hqYgLQB6/nl8YNFI=
+P:poppler
+V:25.12.0-r1
+A:aarch64
+S:1162950
+I:3579562
+T:PDF rendering library based on xpdf 3.0
+U:https://poppler.freedesktop.org/
+L:GPL-2.0-or-later
+o:poppler
+m:Aaron Bassett <abassett@qnx.com>
+t:1786330747
+c:c4137353d0e3e94fdb5c3a3433925c738f5dfce5
+D:libc++ fontconfig libjpeg-turbo libpng libxml2 nss openjpeg tiff zlib-ng
+
+C:Q1OSkKmAXiA7EH8A0xlcPaBulh0wM=
+P:poppler-dev
+V:25.12.0-r1
+A:aarch64
+S:365234
+I:2515175
+T:PDF rendering library based on xpdf 3.0 (development files)
+U:https://poppler.freedesktop.org/
+L:GPL-2.0-or-later
+o:poppler
+m:Aaron Bassett <abassett@qnx.com>
+t:1786330747
+c:c4137353d0e3e94fdb5c3a3433925c738f5dfce5
+D:cairo-dev glib-dev pkgconfig
+p:pc:pc:poppler=25.12.0
+
+C:Q1hE9g8uQdIBBkmdUxvQathVSXUA8=
+P:poppler-doc
+V:25.12.0-r1
+A:aarch64
+S:28839
+I:22815
+T:PDF rendering library based on xpdf 3.0 (documentation)
+U:https://poppler.freedesktop.org/
+L:GPL-2.0-or-later
+o:poppler
+m:Aaron Bassett <abassett@qnx.com>
+t:1786330747
+c:c4137353d0e3e94fdb5c3a3433925c738f5dfce5
+i:docs poppler=25.12.0-r1
+
+C:Q1cEUq9muZrPB37xL2IQz5bhwH1jk=
+P:poppler-glib
+V:25.12.0-r1
+A:aarch64
+S:200022
+I:596320
+T:Glib wrapper for poppler
+U:https://poppler.freedesktop.org/
+L:GPL-2.0-or-later
+o:poppler
+m:Aaron Bassett <abassett@qnx.com>
+t:1786330747
+c:c4137353d0e3e94fdb5c3a3433925c738f5dfce5
+D:poppler=25.12.0-r1 glib
+
+C:Q14nJoWeiV8wy4QRs8Y0F9nyZU8XY=
+P:poppler-utils
+V:25.12.0-r1
+A:aarch64
+S:397176
+I:893248
+T:Poppler's xpdf-workalike command line utilities
+U:https://poppler.freedesktop.org/
+L:GPL-2.0-or-later
+o:poppler
+m:Aaron Bassett <abassett@qnx.com>
+t:1786330747
+c:c4137353d0e3e94fdb5c3a3433925c738f5dfce5
+D:poppler=25.12.0-r1
+
+C:Q1dK0oNJecRe0CsdX6LhjT4PMBOSY=
+P:protobuf
+V:31.1-r1
+A:aarch64
+S:2902
+T:Library for extensible, efficient structure packing
+U:https://github.com/protocolbuffers/protobuf
+L:BSD-3-Clause
+o:protobuf
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786643269
+c:d6b9d3da3b4b21704b99447a7b523976928908c4
+D:protoc=31.1-r1 libprotoc=31.1-r1 libprotobuf=31.1-r1 libprotobuf-lite=31.1-r1
+
+C:Q18VmzJUO4Qy/5hAe1gAkecp8iBGw=
+P:protobuf-c
+V:1.5.2-r0
+A:aarch64
+S:16538
+I:30320
+T:Protocol Buffers implementation in C
+U:https://github.com/protobuf-c/protobuf-c
+L:BSD-2-Clause
+o:protobuf-c
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787247305
+c:21540b340f0c8bf27b2712413d6184b258b2ecd5
+
+C:Q1trUvkZDVtr8ccnDHgwWAyC07LMM=
+P:protobuf-c-compiler
+V:1.5.2-r0
+A:aarch64
+S:77501
+I:199672
+T:Protocol Buffers C compiler
+U:https://github.com/protobuf-c/protobuf-c
+L:BSD-2-Clause
+o:protobuf-c
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787247305
+c:21540b340f0c8bf27b2712413d6184b258b2ecd5
+
+C:Q1HqtUHEg/4eHF5JWJncwMSKSL2ZU=
+P:protobuf-c-dev
+V:1.5.2-r0
+A:aarch64
+S:27884
+I:69944
+T:Protocol Buffers implementation in C (development files)
+U:https://github.com/protobuf-c/protobuf-c
+L:BSD-2-Clause
+o:protobuf-c
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787247305
+c:21540b340f0c8bf27b2712413d6184b258b2ecd5
+D:protobuf-c-compiler=1.5.2-r0 pkgconfig protobuf-c=1.5.2-r0
+p:pc:pc:libprotobuf-c=1.5.2
+
+C:Q17jFXrz3gdJP7V9st1fjhTBMSdk8=
+P:protobuf-dev
+V:31.1-r1
+A:aarch64
+S:887325
+I:5084958
+T:Library for extensible, efficient structure packing (development files)
+U:https://github.com/protocolbuffers/protobuf
+L:BSD-3-Clause
+o:protobuf
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786643269
+c:d6b9d3da3b4b21704b99447a7b523976928908c4
+D:abseil-cpp-dev>=20250814.1 protoc=31.1-r1 zlib-dev libprotobuf-lite=31.1-r1 libprotobuf=31.1-r1 libprotoc=31.1-r1 libutf8-range=31.1-r1 pkgconfig
+p:pc:pc:utf8_range=1.0
+
+C:Q1dKMf/6h/JV5akSnmKuaknpRpX+Q=
+P:protobuf-vim
+V:31.1-r1
+A:aarch64
+S:5001
+I:3805
+T:Vim syntax for protobuf
+U:https://github.com/protocolbuffers/protobuf
+L:BSD-3-Clause
+o:protobuf
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786643269
+c:d6b9d3da3b4b21704b99447a7b523976928908c4
+i:protobuf=31.1-r1 vim
+
+C:Q1gqr+5D7nNdJz5MBc6+vc6XyERPo=
+P:protoc
+V:31.1-r1
+A:aarch64
+S:1428164
+I:3622256
+T:Protocol buffer compiler binary and library
+U:https://github.com/protocolbuffers/protobuf
+L:BSD-3-Clause
+o:protobuf
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786643269
+c:d6b9d3da3b4b21704b99447a7b523976928908c4
+D:abseil-cpp>=20250814.1 libc++ libprotoc=31.1-r1 libprotobuf=31.1-r1 libutf8-range=31.1-r1 qnx-io-sock
+
+C:Q1Zu5GeX4nZP9HqTMFYOOHXJT8NOs=
+P:pugixml
+V:1.15-r0
+A:aarch64
+S:82303
+I:214720
+T:Light-weight, simple and fast XML parser for C++ with XPath support
+U:https://pugixml.org/
+L:MIT
+o:pugixml
+m:Deep Chordia <dchordia@qnx.com>
+t:1790350462
+c:01ccf2d85adcd061a3a6abea88b694029c4d5227
+D:libc++
+
+C:Q1txXD/31+Lhl2cmRPD0ic3nllhnw=
+P:pugixml-dev
+V:1.15-r0
+A:aarch64
+S:105645
+I:368891
+T:Light-weight, simple and fast XML parser for C++ with XPath support (development files)
+U:https://pugixml.org/
+L:MIT
+o:pugixml
+m:Deep Chordia <dchordia@qnx.com>
+t:1790350462
+c:01ccf2d85adcd061a3a6abea88b694029c4d5227
+D:libc++-dev pkgconfig pugixml=1.15-r0
+p:pc:pc:pugixml=1.15
+
+C:Q1lVmpMvqG9AS5BqH2zAAJQuj7xJs=
+P:python3-astor
+V:0.8.1_git20260217-r0
+A:aarch64
+S:92274
+I:291423
+T:Easy manipulation of Python source via the AST
+U:https://github.com/berkerpeksag/astor
+L:BSD-3-Clause-Clear
+o:python3-astor
+m:Ethan Leir <eleir@qnx.com>
+t:1786643038
+c:f98894e7fbe964b0de07ce86c165c08a832fc619
+D:python3 python3~3.14
+p:py3.14:astor=0.8.1_git20260217-r0
+
+C:Q1kk9dT74+vTm93Dw32oUr+EURbcY=
+P:python3-async_generator
+V:1.10-r0
+A:aarch64
+S:53832
+I:149298
+T:Async generators and context managers for Python 3.5+
+U:https://pypi.org/project/async_generator/
+L:Apache-2.0
+o:python3-async_generator
+m:Ethan Leir <eleir@qnx.com>
+t:1787343366
+c:edaeb0a7a6f9c8d14bea35450013dba73aae114f
+D:python3 python3~3.14
+p:py3.14:async_generator=1.10-r0
+
+C:Q1xLJ2d88rRNr0YDZGdsdwcwDmeVk=
+P:python3-capstone
+V:5.0.9-r0
+A:aarch64
+S:418697
+I:1589309
+T:The Ultimate Disassembler (for python3)
+U:https://www.capstone-engine.org
+L:BSD-3-Clause-Clear
+o:capstone
+m:Ethan Leir <eleir@qnx.com>
+t:1787343271
+c:786d635fb13c0bb2c825f77331ba98475b2e9f31
+D:python3-setuptools capstone python3~3.14
+p:py3.14:capstone=5.0.9-r0
+
+C:Q1fOTLPevhCY511S4M6b1nus8sEY0=
+P:python3-click
+V:8.4.0-r0
+A:aarch64
+S:469456
+I:1519766
+T:Simple wrapper around optparse for powerful command line utilities
+U:https://click.palletsprojects.com
+L:BSD-3-Clause
+o:python3-click
+m:Ethan Leir <eleir@qnx.com>
+t:1786643829
+c:b9f2b4c3e6b9d26841a0d764b459cf114edf0772
+D:python3~3.14
+p:py3.14:click=8.4.0-r0
+
+C:Q1dhigj40OgOPfY7gBIqmX3jbXUR4=
+P:python3-colcon-bash
+V:0.5.0-r1
+A:aarch64
+S:10969
+I:21574
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_bash=0.5.0-r1
+
+C:Q1zgpEQjwTwsl3kQ1mpWfzigG7vI4=
+P:python3-colcon-cd
+V:0.2.1-r1
+A:aarch64
+S:8880
+I:14290
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_cd=0.2.1-r1
+
+C:Q1ZEdnsjMJgoqz5aMl3wzpFrsijzU=
+P:python3-colcon-cmake
+V:0.2.29-r1
+A:aarch64
+S:49945
+I:133082
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_cmake=0.2.29-r1
+
+C:Q1ucJDJvzmLXRK9G6BDPEStWZ51q0=
+P:python3-colcon-common-extensions
+V:20260406-r1
+A:aarch64
+S:2310
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-defaults python3-colcon-notification python3-colcon-package-information python3-colcon-core python3-colcon-test-result python3-colcon-recursive-crawl python3-colcon-pkg-config python3-colcon-powershell python3-colcon-ros python3-colcon-devtools python3-colcon-cmake python3-colcon-cd python3-colcon-library-path python3-colcon-zsh python3-colcon-mixin python3-colcon-package-selection python3-colcon-python-setup-py python3-colcon-metadata python3-colcon-parallel-executor python3-colcon-bash python3-colcon-output
+
+C:Q1IqEvTnzEi+PWN7H0gG6AvgCiB3M=
+P:python3-colcon-core
+V:0.20.1-r1
+A:aarch64
+S:268999
+I:832073
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3~3.14
+p:py3.14:colcon_core=0.20.1-r1
+
+C:Q1Z0jlwVsJjMdyYskVVi/e+UO2OlA=
+P:python3-colcon-defaults
+V:0.2.9-r1
+A:aarch64
+S:15312
+I:32198
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_defaults=0.2.9-r1
+
+C:Q1zeo7Bgg3/cM6SN1KnHGTM8XVl4k=
+P:python3-colcon-devtools
+V:0.3.0-r1
+A:aarch64
+S:13533
+I:29123
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_devtools=0.3.0-r1
+
+C:Q1M6Pl7SmHf6R8oZ4VyGm+j5DteP0=
+P:python3-colcon-library-path
+V:0.2.1-r1
+A:aarch64
+S:8679
+I:11720
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_library_path=0.2.1-r1
+
+C:Q1tcHcXUtd2HyXeVfyCKoNBcyeD9Q=
+P:python3-colcon-metadata
+V:0.2.5-r1
+A:aarch64
+S:29345
+I:81232
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_metadata=0.2.5-r1
+
+C:Q1F2Ui7n1n9GWdcN9t43xzRADdJBU=
+P:python3-colcon-mixin
+V:0.2.3-r1
+A:aarch64
+S:35784
+I:93888
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_mixin=0.2.3-r1
+
+C:Q1lNXvYh+If0x2Tdo66NEkhi854xY=
+P:python3-colcon-notification
+V:0.3.1-r1
+A:aarch64
+S:72477
+I:218098
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_notification=0.3.1-r1
+
+C:Q1HlN4F5WSw1dhEUX8LbF/1YHEJGw=
+P:python3-colcon-output
+V:0.2.14-r1
+A:aarch64
+S:20260
+I:52061
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_output=0.2.14-r1
+
+C:Q1N2Zw4QPc/qhg+TZ/xpA5F7aBrPk=
+P:python3-colcon-package-information
+V:0.4.1-r1
+A:aarch64
+S:25889
+I:70952
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_package_information=0.4.1-r1
+
+C:Q18gVZj9DhlFR+LalRwq2hlswcl+w=
+P:python3-colcon-package-selection
+V:0.2.10-r1
+A:aarch64
+S:24885
+I:78440
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_package_selection=0.2.10-r1
+
+C:Q1wgmRBZVReppLg+gYxg+ASkxPraY=
+P:python3-colcon-parallel-executor
+V:0.4.0-r1
+A:aarch64
+S:16903
+I:33975
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_parallel_executor=0.4.0-r1
+
+C:Q1Qi0tU5ywCeEVapwI7MQesfd1wlc=
+P:python3-colcon-pkg-config
+V:0.1.0-r1
+A:aarch64
+S:7728
+I:9127
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_pkg_config=0.1.0-r1
+
+C:Q174bj+ZuQlsS1vq3UWoGJKy2UgVU=
+P:python3-colcon-powershell
+V:0.5.0-r1
+A:aarch64
+S:14814
+I:32080
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_powershell=0.5.0-r1
+
+C:Q1ESmazlkZbGlT5bz7z6UyusddrHg=
+P:python3-colcon-python-setup-py
+V:0.2.9-r1
+A:aarch64
+S:16643
+I:37766
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_python_setup_py=0.2.9-r1
+
+C:Q1D9fmJFKY30PluKnp1yW4KTKcAHs=
+P:python3-colcon-recursive-crawl
+V:0.2.3-r1
+A:aarch64
+S:9583
+I:14367
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_recursive_crawl=0.2.3-r1
+
+C:Q1tVJygHMH7WqLjDPCXFOqtD08Ly8=
+P:python3-colcon-ros
+V:0.5.0-r1
+A:aarch64
+S:42988
+I:124964
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_ros=0.5.0-r1
+
+C:Q1RtdMVWPeB6L4gYhAi5AgQzmnrSM=
+P:python3-colcon-test-result
+V:0.3.8-r1
+A:aarch64
+S:20542
+I:47524
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_test_result=0.3.8-r1
+
+C:Q14RAPrjftqzZU4fL4VprAY0pTXK4=
+P:python3-colcon-zsh
+V:0.5.0-r1
+A:aarch64
+S:10725
+I:20747
+T:Meta package aggregating colcon-core and common extensions
+U:https://github.com/colcon/colcon-common-extensions
+L:Apache-2.0
+o:python3-colcon-common-extensions
+m:jscaffidi <jcaffidi@qnx.com>
+t:1787344587
+c:982e15092fc5b1bc9cd2a1d0ad7eda499be37f50
+D:python3 python3-empy python3-distlib python3-setuptools python3-packaging python3-tomli python3-colcon-core python3~3.14
+p:py3.14:colcon_zsh=0.5.0-r1
+
+C:Q1oqNNbjn+oRyMnWEZop+EKbKjqcQ=
+P:python3-coverage
+V:7.15.2-r0
+A:aarch64
+S:699866
+I:2374530
+T:Code coverage measurement for Python
+U:https://pypi.org/project/coverage
+L:Apache-2.0
+o:python3-coverage
+m:Ethan Leir <eleir@qnx.com>
+t:1787343419
+c:7cb9a29db8b19f062473c6de4dae9d3458b2dda2
+D:python3~3.14
+p:py3.14:coverage=7.15.2-r0
+
+C:Q11U2yfvAyOdqlbvguqJhLmu4yA5s=
+P:python3-curio
+V:1.6-r0
+A:aarch64
+S:168175
+I:488859
+T:Curio is a coroutine-based library for concurrent systems programming
+U:https://github.com/dabeaz/curio
+L:BSD-3-Clause
+o:python3-curio
+m:Ethan Leir <eleir@qnx.com>
+t:1786644680
+c:cf27292612ee69b4dc9140bddc841c401c28bab3
+D:python3 python3~3.14
+p:py3.14:curio=1.6-r0
+
+C:Q1Bnl3J0nJxcfYvb2aI+DzSKkZpng=
+P:python3-idna
+V:3.18-r0
+A:aarch64
+S:178580
+I:670952
+T:IDNA 2008 and UTS #46 for Python3
+U:https://github.com/kjd/idna
+L:BSD-3-Clause
+o:python3-idna
+m:Ethan Leir <eleir@qnx.com>
+t:1786645306
+c:5ee85a181e3604f05b2c590518cdc87aafd57d75
+D:python3 python3~3.14
+p:py3.14:idna=3.18-r0
+
+C:Q1JzIjdjYQUpxUmPT8LrthFK8ItoE=
+P:python3-matplotlib
+V:3.10.6-r1
+A:aarch64
+S:7024944
+I:21325327
+T:Python3 library for plots
+U:https://matplotlib.org
+L:PSF-2.0
+o:python3-matplotlib
+m:Ethan Leir <eleir@qnx.com>
+t:1786648871
+c:76d3d035ea18dd1770d018f15e8c4d39b0ed2cda
+D:python3-contourpy python3-cycler python3-dateutil python3-fonttools python3-kiwisolver python3-matplotlib-data python3-numpy python3-packaging python3-parsing python3-pillow libc++ python3~3.14
+p:py3.14:pylab=3.10.6-r1
+
+C:Q1S5EH+IpQLsHxSQ6D7SpELDbOnXE=
+P:python3-matplotlib-data
+V:3.10.6-r1
+A:aarch64
+S:530351
+I:760511
+T:Data used by python3-matplotlib
+U:https://matplotlib.org
+L:PSF-2.0
+o:python3-matplotlib
+m:Ethan Leir <eleir@qnx.com>
+t:1786648871
+c:76d3d035ea18dd1770d018f15e8c4d39b0ed2cda
+D:python3-matplotlib-fonts=3.10.6-r1 python3~3.14
+
+C:Q1knnGElEM6hlLhImBfUVYUQlSAQE=
+P:python3-matplotlib-fonts
+V:3.10.6-r1
+A:aarch64
+S:3984609
+I:8278180
+T:Fonts used by python3-matplotlib
+U:https://matplotlib.org
+L:OFL-1.1 AND Bitstream-Vera AND LicenseRef-scancode-public-domain
+o:python3-matplotlib
+m:Ethan Leir <eleir@qnx.com>
+t:1786648871
+c:76d3d035ea18dd1770d018f15e8c4d39b0ed2cda
+D:python3-contourpy python3-cycler python3-dateutil python3-fonttools python3-kiwisolver python3-matplotlib-data python3-numpy python3-packaging python3-parsing python3-pillow libc++ python3~3.14
+
+C:Q1NDJn0FpCJdyfdyPpvKKNN1tlU1M=
+P:python3-ml-dtypes
+V:0.5.4-r1
+A:aarch64
+S:228684
+I:1122834
+T:Standalone NumPy dtype extensions for machine learning
+U:https://github.com/jax-ml/ml_dtypes
+L:Apache-2.0
+o:python3-ml-dtypes
+m:Ethan Leir <eleir@qnx.com>
+t:1787762058
+c:04b05c6282230235e310e380dc7762d474fa980d
+D:libc++ python3-numpy python3~3.14
+p:py3.14:ml_dtypes=0.5.4-r1
+
+C:Q1LpZblmHOw9DgUbOKrO8Y644rcRE=
+P:python3-mypy-extensions
+V:1.1.0-r0
+A:aarch64
+S:11819
+I:32578
+T:Experimental type system extensions for mypy typechecker
+U:https://www.mypy-lang.org/
+L:MIT
+o:python3-mypy-extensions
+m:Ethan Leir <eleir@qnx.com>
+t:1786654618
+c:9aefbfc02548e32ee6d316df14f803582378a8aa
+D:python3 python3~3.14
+p:py3.14:mypy_extensions=1.1.0-r0
+
+C:Q1EB515PgC8m/Ehz5mwqnKfeAYnBE=
+P:python3-ncnn
+V:20260526-r0
+A:aarch64
+S:316734
+I:1086668
+T:High-performance neural network inference framework optimized for mobile/embedded platforms (Python 3 bindings)
+U:https://github.com/Tencent/ncnn
+L:BSD-3-Clause
+o:ncnn
+m:Marcin Sochacki <msochacki@qnx.com>
+t:1787193145
+c:7be02a1d8271b544d7d9d07f44242324684a0eeb
+D:ncnn-libs=20260526-r0 python3-numpy python3~3.14
+p:py3.14:ncnn=20260526-r0
+
+C:Q1Dqu5lK3AN8ficcPf9yoDAqdB0rw=
+P:python3-onnx
+V:1.20.1-r0
+A:aarch64
+S:14545775
+I:35667384
+T:Python3 bindings for onnx
+U:https://onnx.ai
+L:Apache-2.0
+o:onnx
+m:Deep Chordia <dchordia@qnx.com>
+t:1787159188
+c:544b68c9f8daa2364ecab84f41c169e8386167fa
+D:onnx=1.20.1-r0 libc++ python3 python3-protobuf python3-numpy python3-ml-dtypes python3~3.14
+p:py3.14:onnx=1.20.1-r0
+
+C:Q1sQnpm9QgxNiehIyI4YIbWXBuKf4=
+P:python3-onnx-dev
+V:1.20.1-r0
+A:aarch64
+S:100964
+I:516197
+T:Development files for Python3 bindings of onnx
+U:https://onnx.ai
+L:Apache-2.0
+o:onnx
+m:Deep Chordia <dchordia@qnx.com>
+t:1787159188
+c:544b68c9f8daa2364ecab84f41c169e8386167fa
+D:onnx-dev=1.20.1-r0 python3~3.14
+
+C:Q1XlREwGqa1EpcHNQUj/aepCOgYqI=
+P:python3-onnxruntime
+V:1.24.4-r0
+A:aarch64
+S:2289335
+I:8287101
+T:Generate onnxruntime python3 bindings
+U:https://onnxruntime.ai
+L:MIT
+o:onnxruntime
+m:Deep Chordia <dchordia@blackberry.com>
+t:1790604530
+c:57cfafd144bf5c010563c36edaa80955bd02eb47
+D:python3 python3-flatbuffers python3-numpy python3-packaging python3-protobuf onnxruntime=1.24.4-r0 python3~3.14
+p:py3.14:onnxruntime=1.24.4-r0
+
+C:Q1K1gzC62oMiv+w175qDaSwRo+AjY=
+P:python3-pandas
+V:3.0.1-r0
+A:aarch64
+S:12158255
+I:40416083
+T:Powerful data structures for data analysis, time series, and statistics
+U:https://pandas.pydata.org/
+L:BSD-3-Clause
+o:python3-pandas
+m:Deep Chordia <dchordia@blackberry.com>
+t:1790609828
+c:42d698e3fa8e13a592f41cdb21337a8b220a5af0
+D:libc++ python3-dateutil python3-numpy python3-tzdata python3~3.14
+p:py3.14:pandas=3.0.1-r0
+
+C:Q1O48ZBNhUCIgdVgx2/vCq1hau8zA=
+P:python3-pandas-tests
+V:3.0.1-r0
+A:aarch64
+S:13064083
+I:51967989
+T:Powerful data structures for data analysis, time series, and statistics
+U:https://pandas.pydata.org/
+L:BSD-3-Clause
+o:python3-pandas
+m:Deep Chordia <dchordia@blackberry.com>
+t:1790609828
+c:42d698e3fa8e13a592f41cdb21337a8b220a5af0
+D:libc++ python3-dateutil python3-numpy python3-tzdata python3~3.14
+
+C:Q198fAnuk2pCEDzZiZ33nF8c49fMs=
+P:python3-pytest-cov
+V:5.0.0-r0
+A:aarch64
+S:44627
+I:169240
+T:Pytest plugin for measuring coverage
+U:https://github.com/pytest-dev/pytest-cov
+L:MIT
+o:python3-pytest-cov
+m:Ethan Leir <eleir@qnx.com>
+t:1790609454
+c:51411c6d532d638a68011d7f9dfdd47b1a1b1cec
+D:python3-pytest python3-coverage python3~3.14
+p:py3.14:pytest_cov=5.0.0-r0
+
+C:Q1hB4KM3HuJeZKbN1OGi/9yJyL1e8=
+P:python3-pytest-tornasync
+V:0.5.0_git20220715-r0
+A:aarch64
+S:10387
+I:17742
+T:Pytest plugin for testing tornado
+U:https://github.com/eukaryote/pytest-tornasync
+L:MIT
+o:python3-pytest-tornasync
+m:Ethan Leir <eleir@qnx.com>
+t:1790608194
+c:97d572ea41c3bbfc4d548231f2924787b9bdc098
+D:python3-tornado python3~3.14
+p:py3.14:pytest_tornasync=0.5.0_git20220715-r0
+
+C:Q1Lx6I1ULKD1HTzGBU6jY3NDXDDto=
+P:python3-sniffio
+V:1.3.1-r0
+A:aarch64
+S:15683
+I:38889
+T:Sniff out which async library your code is running under
+U:https://github.com/python-trio/sniffio
+L:MIT OR Apache-2.0
+o:python3-sniffio
+m:Ethan Leir <eleir@qnx.com>
+t:1786648735
+c:88abee2625eb9853a939c1de120e5381ef425615
+D:python3-curio python3~3.14
+p:py3.14:sniffio=1.3.1-r0
+
+C:Q1gDpDdIy/0AH+LBhgm23Wc2DtTcY=
+P:python3-sortedcontainers
+V:2.4.0-r0
+A:aarch64
+S:97429
+I:400692
+T:Python library for sorting collections and containers
+U:http://www.grantjenks.com/docs/sortedcontainers
+L:Apache-2.0
+o:python3-sortedcontainers
+m:Ethan Leir <eleir@qnx.com>
+t:1786654632
+c:a2688d9d759e7d76e92f6f63567b2fbf7e0eba16
+D:python3 python3~3.14
+p:py3.14:sortedcontainers=2.4.0-r0
+
+C:Q1S55LajL+V8UA71zzAEdeA+q2J0Y=
+P:python3-tornado
+V:6.5.6-r0
+A:aarch64
+S:1098819
+I:3476723
+T:Python3 web framework and asynchronous networking library
+U:https://www.tornadoweb.org/
+L:Apache-2.0
+o:python3-tornado
+m:Ethan Leir <eleir@qnx.com>
+t:1786651109
+c:1dad026e0989ab39af02c5cecb0052d8ce0e8c4b
+D:python3 python3~3.14
+p:py3.14:tornado=6.5.6-r0
+
+C:Q1uc/ohkMPODc/ajAf292eHGkmybs=
+P:python3-traitlets
+V:5.14.3-r0
+A:aarch64
+S:367375
+I:1189740
+T:lightweight Traits like module
+U:https://traitlets.readthedocs.io/
+L:BSD-3-Clause
+o:python3-traitlets
+m:Ethan Leir <eleir@qnx.com>
+t:1786643492
+c:990b36691144c28a03e95dbbf09da8f8a34148c3
+D:python3 python3~3.14
+p:py3.14:traitlets=5.14.3-r0
+
+C:Q1ijuJbhT1JABFNvbYi1lrGNe0Mec=
+P:python3-tz
+V:2026.2-r0
+A:aarch64
+S:402201
+I:1187643
+T:Python3 definitions of world timezone
+U:https://pythonhosted.org/pytz/
+L:MIT
+o:python3-tz
+m:Ethan Leir <eleir@qnx.com>
+t:1787343839
+c:a365925a1df755fff7103b8009ba51fefccd2947
+D:python3 python3~3.14
+p:py3.14:pytz=2026.2-r0
+
+C:Q1XeEWhvIOvlL2Fh3HXhl2fC0+708=
+P:python3-tzdata
+V:2026.3-r0
+A:aarch64
+S:221627
+I:589567
+T:Python package wrapping the IANA time zone database
+U:https://github.com/python/tzdata
+L:Apache-2.0
+o:python3-tzdata
+m:Deep Chordia <dchordia@blackberry.com>
+t:1785257960
+c:9cffa61e4fa9b2b2a5a970d99b117ae1052367a1
+D:python3 python3-attrs python3~3.14
+p:py3.14:tzdata=2026.3-r0
+
+C:Q1ahyXnGfxeYMPsKpQrhS+6HbaBo8=
+P:python3-versioneer
+V:0.29-r0
+A:aarch64
+S:127026
+I:380853
+T:Version-string management for VCS-controlled trees
+U:https://github.com/python-versioneer/python-versioneer
+L:Unlicense
+o:python3-versioneer
+m:Deep Chordia <dchordia@qnx.com>
+t:1787251149
+c:68a1d18326a7780aef4817f1ff78ffaf76f6405c
+D:python3 python3~3.14
+p:py3.14:versioneer=0.29-r0
+
+C:Q18elM+eNQeJG65/FZxBE0stw+cLM=
+P:qnx-posix-publish-subscribe
+V:1.1.0-r0
+A:aarch64
+S:93113
+I:605681
+T:QNX POSIX PubSub Service
+U:https://qnx.com
+L:Apache-2.0
+o:qnx-posix-publish-subscribe
+m:Terence Ang <taang@qnx.com>
+t:1788455842
+c:07804e0fb7b27a8d813a39cafd24eadac84d7793
+D:qnx-libslog2 qnx-libjson
+
+C:Q17xzyYvVbA+U9SF0UqCnQmdDqB20=
+P:qnx-posix-publish-subscribe-dbg
+V:1.1.0-r0
+A:aarch64
+S:296663
+I:683232
+T:qnx-posix-publish-subscribe debug symbols and binaries
+U:https://qnx.com
+L:Apache-2.0
+o:qnx-posix-publish-subscribe
+m:Terence Ang <taang@qnx.com>
+t:1788455842
+c:07804e0fb7b27a8d813a39cafd24eadac84d7793
+D:qnx-posix-publish-subscribe=1.1.0-r0 qnx-posix-publish-subscribe-utils=1.1.0-r0 qnx-posix-publish-subscribe-samples=1.1.0-r0
+
+C:Q1ekFvfAjxEZZHDSkvnM6qKP4C3mY=
+P:qnx-posix-publish-subscribe-samples
+V:1.1.0-r0
+A:aarch64
+S:14427
+I:45745
+T:qnx-posix-publish-subscribe samples
+U:https://qnx.com
+L:Apache-2.0
+o:qnx-posix-publish-subscribe
+m:Terence Ang <taang@qnx.com>
+t:1788455842
+c:07804e0fb7b27a8d813a39cafd24eadac84d7793
+D:qnx-libslog2 qnx-libjson
+
+C:Q1giQjFLRBnZOtWIYhkApm+y38uFg=
+P:qnx-posix-publish-subscribe-utils
+V:1.1.0-r0
+A:aarch64
+S:48256
+I:125064
+T:qnx-posix-publish-subscribe utilities
+U:https://qnx.com
+L:Apache-2.0
+o:qnx-posix-publish-subscribe
+m:Terence Ang <taang@qnx.com>
+t:1788455842
+c:07804e0fb7b27a8d813a39cafd24eadac84d7793
+D:qnx-libslog2 qnx-libjson qnx-io-sock
+
+C:Q1SwP88mS+ZSduPaBTOW7cA9pvCSY=
+P:raylib
+V:6.0-r0
+A:aarch64
+S:694518
+I:1457144
+T:A simple and easy-to-use library to enjoy videogames programming
+U:https://github.com/raysan5/raylib
+L:Zlib
+o:raylib
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787344889
+c:e2086eff2c183f39f2f2957f99cfcb6e9165f421
+D:qnx-gles qnx-egl qnx-fd-notify glfw libxkbcommon wayland libc++
+
+C:Q10fFFnJuYNzJDWraNDQ8t0vMq+6I=
+P:raylib-dev
+V:6.0-r0
+A:aarch64
+S:105098
+I:512360
+T:A simple and easy-to-use library to enjoy videogames programming (development files)
+U:https://github.com/raysan5/raylib
+L:Zlib
+o:raylib
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787344889
+c:e2086eff2c183f39f2f2957f99cfcb6e9165f421
+D:glfw-dev pkgconfig raylib=6.0-r0
+p:pc:pc:raylib=6.0.0
+
+C:Q1K9IHf35VXO9UcRejB6Q5qim3qrE=
+P:ros2-jazzy
+V:20260128-r1
+A:aarch64
+S:47235978
+I:197260612
+T:ROS 2 Jazzy desktop package
+U:https://docs.ros.org/en/jazzy/index.html
+L:Apache-2.0
+o:ros2-jazzy
+m:Felix Lionardo <flionardo@qnx.com>
+t:1787625796
+c:f85e09c3ee1a298302d44daaa3db19471911db66
+D:boost eigen tinyxml2 liblocale-shim qnx-fs-notify qnx-fs-core qnx-fs-gpt python3-numpy python3-pip python3-argcomplete python3-catkin-pkg python3-colcon-bash python3-colcon-cd python3-colcon-cmake python3-colcon-common-extensions python3-colcon-core python3-colcon-defaults python3-colcon-devtools python3-colcon-library-path python3-colcon-metadata python3-colcon-mixin python3-colcon-notification python3-colcon-output python3-colcon-package-information python3-colcon-package-selection python3-colcon-parallel-executor python3-colcon-pkg-config python3-colcon-powershell python3-colcon-python-setup-py python3-colcon-recursive-crawl python3-colcon-ros python3-colcon-test-result python3-colcon-zsh python3-docutils python3-empy python3-flake8 python3-flake8-blind-except python3-flake8-builtins python3-flake8-class-newline python3-flake8-comprehensions python3-flake8-deprecated python3-flake8-docstrings python3-flake8-import-order python3-flake8-quotes python3-lark python3-mccabe python3-parsing python3-psutil python3-pycodestyle python3-pyflakes python3-pytest-repeat python3-pytest-rerunfailures python3-tomli python3-yaml
+
+C:Q1paQyJmVfSDKZEM+Y6YZCMZyfofo=
+P:s2n-tls
+V:1.6.4-r0
+A:aarch64
+S:294354
+I:1355377
+T:An implementation of the TLS/SSL protocols
+U:https://aws.github.io/s2n-tls/usage-guide/
+L:Apache-2.0
+o:s2n-tls
+m:Deep Chordia <dchordia@qnx.com>
+t:1787238660
+c:ce5bd03b99d6d50dc675ad4c99b6c48c2aa09caa
+
+C:Q1toXcvWRN1R94S8I+OxiunUMP3tQ=
+P:s2n-tls-dev
+V:1.6.4-r0
+A:aarch64
+S:55680
+I:239374
+T:An implementation of the TLS/SSL protocols (development files)
+U:https://aws.github.io/s2n-tls/usage-guide/
+L:Apache-2.0
+o:s2n-tls
+m:Deep Chordia <dchordia@qnx.com>
+t:1787238660
+c:ce5bd03b99d6d50dc675ad4c99b6c48c2aa09caa
+D:openssl-dev qnx-io-sock-dev s2n-tls=1.6.4-r0
+
+C:Q1pQfiKdKheVN98GIMYq1LDK6H6KU=
+P:shared-mime-info
+V:2.4-r1
+A:aarch64
+S:376203
+I:2556780
+T:Freedesktop.org Shared MIME Info
+U:https://www.freedesktop.org/Software/shared-mime-info
+L:GPL-2.0-or-later
+o:shared-mime-info
+m:Aaron Bassett <abassett@qnx.com>
+t:1786305361
+c:5bc6e50444a6c201447c96e150f19b54e1de547c
+D:glib libc++ libxml2 /bin/sh pkgconfig
+p:pc:pc:shared-mime-info=2.4
+
+C:Q1q4Lw1k1HceU4em402LT5Wl/Z3O8=
+P:shared-mime-info-doc
+V:2.4-r1
+A:aarch64
+S:5288
+I:778
+T:Freedesktop.org Shared MIME Info (documentation)
+U:https://www.freedesktop.org/Software/shared-mime-info
+L:GPL-2.0-or-later
+o:shared-mime-info
+m:Aaron Bassett <abassett@qnx.com>
+t:1786305361
+c:5bc6e50444a6c201447c96e150f19b54e1de547c
+i:docs shared-mime-info=2.4-r1
+
+C:Q1SLaBJbiZ8VZx36/lamXGahB1GJI=
+P:shared-mime-info-lang
+V:2.4-r1
+A:aarch64
+S:828723
+I:2224058
+T:Languages for package shared-mime-info
+U:https://www.freedesktop.org/Software/shared-mime-info
+L:GPL-2.0-or-later
+o:shared-mime-info
+m:Aaron Bassett <abassett@qnx.com>
+t:1786305361
+c:5bc6e50444a6c201447c96e150f19b54e1de547c
+i:shared-mime-info=2.4-r1 lang
+
+C:Q1x/05/0LodHWC64PfgcPEqvifQNM=
+P:stable-diffusion.cpp
+V:0_git20260602-r1
+A:aarch64
+S:23044600
+I:56220792
+T:Stable Diffusion in pure C/C++ (CPU backend)
+U:https://github.com/leejet/stable-diffusion.cpp
+L:MIT
+o:stable-diffusion.cpp
+m:Cris Sinnott <csinnott@qnx.com>
+t:1785865985
+c:fd8b4bf79a8a4b3a2dffaf5919778e6ebce798cb
+D:libc++ qnx-io-sock
+
+C:Q1QPGMDkXRqAXADvRPqR75bexGHx4=
+P:stable-diffusion.cpp
+V:0_git20260602-r2
+A:aarch64
+S:33341345
+I:92714968
+T:Stable Diffusion in pure C/C++ (Vulkan GPU + CPU backend)
+U:https://github.com/leejet/stable-diffusion.cpp
+L:MIT
+o:stable-diffusion.cpp
+m:Cris Sinnott <csinnott@qnx.com>
+t:1787760729
+c:f1e8180e7ac1ebe0794c7740b5ef2acba23e81c0
+D:libc++ qnx-io-sock qnx-vulkan openmp
+
+C:Q1P/6+nhHWZFGvpJ8INIujATIHAI0=
+P:stable-diffusion.cpp-dbg
+V:0_git20260602-r1
+A:aarch64
+S:19094584
+I:119362888
+T:Stable Diffusion in pure C/C++ (CPU backend) (debug symbols)
+U:https://github.com/leejet/stable-diffusion.cpp
+L:MIT
+o:stable-diffusion.cpp
+m:Cris Sinnott <csinnott@qnx.com>
+t:1785865985
+c:fd8b4bf79a8a4b3a2dffaf5919778e6ebce798cb
+
+C:Q1xdgMUMxjYteeMKg8N/GpoJ9W4Bg=
+P:stable-diffusion.cpp-dbg
+V:0_git20260602-r2
+A:aarch64
+S:20881696
+I:162892824
+T:Stable Diffusion in pure C/C++ (Vulkan GPU + CPU backend) (debug symbols)
+U:https://github.com/leejet/stable-diffusion.cpp
+L:MIT
+o:stable-diffusion.cpp
+m:Cris Sinnott <csinnott@qnx.com>
+t:1787760729
+c:f1e8180e7ac1ebe0794c7740b5ef2acba23e81c0
+
+C:Q1HSrTxzQET42YidEXv51po/SC9Ng=
+P:stable-diffusion.cpp-dev
+V:0_git20260602-r1
+A:aarch64
+S:2851156
+I:9982862
+T:Stable Diffusion in pure C/C++ (CPU backend) (development files)
+U:https://github.com/leejet/stable-diffusion.cpp
+L:MIT
+o:stable-diffusion.cpp
+m:Cris Sinnott <csinnott@qnx.com>
+t:1785865985
+c:fd8b4bf79a8a4b3a2dffaf5919778e6ebce798cb
+
+C:Q1YejlHYF5MnxyALWw/jIoUN3MwTI=
+P:stable-diffusion.cpp-dev
+V:0_git20260602-r2
+A:aarch64
+S:15323465
+I:57460335
+T:Stable Diffusion in pure C/C++ (Vulkan GPU + CPU backend) (development files)
+U:https://github.com/leejet/stable-diffusion.cpp
+L:MIT
+o:stable-diffusion.cpp
+m:Cris Sinnott <csinnott@qnx.com>
+t:1787760729
+c:f1e8180e7ac1ebe0794c7740b5ef2acba23e81c0
+
+C:Q1tL+pkz5QWIHbq/tw2HsN+YpVeNo=
+P:swaybg
+V:1.2.2-r0
+A:aarch64
+S:14508
+I:35016
+T:Wallpaper daemon for Wayland
+U:https://swaywm.org/
+L:MIT
+o:swaybg
+m:Aaron Bassett <abassett@qnx.com>
+t:1791922825
+c:277914d6df6165c3f2f703d2678d6e7a99a02569
+D:cairo gdk-pixbuf glib wayland
+p:cmd:swaybg=1.2.2-r0
+
+C:Q15Rink/QsLSlhW4F3FKxcq7/z7WE=
+P:swaybg-doc
+V:1.2.2-r0
+A:aarch64
+S:3768
+I:787
+T:Wallpaper daemon for Wayland (documentation)
+U:https://swaywm.org/
+L:MIT
+o:swaybg
+m:Aaron Bassett <abassett@qnx.com>
+t:1791922825
+c:277914d6df6165c3f2f703d2678d6e7a99a02569
+i:docs swaybg=1.2.2-r0
+
+C:Q1FtHr1RqpkDuHIaQExsCnk6irjPQ=
+P:swaybg-openrc
+V:1.2.2-r0
+A:aarch64
+S:2984
+I:134
+T:Wallpaper daemon for Wayland (OpenRC init scripts)
+U:https://swaywm.org/
+L:MIT
+o:swaybg
+m:Aaron Bassett <abassett@qnx.com>
+t:1791922825
+c:277914d6df6165c3f2f703d2678d6e7a99a02569
+i:openrc swaybg=1.2.2-r0
+
+C:Q1EvNAoToeOo3vTrkFiFLCPcSSX+c=
+P:tmux
+V:3.7c-r0
+A:aarch64
+S:436161
+I:1081432
+T:Tool to control multiple terminals from a single terminal
+U:https://tmux.github.io
+L:ISC
+o:tmux
+m:Celeste <cielesti@protonmail.com>
+t:1787341971
+c:84887d64d182af7a1cc3d97fe829b6fe7aef98b9
+D:ncurses-terminfo-base libevent ncurses qnx-io-sock
+
+C:Q1iq/NBeDieh6vPl4yxt4AxS5oRgE=
+P:tmux-doc
+V:3.7c-r0
+A:aarch64
+S:122312
+I:229220
+T:Tool to control multiple terminals from a single terminal (documentation)
+U:https://tmux.github.io
+L:ISC
+o:tmux
+m:Celeste <cielesti@protonmail.com>
+t:1787341971
+c:84887d64d182af7a1cc3d97fe829b6fe7aef98b9
+i:docs tmux=3.7c-r0
+
+C:Q1FWZcaZ1cgf2SuxqXWDFhz166de8=
+P:tree-sitter-bash
+V:0.25.0-r0
+A:aarch64
+S:187425
+I:1398857
+T:Bash grammar for tree-sitter
+U:https://github.com/tree-sitter/tree-sitter-bash
+L:MIT
+o:tree-sitter-bash
+m:Abdulfatah Ahmoda <abahmoda@qnx.com>
+t:1787239842
+c:18fb82c3dd40a33892f0a68f38d247270af7af19
+i:tree-sitter-grammars
+
+C:Q1a7QDoSU9FAvSb2UdMsskKyumSY0=
+P:tree-sitter-cmake
+V:0.7.2-r0
+A:aarch64
+S:21558
+I:90509
+T:CMake grammar for tree-sitter
+U:https://github.com/uyha/tree-sitter-cmake
+L:MIT
+o:tree-sitter-cmake
+m:Abdulfatah Ahmoda <abahmoda@qnx.com>
+t:1787239874
+c:4810de1ed16178574fe555afa901b2c5a889803f
+i:tree-sitter-grammars
+
+C:Q18SUq4e4yVq7C/yJx9k+Jk5j5E4s=
+P:tree-sitter-lua
+V:0.5.0-r0
+A:aarch64
+S:18740
+I:67515
+T:Lua grammar for tree-sitter
+U:https://github.com/tree-sitter-grammars/tree-sitter-lua
+L:MIT
+o:tree-sitter-lua
+m:Aaron Bassett <abassett@qnx.com>
+t:1787239763
+c:3db9d2c2c6bb4de39f060f63205f8284526c29c3
+i:tree-sitter-grammars
+
+C:Q1UzbHxpt//lCJp9h2KGlMSIdQ39o=
+P:tree-sitter-make
+V:1.1.1-r0
+A:aarch64
+S:38363
+I:148369
+T:Tree-sitter grammar for Make
+U:https://github.com/tree-sitter-grammars/tree-sitter-make
+L:MIT
+o:tree-sitter-make
+m:Abdulfatah Ahmoda <abahmoda@qnx.com>
+t:1787239904
+c:3876928652a7b009a1f4a8fc61a50b147d2b7985
+i:tree-sitter-grammars
+
+C:Q1/Fwo4TfEDrPE3qAEtqLYAOuLaLU=
+P:tree-sitter-python
+V:0.23.6-r0
+A:aarch64
+S:71365
+I:470795
+T:Python grammar for tree-sitter
+U:https://github.com/tree-sitter/tree-sitter-python
+L:MIT
+o:tree-sitter-python
+m:Abdulfatah Ahmoda <abahmoda@qnx.com>
+t:1787239813
+c:26ebd190fd9e73f125e8ac5bc49f4ee95ff9394e
+i:tree-sitter-grammars
+
+C:Q1tYLzLF/U7lnoiYuL9dZbyCOSYPE=
+P:tree-sitter-vim
+V:0.8.1-r0
+A:aarch64
+S:169260
+I:1279271
+T:A tree-sitter parser for Vimscript files
+U:https://github.com/tree-sitter-grammars/tree-sitter-vim/
+L:MIT
+o:tree-sitter-vim
+m:Aaron Bassett <abassett@qnx.com>
+t:1787239667
+c:d5dfa3f7a87702ab6b063ef37c548f476b266922
+i:tree-sitter-grammars
+
+C:Q1qEWaYJ8s9UIIFb5gDOL2ZzbunMM=
+P:tree-sitter-vim-doc
+V:0.8.1-r0
+A:aarch64
+S:3576
+I:1745
+T:A tree-sitter parser for Vimscript files (documentation)
+U:https://github.com/tree-sitter-grammars/tree-sitter-vim/
+L:MIT
+o:tree-sitter-vim
+m:Aaron Bassett <abassett@qnx.com>
+t:1787239667
+c:d5dfa3f7a87702ab6b063ef37c548f476b266922
+i:docs tree-sitter-vim=0.8.1-r0
+
+C:Q1lYI268Q/2dN2wBaffe9mLShDs5o=
+P:vim
+V:9.2.1001-r0
+A:aarch64
+S:1858796
+I:3891036
+T:Improved vi-style text editor
+U:https://www.vim.org/
+L:Vim
+o:vim
+t:1787686740
+c:bdabff41e080a79ebf9243df312f03fc2991ef7b
+D:vim-common=9.2.1001-r0 xxd=9.2.1001-r0
+
+C:Q1I95lD87oTjRXvkfTMyF2e8qFPu8=
+P:vim-common
+V:9.2.1001-r0
+A:aarch64
+S:8464248
+I:27822747
+T:Improved vi-style text editor
+U:https://www.vim.org/
+L:Vim
+o:vim
+t:1787686740
+c:bdabff41e080a79ebf9243df312f03fc2991ef7b
+D:ncurses qnx-io-sock
+
+C:Q14cZIReoREkiy+wIF59i5v5x1yWk=
+P:vim-doc
+V:9.2.1001-r0
+A:aarch64
+S:24260
+I:26219
+T:Improved vi-style text editor (documentation)
+U:https://www.vim.org/
+L:Vim
+o:vim
+t:1787686740
+c:bdabff41e080a79ebf9243df312f03fc2991ef7b
+i:docs vim=9.2.1001-r0
+
+C:Q15laRXB53kDBeg5b1A1TnWRFMszs=
+P:vim-tutor
+V:9.2.1001-r0
+A:aarch64
+S:510867
+I:1694946
+T:vim tutor and tutor files
+U:https://www.vim.org/
+L:Vim
+o:vim
+t:1787686740
+c:bdabff41e080a79ebf9243df312f03fc2991ef7b
+D:vim=9.2.1001-r0
+
+C:Q1NSj/bPr3Ho1q9sgDUdgO57o9wmw=
+P:vimdiff
+V:9.2.1001-r0
+A:aarch64
+S:4149
+I:1
+T:view file diffs in vim
+U:https://www.vim.org/
+L:Vim
+o:vim
+t:1787686740
+c:bdabff41e080a79ebf9243df312f03fc2991ef7b
+D:diffutils vim=9.2.1001-r0 vim=9.2.1001-r0
+p:cmd:vimdiff=9.2.1001-r0
+
+C:Q15jkKPj4Dx0t5DyOojHiyvxRtomc=
+P:vte3
+V:0.82.2-r1
+A:aarch64
+S:342465
+I:834822
+T:Virtual Terminal Emulator library
+U:https://gitlab.gnome.org/GNOME/vte
+L:LGPL-2.0-or-later
+o:vte3
+m:Aaron Bassett <abassett@qnx.com>
+t:1787091366
+c:1ec22cc403fc0303a0a13556301a3a25c64e5ea4
+D:adwaita-fonts gtk3 icu-libs simdutf lz4-libs gnutls
+
+C:Q19Fa3/oSEojRUdgDvUwr+mOg57Eo=
+P:vte3-app
+V:0.82.2-r1
+A:aarch64
+S:91618
+I:216049
+T:Virtual Terminal Emulator library (apps)
+U:https://gitlab.gnome.org/GNOME/vte
+L:LGPL-2.0-or-later
+o:vte3
+m:Aaron Bassett <abassett@qnx.com>
+t:1787091366
+c:1ec22cc403fc0303a0a13556301a3a25c64e5ea4
+D:adwaita-fonts gtk3 icu-libs simdutf lz4-libs gnutls
+
+C:Q1B5wbpM/j92SBWYyAoAlO9jerXns=
+P:vte3-dbg
+V:0.82.2-r1
+A:aarch64
+S:2615468
+I:8369184
+T:Virtual Terminal Emulator library (debug symbols)
+U:https://gitlab.gnome.org/GNOME/vte
+L:LGPL-2.0-or-later
+o:vte3
+m:Aaron Bassett <abassett@qnx.com>
+t:1787091366
+c:1ec22cc403fc0303a0a13556301a3a25c64e5ea4
+
+C:Q1dsEy3kcf6hx19YP4RWCP3y/DJ/c=
+P:vte3-dev
+V:0.82.2-r1
+A:aarch64
+S:77997
+I:617408
+T:Virtual Terminal Emulator library (development files)
+U:https://gitlab.gnome.org/GNOME/vte
+L:LGPL-2.0-or-later
+o:vte3
+m:Aaron Bassett <abassett@qnx.com>
+t:1787091366
+c:1ec22cc403fc0303a0a13556301a3a25c64e5ea4
+D:gtk3-dev pango-dev pkgconfig vte3=0.82.2-r1
+p:pc:pc:vte-2.91=0.82.2
+
+C:Q13mdOJNDZrGtVijWQwJlI0QkE2PA=
+P:vte3-lang
+V:0.82.2-r1
+A:aarch64
+S:71527
+I:174411
+T:Languages for package vte3
+U:https://gitlab.gnome.org/GNOME/vte
+L:LGPL-2.0-or-later
+o:vte3
+m:Aaron Bassett <abassett@qnx.com>
+t:1787091366
+c:1ec22cc403fc0303a0a13556301a3a25c64e5ea4
+i:vte3=0.82.2-r1 lang
+
+C:Q16XZ/ExFQmgcFyj9NFENBRFUVqus=
+P:wayland
+V:1.24.0-r1
+A:aarch64
+S:121323
+I:376354
+T:A computer display server protocol
+U:https://wayland.freedesktop.org
+L:MIT
+o:wayland
+m:Aaron Bassett <abassett@qnx.com>
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+D:expat libffi libxml2 libexpat qnx-io-sock qnx-fd-notify qnx-memstream qnx-libslog2
+
+C:Q1NffkcOakglvvtUHxfgEzO5a2RoQ=
+P:wayland
+V:1.24.0-r2
+A:aarch64
+S:121325
+I:376354
+T:A computer display server protocol
+U:https://wayland.freedesktop.org
+L:MIT
+o:wayland
+m:Aaron Bassett <abassett@qnx.com>
+t:1786310799
+c:7b4c27b6dde3edfd36682bd33537eb11384f48bc
+D:expat libffi libxml2 libexpat qnx-io-sock qnx-fd-notify qnx-memstream qnx-libslog2
+
+C:Q1GIhBQutqY0KusM4mCKnmQN3XCvM=
+P:wayland
+V:1.26.0-r0
+A:aarch64
+S:126068
+I:397245
+T:A computer display server protocol
+U:https://wayland.freedesktop.org
+L:MIT
+o:wayland
+m:Aaron Bassett <abassett@qnx.com>
+t:1787091025
+c:e11c17984f6f92cd91bc0dda019bbf38c6a1a2f4
+D:expat libffi libxml2 libexpat qnx-io-sock qnx-fd-notify qnx-memstream qnx-libslog2
+
+C:Q15ZZ+SrPh7pTCltoAi8jrG2YEuiM=
+P:wayland-dev
+V:1.24.0-r1
+A:aarch64
+S:98305
+I:467604
+T:A computer display server protocol (development files)
+U:https://wayland.freedesktop.org
+L:MIT
+o:wayland
+m:Aaron Bassett <abassett@qnx.com>
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+D:libxml2 libffi-dev expat-dev libxml2-dev pkgconfig
+p:pc:pc:wayland-server=1.24.0
+
+C:Q1gy2Hwio3yjc15HBvLeU4UgKUFlY=
+P:wayland-dev
+V:1.24.0-r2
+A:aarch64
+S:98313
+I:467604
+T:A computer display server protocol (development files)
+U:https://wayland.freedesktop.org
+L:MIT
+o:wayland
+m:Aaron Bassett <abassett@qnx.com>
+t:1786310799
+c:7b4c27b6dde3edfd36682bd33537eb11384f48bc
+D:libxml2 libffi-dev expat-dev libxml2-dev pkgconfig
+p:pc:pc:wayland-server=1.24.0
+
+C:Q13nAcNmaKT0PZxjH2xdhRm6StJiI=
+P:wayland-dev
+V:1.26.0-r0
+A:aarch64
+S:101493
+I:483801
+T:A computer display server protocol (development files)
+U:https://wayland.freedesktop.org
+L:MIT
+o:wayland
+m:Aaron Bassett <abassett@qnx.com>
+t:1787091025
+c:e11c17984f6f92cd91bc0dda019bbf38c6a1a2f4
+D:libxml2 libffi-dev expat-dev libxml2-dev pkgconfig wayland=1.26.0-r0
+p:pc:pc:wayland-server=1.26.0
+
+C:Q1jnHBo2lmKWvwPFJ6TKEwoLNHOqQ=
+P:wayland-protocols
+V:1.49-r0
+A:aarch64
+S:220566
+I:1030890
+T:Protocols and protocol extensions complementing the Wayland core protocol
+U:https://wayland.freedesktop.org
+L:MIT
+o:wayland-protocols
+m:Aaron Bassett <abassett@qnx.com>
+t:1787091999
+c:bf26e71455095c0f53fa07f40e51efcaaadcdd13
+D:pkgconfig
+p:pc:pc:wayland-protocols=1.49
+
+C:Q1KWJxou2jy7oV1IxekSwbsjnfoK4=
+P:webkit2gtk-4.1
+V:2.51.1-r8
+A:aarch64
+S:41736353
+I:119599928
+T:Portable web rendering engine WebKit for GTK+ - GTK+3 libsoup3 version
+U:https://webkitgtk.org/
+L:LGPL-2.0-or-later AND BSD-2-Clause
+o:webkit2gtk-4.1
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786343711
+c:89974af0c7e716807cb7179578d38535b72fe0fc
+D:at-spi2-core-libs cairo cairo-gobject enchant-libs ffmpeg-libs gdk-pixbuf gdk-pixbuf-loaders glib gnutls gstreamer gst-libav gst-plugins-base gst-plugins-good gtk3 harfbuzz-icu hyphen icu-libs lcms2 libavif libavif-pixbuf-loader libc++ libepoxy libgcrypt libgpg-error libsecret libsoup3 libtasn1 libxslt libwebpdemux libwoff2dec openjpeg sqlite-libs qnx-io-sock qnx-libdrm qnx-libgbm
+
+C:Q1Aa6Ua91YhrrxmBnMdyLj8+veuOk=
+P:webkit2gtk-4.1-dbg
+V:2.51.1-r8
+A:aarch64
+S:17396088
+I:185048272
+T:Portable web rendering engine WebKit for GTK+ - GTK+3 libsoup3 version (debug symbols)
+U:https://webkitgtk.org/
+L:LGPL-2.0-or-later AND BSD-2-Clause
+o:webkit2gtk-4.1
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786343711
+c:89974af0c7e716807cb7179578d38535b72fe0fc
+
+C:Q1S8eym2Elo5V5hVuak/aLHoZ6fB8=
+P:webkit2gtk-4.1-dev
+V:2.51.1-r8
+A:aarch64
+S:434962
+I:5790744
+T:Portable web rendering engine WebKit for GTK+ - GTK+3 libsoup3 version (development files)
+U:https://webkitgtk.org/
+L:LGPL-2.0-or-later AND BSD-2-Clause
+o:webkit2gtk-4.1
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786343711
+c:89974af0c7e716807cb7179578d38535b72fe0fc
+D:gtk3-dev libsoup3-dev pkgconfig webkit2gtk-4.1=2.51.1-r8
+p:pc:pc:webkit2gtk-web-extension-4.1=2.51.1
+
+C:Q16GVLSrJ1vhSqAPh9yRACe4AveHQ=
+P:webkit2gtk-4.1-lang
+V:2.51.1-r8
+A:aarch64
+S:616235
+I:1810296
+T:Languages for package webkit2gtk-4.1
+U:https://webkitgtk.org/
+L:LGPL-2.0-or-later AND BSD-2-Clause
+o:webkit2gtk-4.1
+m:Elliott Mazzuca <emazzuca@qnx.com>
+t:1786343711
+c:89974af0c7e716807cb7179578d38535b72fe0fc
+i:webkit2gtk-4.1=2.51.1-r8 lang
+
+C:Q1rlJdq3Z8Au9Juo28TeI0J5Qwdmk=
+P:weston
+V:14.0.2-r11
+A:aarch64
+S:719283
+I:1563787
+T:Reference Wayland server
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1786039953
+c:eb25d488c1763bc6ed31c1311d4ef9e0c9999589
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1u4Ijt8NWobgjH/QZvip/91N93DQ=
+P:weston
+V:14.0.2-r12
+A:aarch64
+S:719207
+I:1563795
+T:Reference Wayland server
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1787947568
+c:7fc1231369f416cdd13c11480ea9939287ea8d5b
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1kU6NIF8TKzOotc6HBNug5V0u+Aw=
+P:weston-backend-headless
+V:14.0.2-r11
+A:aarch64
+S:24436
+I:63144
+T:Weston backend: headless
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1786039953
+c:eb25d488c1763bc6ed31c1311d4ef9e0c9999589
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1+08qGIW+Gzdx+0WjT0erzGWuO2E=
+P:weston-backend-headless
+V:14.0.2-r12
+A:aarch64
+S:24470
+I:63144
+T:Weston backend: headless
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1787947568
+c:7fc1231369f416cdd13c11480ea9939287ea8d5b
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q185E/45MAjgMjqQ1kgjQ1cgNMIwA=
+P:weston-backend-qnx-screen
+V:14.0.2-r11
+A:aarch64
+S:16098
+I:38656
+T:Weston backend: qnx-screen
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1786039953
+c:eb25d488c1763bc6ed31c1311d4ef9e0c9999589
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1/6afDhMfeDj7HmTYk1KXY9XJE9Y=
+P:weston-backend-qnx-screen
+V:14.0.2-r12
+A:aarch64
+S:16801
+I:38664
+T:Weston backend: qnx-screen
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1787947568
+c:7fc1231369f416cdd13c11480ea9939287ea8d5b
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1ybX1jlV4/UqZCbQpWSj9HhBYI0E=
+P:weston-backend-wayland
+V:14.0.2-r11
+A:aarch64
+S:39957
+I:116800
+T:Weston backend: wayland
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1786039953
+c:eb25d488c1763bc6ed31c1311d4ef9e0c9999589
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1ZQrdFHYY5/JUXq5imoHldmfOO8M=
+P:weston-backend-wayland
+V:14.0.2-r12
+A:aarch64
+S:39986
+I:116800
+T:Weston backend: wayland
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1787947568
+c:7fc1231369f416cdd13c11480ea9939287ea8d5b
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1JcJT1gYLkBZvjgwrMki473ifarc=
+P:weston-clients
+V:14.0.2-r11
+A:aarch64
+S:1244223
+I:4061248
+T:Weston example clients
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1786039953
+c:eb25d488c1763bc6ed31c1311d4ef9e0c9999589
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1P6PQkjccP0jEdxX42/3tJX+GSzA=
+P:weston-clients
+V:14.0.2-r12
+A:aarch64
+S:1243730
+I:4061248
+T:Weston example clients
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1787947568
+c:7fc1231369f416cdd13c11480ea9939287ea8d5b
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q10k+zuriMKoSVYFy039CUvVLL1AA=
+P:weston-dev
+V:14.0.2-r11
+A:aarch64
+S:37488
+I:156042
+T:Reference Wayland server (development files)
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1786039953
+c:eb25d488c1763bc6ed31c1311d4ef9e0c9999589
+D:weston=14.0.2-r11 pkgconfig
+p:pc:pc:weston=14.0.2
+
+C:Q1tJQOF7nmIf5FBjRfSSnANVWKl7w=
+P:weston-dev
+V:14.0.2-r12
+A:aarch64
+S:37524
+I:156042
+T:Reference Wayland server (development files)
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1787947568
+c:7fc1231369f416cdd13c11480ea9939287ea8d5b
+D:weston=14.0.2-r12 libweston=14.0.2-r12 pkgconfig
+p:pc:pc:weston=14.0.2
+
+C:Q1y1wVgkygJHZptKox/Wm78vDcRXs=
+P:weston-doc
+V:14.0.2-r11
+A:aarch64
+S:21312
+I:17288
+T:Reference Wayland server (documentation)
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1786039953
+c:eb25d488c1763bc6ed31c1311d4ef9e0c9999589
+i:docs weston=14.0.2-r11
+
+C:Q1iFmwjUZTi+bsWLV912NfV12fqJ8=
+P:weston-doc
+V:14.0.2-r12
+A:aarch64
+S:21350
+I:17288
+T:Reference Wayland server (documentation)
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1787947568
+c:7fc1231369f416cdd13c11480ea9939287ea8d5b
+i:docs weston=14.0.2-r12
+
+C:Q1JkuGty6N8/5/1np6s+xz2WaJXqQ=
+P:weston-shell-desktop
+V:14.0.2-r11
+A:aarch64
+S:32811
+I:87848
+T:Weston shell: desktop
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1786039953
+c:eb25d488c1763bc6ed31c1311d4ef9e0c9999589
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1MhKxTYnp2oGjSz3xnKdYvOm9nq8=
+P:weston-shell-desktop
+V:14.0.2-r12
+A:aarch64
+S:32846
+I:87848
+T:Weston shell: desktop
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1787947568
+c:7fc1231369f416cdd13c11480ea9939287ea8d5b
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1rFeH9jy+agqi5JVY4s8vLfYs58E=
+P:weston-shell-fullscreen
+V:14.0.2-r11
+A:aarch64
+S:10420
+I:22112
+T:Weston shell: fullscreen
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1786039953
+c:eb25d488c1763bc6ed31c1311d4ef9e0c9999589
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1fKZh6TWaGm65q9GJUsNvoePjQSI=
+P:weston-shell-fullscreen
+V:14.0.2-r12
+A:aarch64
+S:10451
+I:22112
+T:Weston shell: fullscreen
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1787947568
+c:7fc1231369f416cdd13c11480ea9939287ea8d5b
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1gQ+rYNpwGP2vztX1jzbpq1/LJBQ=
+P:weston-shell-ivi
+V:14.0.2-r11
+A:aarch64
+S:24933
+I:67656
+T:Weston shell: ivi
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1786039953
+c:eb25d488c1763bc6ed31c1311d4ef9e0c9999589
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1uXdnmvAzeOcoj0meso0R0lNLLOs=
+P:weston-shell-ivi
+V:14.0.2-r12
+A:aarch64
+S:24967
+I:67656
+T:Weston shell: ivi
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1787947568
+c:7fc1231369f416cdd13c11480ea9939287ea8d5b
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q13Qm9ZshFbZUus/QAvUTg07KHsiU=
+P:weston-shell-qnx-desktop
+V:14.0.2-r11
+A:aarch64
+S:34733
+I:96088
+T:Weston shell: qnx-desktop
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1786039953
+c:eb25d488c1763bc6ed31c1311d4ef9e0c9999589
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1I2biGnFupw2ERyJ9/pAJp34tNZU=
+P:weston-shell-qnx-desktop
+V:14.0.2-r12
+A:aarch64
+S:34771
+I:96088
+T:Weston shell: qnx-desktop
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1787947568
+c:7fc1231369f416cdd13c11480ea9939287ea8d5b
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1gYW/Yoz9VaM0OKSPFulywhP/fRk=
+P:weston-terminal
+V:14.0.2-r11
+A:aarch64
+S:80215
+I:245720
+T:Weston client: weston-terminal
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1786039953
+c:eb25d488c1763bc6ed31c1311d4ef9e0c9999589
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q16rlUxpVcylttrQuIXlGN9geOoQI=
+P:weston-terminal
+V:14.0.2-r12
+A:aarch64
+S:80225
+I:245720
+T:Weston client: weston-terminal
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1787947568
+c:7fc1231369f416cdd13c11480ea9939287ea8d5b
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1DkYgSFxdfQw/Ul6RC+WwCZ0xU+I=
+P:weston-wcap-decode
+V:14.0.2-r11
+A:aarch64
+S:8547
+I:13832
+T:Weston client: wcap-decode
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1786039953
+c:eb25d488c1763bc6ed31c1311d4ef9e0c9999589
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1OeZSKQlYFK6t1EKlCLirzb0QlHY=
+P:weston-wcap-decode
+V:14.0.2-r12
+A:aarch64
+S:8579
+I:13832
+T:Weston client: wcap-decode
+U:https://wayland.freedesktop.org/
+L:MIT
+o:weston
+m:Aaron Bassett <abassett@qnx.com>
+t:1787947568
+c:7fc1231369f416cdd13c11480ea9939287ea8d5b
+D:libweston dbus libdisplay-info libjpeg-turbo libwebp libxkbcommon qnx-security pango wayland qnx-io-sock qnx-egl qnx-screen qnx-gles qnx-memstream qnx-fd-notify qnx-libdrm qnx-libgbm qnx-hid ncurses
+
+C:Q1rUpd82/st8EQWnvTH+W8D5Z9IVw=
+P:wget
+V:1.25.0-r0
+A:aarch64
+S:240905
+I:487033
+T:Network utility to retrieve files from the Web
+U:https://www.gnu.org/software/wget/wget.html
+L:GPL-3.0-or-later WITH GPL-3.0-linking-source-exception
+o:wget
+m:Ethan Leir <eleir@qnx.com>
+t:1786648610
+c:8b472541a2bf86341c61a2ebd2f6a5c01841b221
+D:libiconv libidn2 libssl3 libcrypto3 openssl pcre2 qnx-io-sock zlib-ng
+
+C:Q1CZHWlZyL3/CUzqPFTOUjkXVi4RE=
+P:wget-doc
+V:1.25.0-r0
+A:aarch64
+S:112918
+I:269078
+T:Network utility to retrieve files from the Web (documentation)
+U:https://www.gnu.org/software/wget/wget.html
+L:GPL-3.0-or-later WITH GPL-3.0-linking-source-exception
+o:wget
+m:Ethan Leir <eleir@qnx.com>
+t:1786648610
+c:8b472541a2bf86341c61a2ebd2f6a5c01841b221
+i:docs wget=1.25.0-r0
+
+C:Q1ymxrkVhcaHtqjkg7e9s8sQyz1w0=
+P:whisper.cpp
+V:0_git20260729-r0
+A:aarch64
+S:2220948
+I:5065960
+T:Automatic speech recognition using OpenAI's Whisper model, in pure C/C++
+U:https://github.com/ggml-org/whisper.cpp
+L:MIT
+o:whisper.cpp
+m:Cris Sinnott <csinnott@qnx.com>
+t:1785867188
+c:1b87358abcde448602fe12a4c5ddb494ed34f3fa
+D:libc++ qnx-io-sock
+
+C:Q1lea7xU1TQr42C6GHmWv0P+z2zGg=
+P:whisper.cpp-dbg
+V:0_git20260729-r0
+A:aarch64
+S:8764193
+I:31125224
+T:Automatic speech recognition using OpenAI's Whisper model, in pure C/C++ (debug symbols)
+U:https://github.com/ggml-org/whisper.cpp
+L:MIT
+o:whisper.cpp
+m:Cris Sinnott <csinnott@qnx.com>
+t:1785867188
+c:1b87358abcde448602fe12a4c5ddb494ed34f3fa
+
+C:Q1XQM0+/GyDswvCjTNYIMXWHQlk5E=
+P:whisper.cpp-dev
+V:0_git20260729-r0
+A:aarch64
+S:57015
+I:267639
+T:Automatic speech recognition using OpenAI's Whisper model, in pure C/C++ (development files)
+U:https://github.com/ggml-org/whisper.cpp
+L:MIT
+o:whisper.cpp
+m:Cris Sinnott <csinnott@qnx.com>
+t:1785867188
+c:1b87358abcde448602fe12a4c5ddb494ed34f3fa
+D:pkgconfig
+p:pc:pc:whisper=1.9.1
+
+C:Q13g5Eq0bZUEOMEDQudR+ZgQ6OeZs=
+P:wlroots0.20
+V:0.20.2-r0
+A:aarch64
+S:343003
+I:1140056
+T:Modular Wayland compositor library
+U:https://gitlab.freedesktop.org/wlroots/wlroots
+L:MIT
+o:wlroots0.20
+m:Aaron Bassett <abassett@qnx.com>
+t:1791920577
+c:baad2a2bc6d213db40f1d82ffeb7b06d91080c8c
+D:libxkbcommon lcms2 pixman wayland qnx-screen qnx-libdrm qnx-libgbm qnx-egl qnx-gles qnx-io-sock qnx-fd-notify
+p:so:libwlroots-0.20.so=0
+
+C:Q1d1wKPpNLFsQG7Wxg0a/asbgf6jc=
+P:wlroots0.20-dbg
+V:0.20.2-r0
+A:aarch64
+S:68935
+I:1352384
+T:Modular Wayland compositor library (debug symbols)
+U:https://gitlab.freedesktop.org/wlroots/wlroots
+L:MIT
+o:wlroots0.20
+m:Aaron Bassett <abassett@qnx.com>
+t:1791920577
+c:baad2a2bc6d213db40f1d82ffeb7b06d91080c8c
+
+C:Q1FyhHBdL6RIiEOyRY5xQ8KPEysaw=
+P:wlroots0.20-dev
+V:0.20.2-r0
+A:aarch64
+S:93650
+I:391252
+T:Modular Wayland compositor library (development files)
+U:https://gitlab.freedesktop.org/wlroots/wlroots
+L:MIT
+o:wlroots0.20
+m:Aaron Bassett <abassett@qnx.com>
+t:1791920577
+c:baad2a2bc6d213db40f1d82ffeb7b06d91080c8c
+D:wlroots0.20=0.20.2-r0 qnx-libdrm-dev qnx-libgbm-dev qnx-screen-dev wayland-protocols wayland-dev pixman-dev lcms2-dev libxkbcommon-dev pkgconfig
+p:pc:wlroots-0.20=0.20.2
+
+C:Q18RijpeFkO0LMkV+XKiKUhQUw/UQ=
+P:wlroots0.20-static
+V:0.20.2-r0
+A:aarch64
+S:540076
+I:2376800
+T:Modular Wayland compositor library (static library)
+U:https://gitlab.freedesktop.org/wlroots/wlroots
+L:MIT
+o:wlroots0.20
+m:Aaron Bassett <abassett@qnx.com>
+t:1791920577
+c:baad2a2bc6d213db40f1d82ffeb7b06d91080c8c
+
+C:Q1jyVhde/3KPK9INZI71F8uDEqF+w=
+P:xcb-util
+V:0.4.1-r0
+A:aarch64
+S:7788
+I:13760
+T:Utility libraries for X C-language Binding
+U:https://xcb.freedesktop.org/
+L:MIT
+o:xcb-util
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787252775
+c:8e28c3456327427cc59f23a91f634f17af0260e8
+D:libxcb
+
+C:Q1tdNiYIDavhiRtwZbnVZxrNFwTHw=
+P:xcb-util-dev
+V:0.4.1-r0
+A:aarch64
+S:6265
+I:11277
+T:Utility libraries for X C-language Binding (development files)
+U:https://xcb.freedesktop.org/
+L:MIT
+o:xcb-util
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787252775
+c:8e28c3456327427cc59f23a91f634f17af0260e8
+D:libxcb-dev util-macros pkgconfig xcb-util=0.4.1-r0
+p:pc:pc:xcb-util=0.4.1
+
+C:Q1MfoKRRLwkKXkSV4IzvIcguV+1xA=
+P:xfce4-panel
+V:4.21.0-r2
+A:aarch64
+S:708277
+I:3838905
+T:Panel for the Xfce desktop environment
+U:https://xfce.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:xfce4-panel
+m:Felix Xing <fxing@qnx.com>
+t:1785179969
+c:d2454eb9854216ac35fb44bb7bc37c061bd06f76
+D:gtk3 garcon libxfce4ui libxfce4util libxfce4windowing gtk-layer-shell exo libxfce4panel
+
+C:Q1IhZTq8tpVR36Ce5iiVqQ6WEzbaE=
+P:xfce4-panel-dev
+V:4.21.0-r2
+A:aarch64
+S:31291
+I:207027
+T:Panel for the Xfce desktop environment (development files)
+U:https://xfce.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:xfce4-panel
+m:Felix Xing <fxing@qnx.com>
+t:1785179969
+c:d2454eb9854216ac35fb44bb7bc37c061bd06f76
+D:xfconf-dev gtk-layer-shell-dev libxfce4ui-dev pkgconfig
+p:pc:pc:libxfce4panel-2.0=4.21.0
+
+C:Q16aFD50IRyovULounjYVKX64PpFE=
+P:xfce4-panel-lang
+V:4.21.0-r2
+A:aarch64
+S:880130
+I:2297637
+T:Languages for package xfce4-panel
+U:https://xfce.org/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later
+o:xfce4-panel
+m:Felix Xing <fxing@qnx.com>
+t:1785179969
+c:d2454eb9854216ac35fb44bb7bc37c061bd06f76
+i:xfce4-panel=4.21.0-r2 lang
+
+C:Q1bPCO9ml6M664MIljVARclQIgi2c=
+P:xkbcli
+V:1.8.0-r3
+A:aarch64
+S:42027
+I:140800
+T:xkb command-line tool with interactive debugger
+U:https://xkbcommon.org/
+L:MIT AND MIT-open-group AND HPND AND HPND-sell-variant AND LicenseRef-digital-equipment-corporation
+o:libxkbcommon
+t:1786315982
+c:31334a50aeda6550cdf08da9e24f3e00853c9d0c
+D:libxkbcommon=1.8.0-r3 wayland
+
+C:Q1auv7DEiMULrdYzkCtoFA0pXNusQ=
+P:xkbcli-bash-completion
+V:1.8.0-r3
+A:aarch64
+S:5632
+I:3698
+T:Bash completions for xkbcli
+U:https://xkbcommon.org/
+L:MIT AND MIT-open-group AND HPND AND HPND-sell-variant AND LicenseRef-digital-equipment-corporation
+o:libxkbcommon
+t:1786315982
+c:31334a50aeda6550cdf08da9e24f3e00853c9d0c
+i:xkbcli=1.8.0-r3 bash-completion
+
+C:Q1ya8IgVDdRCdI3tGgVmgDnDhDQ3M=
+P:xkbcomp
+V:1.5.0-r0
+A:aarch64
+S:79796
+I:175232
+T:XKBD keymap compiler
+U:https://xorg.freedesktop.org
+L:MIT
+o:xkbcomp
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787253144
+c:14994b41da89b6397951efca1b914a815ae1e07e
+D:libxkbfile libx11
+
+C:Q1nzbkhVBYKSX14ApaVvp7AvFD7Cw=
+P:xkbcomp-dev
+V:1.5.0-r0
+A:aarch64
+S:2667
+I:290
+T:XKBD keymap compiler (development files)
+U:https://xorg.freedesktop.org
+L:MIT
+o:xkbcomp
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787253144
+c:14994b41da89b6397951efca1b914a815ae1e07e
+D:pkgconfig
+p:pc:pc:xkbcomp=1.5.0
+
+C:Q1Y5Ao8dCWc6LQWJDrogx/i+TWev4=
+P:xkbcomp-doc
+V:1.5.0-r0
+A:aarch64
+S:4408
+I:1780
+T:XKBD keymap compiler (documentation)
+U:https://xorg.freedesktop.org
+L:MIT
+o:xkbcomp
+m:jscaffidi <jscaffidi@qnx.com>
+t:1787253144
+c:14994b41da89b6397951efca1b914a815ae1e07e
+i:docs xkbcomp=1.5.0-r0
+
+C:Q1C3Pc75BShvn3wvUNa3wwunAX7Co=
+P:xxd
+V:9.2.1001-r0
+A:aarch64
+S:13415
+I:22112
+T:tool to make (or reverse) a hex dump
+U:https://www.vim.org/
+L:Vim
+o:vim
+t:1787686740
+c:bdabff41e080a79ebf9243df312f03fc2991ef7b
+

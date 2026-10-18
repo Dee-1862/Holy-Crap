@@ -1,0 +1,1291 @@
+submitted job-20261018-101511-24295379 (15 argv elements) to qnxpi
+{
+  "id": "job-20261018-101511-24295379",
+  "argv": [
+    "/proc/boot/on",
+    "-L",
+    "vmem:8589934592",
+    "/system/bin/python3",
+    "qnx_smoke.py",
+    "--model",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/stage/dropping4_yolo11n_320.onnx",
+    "--input",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/stage/smoke-input-f32.bin",
+    "--ortlite",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/stage/ortlite",
+    "--output",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/results/qnx-output-f32.bin",
+    "--result",
+    "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/results/qnx-smoke.json"
+  ],
+  "cwd": "/data/home/qnxuser/hc-ort-restore-20261018-ortlite-7778ee0/stage",
+  "timeout": 300,
+  "status": "done",
+  "started_at": "2026-10-18T17:15:12Z",
+  "finished_at": "2026-10-18T17:15:15Z",
+  "exit_code": 0,
+  "timed_out": false,
+  "error": null,
+  "stdout_log": "logs/job-20261018-101511-24295379.out",
+  "stderr_log": "logs/job-20261018-101511-24295379.err"
+}
+--- stderr ---
+onnxruntime cpuid_info warning: Unknown CPU vendor. cpuinfo_vendor value: 0
+Schema error: Trying to register schema with name Abs (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2761, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2761
+
+Schema error: Trying to register schema with name Add (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2645, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2645
+
+Schema error: Trying to register schema with name And (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 141, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 141
+
+Schema error: Trying to register schema with name ArgMax (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 364, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 364
+
+Schema error: Trying to register schema with name ArgMin (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 366, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 366
+
+Schema error: Trying to register schema with name AveragePool (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2470, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2470
+
+Schema error: Trying to register schema with name BatchNormalization (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3383, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3383
+
+Schema error: Trying to register schema with name Cast (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6421, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6421
+
+Schema error: Trying to register schema with name Ceil (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2827, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2827
+
+Schema error: Trying to register schema with name Clip (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3247, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3247
+
+Schema error: Trying to register schema with name Concat (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6498, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6498
+
+Schema error: Trying to register schema with name Constant (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 722, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 722
+
+Schema error: Trying to register schema with name Conv (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3022, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3022
+
+Schema error: Trying to register schema with name ConvTranspose (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3250, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3250
+
+Schema error: Trying to register schema with name DepthToSpace (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7267, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7267
+
+Schema error: Trying to register schema with name Div (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2651, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2651
+
+Schema error: Trying to register schema with name Dropout (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3745, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3745
+
+Schema error: Trying to register schema with name Elu (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2943, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2943
+
+Schema error: Trying to register schema with name Equal (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 187, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 187
+
+Schema error: Trying to register schema with name Exp (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2968, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2968
+
+Schema error: Trying to register schema with name Flatten (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3989, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3989
+
+Schema error: Trying to register schema with name Floor (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2805, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2805
+
+Schema error: Trying to register schema with name GRU (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 712, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 712
+
+Schema error: Trying to register schema with name Gather (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7367, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7367
+
+Schema error: Trying to register schema with name Gemm (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3283, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3283
+
+Schema error: Trying to register schema with name GlobalAveragePool (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 616, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 616
+
+Schema error: Trying to register schema with name GlobalLpPool (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3282, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3282
+
+Schema error: Trying to register schema with name GlobalMaxPool (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 620, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 620
+
+Schema error: Trying to register schema with name Greater (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 168, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 168
+
+Schema error: Trying to register schema with name HardSigmoid (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3139, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3139
+
+Schema error: Trying to register schema with name Hardmax (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2560, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2560
+
+Schema error: Trying to register schema with name Identity (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5619, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5619
+
+Schema error: Trying to register schema with name If (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 2872, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 2872
+
+Schema error: Trying to register schema with name InstanceNormalization (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3707, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3707
+
+Schema error: Trying to register schema with name LRN (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1935, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1935
+
+Schema error: Trying to register schema with name LSTM (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 1215, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 1215
+
+Schema error: Trying to register schema with name LeakyRelu (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2894, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2894
+
+Schema error: Trying to register schema with name Less (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 179, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 179
+
+Schema error: Trying to register schema with name Log (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2993, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2993
+
+Schema error: Trying to register schema with name LogSoftmax (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2554, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2554
+
+Schema error: Trying to register schema with name Loop (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 2295, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 2295
+
+Schema error: Trying to register schema with name LpNormalization (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 391, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 391
+
+Schema error: Trying to register schema with name LpPool (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2829, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2829
+
+Schema error: Trying to register schema with name MatMul (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3635, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3635
+
+Schema error: Trying to register schema with name Max (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3160, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3160
+
+Schema error: Trying to register schema with name MaxPool (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2524, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2524
+
+Schema error: Trying to register schema with name MaxRoiPool (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1191, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1191
+
+Schema error: Trying to register schema with name Mean (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3223, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3223
+
+Schema error: Trying to register schema with name Min (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3181, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3181
+
+Schema error: Trying to register schema with name Mul (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2649, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2649
+
+Schema error: Trying to register schema with name Neg (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2739, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2739
+
+Schema error: Trying to register schema with name Not (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 142, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 142
+
+Schema error: Trying to register schema with name Or (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 149, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 149
+
+Schema error: Trying to register schema with name PRelu (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3048, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3048
+
+Schema error: Trying to register schema with name Pad (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6626, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6626
+
+Schema error: Trying to register schema with name Pow (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2690, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2690
+
+Schema error: Trying to register schema with name RNN (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 946, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 946
+
+Schema error: Trying to register schema with name RandomNormal (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 289, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 289
+
+Schema error: Trying to register schema with name RandomNormalLike (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 200, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 200
+
+Schema error: Trying to register schema with name RandomUniform (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 327, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 327
+
+Schema error: Trying to register schema with name RandomUniformLike (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 250, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 250
+
+Schema error: Trying to register schema with name Reciprocal (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2783, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2783
+
+Schema error: Trying to register schema with name ReduceL1 (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 295, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 295
+
+Schema error: Trying to register schema with name ReduceL2 (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 297, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 297
+
+Schema error: Trying to register schema with name ReduceLogSum (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 288, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 288
+
+Schema error: Trying to register schema with name ReduceLogSumExp (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 293, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 293
+
+Schema error: Trying to register schema with name ReduceMax (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 276, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 276
+
+Schema error: Trying to register schema with name ReduceMean (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 284, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 284
+
+Schema error: Trying to register schema with name ReduceMin (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 278, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 278
+
+Schema error: Trying to register schema with name ReduceProd (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 286, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 286
+
+Schema error: Trying to register schema with name ReduceSum (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 280, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 280
+
+Schema error: Trying to register schema with name ReduceSumSquare (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 282, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 282
+
+Schema error: Trying to register schema with name Relu (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2871, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2871
+
+Schema error: Trying to register schema with name Reshape (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6652, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6652
+
+Schema error: Trying to register schema with name Selu (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2919, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2919
+
+Schema error: Trying to register schema with name Shape (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2408, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2408
+
+Schema error: Trying to register schema with name Sigmoid (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3115, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3115
+
+Schema error: Trying to register schema with name Size (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2494, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2494
+
+Schema error: Trying to register schema with name Slice (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6957, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6957
+
+Schema error: Trying to register schema with name Softmax (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2549, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2549
+
+Schema error: Trying to register schema with name Softplus (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 734, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 734
+
+Schema error: Trying to register schema with name Softsign (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 770, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 770
+
+Schema error: Trying to register schema with name SpaceToDepth (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5007, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5007
+
+Schema error: Trying to register schema with name Split (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6584, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6584
+
+Schema error: Trying to register schema with name Sqrt (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2849, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2849
+
+Schema error: Trying to register schema with name Squeeze (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7425, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7425
+
+Schema error: Trying to register schema with name Sub (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2647, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2647
+
+Schema error: Trying to register schema with name Sum (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3202, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3202
+
+Schema error: Trying to register schema with name Tanh (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3018, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3018
+
+Schema error: Trying to register schema with name Tile (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6696, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6696
+
+Schema error: Trying to register schema with name TopK (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3701, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3701
+
+Schema error: Trying to register schema with name Transpose (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3307, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3307
+
+Schema error: Trying to register schema with name Unsqueeze (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7477, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7477
+
+Schema error: Trying to register schema with name Upsample (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6722, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6722
+
+Schema error: Trying to register schema with name Xor (domain:  version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 157, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 157
+
+Schema error: Trying to register schema with name GlobalLpPool (domain:  version: 2) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 91, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 91
+
+Schema error: Trying to register schema with name LpPool (domain:  version: 2) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2879, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2879
+
+Schema error: Trying to register schema with name Pad (domain:  version: 2) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7804, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7804
+
+Schema error: Trying to register schema with name Split (domain:  version: 2) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7732, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7732
+
+Schema error: Trying to register schema with name GRU (domain:  version: 3) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 1066, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 1066
+
+Schema error: Trying to register schema with name Concat (domain:  version: 4) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6562, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6562
+
+Schema error: Trying to register schema with name Reshape (domain:  version: 5) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2132, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2132
+
+Schema error: Trying to register schema with name Abs (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1238, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1238
+
+Schema error: Trying to register schema with name Add (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2653, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2653
+
+Schema error: Trying to register schema with name BatchNormalization (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3942, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3942
+
+Schema error: Trying to register schema with name Cast (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6483, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6483
+
+Schema error: Trying to register schema with name Ceil (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1295, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1295
+
+Schema error: Trying to register schema with name Clip (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3840, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3840
+
+Schema error: Trying to register schema with name Div (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2659, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2659
+
+Schema error: Trying to register schema with name Dropout (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3772, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3772
+
+Schema error: Trying to register schema with name Elu (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 902, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 902
+
+Schema error: Trying to register schema with name Exp (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1374, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1374
+
+Schema error: Trying to register schema with name Floor (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1276, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1276
+
+Schema error: Trying to register schema with name Gemm (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3339, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3339
+
+Schema error: Trying to register schema with name HardSigmoid (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 834, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 834
+
+Schema error: Trying to register schema with name InstanceNormalization (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 455, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 455
+
+Schema error: Trying to register schema with name LeakyRelu (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3932, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3932
+
+Schema error: Trying to register schema with name Log (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1396, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1396
+
+Schema error: Trying to register schema with name Max (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3495, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3495
+
+Schema error: Trying to register schema with name Mean (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3549, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3549
+
+Schema error: Trying to register schema with name Min (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3513, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3513
+
+Schema error: Trying to register schema with name Mul (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2657, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2657
+
+Schema error: Trying to register schema with name Neg (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1222, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1222
+
+Schema error: Trying to register schema with name PRelu (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3067, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3067
+
+Schema error: Trying to register schema with name Reciprocal (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1257, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1257
+
+Schema error: Trying to register schema with name Relu (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1333, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1333
+
+Schema error: Trying to register schema with name Selu (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 953, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 953
+
+Schema error: Trying to register schema with name Sigmoid (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1532, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1532
+
+Schema error: Trying to register schema with name Sqrt (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1314, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1314
+
+Schema error: Trying to register schema with name Sub (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2655, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2655
+
+Schema error: Trying to register schema with name Sum (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3531, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3531
+
+Schema error: Trying to register schema with name Tanh (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1418, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1418
+
+Schema error: Trying to register schema with name Tile (domain:  version: 6) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5157, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5157
+
+Schema error: Trying to register schema with name Acos (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 600, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 600
+
+Schema error: Trying to register schema with name Add (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1063, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1063
+
+Schema error: Trying to register schema with name And (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 72, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 72
+
+Schema error: Trying to register schema with name Asin (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 626, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 626
+
+Schema error: Trying to register schema with name Atan (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 574, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 574
+
+Schema error: Trying to register schema with name AveragePool (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2484, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2484
+
+Schema error: Trying to register schema with name BatchNormalization (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 4131, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 4131
+
+Schema error: Trying to register schema with name Cos (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 678, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 678
+
+Schema error: Trying to register schema with name Div (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1069, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1069
+
+Schema error: Trying to register schema with name Dropout (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3796, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3796
+
+Schema error: Trying to register schema with name Equal (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 195, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 195
+
+Schema error: Trying to register schema with name Gemm (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3405, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3405
+
+Schema error: Trying to register schema with name Greater (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 206, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 206
+
+Schema error: Trying to register schema with name GRU (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 1559, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 1559
+
+Schema error: Trying to register schema with name Less (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 217, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 217
+
+Schema error: Trying to register schema with name LSTM (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 1704, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 1704
+
+Schema error: Trying to register schema with name Mul (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1067, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1067
+
+Schema error: Trying to register schema with name Or (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 80, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 80
+
+Schema error: Trying to register schema with name Pow (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2717, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2717
+
+Schema error: Trying to register schema with name RNN (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 1439, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 1439
+
+Schema error: Trying to register schema with name Sin (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 704, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 704
+
+Schema error: Trying to register schema with name Sub (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1065, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1065
+
+Schema error: Trying to register schema with name Tan (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 652, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 652
+
+Schema error: Trying to register schema with name Upsample (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6786, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6786
+
+Schema error: Trying to register schema with name Multinomial (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 150, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 150
+
+Schema error: Trying to register schema with name Xor (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 88, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 88
+
+Schema error: Trying to register schema with name PRelu (domain:  version: 7) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3093, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3093
+
+Schema error: Trying to register schema with name Expand (domain:  version: 8) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1859, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1859
+
+Schema error: Trying to register schema with name Min (domain:  version: 8) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3912, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3912
+
+Schema error: Trying to register schema with name Max (domain:  version: 8) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3910, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3910
+
+Schema error: Trying to register schema with name Sum (domain:  version: 8) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1589, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1589
+
+Schema error: Trying to register schema with name Mean (domain:  version: 8) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1599, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1599
+
+Schema error: Trying to register schema with name MaxPool (domain:  version: 8) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2550, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2550
+
+Schema error: Trying to register schema with name Scan (domain:  version: 8) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 2024, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 2024
+
+Schema error: Trying to register schema with name BatchNormalization (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3499, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3499
+
+Schema error: Trying to register schema with name Compress (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7651, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7651
+
+Schema error: Trying to register schema with name ConstantOfShape (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 1081, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 1081
+
+Schema error: Trying to register schema with name EyeLike (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 403, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 403
+
+Schema error: Trying to register schema with name Greater (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 46, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 46
+
+Schema error: Trying to register schema with name Less (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 54, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 54
+
+Schema error: Trying to register schema with name Upsample (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6813, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6813
+
+Schema error: Trying to register schema with name MaxUnpool (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2767, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2767
+
+Schema error: Trying to register schema with name Constant (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 741, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 741
+
+Schema error: Trying to register schema with name MatMul (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1800, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1800
+
+Schema error: Trying to register schema with name OneHot (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7621, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7621
+
+Schema error: Trying to register schema with name PRelu (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3968, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3968
+
+Schema error: Trying to register schema with name Gemm (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3477, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3477
+
+Schema error: Trying to register schema with name Flatten (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 4033, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 4033
+
+Schema error: Trying to register schema with name Scatter (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7222, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7222
+
+Schema error: Trying to register schema with name Sinh (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 548, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 548
+
+Schema error: Trying to register schema with name Cosh (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 522, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 522
+
+Schema error: Trying to register schema with name Asinh (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 496, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 496
+
+Schema error: Trying to register schema with name Acosh (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 470, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 470
+
+Schema error: Trying to register schema with name Atanh (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 444, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 444
+
+Schema error: Trying to register schema with name Shrink (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1972, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1972
+
+Schema error: Trying to register schema with name IsNaN (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5638, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5638
+
+Schema error: Trying to register schema with name Sign (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1879, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1879
+
+Schema error: Trying to register schema with name Scan (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 2776, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 2776
+
+Schema error: Trying to register schema with name Erf (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1898, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1898
+
+Schema error: Trying to register schema with name Cast (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 1160, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 1160
+
+Schema error: Trying to register schema with name Where (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8012, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8012
+
+Schema error: Trying to register schema with name NonZero (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5715, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5715
+
+Schema error: Trying to register schema with name TfIdfVectorizer (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 2210, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 2210
+
+Schema error: Trying to register schema with name MeanVarianceNormalization (domain:  version: 9) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1976, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1976
+
+Schema error: Trying to register schema with name Upsample (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 2182, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 2182
+
+Schema error: Trying to register schema with name Resize (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6841, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6841
+
+Schema error: Trying to register schema with name StringNormalizer (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/text/defs.cc line 199, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/text/defs.cc line 199
+
+Schema error: Trying to register schema with name TopK (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3806, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3806
+
+Schema error: Trying to register schema with name MaxPool (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2579, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2579
+
+Schema error: Trying to register schema with name Mod (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1197, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1197
+
+Schema error: Trying to register schema with name AveragePool (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2500, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2500
+
+Schema error: Trying to register schema with name Slice (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7164, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7164
+
+Schema error: Trying to register schema with name ThresholdedRelu (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 985, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 985
+
+Schema error: Trying to register schema with name Dropout (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3829, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3829
+
+Schema error: Trying to register schema with name MatMulInteger (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1892, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1892
+
+Schema error: Trying to register schema with name QLinearMatMul (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 4204, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 4204
+
+Schema error: Trying to register schema with name ConvInteger (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1105, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1105
+
+Schema error: Trying to register schema with name QLinearConv (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 988, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 988
+
+Schema error: Trying to register schema with name QuantizeLinear (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 948, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 948
+
+Schema error: Trying to register schema with name DequantizeLinear (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 990, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 990
+
+Schema error: Trying to register schema with name IsInf (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5687, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5687
+
+Schema error: Trying to register schema with name NonMaxSuppression (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/object_detection/old.cc line 291, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/object_detection/old.cc line 291
+
+Schema error: Trying to register schema with name ReverseSequence (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3215, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3215
+
+Schema error: Trying to register schema with name RoiAlign (domain:  version: 10) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/object_detection/old.cc line 234, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/object_detection/old.cc line 234
+
+Schema error: Trying to register schema with name Loop (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 2587, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 2587
+
+Schema error: Trying to register schema with name BitShift (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 192, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 192
+
+Schema error: Trying to register schema with name Unique (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3450, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3450
+
+Schema error: Trying to register schema with name CumSum (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1972, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1972
+
+Schema error: Trying to register schema with name Round (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 418, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 418
+
+Schema error: Trying to register schema with name TopK (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3811, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3811
+
+Schema error: Trying to register schema with name DepthToSpace (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5080, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5080
+
+Schema error: Trying to register schema with name Equal (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 76, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 76
+
+Schema error: Trying to register schema with name Constant (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 791, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 791
+
+Schema error: Trying to register schema with name DynamicQuantizeLinear (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/defs.cc line 331, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/defs.cc line 331
+
+Schema error: Trying to register schema with name GatherElements (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4093, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4093
+
+Schema error: Trying to register schema with name ScatterElements (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3893, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3893
+
+Schema error: Trying to register schema with name Scatter (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1279, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1279
+
+Schema error: Trying to register schema with name Clip (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3873, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 3873
+
+Schema error: Trying to register schema with name Resize (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5519, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5519
+
+Schema error: Trying to register schema with name Range (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 533, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 533
+
+Schema error: Trying to register schema with name Det (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 388, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 388
+
+Schema error: Trying to register schema with name ScatterND (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3587, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3587
+
+Schema error: Trying to register schema with name GatherND (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7931, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7931
+
+Schema error: Trying to register schema with name Gather (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4005, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4005
+
+Schema error: Trying to register schema with name OneHot (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3005, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3005
+
+Schema error: Trying to register schema with name Slice (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2987, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2987
+
+Schema error: Trying to register schema with name Squeeze (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4557, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4557
+
+Schema error: Trying to register schema with name Unsqueeze (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4963, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4963
+
+Schema error: Trying to register schema with name Flatten (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1890, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1890
+
+Schema error: Trying to register schema with name ArgMin (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 436, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 436
+
+Schema error: Trying to register schema with name ArgMax (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 435, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 435
+
+Schema error: Trying to register schema with name ReduceL1 (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 117, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 117
+
+Schema error: Trying to register schema with name ReduceL2 (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 119, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 119
+
+Schema error: Trying to register schema with name ReduceLogSum (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 113, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 113
+
+Schema error: Trying to register schema with name ReduceLogSumExp (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 115, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 115
+
+Schema error: Trying to register schema with name ReduceMax (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 299, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 299
+
+Schema error: Trying to register schema with name ReduceMean (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 109, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 109
+
+Schema error: Trying to register schema with name ReduceMin (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 301, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 301
+
+Schema error: Trying to register schema with name ReduceProd (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 111, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 111
+
+Schema error: Trying to register schema with name ReduceSum (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 105, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 105
+
+Schema error: Trying to register schema with name ReduceSumSquare (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 107, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 107
+
+Schema error: Trying to register schema with name Compress (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 2837, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 2837
+
+Schema error: Trying to register schema with name Concat (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2570, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2570
+
+Schema error: Trying to register schema with name Hardmax (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1155, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1155
+
+Schema error: Trying to register schema with name LogSoftmax (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1149, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1149
+
+Schema error: Trying to register schema with name Softmax (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1144, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1144
+
+Schema error: Trying to register schema with name Scan (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 3592, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 3592
+
+Schema error: Trying to register schema with name Split (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2653, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2653
+
+Schema error: Trying to register schema with name AveragePool (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2516, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2516
+
+Schema error: Trying to register schema with name MaxPool (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2612, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2612
+
+Schema error: Trying to register schema with name MaxUnpool (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1375, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1375
+
+Schema error: Trying to register schema with name LpPool (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2946, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 2946
+
+Schema error: Trying to register schema with name Conv (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1093, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1093
+
+Schema error: Trying to register schema with name ConvTranspose (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 986, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 986
+
+Schema error: Trying to register schema with name SequenceEmpty (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 42, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 42
+
+Schema error: Trying to register schema with name SequenceConstruct (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 94, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 94
+
+Schema error: Trying to register schema with name SequenceInsert (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 157, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 157
+
+Schema error: Trying to register schema with name SequenceAt (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 194, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 194
+
+Schema error: Trying to register schema with name SequenceErase (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 232, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 232
+
+Schema error: Trying to register schema with name SequenceLength (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 254, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 254
+
+Schema error: Trying to register schema with name SplitToSequence (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/old.cc line 16, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/old.cc line 16
+
+Schema error: Trying to register schema with name ConcatFromSequence (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 349, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 349
+
+Schema error: Trying to register schema with name Pad (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6365, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6365
+
+Schema error: Trying to register schema with name Gemm (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1705, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1705
+
+Schema error: Trying to register schema with name If (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 2979, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 2979
+
+Schema error: Trying to register schema with name NonMaxSuppression (domain:  version: 11) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/object_detection/defs.cc line 197, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/object_detection/defs.cc line 197
+
+Schema error: Trying to register schema with name ArgMax (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 197, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 197
+
+Schema error: Trying to register schema with name ArgMin (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 199, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 199
+
+Schema error: Trying to register schema with name Clip (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1629, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1629
+
+Schema error: Trying to register schema with name Einsum (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 2598, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 2598
+
+Schema error: Trying to register schema with name MaxPool (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1555, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1555
+
+Schema error: Trying to register schema with name ReduceMax (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 101, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 101
+
+Schema error: Trying to register schema with name ReduceMin (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 103, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 103
+
+Schema error: Trying to register schema with name GatherND (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5874, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5874
+
+Schema error: Trying to register schema with name NegativeLogLikelihoodLoss (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2329, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2329
+
+Schema error: Trying to register schema with name Dropout (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1637, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1637
+
+Schema error: Trying to register schema with name Constant (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 698, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 698
+
+Schema error: Trying to register schema with name Celu (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 519, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 519
+
+Schema error: Trying to register schema with name Max (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1572, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1572
+
+Schema error: Trying to register schema with name Min (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1579, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1579
+
+Schema error: Trying to register schema with name LessOrEqual (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 236, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 236
+
+Schema error: Trying to register schema with name GreaterOrEqual (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 252, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 252
+
+Schema error: Trying to register schema with name SoftmaxCrossEntropyLoss (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2493, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 2493
+
+Schema error: Trying to register schema with name Pow (domain:  version: 12) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1513, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1513
+
+Schema error: Trying to register schema with name Constant (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 648, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 648
+
+Schema error: Trying to register schema with name Greater (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 96, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 96
+
+Schema error: Trying to register schema with name Less (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 104, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 104
+
+Schema error: Trying to register schema with name Equal (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 275, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/old.cc line 275
+
+Schema error: Trying to register schema with name Add (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1025, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1025
+
+Schema error: Trying to register schema with name Sub (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1027, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1027
+
+Schema error: Trying to register schema with name Mul (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1029, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1029
+
+Schema error: Trying to register schema with name Div (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1031, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1031
+
+Schema error: Trying to register schema with name Softmax (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1163, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1163
+
+Schema error: Trying to register schema with name LogSoftmax (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1209, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1209
+
+Schema error: Trying to register schema with name Hardmax (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1217, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1217
+
+Schema error: Trying to register schema with name Mod (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 139, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 139
+
+Schema error: Trying to register schema with name Neg (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 174, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 174
+
+Schema error: Trying to register schema with name Abs (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 193, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 193
+
+Schema error: Trying to register schema with name Reciprocal (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 212, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 212
+
+Schema error: Trying to register schema with name Floor (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 231, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 231
+
+Schema error: Trying to register schema with name Ceil (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 250, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 250
+
+Schema error: Trying to register schema with name Sqrt (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 269, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 269
+
+Schema error: Trying to register schema with name Relu (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1352, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1352
+
+Schema error: Trying to register schema with name Exp (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 656, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 656
+
+Schema error: Trying to register schema with name Log (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 682, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 682
+
+Schema error: Trying to register schema with name Tanh (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 705, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 705
+
+Schema error: Trying to register schema with name Pow (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1472, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 1472
+
+Schema error: Trying to register schema with name Sigmoid (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 825, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 825
+
+Schema error: Trying to register schema with name Max (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 935, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 935
+
+Schema error: Trying to register schema with name Min (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 945, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 945
+
+Schema error: Trying to register schema with name Sum (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 955, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 955
+
+Schema error: Trying to register schema with name Mean (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 965, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 965
+
+Schema error: Trying to register schema with name Clip (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1051, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1051
+
+Schema error: Trying to register schema with name Gemm (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1364, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1364
+
+Schema error: Trying to register schema with name MatMul (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1392, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1392
+
+Schema error: Trying to register schema with name Expand (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1579, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1579
+
+Schema error: Trying to register schema with name Sign (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1721, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1721
+
+Schema error: Trying to register schema with name Erf (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1744, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1744
+
+Schema error: Trying to register schema with name SoftmaxCrossEntropyLoss (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 2774, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 2774
+
+Schema error: Trying to register schema with name NegativeLogLikelihoodLoss (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 337, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 337
+
+Schema error: Trying to register schema with name Dropout (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 364, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 364
+
+Schema error: Trying to register schema with name Flatten (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1848, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1848
+
+Schema error: Trying to register schema with name LRN (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 2084, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 2084
+
+Schema error: Trying to register schema with name MeanVarianceNormalization (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 2270, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 2270
+
+Schema error: Trying to register schema with name ReduceMax (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 438, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 438
+
+Schema error: Trying to register schema with name ReduceMin (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 439, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 439
+
+Schema error: Trying to register schema with name ReduceSum (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 22, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 22
+
+Schema error: Trying to register schema with name ReduceSumSquare (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 440, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 440
+
+Schema error: Trying to register schema with name ReduceMean (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 441, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 441
+
+Schema error: Trying to register schema with name ReduceProd (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 442, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 442
+
+Schema error: Trying to register schema with name ReduceLogSum (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 443, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 443
+
+Schema error: Trying to register schema with name ReduceLogSumExp (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 447, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 447
+
+Schema error: Trying to register schema with name ReduceL1 (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 448, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 448
+
+Schema error: Trying to register schema with name ReduceL2 (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 449, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 449
+
+Schema error: Trying to register schema with name ArgMax (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 178, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 178
+
+Schema error: Trying to register schema with name ArgMin (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 180, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 180
+
+Schema error: Trying to register schema with name Cast (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 678, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 678
+
+Schema error: Trying to register schema with name Reshape (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2013, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2013
+
+Schema error: Trying to register schema with name Shape (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2380, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2380
+
+Schema error: Trying to register schema with name Size (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8802, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8802
+
+Schema error: Trying to register schema with name Concat (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 636, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 636
+
+Schema error: Trying to register schema with name Split (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2761, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2761
+
+Schema error: Trying to register schema with name Slice (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1095, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1095
+
+Schema error: Trying to register schema with name Transpose (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3246, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3246
+
+Schema error: Trying to register schema with name ScatterND (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3510, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3510
+
+Schema error: Trying to register schema with name ScatterElements (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3810, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3810
+
+Schema error: Trying to register schema with name Gather (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1648, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1648
+
+Schema error: Trying to register schema with name GatherElements (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1744, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1744
+
+Schema error: Trying to register schema with name Squeeze (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4495, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4495
+
+Schema error: Trying to register schema with name Unsqueeze (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4877, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4877
+
+Schema error: Trying to register schema with name SpaceToDepth (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1987, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1987
+
+Schema error: Trying to register schema with name DepthToSpace (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 2068, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 2068
+
+Schema error: Trying to register schema with name Tile (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 2153, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 2153
+
+Schema error: Trying to register schema with name Resize (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5421, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5421
+
+Schema error: Trying to register schema with name Identity (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5609, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5609
+
+Schema error: Trying to register schema with name IsNaN (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5657, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5657
+
+Schema error: Trying to register schema with name NonZero (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3137, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3137
+
+Schema error: Trying to register schema with name GatherND (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3614, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3614
+
+Schema error: Trying to register schema with name Pad (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8169, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8169
+
+Schema error: Trying to register schema with name QuantizeLinear (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 855, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 855
+
+Schema error: Trying to register schema with name DequantizeLinear (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 904, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 904
+
+Schema error: Trying to register schema with name Loop (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 3400, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 3400
+
+Schema error: Trying to register schema with name If (domain:  version: 13) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 3079, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 3079
+
+Schema error: Trying to register schema with name CumSum (domain:  version: 14) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1966, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1966
+
+Schema error: Trying to register schema with name Relu (domain:  version: 14) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 304, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 304
+
+Schema error: Trying to register schema with name Reshape (domain:  version: 14) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8436, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8436
+
+Schema error: Trying to register schema with name GRU (domain:  version: 14) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 282, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 282
+
+Schema error: Trying to register schema with name LSTM (domain:  version: 14) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 431, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 431
+
+Schema error: Trying to register schema with name RNN (domain:  version: 14) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 521, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/old.cc line 521
+
+Schema error: Trying to register schema with name Trilu (domain:  version: 14) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3794, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3794
+
+Schema error: Trying to register schema with name BatchNormalization (domain:  version: 14) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3675, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 3675
+
+Schema error: Trying to register schema with name HardSwish (domain:  version: 14) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 795, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 795
+
+Schema error: Trying to register schema with name Add (domain:  version: 14) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 86, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 86
+
+Schema error: Trying to register schema with name Sub (domain:  version: 14) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 93, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 93
+
+Schema error: Trying to register schema with name Mul (domain:  version: 14) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 146, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 146
+
+Schema error: Trying to register schema with name Div (domain:  version: 14) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 148, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 148
+
+Schema error: Trying to register schema with name Identity (domain:  version: 14) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7949, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 7949
+
+Schema error: Trying to register schema with name BatchNormalization (domain:  version: 15) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1767, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1767
+
+Schema error: Trying to register schema with name Bernoulli (domain:  version: 15) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 89, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 89
+
+Schema error: Trying to register schema with name Pow (domain:  version: 15) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 760, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 760
+
+Schema error: Trying to register schema with name Optional (domain:  version: 15) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/optional/defs.cc line 67, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/optional/defs.cc line 67
+
+Schema error: Trying to register schema with name OptionalHasElement (domain:  version: 15) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/optional/old.cc line 40, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/optional/old.cc line 40
+
+Schema error: Trying to register schema with name OptionalGetElement (domain:  version: 15) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/optional/old.cc line 80, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/optional/old.cc line 80
+
+Schema error: Trying to register schema with name CastLike (domain:  version: 15) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 1082, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 1082
+
+Schema error: Trying to register schema with name Shape (domain:  version: 15) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8704, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8704
+
+Schema error: Trying to register schema with name RoiAlign (domain:  version: 16) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/object_detection/old.cc line 125, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/object_detection/old.cc line 125
+
+Schema error: Trying to register schema with name ScatterND (domain:  version: 16) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3417, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3417
+
+Schema error: Trying to register schema with name ScatterElements (domain:  version: 16) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3707, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3707
+
+Schema error: Trying to register schema with name If (domain:  version: 16) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 294, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 294
+
+Schema error: Trying to register schema with name Loop (domain:  version: 16) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 835, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 835
+
+Schema error: Trying to register schema with name Identity (domain:  version: 16) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8272, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8272
+
+Schema error: Trying to register schema with name Where (domain:  version: 16) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3117, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3117
+
+Schema error: Trying to register schema with name GridSample (domain:  version: 16) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 1247, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 1247
+
+Schema error: Trying to register schema with name Scan (domain:  version: 16) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 1547, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 1547
+
+Schema error: Trying to register schema with name LessOrEqual (domain:  version: 16) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 208, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 208
+
+Schema error: Trying to register schema with name GreaterOrEqual (domain:  version: 16) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 224, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 224
+
+Schema error: Trying to register schema with name LeakyRelu (domain:  version: 16) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 335, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 335
+
+Schema error: Trying to register schema with name PRelu (domain:  version: 16) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 806, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 806
+
+Schema error: Trying to register schema with name LayerNormalization (domain:  version: 17) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 2695, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 2695
+
+Schema error: Trying to register schema with name SequenceMap (domain:  version: 17) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 624, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 624
+
+Schema error: Trying to register schema with name DFT (domain:  version: 17) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 4120, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 4120
+
+Schema error: Trying to register schema with name HannWindow (domain:  version: 17) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 3091, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 3091
+
+Schema error: Trying to register schema with name HammingWindow (domain:  version: 17) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 3129, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 3129
+
+Schema error: Trying to register schema with name BlackmanWindow (domain:  version: 17) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 3167, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 3167
+
+Schema error: Trying to register schema with name MelWeightMatrix (domain:  version: 17) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 3286, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 3286
+
+Schema error: Trying to register schema with name STFT (domain:  version: 17) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 3474, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 3474
+
+Schema error: Trying to register schema with name Pad (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8252, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8252
+
+Schema error: Trying to register schema with name CenterCropPad (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3962, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3962
+
+Schema error: Trying to register schema with name Resize (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5312, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5312
+
+Schema error: Trying to register schema with name Mish (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 864, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/old.cc line 864
+
+Schema error: Trying to register schema with name OptionalGetElement (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/optional/defs.cc line 148, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/optional/defs.cc line 148
+
+Schema error: Trying to register schema with name Split (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 762, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 762
+
+Schema error: Trying to register schema with name OptionalHasElement (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/optional/defs.cc line 103, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/optional/defs.cc line 103
+
+Schema error: Trying to register schema with name Col2Im (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 2454, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 2454
+
+Schema error: Trying to register schema with name ScatterND (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1400, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1400
+
+Schema error: Trying to register schema with name ScatterElements (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1524, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1524
+
+Schema error: Trying to register schema with name ReduceSumSquare (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 34, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 34
+
+Schema error: Trying to register schema with name ReduceLogSum (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 50, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 50
+
+Schema error: Trying to register schema with name ReduceLogSumExp (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 65, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 65
+
+Schema error: Trying to register schema with name ReduceL1 (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 77, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 77
+
+Schema error: Trying to register schema with name ReduceL2 (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 92, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 92
+
+Schema error: Trying to register schema with name ReduceMax (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 451, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 451
+
+Schema error: Trying to register schema with name ReduceMin (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 452, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/old.cc line 452
+
+Schema error: Trying to register schema with name ReduceMean (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 36, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 36
+
+Schema error: Trying to register schema with name ReduceProd (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 38, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 38
+
+Schema error: Trying to register schema with name BitwiseAnd (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 310, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 310
+
+Schema error: Trying to register schema with name BitwiseOr (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 327, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 327
+
+Schema error: Trying to register schema with name BitwiseXor (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 344, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 344
+
+Schema error: Trying to register schema with name BitwiseNot (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 248, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 248
+
+Schema error: Trying to register schema with name GroupNormalization (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 4266, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 4266
+
+Schema error: Trying to register schema with name LpPool (domain:  version: 18) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1281, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1281
+
+Schema error: Trying to register schema with name Equal (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 128, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/logical/defs.cc line 128
+
+Schema error: Trying to register schema with name AveragePool (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1517, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1517
+
+Schema error: Trying to register schema with name Cast (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 575, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 575
+
+Schema error: Trying to register schema with name CastLike (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 997, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 997
+
+Schema error: Trying to register schema with name Constant (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 598, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 598
+
+Schema error: Trying to register schema with name DeformConv (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 861, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 861
+
+Schema error: Trying to register schema with name DequantizeLinear (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 804, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 804
+
+Schema error: Trying to register schema with name Identity (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5599, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5599
+
+Schema error: Trying to register schema with name If (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 247, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 247
+
+Schema error: Trying to register schema with name Loop (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 782, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 782
+
+Schema error: Trying to register schema with name Pad (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6216, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6216
+
+Schema error: Trying to register schema with name QuantizeLinear (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 743, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 743
+
+Schema error: Trying to register schema with name Reshape (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 1887, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 1887
+
+Schema error: Trying to register schema with name Resize (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 2367, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 2367
+
+Schema error: Trying to register schema with name Scan (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 1479, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 1479
+
+Schema error: Trying to register schema with name Shape (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8642, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8642
+
+Schema error: Trying to register schema with name Size (domain:  version: 19) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8772, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8772
+
+Schema error: Trying to register schema with name AffineGrid (domain:  version: 20) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 2744, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 2744
+
+Schema error: Trying to register schema with name ConstantOfShape (domain:  version: 20) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 1022, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 1022
+
+Schema error: Trying to register schema with name DFT (domain:  version: 20) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 2985, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 2985
+
+Schema error: Trying to register schema with name Gelu (domain:  version: 20) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 604, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 604
+
+Schema error: Trying to register schema with name GridSample (domain:  version: 20) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 112, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 112
+
+Schema error: Trying to register schema with name ImageDecoder (domain:  version: 20) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/image/defs.cc line 63, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/image/defs.cc line 63
+
+Schema error: Trying to register schema with name IsInf (domain:  version: 20) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3051, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3051
+
+Schema error: Trying to register schema with name IsNaN (domain:  version: 20) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3021, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3021
+
+Schema error: Trying to register schema with name ReduceMax (domain:  version: 20) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 15, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 15
+
+Schema error: Trying to register schema with name ReduceMin (domain:  version: 20) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 20, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/reduction/defs.cc line 20
+
+Schema error: Trying to register schema with name RegexFullMatch (domain:  version: 20) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/text/defs.cc line 62, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/text/defs.cc line 62
+
+Schema error: Trying to register schema with name StringConcat (domain:  version: 20) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/text/defs.cc line 34, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/text/defs.cc line 34
+
+Schema error: Trying to register schema with name StringSplit (domain:  version: 20) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/text/defs.cc line 129, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/text/defs.cc line 129
+
+Schema error: Trying to register schema with name Cast (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 494, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 494
+
+Schema error: Trying to register schema with name CastLike (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 894, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 894
+
+Schema error: Trying to register schema with name Constant (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 553, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 553
+
+Schema error: Trying to register schema with name ConstantOfShape (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 962, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 962
+
+Schema error: Trying to register schema with name DequantizeLinear (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 671, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 671
+
+Schema error: Trying to register schema with name Flatten (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1802, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1802
+
+Schema error: Trying to register schema with name GroupNormalization (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 2839, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 2839
+
+Schema error: Trying to register schema with name Identity (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5579, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5579
+
+Schema error: Trying to register schema with name If (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 200, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 200
+
+Schema error: Trying to register schema with name Loop (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 729, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 729
+
+Schema error: Trying to register schema with name Pad (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6210, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6210
+
+Schema error: Trying to register schema with name QLinearMatMul (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1828, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1828
+
+Schema error: Trying to register schema with name QuantizeLinear (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 596, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 596
+
+Schema error: Trying to register schema with name Reshape (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 1739, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 1739
+
+Schema error: Trying to register schema with name Scan (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 1411, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 1411
+
+Schema error: Trying to register schema with name Shape (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8539, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8539
+
+Schema error: Trying to register schema with name Size (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8738, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 8738
+
+Schema error: Trying to register schema with name Squeeze (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4402, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4402
+
+Schema error: Trying to register schema with name Transpose (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3182, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3182
+
+Schema error: Trying to register schema with name Unsqueeze (domain:  version: 21) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4809, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4809
+
+Schema error: Trying to register schema with name EyeLike (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 183, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 183
+
+Schema error: Trying to register schema with name RandomUniform (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 218, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 218
+
+Schema error: Trying to register schema with name RandomNormal (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 254, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 254
+
+Schema error: Trying to register schema with name RandomUniformLike (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 301, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 301
+
+Schema error: Trying to register schema with name RandomNormalLike (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 348, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 348
+
+Schema error: Trying to register schema with name Multinomial (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 406, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 406
+
+Schema error: Trying to register schema with name Bernoulli (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 598, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 598
+
+Schema error: Trying to register schema with name ThresholdedRelu (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 364, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 364
+
+Schema error: Trying to register schema with name Selu (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 412, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 412
+
+Schema error: Trying to register schema with name Elu (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 447, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 447
+
+Schema error: Trying to register schema with name Mish (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 474, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 474
+
+Schema error: Trying to register schema with name HardSigmoid (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 861, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 861
+
+Schema error: Trying to register schema with name HardSwish (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 883, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 883
+
+Schema error: Trying to register schema with name Softsign (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1250, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1250
+
+Schema error: Trying to register schema with name Softplus (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1277, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1277
+
+Schema error: Trying to register schema with name Sin (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1420, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1420
+
+Schema error: Trying to register schema with name Cos (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1443, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1443
+
+Schema error: Trying to register schema with name Tan (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1466, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1466
+
+Schema error: Trying to register schema with name Asin (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1489, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1489
+
+Schema error: Trying to register schema with name Acos (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1512, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1512
+
+Schema error: Trying to register schema with name Atan (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1535, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1535
+
+Schema error: Trying to register schema with name Sinh (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1602, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1602
+
+Schema error: Trying to register schema with name Cosh (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1625, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1625
+
+Schema error: Trying to register schema with name Asinh (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1648, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1648
+
+Schema error: Trying to register schema with name Acosh (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1671, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1671
+
+Schema error: Trying to register schema with name Atanh (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1694, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1694
+
+Schema error: Trying to register schema with name Round (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1993, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1993
+
+Schema error: Trying to register schema with name Det (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 2044, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 2044
+
+Schema error: Trying to register schema with name NegativeLogLikelihoodLoss (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 2378, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 2378
+
+Schema error: Trying to register schema with name AveragePool (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 336, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 336
+
+Schema error: Trying to register schema with name MaxPool (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 374, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 374
+
+Schema error: Trying to register schema with name MaxUnpool (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 549, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 549
+
+Schema error: Trying to register schema with name LpPool (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 636, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 636
+
+Schema error: Trying to register schema with name MaxRoiPool (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 732, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 732
+
+Schema error: Trying to register schema with name Conv (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 836, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 836
+
+Schema error: Trying to register schema with name ConvTranspose (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1370, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1370
+
+Schema error: Trying to register schema with name DeformConv (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1465, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1465
+
+Schema error: Trying to register schema with name GlobalAveragePool (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1539, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1539
+
+Schema error: Trying to register schema with name GlobalMaxPool (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1540, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1540
+
+Schema error: Trying to register schema with name GlobalLpPool (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1587, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1587
+
+Schema error: Trying to register schema with name InstanceNormalization (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1828, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1828
+
+Schema error: Trying to register schema with name LpNormalization (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1852, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1852
+
+Schema error: Trying to register schema with name Dropout (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1934, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 1934
+
+Schema error: Trying to register schema with name RoiAlign (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/object_detection/defs.cc line 122, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/object_detection/defs.cc line 122
+
+Schema error: Trying to register schema with name RNN (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/defs.cc line 264, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/defs.cc line 264
+
+Schema error: Trying to register schema with name GRU (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/defs.cc line 369, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/defs.cc line 369
+
+Schema error: Trying to register schema with name LSTM (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/defs.cc line 518, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/rnn/defs.cc line 518
+
+Schema error: Trying to register schema with name GridSample (domain:  version: 22) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 2462, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 2462
+
+Schema error: Trying to register schema with name Attention (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 4647, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 4647
+
+Schema error: Trying to register schema with name Cast (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 369, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 369
+
+Schema error: Trying to register schema with name CastLike (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 825, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 825
+
+Schema error: Trying to register schema with name Constant (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 503, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 503
+
+Schema error: Trying to register schema with name ConstantOfShape (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 896, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 896
+
+Schema error: Trying to register schema with name DequantizeLinear (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 475, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 475
+
+Schema error: Trying to register schema with name Flatten (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1747, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1747
+
+Schema error: Trying to register schema with name Identity (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5559, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5559
+
+Schema error: Trying to register schema with name If (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 153, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 153
+
+Schema error: Trying to register schema with name Loop (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 538, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 538
+
+Schema error: Trying to register schema with name Pad (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6098, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 6098
+
+Schema error: Trying to register schema with name QuantizeLinear (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 379, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 379
+
+Schema error: Trying to register schema with name Reshape (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 1575, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 1575
+
+Schema error: Trying to register schema with name RMSNormalization (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 2980, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 2980
+
+Schema error: Trying to register schema with name RotaryEmbedding (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 3330, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 3330
+
+Schema error: Trying to register schema with name Scan (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 1219, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 1219
+
+Schema error: Trying to register schema with name Shape (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2338, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2338
+
+Schema error: Trying to register schema with name Size (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2476, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2476
+
+Schema error: Trying to register schema with name Squeeze (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4299, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4299
+
+Schema error: Trying to register schema with name Transpose (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3117, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3117
+
+Schema error: Trying to register schema with name Unsqueeze (domain:  version: 23) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4725, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4725
+
+Schema error: Trying to register schema with name Attention (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 3753, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 3753
+
+Schema error: Trying to register schema with name Cast (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 252, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 252
+
+Schema error: Trying to register schema with name CastLike (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 756, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 756
+
+Schema error: Trying to register schema with name Constant (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 453, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 453
+
+Schema error: Trying to register schema with name ConstantOfShape (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 844, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/old.cc line 844
+
+Schema error: Trying to register schema with name DequantizeLinear (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 241, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 241
+
+Schema error: Trying to register schema with name Flatten (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1692, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/old.cc line 1692
+
+Schema error: Trying to register schema with name Identity (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5539, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5539
+
+Schema error: Trying to register schema with name If (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 106, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 106
+
+Schema error: Trying to register schema with name Loop (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 485, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 485
+
+Schema error: Trying to register schema with name Pad (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5986, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 5986
+
+Schema error: Trying to register schema with name QuantizeLinear (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 145, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/old.cc line 145
+
+Schema error: Trying to register schema with name Reshape (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 1411, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 1411
+
+Schema error: Trying to register schema with name Scan (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 1027, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/old.cc line 1027
+
+Schema error: Trying to register schema with name Shape (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2235, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2235
+
+Schema error: Trying to register schema with name Size (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2442, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 2442
+
+Schema error: Trying to register schema with name Swish (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 633, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 633
+
+Schema error: Trying to register schema with name SplitToSequence (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 264, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/sequence/defs.cc line 264
+
+Schema error: Trying to register schema with name Squeeze (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4196, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4196
+
+Schema error: Trying to register schema with name TopK (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1397, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/math/defs.cc line 1397
+
+Schema error: Trying to register schema with name Transpose (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3052, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 3052
+
+Schema error: Trying to register schema with name Unsqueeze (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4641, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/old.cc line 4641
+
+Schema error: Trying to register schema with name TensorScatter (domain:  version: 24) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 4100, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 4100
+
+Schema error: Trying to register schema with name Cast (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 155, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 155
+
+Schema error: Trying to register schema with name CastLike (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 233, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 233
+
+Schema error: Trying to register schema with name Constant (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 60, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 60
+
+Schema error: Trying to register schema with name ConstantOfShape (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 130, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/generator/defs.cc line 130
+
+Schema error: Trying to register schema with name DequantizeLinear (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/defs.cc line 247, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/defs.cc line 247
+
+Schema error: Trying to register schema with name Flatten (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 2027, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/nn/defs.cc line 2027
+
+Schema error: Trying to register schema with name Identity (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 2764, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 2764
+
+Schema error: Trying to register schema with name Reshape (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 397, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 397
+
+Schema error: Trying to register schema with name Shape (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 500, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 500
+
+Schema error: Trying to register schema with name Size (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 534, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 534
+
+Schema error: Trying to register schema with name If (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/defs.cc line 69, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/defs.cc line 69
+
+Schema error: Trying to register schema with name Loop (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/defs.cc line 260, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/defs.cc line 260
+
+Schema error: Trying to register schema with name Scan (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/defs.cc line 452, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/controlflow/defs.cc line 452
+
+Schema error: Trying to register schema with name Pad (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3726, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 3726
+
+Schema error: Trying to register schema with name Squeeze (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1847, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1847
+
+Schema error: Trying to register schema with name Transpose (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1173, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1173
+
+Schema error: Trying to register schema with name Unsqueeze (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1931, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/tensor/defs.cc line 1931
+
+Schema error: Trying to register schema with name QuantizeLinear (domain:  version: 25) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/defs.cc line 149, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/quantization/defs.cc line 149
+
+Schema error: Trying to register schema with name ArrayFeatureExtractor (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 73, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 73
+
+Schema error: Trying to register schema with name Binarizer (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 91, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 91
+
+Schema error: Trying to register schema with name CastMap (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 146, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 146
+
+Schema error: Trying to register schema with name CategoryMapper (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 220, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 220
+
+Schema error: Trying to register schema with name DictVectorizer (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 272, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 272
+
+Schema error: Trying to register schema with name FeatureVectorizer (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 292, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 292
+
+Schema error: Trying to register schema with name Imputer (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 320, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 320
+
+Schema error: Trying to register schema with name LabelEncoder (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/old.cc line 58, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/old.cc line 58
+
+Schema error: Trying to register schema with name LinearClassifier (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 530, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 530
+
+Schema error: Trying to register schema with name LinearRegressor (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 564, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 564
+
+Schema error: Trying to register schema with name Normalizer (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 590, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 590
+
+Schema error: Trying to register schema with name OneHotEncoder (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 649, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 649
+
+Schema error: Trying to register schema with name SVMClassifier (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 754, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 754
+
+Schema error: Trying to register schema with name SVMRegressor (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 795, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 795
+
+Schema error: Trying to register schema with name Scaler (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 677, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 677
+
+Schema error: Trying to register schema with name TreeEnsembleClassifier (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/old.cc line 159, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/old.cc line 159
+
+Schema error: Trying to register schema with name TreeEnsembleRegressor (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/old.cc line 405, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/old.cc line 405
+
+Schema error: Trying to register schema with name ZipMap (domain: ai.onnx.ml version: 1) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 1262, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 1262
+
+Schema error: Trying to register schema with name LabelEncoder (domain: ai.onnx.ml version: 2) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/old.cc line 655, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/old.cc line 655
+
+Schema error: Trying to register schema with name TreeEnsembleClassifier (domain: ai.onnx.ml version: 3) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/old.cc line 326, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/old.cc line 326
+
+Schema error: Trying to register schema with name TreeEnsembleRegressor (domain: ai.onnx.ml version: 3) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/old.cc line 539, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/old.cc line 539
+
+Schema error: Trying to register schema with name LabelEncoder (domain: ai.onnx.ml version: 4) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 433, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 433
+
+Schema error: Trying to register schema with name TreeEnsemble (domain: ai.onnx.ml version: 5) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 1214, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 1214
+
+Schema error: Trying to register schema with name TreeEnsembleRegressor (domain: ai.onnx.ml version: 5) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 1013, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 1013
+
+Schema error: Trying to register schema with name TreeEnsembleClassifier (domain: ai.onnx.ml version: 5) from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 912, but it is already registered from file /var/home/dae/aports/extra/onnx/src/onnx-1.20.1/onnx/defs/traditionalml/defs.cc line 912
+

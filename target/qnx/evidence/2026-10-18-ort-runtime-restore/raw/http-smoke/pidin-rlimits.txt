@@ -1,0 +1,19 @@
+
+
+Resource limits:                        soft : hard                 
+CPU (seconds)                       infinity : infinity             
+File size (blocks)                  infinity : infinity             
+Core dump (blocks)                  infinity : infinity             
+Data segment size (kB)              infinity : infinity             
+Stack size (kB)                     infinity : infinity             
+Locked memory (kB)                  infinity : infinity             
+Virtual memory (kB)                  8388608 : infinity             
+Open file descriptors                   2000 : 2000                 
+Processes                           infinity : infinity             
+Threads                             infinity : infinity             
+Memory usage (.1% RAM)              infinity : infinity             
+Open connections                    infinity : infinity             
+Registered events                        256 : 256                  
+Timers created                      infinity : infinity             
+Channel limit                            100 : 100                  
+

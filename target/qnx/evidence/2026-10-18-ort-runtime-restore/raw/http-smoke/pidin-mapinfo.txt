@@ -1,0 +1,276 @@
+     pid tid name                         prio STATE                      code  data        stack
+ 4771884   1 system/bin/python3            10r SIGWAITINFO                 43M   57M     8192K/8M
+ 4771884   2 system/bin/python3            10r CONDVAR                     43M   57M      256K/8M
+             python3.14         @5230cdf000             4096  8192              
+             ldqnx-64.so.2      @1e5b3ac000             228K   12K              
+             libsocket.so.4     @1e5b3e9000             268K  4096              
+             libm.so.3          @1e5b435000             248K  4096              
+             libgcc_s.so.1      @1e5b475000              76K  4096              
+             libregex.so.1      @1e5b48a000              60K  4096              
+             libpython3.14.so   @1e5b49b000            4052K  548K              
+             libc.so.6          @1e5b9e3000             668K  8192              
+             son.cpython-314.so @1e5ba96000              32K  4096              
+             ath.cpython-314.so @1e5baa0000              52K  4096              
+             cii.cpython-314.so @1e5baaf000              20K  4096              
+             z.so.1.3.1.zlib-ng @1e5bab6000             132K  4096              
+             uct.cpython-314.so @1e5bad9000              40K  4096              
+             ket.cpython-314.so @1e5bae5000              72K  4096              
+             ssl.cpython-314.so @1e5baf9000             176K  8192              
+             libssl.so.3        @1e5bb30000             816K   16K              
+             libcrypto.so.3     @1e5bc0a000            3716K  8192              
+             ect.cpython-314.so @1e5c021000              16K  4096              
+             lib.cpython-314.so @1e5c027000              36K  4096              
+             bz2.cpython-314.so @1e5c032000              16K  4096              
+             libbz2.so.1        @1e5c038000              64K  4096              
+             zma.cpython-314.so @1e5c04a000              28K  4096              
+             liblzma.so.5       @1e5c053000             208K  4096              
+             grp.cpython-314.so @1e5c089000              12K  4096              
+             ntl.cpython-314.so @1e5c08e000              16K  4096              
+             ath.cpython-314.so @1e5c094000            3080K  128K              
+             libc++.so.1.0      @1e5c3d3000            1008K  4096              
+             libc++abi.so.1.0   @1e5c4e1000             220K  4096              
+             libunwind.so.1.0   @1e5c51e000              48K  4096              
+             libcatalog.so.1    @1e5c52c000             8192  4096              
+             kle.cpython-314.so @1e5c530000              88K  4096              
+             pes.cpython-314.so @1e5c548000             116K  8192              
+             libffi.so.9        @1e5c569000              32K  4096              
+             alg.cpython-314.so @1e5c573000            1212K  4096              
+             libhcort.so        @1e5c752000             4096  4096              
+             xruntime.so.1.24.4 @1e5c755000              14M  4096              
+             libonnx.so         @1e5d5ef000            4160K   16K              
+             libonnx_proto.so   @1e5da1c000             240K   16K              
+             protobuf.so.31.1.0 @1e5da5e000            2444K   28K              
+             libre2.so.11.0.0   @1e5dcd2000             480K  4096              
+             uffers.so.25.12.19 @1e5dd50000             584K  4096              
+             utions.so.2508.0.0 @1e5dde5000             8192  4096              
+             uences.so.2508.0.0 @1e5dde9000             8192  4096              
+             y_pool.so.2508.0.0 @1e5dded000             8192  4096              
+             randen.so.2508.0.0 @1e5ddf1000             4096  4096              
+             _hwaes.so.2508.0.0 @1e5ddf4000             4096  4096              
+             s_impl.so.2508.0.0 @1e5ddf7000             4096  4096              
+             n_slow.so.2508.0.0 @1e5ddfa000             8192  4096              
+             atform.so.2508.0.0 @1e5ddfe000             8192  4096              
+             terial.so.2508.0.0 @1e5de02000             4096  4096              
+             eption.so.2508.0.0 @1e5de05000              28K  4096              
+             f_null.so.2508.0.0 @1e5de0e000              28K  4096              
+             ialize.so.2508.0.0 @1e5de17000              28K  4096              
+             atusor.so.2508.0.0 @1e5de20000              12K  4096              
+             status.so.2508.0.0 @1e5de25000              32K  4096              
+             f8_range.so.31.1.0 @1e5de2f000             4096  4096              
+             validity.so.31.1.0 @1e5de32000             4096  4096              
+             ternal.so.2508.0.0 @1e5de35000              32K  4096              
+             alling.so.2508.0.0 @1e5de3f000              32K  4096              
+             ection.so.2508.0.0 @1e5de49000              40K  4096              
+             sh_set.so.2508.0.0 @1e5de55000              44K  4096              
+             ampler.so.2508.0.0 @1e5de62000              12K  4096              
+             l_cord.so.2508.0.0 @1e5de67000              68K  4096              
+             z_info.so.2508.0.0 @1e5de7a000              12K  4096              
+             handle.so.2508.0.0 @1e5de7f000             8192  4096              
+             ctions.so.2508.0.0 @1e5de83000             4096  4096              
+             biased.so.2508.0.0 @1e5de86000             4096  4096              
+             ternal.so.2508.0.0 @1e5de89000              48K  4096              
+             _state.so.2508.0.0 @1e5de97000              16K  4096              
+             crc32c.so.2508.0.0 @1e5de9d000              12K  4096              
+             ternal.so.2508.0.0 @1e5dea2000              12K  4096              
+             detect.so.2508.0.0 @1e5dea7000             4096  4096              
+             config.so.2508.0.0 @1e5deaa000              24K  4096              
+             m_name.so.2508.0.0 @1e5deb2000             8192  4096              
+             cessor.so.2508.0.0 @1e5deb6000             4096  4096              
+             neflag.so.2508.0.0 @1e5deb9000              28K  4096              
+             ternal.so.2508.0.0 @1e5dec2000              28K  4096              
+             itions.so.2508.0.0 @1e5decb000             4096  4096              
+             eck_op.so.2508.0.0 @1e5dece000              20K  4096              
+             essage.so.2508.0.0 @1e5ded5000              44K  4096              
+             rerror.so.2508.0.0 @1e5dee2000             8192  4096              
+             _stack.so.2508.0.0 @1e5dee6000             4096  4096              
+             format.so.2508.0.0 @1e5dee9000              32K  4096              
+             ternal.so.2508.0.0 @1e5def3000              72K  4096              
+             _proto.so.2508.0.0 @1e5df07000              28K  4096              
+             nk_set.so.2508.0.0 @1e5df10000              12K  4096              
+             lobals.so.2508.0.0 @1e5df15000              12K  4096              
+             l_hash.so.2508.0.0 @1e5df1a000             4096  4096              
+             l_city.so.2508.0.0 @1e5df1d000             4096  4096              
+             ternal.so.2508.0.0 @1e5df20000              20K  4096              
+             zation.so.2508.0.0 @1e5df27000              44K  4096              
+             ternal.so.2508.0.0 @1e5df36000             4096  4096              
+             bolize.so.2508.0.0 @1e5df39000             4096  4096              
+             ternal.so.2508.0.0 @1e5df3c000              32K  4096              
+             e_rust.so.2508.0.0 @1e5df46000              12K  4096              
+             nycode.so.2508.0.0 @1e5df4b000             4096  4096              
+             _point.so.2508.0.0 @1e5df4e000             4096  4096              
+             ktrace.so.2508.0.0 @1e5df51000              28K  4096              
+             ternal.so.2508.0.0 @1e5df5a000             4096  4096              
+             ternal.so.2508.0.0 @1e5df5d000              32K  4096              
+             ternal.so.2508.0.0 @1e5df67000              20K  4096              
+             ternal.so.2508.0.0 @1e5df6e000              12K  4096              
+             nmatch.so.2508.0.0 @1e5df73000             4096  4096              
+             lobals.so.2508.0.0 @1e5df76000              28K  4096              
+             g_sink.so.2508.0.0 @1e5df7f000              28K  4096              
+             _entry.so.2508.0.0 @1e5df88000              12K  4096              
+             l_time.so.2508.0.0 @1e5df8d000              56K  4096              
+             e_zone.so.2508.0.0 @1e5df9d000              92K  4096              
+             l_time.so.2508.0.0 @1e5dfb6000              16K  4096              
+             _proto.so.2508.0.0 @1e5dfbc000             8192  4096              
+             _check.so.2508.0.0 @1e5dfc0000             4096  4096              
+             lguard.so.2508.0.0 @1e5dfc3000             4096  4096              
+             trings.so.2508.0.0 @1e5dfc6000              96K  4096              
+             ternal.so.2508.0.0 @1e5dfe0000              12K  4096              
+             g_view.so.2508.0.0 @1e5dfe5000             4096  4096              
+             int128.so.2508.0.0 @1e5dfe8000              16K  4096              
+             legate.so.2508.0.0 @1e5dfee000              12K  4096              
+             l_base.so.2508.0.0 @1e5dff3000              32K  4096              
+             k_wait.so.2508.0.0 @1e5dffd000             4096  4096              
+             ternal.so.2508.0.0 @1e5e000000             4096  4096              
+             verity.so.2508.0.0 @1e5e003000             8192  4096              
+             libicuuc.so.76     @1e5e007000            2036K  4096              
+             libiconv.so.2.7.0  @1e5e21c000            1084K  4096              
+             libicudata.so.76   @1e5e32f000             4096  4096              
+             ata.cpython-314.so @1e5e332000             716K  4096              
+             **zero ELF**       @1e5b3e8000 (       0)        4096  E,F         
+             **zero ELF**       @1e5b42c000 (       0)        8192  E,F         
+             **zero ELF**       @1e5b42f000 (       0)         24K  E,F         
+             **zero ELF**       @1e5b473000 (       0)        4096  E,F         
+             **zero ELF**       @1e5b488000 (       0)        4096  E,F         
+             **zero ELF**       @1e5b499000 (       0)        4096  E,F         
+             **zero ELF**       @1e5b890000 (       0)        352K  E,F         
+             **zero ELF**       @1e5b971000 (       0)        456K  E,F         
+             **zero ELF**       @1e5ba8a000 (       0)         16K  E,F         
+             **zero ELF**       @1e5ba90000 (       0)         24K  E,F         
+             **zero ELF**       @1e5ba9e000 (       0)        4096  E,F         
+             **zero ELF**       @1e5baad000 (       0)        4096  E,F         
+             **zero ELF**       @1e5bab4000 (       0)        4096  E,F         
+             **zero ELF**       @1e5bad7000 (       0)        4096  E,F         
+             **zero ELF**       @1e5bae3000 (       0)        4096  E,F         
+             **zero ELF**       @1e5baf7000 (       0)        4096  E,F         
+             **zero ELF**       @1e5bb25000 (       0)         36K  E,F         
+             **zero ELF**       @1e5bbfc000 (       0)         40K  E,F         
+             **zero ELF**       @1e5bfab000 (       0)        456K  E,F         
+             **zero ELF**       @1e5c01f000 (       0)        8192  E,F         
+             **zero ELF**       @1e5c025000 (       0)        4096  E,F         
+             **zero ELF**       @1e5c030000 (       0)        4096  E,F         
+             **zero ELF**       @1e5c036000 (       0)        4096  E,F         
+             **zero ELF**       @1e5c048000 (       0)        4096  E,F         
+             **zero ELF**       @1e5c051000 (       0)        4096  E,F         
+             **zero ELF**       @1e5c087000 (       0)        4096  E,F         
+             **zero ELF**       @1e5c08c000 (       0)        4096  E,F         
+             **zero ELF**       @1e5c092000 (       0)        4096  E,F         
+             **zero ELF**       @1e5c396000 (       0)         20K  E,F         
+             **zero ELF**       @1e5c3bb000 (       0)         96K  E,F         
+             **zero ELF**       @1e5c4cf000 (       0)         28K  E,F         
+             **zero ELF**       @1e5c4d7000 (       0)         40K  E,F         
+             **zero ELF**       @1e5c518000 (       0)         20K  E,F         
+             **zero ELF**       @1e5c52a000 (       0)        4096  E,F         
+             **zero ELF**       @1e5c52e000 (       0)        4096  E,F         
+             **zero ELF**       @1e5c546000 (       0)        4096  E,F         
+             **zero ELF**       @1e5c565000 (       0)        4096  E,F         
+             **zero ELF**       @1e5c568000 (       0)        4096  E,F         
+             **zero ELF**       @1e5c571000 (       0)        4096  E,F         
+             **zero ELF**       @1e5c6a2000 (       0)        4096  E,F         
+             **zero ELF**       @1e5c6a4000 (       0)        696K  E,F         
+             **zero ELF**       @1e5c753000 (       0)        4096  E,F         
+             **zero ELF**       @1e5d58f000 (       0)        368K  E,F         
+             **zero ELF**       @1e5d5ec000 (       0)         12K  E,F         
+             **zero ELF**       @1e5d9ff000 (       0)         96K  E,F         
+             **zero ELF**       @1e5da1b000 (       0)        4096  E,F         
+             **zero ELF**       @1e5da58000 (       0)        8192  E,F         
+             **zero ELF**       @1e5dcc1000 (       0)         40K  E,F         
+             **zero ELF**       @1e5dd4a000 (       0)         20K  E,F         
+             **zero ELF**       @1e5dde2000 (       0)        8192  E,F         
+             **zero ELF**       @1e5dde7000 (       0)        4096  E,F         
+             **zero ELF**       @1e5ddeb000 (       0)        4096  E,F         
+             **zero ELF**       @1e5ddef000 (       0)        4096  E,F         
+             **zero ELF**       @1e5ddf2000 (       0)        4096  E,F         
+             **zero ELF**       @1e5ddf5000 (       0)        4096  E,F         
+             **zero ELF**       @1e5ddf8000 (       0)        4096  E,F         
+             **zero ELF**       @1e5ddfc000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de00000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de03000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de0c000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de15000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de1e000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de23000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de2d000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de30000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de33000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de3d000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de47000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de53000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de60000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de65000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de78000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de7d000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de81000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de84000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de87000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de95000 (       0)        4096  E,F         
+             **zero ELF**       @1e5de9b000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dea0000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dea5000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dea8000 (       0)        4096  E,F         
+             **zero ELF**       @1e5deb0000 (       0)        4096  E,F         
+             **zero ELF**       @1e5deb4000 (       0)        4096  E,F         
+             **zero ELF**       @1e5deb7000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dec0000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dec9000 (       0)        4096  E,F         
+             **zero ELF**       @1e5decc000 (       0)        4096  E,F         
+             **zero ELF**       @1e5ded3000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dee0000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dee4000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dee7000 (       0)        4096  E,F         
+             **zero ELF**       @1e5def1000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df05000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df0e000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df13000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df18000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df1b000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df1e000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df25000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df32000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df34000 (       0)        8192  E,F         
+             **zero ELF**       @1e5df37000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df3a000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df44000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df49000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df4c000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df4f000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df58000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df5b000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df65000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df6c000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df71000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df74000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df7d000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df86000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df8b000 (       0)        4096  E,F         
+             **zero ELF**       @1e5df9b000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dfb4000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dfba000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dfbe000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dfc1000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dfc4000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dfde000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dfe3000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dfe6000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dfec000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dff1000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dffb000 (       0)        4096  E,F         
+             **zero ELF**       @1e5dffe000 (       0)        4096  E,F         
+             **zero ELF**       @1e5e001000 (       0)        4096  E,F         
+             **zero ELF**       @1e5e005000 (       0)        4096  E,F         
+             **zero ELF**       @1e5e204000 (       0)         88K  E,F         
+             **zero ELF**       @1e5e21b000 (       0)        4096  E,F         
+             **zero ELF**       @1e5e32b000 (       0)         12K  E,F         
+             **zero ELF**       @1e5e330000 (       0)        4096  E,F         
+             **zero ELF**       @1e5e3e5000 (       0)        4096  E,F         
+             **heap**           @4f6c822000 (       0)         25M  P           
+             **heap**           @4f6e333000 (       0)        640K  P           
+             **heap**           @4f6e464000 (       0)        644K  P           
+             **heap**           @4f6e5e5000 (       0)        192K  P           
+             **heap**           @4f6e626000 (   41000)        768K  P           
+             **heap**           @4f6e747000 (       0)        452K  P           
+             **heap**           @4f6e7f8000 (       0)        192K  P           
+             **heap**           @4f6e839000 (   41000)        576K  P           
+             **heap**           @4f6e90a000 (       0)       1508K  P           
+             **heap**           @4f6eb14000 (   49000)        580K  P           
+             **heap**           @4f6eba5000 (       0)        768K  P           
+             **heap**           @4f6ed57000 (   91000)         20M  P           

@@ -1,0 +1,9 @@
+scenario=idle-fifo40
+trial=1
+fixed_priority_requested=true
+load_cpus=
+benchmark_cpu=3
+returncode=0
+started_epoch_ns=1792342798881843510
+finished_epoch_ns=1792342803998169268
+duration_ns=5116325758

@@ -1,0 +1,173 @@
+{
+  "captureTiming": {
+    "deadlineMissPercent": 51.25,
+    "deadlineMisses": 123,
+    "periodMaxMs": 251.938,
+    "periodP50Ms": 200.266,
+    "periodP95Ms": 223.036,
+    "periodP99Ms": 246.702,
+    "sampleCount": 240,
+    "targetPeriodMs": 200.0
+  },
+  "dropped": 0,
+  "faults": [
+    {
+      "detectedAt": 1792342283.2944264,
+      "firstResultAt": null,
+      "newPid": 10004,
+      "oldPid": 7868,
+      "proc": "infer",
+      "readyAt": null,
+      "recoveryMs": null,
+      "requestedAt": 1792342283.2090142,
+      "respawnMs": 0.336,
+      "spawnedAt": 1792342283.2947633,
+      "state": "respawned"
+    },
+    {
+      "detectedAt": 1792342285.6632352,
+      "firstResultAt": null,
+      "newPid": 10066,
+      "oldPid": 7879,
+      "proc": "model",
+      "readyAt": null,
+      "recoveryMs": null,
+      "requestedAt": 1792342285.6353528,
+      "respawnMs": 0.262,
+      "spawnedAt": 1792342285.6634974,
+      "state": "respawned"
+    },
+    {
+      "detectedAt": 1792342287.922969,
+      "firstResultAt": null,
+      "newPid": 10148,
+      "oldPid": 7838,
+      "proc": "cloud",
+      "readyAt": null,
+      "recoveryMs": null,
+      "requestedAt": 1792342287.822531,
+      "respawnMs": 1.046,
+      "spawnedAt": 1792342287.9240177,
+      "state": "respawned"
+    },
+    {
+      "detectedAt": 1792342290.0792973,
+      "firstResultAt": null,
+      "newPid": 10197,
+      "oldPid": 7853,
+      "proc": "site",
+      "readyAt": null,
+      "recoveryMs": null,
+      "requestedAt": 1792342290.0419686,
+      "respawnMs": 0.438,
+      "spawnedAt": 1792342290.0797358,
+      "state": "respawned"
+    }
+  ],
+  "fps": 5.0,
+  "frames": 723,
+  "latestResult": {
+    "checked": true,
+    "cls": "healthy",
+    "id": "P4228735",
+    "score": 0.21,
+    "t": 1792342287.1422255,
+    "verdict": "dismissed"
+  },
+  "modelStats": {
+    "checked": 2,
+    "inferenceTiming": {
+      "lastMs": 553.326,
+      "maxMs": 680.417,
+      "p50Ms": 616.871,
+      "p95Ms": 674.062,
+      "p99Ms": 679.146,
+      "sampleCount": 2
+    },
+    "patches": 2,
+    "skipped": 0,
+    "stale": 0,
+    "unreachable": 0
+  },
+  "nativeIpc": false,
+  "procs": {
+    "camera": {
+      "downFor": null,
+      "lastExit": null,
+      "pid": 7892,
+      "priority": 20,
+      "restarts": 0,
+      "started": 1792342157.6628957
+    },
+    "cloud": {
+      "downFor": 1.046,
+      "lastExit": -9,
+      "pid": 10148,
+      "priority": 11,
+      "restarts": 1,
+      "started": 1792342287.9240177
+    },
+    "explain": {
+      "downFor": null,
+      "lastExit": null,
+      "pid": 7861,
+      "priority": 9,
+      "restarts": 0,
+      "started": 1792342156.0615022
+    },
+    "infer": {
+      "downFor": 0.336,
+      "lastExit": -9,
+      "pid": 10004,
+      "priority": 7,
+      "restarts": 1,
+      "started": 1792342283.2947633
+    },
+    "model": {
+      "downFor": 0.262,
+      "lastExit": -9,
+      "pid": 10066,
+      "priority": 8,
+      "restarts": 1,
+      "started": 1792342285.6634974
+    },
+    "site": {
+      "downFor": 0.438,
+      "lastExit": -9,
+      "pid": 10197,
+      "priority": 10,
+      "restarts": 1,
+      "started": 1792342290.0797358
+    },
+    "spotter": {
+      "downFor": null,
+      "lastExit": null,
+      "pid": 7886,
+      "priority": 12,
+      "restarts": 0,
+      "started": 1792342157.2625484
+    },
+    "uplink": {
+      "downFor": null,
+      "lastExit": null,
+      "pid": 7830,
+      "priority": 11,
+      "restarts": 0,
+      "started": 1792342154.4600947
+    },
+    "watch": {
+      "downFor": null,
+      "lastExit": null,
+      "pid": 7846,
+      "priority": 21,
+      "restarts": 0,
+      "started": 1792342155.2608166
+    }
+  },
+  "qnxPrioritiesActive": false,
+  "resultsCount": 24,
+  "schedulerProfile": "control",
+  "source": "replay",
+  "total": 35,
+  "warm": true
+}

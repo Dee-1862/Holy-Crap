@@ -1,0 +1,9 @@
+scenario=same-core-load-fifo40
+trial=2
+fixed_priority_requested=true
+load_cpus=3
+benchmark_cpu=3
+returncode=0
+started_epoch_ns=1792342928762706629
+finished_epoch_ns=1792342933874302855
+duration_ns=5111596226

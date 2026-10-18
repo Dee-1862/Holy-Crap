@@ -1,0 +1,5141 @@
+C:Q11ns63RBkG5okmnvht/0zsNU/1Vs=
+P:abuild
+V:3.15.0-r10
+A:aarch64
+S:96673
+I:307800
+T:APK build toolchain, adapted for QNX
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1766425088
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:qnx-utils nproc apk-tools fakeroot busybox openssl pkgconf pax-utils libssl3 libcrypto3 zlib-ng
+
+C:Q1js7o9O08kNCtPwm0lLzZWfXBaq8=
+P:abuild
+V:3.15.0-r11
+A:aarch64
+S:96772
+I:307800
+T:APK build toolchain, adapted for QNX
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1768511065
+c:2fba78d1a2cf0a8003dc5590523d6860c1372da0
+D:qnx-utils nproc apk-tools fakeroot busybox openssl pkgconf pax-utils libssl3 libcrypto3 zlib-ng gawk curl bc
+
+C:Q1kzKw5Eu4nK44yXy0oN4oFoncSzw=
+P:abuild
+V:3.15.0-r8
+A:aarch64
+S:97160
+I:316212
+T:APK build toolchain, adapted for QNX
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1763670588
+c:279bef09ff969f7fd33faf02611e186968b3ee78
+D:qnx-utils nproc apk-tools fakeroot busybox openssl pkgconf pax-utils libssl3 libcrypto3 zlib-ng
+p:cmd:newapkbuild=3.15.0-r8
+
+C:Q1apfbFkHwWGB7kJCKw8pnZJfp1do=
+P:abuild-doc
+V:3.15.0-r10
+A:aarch64
+S:16704
+I:12368
+T:APK build toolchain, adapted for QNX (documentation)
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1766425088
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+i:docs abuild=3.15.0-r10
+
+C:Q1oho7SCnmuBpA6EhGmvaWHDaiv+w=
+P:abuild-doc
+V:3.15.0-r11
+A:aarch64
+S:16782
+I:12373
+T:APK build toolchain, adapted for QNX (documentation)
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1768511065
+c:2fba78d1a2cf0a8003dc5590523d6860c1372da0
+i:docs abuild=3.15.0-r11
+
+C:Q1qC8dWaSmDDl8Kmk6fJFLMcVARVo=
+P:abuild-doc
+V:3.15.0-r8
+A:aarch64
+S:15606
+I:12370
+T:APK build toolchain, adapted for QNX (documentation)
+U:https://gitlab.alpinelinux.org/alpine/abuild/
+L:GPL-2.0-only
+o:abuild
+m:Leo Shen <yishen@qnx.com>
+t:1763670588
+c:279bef09ff969f7fd33faf02611e186968b3ee78
+i:docs abuild=3.15.0-r8
+
+C:Q1aTD+hDXt/SUDpGkXgCdD+Xg7TTI=
+P:abuild-meson
+V:1.10.0-r0
+A:aarch64
+S:3724
+I:1729
+T:The Meson Build System (abuild wrapper)
+U:http://mesonbuild.com/
+L:Apache-2.0
+o:meson
+t:1766020637
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83
+D:meson=1.10.0-r0 abuild
+i:meson=1.10.0-r0 abuild
+
+C:Q1Ukr1eQDUjmPu9CKtag9/LAwtr3E=
+P:abuild-meson
+V:1.9.1-r1
+A:aarch64
+S:2273
+I:1729
+T:The Meson Build System (abuild wrapper)
+U:http://mesonbuild.com/
+L:Apache-2.0
+o:meson
+t:1761056483
+c:92bd0fdfa77ac0b4158ac1a9f4bec94312fbeeb6
+D:meson=1.9.1-r1 abuild
+i:meson=1.9.1-r1 abuild
+
+C:Q1jOLfmg41PAPQ4UBubXOEs3Rz96M=
+P:apk-tools
+V:3.0.0_rc5-r3
+A:aarch64
+S:224078
+I:485760
+T:Alpine Package Keeper - package manager for alpine
+U:https://gitlab.alpinelinux.org/alpine/apk-tools
+L:GPL-2.0-only
+o:apk-tools
+t:1756319618
+c:90fdbd72967a7fae004c63b27c4125b32217e31a
+D:zstd-libs zlib-ng libssl3 qnx-io-sock
+
+C:Q1/QaxmPE2x9wLQ5MvKWpbQBKXFOY=
+P:apk-tools
+V:3.0.0_rc5-r4
+A:aarch64
+S:191747
+I:428304
+T:Alpine Package Keeper - package manager for alpine
+U:https://gitlab.alpinelinux.org/alpine/apk-tools
+L:GPL-2.0-only
+o:apk-tools
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+D:zstd-libs zlib-ng libssl3 qnx-io-sock
+
+C:Q1wLEnAJYGqR1j3upVrhAzZAKVeoU=
+P:apk-tools-dev
+V:3.0.0_rc5-r3
+A:aarch64
+S:24566
+I:91266
+T:Alpine Package Keeper - package manager for alpine (development files)
+U:https://gitlab.alpinelinux.org/alpine/apk-tools
+L:GPL-2.0-only
+o:apk-tools
+t:1756319618
+c:90fdbd72967a7fae004c63b27c4125b32217e31a
+D:apk-tools=3.0.0_rc5-r3 pkgconfig
+
+C:Q1qIjKcrnqoYGqX2+F2xmRjMs0xZU=
+P:apk-tools-dev
+V:3.0.0_rc5-r4
+A:aarch64
+S:26940
+I:91266
+T:Alpine Package Keeper - package manager for alpine (development files)
+U:https://gitlab.alpinelinux.org/alpine/apk-tools
+L:GPL-2.0-only
+o:apk-tools
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+D:apk-tools=3.0.0_rc5-r4 pkgconfig
+p:pc:apk=3.0.0_rc5
+
+C:Q1uQZ52dbcNTVFo7oCjD6fXvhHMWc=
+P:apk-tools-doc
+V:3.0.0_rc5-r3
+A:aarch64
+S:45622
+I:40841
+T:Alpine Package Keeper - package manager for alpine (documentation)
+U:https://gitlab.alpinelinux.org/alpine/apk-tools
+L:GPL-2.0-only
+o:apk-tools
+t:1756319618
+c:90fdbd72967a7fae004c63b27c4125b32217e31a
+i:docs apk-tools=3.0.0_rc5-r3
+
+C:Q15MNwylNFrQ++ISjafeUUxp5dPEg=
+P:apk-tools-doc
+V:3.0.0_rc5-r4
+A:aarch64
+S:47979
+I:40813
+T:Alpine Package Keeper - package manager for alpine (documentation)
+U:https://gitlab.alpinelinux.org/alpine/apk-tools
+L:GPL-2.0-only
+o:apk-tools
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+i:docs apk-tools=3.0.0_rc5-r4
+
+C:Q1YPptCoNVLIxbHGuBSHDVcH3oeGg=
+P:autoconf
+V:2.72-r0
+A:aarch64
+S:590994
+I:1994904
+T:GNU tool for automatically configuring source code
+U:https://www.gnu.org/software/autoconf
+L:GPL-3.0-or-later WITH Autoconf-exception-3.0
+o:autoconf
+t:1761673622
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35-dirty
+D:perl m4
+
+C:Q1mDRT2uBUWGcQD0AGTpssqexUjgY=
+P:autoconf-doc
+V:2.72-r0
+A:aarch64
+S:416684
+I:1485762
+T:GNU tool for automatically configuring source code (documentation)
+U:https://www.gnu.org/software/autoconf
+L:GPL-3.0-or-later WITH Autoconf-exception-3.0
+o:autoconf
+t:1761673622
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35-dirty
+i:docs autoconf=2.72-r0
+
+C:Q1pjCvgcDmuT8CIqkqKEHuGxdRSHg=
+P:automake
+V:1.17-r0
+A:aarch64
+S:408486
+I:1394354
+T:GNU tool for automatically creating Makefiles
+U:https://www.gnu.org/software/automake
+L:GPL-2.0-or-later
+o:automake
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+D:perl autoconf
+
+C:Q1Jn8nqI6ReMt40x1HWfmXhCZcJGg=
+P:automake
+V:1.18-r0
+A:aarch64
+S:418324
+I:1416667
+T:GNU tool for automatically creating Makefiles
+U:https://www.gnu.org/software/automake
+L:GPL-2.0-or-later
+o:automake
+t:1770134690
+c:27e433809c784aa2f12ca2163b5c63851897bf38-dirty
+D:perl autoconf
+
+C:Q1gW7VNaUMThogIPnZPNLyiB9EMB8=
+P:automake-doc
+V:1.17-r0
+A:aarch64
+S:303367
+I:842122
+T:GNU tool for automatically creating Makefiles (documentation)
+U:https://www.gnu.org/software/automake
+L:GPL-2.0-or-later
+o:automake
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+i:docs automake=1.17-r0
+
+C:Q1AriIBCRM5wHbAzVmm7POq5FE9fY=
+P:automake-doc
+V:1.18-r0
+A:aarch64
+S:308698
+I:854440
+T:GNU tool for automatically creating Makefiles (documentation)
+U:https://www.gnu.org/software/automake
+L:GPL-2.0-or-later
+o:automake
+t:1770134690
+c:27e433809c784aa2f12ca2163b5c63851897bf38-dirty
+i:docs automake=1.18-r0
+
+C:Q1Ez263lW7W9cMpR8fqG94yiXoIIA=
+P:bash
+V:5.3.3-r4
+A:aarch64
+S:460837
+I:959658
+T:The GNU Bourne Again shell
+U:https://git.savannah.gnu.org/cgit/bash.git/
+L:GPL-3.0-or-later
+o:bash
+t:1761856637
+c:8d5eee881b4a2a3f8c15c08064f0dc9c63304080
+D:ncurses readline qnx-io-sock libintl libiconv
+p:/bin/sh
+
+C:Q1+IoQQD3qvAlMkCIxOi6xFqLB/ac=
+P:bash-doc
+V:5.3.3-r4
+A:aarch64
+S:811811
+I:2968723
+T:The GNU Bourne Again shell (documentation)
+U:https://git.savannah.gnu.org/cgit/bash.git/
+L:GPL-3.0-or-later
+o:bash
+t:1761856637
+c:8d5eee881b4a2a3f8c15c08064f0dc9c63304080
+i:docs bash=5.3.3-r4
+
+C:Q1nGbo3CnPMPtxHAHQMc/HdkNfBRw=
+P:bash-lang
+V:5.3.3-r4
+A:aarch64
+S:1688079
+I:5424834
+T:Languages for package bash
+U:https://git.savannah.gnu.org/cgit/bash.git/
+L:GPL-3.0-or-later
+o:bash
+t:1761856637
+c:8d5eee881b4a2a3f8c15c08064f0dc9c63304080
+i:bash=5.3.3-r4 lang
+
+C:Q1bPbWJEWlOybxkdo80edcB3JUoyY=
+P:bc
+V:1.08.2-r0
+A:aarch64
+S:57544
+I:163744
+T:Arbitrary precision numeric processing language (calculator)
+U:https://www.gnu.org/software/bc/bc.html
+L:GPL-3.0-or-later
+o:bc
+m:Celeste <cielesti@protonmail.com>
+t:1762439890
+c:ba850aca6f97232bc9d619f0abd282dfe5102a81-dirty
+
+C:Q1spAwAeXcljshhsyhPEmLOGbr42M=
+P:bc-doc
+V:1.08.2-r0
+A:aarch64
+S:39895
+I:78125
+T:Arbitrary precision numeric processing language (calculator) (documentation)
+U:https://www.gnu.org/software/bc/bc.html
+L:GPL-3.0-or-later
+o:bc
+m:Celeste <cielesti@protonmail.com>
+t:1762439890
+c:ba850aca6f97232bc9d619f0abd282dfe5102a81-dirty
+i:docs bc=1.08.2-r0
+
+C:Q1LdOwasFRfZ3flIIHQKx1eDlZUi0=
+P:binutils
+V:2.43-r0
+A:aarch64
+S:2251145
+I:8199637
+T:Tools necessary to build programs
+U:https://www.gnu.org/software/binutils/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later AND BSD-3-Clause
+o:binutils
+m:Natanael Copa <ncopa@alpinelinux.org>
+t:1766426960
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:zlib-ng zstd-libs jansson
+
+C:Q11cq7/TSSHLYPu8U+7pnJx6Y6Wqk=
+P:binutils-dev
+V:2.43-r0
+A:aarch64
+S:1386010
+I:5081593
+T:Tools necessary to build programs (development files)
+U:https://www.gnu.org/software/binutils/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later AND BSD-3-Clause
+o:binutils
+m:Natanael Copa <ncopa@alpinelinux.org>
+t:1766426960
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:binutils=2.43-r0
+
+C:Q1jrJdXJ6Lbh3tEj5+RqnDnhoXQlM=
+P:binutils-doc
+V:2.43-r0
+A:aarch64
+S:917080
+I:3240263
+T:Tools necessary to build programs (documentation)
+U:https://www.gnu.org/software/binutils/
+L:GPL-2.0-or-later AND LGPL-2.1-or-later AND BSD-3-Clause
+o:binutils
+m:Natanael Copa <ncopa@alpinelinux.org>
+t:1766426960
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+i:docs binutils=2.43-r0
+
+C:Q1XttXfGn1R8b4mDI2xHNfEWC9P98=
+P:bison
+V:3.8.2-r0
+A:aarch64
+S:455613
+I:1358998
+T:The GNU general-purpose parser generator
+U:https://www.gnu.org/software/bison/bison.html
+L:GPL-3.0-or-later
+o:bison
+m:Leo Shen <yishen@qnx.com>
+t:1761239486
+D:m4
+
+C:Q1Jh/VXKcUxQLk42eV5ghuCOrojAY=
+P:bison-doc
+V:3.8.2-r0
+A:aarch64
+S:312519
+I:1068915
+T:The GNU general-purpose parser generator (documentation)
+U:https://www.gnu.org/software/bison/bison.html
+L:GPL-3.0-or-later
+o:bison
+m:Leo Shen <yishen@qnx.com>
+t:1761239486
+i:docs bison=3.8.2-r0
+
+C:Q14hsR358iC4xx1Q3L/U3IAcqyw/o=
+P:brotli
+V:1.1.0-r0
+A:aarch64
+S:415565
+I:858720
+T:Brotli compression format
+U:https://github.com/google/brotli
+L:MIT
+o:brotli
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+
+C:Q142ZNjAbRTYWykAslFoCpxImU2dY=
+P:brotli
+V:1.1.0-r1
+A:aarch64
+S:404800
+I:849808
+T:Brotli compression format
+U:https://github.com/google/brotli
+L:MIT
+o:brotli
+m:Ethan Leir <eleir@qnx.com>
+t:1775138931
+c:93c005f3252f4bb1ba114f771dc74048cc497338
+
+C:Q1sXt0bOUuTAC1H/JNwAfijstOXuk=
+P:brotli-dev
+V:1.1.0-r0
+A:aarch64
+S:14258
+I:55144
+T:Brotli compression format (development files)
+U:https://github.com/google/brotli
+L:MIT
+o:brotli
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+D:brotli=1.1.0-r0 pkgconfig
+
+C:Q1YGjsEAyOBvaaj+rbIDTfpTsABak=
+P:brotli-dev
+V:1.1.0-r1
+A:aarch64
+S:16743
+I:55144
+T:Brotli compression format (development files)
+U:https://github.com/google/brotli
+L:MIT
+o:brotli
+m:Ethan Leir <eleir@qnx.com>
+t:1775138931
+c:93c005f3252f4bb1ba114f771dc74048cc497338
+D:brotli=1.1.0-r1 pkgconfig
+p:pc:libbrotlienc=1.1.0
+
+C:Q1taPboBOox7tdtOcVJebukG9EWBc=
+P:brotli-static
+V:1.1.0-r0
+A:aarch64
+S:425932
+I:935822
+T:Brotli compression format (static library)
+U:https://github.com/google/brotli
+L:MIT
+o:brotli
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+
+C:Q1s6gi4urB+wfTD0QUuvibyTRAl4A=
+P:brotli-static
+V:1.1.0-r1
+A:aarch64
+S:410969
+I:917182
+T:Brotli compression format (static library)
+U:https://github.com/google/brotli
+L:MIT
+o:brotli
+m:Ethan Leir <eleir@qnx.com>
+t:1775138931
+c:93c005f3252f4bb1ba114f771dc74048cc497338
+
+C:Q121iaJsQ3XXMLXhH7oBw7SIBRljk=
+P:build-base
+V:0.1-r0
+A:aarch64
+S:1181
+T:Meta package for build base
+U:https://oss.qnx.com
+L:MIT
+o:build-base
+m:Aaron Bassett <abassett@qnx.com>
+t:1755185933
+c:-dirty
+D:qnx-microkernel-dev qnx-gcc make
+
+C:Q1Ftd0hBLNWNY+Oj8kk7AgXVoStZc=
+P:build-base
+V:0.1-r1
+A:aarch64
+S:3278
+T:Meta package for build base
+U:https://oss.qnx.com
+L:MIT
+o:build-base
+m:Aaron Bassett <abassett@qnx.com>
+t:1766425088
+D:qnx-microkernel-dev clang make
+
+C:Q1WpdEZPen60vD0CIsvkup/folC90=
+P:busybox
+V:1.36.1-r10
+A:aarch64
+S:214492
+I:349736
+T:Size optimized toolbox of many common UNIX utilities
+U:https://www.busybox.net
+L:GPL-2.0-only
+o:busybox
+m:Leo Shen <yishen@qnx.com>
+t:1778264906
+c:31f727eccbd3ff0926d180e571c1907beb05b1f4
+D:qnx-io-sock
+
+C:Q1SlZCpmotm/E+1c5NJZ5BNbMi4bE=
+P:busybox
+V:1.36.1-r9
+A:aarch64
+S:215738
+I:370288
+T:Size optimized toolbox of many common UNIX utilities
+U:https://www.busybox.net
+L:GPL-2.0-only
+o:busybox
+m:Leo Shen <yishen@qnx.com>
+t:1759893159
+c:9a8ca341b4063928f08b41b0a5082765d8c3e4f9
+D:qnx-io-sock
+
+C:Q12vqXXgylHv1HMIzj9zSNmWRXFJQ=
+P:busybox-doc
+V:1.36.1-r10
+A:aarch64
+S:22770
+I:19827
+T:Size optimized toolbox of many common UNIX utilities (documentation)
+U:https://www.busybox.net
+L:GPL-2.0-only
+o:busybox
+m:Leo Shen <yishen@qnx.com>
+t:1778264906
+c:31f727eccbd3ff0926d180e571c1907beb05b1f4
+i:docs busybox=1.36.1-r10
+
+C:Q1Zdk/4uLjzhq7+emuWgGwgl8IgmU=
+P:busybox-doc
+V:1.36.1-r9
+A:aarch64
+S:21574
+I:19827
+T:Size optimized toolbox of many common UNIX utilities (documentation)
+U:https://www.busybox.net
+L:GPL-2.0-only
+o:busybox
+m:Leo Shen <yishen@qnx.com>
+t:1759893159
+c:9a8ca341b4063928f08b41b0a5082765d8c3e4f9
+i:docs busybox=1.36.1-r9
+
+C:Q1OjyHoWmKczhpv7w31UX6ETmT7uQ=
+P:busybox-utils
+V:1.36.1-r10
+A:aarch64
+S:3034
+I:1
+T:Busybox (coreutils symlinks)
+U:https://www.busybox.net
+L:GPL-2.0-only
+o:busybox
+m:Leo Shen <yishen@qnx.com>
+t:1778264906
+c:31f727eccbd3ff0926d180e571c1907beb05b1f4
+D:busybox
+p:coreutils
+
+C:Q1nVSnxZ9LuMNbfb1jBoLWClaqLzM=
+P:busybox-utils
+V:1.36.1-r9
+A:aarch64
+S:1867
+I:1
+T:Busybox (coreutils symlinks)
+U:https://www.busybox.net
+L:GPL-2.0-only
+o:busybox
+m:Leo Shen <yishen@qnx.com>
+t:1759893159
+c:9a8ca341b4063928f08b41b0a5082765d8c3e4f9
+D:busybox busybox=1.36.1-r9
+p:coreutils
+
+C:Q1U5n03yLa1VDRaeuDAOSI5krqNwk=
+P:bzip2
+V:1.0.8-r7
+A:aarch64
+S:141206
+I:291829
+T:A high-quality data compression program
+U:https://sourceware.org/bzip2/
+L:bzip2-1.0.6
+o:bzip2
+m:Natanael Copa <ncopa@alpinelinux.org>
+t:1757525745
+c:22dbdd124daf236895543fae08503c0652d8586b
+
+C:Q1K/NLfwfRPOuNkXkVP9dJMCqW7Mw=
+P:bzip2-dev
+V:1.0.8-r7
+A:aarch64
+S:3531
+I:6466
+T:A high-quality data compression program (development files)
+U:https://sourceware.org/bzip2/
+L:bzip2-1.0.6
+o:bzip2
+m:Natanael Copa <ncopa@alpinelinux.org>
+t:1757525745
+c:22dbdd124daf236895543fae08503c0652d8586b
+D:libbz2=1.0.8-r7 pkgconfig
+
+C:Q1xtkZqXV+0SRamjtaUl9OzoVM2ac=
+P:bzip2-doc
+V:1.0.8-r7
+A:aarch64
+S:11916
+I:9721
+T:A high-quality data compression program (documentation)
+U:https://sourceware.org/bzip2/
+L:bzip2-1.0.6
+o:bzip2
+m:Natanael Copa <ncopa@alpinelinux.org>
+t:1757525745
+c:22dbdd124daf236895543fae08503c0652d8586b
+i:docs bzip2=1.0.8-r7
+
+C:Q1ooFPrYkTWoqDNy95T+3wgB7ZOBw=
+P:bzip2-static
+V:1.0.8-r7
+A:aarch64
+S:37410
+I:83994
+T:A high-quality data compression program (static library)
+U:https://sourceware.org/bzip2/
+L:bzip2-1.0.6
+o:bzip2
+m:Natanael Copa <ncopa@alpinelinux.org>
+t:1757525745
+c:22dbdd124daf236895543fae08503c0652d8586b
+
+C:Q1Bn84eG+UuTz+lFpKyy5jUxObobU=
+P:ca-certificates
+V:1-r3
+A:aarch64
+S:3509
+I:4724
+T:CA certificates provider
+U:https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/
+L:GPL-2.0-or-later
+o:ca-certificates
+m:Leo Shen <yishen@qnx.com>
+t:1760980167
+c:c36903460d32a43c882f89666d5034e1bfda81a5
+D:p11-kit ca-certificates-bundle /bin/sh
+
+C:Q14l6/mIRPofYjNRfsw65iUAfXtio=
+P:ca-certificates-mozilla
+V:3.117-r3
+A:aarch64
+S:133197
+I:230752
+T:Mozilla's set of trusted CA certificates
+U:https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/
+L:GPL-2.0-or-later
+o:ca-certificates
+m:Leo Shen <yishen@qnx.com>
+t:1760980167
+c:c36903460d32a43c882f89666d5034e1bfda81a5
+p:ca-certificates-bundle
+
+C:Q1mpuclNOJLPIQuoh43scf2/7kLzY=
+P:clang
+V:21.1.3-r4
+A:aarch64
+S:25219014
+I:108148556
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+D:llvm-libs=21.1.3-r4 clang-libs=21.1.3-r4 openmp libc++ llvm-tools=21.1.3-r4
+
+C:Q1kxeuOeSTqcyVOdEqF19kcDNMhGs=
+P:clang
+V:21.1.3-r5
+A:aarch64
+S:25216708
+I:108152605
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:llvm-libs=21.1.3-r5 clang-libs=21.1.3-r5 openmp libc++ llvm-tools=21.1.3-r5
+
+C:Q1lX3R2k0NHIh8Pf8kBo+t3RNHT7Q=
+P:clang-dev
+V:21.1.3-r4
+A:aarch64
+S:52612124
+I:281050057
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+D:llvm-dev=21.1.3-r4 clang-libs=21.1.3-r4 clang-libs=21.1.3-r4
+
+C:Q1B91SUIMRXnGBBKDdph4H7l0+7w4=
+P:clang-dev
+V:21.1.3-r5
+A:aarch64
+S:52606113
+I:281050057
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:llvm-dev=21.1.3-r5 clang-libs=21.1.3-r5 clang-libs=21.1.3-r5
+
+C:Q1qtECzmx07YNpJTSCdMhnOnXq7pI=
+P:clang-libs
+V:21.1.3-r4
+A:aarch64
+S:31331763
+I:96033339
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+D:llvm-libs=21.1.3-r4
+
+C:Q1pL2AVdZMVBdprJxvl8iTaMYRrxI=
+P:clang-libs
+V:21.1.3-r5
+A:aarch64
+S:31332046
+I:96033339
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:llvm-libs=21.1.3-r5
+
+C:Q1BmTtVkqsQdFTS+T1ab8QEY1lVEs=
+P:cmake
+V:4.1.1-r1
+A:aarch64
+S:16749290
+I:44537966
+T:Cross-platform, open-source make system
+U:https://www.cmake.org/
+L:BSD-3-Clause
+o:cmake
+t:767
+c:41396911cabcd4800e6af5f33685b2c830fb4ff5
+D:libbz2 libexpat libarchive ncurses xz-libs libuv zlib-ng lz4-libs nghttp2 libcurl libc++
+
+C:Q1W1Rq4c1rqiSJ7Um4jvNKuthVA5o=
+P:cmake
+V:4.2.3-r0
+A:aarch64
+S:17841771
+I:47109253
+T:Cross-platform, open-source make system
+U:https://www.cmake.org/
+L:BSD-3-Clause
+o:cmake
+t:1770826909
+c:b117587baa398d0560c7ed00f34a7e473bf5bfbd
+D:libbz2 libexpat libarchive ncurses xz-libs libuv zlib-ng lz4-libs nghttp2 libcurl libc++
+
+C:Q1hlJGit+BXkZXELFC4Ny4IojP0Kk=
+P:cmake-bash-completion
+V:4.1.1-r1
+A:aarch64
+S:4409
+I:15910
+T:Bash completions for cmake
+U:https://www.cmake.org/
+L:BSD-3-Clause
+o:cmake
+t:767
+c:41396911cabcd4800e6af5f33685b2c830fb4ff5
+i:cmake=4.1.1-r1 bash-completion
+
+C:Q1M71dDeWWArk8h0Wxc92nprNQqvg=
+P:cmake-bash-completion
+V:4.2.3-r0
+A:aarch64
+S:6991
+I:15910
+T:Bash completions for cmake
+U:https://www.cmake.org/
+L:BSD-3-Clause
+o:cmake
+t:1770826909
+c:b117587baa398d0560c7ed00f34a7e473bf5bfbd
+i:cmake=4.2.3-r0 bash-completion
+
+C:Q1tH07VaAoPYtCos92I8qK+51JJpo=
+P:cmake-doc
+V:4.1.1-r1
+A:aarch64
+S:4978
+I:8281
+T:Cross-platform, open-source make system (documentation)
+U:https://www.cmake.org/
+L:BSD-3-Clause
+o:cmake
+t:767
+c:41396911cabcd4800e6af5f33685b2c830fb4ff5
+i:docs cmake=4.1.1-r1
+
+C:Q12M3+7l65VcTerkEo09cTFFntzOQ=
+P:cmake-doc
+V:4.2.3-r0
+A:aarch64
+S:7566
+I:8281
+T:Cross-platform, open-source make system (documentation)
+U:https://www.cmake.org/
+L:BSD-3-Clause
+o:cmake
+t:1770826909
+c:b117587baa398d0560c7ed00f34a7e473bf5bfbd
+i:docs cmake=4.2.3-r0
+
+C:Q1V8Q6kM3R1Jki2yK9ivvIVUJRmqg=
+P:curl
+V:8.15.0-r2
+A:aarch64
+S:181626
+I:315814
+T:command line tool and library for transferring data with URLs
+U:https://curl.se
+L:MIT
+o:curl
+t:1761859701
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6-dirty
+D:libcurl=8.15.0-r2
+
+C:Q1/nFoLDONYg3W6jakQkzOEn2Twtw=
+P:curl-dev
+V:8.15.0-r2
+A:aarch64
+S:65072
+I:278876
+T:command line tool and library for transferring data with URLs (development files)
+U:https://curl.se
+L:MIT
+o:curl
+t:1761859701
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6-dirty
+D:openssl-dev nghttp2-dev zlib-ng-dev zstd-dev brotli-dev libidn2-dev libpsl-dev qnx-io-sock-dev libcurl=8.15.0-r2 pkgconfig
+
+C:Q1OluGiqSH79fms0oYyp37JEIFJAU=
+P:curl-doc
+V:8.15.0-r2
+A:aarch64
+S:730992
+I:681684
+T:command line tool and library for transferring data with URLs (documentation)
+U:https://curl.se
+L:MIT
+o:curl
+t:1761859701
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6-dirty
+i:docs curl=8.15.0-r2
+
+C:Q1Zp5gzfZUgC7vLOis10sFHABFeCc=
+P:curl-static
+V:8.15.0-r2
+A:aarch64
+S:561736
+I:1777976
+T:command line tool and library for transferring data with URLs (static library)
+U:https://curl.se
+L:MIT
+o:curl
+t:1761859701
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6-dirty
+
+C:Q1ZeQMp6qyVTwb1wxr/CkfkzkJaRg=
+P:diffutils
+V:3.12-r1
+A:aarch64
+S:169969
+I:498872
+T:Show differences among files
+U:https://www.gnu.org/software/diffutils/
+L:GPL-3.0-or-later
+o:diffutils
+t:1764012659
+c:9482b7367b11ceeabefffaf90c75027b28623121-dirty
+
+C:Q1LYaL1REs94XBZxYd7nba5QBzYws=
+P:diffutils-doc
+V:3.12-r1
+A:aarch64
+S:73886
+I:236514
+T:Show differences among files (documentation)
+U:https://www.gnu.org/software/diffutils/
+L:GPL-3.0-or-later
+o:diffutils
+t:1764012659
+c:9482b7367b11ceeabefffaf90c75027b28623121-dirty
+i:docs diffutils=3.12-r1
+
+C:Q1+8mb3TqKf+gW62VS44F1klfLshs=
+P:expat
+V:2.7.3-r0
+A:aarch64
+S:13158
+I:34368
+T:XML Parser library written in C
+U:https://libexpat.github.io/
+L:MIT
+o:expat
+t:766
+c:1a2c5ae1ee1df39bce73bbc908097c9c82286fe9
+D:libexpat
+
+C:Q1cfaWkBfbzpZm7RBngaJC72VIk+M=
+P:expat-dev
+V:2.7.3-r0
+A:aarch64
+S:21217
+I:66740
+T:XML Parser library written in C (development files)
+U:https://libexpat.github.io/
+L:MIT
+o:expat
+t:766
+c:1a2c5ae1ee1df39bce73bbc908097c9c82286fe9
+D:expat=2.7.3-r0 libexpat=2.7.3-r0 pkgconfig
+
+C:Q1lv+VcQRsXkHsDvHkFAC4vuwGRMw=
+P:expat-doc
+V:2.7.3-r0
+A:aarch64
+S:35137
+I:96396
+T:XML Parser library written in C (documentation)
+U:https://libexpat.github.io/
+L:MIT
+o:expat
+t:766
+c:1a2c5ae1ee1df39bce73bbc908097c9c82286fe9
+i:docs expat=2.7.3-r0
+
+C:Q1ImilZeA0QJzO7Ur8/ulSZ/Zrndk=
+P:expat-static
+V:2.7.3-r0
+A:aarch64
+S:76992
+I:311660
+T:XML Parser library written in C (static library)
+U:https://libexpat.github.io/
+L:MIT
+o:expat
+t:766
+c:1a2c5ae1ee1df39bce73bbc908097c9c82286fe9
+
+C:Q1Lz48+SDjpXPIttL48pVrfDMxIRE=
+P:fakeroot
+V:1.37.1.1-r2
+A:aarch64
+S:33417
+I:90517
+T:Tool for simulating superuser privileges
+U:https://packages.debian.org/fakeroot
+L:GPL-3.0-or-later
+o:fakeroot
+m:Leo Shen <yishen@qnx.com>
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+D:qnx-io-sock
+
+C:Q1pe0HbdfScxaZv1NHi8iTkV7f2Nk=
+P:fakeroot-doc
+V:1.37.1.1-r2
+A:aarch64
+S:52370
+I:48807
+T:Tool for simulating superuser privileges (documentation)
+U:https://packages.debian.org/fakeroot
+L:GPL-3.0-or-later
+o:fakeroot
+m:Leo Shen <yishen@qnx.com>
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+i:docs fakeroot=1.37.1.1-r2
+
+C:Q1+Ehi2q7JjWu3swC3GI5TEIVDDAg=
+P:filesystem
+V:1-r3
+A:aarch64
+S:11012
+I:16539
+T:Base file system layout and files
+U:https://www.qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:filesystem
+m:Leo Shen <yishen@qnx.com>
+t:1764173032
+c:5efddeffde4825d29d6f97e71823b77b347d1ece-dirty
+
+C:Q1Wtxb9jb+ON8GNBN+JEuAdDM3AHE=
+P:flang
+V:21.1.3-r4
+A:aarch64
+S:68160426
+I:657273397
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+D:clang=21.1.3-r4 mlir-libs=21.1.3-r4
+
+C:Q1wA3LiK2LzRI670FJHDQlVt1W+GE=
+P:flang
+V:21.1.3-r5
+A:aarch64
+S:68157617
+I:657344637
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:clang=21.1.3-r5 mlir-libs=21.1.3-r5
+
+C:Q1vQhGcsN1rYqGhiVucWOhUgIEZD4=
+P:flang-dev
+V:21.1.3-r4
+A:aarch64
+S:975846
+I:8239755
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+D:llvm-dev=21.1.3-r4 clang-dev=21.1.3-r4
+
+C:Q12KehEapUDgUyoU0mqqX8cHj7LXY=
+P:flang-dev
+V:21.1.3-r5
+A:aarch64
+S:977361
+I:8239923
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:llvm-dev=21.1.3-r5 clang-dev=21.1.3-r5
+
+C:Q15iAEJcs9RdmS473q0wOwD4auF8U=
+P:flex
+V:2.6.4-r0
+A:aarch64
+S:126227
+I:491712
+T:A tool for generating fast lexical analyzers
+U:https://github.com/westes/flex
+L:BSD-2-Clause
+o:flex
+m:Ethan Leir <eleir@qnx.com>
+t:1761749593
+D:m4 qnx-io-sock
+
+C:Q1ClTh4p7V4JxYr74JthcqGhcHY3A=
+P:flex-dev
+V:2.6.4-r0
+A:aarch64
+S:4087
+I:6893
+T:A tool for generating fast lexical analyzers (development files)
+U:https://github.com/westes/flex
+L:BSD-2-Clause
+o:flex
+m:Ethan Leir <eleir@qnx.com>
+t:1761749593
+D:flex flex-libs=2.6.4-r0
+
+C:Q1DUimKDCARNv2XDtHtO2CpK+kRBk=
+P:flex-doc
+V:2.6.4-r0
+A:aarch64
+S:129192
+I:432760
+T:A tool for generating fast lexical analyzers (documentation)
+U:https://github.com/westes/flex
+L:BSD-2-Clause
+o:flex
+m:Ethan Leir <eleir@qnx.com>
+t:1761749593
+i:docs flex=2.6.4-r0
+
+C:Q1LzUCbK4ry4vG7YjZfpeNeaxruRk=
+P:flex-libs
+V:2.6.4-r0
+A:aarch64
+S:13994
+I:26096
+T:A tool for generating fast lexical analyzers (libraries)
+U:https://github.com/westes/flex
+L:BSD-2-Clause
+o:flex
+m:Ethan Leir <eleir@qnx.com>
+t:1761749593
+
+C:Q1uf5X7QCf27Q77T12S+CEOlQNN74=
+P:gawk
+V:5.3.2-r0
+A:aarch64
+S:406387
+I:1330903
+T:GNU awk pattern-matching language
+U:https://www.gnu.org/software/gawk/gawk.html
+L:GPL-3.0-or-later
+o:gawk
+t:1757006972
+c:2028e94f68ed44098cbd97d83d99d6d527b96038
+D:mpfr qnx-io-sock
+
+C:Q19cNm9jfKQ029pXzQVZq6STot16E=
+P:gawk-doc
+V:5.3.2-r0
+A:aarch64
+S:779342
+I:2383704
+T:GNU awk pattern-matching language (documentation)
+U:https://www.gnu.org/software/gawk/gawk.html
+L:GPL-3.0-or-later
+o:gawk
+t:1757006972
+c:2028e94f68ed44098cbd97d83d99d6d527b96038
+i:docs gawk=5.3.2-r0
+
+C:Q14quz85MAHS6lBbsaAYWpHhPnzV0=
+P:gettext
+V:0.26-r0
+A:aarch64
+S:1606971
+I:11103858
+T:GNU locale utilities
+U:https://www.gnu.org/software/gettext/gettext.html
+L:GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT
+o:gettext
+t:1760985373
+c:f04738a79709154c989bd18494d501d92b5fb5c9
+D:gettext-envsubst=0.26-r0 gettext-libs=0.26-r0 libiconv libxml2
+
+C:Q1mEFNtlnei3SPnq7mE3Qh1/rpwx8=
+P:gettext-dev
+V:0.26-r0
+A:aarch64
+S:709633
+I:1082937
+T:GNU locale utilities (development files)
+U:https://www.gnu.org/software/gettext/gettext.html
+L:GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT
+o:gettext
+t:1760985373
+c:f04738a79709154c989bd18494d501d92b5fb5c9
+D:gettext-libs=0.26-r0 gettext=0.26-r0 libintl=0.26-r0
+
+C:Q18EQ0p0apxb1axcHRiaaYDje8Xc8=
+P:gettext-doc
+V:0.26-r0
+A:aarch64
+S:317166
+I:1154482
+T:GNU locale utilities (documentation)
+U:https://www.gnu.org/software/gettext/gettext.html
+L:GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT
+o:gettext
+t:1760985373
+c:f04738a79709154c989bd18494d501d92b5fb5c9
+i:docs gettext=0.26-r0
+
+C:Q1ZwUuE8fF2KCt4HgsGRdKSDN2qsE=
+P:gettext-envsubst
+V:0.26-r0
+A:aarch64
+S:24088
+I:67232
+T:GNU gettext envsubst binary
+U:https://www.gnu.org/software/gettext/gettext.html
+L:GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT
+o:gettext
+t:1760985373
+c:f04738a79709154c989bd18494d501d92b5fb5c9
+D:gettext=0.26-r0
+p:envsubst
+
+C:Q1oHtQC/c418J5tdC6uXNCFgJ2mXM=
+P:gettext-lang
+V:0.26-r0
+A:aarch64
+S:1199056
+I:4063785
+T:Languages for package gettext
+U:https://www.gnu.org/software/gettext/gettext.html
+L:GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT
+o:gettext
+t:1760985373
+c:f04738a79709154c989bd18494d501d92b5fb5c9
+i:gettext=0.26-r0 lang
+
+C:Q188GsRD7JSRvnBqO8dG4cw1GmCNk=
+P:gettext-libs
+V:0.26-r0
+A:aarch64
+S:477123
+I:1767528
+T:GNU locale utilities (libraries)
+U:https://www.gnu.org/software/gettext/gettext.html
+L:GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT
+o:gettext
+t:1760985373
+c:f04738a79709154c989bd18494d501d92b5fb5c9
+
+C:Q14DuFgstJtkhUJZzj7SVJLbvIZoE=
+P:gettext-static
+V:0.26-r0
+A:aarch64
+S:1139988
+I:5535230
+T:GNU locale utilities (static library)
+U:https://www.gnu.org/software/gettext/gettext.html
+L:GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT
+o:gettext
+t:1760985373
+c:f04738a79709154c989bd18494d501d92b5fb5c9
+
+C:Q1fUAvXPuRI2ImtMB5nCJVgwTkhqg=
+P:gmock
+V:1.17.0-r2
+A:aarch64
+S:39509
+I:105696
+T:Google Mock - A library for writing and using C++ mock classes
+U:https://github.com/google/googletest
+L:BSD-3-Clause
+o:gtest
+m:Felix Xing <fxing@qnx.com>
+t:1762377810
+c:c627bce12ec0f5c9433a6028e93340d41b8da9f7
+D:libc++
+
+C:Q15VJsmFIp+vohsbqFH6SBq8A5ZQ4=
+P:gmp
+V:6.3.0-r5
+A:aarch64
+S:246474
+I:710672
+T:free library for arbitrary precision arithmetic
+U:https://gmplib.org/
+L:LGPL-3.0-or-later OR GPL-2.0-or-later
+o:gmp
+m:Leo Shen <yishen@blackberry.com>
+t:1759518353
+c:d3fb227641888aeb060a40100857781590652992
+
+C:Q11raU/ZH+EMRUEW2YU8o+N5jzmVA=
+P:gmp-dev
+V:6.3.0-r5
+A:aarch64
+S:34825
+I:214304
+T:free library for arbitrary precision arithmetic (development files)
+U:https://gmplib.org/
+L:LGPL-3.0-or-later OR GPL-2.0-or-later
+o:gmp
+m:Leo Shen <yishen@blackberry.com>
+t:1759518353
+c:d3fb227641888aeb060a40100857781590652992
+D:gmp=6.3.0-r5 libgmpxx=6.3.0-r5 pkgconfig
+
+C:Q1+DOvCLLG3CetLeHIuIg4gbO3v20=
+P:gmp-doc
+V:6.3.0-r5
+A:aarch64
+S:137531
+I:530060
+T:free library for arbitrary precision arithmetic (documentation)
+U:https://gmplib.org/
+L:LGPL-3.0-or-later OR GPL-2.0-or-later
+o:gmp
+m:Leo Shen <yishen@blackberry.com>
+t:1759518353
+c:d3fb227641888aeb060a40100857781590652992
+i:docs gmp=6.3.0-r5
+
+C:Q1y2KwzZZWv9dcbSf9yRSyH8iidR8=
+P:gmp-static
+V:6.3.0-r5
+A:aarch64
+S:344907
+I:1728724
+T:free library for arbitrary precision arithmetic (static library)
+U:https://gmplib.org/
+L:LGPL-3.0-or-later OR GPL-2.0-or-later
+o:gmp
+m:Leo Shen <yishen@blackberry.com>
+t:1759518353
+c:d3fb227641888aeb060a40100857781590652992
+
+C:Q1LwxRK8uHiW9CK00ZuDLeF/2ho5M=
+P:grep
+V:3.11-r1
+A:aarch64
+S:119520
+I:337980
+T:Searches input files for lines containing a match to a specified pattern
+U:https://www.gnu.org/software/grep/grep.html
+L:GPL-3.0-or-later
+o:grep
+m:Leo Shen <yishen@qnx.com>
+t:1764076060
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35-dirty
+D:qnx-io-sock pcre2
+
+C:Q1pJraImIFUo0xpGIJdndGM+uWTYY=
+P:grep-doc
+V:3.11-r1
+A:aarch64
+S:50532
+I:148013
+T:Searches input files for lines containing a match to a specified pattern (documentation)
+U:https://www.gnu.org/software/grep/grep.html
+L:GPL-3.0-or-later
+o:grep
+m:Leo Shen <yishen@qnx.com>
+t:1764076060
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35-dirty
+i:docs grep=3.11-r1
+
+C:Q1Qhk8OoJPXnAbl9+rLhLHEQgATGA=
+P:gtest
+V:1.17.0-r2
+A:aarch64
+S:140446
+I:420984
+T:Google Test - C++ testing utility based on the xUnit framework (like JUnit)
+U:https://github.com/google/googletest
+L:BSD-3-Clause
+o:gtest
+m:Felix Xing <fxing@qnx.com>
+t:1762377810
+c:c627bce12ec0f5c9433a6028e93340d41b8da9f7
+D:libc++
+
+C:Q1ktZ65oBMjp9FPejbdzeUUTr9cdQ=
+P:gtest-dev
+V:1.17.0-r2
+A:aarch64
+S:242892
+I:1062915
+T:Google Test - C++ testing utility based on the xUnit framework (like JUnit) (development files)
+U:https://github.com/google/googletest
+L:BSD-3-Clause
+o:gtest
+m:Felix Xing <fxing@qnx.com>
+t:1762377810
+c:c627bce12ec0f5c9433a6028e93340d41b8da9f7
+D:gtest=1.17.0-r2 gmock=1.17.0-r2 gmock=1.17.0-r2 gtest=1.17.0-r2 pkgconfig
+p:pc:gtest_main=1.17.0
+
+C:Q1pYwuUdJbckxYG2Ay4ZvWxmif3mE=
+P:gtest-src
+V:1.17.0-r2
+A:aarch64
+S:122497
+I:480830
+T:Google Test - C++ testing utility based on the xUnit framework (like JUnit)
+U:https://github.com/google/googletest
+L:BSD-3-Clause
+o:gtest
+m:Felix Xing <fxing@qnx.com>
+t:1762377810
+c:c627bce12ec0f5c9433a6028e93340d41b8da9f7
+D:libc++
+
+C:Q1bqXtEaUOAztrB1ccbKf/v6EC0dI=
+P:gzip
+V:1.14-r1
+A:aarch64
+S:77833
+I:208216
+T:Popular data compression program
+U:https://www.gnu.org/software/gzip/
+L:GPL-3.0-or-later
+o:gzip
+m:Leo Shen <yishen@qnx.com>
+t:1763496996
+c:eaa9538a0dc4c3e483e5b5db9a54f1f0a86519dc
+D:grep less
+p:cmd:znew=1.14-r1
+
+C:Q1QxsBFoC28cPyIJKZXWFx8ZKoVgo=
+P:gzip-doc
+V:1.14-r1
+A:aarch64
+S:32077
+I:60282
+T:Popular data compression program (documentation)
+U:https://www.gnu.org/software/gzip/
+L:GPL-3.0-or-later
+o:gzip
+m:Leo Shen <yishen@qnx.com>
+t:1763496996
+c:eaa9538a0dc4c3e483e5b5db9a54f1f0a86519dc
+i:docs gzip=1.14-r1
+
+C:Q1cbAYulHOFoeJQ1IOE5GbJdK7QU4=
+P:help2man
+V:1.49.3-r0
+A:aarch64
+S:9175
+I:20063
+T:Create simple man pages from --help output
+U:https://www.gnu.org/software/help2man
+L:GPL-3.0-or-later
+o:help2man
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+D:perl qnx-io-sock
+
+C:Q1nXushpwXxd5TKurH7Fig/qUSXmQ=
+P:help2man-doc
+V:1.49.3-r0
+A:aarch64
+S:10315
+I:19933
+T:Create simple man pages from --help output (documentation)
+U:https://www.gnu.org/software/help2man
+L:GPL-3.0-or-later
+o:help2man
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+i:docs help2man=1.49.3-r0
+
+C:Q1wNLD3FhE2UhSi1IGy/Lzgm5Igx4=
+P:icu
+V:76.1-r4
+A:aarch64
+S:311901
+I:802064
+T:International Components for Unicode library
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Andreas Radke <andyrtr@archlinux.org>
+t:1759956553
+c:a4d53ba77aeef11a14a1e00bf2826b01f5ee121c
+D:libc++
+
+C:Q1dDXbIGXjNq1KsnTVwpP5zqZaL/Y=
+P:icu
+V:76.1-r6
+A:aarch64
+S:391796
+I:936280
+T:International Components for Unicode library
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Felix Xing <fxing@qnx.com>
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+D:libc++
+
+C:Q1Iu9AAP9V1tmKosr9znMJOoU2lQw=
+P:icu
+V:76.1-r7
+A:aarch64
+S:391811
+I:936280
+T:International Components for Unicode library
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Felix Xing <fxing@qnx.com>
+t:1770157716
+c:27e433809c784aa2f12ca2163b5c63851897bf38-dirty
+D:libc++ icu-libs
+
+C:Q1rqoiYvFctme+oPo9BcYWtPcgzNM=
+P:icu-data
+V:76.1-r4
+A:aarch64
+S:12371304
+I:31851856
+T:Full ICU data
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Andreas Radke <andyrtr@archlinux.org>
+t:1759956553
+c:a4d53ba77aeef11a14a1e00bf2826b01f5ee121c
+D:libc++
+
+C:Q1zvoSSmcIPcJ9dt1qg5yb4YdWNXM=
+P:icu-data
+V:76.1-r6
+A:aarch64
+S:12372574
+I:31851856
+T:Full ICU data
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Felix Xing <fxing@qnx.com>
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+D:libc++
+
+C:Q1eqssxDHXUFSWinTyc+zfRWeDSjk=
+P:icu-data
+V:76.1-r7
+A:aarch64
+S:12372375
+I:31851856
+T:Full ICU data
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Felix Xing <fxing@qnx.com>
+t:1770157716
+c:27e433809c784aa2f12ca2163b5c63851897bf38-dirty
+D:libc++ icu-libs
+
+C:Q1zf8WiWEkBzKNFEz2VZPIUHFDnTM=
+P:icu-dbg
+V:76.1-r6
+A:aarch64
+S:10210509
+I:31759328
+T:International Components for Unicode library (debug symbols)
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Felix Xing <fxing@qnx.com>
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+D:libc++ !icu-dev<76.1-r6 !icu-dev>76.1-r6 !icu-libs<76.1-r6 !icu-libs>76.1-r6 !icu<76.1-r6 !icu>76.1-r6
+
+C:Q17uxyTXzoyD5eKzkxibXa6rL6U+k=
+P:icu-dbg
+V:76.1-r7
+A:aarch64
+S:10210539
+I:31759328
+T:International Components for Unicode library (debug symbols)
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Felix Xing <fxing@qnx.com>
+t:1770157716
+c:27e433809c784aa2f12ca2163b5c63851897bf38-dirty
+D:libc++ icu-libs !icu-dev<76.1-r7 !icu-dev>76.1-r7 !icu-libs<76.1-r7 !icu-libs>76.1-r7 !icu<76.1-r7 !icu>76.1-r7
+
+C:Q1ltlSO2fSNUI3f13tDcwJUwTsFRM=
+P:icu-dev
+V:76.1-r4
+A:aarch64
+S:1051099
+I:5195457
+T:International Components for Unicode library (development files)
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Andreas Radke <andyrtr@archlinux.org>
+t:1759956553
+c:a4d53ba77aeef11a14a1e00bf2826b01f5ee121c
+D:icu-libs=76.1-r4 icu=76.1-r4 pkgconfig
+
+C:Q1w4oJ0XbfQGEF0I352fdvjaWGXfs=
+P:icu-dev
+V:76.1-r6
+A:aarch64
+S:1053018
+I:5195205
+T:International Components for Unicode library (development files)
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Felix Xing <fxing@qnx.com>
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+D:icu-libs=76.1-r6 icu=76.1-r6 pkgconfig
+p:pc:icu-uc=76.1
+
+C:Q1P2a8sw5nHTi/5WWumbUjiskFLwE=
+P:icu-dev
+V:76.1-r7
+A:aarch64
+S:1052865
+I:5195205
+T:International Components for Unicode library (development files)
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Felix Xing <fxing@qnx.com>
+t:1770157716
+c:27e433809c784aa2f12ca2163b5c63851897bf38-dirty
+D:icu-libs=76.1-r7 icu=76.1-r7 pkgconfig
+p:pc:icu-uc=76.1
+
+C:Q1vwqVexjs8qTw0xRgX7ynpgvcs5k=
+P:icu-doc
+V:76.1-r4
+A:aarch64
+S:28887
+I:25799
+T:International Components for Unicode library (documentation)
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Andreas Radke <andyrtr@archlinux.org>
+t:1759956553
+c:a4d53ba77aeef11a14a1e00bf2826b01f5ee121c
+i:docs icu=76.1-r4
+
+C:Q1f3mW+CJ9EZhH1U8I45U2Xgv0z/U=
+P:icu-doc
+V:76.1-r6
+A:aarch64
+S:30267
+I:25799
+T:International Components for Unicode library (documentation)
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Felix Xing <fxing@qnx.com>
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+i:docs icu=76.1-r6
+
+C:Q1xqMuWUPAUVhf5GX/tBkX/LZbscY=
+P:icu-doc
+V:76.1-r7
+A:aarch64
+S:30272
+I:25799
+T:International Components for Unicode library (documentation)
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Felix Xing <fxing@qnx.com>
+t:1770157716
+c:27e433809c784aa2f12ca2163b5c63851897bf38-dirty
+i:docs icu=76.1-r7
+
+C:Q1wM7rZvFl2vgX4wfsSXPiYga1peQ=
+P:icu-libs
+V:76.1-r4
+A:aarch64
+S:2152369
+I:5863792
+T:International Components for Unicode library (libraries)
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Andreas Radke <andyrtr@archlinux.org>
+t:1759956553
+c:a4d53ba77aeef11a14a1e00bf2826b01f5ee121c
+D:icu-data=76.1-r4
+
+C:Q1CchgxTPC1IcOr1ksbx0QP2Jq6fU=
+P:icu-libs
+V:76.1-r6
+A:aarch64
+S:2190580
+I:5851280
+T:International Components for Unicode library (libraries)
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Felix Xing <fxing@qnx.com>
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+D:icu-data=76.1-r6
+
+C:Q10uRiuFUjubCUBXFanpuxkQfhG0k=
+P:icu-libs
+V:76.1-r7
+A:aarch64
+S:2190594
+I:5851280
+T:International Components for Unicode library (libraries)
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Felix Xing <fxing@qnx.com>
+t:1770157716
+c:27e433809c784aa2f12ca2163b5c63851897bf38-dirty
+D:icu-data=76.1-r7 libc++
+
+C:Q1gX5Ws/YJVhG4tLgvwfoS2dUmL08=
+P:icu-static
+V:76.1-r4
+A:aarch64
+S:3456816
+I:13125782
+T:International Components for Unicode library (static library)
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Andreas Radke <andyrtr@archlinux.org>
+t:1759956553
+c:a4d53ba77aeef11a14a1e00bf2826b01f5ee121c
+
+C:Q1LQ0IBzqLKx4d+mdNmeDytGH3edI=
+P:icu-static
+V:76.1-r6
+A:aarch64
+S:17832138
+I:57166118
+T:International Components for Unicode library (static library)
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Felix Xing <fxing@qnx.com>
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+
+C:Q15HfJtCxEgM17Doca00wCFRjCdBc=
+P:icu-static
+V:76.1-r7
+A:aarch64
+S:17831622
+I:57166118
+T:International Components for Unicode library (static library)
+U:https://icu.unicode.org
+L:ICU
+o:icu
+m:Felix Xing <fxing@qnx.com>
+t:1770157716
+c:27e433809c784aa2f12ca2163b5c63851897bf38-dirty
+
+C:Q18DhJx6kuKIQP5ybhCLE7QRADeCc=
+P:jansson
+V:2.14.1-r0
+A:aarch64
+S:63661
+I:144120
+T:lightweight JSON library
+U:http://www.digip.org/jansson/
+L:MIT
+o:jansson
+m:Aaron Bassett <abassett@qnx.com>
+t:1766020637
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83
+
+C:Q1yaeXRlgp40099Kdi6nF/8F4B1CA=
+P:jansson-dev
+V:2.14.1-r0
+A:aarch64
+S:8076
+I:18088
+T:lightweight JSON library (development files)
+U:http://www.digip.org/jansson/
+L:MIT
+o:jansson
+m:Aaron Bassett <abassett@qnx.com>
+t:1766020637
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83
+D:jansson=2.14.1-r0 pkgconfig
+p:pc:jansson=2.14.1
+
+C:Q1/g51rn2D7M46yTXMwGu49ZFiHD4=
+P:jansson-static
+V:2.14.1-r0
+A:aarch64
+S:62459
+I:186206
+T:lightweight JSON library (static library)
+U:http://www.digip.org/jansson/
+L:MIT
+o:jansson
+m:Aaron Bassett <abassett@qnx.com>
+t:1766020637
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83
+
+C:Q1MvPDT6rb/VzQohBRwEld46PsPSQ=
+P:less
+V:685-r0
+A:aarch64
+S:117827
+I:355496
+T:File pager
+U:https://www.greenwoodsoftware.com/less/
+L:GPL-3.0-or-later OR BSD-2-Clause
+o:less
+m:Leo Shen <yishen@qnx.com>
+t:1763497033
+c:6a6ee89b9977275167cee2833459245d616758e8
+D:ncurses
+p:cmd:lesskey=685-r0
+
+C:Q10E4CmV9JKOyuux+/hTg7q2I/6qc=
+P:less
+V:691-r0
+A:aarch64
+S:114265
+I:261312
+T:File pager
+U:https://www.greenwoodsoftware.com/less/
+L:GPL-3.0-or-later OR BSD-2-Clause
+o:less
+m:Leo Shen <yishen@qnx.com>
+t:1770303358
+c:3421592b864018b861c39577de4d5264c8c9dc12
+D:ncurses
+
+C:Q16Kae0k0ZMIgxFf/7XsmgVaZqMz8=
+P:less-doc
+V:685-r0
+A:aarch64
+S:39430
+I:36396
+T:File pager (documentation)
+U:https://www.greenwoodsoftware.com/less/
+L:GPL-3.0-or-later OR BSD-2-Clause
+o:less
+m:Leo Shen <yishen@qnx.com>
+t:1763497033
+c:6a6ee89b9977275167cee2833459245d616758e8
+i:docs less=685-r0
+
+C:Q1aXVAsaSeoJSrTN4RJCqDjIoc86o=
+P:less-doc
+V:691-r0
+A:aarch64
+S:43579
+I:38583
+T:File pager (documentation)
+U:https://www.greenwoodsoftware.com/less/
+L:GPL-3.0-or-later OR BSD-2-Clause
+o:less
+m:Leo Shen <yishen@qnx.com>
+t:1770303358
+c:3421592b864018b861c39577de4d5264c8c9dc12
+i:docs less=691-r0
+
+C:Q1ZZcpAdbd2sytUZJVcLWM0eO4ZSs=
+P:libarchive
+V:3.8.0-r1
+A:aarch64
+S:345584
+I:1091408
+T:Multi-format archive and compression library
+U:https://libarchive.org/
+L:BSD-2-Clause AND BSD-3-Clause AND LicenseRef-scancode-public-domain
+o:libarchive
+t:1761760450
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6-dirty
+D:bzip2 libxml2 lz4 openssl xz zlib-ng zstd
+
+C:Q1HhRV8+zzo+rNt4jdXJQROns61Gg=
+P:libarchive-dev
+V:3.8.0-r1
+A:aarch64
+S:4463753
+I:6822644
+T:Multi-format archive and compression library (development files)
+U:https://libarchive.org/
+L:BSD-2-Clause AND BSD-3-Clause AND LicenseRef-scancode-public-domain
+o:libarchive
+t:1761760450
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6-dirty
+D:bzip2-dev libxml2-dev lz4-dev openssl-dev xz-dev zlib-ng-dev zstd-dev libarchive=3.8.0-r1 pkgconfig
+
+C:Q1TrSZQtxwPailBrHNdwkMt7wlpw0=
+P:libarchive-doc
+V:3.8.0-r1
+A:aarch64
+S:139393
+I:133603
+T:Multi-format archive and compression library (documentation)
+U:https://libarchive.org/
+L:BSD-2-Clause AND BSD-3-Clause AND LicenseRef-scancode-public-domain
+o:libarchive
+t:1761760450
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6-dirty
+i:docs libarchive=3.8.0-r1
+
+C:Q1x/mPEBPyiwiL1eoC8OLl5xTXO7o=
+P:libarchive-tools
+V:3.8.0-r1
+A:aarch64
+S:770002
+I:2362664
+T:libarchive tools bsdtar and bsdcpio
+U:https://libarchive.org/
+L:BSD-2-Clause AND BSD-3-Clause AND LicenseRef-scancode-public-domain
+o:libarchive
+t:1761760450
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6-dirty
+D:libarchive=3.8.0-r1
+
+C:Q1QP3qXYkpcaegPXtQ1ytd7qenQAU=
+P:libbz2
+V:1.0.8-r7
+A:aarch64
+S:44667
+I:86592
+T:Shared library for bz2
+U:https://sourceware.org/bzip2/
+L:bzip2-1.0.6
+o:bzip2
+m:Natanael Copa <ncopa@alpinelinux.org>
+t:1757525745
+c:22dbdd124daf236895543fae08503c0652d8586b
+
+C:Q15uUXDHZnDP3ALTiLp/eK6emon1A=
+P:libc++
+V:21.1.3-r4
+A:aarch64
+S:445613
+I:17338205
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+
+C:Q1hO/TUZaXDCPat1hp9ta+ph+2uU8=
+P:libc++
+V:21.1.3-r5
+A:aarch64
+S:447022
+I:17338317
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+
+C:Q1dz6aszlT81ulnxQ1XwrGa7tQ4Zk=
+P:libc++-dev
+V:21.1.3-r4
+A:aarch64
+S:2496472
+I:15939525
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+D:!qnx-libc++-dev liblocale-shim-dev libc++=21.1.3-r4
+
+C:Q1zkIRpEVNI7G/2G4tEbPeEPV69Oc=
+P:libc++-dev
+V:21.1.3-r5
+A:aarch64
+S:2498130
+I:15939637
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:!qnx-libc++-dev liblocale-shim-dev libc++=21.1.3-r5
+
+C:Q1z0gsGsYI9gNadGj3nVXT421RbuE=
+P:libcrypto3
+V:3.6.0-r0
+A:aarch64
+S:1793063
+I:6284790
+T:Crypto library from openssl
+U:https://www.openssl.org/
+L:Apache-2.0
+o:openssl
+t:1764625489
+c:5772ac7efa359e17432749f146ed6f6bba1952a7
+D:qnx-crypto qnx-io-sock
+
+C:Q1GM2vj8XNVJJTp4Pwfr8GSacqBQg=
+P:libcurl
+V:8.15.0-r2
+A:aarch64
+S:394057
+I:844806
+T:The multiprotocol file transfer library
+U:https://curl.se
+L:MIT
+o:curl
+t:1761859701
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6-dirty
+D:libssl3 nghttp2 zlib-ng zstd brotli libpsl qnx-io-sock
+
+C:Q1s3gVu2d74CiCaPUTCRBSmuRYr9M=
+P:libexpat
+V:2.7.3-r0
+A:aarch64
+S:76647
+I:263744
+T:XML Parser library written in C (libraries)
+U:https://libexpat.github.io/
+L:MIT
+o:expat
+t:766
+c:1a2c5ae1ee1df39bce73bbc908097c9c82286fe9
+
+C:Q1Xj2d6unm362QC3Gv4ieOsSXGagY=
+P:libffi
+V:3.4.7-r0
+A:aarch64
+S:18574
+I:34576
+T:A portable foreign-function interface library.
+U:http://sourceware.org/libffi
+L:MIT
+o:libffi
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+
+C:Q1D3YQgQ+NAbUgUDe3DigBRXx4Az0=
+P:libffi-dev
+V:3.4.7-r0
+A:aarch64
+S:6787
+I:17082
+T:A portable foreign-function interface library. (development files)
+U:http://sourceware.org/libffi
+L:MIT
+o:libffi
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+D:libffi=3.4.7-r0 pkgconfig
+
+C:Q1y6ldDftD6AxIXJYKScVCKB35FRQ=
+P:libffi-doc
+V:3.4.7-r0
+A:aarch64
+S:15862
+I:41818
+T:A portable foreign-function interface library. (documentation)
+U:http://sourceware.org/libffi
+L:MIT
+o:libffi
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+i:docs libffi=3.4.7-r0
+
+C:Q1zrQC40XFMy+BCistIknvDuIb3dk=
+P:libffi-static
+V:3.4.7-r0
+A:aarch64
+S:10431
+I:30358
+T:A portable foreign-function interface library. (static library)
+U:http://sourceware.org/libffi
+L:MIT
+o:libffi
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+
+C:Q1LDNSspO08Rlf0Rbwvsq9CITqD5E=
+P:libgmpxx
+V:6.3.0-r5
+A:aarch64
+S:9270
+I:30304
+T:C++ support for gmp
+U:https://gmplib.org/
+L:LGPL-3.0-or-later OR GPL-2.0-or-later
+o:gmp
+m:Leo Shen <yishen@blackberry.com>
+t:1759518353
+c:d3fb227641888aeb060a40100857781590652992
+D:gmp=6.3.0-r5 libc++
+
+C:Q1gHbWJmhPLIKrijjmDsYPxgnoWdU=
+P:libiconv
+V:1.18-r0
+A:aarch64
+S:785060
+I:1176176
+T:GNU charset conversion library
+U:https://www.gnu.org/software/libiconv/
+L:GPL-3.0-only LGPL-2.1-only
+o:libiconv
+t:1761761805
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc-dirty
+
+C:Q1ghNLJzYuLkeB5+m1ruprWjdd67o=
+P:libiconv-dev
+V:1.18-r0
+A:aarch64
+S:6295
+I:17511
+T:GNU charset conversion library (development files)
+U:https://www.gnu.org/software/libiconv/
+L:GPL-3.0-only LGPL-2.1-only
+o:libiconv
+t:1761761805
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc-dirty
+D:libiconv=1.18-r0
+
+C:Q1x8PCMDyMeSIeftPymvkl2i7XQX8=
+P:libiconv-doc
+V:1.18-r0
+A:aarch64
+S:19325
+I:46490
+T:GNU charset conversion library (documentation)
+U:https://www.gnu.org/software/libiconv/
+L:GPL-3.0-only LGPL-2.1-only
+o:libiconv
+t:1761761805
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc-dirty
+i:docs libiconv=1.18-r0
+
+C:Q1vgzmL8JtfiMtUsRE7PzIcD7Wp+Q=
+P:libiconv-lang
+V:1.18-r0
+A:aarch64
+S:56165
+I:250710
+T:Languages for package libiconv
+U:https://www.gnu.org/software/libiconv/
+L:GPL-3.0-only LGPL-2.1-only
+o:libiconv
+t:1761761805
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc-dirty
+i:libiconv=1.18-r0 lang
+
+C:Q1VYICt7bHRbkkjrsY9iFMtRC0EKs=
+P:libiconv-static
+V:1.18-r0
+A:aarch64
+S:2284
+I:3400
+T:GNU charset conversion library (static library)
+U:https://www.gnu.org/software/libiconv/
+L:GPL-3.0-only LGPL-2.1-only
+o:libiconv
+t:1761761805
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc-dirty
+
+C:Q1MhyiDaErSCIbHTKubO9rc+taBmk=
+P:libidn2
+V:2.3.8-r0
+A:aarch64
+S:128639
+I:270408
+T:Free software implementation of IDNA2008, Punycode and TR46
+U:https://www.gnu.org/software/libidn/#libidn2
+L:GPL-2.0-or-later OR LGPL-3.0-or-later
+o:libidn2
+t:1761852036
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35-dirty
+D:libunistring libiconv
+
+C:Q1rii+QSCj/zHkC8oCL3a/LS+7tqk=
+P:libidn2-dev
+V:2.3.8-r0
+A:aarch64
+S:6007
+I:14467
+T:Free software implementation of IDNA2008, Punycode and TR46 (development files)
+U:https://www.gnu.org/software/libidn/#libidn2
+L:GPL-2.0-or-later OR LGPL-3.0-or-later
+o:libidn2
+t:1761852036
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35-dirty
+D:libidn2=2.3.8-r0 pkgconfig
+
+C:Q1BIB9YkuGOHixWiUf0sA4wnvHcYo=
+P:libidn2-doc
+V:2.3.8-r0
+A:aarch64
+S:43467
+I:89921
+T:Free software implementation of IDNA2008, Punycode and TR46 (documentation)
+U:https://www.gnu.org/software/libidn/#libidn2
+L:GPL-2.0-or-later OR LGPL-3.0-or-later
+o:libidn2
+t:1761852036
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35-dirty
+i:docs libidn2=2.3.8-r0
+
+C:Q1cwmLqf5n4uL5OMChXtUrL+h5z7c=
+P:libintl
+V:0.26-r0
+A:aarch64
+S:57273
+I:218760
+T:GNU gettext runtime library
+U:https://www.gnu.org/software/gettext/gettext.html
+L:LGPL-2.1-or-later
+o:gettext
+t:1760985373
+c:f04738a79709154c989bd18494d501d92b5fb5c9
+D:gettext=0.26-r0
+
+C:Q1dymjXCiQRIytV4J0GhkWvWEQLt8=
+P:liblocale-shim
+V:0.1.0-r2
+A:aarch64
+S:18340
+I:42552
+T:Felix's locale.h shim
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:liblocale-shim
+m:Aaron Bassett <abassett@qnx.com>
+t:766
+c:9b733bacbfd197d335d4a733d9706cae8e5bb2a2
+
+C:Q1vdNafXjJapWb8G8rt3hHYj1PbkE=
+P:liblocale-shim-dev
+V:0.1.0-r2
+A:aarch64
+S:11835
+I:45324
+T:Felix's locale.h shim (development files)
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:liblocale-shim
+m:Aaron Bassett <abassett@qnx.com>
+t:766
+c:9b733bacbfd197d335d4a733d9706cae8e5bb2a2
+
+C:Q1pRPo9W2H/5k+HwN/XoK6lV+kTkM=
+P:libltdl
+V:2.5.4-r1
+A:aarch64
+S:17928
+I:50760
+T:Runtime libraries for GNU Libtool Dynamic Module Loader
+U:https://www.gnu.org/software/libtool
+L:LGPL-2.0-or-later AND GPL-2.0-or-later
+o:libtool
+t:1758893212
+c:d9f75cd0e3d005faf5dad14180edd47b94878e02
+
+C:Q18OaTScOZ1HrXqNdRN/j/Foukf6E=
+P:libltdl
+V:2.5.4-r2
+A:aarch64
+S:18650
+I:38424
+T:Runtime libraries for GNU Libtool Dynamic Module Loader
+U:https://www.gnu.org/software/libtool
+L:LGPL-2.0-or-later AND GPL-2.0-or-later
+o:libtool
+t:1767786441
+c:27e433809c784aa2f12ca2163b5c63851897bf38-dirty
+
+C:Q1o9hGgC0aU38WNXwy3ZKLfiJsgb0=
+P:libltdl-static
+V:2.5.4-r1
+A:aarch64
+S:23254
+I:91940
+T:A generic library support script (static library)
+U:https://www.gnu.org/software/libtool
+L:LGPL-2.0-or-later AND GPL-2.0-or-later
+o:libtool
+t:1758893212
+c:d9f75cd0e3d005faf5dad14180edd47b94878e02
+
+C:Q1w/WHcoh9U188ZSQ6cQ4pCcExHZM=
+P:libltdl-static
+V:2.5.4-r2
+A:aarch64
+S:22857
+I:70924
+T:A generic library support script (static library)
+U:https://www.gnu.org/software/libtool
+L:LGPL-2.0-or-later AND GPL-2.0-or-later
+o:libtool
+t:1767786441
+c:27e433809c784aa2f12ca2163b5c63851897bf38-dirty
+
+C:Q1141+jRNRMKt9P22VN54nFWkvzmk=
+P:libpsl
+V:0.21.5-r1
+A:aarch64
+S:66763
+I:91808
+T:C library for the Publix Suffix List
+U:https://rockdaboot.github.io/libpsl
+L:MIT
+o:libpsl
+t:1755626516
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6
+D:libunistring libidn2 libiconv qnx-io-sock
+
+C:Q1UrVzIX1Tyb4AGmFeL8yfcIFxPPw=
+P:libpsl-dev
+V:0.21.5-r1
+A:aarch64
+S:4040
+I:6044
+T:C library for the Publix Suffix List (development files)
+U:https://rockdaboot.github.io/libpsl
+L:MIT
+o:libpsl
+t:1755626516
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6
+D:libpsl-utils=0.21.5-r1 libunistring-dev libidn2-dev libiconv-dev libidn2-dev libiconv-dev qnx-io-sock-dev libpsl=0.21.5-r1 pkgconfig
+
+C:Q17C77IEXRhCt2f8NhjaTRXE36jaM=
+P:libpsl-doc
+V:0.21.5-r1
+A:aarch64
+S:3700
+I:1950
+T:C library for the Publix Suffix List (documentation)
+U:https://rockdaboot.github.io/libpsl
+L:MIT
+o:libpsl
+t:1755626516
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6
+i:docs libpsl=0.21.5-r1
+
+C:Q1634sR6qUZiZngOegATaWrrqj3MM=
+P:libpsl-static
+V:0.21.5-r1
+A:aarch64
+S:57693
+I:80422
+T:C library for the Publix Suffix List (static library)
+U:https://rockdaboot.github.io/libpsl
+L:MIT
+o:libpsl
+t:1755626516
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6
+
+C:Q1fL3nOBZrLDGmbsXf6BRYCodiKLs=
+P:libpsl-utils
+V:0.21.5-r1
+A:aarch64
+S:13154
+I:40747
+T:C library for the Publix Suffix List (utils)
+U:https://rockdaboot.github.io/libpsl
+L:MIT
+o:libpsl
+t:1755626516
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6
+D:libunistring libidn2 libiconv qnx-io-sock
+
+C:Q1wFdatFS0wR8GHOcQPmrIoEXR5W8=
+P:libssl3
+V:3.6.0-r0
+A:aarch64
+S:430948
+I:1404520
+T:SSL shared libraries
+U:https://www.openssl.org/
+L:Apache-2.0
+o:openssl
+t:1764625489
+c:5772ac7efa359e17432749f146ed6f6bba1952a7
+D:libcrypto3=3.6.0-r0
+
+C:Q17BA2JoqjFoe3bulYz3jSmyRmCfo=
+P:libsysv-ipc-shim
+V:0.1.0-r2
+A:aarch64
+S:6765
+I:9664
+T:QNX ipc.h shim
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:libsysv-ipc-shim
+m:Aaron Bassett <abassett@qnx.com>
+t:1773167074
+c:02bbc31a837b5c5cf51510330723fa0c2b7ecec0
+
+C:Q13HiBExVb9TNPF3GVRO8Byflk2hI=
+P:libsysv-ipc-shim-dev
+V:0.1.0-r2
+A:aarch64
+S:6783
+I:6555
+T:QNX ipc.h shim (development files)
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:libsysv-ipc-shim
+m:Aaron Bassett <abassett@qnx.com>
+t:1773167074
+c:02bbc31a837b5c5cf51510330723fa0c2b7ecec0
+D:libsysv-ipc-shim=0.1.0-r2
+
+C:Q1yFJG1/5Zs4LYJlvIUTvhle+40/s=
+P:libtasn1
+V:4.20.0-r0
+A:aarch64
+S:46263
+I:120904
+T:The ASN.1 library used in GNUTLS
+U:https://www.gnu.org/software/gnutls
+L:LGPL-2.1-or-later
+o:libtasn1
+m:Leo Shen <yishen@qnx.com>
+t:1755108325
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc
+
+C:Q1GHQcF3bIEoFcqy2K10yMfkNzaqw=
+P:libtasn1-dev
+V:4.20.0-r0
+A:aarch64
+S:6199
+I:19063
+T:The ASN.1 library used in GNUTLS (development files)
+U:https://www.gnu.org/software/gnutls
+L:LGPL-2.1-or-later
+o:libtasn1
+m:Leo Shen <yishen@qnx.com>
+t:1755108325
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc
+D:libtasn1=4.20.0-r0 pkgconfig
+
+C:Q1Wx1Xg2rKWktXf7TdmLhiWJIdMsY=
+P:libtasn1-doc
+V:4.20.0-r0
+A:aarch64
+S:67962
+I:124696
+T:The ASN.1 library used in GNUTLS (documentation)
+U:https://www.gnu.org/software/gnutls
+L:LGPL-2.1-or-later
+o:libtasn1
+m:Leo Shen <yishen@qnx.com>
+t:1755108325
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc
+i:docs libtasn1=4.20.0-r0
+
+C:Q1+IOFoAc+V7eTaba3nFchLd5yloo=
+P:libtasn1-utils
+V:4.20.0-r0
+A:aarch64
+S:18456
+I:79248
+T:The ASN.1 library used in GNUTLS (utilities)
+U:https://www.gnu.org/software/gnutls
+L:GPL-3.0-only
+o:libtasn1
+m:Leo Shen <yishen@qnx.com>
+t:1755108325
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc
+
+C:Q1SEd/LDUjJoQoWjEQ52cUYHQrudE=
+P:libtool
+V:2.5.4-r1
+A:aarch64
+S:548865
+I:2228684
+T:A generic library support script
+U:https://www.gnu.org/software/libtool
+L:LGPL-2.0-or-later AND GPL-2.0-or-later
+o:libtool
+t:1758893212
+c:d9f75cd0e3d005faf5dad14180edd47b94878e02
+D:perl libltdl
+
+C:Q15nKxpL8WmBM9CQ4nH3r5ls2GmW8=
+P:libtool
+V:2.5.4-r2
+A:aarch64
+S:550203
+I:2228048
+T:A generic library support script
+U:https://www.gnu.org/software/libtool
+L:LGPL-2.0-or-later AND GPL-2.0-or-later
+o:libtool
+t:1767786441
+c:27e433809c784aa2f12ca2163b5c63851897bf38-dirty
+D:perl libltdl
+
+C:Q1Osc6s6QNfnzxO8Y75wBaIaT2IG4=
+P:libtool-doc
+V:2.5.4-r1
+A:aarch64
+S:107401
+I:377946
+T:A generic library support script (documentation)
+U:https://www.gnu.org/software/libtool
+L:LGPL-2.0-or-later AND GPL-2.0-or-later
+o:libtool
+t:1758893212
+c:d9f75cd0e3d005faf5dad14180edd47b94878e02
+i:docs libtool=2.5.4-r1
+
+C:Q1B9ogaFaeE4lrBmBp3BinIoYNpnQ=
+P:libtool-doc
+V:2.5.4-r2
+A:aarch64
+S:108809
+I:377946
+T:A generic library support script (documentation)
+U:https://www.gnu.org/software/libtool
+L:LGPL-2.0-or-later AND GPL-2.0-or-later
+o:libtool
+t:1767786441
+c:27e433809c784aa2f12ca2163b5c63851897bf38-dirty
+i:docs libtool=2.5.4-r2
+
+C:Q1tQvNmukBwi+VQey3N/xZ1euG7Vk=
+P:libunistring
+V:1.3-r0
+A:aarch64
+S:775631
+I:2168488
+T:Library for manipulating Unicode strings and C strings
+U:https://www.gnu.org/software/libunistring/
+L:GPL-2.0-or-later OR LGPL-3.0-or-later
+o:libunistring
+t:1761767034
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc-dirty
+D:qnx-io-sock
+
+C:Q1F4KYEO5J9zPqU/IPhPJ3tjKU7vo=
+P:libunistring-dev
+V:1.3-r0
+A:aarch64
+S:31204
+I:168773
+T:Library for manipulating Unicode strings and C strings (development files)
+U:https://www.gnu.org/software/libunistring/
+L:GPL-2.0-or-later OR LGPL-3.0-or-later
+o:libunistring
+t:1761767034
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc-dirty
+D:libunistring=1.3-r0
+
+C:Q11mStlxf4eUzsQnTIXt1anppLeuo=
+P:libunistring-doc
+V:1.3-r0
+A:aarch64
+S:156714
+I:950737
+T:Library for manipulating Unicode strings and C strings (documentation)
+U:https://www.gnu.org/software/libunistring/
+L:GPL-2.0-or-later OR LGPL-3.0-or-later
+o:libunistring
+t:1761767034
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc-dirty
+i:docs libunistring=1.3-r0
+
+C:Q1NXMHc4dia3hPtaOsV8/1r5ZDst8=
+P:libunistring-static
+V:1.3-r0
+A:aarch64
+S:869101
+I:3268412
+T:Library for manipulating Unicode strings and C strings (static library)
+U:https://www.gnu.org/software/libunistring/
+L:GPL-2.0-or-later OR LGPL-3.0-or-later
+o:libunistring
+t:1761767034
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc-dirty
+
+C:Q1+xVI2fNDHoQDkGr47LsyhwXkEhs=
+P:libuv
+V:1.51.0-r0
+A:aarch64
+S:89120
+I:199471
+T:Cross-platform asychronous I/O
+U:https://libuv.org/
+L:MIT
+o:libuv
+m:Ethan Leir <eleir@qnx.com>
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+D:qnx-io-sock
+
+C:Q1q24JDXV8CtOqltYHyGbw3b0iihM=
+P:libuv-dev
+V:1.51.0-r0
+A:aarch64
+S:24535
+I:109332
+T:Cross-platform asychronous I/O (development files)
+U:https://libuv.org/
+L:MIT
+o:libuv
+m:Ethan Leir <eleir@qnx.com>
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+D:libuv=1.51.0-r0 pkgconfig
+
+C:Q1KtShbhg+FcRpONNLQrhWbTYcMdU=
+P:libuv-static
+V:1.51.0-r0
+A:aarch64
+S:536282
+I:1693540
+T:Cross-platform asychronous I/O (static library)
+U:https://libuv.org/
+L:MIT
+o:libuv
+m:Ethan Leir <eleir@qnx.com>
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+
+C:Q1ybm8rHek8R1xHjK4bEi6pdZRzIY=
+P:libxcrypt
+V:4.4.38-r1
+A:aarch64
+S:83158
+I:186072
+T:Extended crypt library for descrypt, md5crypt, bcrypt, and others
+U:https://github.com/besser82/libxcrypt
+L:LGPL-2.1
+o:libxcrypt
+m:Felix Xing <fxing@qnx.com>
+t:1760640384
+c:569fa5c5411a4809865e2cb2a82a83dd9ad61f62
+
+C:Q1w4C/EkiVS05WE/K1KAPWH58ECYk=
+P:libxcrypt-dev
+V:4.4.38-r1
+A:aarch64
+S:89876
+I:257471
+T:Extended crypt library for descrypt, md5crypt, bcrypt, and others (development files)
+U:https://github.com/besser82/libxcrypt
+L:LGPL-2.1
+o:libxcrypt
+m:Felix Xing <fxing@qnx.com>
+t:1760640384
+c:569fa5c5411a4809865e2cb2a82a83dd9ad61f62
+D:libxcrypt=4.4.38-r1 pkgconfig
+
+C:Q18wN8qFBXbLN0dQX5N1NqZ98RsUA=
+P:libxcrypt-doc
+V:4.4.38-r1
+A:aarch64
+S:15996
+I:13602
+T:Extended crypt library for descrypt, md5crypt, bcrypt, and others (documentation)
+U:https://github.com/besser82/libxcrypt
+L:LGPL-2.1
+o:libxcrypt
+m:Felix Xing <fxing@qnx.com>
+t:1760640384
+c:569fa5c5411a4809865e2cb2a82a83dd9ad61f62
+i:docs libxcrypt=4.4.38-r1
+
+C:Q1Ci9SMAUSnzWvZxD1hthwOSANwSs=
+P:libxml2
+V:2.13.9-r2
+A:aarch64
+S:550831
+I:1883384
+T:XML parsing library, version 2
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1761765991
+c:e8f10b3d84c4614d6bc96c83591eab488c7794f7-dirty
+D:zlib-ng xz-libs qnx-io-sock
+
+C:Q1i0c7nMWeDk5zRtLwibkuAeHdAOo=
+P:libxml2
+V:2.13.9-r3
+A:aarch64
+S:519277
+I:1260128
+T:XML parsing library, version 2
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+D:zlib-ng xz-libs qnx-io-sock
+
+C:Q1UqDyp4VlEwG1Aa3xTRagZBDKPfk=
+P:libxml2-dev
+V:2.13.9-r2
+A:aarch64
+S:87294
+I:420454
+T:XML parsing library, version 2 (development files)
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1761765991
+c:e8f10b3d84c4614d6bc96c83591eab488c7794f7-dirty
+D:zlib-ng-dev xz-dev qnx-io-sock-dev pkgconfig
+
+C:Q1RIJQUttdcTV90iNWpWafcNviYv0=
+P:libxml2-dev
+V:2.13.9-r3
+A:aarch64
+S:88736
+I:420454
+T:XML parsing library, version 2 (development files)
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+D:zlib-ng-dev xz-dev qnx-io-sock-dev pkgconfig
+
+C:Q1X/5ShW01oFgnJ4Zryzc5VWmWx20=
+P:libxml2-doc
+V:2.13.9-r2
+A:aarch64
+S:297189
+I:2735236
+T:XML parsing library, version 2 (documentation)
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1761765991
+c:e8f10b3d84c4614d6bc96c83591eab488c7794f7-dirty
+i:docs libxml2=2.13.9-r2
+
+C:Q1E1wDc9cjjpBtcNZaiJYlDUSLmD8=
+P:libxml2-doc
+V:2.13.9-r3
+A:aarch64
+S:298620
+I:2735236
+T:XML parsing library, version 2 (documentation)
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+i:docs libxml2=2.13.9-r3
+
+C:Q1n7vu+gOnlefQ3ZO38z+XjMvOyro=
+P:libxml2-static
+V:2.13.9-r2
+A:aarch64
+S:820131
+I:3696880
+T:XML parsing library, version 2 (static library)
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1761765991
+c:e8f10b3d84c4614d6bc96c83591eab488c7794f7-dirty
+
+C:Q1X2Imvxu2vdsIY6OnDSQWsQLw2CY=
+P:libxml2-static
+V:2.13.9-r3
+A:aarch64
+S:757003
+I:2693672
+T:XML parsing library, version 2 (static library)
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+
+C:Q1/p5s8ZY+ZDfjFKDzAAT/RzGEiAo=
+P:libxml2-utils
+V:2.13.9-r2
+A:aarch64
+S:29945
+I:102608
+T:XML utilities
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1761765991
+c:e8f10b3d84c4614d6bc96c83591eab488c7794f7-dirty
+D:zlib-ng xz-libs qnx-io-sock
+
+C:Q1k/dncqXijZON5vDd/OWaInpyayY=
+P:libxml2-utils
+V:2.13.9-r3
+A:aarch64
+S:30267
+I:73808
+T:XML utilities
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+D:zlib-ng xz-libs qnx-io-sock
+
+C:Q1oWU4Tia8RhSa4uwHdWiSdHvbihg=
+P:llvm
+V:21.1.3-r4
+A:aarch64
+S:1210
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+D:llvm-libs=21.1.3-r4
+
+C:Q1HWeYni5Mtfbrqm9xLyiasZ27OiA=
+P:llvm
+V:21.1.3-r5
+A:aarch64
+S:2647
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:llvm-libs=21.1.3-r5
+
+C:Q1qG4W2lR4HkdRRUEPGgwc2rhavJA=
+P:llvm-dev
+V:21.1.3-r4
+A:aarch64
+S:77415149
+I:346347604
+T:Low Level Virtual Machine compiler system. (development files)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+D:llvm-libs=21.1.3-r4
+
+C:Q1Q0bbnVkEAAgEmDizDQVA+fniObM=
+P:llvm-dev
+V:21.1.3-r5
+A:aarch64
+S:77413512
+I:346347860
+T:Low Level Virtual Machine compiler system. (development files)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:llvm-libs=21.1.3-r5
+
+C:Q1iWXMWSnOBSekTGYqsHTTSZp89H4=
+P:llvm-doc
+V:21.1.3-r4
+A:aarch64
+S:15759
+I:46884
+T:Low Level Virtual Machine compiler system. (documentation)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+i:docs llvm=21.1.3-r4
+
+C:Q1ZnpQzmeP9ro9/uEgdYVGLpSq2eM=
+P:llvm-doc
+V:21.1.3-r5
+A:aarch64
+S:17194
+I:46884
+T:Low Level Virtual Machine compiler system. (documentation)
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+i:docs llvm=21.1.3-r5
+
+C:Q1V6QFZfKQjcsZzb6kMAOpXMgN3E4=
+P:llvm-libs
+V:21.1.3-r4
+A:aarch64
+S:45321388
+I:146807860
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+D:qnx-io-sock libffi zlib zstd libxml2 lz4-libs libcurl
+
+C:Q18VrzqMp8GN4SM17iXJqAaL+ovm8=
+P:llvm-libs
+V:21.1.3-r5
+A:aarch64
+S:45325673
+I:146815716
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:qnx-io-sock qnx-gcc binutils libffi zlib zstd libxml2 lz4-libs libcurl
+
+C:Q11Z4z/hH5HzBB46clZAqlLzBNOJ0=
+P:llvm-tools
+V:21.1.3-r4
+A:aarch64
+S:28621910
+I:84665129
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+D:llvm-libs=21.1.3-r4
+
+C:Q1S+21fSN8SSCn+r57sRlH2sYt314=
+P:llvm-tools
+V:21.1.3-r5
+A:aarch64
+S:28623648
+I:84669225
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:llvm-libs=21.1.3-r5
+
+C:Q1vEjYzQbvI/IAPbLf070HgwuoYn8=
+P:lua5.4
+V:5.4.7-r2
+A:aarch64
+S:338957
+I:729976
+T:Powerful lightweight programming language designed for extending applications
+U:https://www.lua.org/
+L:MIT
+o:lua5.4
+t:1764106562
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35-dirty
+D:readline lua5.4-libs
+
+C:Q1t7IAtl1tsORPlUbMiwJqGbDnSuA=
+P:lua5.4-apk
+V:3.0.0_rc5-r3
+A:aarch64
+S:15411
+I:30528
+T:Lua module for apk-tools
+U:https://gitlab.alpinelinux.org/alpine/apk-tools
+L:GPL-2.0-only
+o:apk-tools
+t:1756319618
+c:90fdbd72967a7fae004c63b27c4125b32217e31a
+
+C:Q1Tcql4E7xzpc5RRNWLwpZyjObYFc=
+P:lua5.4-apk
+V:3.0.0_rc5-r4
+A:aarch64
+S:8002
+I:14088
+T:Lua module for apk-tools
+U:https://gitlab.alpinelinux.org/alpine/apk-tools
+L:GPL-2.0-only
+o:apk-tools
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+
+C:Q1fpaNZf+nRH0til+1kynAxOQU5bo=
+P:lua5.4-dev
+V:5.4.7-r2
+A:aarch64
+S:17116
+I:49028
+T:Powerful lightweight programming language designed for extending applications (development files)
+U:https://www.lua.org/
+L:MIT
+o:lua5.4
+t:1764106562
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35-dirty
+D:lua5.4 pkgconfig
+p:pc:lua=5.4.7
+
+C:Q1fTcR/5IW2knXfnwfTHhxwKWwwAo=
+P:lua5.4-doc
+V:5.4.7-r2
+A:aarch64
+S:132574
+I:433504
+T:Powerful lightweight programming language designed for extending applications (documentation)
+U:https://www.lua.org/
+L:MIT
+o:lua5.4
+t:1764106562
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35-dirty
+i:docs lua5.4=5.4.7-r2
+
+C:Q1mXUp++ymlOZ2dwlEB6exaLMleuc=
+P:lua5.4-libs
+V:5.4.7-r2
+A:aarch64
+S:249541
+I:552064
+T:Powerful lightweight programming language designed for extending applications (libraries)
+U:https://www.lua.org/
+L:MIT
+o:lua5.4
+t:1764106562
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35-dirty
+
+C:Q1WrV908mSBrXCslXErQLx5zhy55Y=
+P:lz4
+V:1.10.0-r0
+A:aarch64
+S:132581
+I:245464
+T:LZ4 is lossless compression algorithm with fast decoder @ multiple GB/s per core.
+U:https://github.com/lz4/lz4
+L:BSD-2-Clause AND GPL-2.0-or-later
+o:lz4
+m:Stuart Cardall <developer@it-offshore.co.uk>
+t:1755717056
+c:3c5f2856a6aff03859c69f01cf477dc1e0b7c576
+
+C:Q1Rw4feQ4pRY2DtYQOUrjXxWX+Flg=
+P:lz4-dev
+V:1.10.0-r0
+A:aarch64
+S:32650
+I:111025
+T:LZ4 is lossless compression algorithm with fast decoder @ multiple GB/s per core. (development files)
+U:https://github.com/lz4/lz4
+L:BSD-2-Clause AND GPL-2.0-or-later
+o:lz4
+m:Stuart Cardall <developer@it-offshore.co.uk>
+t:1755717056
+c:3c5f2856a6aff03859c69f01cf477dc1e0b7c576
+D:lz4-libs=1.10.0-r0 pkgconfig
+
+C:Q1RGverkls9xYQDVtpn+xy25vf6cY=
+P:lz4-doc
+V:1.10.0-r0
+A:aarch64
+S:5876
+I:3952
+T:LZ4 is lossless compression algorithm with fast decoder @ multiple GB/s per core. (documentation)
+U:https://github.com/lz4/lz4
+L:BSD-2-Clause AND GPL-2.0-or-later
+o:lz4
+m:Stuart Cardall <developer@it-offshore.co.uk>
+t:1755717056
+c:3c5f2856a6aff03859c69f01cf477dc1e0b7c576
+i:docs lz4=1.10.0-r0
+
+C:Q1jPZGswN4paBaJcD8Fac8rt8z47g=
+P:lz4-libs
+V:1.10.0-r0
+A:aarch64
+S:108447
+I:190016
+T:LZ4 is lossless compression algorithm with fast decoder @ multiple GB/s per core. (libraries)
+U:https://github.com/lz4/lz4
+L:BSD-2-Clause AND GPL-2.0-or-later
+o:lz4
+m:Stuart Cardall <developer@it-offshore.co.uk>
+t:1755717056
+c:3c5f2856a6aff03859c69f01cf477dc1e0b7c576
+
+C:Q1GX3mSmc4jC5jG++h3AV4993hJRI=
+P:lz4-static
+V:1.10.0-r0
+A:aarch64
+S:708436
+I:748428
+T:LZ4 is lossless compression algorithm with fast decoder @ multiple GB/s per core. (static library)
+U:https://github.com/lz4/lz4
+L:BSD-2-Clause AND GPL-2.0-or-later
+o:lz4
+m:Stuart Cardall <developer@it-offshore.co.uk>
+t:1755717056
+c:3c5f2856a6aff03859c69f01cf477dc1e0b7c576
+
+C:Q1L2rWsubNUHwiyOGZAVGwWoG1HXo=
+P:lz4-tests
+V:1.10.0-r0
+A:aarch64
+S:30279
+I:88838
+T:LZ4 is lossless compression algorithm with fast decoder @ multiple GB/s per core. (tests)
+U:https://github.com/lz4/lz4
+L:BSD-2-Clause AND GPL-2.0-or-later
+o:lz4
+m:Stuart Cardall <developer@it-offshore.co.uk>
+t:1755717056
+c:3c5f2856a6aff03859c69f01cf477dc1e0b7c576
+
+C:Q12PZFGYrgnE4DsFmGhE4Kb+RSuZ4=
+P:m4
+V:1.4.19-r0
+A:aarch64
+S:123660
+I:386912
+T:GNU macro processor
+U:https://www.gnu.org/software/m4
+L:GPL-3.0-or-later
+o:m4
+m:Aaron Bassett <abassett@qnx.com>
+t:1761672246
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35-dirty
+D:qnx-io-sock
+
+C:Q1bSu2btX0WwIpvy1NnEdtCYp5e88=
+P:m4-doc
+V:1.4.19-r0
+A:aarch64
+S:107396
+I:369414
+T:GNU macro processor (documentation)
+U:https://www.gnu.org/software/m4
+L:GPL-3.0-or-later
+o:m4
+m:Aaron Bassett <abassett@qnx.com>
+t:1761672246
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35-dirty
+i:docs m4=1.4.19-r0
+
+C:Q1a1dy6KBNsoF06M2EV+7eAD7LnGg=
+P:make
+V:4.4.1-r3
+A:aarch64
+S:297266
+I:986929
+T:GNU make utility to maintain groups of programs
+U:https://www.gnu.org/software/make
+L:GPL-3.0-or-later
+o:make
+m:Leo Shen <yishen@qnx.com>
+t:1758893213
+c:3f564551025908fd2881c00e9e225bdf0b37e05c
+
+C:Q1zd86WGxfJSgKOIs2EuVTix+mJ4g=
+P:make-doc
+V:4.4.1-r3
+A:aarch64
+S:6544
+I:4771
+T:GNU make utility to maintain groups of programs (documentation)
+U:https://www.gnu.org/software/make
+L:GPL-3.0-or-later
+o:make
+m:Leo Shen <yishen@qnx.com>
+t:1758893213
+c:3f564551025908fd2881c00e9e225bdf0b37e05c
+i:docs make=4.4.1-r3
+
+C:Q18s9gfRYzmaDwtQNPhbpixWlzR1w=
+P:meson
+V:1.10.0-r0
+A:aarch64
+S:4845899
+I:16090017
+T:The Meson Build System
+U:http://mesonbuild.com/
+L:Apache-2.0
+o:meson
+t:1766020637
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83
+D:python3 zlib-ng ninja python3~3.14
+p:py3.14:mesonbuild=1.10.0-r0
+
+C:Q1jT0k0nll+pHzj6XVHTA9Tn2iYvw=
+P:meson
+V:1.9.1-r1
+A:aarch64
+S:4687955
+I:15632271
+T:The Meson Build System
+U:http://mesonbuild.com/
+L:Apache-2.0
+o:meson
+t:1761056483
+c:92bd0fdfa77ac0b4158ac1a9f4bec94312fbeeb6
+D:python3 zlib-ng ninja python3~3.14
+p:py3.14:mesonbuild=1.9.1-r1
+
+C:Q1zT2tUesHg0PSTbZYQ0GzzpVgnfo=
+P:meson-bash-completion
+V:1.10.0-r0
+A:aarch64
+S:7032
+I:27076
+T:Bash completions for meson
+U:http://mesonbuild.com/
+L:Apache-2.0
+o:meson
+t:1766020637
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83
+i:meson=1.10.0-r0 bash-completion
+
+C:Q1KaoEUQLpGY/XfmoEfVkp/OFVTbg=
+P:meson-bash-completion
+V:1.9.1-r1
+A:aarch64
+S:5588
+I:27076
+T:Bash completions for meson
+U:http://mesonbuild.com/
+L:Apache-2.0
+o:meson
+t:1761056483
+c:92bd0fdfa77ac0b4158ac1a9f4bec94312fbeeb6
+i:meson=1.9.1-r1 bash-completion
+
+C:Q1Q0YSUmgQCt37JvFkm0qoRjbbQak=
+P:meson-doc
+V:1.10.0-r0
+A:aarch64
+S:7667
+I:4500
+T:The Meson Build System (documentation)
+U:http://mesonbuild.com/
+L:Apache-2.0
+o:meson
+t:1766020637
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83
+i:docs meson=1.10.0-r0
+
+C:Q1UuefnoMOciqfvKGgF/xTVEuu12k=
+P:meson-doc
+V:1.9.1-r1
+A:aarch64
+S:6196
+I:4483
+T:The Meson Build System (documentation)
+U:http://mesonbuild.com/
+L:Apache-2.0
+o:meson
+t:1761056483
+c:92bd0fdfa77ac0b4158ac1a9f4bec94312fbeeb6
+i:docs meson=1.9.1-r1
+
+C:Q1SFLZ2/KDB2xNYRY5t849TTql/xA=
+P:meson-zsh-completion
+V:1.10.0-r0
+A:aarch64
+S:9143
+I:20817
+T:Zsh completions for meson
+U:http://mesonbuild.com/
+L:Apache-2.0
+o:meson
+t:1766020637
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83
+i:meson=1.10.0-r0 zsh
+
+C:Q162vrHlykk985R6i+UyBGrnFIVDs=
+P:meson-zsh-completion
+V:1.9.1-r1
+A:aarch64
+S:7700
+I:20817
+T:Zsh completions for meson
+U:http://mesonbuild.com/
+L:Apache-2.0
+o:meson
+t:1761056483
+c:92bd0fdfa77ac0b4158ac1a9f4bec94312fbeeb6
+i:meson=1.9.1-r1 zsh
+
+C:Q1lpUkrRSIkL3Ss3xR68g/WYqVqGQ=
+P:mlir
+V:21.1.3-r4
+A:aarch64
+S:49965421
+I:195466544
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+D:llvm-libs=21.1.3-r4 mlir-libs=21.1.3-r4
+
+C:Q1pzA6tdcIT0b219Y0LnWGhqHtz6M=
+P:mlir
+V:21.1.3-r5
+A:aarch64
+S:49967699
+I:195466544
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:llvm-libs=21.1.3-r5 mlir-libs=21.1.3-r5
+
+C:Q1wam30w5EnFCbjG+yoJUKIigHHl4=
+P:mlir-dev
+V:21.1.3-r4
+A:aarch64
+S:58526451
+I:482739544
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+D:llvm-dev=21.1.3-r4 mlir-libs=21.1.3-r4
+
+C:Q1D344TaktxDgxhscI+OAHwQSPwzs=
+P:mlir-dev
+V:21.1.3-r5
+A:aarch64
+S:58523849
+I:482740192
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:llvm-dev=21.1.3-r5 mlir-libs=21.1.3-r5
+
+C:Q1jIhxgXSzpQ9Okv3rmxCUx33Q4v4=
+P:mlir-libs
+V:21.1.3-r4
+A:aarch64
+S:45325092
+I:188000696
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+D:llvm-libs=21.1.3-r4
+
+C:Q1TH7ndk9f4HOlvh2zbNdAKhqaOCA=
+P:mlir-libs
+V:21.1.3-r5
+A:aarch64
+S:45326952
+I:188000696
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:llvm-libs=21.1.3-r5
+
+C:Q1df1jroUhzaXDCO3ggXyB0GKWjSg=
+P:mpfr
+V:4.2.2-r0
+A:aarch64
+S:225818
+I:760736
+T:multiple-precision floating-point library
+U:https://www.mpfr.org/
+L:LGPL-3.0-or-later
+o:mpfr
+m:Leo Shen <yishen@qnx.com>
+t:1757005903
+c:d0c0a1d1ad7672a2509f805bee88ba4d10103f47
+D:gmp
+
+C:Q1qozdfKdEXrfUpoBpAhgGPJjXPTQ=
+P:mpfr
+V:4.2.2-r1
+A:aarch64
+S:209217
+I:423648
+T:multiple-precision floating-point library
+U:https://www.mpfr.org/
+L:LGPL-3.0-or-later
+o:mpfr
+m:Leo Shen <yishen@qnx.com>
+t:1768582992
+c:27e433809c784aa2f12ca2163b5c63851897bf38-dirty
+D:gmp
+
+C:Q1Rh2TJotfd7L2JXAXq4jd5wLwucU=
+P:mpfr-dev
+V:4.2.2-r0
+A:aarch64
+S:339405
+I:1660807
+T:multiple-precision floating-point library (development files)
+U:https://www.mpfr.org/
+L:LGPL-3.0-or-later
+o:mpfr
+m:Leo Shen <yishen@qnx.com>
+t:1757005903
+c:d0c0a1d1ad7672a2509f805bee88ba4d10103f47
+D:mpfr=4.2.2-r0 pkgconfig
+
+C:Q1y/UB/QFhIg6p+H1l5TwgnlP+Dew=
+P:mpfr-dev
+V:4.2.2-r1
+A:aarch64
+S:1014317
+I:3335043
+T:multiple-precision floating-point library (development files)
+U:https://www.mpfr.org/
+L:LGPL-3.0-or-later
+o:mpfr
+m:Leo Shen <yishen@qnx.com>
+t:1768582992
+c:27e433809c784aa2f12ca2163b5c63851897bf38-dirty
+D:mpfr=4.2.2-r1 pkgconfig
+p:pc:mpfr=4.2.2
+
+C:Q1xfPqTdfqdkcDR54gPNwXV83kj9g=
+P:mpfr-doc
+V:4.2.2-r0
+A:aarch64
+S:121204
+I:441200
+T:multiple-precision floating-point library (documentation)
+U:https://www.mpfr.org/
+L:LGPL-3.0-or-later
+o:mpfr
+m:Leo Shen <yishen@qnx.com>
+t:1757005903
+c:d0c0a1d1ad7672a2509f805bee88ba4d10103f47
+i:docs mpfr=4.2.2-r0
+
+C:Q1MmXbZOiOHCXQ5+b0OMRs4ZSq/QE=
+P:mpfr-doc
+V:4.2.2-r1
+A:aarch64
+S:122778
+I:441200
+T:multiple-precision floating-point library (documentation)
+U:https://www.mpfr.org/
+L:LGPL-3.0-or-later
+o:mpfr
+m:Leo Shen <yishen@qnx.com>
+t:1768582992
+c:27e433809c784aa2f12ca2163b5c63851897bf38-dirty
+i:docs mpfr=4.2.2-r1
+
+C:Q1KJPAMJswVFb6DhXshvwZgwppQLM=
+P:nano
+V:8.3-r0
+A:aarch64
+S:176183
+I:532488
+T:Enhanced clone of the Pico text editor
+U:https://www.nano-editor.org/
+L:GPL-3.0-or-later
+o:nano
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+
+C:Q1VA3ChHnDm0PmIpdx583ChX1AOg0=
+P:nano-doc
+V:8.3-r0
+A:aarch64
+S:83731
+I:239903
+T:Enhanced clone of the Pico text editor (documentation)
+U:https://www.nano-editor.org/
+L:GPL-3.0-or-later
+o:nano
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+i:docs nano=8.3-r0
+
+C:Q1kJuegIQR0MVOLGRmqXLeJXS/7ik=
+P:nano-syntax
+V:8.3-r0
+A:aarch64
+S:26057
+I:54115
+T:Syntax highlighting definitions for nano
+U:https://www.nano-editor.org/
+L:GPL-3.0-or-later
+o:nano
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+D:nano=8.3-r0
+
+C:Q1RNLgqVzwl56aB/IxLGF0zkohm8s=
+P:ncurses
+V:6.4-r3
+A:aarch64
+S:364880
+I:1187390
+T:Console display library
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1761333176
+c:afd60a08350a8d398c9875d746ec49d5eae895b2
+D:libc++
+
+C:Q1Xm9d0E3X+VMtTcrYLeM0bsqlOv8=
+P:ncurses
+V:6.6-r0
+A:aarch64
+S:333197
+I:842958
+T:Console display library
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1779200077
+c:3f88c93aa8814ff753681d6dc7affb4bdc83c26a
+D:libc++
+
+C:Q1C/uArmUL4uqctntsA/0Ulu19Sxc=
+P:ncurses
+V:6.6-r1
+A:aarch64
+S:333189
+I:842958
+T:Console display library
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1779373705
+c:0a6809b996056b1c3f85051681d9e4bec71d7dee
+D:libc++
+
+C:Q1tmdlEN1V0YO3SUrmM0RI5CRKSDo=
+P:ncurses-dev
+V:6.4-r3
+A:aarch64
+S:75144
+I:362446
+T:Console display library (development files)
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1761333176
+c:afd60a08350a8d398c9875d746ec49d5eae895b2
+D:pkgconfig
+
+C:Q1qj9tNYS/4P5jZC1DTbTHyr6s0hk=
+P:ncurses-dev
+V:6.6-r0
+A:aarch64
+S:74826
+I:349764
+T:Console display library (development files)
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1779200077
+c:3f88c93aa8814ff753681d6dc7affb4bdc83c26a
+D:pkgconfig
+
+C:Q1yJd/mBgEi+MAT9bluDVVACI/6oo=
+P:ncurses-dev
+V:6.6-r1
+A:aarch64
+S:74823
+I:349764
+T:Console display library (development files)
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1779373705
+c:0a6809b996056b1c3f85051681d9e4bec71d7dee
+D:pkgconfig
+
+C:Q19g7pc/oUPS0BHdaUt+YXzkxqJVk=
+P:ncurses-doc
+V:6.4-r3
+A:aarch64
+S:470602
+I:417397
+T:Console display library (documentation)
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1761333176
+c:afd60a08350a8d398c9875d746ec49d5eae895b2
+i:docs ncurses=6.4-r3
+
+C:Q1zceyl262+WDukpRfrtqf3+2+L5g=
+P:ncurses-doc
+V:6.6-r0
+A:aarch64
+S:523519
+I:466036
+T:Console display library (documentation)
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1779200077
+c:3f88c93aa8814ff753681d6dc7affb4bdc83c26a
+i:docs ncurses=6.6-r0
+
+C:Q1Sl+HmCVM9Om0tBzUwWbhgT5XVuU=
+P:ncurses-doc
+V:6.6-r1
+A:aarch64
+S:523509
+I:466036
+T:Console display library (documentation)
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1779373705
+c:0a6809b996056b1c3f85051681d9e4bec71d7dee
+i:docs ncurses=6.6-r1
+
+C:Q1dqBDuNbMOgTbNhuJxXuLuuh7Xys=
+P:ncurses-static
+V:6.4-r3
+A:aarch64
+S:2045272
+I:7843314
+T:Console display library (static library)
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1761333176
+c:afd60a08350a8d398c9875d746ec49d5eae895b2
+
+C:Q17ne9BiGfqUFAz3pePSUk6wOPKEs=
+P:ncurses-static
+V:6.6-r0
+A:aarch64
+S:2273080
+I:7828604
+T:Console display library (static library)
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1779200077
+c:3f88c93aa8814ff753681d6dc7affb4bdc83c26a
+
+C:Q1OQOvRKZ0Lyc8AFMD4yKc3U4egj8=
+P:ncurses-static
+V:6.6-r1
+A:aarch64
+S:2273048
+I:7828604
+T:Console display library (static library)
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1779373705
+c:0a6809b996056b1c3f85051681d9e4bec71d7dee
+
+C:Q1pVZQiIixfKoDC+l1st0ojrbEKes=
+P:ncurses-terminfo
+V:6.4-r3
+A:aarch64
+S:543546
+I:2066341
+T:Console display library (other terminfo files)
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1761333176
+c:afd60a08350a8d398c9875d746ec49d5eae895b2
+D:ncurses-terminfo-base=6.4-r3
+
+C:Q1LiNAvJzkZMANnypMSCqRfnMs5NQ=
+P:ncurses-terminfo
+V:6.6-r0
+A:aarch64
+S:567503
+I:2153036
+T:Console display library (other terminfo files)
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1779200077
+c:3f88c93aa8814ff753681d6dc7affb4bdc83c26a
+D:ncurses-terminfo-base=6.6-r0
+
+C:Q1V0HBdFEYs1Ov87iyeGsco8M93gs=
+P:ncurses-terminfo
+V:6.6-r1
+A:aarch64
+S:567515
+I:2153036
+T:Console display library (other terminfo files)
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1779373705
+c:0a6809b996056b1c3f85051681d9e4bec71d7dee
+D:ncurses-terminfo-base=6.6-r1
+
+C:Q1B+Wtiu5WMfWfrBdgyamTQgvotFI=
+P:ncurses-terminfo-base
+V:6.4-r3
+A:aarch64
+S:21055
+I:97876
+T:Descriptions of common terminals
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1761333176
+c:afd60a08350a8d398c9875d746ec49d5eae895b2
+
+C:Q1Qrnh7hnRjQjxn+xZIveXSK9zBl8=
+P:ncurses-terminfo-base
+V:6.6-r0
+A:aarch64
+S:24854
+I:102742
+T:Descriptions of common terminals
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1779200077
+c:3f88c93aa8814ff753681d6dc7affb4bdc83c26a
+
+C:Q1Idx26F6721bB7aIRQakAU7+D3Ps=
+P:ncurses-terminfo-base
+V:6.6-r1
+A:aarch64
+S:24854
+I:102742
+T:Descriptions of common terminals
+U:https://invisible-island.net/ncurses/
+L:X11
+o:ncurses
+t:1779373705
+c:0a6809b996056b1c3f85051681d9e4bec71d7dee
+
+C:Q1DOeYvQSYOTnPL0+fvH5cH97JvUE=
+P:nghttp2
+V:1.65.0-r1
+A:aarch64
+S:88467
+I:253347
+T:HTTP/2 C Library
+U:https://nghttp2.org
+L:MIT
+o:nghttp2
+m:Leo Shen <yishen@qnx.com>
+t:1755626516
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6
+
+C:Q11ZXLBrjWvAVuY8XpXSiaF567lHI=
+P:nghttp2-dev
+V:1.65.0-r1
+A:aarch64
+S:42165
+I:243610
+T:HTTP/2 C Library (development files)
+U:https://nghttp2.org
+L:MIT
+o:nghttp2
+m:Leo Shen <yishen@qnx.com>
+t:1755626516
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6
+D:nghttp2=1.65.0-r1 pkgconfig
+
+C:Q1XdsTl+892PUT3DAb3sKvGZjOfWE=
+P:nghttp2-doc
+V:1.65.0-r1
+A:aarch64
+S:52974
+I:86365
+T:HTTP/2 C Library (documentation)
+U:https://nghttp2.org
+L:MIT
+o:nghttp2
+m:Leo Shen <yishen@qnx.com>
+t:1755626516
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6
+i:docs nghttp2=1.65.0-r1
+
+C:Q1m6uR30YIhdxPd304P45BhLPaTYE=
+P:nghttp2-static
+V:1.65.0-r1
+A:aarch64
+S:100678
+I:382302
+T:HTTP/2 C Library (static library)
+U:https://nghttp2.org
+L:MIT
+o:nghttp2
+m:Leo Shen <yishen@qnx.com>
+t:1755626516
+c:3750a7d4cd3269cbf3dc6c9273a4115f0ff7c8f6
+
+C:Q1adL4fomU2wUCSc+pK72BNQKwPNY=
+P:ninja
+V:1.13.1-r2
+A:aarch64
+S:144805
+I:313088
+T:A small build system with a focus on speed
+U:https://ninja-build.org/
+L:Apache-2.0
+o:ninja
+t:767
+c:41e8f11b704ddfd62023d82a83699011d76a222d
+D:qnx-io-sock libc++
+
+C:Q14/8/5GPFek7y/8oHixnqxrMZpoM=
+P:nproc
+V:0-r0
+A:aarch64
+S:12267
+I:22072
+T:nproc for QNX
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:nproc
+t:1761677690
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35-dirty
+
+C:Q1DAoPBV2WRHhCu/wHnjk+I8AE/rI=
+P:openmp
+V:21.1.3-r4
+A:aarch64
+S:308995
+I:895864
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+D:libc++ qnx-io-sock
+
+C:Q1F8PzshVLF/4phVayQ5Zv7YRDlPk=
+P:openmp
+V:21.1.3-r5
+A:aarch64
+S:310667
+I:895864
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:libc++ qnx-io-sock
+
+C:Q1KIzhaq1Dhqc1M8htqE5PRacPxus=
+P:openmp-dev
+V:21.1.3-r4
+A:aarch64
+S:29406
+I:102202
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+D:clang=21.1.3-r4
+
+C:Q1N9VZKsYhYDn2HAEMwm0C90yoR1Q=
+P:openmp-dev
+V:21.1.3-r5
+A:aarch64
+S:30919
+I:102226
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:clang=21.1.3-r5
+
+C:Q1R4JCojm7WpDRivDapwTucowF2qE=
+P:openssh
+V:10.2_p1-r0
+A:aarch64
+S:2870135
+I:9432185
+T:Port of OpenBSD's free SSH release
+U:https://www.openssh.com/portable.html
+L:SSH-OpenSSH
+o:openssh
+t:1763588314
+c:738dea5d540481228aa2b6655d8673d5778b41d3
+D:libcrypto3 zlib-ng qnx-io-sock qnx-security
+p:cmd:sshd=10.2_p1-r0
+
+C:Q1mBRbEMfnZHT4PFYCHIH9pCDNXd4=
+P:openssh-doc
+V:10.2_p1-r0
+A:aarch64
+S:124546
+I:156620
+T:Port of OpenBSD's free SSH release (documentation)
+U:https://www.openssh.com/portable.html
+L:SSH-OpenSSH
+o:openssh
+t:1763588314
+c:738dea5d540481228aa2b6655d8673d5778b41d3
+i:docs openssh=10.2_p1-r0
+
+C:Q1jCc666s+p2bySfVRUQ1sVLtLOH8=
+P:openssl
+V:3.6.0-r0
+A:aarch64
+S:399781
+I:1304232
+T:Toolkit for Transport Layer Security (TLS)
+U:https://www.openssl.org/
+L:Apache-2.0
+o:openssl
+t:1764625489
+c:5772ac7efa359e17432749f146ed6f6bba1952a7
+D:libssl3=3.6.0-r0 libcrypto3=3.6.0-r0
+p:openssl3=3.6.0-r0
+
+C:Q13aqHYtdtBuGAsxQCuLE7cXKKMWg=
+P:openssl-dev
+V:3.6.0-r0
+A:aarch64
+S:384606
+I:2217229
+T:Toolkit for Transport Layer Security (TLS) (development files)
+U:https://www.openssl.org/
+L:Apache-2.0
+o:openssl
+t:1764625489
+c:5772ac7efa359e17432749f146ed6f6bba1952a7
+D:libcrypto3=3.6.0-r0 libssl3=3.6.0-r0 pkgconfig
+p:pc:openssl=3.6.0
+
+C:Q1eDgCc9tUGz5dCCbjHztUwmMVogY=
+P:openssl-libs-static
+V:3.6.0-r0
+A:aarch64
+S:3316755
+I:15240758
+T:Toolkit for Transport Layer Security (TLS) (static library)
+U:https://www.openssl.org/
+L:Apache-2.0
+o:openssl
+t:1764625489
+c:5772ac7efa359e17432749f146ed6f6bba1952a7
+
+C:Q1XDs3Hx/xOno+I8pZluCs6ITR5NQ=
+P:openssl-misc
+V:3.6.0-r0
+A:aarch64
+S:9870
+I:20144
+T:Various perl scripts from openssl
+U:https://www.openssl.org/
+L:Apache-2.0
+o:openssl
+t:1764625489
+c:5772ac7efa359e17432749f146ed6f6bba1952a7
+D:openssl=3.6.0-r0 perl
+
+C:Q17M304sbbi7a3oWWIdYODRNw5rgM=
+P:p11-kit
+V:0.25.5-r1
+A:aarch64
+S:1698262
+I:6845520
+T:Library to load and enumerate PKCS#11 modules
+U:https://p11-glue.github.io/p11-glue/p11-kit.html
+L:BSD-3-Clause
+o:p11-kit
+m:Leo Shen <yishen@qnx.com>
+t:1755028780
+D:libffi libintl libtasn1 qnx-io-sock
+
+C:Q1h/FMmON1NKGX7p+ODNinB+npHds=
+P:p11-kit-dev
+V:0.25.5-r1
+A:aarch64
+S:23136
+I:111336
+T:Library to load and enumerate PKCS#11 modules (development files)
+U:https://p11-glue.github.io/p11-glue/p11-kit.html
+L:BSD-3-Clause
+o:p11-kit
+m:Leo Shen <yishen@qnx.com>
+t:1755028780
+D:p11-kit=0.25.5-r1 pkgconfig
+
+C:Q1zcMMgz5XiTif+4t0AZskGxWn9GU=
+P:p11-kit-server
+V:0.25.5-r1
+A:aarch64
+S:696476
+I:3799096
+T:Server and client commands for p11-kit
+U:https://p11-glue.github.io/p11-glue/p11-kit.html
+L:BSD-3-Clause
+o:p11-kit
+m:Leo Shen <yishen@qnx.com>
+t:1755028780
+D:libffi libintl libtasn1 qnx-io-sock
+
+C:Q108iQsjmhHWIGrcEXaZxM960RMgE=
+P:pax-utils
+V:1.3.8-r1
+A:aarch64
+S:141882
+I:404349
+T:ELF utils that can check files for security relevant properties
+U:https://wiki.gentoo.org/wiki/Hardened/PaX_Utilities
+L:GPL-2.0-only
+o:pax-utils
+t:1759518353
+c:e32fb07ea709e1e5c33cf68d8aac86124975dd77
+
+C:Q1dcvTK36X5/BUlcqL2BCA/n+DBLs=
+P:pax-utils-doc
+V:1.3.8-r1
+A:aarch64
+S:11573
+I:9556
+T:ELF utils that can check files for security relevant properties (documentation)
+U:https://wiki.gentoo.org/wiki/Hardened/PaX_Utilities
+L:GPL-2.0-only
+o:pax-utils
+t:1759518353
+c:e32fb07ea709e1e5c33cf68d8aac86124975dd77
+i:docs pax-utils=1.3.8-r1
+
+C:Q1dtKPSrs2fMRWqcF4yHNjK7I8egc=
+P:perl
+V:5.40.2-r5
+A:aarch64
+S:13303303
+I:49181708
+T:The Perl programming language
+U:https://dev.perl.org/
+L:GPL-3.0-or-later
+o:perl
+m:Felix Xing <fxing@qnx.com>
+t:1761665783
+c:fbec32d7cba54878f696d2431c237de7d59b4950-dirty
+D:qnx-io-sock libxcrypt
+
+C:Q1ISW49EQQnsR0aIfG1SZyVlMrSo4=
+P:perl-dev
+V:5.40.2-r5
+A:aarch64
+S:1466977
+I:9191564
+T:The Perl programming language (development files)
+U:https://dev.perl.org/
+L:GPL-3.0-or-later
+o:perl
+m:Felix Xing <fxing@qnx.com>
+t:1761665783
+c:fbec32d7cba54878f696d2431c237de7d59b4950-dirty
+D:qnx-io-sock-dev libxcrypt-dev
+
+C:Q1WGBWhcr8YUbRshUNgPlzqJL1cRM=
+P:pkgconf
+V:2.3.0-r0
+A:aarch64
+S:63442
+I:189526
+T:development framework configuration tools
+U:https://gitea.treehouse.systems/ariadne/pkgconf
+L:ISC
+o:pkgconf
+m:Leo Shen <yishen@qnx.com>
+t:1755717056
+c:3c5f2856a6aff03859c69f01cf477dc1e0b7c576
+p:pkgconfig=1
+
+C:Q1RLYJwThiXM03OLvdq7Rgq5G6wfw=
+P:pkgconf-dev
+V:2.3.0-r0
+A:aarch64
+S:42696
+I:174299
+T:development framework configuration tools (development files)
+U:https://gitea.treehouse.systems/ariadne/pkgconf
+L:ISC
+o:pkgconf
+m:Leo Shen <yishen@qnx.com>
+t:1755717056
+c:3c5f2856a6aff03859c69f01cf477dc1e0b7c576
+D:pkgconf=2.3.0-r0 pkgconfig
+
+C:Q11bcMYRu33SHbPabQOcYXkOs5sys=
+P:pkgconf-doc
+V:2.3.0-r0
+A:aarch64
+S:14333
+I:16246
+T:development framework configuration tools (documentation)
+U:https://gitea.treehouse.systems/ariadne/pkgconf
+L:ISC
+o:pkgconf
+m:Leo Shen <yishen@qnx.com>
+t:1755717056
+c:3c5f2856a6aff03859c69f01cf477dc1e0b7c576
+i:docs pkgconf=2.3.0-r0
+
+C:Q1qp7Yz54fBVCsbb8e6XNZpnXDgCo=
+P:polly-dev
+V:21.1.3-r4
+A:aarch64
+S:227104
+I:1455659
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1761917596
+c:e2ad8cc790ea45824aeb4afc31cfdde839db6344-dirty
+D:llvm-dev=21.1.3-r4
+
+C:Q1Gl+OimpV/9aDIEIrlT+VWnKKaBU=
+P:polly-dev
+V:21.1.3-r5
+A:aarch64
+S:228572
+I:1455659
+T:Low Level Virtual Machine compiler system.
+U:https://llvm.org/
+L:Apache-2.0
+o:llvm
+m:Felix Xing <fxing@qnx.com>
+t:1766533751
+c:82865e4d6b18aa576abe2bf2c33ac40b00810f83-dirty
+D:llvm-dev=21.1.3-r5
+
+C:Q1UwZwy1mBnAMUPDMCSoAnp/mYzlY=
+P:publicsuffix-list
+V:20250812-r0
+A:aarch64
+S:94787
+I:343918
+T:Cross-vendor public domain suffix database
+U:https://github.com/publicsuffix/list
+L:MPL-2.0
+o:publicsuffix-list
+t:1761854941
+c:95d9eb057b4fab0a68ce32b1e158700f8f3aec74
+
+C:Q1bP8ThJ3S1f6Yq4sZG9qCqJALgYA=
+P:python3
+V:3.14.0-r1
+A:aarch64
+S:20191244
+I:64010152
+T:High-level scripting language
+U:https://www.python.org/
+L:PSF-2.0
+o:python3
+m:Leo Shen <yishen@qnx.com>
+t:1770828053
+c:8ced3195790d0e011b8166712f6b822f1a741409
+D:sqlite zlib-ng xz-libs readline libffi expat bzip2 lz4 libssl3 libcrypto3 ncurses qnx-io-sock
+p:python
+
+C:Q1GC5PnGff5shwM0ETNuo2iselQbI=
+P:python3
+V:3.14.0-r3
+A:aarch64
+S:8668689
+I:25557864
+T:High-level scripting language
+U:https://www.python.org/
+L:PSF-2.0
+o:python3
+m:Leo Shen <yishen@qnx.com>
+t:1772218227
+c:16f3c18c8f0ac5ab4c7933d0b4ddf9323a4e2a17
+D:sqlite zlib-ng xz-libs readline libffi expat bzip2 lz4 libssl3 libcrypto3 ncurses qnx-io-sock
+p:python
+
+C:Q1mvWaeu0G2fUUjBnegfiUqlDRgrc=
+P:python3
+V:3.14.0-r4
+A:aarch64
+S:20182643
+I:63970739
+T:High-level scripting language
+U:https://www.python.org/
+L:PSF-2.0
+o:python3
+m:Leo Shen <yishen@qnx.com>
+t:1776261887
+c:29d64be160d43dd2a1e79b84b2c0113db0ef80ec
+D:sqlite zlib-ng xz-libs readline libffi expat bzip2 lz4 libssl3 libcrypto3 ncurses qnx-io-sock
+p:python
+
+C:Q19gL5E7OMB2+ttm6fLFFQVHutlPY=
+P:python3-apk
+V:3.0.0_rc5-r3
+A:aarch64
+S:13374
+I:22336
+T:Python module for apk-tools
+U:https://gitlab.alpinelinux.org/alpine/apk-tools
+L:GPL-2.0-only
+o:apk-tools
+t:1756319618
+c:90fdbd72967a7fae004c63b27c4125b32217e31a
+D:python3~3.14
+
+C:Q1FsYp/IAy6SH1xwLcMWGROLDHAWU=
+P:python3-apk
+V:3.0.0_rc5-r4
+A:aarch64
+S:6102
+I:10000
+T:Python module for apk-tools
+U:https://gitlab.alpinelinux.org/alpine/apk-tools
+L:GPL-2.0-only
+o:apk-tools
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+D:python3~3.14
+
+C:Q1TMYXua1COxfMwHQbaK1gy6FFL9I=
+P:python3-brotli
+V:1.1.0-r1
+A:aarch64
+S:360296
+I:752955
+T:Brotli compression format (python bindings)
+U:https://github.com/google/brotli
+L:MIT
+o:brotli
+m:Ethan Leir <eleir@qnx.com>
+t:1775138931
+c:93c005f3252f4bb1ba114f771dc74048cc497338
+D:python3~3.14
+
+C:Q1ufNJIOfVKtdXNFntFaMNFwHqVjc=
+P:python3-build
+V:1.2.2-r1
+A:aarch64
+S:59338
+I:231540
+T:Correct PEP517 package builder
+U:https://github.com/pypa/build
+L:MIT
+o:python3-build
+m:Leo Shen <yishen@qnx.com>
+t:1761056483
+c:92bd0fdfa77ac0b4158ac1a9f4bec94312fbeeb6
+D:python3 python3-packaging python3~3.14
+p:py3.14:build=1.2.2-r1
+
+C:Q1GC3k+kzG8p0nVcgrknjInzelzXQ=
+P:python3-dev
+V:3.14.0-r1
+A:aarch64
+S:12442181
+I:38538271
+T:High-level scripting language (development files)
+U:https://www.python.org/
+L:PSF-2.0
+o:python3
+m:Leo Shen <yishen@qnx.com>
+t:1770828053
+c:8ced3195790d0e011b8166712f6b822f1a741409
+D:python3=3.14.0-r1 sqlite-dev zlib-ng-dev xz-dev readline-dev libffi-dev expat-dev bzip2-dev lz4-dev openssl-dev ncurses-dev qnx-crypto-dev qnx-io-sock-dev pkgconfig
+p:pc:python3=3.14
+
+C:Q1i3sbGTHAZQPJ+ixVXbLQqZ10cNo=
+P:python3-dev
+V:3.14.0-r3
+A:aarch64
+S:12464623
+I:38536533
+T:High-level scripting language (development files)
+U:https://www.python.org/
+L:PSF-2.0
+o:python3
+m:Leo Shen <yishen@qnx.com>
+t:1772218227
+c:16f3c18c8f0ac5ab4c7933d0b4ddf9323a4e2a17
+D:python3=3.14.0-r3 sqlite-dev zlib-ng-dev xz-dev readline-dev libffi-dev expat-dev bzip2-dev lz4-dev openssl-dev ncurses-dev qnx-crypto-dev qnx-io-sock-dev pkgconfig
+p:pc:python3=3.14
+
+C:Q1Jyl53by+pUyeBfwY1ly/GpOui/o=
+P:python3-dev
+V:3.14.0-r4
+A:aarch64
+S:12441289
+I:38536803
+T:High-level scripting language (development files)
+U:https://www.python.org/
+L:PSF-2.0
+o:python3
+m:Leo Shen <yishen@qnx.com>
+t:1776261887
+c:29d64be160d43dd2a1e79b84b2c0113db0ef80ec
+D:python3=3.14.0-r4 sqlite-dev zlib-ng-dev xz-dev readline-dev libffi-dev expat-dev bzip2-dev lz4-dev openssl-dev ncurses-dev qnx-crypto-dev qnx-io-sock-dev pkgconfig
+p:pc:python3=3.14
+
+C:Q1BcGx7J7hccZlu4k6LvThOvPjoRM=
+P:python3-doc
+V:3.14.0-r1
+A:aarch64
+S:13518
+I:8811
+T:High-level scripting language (documentation)
+U:https://www.python.org/
+L:PSF-2.0
+o:python3
+m:Leo Shen <yishen@qnx.com>
+t:1770828053
+c:8ced3195790d0e011b8166712f6b822f1a741409
+i:docs python3=3.14.0-r1
+
+C:Q1uPQeTveyCd/DkJAwk0dx8LOJD/8=
+P:python3-doc
+V:3.14.0-r3
+A:aarch64
+S:14611
+I:8844
+T:High-level scripting language (documentation)
+U:https://www.python.org/
+L:PSF-2.0
+o:python3
+m:Leo Shen <yishen@qnx.com>
+t:1772218227
+c:16f3c18c8f0ac5ab4c7933d0b4ddf9323a4e2a17
+i:docs python3=3.14.0-r3
+
+C:Q1cHG2u6mfN990kKPTKoeKVewqBzo=
+P:python3-doc
+V:3.14.0-r4
+A:aarch64
+S:12987
+I:8811
+T:High-level scripting language (documentation)
+U:https://www.python.org/
+L:PSF-2.0
+o:python3
+m:Leo Shen <yishen@qnx.com>
+t:1776261887
+c:29d64be160d43dd2a1e79b84b2c0113db0ef80ec
+i:docs python3=3.14.0-r4
+
+C:Q1eVJSPSArZ8cSvLTBVxHEWbJ07HI=
+P:python3-flit-core
+V:3.12.0-r1
+A:aarch64
+S:126373
+I:393752
+T:simple packaging tool for simple packages (core)
+U:https://flit.readthedocs.io/
+L:BSD-3-Clause
+o:python3-flit-core
+m:Leo Shen <yishen@qnx.com>
+t:1761056483
+c:92bd0fdfa77ac0b4158ac1a9f4bec94312fbeeb6
+D:python3~3.14
+p:py3.14:flit_core=3.12.0-r1
+
+C:Q12edEBqnNL3M+iwMdTYDVzSRaGBw=
+P:python3-gpep517
+V:19-r2
+A:aarch64
+S:26375
+I:65971
+T:Minimal backend script to aid installing Python packages through PEP 517-compliant build systems
+U:https://github.com/mgorny/gpep517/
+L:MIT
+o:python3-gpep517
+m:Leo Shen <yishen@qnx.com>
+t:1761056483
+c:92bd0fdfa77ac0b4158ac1a9f4bec94312fbeeb6
+D:python3 python3-installer python3~3.14
+p:py3.14:gpep517=19-r2
+
+C:Q1QAgYTWFO7x6LnW2K2BUHT9hNpes=
+P:python3-installer
+V:0.7.0-r1
+A:aarch64
+S:486202
+I:1031604
+T:low-level library for installing from a Python wheel distribution
+U:https://github.com/pypa/installer
+L:MIT
+o:python3-installer
+m:Leo Shen <yishen@qnx.com>
+t:1761056483
+c:92bd0fdfa77ac0b4158ac1a9f4bec94312fbeeb6
+D:python3 python3~3.14
+p:py3.14:installer=0.7.0-r1
+
+C:Q1gScNABIkV1Fv6ztC2vo4ID6JPLE=
+P:python3-libxml2
+V:2.13.9-r2
+A:aarch64
+S:421893
+I:1885416
+T:libxml2 python3 bindings
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1761765991
+c:e8f10b3d84c4614d6bc96c83591eab488c7794f7-dirty
+D:python3
+
+C:Q1l6r6O3STWtflFPlbHvUlk1yIkWs=
+P:python3-libxml2
+V:2.13.9-r3
+A:aarch64
+S:401727
+I:1741989
+T:libxml2 python3 bindings
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+t:1764792919
+c:27e433809c784aa2f12ca2163b5c63851897bf38
+D:python3
+
+C:Q1tyN67gftVqQCwtXqorakv043wKk=
+P:python3-packaging
+V:25.0-r1
+A:aarch64
+S:210845
+I:777536
+T:Core utilities for Python3 packages
+U:https://pypi.org/project/packaging
+L:Apache-2.0 AND BSD-2-Clause
+o:python3-packaging
+m:Leo Shen <yishen@qnx.com>
+t:1761056483
+c:92bd0fdfa77ac0b4158ac1a9f4bec94312fbeeb6
+D:python3 python3~3.14
+p:py3.14:packaging=25.0-r1
+
+C:Q1uqYSK5ocfMIHD7kNBA9HKvIXfxY=
+P:python3-pyproject-hooks
+V:1.0.0-r2
+A:aarch64
+S:22517
+I:90672
+T:Low-level library for calling build-backends in 'pyproject.toml'-based project
+U:https://pyproject-hooks.readthedocs.io/
+L:MIT
+o:python3-pyproject-hooks
+m:Leo Shen <yishen@qnx.com>
+t:1761056483
+c:92bd0fdfa77ac0b4158ac1a9f4bec94312fbeeb6
+D:python3 python3~3.14
+p:py3.14:pyproject_hooks=1.0.0-r2
+
+C:Q1hLAWAPVMtwOGVeAtr3KPtNBhYEM=
+P:python3-setuptools
+V:80.8.0-r1
+A:aarch64
+S:2884874
+I:8824747
+T:Collection of enhancements to the Python3 distutils
+U:https://pypi.org/project/setuptools
+L:MIT
+o:python3-setuptools
+m:Leo Shen <yishen@qnx.com>
+t:1761056483
+c:92bd0fdfa77ac0b4158ac1a9f4bec94312fbeeb6
+D:python3 python3-packaging python3~3.14
+p:py3.14:setuptools=80.8.0-r1
+
+C:Q13KGBp+ZoupSMN2QB3UPe/w9A9HY=
+P:python3-setuptools
+V:80.8.0-r2
+A:aarch64
+S:2887474
+I:8824303
+T:Collection of enhancements to the Python3 distutils
+U:https://pypi.org/project/setuptools
+L:MIT
+o:python3-setuptools
+m:Leo Shen <yishen@qnx.com>
+t:1776366617
+c:0b0e4fb6bc75dfa451728b509cfebfb175429a64
+D:python3 python3-packaging python3~3.14
+p:py3.14:setuptools=80.8.0-r2
+
+C:Q1ZMf9C+t0Qh1aWzAzzycwvIyYwtw=
+P:python3-tests
+V:3.14.0-r1
+A:aarch64
+S:36275799
+I:145999926
+T:The test modules from the main python package
+U:https://www.python.org/
+L:PSF-2.0
+o:python3
+m:Leo Shen <yishen@qnx.com>
+t:1770828053
+c:8ced3195790d0e011b8166712f6b822f1a741409
+D:sqlite zlib-ng xz-libs readline libffi expat bzip2 lz4 libssl3 libcrypto3 ncurses qnx-io-sock
+
+C:Q1HwZZs6B5G6IJzPRVXLdC+/4jp0s=
+P:python3-tests
+V:3.14.0-r3
+A:aarch64
+S:6601351
+I:30659218
+T:The test modules from the main python package
+U:https://www.python.org/
+L:PSF-2.0
+o:python3
+m:Leo Shen <yishen@qnx.com>
+t:1772218227
+c:16f3c18c8f0ac5ab4c7933d0b4ddf9323a4e2a17
+D:sqlite zlib-ng xz-libs readline libffi expat bzip2 lz4 libssl3 libcrypto3 ncurses qnx-io-sock
+
+C:Q1yhFtP1ZML+aFur9g5seJLbP8GcM=
+P:python3-tests
+V:3.14.0-r4
+A:aarch64
+S:36275092
+I:145999926
+T:The test modules from the main python package
+U:https://www.python.org/
+L:PSF-2.0
+o:python3
+m:Leo Shen <yishen@qnx.com>
+t:1776261887
+c:29d64be160d43dd2a1e79b84b2c0113db0ef80ec
+D:sqlite zlib-ng xz-libs readline libffi expat bzip2 lz4 libssl3 libcrypto3 ncurses qnx-io-sock
+
+C:Q1q3Li0YSq4bwKyb7rZKfWjZ3wDKw=
+P:python3-wheel
+V:0.46.1-r1
+A:aarch64
+S:62335
+I:234957
+T:built-package format for Python
+U:https://github.com/pypa/wheel
+L:MIT
+o:python3-wheel
+m:Leo Shen <yishen@qnx.com>
+t:1761056483
+c:92bd0fdfa77ac0b4158ac1a9f4bec94312fbeeb6
+D:python3 python3-packaging python3~3.14
+p:py3.14:wheel=0.46.1-r1
+
+C:Q1aQfTLMT7Yfi0TC5x+SFh6RcV2rI=
+P:readline
+V:8.3.001-r1
+A:aarch64
+S:151004
+I:512978
+T:GNU readline library
+U:https://tiswww.case.edu/php/chet/readline/rltop.html
+L:GPL-3.0-or-later
+o:readline
+t:767
+c:91a9669e4e62e601cfbc34f9850df7fb087ef6f4
+D:ncurses
+
+C:Q1cq+hjFq9Et5zyLN4wY0CNi90idE=
+P:readline-dev
+V:8.3.001-r1
+A:aarch64
+S:40428
+I:147927
+T:GNU readline library (development files)
+U:https://tiswww.case.edu/php/chet/readline/rltop.html
+L:GPL-3.0-or-later
+o:readline
+t:767
+c:91a9669e4e62e601cfbc34f9850df7fb087ef6f4
+D:pkgconfig readline=8.3.001-r1
+
+C:Q1Akg6dSmzYIei/DMmSfBBc9tPJh0=
+P:readline-doc
+V:8.3.001-r1
+A:aarch64
+S:307561
+I:1312189
+T:GNU readline library (documentation)
+U:https://tiswww.case.edu/php/chet/readline/rltop.html
+L:GPL-3.0-or-later
+o:readline
+t:767
+c:91a9669e4e62e601cfbc34f9850df7fb087ef6f4
+i:docs readline=8.3.001-r1
+
+C:Q13jkImYFkWSyW0kkra26olYG9QFI=
+P:readline-static
+V:8.3.001-r1
+A:aarch64
+S:238442
+I:1086950
+T:GNU readline library (static library)
+U:https://tiswww.case.edu/php/chet/readline/rltop.html
+L:GPL-3.0-or-later
+o:readline
+t:767
+c:91a9669e4e62e601cfbc34f9850df7fb087ef6f4
+
+C:Q15KmPLVTj+4YI5YwiJTNzOdH6o6I=
+P:scdoc
+V:1.11.3-r0
+A:aarch64
+S:116513
+I:252838
+T:Simple man page generator written for POSIX systems written in C99
+U:https://git.sr.ht/~sircmpwn/scdoc
+L:MIT
+o:scdoc
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+D:pkgconfig
+
+C:Q1IuyrJAX3GRLR2I9PP4jq9BYseaw=
+P:scdoc-doc
+V:1.11.3-r0
+A:aarch64
+S:4861
+I:3065
+T:Simple man page generator written for POSIX systems written in C99 (documentation)
+U:https://git.sr.ht/~sircmpwn/scdoc
+L:MIT
+o:scdoc
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+i:docs scdoc=1.11.3-r0
+
+C:Q1NA0bPHsiCKctT8aB4CCG/2zOC2w=
+P:sed
+V:4.9-r0
+A:aarch64
+S:88892
+I:268256
+T:GNU stream editor
+U:https://www.gnu.org/software/sed
+L:GPL-3.0-or-later
+o:sed
+m:Leo Shen <yishen@qnx.com>
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+D:qnx-io-sock
+
+C:Q1xOhOfQ4W6ClTkL56Pz4O2ES9ISE=
+P:sed-doc
+V:4.9-r0
+A:aarch64
+S:63310
+I:216985
+T:GNU stream editor (documentation)
+U:https://www.gnu.org/software/sed
+L:GPL-3.0-or-later
+o:sed
+m:Leo Shen <yishen@qnx.com>
+t:1754407926
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35
+i:docs sed=4.9-r0
+
+C:Q1W+3aPHojcTOvUEMgtAgnyKrDKOw=
+P:sqlite
+V:3.51.0-r1
+A:aarch64
+S:857462
+I:2286552
+T:C library that implements an SQL database engine
+U:https://www.sqlite.org/
+L:blessing
+o:sqlite
+m:Leo Shen <yishen@qnx.com>
+t:1763580013
+c:0028ebfbd2efbff0f04244a29a38b26b77ac5e39
+D:readline qnx-io-sock
+p:cmd:sqlite3=3.51.0-r1
+
+C:Q1PQtYNi0JefUtoA/W++8Yu0/zkmU=
+P:sqlite-dev
+V:3.51.0-r1
+A:aarch64
+S:182031
+I:710685
+T:C library that implements an SQL database engine (development files)
+U:https://www.sqlite.org/
+L:blessing
+o:sqlite
+m:Leo Shen <yishen@qnx.com>
+t:1763580013
+c:0028ebfbd2efbff0f04244a29a38b26b77ac5e39
+D:sqlite=3.51.0-r1 pkgconfig sqlite-libs=3.51.0-r1
+p:pc:sqlite3=3.51.0
+
+C:Q1cyMIiD8FK0dYs+o9s7cpBKAg2Lc=
+P:sqlite-doc
+V:3.51.0-r1
+A:aarch64
+S:7156
+I:6226
+T:C library that implements an SQL database engine (documentation)
+U:https://www.sqlite.org/
+L:blessing
+o:sqlite
+m:Leo Shen <yishen@qnx.com>
+t:1763580013
+c:0028ebfbd2efbff0f04244a29a38b26b77ac5e39
+i:docs sqlite=3.51.0-r1
+
+C:Q16H2US0E+B4sDVV6K2iivciOZVkE=
+P:sqlite-libs
+V:3.51.0-r1
+A:aarch64
+S:703502
+I:1868032
+T:C library that implements an SQL database engine (libraries)
+U:https://www.sqlite.org/
+L:blessing
+o:sqlite
+m:Leo Shen <yishen@qnx.com>
+t:1763580013
+c:0028ebfbd2efbff0f04244a29a38b26b77ac5e39
+p:so:libsqlite3.so.0=3.51.0
+
+C:Q18bmzuvGw5E6DEnO+ayooq9WIz/Y=
+P:sqlite-static
+V:3.51.0-r1
+A:aarch64
+S:777581
+I:2364458
+T:C library that implements an SQL database engine (static library)
+U:https://www.sqlite.org/
+L:blessing
+o:sqlite
+m:Leo Shen <yishen@qnx.com>
+t:1763580013
+c:0028ebfbd2efbff0f04244a29a38b26b77ac5e39
+
+C:Q13+rKI7tVyjxYLmY6RSP9mscU6vA=
+P:sudo
+V:1.9.17_p2-r4
+A:aarch64
+S:938661
+I:3146625
+T:Give certain users the ability to run some commands as root
+U:https://www.sudo.ws
+L:LicenseRef-ISC
+o:sudo
+t:1761066491
+c:4250d8a6f30b1322516421b2998aff89890d4cf7
+D:qnx-security qnx-io-sock
+
+C:Q1AfXMmiRzusP5LcNwuxLvE+S+hKw=
+P:sudo-dev
+V:1.9.17_p2-r4
+A:aarch64
+S:4808
+I:12071
+T:Give certain users the ability to run some commands as root (development files)
+U:https://www.sudo.ws
+L:LicenseRef-ISC
+o:sudo
+t:1761066491
+c:4250d8a6f30b1322516421b2998aff89890d4cf7
+
+C:Q1MVfXYVcChNuvBHHgNSa2wlTJ8CE=
+P:sudo-doc
+V:1.9.17_p2-r4
+A:aarch64
+S:931418
+I:2916564
+T:Give certain users the ability to run some commands as root (documentation)
+U:https://www.sudo.ws
+L:LicenseRef-ISC
+o:sudo
+t:1761066491
+c:4250d8a6f30b1322516421b2998aff89890d4cf7
+i:docs sudo=1.9.17_p2-r4
+
+C:Q1OfVrU/VhsP/gLPKM452lOu9olH8=
+P:tar
+V:1.35-r0
+A:aarch64
+S:232423
+I:697624
+T:Utility used to store, backup, and transport files
+U:https://www.gnu.org/software/tar/
+L:GPL-3.0-or-later
+o:tar
+t:1755108325
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc
+D:qnx-io-sock
+
+C:Q1QlfXrgtF+qM4IYD44GVEXw++bsk=
+P:tar-doc
+V:1.35-r0
+A:aarch64
+S:208182
+I:698578
+T:Utility used to store, backup, and transport files (documentation)
+U:https://www.gnu.org/software/tar/
+L:GPL-3.0-or-later
+o:tar
+t:1755108325
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc
+i:docs tar=1.35-r0
+
+C:Q1CplwwRlDaobgjTnnUrzn0+s5Vyc=
+P:whereis
+V:0-r1
+A:aarch64
+S:12841
+I:22072
+T:whereis for QNX
+U:https://qnx.com
+L:LicenseRef-QDL-Non-Commercial
+o:whereis
+t:1761677923
+c:f5f1342f604f0f77597fb95c926e80fcba35ce35-dirty
+
+C:Q1nRO4PoZrGxtWSGKMrHHs9KkcS5Y=
+P:xz
+V:5.8.1-r1
+A:aarch64
+S:63756
+I:156850
+T:Library and CLI tools for XZ and LZMA compressed files
+U:https://tukaani.org/xz/
+L:GPL-2.0-or-later AND 0BSD AND LicenseRef-scancode-public-domain AND LGPL-2.1-or-later
+o:xz
+t:1761743556
+c:a647bd090138e57afa3fe7b9f4504ff5248211b3-dirty
+D:xz-libs
+
+C:Q176F9d6hbXO7bRBxD7zxo7nAl5iE=
+P:xz-dev
+V:5.8.1-r1
+A:aarch64
+S:55931
+I:229946
+T:Library and CLI tools for XZ and LZMA compressed files (development files)
+U:https://tukaani.org/xz/
+L:GPL-2.0-or-later AND 0BSD AND LicenseRef-scancode-public-domain AND LGPL-2.1-or-later
+o:xz
+t:1761743556
+c:a647bd090138e57afa3fe7b9f4504ff5248211b3-dirty
+D:xz=5.8.1-r1 pkgconfig xz-libs=5.8.1-r1
+
+C:Q1BOkfaSH3uW+82JAh4JNI90c1rOg=
+P:xz-doc
+V:5.8.1-r1
+A:aarch64
+S:32451
+I:29268
+T:Library and CLI tools for XZ and LZMA compressed files (documentation)
+U:https://tukaani.org/xz/
+L:GPL-2.0-or-later AND 0BSD AND LicenseRef-scancode-public-domain AND LGPL-2.1-or-later
+o:xz
+t:1761743556
+c:a647bd090138e57afa3fe7b9f4504ff5248211b3-dirty
+i:docs xz=5.8.1-r1
+
+C:Q1nkpkERSscdwGdO9KavaGMpZQjQ8=
+P:xz-libs
+V:5.8.1-r1
+A:aarch64
+S:120875
+I:218688
+T:Library and CLI tools for XZ and LZMA compressed files (libraries)
+U:https://tukaani.org/xz/
+L:GPL-2.0-or-later AND 0BSD AND LicenseRef-scancode-public-domain AND LGPL-2.1-or-later
+o:xz
+t:1761743556
+c:a647bd090138e57afa3fe7b9f4504ff5248211b3-dirty
+
+C:Q1zVjXLpMSmcgG0xNnfs2fxGHtUrc=
+P:xz-static
+V:5.8.1-r1
+A:aarch64
+S:140062
+I:400748
+T:Library and CLI tools for XZ and LZMA compressed files (static library)
+U:https://tukaani.org/xz/
+L:GPL-2.0-or-later AND 0BSD AND LicenseRef-scancode-public-domain AND LGPL-2.1-or-later
+o:xz
+t:1761743556
+c:a647bd090138e57afa3fe7b9f4504ff5248211b3-dirty
+
+C:Q1Xv4Sui6SuSNfkGjfUeYoAM1k7Qo=
+P:zlib-ng
+V:2.2.5-r0
+A:aarch64
+S:75691
+I:137040
+T:zlib replacement with optimizations for next generation systems
+U:https://zlib.net/
+L:Zlib
+o:zlib-ng
+t:1755108325
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc
+p:zlib=1.3.1
+
+C:Q19m+Joc9l8XsR2mE668iX25Mepq8=
+P:zlib-ng-dev
+V:2.2.5-r0
+A:aarch64
+S:29998
+I:100801
+T:zlib replacement with optimizations for next generation systems (development files)
+U:https://zlib.net/
+L:Zlib
+o:zlib-ng
+t:1755108325
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc
+D:pkgconfig zlib-ng=2.2.5-r0
+p:zlib-dev=1.3.1
+
+C:Q1x0j3szZvaX3d3b+vlfMdD+bgDjY=
+P:zlib-ng-doc
+V:2.2.5-r0
+A:aarch64
+S:1421
+I:1
+T:zlib replacement with optimizations for next generation systems (documentation)
+U:https://zlib.net/
+L:Zlib
+o:zlib-ng
+t:1755108325
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc
+i:docs zlib-ng=2.2.5-r0
+
+C:Q1SAUXwzP9MwzPaQZrDkcvWYexBS4=
+P:zlib-ng-static
+V:2.2.5-r0
+A:aarch64
+S:87576
+I:219532
+T:zlib replacement with optimizations for next generation systems (static library)
+U:https://zlib.net/
+L:Zlib
+o:zlib-ng
+t:1755108325
+c:70677abbe1a5ac19c9c6dd36a80186edb6dfe0dc
+
+C:Q1tOm0P8380foDefB/YkU/AjAFgOA=
+P:zstd
+V:1.5.6-r4
+A:aarch64
+S:85737
+I:189130
+T:Zstandard - Fast real-time compression algorithm
+U:https://facebook.github.io/zstd/
+L:BSD-3-Clause OR GPL-2.0-or-later
+o:zstd
+m:Natanael Copa <ncopa@alpinelinux.org>
+t:766
+c:6e029f1c4f9ba8c9ccacc71b387056221a00d840
+D:zstd-libs=1.5.6-r4
+
+C:Q1mZR9lpp/MfP/0jhnVG0gwTPMjWo=
+P:zstd-dev
+V:1.5.6-r4
+A:aarch64
+S:52928
+I:207062
+T:Zstandard - Fast real-time compression algorithm (development files)
+U:https://facebook.github.io/zstd/
+L:BSD-3-Clause OR GPL-2.0-or-later
+o:zstd
+m:Natanael Copa <ncopa@alpinelinux.org>
+t:766
+c:6e029f1c4f9ba8c9ccacc71b387056221a00d840
+D:zstd=1.5.6-r4 pkgconfig zstd-libs=1.5.6-r4
+
+C:Q1/HwgMK4ViFrDsDjSmMCYQabBrgU=
+P:zstd-doc
+V:1.5.6-r4
+A:aarch64
+S:14259
+I:12166
+T:Zstandard - Fast real-time compression algorithm (documentation)
+U:https://facebook.github.io/zstd/
+L:BSD-3-Clause OR GPL-2.0-or-later
+o:zstd
+m:Natanael Copa <ncopa@alpinelinux.org>
+t:766
+c:6e029f1c4f9ba8c9ccacc71b387056221a00d840
+i:docs zstd=1.5.6-r4
+
+C:Q1AeEFdWDO7l1sZ+oz/hxVE5z8fJE=
+P:zstd-frugal
+V:1.5.6-r4
+A:aarch64
+S:62772
+I:137936
+T:Zstandard - Fast real-time compression algorithm (frugal cli)
+U:https://facebook.github.io/zstd/
+L:BSD-3-Clause OR GPL-2.0-or-later
+o:zstd
+m:Natanael Copa <ncopa@alpinelinux.org>
+t:766
+c:6e029f1c4f9ba8c9ccacc71b387056221a00d840
+D:libc++
+
+C:Q1mxjRhABCxIM+YURfhNmNXC5pi3k=
+P:zstd-libs
+V:1.5.6-r4
+A:aarch64
+S:378422
+I:771744
+T:Zstandard - Fast real-time compression algorithm (libraries)
+U:https://facebook.github.io/zstd/
+L:BSD-3-Clause OR GPL-2.0-or-later
+o:zstd
+m:Natanael Copa <ncopa@alpinelinux.org>
+t:766
+c:6e029f1c4f9ba8c9ccacc71b387056221a00d840
+
+C:Q1GGGusjwhxrwpmS5PWsEcyYcz1zw=
+P:zstd-static
+V:1.5.6-r4
+A:aarch64
+S:3478656
+I:4338594
+T:Zstandard - Fast real-time compression algorithm (static library)
+U:https://facebook.github.io/zstd/
+L:BSD-3-Clause OR GPL-2.0-or-later
+o:zstd
+m:Natanael Copa <ncopa@alpinelinux.org>
+t:766
+c:6e029f1c4f9ba8c9ccacc71b387056221a00d840
+

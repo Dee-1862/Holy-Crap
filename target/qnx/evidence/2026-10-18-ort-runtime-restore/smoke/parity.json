@@ -1,0 +1,13 @@
+{
+  "elements": 16800,
+  "exact_equal_elements": 9709,
+  "exact_equal_fraction": 0.5779166666666666,
+  "max_abs_difference": 0.0001678466796875,
+  "mean_abs_difference": 4.193007498543011e-06,
+  "p99_abs_difference": 4.57763671875e-05,
+  "max_relative_difference_floor_1e-7": 1.4901161193847656,
+  "allclose_rtol_1e-4_atol_1e-5": true,
+  "allclose_rtol_1e-3_atol_1e-4": true,
+  "mac_sha256": "52796af4a1bb008e9512d4c4919177caf7674db78921bf258e22f8ca904f9b8e",
+  "qnx_sha256": "7afafa5ad3416f4c2130f419041bafbc4a97a6d01eac570d736b18074151cde2"
+}

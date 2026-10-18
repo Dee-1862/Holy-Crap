@@ -1,0 +1,9 @@
+scenario=idle-default
+trial=2
+fixed_priority_requested=false
+load_cpus=
+benchmark_cpu=3
+returncode=0
+started_epoch_ns=1792342778454797770
+finished_epoch_ns=1792342783558606815
+duration_ns=5103809045

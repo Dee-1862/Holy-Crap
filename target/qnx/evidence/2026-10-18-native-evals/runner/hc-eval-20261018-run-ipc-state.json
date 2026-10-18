@@ -1,0 +1,18 @@
+{
+  "id": "hc-eval-20261018-run-ipc",
+  "argv": [
+    "/system/bin/python3",
+    "src/run_native_suite.py",
+    "ipc"
+  ],
+  "cwd": "/data/home/qnxuser/hc-eval-20261018-1655-7778ee0",
+  "timeout": 180,
+  "status": "done",
+  "started_at": "2026-10-18T16:54:37Z",
+  "finished_at": "2026-10-18T16:54:38Z",
+  "exit_code": 0,
+  "timed_out": false,
+  "error": null,
+  "stdout_log": "logs/hc-eval-20261018-run-ipc.out",
+  "stderr_log": "logs/hc-eval-20261018-run-ipc.err"
+}

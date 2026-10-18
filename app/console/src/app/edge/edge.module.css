@@ -3,11 +3,9 @@
 .head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
 .head h2 { margin: 0; }
 
-.flow { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; margin-bottom: 10px; }
+.flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 10px; }
 .node { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 14px; border-radius: 14px; background: var(--fill-2); border: 1px solid transparent; transition: border-color 0.2s, background 0.2s; }
-.node:not(:last-child)::after { content: "›"; position: absolute; right: -8px; top: 12px; color: var(--label-3); font-size: 14px; }
 .node:last-child { border-style: dashed; border-color: var(--fill); }
-.node[data-branch]::after { content: none; }
 .nodeHead { display: flex; align-items: center; gap: 7px; font-weight: 600; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .does { font-size: 13px; color: var(--label-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .facts { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; margin: 2px 0 0; font-size: 12px; }
@@ -31,11 +29,8 @@
 .code { background: var(--fill-2); padding: 12px 14px; border-radius: 12px; font-size: 13px; overflow: auto; margin: 10px 0 0; }
 
 @media (max-width: 1100px) {
-  .flow { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .node::after { display: none; }
   .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 700px) {
-  .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tiles { grid-template-columns: 1fr; }
 }

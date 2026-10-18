@@ -17,10 +17,11 @@ interface Kill { proc: string; at: number; oldPid: number | null; newPid: number
 const SECTIONS: { id: string; name: string; does: string }[] = [
   { id: "camera", name: "Camera", does: "Captures frames" },
   { id: "spotter", name: "Spot finder", does: "Finds still spots" },
-  { id: "model", name: "Model", does: "Checks each spot" },
-  { id: "explain", name: "Explainability", does: "Explains the verdict" },
+  { id: "model", name: "Model", does: "Cuts patches" },
+  { id: "infer", name: "Detector", does: "Runs the model" },
+  { id: "explain", name: "Explain", does: "Explains it" },
   { id: "watch", name: "Watch link", does: "Alerts the watch" },
-  { id: "cloud", name: "Cloud link", does: "Syncs to the cloud" },
+  { id: "cloud", name: "Cloud link", does: "Syncs to cloud" },
   { id: "uplink", name: "Dashboard", does: "Serves this page" },
 ];
 const RED_AT_LEAST = 1200;     // ms the killed box stays red, so a 20 ms restart can still be seen
@@ -87,7 +88,7 @@ export default function EdgeView() {
     <div className={styles.page}>
       <section className={`glass ${styles.card}`} aria-label="Sections">
         <div className={styles.head}>
-          <h2 className="headline">Seven sections, seven processes</h2>
+          <h2 className="headline">{SECTIONS.length} sections, {SECTIONS.length} processes, all on the Pi</h2>
           <span className="foot num">{s.fps} frames a second · {s.modelStats?.checked ?? 0} patches checked · {s.nativeIpc ? "QNX message passing" : "socket fallback, not QNX"}</span>
         </div>
         <div className={styles.flow}>
@@ -98,7 +99,7 @@ export default function EdgeView() {
             const back = !!k && !red && !!k.backAt && now - k.backAt < GREEN_FOR;
             return (
               <article key={x.id} className={styles.node} data-state={red ? "down" : back ? "back" : "up"}
-                data-branch={x.id === "watch" || x.id === "cloud" || undefined}>
+>
                 <div className={styles.nodeHead}><i />{x.name}</div>
                 <span className={styles.does}>{x.does}</span>
                 <dl className={styles.facts}>

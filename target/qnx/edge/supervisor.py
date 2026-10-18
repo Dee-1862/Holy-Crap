@@ -42,6 +42,7 @@ def main():
         "cloud": (11, [PY, str(HERE / "cloudlink.py")]),
         "watch": (21, [PY, str(HERE / "watchlink.py")]),
         "explain": (9, [PY, str(HERE / "explain.py")]),
+        "infer": (7, [PY, str(HERE / "infer.py")]),          # the detector, on the Pi, lowest priority
         "model": (8, [PY, str(HERE / "model.py")]),
         "spotter": (12, [PY, str(HERE / "spotter.py")]),
         "camera": (20, camera),

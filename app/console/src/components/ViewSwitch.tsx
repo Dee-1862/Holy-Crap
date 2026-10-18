@@ -1,9 +1,10 @@
 import Link from "next/link";
 
-type View = "map" | "specimens" | "mobile";
+type View = "map" | "specimens" | "live" | "mobile";
 const VIEWS: { id: View; label: string; href: string }[] = [
   { id: "map", label: "Map", href: "/" },
   { id: "specimens", label: "Droppings", href: "/specimens" },
+  { id: "live", label: "Live", href: "/live" },
   { id: "mobile", label: "Phone", href: "/m" },
 ];
 

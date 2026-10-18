@@ -1,0 +1,36 @@
+.shell { max-width: 1320px; margin: 0 auto; padding: 20px 20px 40px; }
+.top { display: flex; align-items: center; gap: 12px; padding: 4px 0 18px; flex-wrap: wrap; }
+.grow { flex: 1; }
+
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 12px; align-items: start; }
+.stage { padding: 16px; min-width: 0; }
+.stageHead { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.stageHead h2 { margin: 0; }
+.badge { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: var(--fill); color: var(--label-2); }
+.badge i { width: 7px; height: 7px; border-radius: 50%; background: var(--label-3); }
+
+.frame { position: relative; width: 100%; border-radius: 16px; overflow: hidden; background: #000; }
+.frame video, .frame canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.frame canvas { pointer-events: none; }
+.warn { position: absolute; left: 10px; right: 10px; bottom: 10px; padding: 8px 12px; border-radius: 12px; font-size: 13px; font-weight: 500; color: #fff; background: rgba(0, 0, 0, 0.62); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+
+.controls { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; margin: 14px 0 10px; }
+.stage a, .card a { color: var(--label); text-underline-offset: 3px; }
+
+.side { display: grid; gap: 12px; }
+.card { padding: 18px; }
+.big { font-size: 44px; font-weight: 500; letter-spacing: -0.035em; line-height: 1.05; margin: 6px 0 4px; }
+.big small { font-size: 20px; color: var(--label-2); margin-left: 3px; }
+.spark { width: 100%; height: 64px; margin: 10px 0 6px; cursor: pointer; display: block; }
+.area { fill: var(--fill); }
+.line { fill: none; stroke: var(--label-2); stroke-width: 1.5; stroke-linejoin: round; }
+.head { stroke: var(--label); stroke-width: 1.5; }
+.verdict { font-size: 17px; font-weight: 600; margin: 8px 0 6px; color: var(--warn); }
+.card p { margin: 0 0 8px; line-height: 1.45; }
+
+.empty { padding: 24px; max-width: 640px; }
+.code { background: var(--fill-2); padding: 12px 14px; border-radius: 12px; font-size: 13px; overflow: auto; margin: 10px 0 0; }
+
+@media (max-width: 960px) {
+  .grid { grid-template-columns: 1fr; }
+}

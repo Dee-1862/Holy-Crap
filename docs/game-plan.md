@@ -83,3 +83,13 @@ Screen is 1.75" round, 466x466, so keep content inside the center circle.
 - Subscribes to the MQTT broker over Wi-Fi; runs standard ESP32 firmware (Arduino/ESP-IDF + M5 libs), not QNX.
 - Images, history and configuration live on a separate web dashboard (phone/laptop).
 - To test: battery life with Wi-Fi on, behavior when Wi-Fi drops (show "offline" state).
+
+## Unit of tracking: the group (decided 2026-10-17)
+We do not identify individual birds. Birds are kept in **separate groups** (pens, sections or cages) and every detection is mapped to a **group**, not a hen. No bands, markers or RFID in the core product.
+- A group = a physically separated area with a known head count `N` (e.g. one pen or one cage section). Group ID is the `zone_id` used everywhere (`group_id` in events).
+- Attribution is geometric: each camera view (or pan/preset position) maps to exactly one group, using fixed regions of interest per group. Belt systems map belt position to cage (see vision-design-v2.md).
+- Alerts are normalized by group size: abnormal events per bird per hour, with a minimum count so a single dropping never alerts. Thresholds are config, tuned on data.
+- Camera coverage: one camera per group, or one camera that sees several adjacent groups with separate regions. A Pi 5 can serve several groups if frames are processed per region.
+- Group size trade-off: small groups give clearer attribution but each camera covers less; large groups give more droppings per hour (faster signal) but a weaker "which bird" answer. Pick sizes that match real farm pens/cages rather than what is convenient for us.
+- Why it fits: farms already manage and isolate by pen; biosecurity actions (isolate, sample, call the vet) are taken per pen; it removes the identification problem entirely.
+- Welfare/regulation: stocking density and group composition are set by the farm and local rules. Do not reshuffle birds for our convenience. Mixing unfamiliar birds causes social stress. For any live trial get farm and welfare approval.

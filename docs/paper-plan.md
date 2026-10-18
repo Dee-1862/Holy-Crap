@@ -22,6 +22,7 @@ D. **Floor-scene detection+classification with real clutter** (bedding, feed, fe
 Suggested framing: **A + B** ("Is fecal-image disease screening ready for real-time edge deployment? A cross-source evaluation and QNX benchmark"). Add C if time allows. Only claim D if you collect your own data.
 
 ## 3. Datasets
+Update 2026-10-17 (reported by another session, not rechecked): the Zenodo releases (doi:10.5281/zenodo.4628934 farm, 5801834 PCR) are CC BY 4.0, full resolution, with official YOLO boxes. Prefer Zenodo over the Kaggle copy (224 px, license unknown) for the paper.
 | Dataset | Notes |
 |---|---|
 | Kaggle `allandclive/chicken-disease-1` (user's link; page contents verified by user 2026-10-17) | 8,067 images, 4 classes (Salmonella ~33%, Coccidiosis ~31%, Healthy, New Castle Disease), `train_data.csv` with image name + label, v1, 294 MB. Collected in Arusha and Kilimanjaro, Tanzania, Sep 2020 - Feb 2021 with the ODK app on phones. **Pre-resized to 224x224.** **License: Unknown.** Class counts from secondary source: cocci 2,476 / healthy 2,404 / NCD 562 / salmonella 2,625 (sum = 8,067, matches; salmonella and cocci percentages match the page). Filename prefixes `cocci. healthy. ncd. salmo.` and `pcrcocci. pcrhealthy. pcrncd. pcrsalmo.` (the `pcr*` ones are very likely the PCR-confirmed lab images; inferred, verify). 8,067 = 6,812 farm + 1,255 lab images in Machuve et al., so this is that paper's full dataset, re-hosted. |

@@ -111,3 +111,10 @@ Done when: a released model.tflite with documented metrics runs on the Pi and it
 - Is the Pi 5 reachable by all three, or only through one person's tunnel (the SSH alias lives on one Mac)? A needs a shared way to run jobs on it.
 - Is there access to a real barn or only bench tests? Decides whether M4 happens on real hens.
 - Deadline/submission venue (drives how much of C's optional work is in scope).
+
+## Update 2026-10-17: group-based attribution
+Contracts change as follows (agreed direction; bump schema to 2 when implemented):
+- Detection event (A -> B): replace `zone_id` with `group_id` and add `group_size` (head count N) and `region_conf`. Drop any bird-level fields.
+- A owns per-camera `groups.json` (group polygons + head counts) and its calibration procedure.
+- B normalizes alerts by `group_size` and shows groups on the web dashboard and StopWatch.
+- C reports group-assignment accuracy and per-group false-alert rate alongside model metrics.

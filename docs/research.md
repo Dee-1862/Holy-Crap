@@ -130,3 +130,14 @@ https://gitlab.com/qnx/projects/ai-camera-app (Apache-2.0; created Apr 2025, las
 - Interpreter calls: AllocateTensors, SetNumThreads(-1), Invoke (no explicit delegate seen; XNNPACK library is copied, so TFLite may use it by default; unverified).
 - Not stated: Pi 5 support, latency numbers. Our target is a Pi 5 on QNX 8.0.0, so the sample must be verified there.
 - Implication: ML runtime on QNX is no longer an open risk; the plan uses TFLite (supersedes the earlier "no confirmed port" note).
+
+## Prior work on attribution and zone monitoring (from user-pasted summary, 2026-10-17; abstract-level, unverified by us)
+- **Caged hens (solved at cage level):** a 2024 study puts a camera over the manure belt under stacked cages; YOLOv5 flags abnormal manure and a second model tracks belt movement to map manure to its cage; 91.6% correct cage tracing over 48 field tests. Another study measures manure quantity per cage as a death indicator but used only 2-3 birds.
+- **Open floors, individual birds:** UGA/Cobb broiler study (YOLO11x) found overlap, look-alike birds and feeders as the main failures. Wageningen printed ID markers on hens and identified each bird only 37% of the time. Chicken re-ID dataset reaches 95-100% only with several images per bird. RFID leg bands/smart nest boxes log feeder/nest visits, not droppings. Nobody found has tied individual birds to droppings.
+- **Zone monitoring:** a 2023 study uses a pan-tilt camera about 3.5 m up that sweeps the floor every few minutes. UGA has a machine-vision method for disease from manure images (https://site.caes.uga.edu/precisionpoultry/2025/09/a-machine-vision-method-for-poultry-disease-detection-based-on-manure-images/). Carus Lab "Chicken Boy" is a rail-mounted robot rating dropping color; the vendor claims 2-3 days earlier prediction (unverified). Open-house slat-floor study: new droppings are hard to tell from a dirty floor.
+
+## Other-session findings now merged (2026-10-17; reported, not rechecked by us)
+- Zenodo Machuve records (https://doi.org/10.5281/zenodo.4628934 farm, https://doi.org/10.5281/zenodo.5801834 PCR) reported as **CC BY 4.0**, full-resolution photos plus official YOLO boxes (`imgObjDet_Yolo.zip`; 9,090 boxes). This resolves the earlier "license unknown" and "224 px only" concerns for the Zenodo copy (the Kaggle copy is still 224 px with unknown license). Credit required.
+- oss.qnx.com: prebuilt packages target QNX 8.0.3-8.0.5; source ports (tensorflow 2.16.1, opencv 4.9, mosquitto, XNNPACK, ComputeLibrary) target 8.0.0. Details in vision-plan.md.
+- Hackathon context: LA Hacks QNX track (needs an oss.qnx.com AI module) and Veri track (train an open-source model on Veri); see vision-plan.md.
+- Lance's open PR #1 (docs/20261017-poultry-industry-research): knowledge base (BIBLE.md etc.), advisory-only product, no disease names, desktop primary UI, staged gates. Merge conflicts expected with game-plan/research/changes/mistakes.

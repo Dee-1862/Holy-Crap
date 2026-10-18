@@ -6,16 +6,24 @@
 
 \paragraph{Farm photographs.} We used the poultry faecal image collection of Machuve et al.\ released on Zenodo
 (record 4628934, CC BY 4.0)~\cite{machuve2022,machuve2021farm}. It contains 6,812 full-resolution smartphone
-photographs taken on farms in Arusha and Kilimanjaro, Tanzania, with official bounding boxes in YOLO format for four
-classes: healthy, coccidiosis, salmonella and Newcastle disease. We downloaded the archives through the Zenodo API and
-checked each against the MD5 checksum the publisher lists. Following the dataset, we refer to the disease classes as
-\emph{coccidiosis-like}, \emph{salmonella-like} and \emph{Newcastle-like}, because the farm labels describe the
-appearance of the dropping and the farm a sample came from, not a laboratory diagnosis of each dropping.
+photographs taken in Arusha and Kilimanjaro, Tanzania, with official bounding boxes in YOLO format for four classes:
+healthy, coccidiosis, salmonella and Newcastle disease. According to the record, the healthy and coccidiosis
+photographs were taken on poultry farms, the salmonella photographs from experimentally inoculated birds one week
+after inoculation, and the Newcastle photographs from inoculated birds within three days. Each class therefore comes
+with its own setting. We downloaded the archives through the Zenodo API and checked each against the MD5 checksum
+the publisher lists. Following the dataset, we refer to the disease classes as \emph{coccidiosis-like},
+\emph{salmonella-like} and \emph{Newcastle-like}, because no photograph in this collection carries a laboratory
+diagnosis of its own dropping.
 
 \paragraph{Lab-confirmed photographs.} The same group released a second, separate collection of 1,255 photographs
-whose labels were confirmed by polymerase chain reaction (PCR) (Zenodo record 5801834)~\cite{machuve2021pcr}. It
-contains 373 coccidiosis, 347 healthy, 349 salmonella and 186 Newcastle disease photographs. No model in this study
-was trained, tuned or selected on any of these photographs. We use them only as an external test set.
+from layer, cross-bred and indigenous chickens on farms in the same two regions, each coded to a faecal sample that
+the dataset authors tested by polymerase chain reaction (PCR) (Zenodo record 5801834)~\cite{machuve2021pcr}. We call
+them PCR-labelled or lab-confirmed photographs. They contain 373 coccidiosis, 347 healthy, 349 salmonella and 186
+Newcastle disease photographs. No model in this study was trained, tuned or selected on any of them. We use them only
+as an external test set. The release contains 35 pairs of byte-identical files, so it holds 1,220 distinct images.
+In 19 of these pairs the two files sit in different classes (16 coccidiosis and healthy, 3 healthy and salmonella),
+so at least 19 labels or file placements are wrong. We report results on all 1,255 files, as released, and give the
+effect of removing the 38 conflicting files in Section~\ref{sec:res-bench}.
 
 \paragraph{Barn video.} To teach the detector the size droppings have in a fixed pen camera, we took background
 frames from two public video collections of broiler houses: the PIO videos (Zenodo record 16686320, CC BY
@@ -25,8 +33,9 @@ videos is labelled, and we did not label any.
 \subsection{Split}
 \label{sec:split}
 
-The farm photographs were split 80/10/10 by photograph within each class, using a fixed seed on the sorted file
-names, giving 5,451 training, 679 validation and 679 test photographs. This is the kind of random split earlier work
+The 6,809 farm photographs that have labels (three label files are empty) were split 80/10/10 by photograph within
+each class, using a fixed seed on the sorted file names, giving 5,451 training, 679 validation and 679 test
+photographs. This is the kind of random split earlier work
 on this collection reports. The detector and every baseline in Section~\ref{sec:bench} use exactly this split. To
 measure leakage, we reduced every photograph to a 256-bit difference hash~\cite{krawetz2013} and recorded, for
 each test photograph, the Hamming distance to the closest training photograph.
@@ -50,8 +59,10 @@ photograph. The photograph's call is the class with the highest score, or \emph{
 \subsection{Pen-scale fine-tuning}
 \label{sec:pen}
 
-In a pen camera at $1280\times720$ a dropping covers 8 to 30 pixels, against a median of 12 to 22\% of the photograph
-for the disease classes in the farm collection. We built a pen-scale training set by copy-paste
+We handle pen frames at $1280\times720$ and assume that a dropping spans 8 to 30 pixels along its longest side there.
+This is a design assumption for a ceiling camera over a pen, not a measurement, since no droppings in our pen videos
+are labelled. In the farm collection, by contrast, the disease-class boxes cover a median of 12 to 22\% of the
+photograph. We built a pen-scale training set by copy-paste
 augmentation~\cite{ghiasi2021}: real labelled droppings were cut from the farm photographs along their
 official boxes, shrunk to pen size, and pasted onto empty litter in barn video frames. A dropping from a training
 photograph is only ever pasted into a training tile, and likewise for validation and test, so the farm split carries
@@ -116,7 +127,10 @@ system~\cite{qnx8sysarch}. The pipeline is split into separate processes (sectio
 fixed real-time priority: camera capture in C, a still-spot finder that flags new objects that appeared and stayed
 still, the detector, an explanation step, and links to the dashboard and a wrist-worn display. Full frames stay in a
 shared-memory ring of four slots, and sections exchange only small messages through QNX native message passing. A
-supervisor restarts any section that exits. Inference uses ONNX Runtime~\cite{onnxruntime} 1.24.4 from the QNX
+supervisor restarts any section that exits. On the Pi the detector is the close-up model, run on a full-resolution
+patch around each candidate from the spot finder, not the pen model. At pen scale the close-up model can score white
+birds as salmonella, so the explanation step dismisses a candidate unless its box lies on the spot, has the size of a
+dropping, is not white, is not lighter than the floor around it, and scores at least 0.6. Inference uses ONNX Runtime~\cite{onnxruntime} 1.24.4 from the QNX
 open-source package repository, called from a small C bridge because the repository's Python binding does not load on
 QNX (Section~\ref{sec:discussion}). We report the detector's inference time on the Pi with four threads, without image
 decoding or post-processing.
@@ -127,4 +141,25 @@ questions in plain language with a large language model (DeepSeek). Each alert s
 model's closest match with its score, and that it is not a laboratory test. The service never tells the farmer to
 treat or cull birds. It contacts a veterinarian only after the farmer clearly agrees, and that decision is made by
 tested rules in the application code, not by the language model. We describe this service for completeness and do not
-evaluate it here.
+evaluate it here. Figures~\ref{fig:hardware} and~\ref{fig:interfaces} show the hardware and the three interfaces.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/system_hardware.jpg}
+\caption{The deployed hardware. (a) Raspberry Pi 5 running QNX 8.0 with a Camera Module 3 on its ribbon cable and an
+active cooler. (b to d) The wrist-worn display (M5Stack StopWatch) on its charging cable, showing a pen's newest
+specimen with its photograph and numbered evidence markers (b), the evidence in words (c), and the pen's five
+appearance checks against the barn average (d). The display is shown with the dashboard's demonstration data, not a
+field reading.}
+\label{fig:hardware}
+\end{figure*}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/system_interfaces.jpg}
+\caption{The two other interfaces. (a) The dashboard with the held-out Pen A1 test clip, in which test droppings were
+pasted at known times. A green ring marks a flagged spot and the strip below lists the seven spots found. Pen
+readings on the dashboard are demonstration data, as its header states. (b) The farmer messaging service in a test
+conversation. The attached photograph is a sample image, as the agent itself says, not a live camera frame.}
+\label{fig:interfaces}
+\end{figure*}

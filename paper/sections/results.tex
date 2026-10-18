@@ -11,13 +11,16 @@ best guess. On the 1,255 lab-confirmed photographs every model loses more than 2
 (72.1 to 76.9\%), EfficientNet-B0 to 78.2\% (75.9 to 80.4\%) and the detector to 76.3\% (73.9 to 78.6\%). For each
 model the intervals of the two test sets are far apart, so the drop is not sampling noise.
 
-Our detector does not classify better than the classifiers earlier work used. On the lab-confirmed photographs the
-intervals of all three models overlap, and EfficientNet-B0 has the highest point estimate. The models fail on
-different classes. The classifiers keep far more Newcastle-like photographs (recall 0.70 for MobileNetV2 and 0.88 for
+The drop is 25.0 points for MobileNetV2, 20.8 for EfficientNet-B0 and 22.2 for the detector. Our detector does not
+classify better than the classifiers earlier work used. A paired exact McNemar test on the 1,255 lab-confirmed
+photographs finds no difference between the detector and MobileNetV2 ($p=0.20$) or EfficientNet-B0 ($p=0.16$), while
+EfficientNet-B0 is ahead of MobileNetV2 ($p=0.002$). Removing the 38 files that the release places in two classes
+raises every model by about one point (MobileNetV2 75.6\%, EfficientNet-B0 79.5\%, detector 77.3\%), so the conflicting
+labels do not explain the drop. The models fail on different classes. The classifiers keep far more Newcastle-like photographs (recall 0.70 for MobileNetV2 and 0.88 for
 EfficientNet-B0, against 0.53 for the detector), while the detector keeps more healthy ones (0.81 against 0.66 and
 0.68). The per-class differences are large, but the differences in overall accuracy are small next to the drop
 that every model shows. Under this protocol the published
-accuracies of 98 to 99\% describe photographs like the training photographs, and the choice of architecture matters
+accuracies of 97.8 to 99.3\% describe photographs like the training photographs, and the choice of architecture matters
 less than the choice of test set.
 
 \begin{table}[t]
@@ -78,10 +81,13 @@ sums to 100\%. Counts under each share.}
 \label{sec:res-dup}
 
 Forty-nine of the 679 farm test photographs (7.2\%) have a training photograph with an identical 256-bit difference
-hash, and inspection of the closest pairs shows they are the same image saved under two file names
-(Figure~\ref{fig:dup}). Every other test photograph differs from its nearest training photograph in at least 40
-bits. The detector calls all 49 copies correctly. Without them its farm accuracy is 97.8\% (95\% CI 96.3 to 98.7\%),
-against 97.9\% with them. The copies are a flaw in the split, but they are not why the farm test overstates
+hash (Figure~\ref{fig:dup}). Each pair has the same dimensions and class, and the pair we inspected by eye is the same
+image saved under two file names. Every other test photograph differs from its nearest training photograph in at
+least 40 bits. The validation split is affected too: 53 validation photographs copy a training photograph, and
+validation chose the kept epoch. The detector calls all 49 test copies correctly. Without them its farm accuracy is
+97.8\% (95\% CI 96.3 to 98.7\%) at the 0.25 threshold, against 97.9\% with them, and the other rows of
+Table~\ref{tab:bench} change by at most 0.1 points (detector always answering 98.4\%, MobileNetV2 99.5\%,
+EfficientNet-B0 99.1\%). The copies are a flaw in the split, but they are not why the farm test overstates
 performance on new photographs.
 
 \begin{figure}[t]
@@ -133,7 +139,8 @@ note and these agreement figures are released with the paper.
 \begin{table}[t]
 \centering
 \caption{Appearance grade and model accuracy on the lab-confirmed photographs. Normal looking means grade 9 or 10.
-Detector is our YOLO11n, MobileNetV2 is the seed 0 run. Accuracy is the share whose top class matches PCR.}
+$n$ excludes the nine photographs no rater could judge. Detector is our YOLO11n scored on its top class (always
+answers). Accuracy is the share whose top class matches PCR.}
 \label{tab:grades}
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{lrrrrr}
@@ -196,10 +203,14 @@ laptop, and like the pen test it uses pasted droppings. On the Pi, the deployed 
 still-spot finder and judges a full-resolution patch of each with the close-up detector. On the Raspberry Pi
 5 the detector takes 168\,ms at 320 pixels and 618\,ms at 640 pixels with four threads, and the pen model 608\,ms at
 640 pixels. In the deployed pipeline the detector runs only on the candidate patches the spot finder flags, not on every frame.
-We did not time the baseline classifiers on the Pi. Native message passing between two
-sections takes 95\,$\mu$s for a 57.6\,KB frame and reply. When we killed any section with \texttt{SIGKILL}, the
-supervisor restarted it in 20 to 33\,ms. Killing the spot finder cost the camera one frame and the other sections
-none.
+We did not time the baseline classifiers on the Pi, and we have not measured the detection accuracy of the deployed
+pipeline on the Pi. Native message passing between two sections takes 95\,$\mu$s for a 57.6\,KB frame and reply. When
+we killed a section with \texttt{SIGKILL}, the supervisor started a new copy of it within 20 to 33\,ms. This is the time from
+the supervisor noticing the exit to the new process being launched. The supervisor checks its children every 100\,ms,
+so a stage can be down for up to about 130\,ms in total, plus the time the new process needs to start serving. We ran these kills by hand on each section during
+development and did not keep a count per section. Killing the spot finder cost the camera one frame and the other
+sections none. These kills test our process structure and supervisor, which would work the same way on Linux. We did
+not kill a QNX driver or system service, such as the camera service or the network stack.
 
 \begin{figure}[t]
 \centering

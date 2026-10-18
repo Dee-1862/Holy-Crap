@@ -50,7 +50,7 @@ export default function Terms() {
       <p>We may update these terms. The current version is always on this page with its effective date.</p>
 
       <h2>Contact</h2>
-      <p>{LEGAL.operator}, {LEGAL.email}</p>
+      <p>Contact {LEGAL.operator} at {LEGAL.email}.</p>
     </main>
   );
 }

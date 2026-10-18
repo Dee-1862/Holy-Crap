@@ -67,7 +67,7 @@ export default function Privacy() {
       <p>If this policy changes, we will update this page and the effective date above.</p>
 
       <h2>Contact</h2>
-      <p>{LEGAL.operator}, {LEGAL.email}</p>
+      <p>Contact {LEGAL.operator} at {LEGAL.email}.</p>
     </main>
   );
 }

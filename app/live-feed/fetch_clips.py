@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import shutil
 import subprocess
 import urllib.request
 import zipfile
@@ -64,11 +63,6 @@ def main() -> None:
                         raise SystemExit(f"md5 mismatch for {src['file']}, not using it")
                 print(f"  converting {clip['id']} to a playable MP4", flush=True)
                 to_web_mp4(raw, target, fps=15)
-            elif clip["member"] is None:                                # a single file download
-                raw = RAW / "spatiotemporal_cam1.mp4"
-                if not raw.exists():
-                    fetch(src["download"], raw)
-                shutil.copyfile(raw, target)
             else:                                                       # a member of a checked zip
                 z = RAW / src["zip"]
                 if not z.exists() or md5(z) != src["md5"]:

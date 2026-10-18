@@ -57,7 +57,7 @@ def zoomed(sess, frame: np.ndarray, conf: float) -> np.ndarray:
             if len(b):
                 b[:, :4] = b[:, :4] * CROP / 640 + np.array([x, y, x, y])
                 found.append(b)
-    return D._nms(np.concatenate(found), 0.4) if found else np.zeros((0, 6), np.float32)
+    return D._nms(np.concatenate(found), 0.4) if found else np.zeros((0, 10), np.float32)
 
 
 def filtered(sess, frame: np.ndarray, bg: Background, conf: float) -> tuple[np.ndarray, np.ndarray]:
@@ -92,7 +92,8 @@ class Persistence:
         self.history: list[np.ndarray] = []
         self.reported: list[tuple[float, float]] = []
 
-    def update(self, boxes: np.ndarray) -> list[np.ndarray]:
+    def update(self, boxes: np.ndarray) -> list[tuple[np.ndarray, int]]:
+        """New spots, each with how many of the recent samples it was seen in."""
         self.history = (self.history + [boxes])[-self.window:]
         new = []
         for b in boxes:
@@ -102,5 +103,5 @@ class Persistence:
             seen = sum(any(np.hypot(cx - (o[0] + o[2]) / 2, cy - (o[1] + o[3]) / 2) < self.radius for o in past) for past in self.history)
             if seen >= self.need:
                 self.reported.append((cx, cy))
-                new.append(b)
+                new.append((b, seen))
         return new

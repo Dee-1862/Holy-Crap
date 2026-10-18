@@ -44,7 +44,8 @@ def _letterbox(bgr: np.ndarray):
 
 
 def _run(sess, bgr: np.ndarray, conf: float):
-    """One model call. Returns boxes in the coordinates of `bgr` as rows x1, y1, x2, y2, class id, score."""
+    """One model call. Returns boxes in the coordinates of `bgr` as rows x1, y1, x2, y2, class id, score,
+    then the four class scores in CLASSES order (kept for explainability)."""
     x, s, px, py = _letterbox(bgr)
     out = sess.run(None, {sess.get_inputs()[0].name: x})[0][0].T          # (candidates, 8)
     scores = out[:, 4:8]
@@ -52,11 +53,11 @@ def _run(sess, bgr: np.ndarray, conf: float):
     best = scores.max(1)
     keep = best >= conf
     if not keep.any():
-        return np.zeros((0, 6), np.float32)
+        return np.zeros((0, 10), np.float32)
     cx, cy, w, h = out[keep, 0], out[keep, 1], out[keep, 2], out[keep, 3]
     x1, y1 = (cx - w / 2 - px) / s, (cy - h / 2 - py) / s
     x2, y2 = (cx + w / 2 - px) / s, (cy + h / 2 - py) / s
-    return np.stack([x1, y1, x2, y2, cls[keep], best[keep]], 1).astype(np.float32)
+    return np.concatenate([np.stack([x1, y1, x2, y2, cls[keep], best[keep]], 1), scores[keep]], 1).astype(np.float32)
 
 
 def _nms(boxes: np.ndarray, iou: float = 0.5) -> np.ndarray:
@@ -83,4 +84,4 @@ def detect(sess, bgr: np.ndarray, conf: float = 0.25, tile: int | None = None, o
                 b[:, [0, 2]] += x0
                 b[:, [1, 3]] += y0
                 found.append(b)
-    return _nms(np.concatenate(found)) if found else np.zeros((0, 6), np.float32)
+    return _nms(np.concatenate(found)) if found else np.zeros((0, 10), np.float32)

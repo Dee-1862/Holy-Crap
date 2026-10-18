@@ -54,14 +54,36 @@ def background_at(cap, fps: float, start: float, end: float) -> S.Background:
     return S.Background(frames)
 
 
-def crop_of(frame: np.ndarray, b) -> str:
-    """A 64 pixel square around the spot, enlarged to 160, as a data URL for the dashboard."""
-    cx, cy = int((b[0] + b[2]) / 2), int((b[1] + b[3]) / 2)
+CROP_PX = 96          # window of the frame shown when a spot is opened, enlarged three times
+
+
+def explain(frame: np.ndarray, b, bg: S.Background, seen: int) -> dict:
+    """What the dashboard shows when a spot is opened: a zoomed crop, where the box sits in it, and the measured
+    reasons. Every number here is measured from the pixels or read from the model, nothing is written by hand."""
     h, w = frame.shape[:2]
-    x0, y0 = min(max(0, cx - 32), w - 64), min(max(0, cy - 32), h - 64)
-    crop = cv2.resize(frame[y0:y0 + 64, x0:x0 + 64], (160, 160), interpolation=cv2.INTER_CUBIC)
-    ok, buf = cv2.imencode(".jpg", crop, [cv2.IMWRITE_JPEG_QUALITY, 85])
-    return "data:image/jpeg;base64," + base64.b64encode(buf.tobytes()).decode()
+    x1, y1, x2, y2 = (int(round(v)) for v in b[:4])
+    cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
+    x0, y0 = min(max(0, cx - CROP_PX // 2), w - CROP_PX), min(max(0, cy - CROP_PX // 2), h - CROP_PX)
+    crop = cv2.resize(frame[y0:y0 + CROP_PX, x0:x0 + CROP_PX], (CROP_PX * 3, CROP_PX * 3), interpolation=cv2.INTER_CUBIC)
+    ok, buf = cv2.imencode(".jpg", crop, [cv2.IMWRITE_JPEG_QUALITY, 88])
+    lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB).astype(np.float32)
+    inner = np.zeros((h, w), bool)
+    inner[max(0, y1):y2, max(0, x1):x2] = True
+    ring = np.zeros((h, w), bool)
+    ring[max(0, y1 - 10):y2 + 10, max(0, x1 - 10):x2 + 10] = True
+    ring &= ~inner
+    a, r = lab[inner].mean(0), lab[ring].mean(0)
+    changed = float(np.abs(frame[inner].astype(np.int16) - bg.image[inner].astype(np.int16)).max(1).mean())
+    return {
+        "crop": "data:image/jpeg;base64," + base64.b64encode(buf.tobytes()).decode(),
+        "cropBox": [round((x1 - x0) / CROP_PX, 3), round((y1 - y0) / CROP_PX, 3), round((x2 - x0) / CROP_PX, 3), round((y2 - y0) / CROP_PX, 3)],
+        "sizePx": int(max(x2 - x1, y2 - y1)),
+        "darker": round(float(r[0] - a[0]) * 100 / 255, 1),           # lightness below the litter around it, percent
+        "colourShift": round(float(np.hypot(*(a[1:] - r[1:]))), 1),   # distance in the a and b colour channels
+        "vsBackground": round(changed, 1),                             # mean change from the empty floor image, 0 to 255
+        "seen": int(seen),
+        "scores": {c: round(float(p), 3) for c, p in zip(D.CLASSES, b[6:10])},
+    }
 
 
 def analyze(clip: dict, sess) -> dict:
@@ -101,9 +123,9 @@ def analyze(clip: dict, sess) -> dict:
         raws.append(len(raw))
         dets.append([[round(float(b[0]) / W, 4), round(float(b[1]) / H, 4), round(float(b[2]) / W, 4), round(float(b[3]) / H, 4),
                       D.CLASSES[int(b[4])], round(float(b[5]), 2)] for b in kept])
-        for b in persist.update(kept):
+        for b, seen in persist.update(kept):
             found.append({"t": round(t, 2), "box": [round(float(b[0]) / W, 4), round(float(b[1]) / H, 4), round(float(b[2]) / W, 4), round(float(b[3]) / H, 4)],
-                          "cls": D.CLASSES[int(b[4])], "score": round(float(b[5]), 2), "crop": crop_of(frame, b)})
+                          "cls": D.CLASSES[int(b[4])], "score": round(float(b[5]), 2), "window": persist.window, **explain(frame, b, bg, seen)})
         if len(times) % 200 == 0:
             print(f"  {clip['id']}: {t / 60:.1f} of {length / 60:.1f} min, {len(found)} spots", flush=True)
         idx += 1
@@ -140,6 +162,8 @@ def score_truth(truth: list[dict], spots: list[dict]) -> list[dict]:
                 used.add(k)
                 hit = s["t"]
                 break
+        if hit is not None:
+            spots[k]["truth"] = {"cls": t["cls"], "photo": t["photo"]}       # the answer key, shown next to the model's guess
         out.append({**t, "foundAt": hit})
     return out
 

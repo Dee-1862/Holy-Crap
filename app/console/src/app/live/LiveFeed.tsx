@@ -67,7 +67,10 @@ export default function LiveFeed() {
   // a long feed joins at the wall clock position once its length is known
   const onLoaded = useCallback(() => {
     const v = video.current;
-    if (v && v.duration > LONG) v.currentTime = (Date.now() / 1000) % v.duration;
+    if (!v) return;
+    const t = Number(new URLSearchParams(window.location.search).get("t"));   // a link from a spot on the map
+    if (t > 0 && t < v.duration) v.currentTime = t;
+    else if (v.duration > LONG) v.currentTime = (Date.now() / 1000) % v.duration;
   }, []);
 
   useEffect(() => {

@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import CameraLoop from "@/components/CameraLoop";
 import Clock from "@/components/Clock";
 import PenDroppings from "@/components/PenDroppings";
+import PenFolder from "@/components/PenFolder";
 import Readout from "@/components/Readout";
-import SiteMap, { type MapFilter } from "@/components/SiteMap";
 import SpecimenSheet from "@/components/SpecimenSheet";
 import ThemeToggle from "@/components/ThemeToggle";
 import { useBarn } from "@/lib/store";
@@ -14,28 +14,25 @@ import { GROUPS, SPECIMENS } from "@/lib/data";
 import { barnIndex, penLevels, ranked, tone } from "@/lib/insight";
 import styles from "./dashboard.module.css";
 
-const FILTERS: { id: MapFilter; label: string }[] = [
-  { id: "all", label: "All" },
-  { id: "watch", label: "Needs a look" },
-  { id: "action", label: "Urgent" },
-];
-
-// Main dashboard. Three widgets, the barn floor plan, and the readout for the chosen pen.
+// Main dashboard. Three widgets, a big camera view for the chosen pen, and the pens as folders on the side.
 export default function Dashboard() {
   useBarn();
   const worst = ranked().at(-1)?.group.id ?? GROUPS[0].id;
   const [selected, setSelected] = useState(worst);
-  const [filter, setFilter] = useState<MapFilter>("all");
   const [openId, setOpenId] = useState<string | null>(null);
   const open = SPECIMENS.find((s) => s.id === openId) ?? null;
   const index = barnIndex();
   const pens = penLevels();
-  // pens that have a replayed camera feed on the Live view
-  const [cams, setCams] = useState<Record<string, string>>({});
+  // pens that have a camera feed, and start on one of them
+  const [cams, setCams] = useState<string[]>([]);
   useEffect(() => {
     fetch("/api/live/clips", { cache: "no-store" }).then((r) => r.json())
-      .then((d: { clips: { id: string; pen: string }[] }) => setCams(Object.fromEntries(d.clips.map((c) => [c.pen, c.id]))))
-      .catch(() => setCams({}));
+      .then((d: { clips: { pen: string }[] }) => {
+        const pens = [...new Set(d.clips.map((c) => c.pen))].sort();
+        setCams(pens);
+        if (pens.length) setSelected((cur) => (pens.includes(cur) ? cur : pens[0]));
+      })
+      .catch(() => setCams([]));
   }, []);
 
   return (
@@ -70,32 +67,16 @@ export default function Dashboard() {
       </section>
 
       <main className={styles.grid}>
-        <div className={styles.left}>
-        <section className={`glass ${styles.map}`} aria-label="Barn site map">
-          <div className={styles.mapHead}>
-            <h2 className="headline">Floor plan</h2>
-            {cams[selected] && <Link href={`/live?clip=${cams[selected]}`} className={styles.camLink}>Pen {selected} camera</Link>}
-            <div className="seg" role="group" aria-label="Filter pens">
-              {FILTERS.map((f) => (
-                <button key={f.id} aria-pressed={filter === f.id} onClick={() => setFilter(f.id)}>{f.label}</button>
-              ))}
-            </div>
+        <aside className={styles.side} aria-label="Pens and readout">
+          <PenFolder selected={selected} cams={cams} onSelect={setSelected} />
+          <div className={`glass ${styles.readout}`}>
+            <Readout key={selected} groupId={selected} />
           </div>
-          <div className={styles.plan}>
-            <SiteMap selected={selected} filter={filter} onSelect={setSelected} />
-          </div>
-          <p className={`foot ${styles.legend}`}>
-            <span><i style={{ background: "var(--good)" }} />Healthy</span>
-            <span><i style={{ background: "var(--warn)" }} />Needs a look</span>
-            <span><i style={{ background: "var(--bad)" }} />Urgent</span>
-          </p>
-        </section>
-        <PenDroppings key={selected} groupId={selected} onOpen={setOpenId} />
-        </div>
-
-        <aside className={`glass ${styles.side}`} aria-label="Pen readout">
-          <Readout key={selected} groupId={selected} />
         </aside>
+        <div className={styles.main}>
+          <CameraLoop pen={selected} />
+          <PenDroppings key={selected} groupId={selected} onOpen={setOpenId} />
+        </div>
       </main>
 
       {open && <SpecimenSheet specimen={open} onClose={() => setOpenId(null)} />}

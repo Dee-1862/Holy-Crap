@@ -7,15 +7,10 @@
 .big { font-size: 40px; line-height: 1.05; font-weight: 500; letter-spacing: -0.035em; margin: 6px 0 4px; }
 .big small { font-size: 18px; font-weight: 500; color: var(--label-2); letter-spacing: 0; margin-left: 4px; }
 
-.grid { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 12px; align-items: start; }
-.left { display: grid; gap: 12px; min-width: 0; align-content: start; }
-.map { padding: 16px 16px 14px; min-width: 0; }
-.plan { max-width: 640px; margin: 0 auto; }
-.mapHead { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-.mapHead h2 { margin: 0; }
-.legend { display: flex; gap: 16px; margin: 12px 2px 0; }
-.legend i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
-.side { padding: 18px; position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto; min-width: 0; }
+.grid { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 12px; align-items: start; }
+.side { display: grid; gap: 12px; position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto; min-width: 0; align-content: start; }
+.readout { padding: 16px; }
+.main { display: grid; gap: 12px; min-width: 0; align-content: start; }
 
 @media (max-width: 940px) {
   .grid { grid-template-columns: 1fr; }
@@ -26,5 +21,3 @@
   .big { font-size: 38px; }
 }
 
-.camLink { font-size: 14px; font-weight: 500; color: var(--label-2); text-decoration: none; padding: 6px 12px; border-radius: 999px; background: var(--fill); margin: 0 auto 0 12px; }
-.camLink:hover { color: var(--label); }

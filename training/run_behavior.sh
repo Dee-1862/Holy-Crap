@@ -20,7 +20,16 @@ if [ -n "${DDP_CLS:-}" ]; then
   timeout 300 torchrun --standalone --nproc_per_node "$NGPU" ddp_check.py || exit 1
 fi
 
-python prepare_behavior.py --out "$WORK" --workers "${PREP_WORKERS:-32}" || exit 1
+if [ -n "${PREPARED:-}" ]; then
+  # Prepared dataset uploaded as one tar (Veri volume -> dataset -> $VERI_DATA_DIR); skip the 33 GB video download.
+  mkdir -p "$WORK"
+  TAR=$(find "${VERI_DATA_DIR:-/workspace/data}" -name '*.tar' | head -1)
+  echo "extracting $TAR"; tar -xf "$TAR" -C "$WORK" || exit 1
+  printf 'path: %s\ntrain: images/train\nval: images/val\ntest: images/test\nnames: {0: chicken}\n' "$WORK/chickens" > "$WORK/chickens/data.yaml"
+  find "$WORK/behaviour" -maxdepth 2 -type d | head -20
+else
+  python prepare_behavior.py --out "$WORK" --workers "${PREP_WORKERS:-32}" || exit 1
+fi
 
 HOURS=$(python -c "import time; left=(${BUDGET_MIN:-110}*60 - (time.time()-$JOB_START) - 600)/3600; print(round(max(left, 1/4), 3))")
 echo "training time cap: $HOURS h"

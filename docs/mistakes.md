@@ -2,6 +2,8 @@
 
 Record anything that went wrong or was ruled out so we don't repeat it. Format: date, what happened, why, what to do instead.
 
+- 2026-10-17: prepare_behavior.py on Veri (Linux, 32 forked processes, each downloading one ~350 MB Big Broiler clip with a single range request) finished 0 of 102 clips in over an hour (jobs 3397d298d843, 95a671910fce), while the same script on Windows (spawn, 12 workers) did 68 clips in 30 min. Root cause unknown (fork, or stalled connections with no timeout error). Do heavy video prep locally and ship a prepared tar via a Veri volume; test Linux code paths before paying for a big box.
+- 2026-10-17: Veri custom scripts cannot mount a whole volume yet (coming soon). Use one tar file per job: volume -> datasets.from_volume -> --dataset-id -> $VERI_DATA_DIR.
 - 2026-10-17: Veri custom scripts originally had a 64 MB /dev/shm: DataLoader workers and NCCL (multi-GPU) crashed with bus errors / "No space left on device". Fixed by Veri on 2026-10-17 (--shm-size 16g, verified with job 38f4d0ee9f3c). train.py still falls back to pipe-transport loading if shm < 1 GB.
 - 2026-10-17: On Windows each DataLoader worker is a full process; with 15 GB RAM, 8 train workers (+16 val workers) crashed with "bad allocation". Use 4 workers locally.
 - 2026-10-17: Leftover files (yolo11n.pt, runs/) in training/ made `veri run-script` uploads fail with a multipart parse error. Keep the upload dir to source files only.

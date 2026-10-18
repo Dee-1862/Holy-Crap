@@ -136,8 +136,24 @@ static bool dirty = true, asleep = false, swallow = false, arcShown = false, bFi
 static uint32_t lastInput = 0, toastUntil = 0, bStart = 0, splashUntil = 0;
 static int tx0, ty0, tlx, tly;
 
-static void loadPen(int p) { gcount = 0; for (int i = 0; i < NSP && gcount < MAXSPEC; i++) if (SP[i].pen == p) ge[gcount++] = i; }
-static int pages() { return 2 * gcount + 2; }            // photo and why for each specimen, then the checklist, then the radar
+// A pen shows only its most critical specimen: one still on alert before one marked normal, a suspected
+// disease before a healthy one, then the lowest grade, then the newest. penTotal keeps the pen's full count.
+static int penTotal = 0;
+static bool worse(const Spec& a, const Spec& b) {
+  if (counts(a) != counts(b)) return counts(a);
+  if ((a.k != 0) != (b.k != 0)) return a.k != 0;
+  if (a.grade != b.grade) return a.grade < b.grade;
+  return a.mins < b.mins;
+}
+static void loadPen(int p) {
+  gcount = 0; penTotal = 0;
+  for (int i = 0; i < NSP; i++) {
+    if (SP[i].pen != p) continue;
+    penTotal++;
+    if (!gcount || worse(SP[i], SP[ge[0]])) { ge[0] = i; gcount = 1; }
+  }
+}
+static int pages() { return 2 * gcount + 2; }            // photo and why of the critical one, then the checklist, then the radar
 static bool specPage() { return pg < 2 * gcount; }
 static bool summaryPage() { return pg == 2 * gcount; }
 static bool radarPage() { return pg == 2 * gcount + 1; }
@@ -365,7 +381,7 @@ static void pagePhoto() {
   text(KIND[s.k], 202, 320, s.k ? C_TXT : C_GOOD, &fonts::DejaVu18, middle_left);
   snprintf(b, sizeof b, "%d%% confident", s.conf); text(b, 202, 346, C_SEC, &fonts::DejaVu12, middle_left);
   if (s.st) stateTag(s, 202, 366); else { snprintf(b, sizeof b, "%d min ago", s.mins); text(b, 202, 366, C_TER, &fonts::DejaVu12, middle_left); }
-  snprintf(b, sizeof b, "%d of %d", pg / 2 + 1, gcount); text(b, CX, 410, C_TER, &fonts::DejaVu12);
+  snprintf(b, sizeof b, "Most critical of %d", penTotal); text(b, CX, 410, C_TER, &fonts::DejaVu12);
 }
 // Explainability in plain words: what it most likely is, how sure it is, and what it saw.
 static void pageWhy() {
@@ -390,14 +406,14 @@ static void pageWhy() {
     wrap(s.why[i], 116, y, 262, 15, 2, C_TXT);
     y += 58;
   }
-  snprintf(b, sizeof b, "%d of %d", pg / 2 + 1, gcount); text(b, CX, 410, C_TER, &fonts::DejaVu12);
+  snprintf(b, sizeof b, "Most critical of %d", penTotal); text(b, CX, 410, C_TER, &fonts::DejaVu12);
 }
 // Pen summary: the five checks in plain words, averaged over the pen's specimens.
 static void pageSummary() {
   M5.Display.fillScreen(C_BLK);
   text(PEN_NAME[pen], CX, 46, C_TXT, &fonts::DejaVu24);
   float v[5] = {0}; int n = 0;
-  for (int i = 0; i < gcount; i++) { Spec& sp = SP[ge[i]]; if (!counts(sp)) continue; n++; for (int j = 0; j < 5; j++) v[j] += sp.sub[j]; }
+  for (int i = 0; i < NSP; i++) { Spec& sp = SP[i]; if (sp.pen != pen || !counts(sp)) continue; n++; for (int j = 0; j < 5; j++) v[j] += sp.sub[j]; }   // whole pen
   for (int j = 0; j < 5; j++) v[j] = n ? v[j] / n : 0;
   card(70, 106, 326, 240, 26, C_CARD);
   for (int j = 0; j < 5; j++) {
@@ -423,7 +439,7 @@ static void pageRadar() {
   M5.Display.fillScreen(C_BLK);
   text(PEN_NAME[pen], CX, 46, C_TXT, &fonts::DejaVu24);
   float v[5] = {0}, w[5] = {0}; int n = 0, nb = 0;
-  for (int i = 0; i < gcount; i++) { Spec& sp = SP[ge[i]]; if (!counts(sp)) continue; n++; for (int j = 0; j < 5; j++) v[j] += sp.sub[j]; }
+  for (int i = 0; i < NSP; i++) { Spec& sp = SP[i]; if (sp.pen != pen || !counts(sp)) continue; n++; for (int j = 0; j < 5; j++) v[j] += sp.sub[j]; }   // whole pen
   for (int i = 0; i < NSP; i++) { if (!counts(SP[i])) continue; nb++; for (int j = 0; j < 5; j++) w[j] += SP[i].sub[j]; }
   for (int j = 0; j < 5; j++) { v[j] = n ? v[j] / n : 0; w[j] = nb ? w[j] / nb : 0; }
   const int cx = CX, cy = 222, R = 96; int lv = level(pen); int px[5], py[5], bx[5], by[5];
@@ -480,8 +496,7 @@ static const char* ALIEN[17] = {
   "...###........###..."
 };
 // cell is the size of one sprite pixel on screen. The sprite is drawn centered on cx, cy.
-static void drawAlien(int cx, int cy, int cell) {
-  auto& d = M5.Display;
+static void drawAlien(int cx, int cy, int cell, lgfx::LGFXBase& d = M5.Display) {
   uint16_t outline = d.color565(2, 2, 2), body = d.color565(124, 89, 171), light = d.color565(150, 115, 195);
   int x0 = cx - 10 * cell, y0 = cy - 17 * cell / 2;
   for (int r = 0; r < 17; r++) {
@@ -511,6 +526,89 @@ static void terminatedScreen(const char* line1, const char* line2) {
   text(PEN_NAME[pen], CX, 296, C_SEC, &fonts::DejaVu18);
   text(line1, CX, 338, C_TXT, &fonts::DejaVu18);
   text(line2, CX, 366, C_TER, &fonts::DejaVu12);
+}
+// ----- after the termination: the alien dances, a gold gauntlet snaps, and the alien turns to dust -----
+// 16 by 16 pixel art. # outline, g gold, l gold band, r o y b p G the six gems. SNAP has the middle finger up.
+static const char* G_READY[16] = {
+  ".##....##.##....", "#gg#..#gg#gg#...", "#gg#..#gg#gg#...", "#gg####gg#gg#...",
+  "#gg#gg#gg#gg#.##", "#gg#gg#gg#gg##g#", "#gr#go#gy#gb#gG#", "#ggggggggggggg#.",
+  "#ggggggggggggg#.", "#ggggggppgggg#..", "#gggggpppgggg#..", "#ggggggppgggg#..",
+  ".#gggggggggg#...", ".#llllllllll#...", ".#gggggggggg#...", ".############...",
+};
+static const char* G_SNAP[16] = {
+  ".##.##.##.##....", "#gg#gg#gg#gg#...", "#gg#gg#gg#gg#...", "#gg#gg#gg#gg#...",
+  "#gg#gg#gg#gg#...", "#gg#gg#gg#gg#.##", "#gr#go#gy#gb##G#", "#ggggggggggggg#.",
+  "#ggggggggggggg#.", "#ggggggppgggg#..", "#gggggpppgggg#..", "#ggggggppgggg#..",
+  ".#gggggggggg#...", ".#llllllllll#...", ".#gggggggggg#...", ".############...",
+};
+static void drawGauntlet(lgfx::LGFXBase& d, const char* const* art, int cx, int cy, int cell) {
+  int x0 = cx - 8 * cell, y0 = cy - 8 * cell;
+  for (int r = 0; r < 16; r++) {
+    for (int c = 0; c < 16; c++) {
+      uint16_t col;
+      switch (art[r][c]) {
+        case '#': col = d.color565(40, 25, 5); break;    case 'g': col = d.color565(220, 170, 40); break;
+        case 'l': col = d.color565(160, 110, 20); break; case 'r': col = d.color565(220, 40, 40); break;
+        case 'o': col = d.color565(240, 130, 30); break; case 'y': col = d.color565(250, 220, 50); break;
+        case 'b': col = d.color565(50, 110, 240); break; case 'p': col = d.color565(140, 60, 200); break;
+        case 'G': col = d.color565(40, 190, 80); break;  default: continue;
+      }
+      d.fillRect(x0 + c * cell, y0 + r * cell, cell, cell, col);
+    }
+  }
+}
+// The scene draws into an off-screen canvas over the top of the termination screen, so it never flickers.
+// The canvas also carries its slice of the red ring and the dark circle, and the text below stays untouched.
+static const int ST_W = 320, ST_H = 190, ST_X = CX - 160, ST_Y = 55, ST_AY = 150 - ST_Y;
+static void stageBase(M5Canvas& c) {
+  c.fillScreen(C_BLK);
+  c.fillArc(160, CY - ST_Y, 216, 224, 0, 360, C_BAD);
+  c.fillSmoothCircle(160, ST_AY, 78, C_CARD);
+}
+static void snapScene() {
+  M5Canvas c(&M5.Display);
+  if (!c.createSprite(ST_W, ST_H)) return;                         // no memory, keep the still screen
+  const int gx = 262, gy = ST_AY + 12;                             // where the gauntlet stops
+  static const int8_t DX[4] = {-10, 0, 10, 0}, DY[4] = {0, -8, 0, -8};
+  for (int f = 0; f < 20; f++) {                                   // 1 the dance, side to side with a hop
+    stageBase(c); drawAlien(160 + DX[f % 4], ST_AY + DY[f % 4], 6, c); c.pushSprite(ST_X, ST_Y); delay(90);
+  }
+  for (int f = 0; f <= 10; f++) {                                  // 2 the gauntlet slides in from the right
+    stageBase(c); drawAlien(160, ST_AY, 6, c); drawGauntlet(c, G_READY, gx + (10 - f) * 9, gy, 4);
+    c.pushSprite(ST_X, ST_Y); delay(30);
+  }
+  delay(350);
+  stageBase(c); drawAlien(160, ST_AY, 6, c); drawGauntlet(c, G_SNAP, gx, gy, 4);   // 3 the snap
+  for (int i = 0; i < 5; i++) {                                    // spark lines off the fingertips
+    float a = -PI / 2 - 0.6f + i * 0.3f;
+    int sx = gx - 12 + cosf(a) * 12, sy = gy - 34 + sinf(a) * 12;
+    c.drawWideLine(sx, sy, sx + cosf(a) * 14, sy + sinf(a) * 14, 2, c.color565(255, 240, 160));
+  }
+  c.pushSprite(ST_X, ST_Y);
+  M5.Power.setVibration(200); delay(70); M5.Power.setVibration(0);
+  delay(300);
+  uint8_t rnd[17 * 20];                                            // 4 the dust, each pixel goes at its own moment
+  for (auto& v : rnd) v = random(256);
+  const int cell = 6, ax = 160 - 10 * cell, ay = ST_AY - 17 * cell / 2;
+  for (int f = 0; f <= 34; f++) {
+    float p = f / 34.0f;
+    stageBase(c); drawGauntlet(c, G_SNAP, gx, gy, 4);
+    for (int r = 0; r < 17; r++) {
+      for (int k = 0; k < 20; k++) {
+        char ch = ALIEN[r][k]; if (ch == '.') continue;
+        uint8_t rv = rnd[r * 20 + k];
+        float t = 0.15f + 0.45f * rv / 255.0f + 0.3f * k / 19.0f, q = (p - t) / 0.35f;
+        int R = ch == '#' ? 2 : ch == 'l' ? 150 : 124, G = ch == '#' ? 2 : ch == 'l' ? 115 : 89, B = ch == '#' ? 2 : ch == 'l' ? 195 : 171;
+        if (q <= 0) { c.fillRect(ax + k * cell, ay + r * cell, cell, cell, c.color565(R, G, B)); continue; }
+        if (q >= 1) continue;                                      // gone
+        int sz = max(1, (int)(cell * (1 - q)));
+        int x = ax + k * cell + q * 55 + (int)(((rv >> 3) & 7) - 3) * q * 3, y = ay + r * cell - q * 30 - (rv & 7) * q * 3;
+        c.fillRect(x, y, sz, sz, c.color565(R + (110 - R) * q, G + (95 - G) * q, B + (85 - B) * q));   // fades to dust
+      }
+    }
+    c.pushSprite(ST_X, ST_Y); delay(25);
+  }
+  c.deleteSprite();
 }
 static void toast(const char* m, const char* sub) {
   card(CX - 150, CY - 50, 300, 100, 34, C_CARD2);
@@ -545,7 +643,7 @@ static void setState(int specIdx, int st, const char* path) {
 #endif
 }
 static void actCheck() { setState(ge[min(pg / 2, gcount - 1)], 1, "check"); toast("I'll check it", where()); scr = PEN; }
-static void actNormal() { setState(ge[min(pg / 2, gcount - 1)], 2, "normal"); toast("Marked normal", "Removed from alerts"); scr = PEN; }
+static void actNormal() { setState(ge[min(pg / 2, gcount - 1)], 2, "normal"); toast("Marked normal", "Removed from alerts"); scr = PEN; loadPen(pen); pg = 0; }   // the next most critical takes its place
 // Vet request. Shows the alien, then says plainly what happened. No phone call is placed.
 static void actVet() {
   const char* line1 = "Vet request saved"; const char* line2 = where();
@@ -564,7 +662,8 @@ static void actVet() {
   vetPen = pen; vetAt = 0;
   M5.Power.setVibration(255); delay(160); M5.Power.setVibration(0);     // one short buzz, no flashing
   terminatedScreen(line1, line2);
-  toastUntil = millis() + 3500;
+  snapScene();
+  toastUntil = millis() + 2500; swallow = true;                   // presses made during the scene do not count
   scr = LIST; sel = 0;
 }
 

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { clock, type Analysis, type Clip, type Spot } from "@/lib/live";
+import { CLASS_NAME, clock, type Analysis, type Clip, type Spot } from "@/lib/live";
 import SpotSheet from "./SpotSheet";
 import styles from "./camera.module.css";
 
@@ -161,6 +161,26 @@ export default function CameraLoop({ pen }: { pen: string }) {
         {spot ? "Only the moments where the detector flagged a spot, looped. Tap a spot for the zoomed view and the reasons." : "The detector found nothing it was sure of, so the whole video plays."}
         {keyed ? ` Answer key on this test clip: ${found} of ${keyed} pasted droppings found.` : " Spots are leads to check, not confirmed droppings."}
       </p>
+      {spots.length > 0 && (
+        // the same numbered spots as the thumbnails, so the list and the pictures always match
+        <div className="list on-glass" aria-label={`Droppings found by the Pen ${pen} camera`}>
+          <h3 className="eyebrow list-h" style={{ margin: 0 }}>Droppings found by this camera</h3>
+          {spots.map((s, i) => (
+            <button key={i} className="row" style={{ gridTemplateColumns: "26px 44px 1fr auto" }} onClick={() => { setK(i); setOpen(i); }}>
+              <b className="num" style={{ fontSize: 15, textAlign: "center" }}>{i + 1}</b>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={s.crop} alt="" style={{ width: 44, height: 44, objectFit: "cover", borderRadius: 8 }} />
+              <span>
+                <b style={{ display: "block", fontWeight: 600, fontSize: 15 }}>
+                  {s.truth ? `Test dropping, ${CLASS_NAME[s.truth.cls]}` : clip.test ? "False flag" : "Possible dropping"}
+                </b>
+                <small className="foot">{clock(s.t)} · model guess {CLASS_NAME[s.cls]}{s.truth ? (s.cls === s.truth.cls ? ", right" : ", wrong") : ""}</small>
+              </span>
+              <span className="foot num">{s.sizePx} px</span>
+            </button>
+          ))}
+        </div>
+      )}
       {open !== null && spots[open] && <SpotSheet spot={spots[open]} n={open + 1} clip={clip} onClose={() => setOpen(null)} />}
     </section>
   );

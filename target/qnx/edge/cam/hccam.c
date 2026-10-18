@@ -13,7 +13,11 @@
    frame, a frame that does not match is skipped and counted.
 
    cc -O2 -o hccam hccam.c -lcamapi
-   hccam [-u unit] [-r rate] [-w small_width]          */
+   hccam [-u unit] [-r rate] [-w small_width] [-c copy_rate]
+
+   -c caps how many full frames a second are copied into shared memory (default 8, 0 = every frame). The sensor
+   delivers 30 a second but the pipeline reads at most a few (spot finder 2, live view 4), so copying all 30 only
+   costs memory bandwidth. Frames that are copied are untouched, so detection sees the same pixels.          */
 #include <errno.h>
 #include <fcntl.h>
 #include <pthread.h>
@@ -66,6 +70,8 @@ static volatile sig_atomic_t stop;
 static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t fresh = PTHREAD_COND_INITIALIZER;
 static int y_offset = -1;                          /* 0 for YUYV, 1 for UYVY, found from the first frames */
+static double copy_rate = 8.0;                     /* full frames a second copied to shared memory, 0 = all */
+static _Atomic uint64_t not_copied;                /* frames the camera gave that we let go by (-c) */
 
 static int64_t now_ns(void) {
     struct timespec t;
@@ -78,6 +84,15 @@ static int64_t now_ns(void) {
    stored with stride = width so readers find the U V plane right after width x height luma bytes. */
 static void on_frame(camera_handle_t h, void *buf, void *arg) {
     (void)h; (void)arg;
+    if (copy_rate > 0) {                           /* only the frames someone will read: skip the 4.5 MB copy otherwise */
+        static int64_t last_copy;
+        int64_t t = now_ns();
+        if (t - last_copy < (int64_t)(1e9 / copy_rate)) {
+            not_copied++;
+            return;
+        }
+        last_copy = t;
+    }
     const uint8_t *b = buf;
     uint32_t type = *(const uint32_t *)b;
     const uint8_t *pix = *(uint8_t *const *)(b + 16);
@@ -193,10 +208,11 @@ static void on_signal(int s) { (void)s; stop = 1; pthread_cond_broadcast(&fresh)
 int main(int argc, char **argv) {
     int unit = 2, opt;
     struct { double rate; int sw; } cfg = {2.0, 320};
-    while ((opt = getopt(argc, argv, "u:r:w:")) != -1) {
+    while ((opt = getopt(argc, argv, "u:r:w:c:")) != -1) {
         if (opt == 'u') unit = atoi(optarg);
         else if (opt == 'r') cfg.rate = atof(optarg);
         else if (opt == 'w') cfg.sw = atoi(optarg);
+        else if (opt == 'c') copy_rate = atof(optarg);
     }
     size_t bytes = 4096 + (size_t)SLOTS * FRAME_BYTES;
     shm_unlink("/hc-frames");
@@ -212,15 +228,23 @@ int main(int argc, char **argv) {
     camera_handle_t h;
     int e = camera_open(unit, 15, &h);
     if (e) { fprintf(stderr, "camera_open unit %d failed: %d\n", unit, e); return 2; }
+    if (copy_rate > 0 && copy_rate < cfg.rate) copy_rate = cfg.rate;   /* never copy less often than the worker reads */
     pthread_t t;
     pthread_create(&t, NULL, worker, &cfg);
     pthread_setname_np(t, "hccam-worker");
     e = camera_start_viewfinder(h, on_frame, NULL, NULL);
     if (e) { fprintf(stderr, "camera_start_viewfinder failed: %d\n", e); return 3; }
-    printf("hccam: unit %d, %.1f frames a second to hc/spotter at %d wide, full frames in /dev/shmem/hc-frames\n",
-           unit, cfg.rate, cfg.sw);
+    printf("hccam: unit %d, %.1f frames a second to hc/spotter at %d wide, full frames in /dev/shmem/hc-frames, "
+           "copying at most %.1f a second\n", unit, cfg.rate, cfg.sw, copy_rate);
     fflush(stdout);
-    while (!stop) sleep(1);
+    for (int tick = 0; !stop; tick++) {
+        sleep(1);
+        if (tick % 30 == 29) {                     /* every 30 s, for benchmarking: copied vs let go */
+            printf("hccam: copied %llu, let go %llu, bad %llu\n", (unsigned long long)ring->frames,
+                   (unsigned long long)not_copied, (unsigned long long)ring->skipped);
+            fflush(stdout);
+        }
+    }
     camera_stop_viewfinder(h);
     camera_close(h);
     pthread_join(t, NULL);

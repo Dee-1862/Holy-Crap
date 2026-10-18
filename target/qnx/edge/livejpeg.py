@@ -1,4 +1,4 @@
-"""Small colour JPEG of the newest camera frame, for the site's live camera view.
+"""Small JPEG of the newest camera frame, for the site's live camera view (colour, or grey with grey=True).
 
 Reads the frame ring hccam (cam/hccam.c) or the replay camera keeps in shared memory, scales it down with numpy
 and encodes it with libturbojpeg through ctypes (the library is on the image, its headers are not).
@@ -29,13 +29,16 @@ def _lib():
     return _tj
 
 
-def encode(rgb: np.ndarray, quality: int = 70) -> bytes:
+def encode(img: np.ndarray, quality: int = 70) -> bytes:
+    """RGB (h, w, 3) or grey (h, w) to JPEG."""
     tj, handle = _lib()
-    rgb = np.ascontiguousarray(rgb, dtype=np.uint8)
-    h, w, _ = rgb.shape
+    img = np.ascontiguousarray(img, dtype=np.uint8)
+    h, w = img.shape[:2]
+    grey = img.ndim == 2
     out, size = ctypes.POINTER(ctypes.c_ubyte)(), ctypes.c_ulong(0)
-    # pixel format 0 is RGB, subsampling 2 is 4:2:0
-    if tj.tjCompress2(handle, rgb.ctypes.data, w, w * 3, h, 0, ctypes.byref(out), ctypes.byref(size), 2, quality, 0):
+    # pixel format 0 is RGB with subsampling 2 (4:2:0); pixel format 6 is GRAY with subsampling 3 (grey)
+    pf, pitch, sub = (6, w, 3) if grey else (0, w * 3, 2)
+    if tj.tjCompress2(handle, img.ctypes.data, w, pitch, h, pf, ctypes.byref(out), ctypes.byref(size), sub, quality, 0):
         raise RuntimeError("jpeg encode failed")
     data = ctypes.string_at(out, size.value)
     tj.tjFree(out)
@@ -67,15 +70,37 @@ def frame_rgb(frames: Frames, step: int = 4) -> tuple[np.ndarray, dict] | None:
     return rgb, hd
 
 
-def snapshot(frames: Frames, step: int = 4, quality: int = 70) -> tuple[bytes, dict] | None:
+def frame_grey(frames: Frames, step: int = 4) -> tuple[np.ndarray, dict] | None:
+    """The newest frame scaled down by step, grey only. For the live view: no colour conversion, and NV12's luma
+    plane is already the grey picture. The models never use this; they cut colour patches with shm.crop_rgb."""
+    slot = frames.newest()
+    hd = frames.head(slot)
+    w, h = hd["w"], hd["h"]
+    if not w or not h:
+        return None
+    base = HEAD + slot * frames.frame_bytes
+    if hd["type"] == 1:                                   # NV12: the luma plane is the grey picture
+        grey = np.frombuffer(frames.m, np.uint8, w * h, base).reshape(h, w)[::step, ::step].copy()
+    elif hd["type"] == 31:                                # B G R A: integer luma, same weights as hccam.c
+        bgra = np.frombuffer(frames.m, np.uint8, w * h * 4, base).reshape(h, w, 4)[::step, ::step].astype(np.uint16)
+        grey = ((29 * bgra[..., 0] + 150 * bgra[..., 1] + 77 * bgra[..., 2]) >> 8).astype(np.uint8)
+    else:
+        return None
+    if frames.head(slot)["seq"] != hd["seq"]:
+        return None
+    return grey, hd
+
+
+def snapshot(frames: Frames, step: int = 4, quality: int = 70, grey: bool = False) -> tuple[bytes, dict] | None:
+    take = frame_grey if grey else frame_rgb
     for _ in range(3):
-        got = frame_rgb(frames, step)
+        got = take(frames, step)
         if got:
             return encode(got[0], quality), got[1]
     return None
 
 
 if __name__ == "__main__":
-    jpg, hd = snapshot(Frames())
+    jpg, hd = snapshot(Frames(), grey="--grey" in sys.argv)
     open(sys.argv[1], "wb").write(jpg)
     print("wrote", len(jpg), "bytes from", hd)

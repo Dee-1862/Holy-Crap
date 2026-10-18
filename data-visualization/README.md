@@ -58,3 +58,12 @@ requirements.txt
 Charts follow the bundled dataviz method: the form is chosen for the job (bars for counts, a cumulative curve for size, small multiples for score against data), one axis only, thin bars with a gap between them, the value written on every bar, fixed colors per class in every chart, and a data table beside each chart. The four class colors were run through the method's palette validator. They pass the color blind separation and normal vision checks. Two of them sit below 3:1 contrast on the light surface, which the method allows only when values are labelled and a table is shown, so both are done here.
 
 No third party skills were downloaded for this. The charting method comes from the dataviz skill that is already installed.
+
+## Image audits still running
+
+The notebook marks two checks as Not done: near duplicate photos across the split, and the lab confirmed (PCR) check. `audit_images.py` runs both on the public Zenodo photos. It downloads about 13 GB once into `data/raw` (ignored by git), checks each zip against Zenodo's md5, then hashes or scores each photo and keeps only small CSV files in `results/`. Teammates do not need to run it. When it finishes, the CSV results are committed and the notebook is re-run to fill in those two rows.
+
+```
+python audit_images.py all      # about 13 GB, resumable
+python audit_images.py clean    # delete the downloaded zips afterwards
+```

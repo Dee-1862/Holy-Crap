@@ -23,9 +23,19 @@ The first scaffold includes the local API, catalog, mock executor, dashboard,
 and a completed-output importer. The local-directory importer validates the
 versioned model-bundle contract, the referenced model path, its format, and its
 SHA-256 digest. The simpler browser upload registers one model file for mock
-runs; it is a development convenience, not a validated deployment bundle. The
-QNX executor, real-video replay, EMULSION model, and BlenderProc renderer are not
-implemented.
+runs; it is a development convenience, not a validated deployment bundle.
+
+The QNX Pi is wired as an honest target-validation boundary, not an inference
+executor. The Pi has no TensorFlow Lite, ONNX, OpenCV, or NumPy runtime, so a
+QNX run stages one exact catalog model blob and one canonical scenario JSON
+onto the Pi, runs the dependency-free `target/qnx/simlab_probe.py` worker
+through the persistent runner, and stores the verified receipt plus the helper
+log under the run directory (`evaluation_kind: target_probe`,
+`inference_performed: false`, metrics null, no timeline or snapshots). A failed
+QNX run stays in run history as failed.
+
+Real-video replay, the EMULSION model, BlenderProc rendering, and measured QNX
+inference are not implemented.
 
 ## System context
 
@@ -36,9 +46,10 @@ flowchart LR
   Catalog[Simulation API and artifact catalog]
   Scenarios[Scenario definitions] --> Catalog
   Catalog --> Mock[Mock executor]
-  Catalog -. later .-> QNX[Headless QNX Pi executor]
+  Catalog --> QNX[QNX target validation]
   Mock --> Results[Run results and artifacts]
-  QNX -. later .-> Results
+  QNX --> Results
+  Media[Committed reference media] --> Catalog
   Results --> UI[Simulation dashboard]
   UI --> Human[Team review]
 ```
@@ -75,14 +86,35 @@ An executor accepts resolved model and scenario records and returns the
 versioned run-result contract.
 
 - `mock` is the working version 1 executor. It generates deterministic pen
-  state and noisy predictions from a fixed seed.
-- `qnx` is a capability stub until file-camera playback and the target runtime
-  have been proven on the Pi.
+  state and noisy predictions from a fixed seed. Its results are
+  `evaluation_kind: prediction`.
+- `qnx` performs target validation only. The Pi has no inference runtime, so a
+  QNX run proves one exact model blob and one canonical scenario JSON reached
+  the physical target and were processed there; the run result is
+  `evaluation_kind: target_probe` with null metrics, an empty timeline, and
+  receipt/log artifacts. QNX never claims predictions.
 - Future workstation adapters can replay real video or consume rendered frames
   without changing the API used by the dashboard.
 
-Unsupported executors report `not_configured`; they do not silently fall back
-to the mock.
+Target validation and inference are different jobs with different honesty
+rules. A target probe reports `inference_performed: false` and refuses receipts
+that claim otherwise; measured inference on the Pi is a separate future
+executor that can only appear once a real runtime exists on the target.
+
+Capability status follows a strict ladder:
+
+| Status | Meaning |
+|---|---|
+| `ready` | Adapter fully works (mock). QNX can never reach this until actual inference exists on the Pi. |
+| `probe_only` | QNX transport works (SSH, Python, persistent runner), so target validation runs can complete; no inference. |
+| `unreachable` | QNX transport failed or timed out during an active probe. |
+| `runtime_missing` | QNX is reachable but Python or the persistent runner is missing, so the probe worker cannot run. |
+| `not_configured` | `QNX_EXECUTOR_MODE` is disabled; no Pi contact is attempted. |
+
+`GET /api/v1/system/capabilities` and `POST /api/v1/system/qnx/probe` may
+actively probe the Pi, but only with short timeouts, and always return a state
+rather than throwing. Unsupported executors never silently fall back to the
+mock.
 
 ### Simulation dashboard
 
@@ -95,6 +127,26 @@ planned adapter.
 The top-down view is an inspection tool, not a claim that mock geometry looks
 like camera footage. Real-image replay and 3D rendering will supply separate
 frame artifacts later.
+
+### Reference media
+
+`demo-assets/` commits small JSON manifests for real-camera reference imagery
+(the four-frame PIO overhead broiler-house montage from the PIO dataset paper,
+CC BY 4.0, with the required attribution recorded). The binaries themselves are
+not committed; `make demo-assets` fetches them into the runtime home and
+verifies the manifest SHA-256 before install.
+
+The media API serves typed metadata (`GET /api/v1/media`) and content
+(`GET /api/v1/media/{asset_id}/content`) only when the installed file exists
+and its bytes match the committed digest, using strictly validated plain-file
+paths under the runtime home. Installed state, source URL, dataset URL, DOI,
+license, attribution, creators, and limitations travel with every asset.
+
+Dataset composition boundary: reference imagery is a visual backdrop, not a
+measurement. In `pio-reference-100` the recorded image is explicitly
+non-aligned with the simulated birds, and outbreak timing and positions are
+simulated. That combination is not outbreak footage and is never labeled as
+one.
 
 ## Run data flow
 
@@ -122,12 +174,18 @@ A normal version 1 run follows this path:
    folder, or uses the single-file upload for a mock-only experiment.
 2. The API hashes every model file. Bundle import also validates the full
    manifest before registration.
-3. The teammate chooses a deterministic scenario such as `healthy-100` or
-   `outbreak-100`.
+3. The teammate chooses a deterministic scenario such as `healthy-100`,
+   `outbreak-100`, or `pio-reference-100`.
 4. The executor writes sampled truth, predictions, timing, and alert state.
 5. The API stores the immutable references and calculated metrics.
 6. The dashboard reads the saved result. Reloading the page does not rerun the
    experiment.
+
+A QNX run follows the same store-first discipline but produces a target probe,
+not predictions: the run metadata is written first, the exact catalog model
+blob and canonical scenario file are staged to the Pi, the probe worker
+verifies their hashes there, and the receipt and helper log land in the run
+directory. Any transport failure leaves the run recorded as failed.
 
 ## Repository layout
 
@@ -136,7 +194,9 @@ The simulation additions use these top-level paths:
 ```text
 contracts/                 Versioned interchange schemas
 scenarios/                 Committed deterministic scenario definitions
-src/holy_crap_simlab/      API, catalog, adapters, mock engine, and CLI
+src/holy_crap_simlab/      API, catalog, adapters, mock engine, media, and CLI
+target/qnx/                Committed stdlib-only QNX probe worker
+demo-assets/               Committed reference-media manifests (binaries fetched)
 tests/                     API, contract, catalog, and determinism tests
 web/                       React/Vite simulation dashboard
 docs/architecture/         Current system and model handoff
@@ -207,9 +267,12 @@ versions can change performance even when the input bytes match.
   outside the selected import folder, limit upload size, and calculate hashes
   locally.
 - Do not execute scripts from an imported model bundle. Version 1 imports data
-  files and metadata only.
+  files and metadata only. The only remote code executed is the committed,
+  stdlib-only probe worker shipped from this repository.
 - Bind development services to loopback by default. Network exposure requires a
   separate decision about authentication and transport security.
+- Serve reference media only after the manifest digest verifies the file bytes,
+  and only through safe plain-file path resolution (no traversal, no nesting).
 - Preserve source and license metadata for datasets, videos, textures, and 3D
   assets. A usable file is not automatically a redistributable file.
 - Keep animal and farm footage access-controlled. Strip location or operator

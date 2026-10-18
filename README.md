@@ -24,12 +24,28 @@ The first working scaffold is a local experiment loop: choose a deterministic
 100-bird scenario, select or upload a model artifact, run the mock executor,
 and inspect pen state, alerts, timing, and saved results in the dashboard. The
 mock makes the workflow testable; it does not measure the uploaded model's
-accuracy. QNX playback, real-video replay, and optional 3D rendering are visible
-but intentionally not claimed as working yet.
+accuracy. Real-video replay and optional 3D rendering are visible but
+intentionally not claimed as working yet.
+
+The QNX Pi is wired as an honest target-validation path, not an inference
+executor: it has no TensorFlow Lite, ONNX, OpenCV, or NumPy runtime, so a QNX
+run stages one exact catalog model and one canonical scenario JSON onto the
+physical Pi and returns a verified receipt (`evaluation_kind: target_probe`,
+`inference_performed: false`). QNX capability is at best `probe_only`; it
+never reports `ready` until actual inference exists. See
+`POST /api/v1/system/qnx/probe` and the `QNX_*` settings in `.env.example`.
+
+Committed reference media (one PIO-paper overhead broiler-house image) is
+served through `GET /api/v1/media` and `GET /api/v1/media/{id}/content` only
+after the file is present and its SHA-256 matches the committed manifest.
+Fetch it with `make demo-assets`. This imagery is a visual reference only:
+the scenario's bird positions and outbreak timing are simulated, so the
+combined result is not outbreak footage and is never labeled as one.
 
 ```sh
 make doctor
 make bootstrap
+make demo-assets   # optional: fetch the committed PIO reference image
 make dev
 ```
 

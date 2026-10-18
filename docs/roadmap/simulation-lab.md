@@ -26,6 +26,13 @@ Add an observation-set manifest for a fixed overhead clip, frame timestamps,
 annotations, and source/license metadata. Implement a workstation executor that
 runs a real TFLite or ONNX model over decoded frames.
 
+The committed PIO reference image already exercises the media-manifest path:
+`demo-assets/` carries the manifest, `make demo-assets` fetches and verifies
+the bytes, and the media API serves them only after hash validation. The image
+is a non-aligned visual reference with simulated bird state, so it must not be
+treated as outbreak footage; a real replay clip needs its own pinned
+observation manifest and license review before it is used for measurement.
+
 Start with project-owned footage or a dataset whose license permits the intended
 use. ChickenVerse and Big Broiler are candidates for behavior and occupancy
 work. Machuve data may inform dropping-focused tests. Each source still needs a
@@ -72,16 +79,26 @@ Acceptance gate:
 - the output can be opened as the same observation set used by real-video
   replay.
 
-## Phase 4: QNX deterministic playback
+## Phase 4: QNX target validation and deterministic playback
 
-Connect the real headless Pi as an executor. Use QNX Sensor Framework
-file-camera or another proven deterministic playback path so the Pi receives a
-known frame sequence. Transfer jobs and artifacts over Ethernet/SSH. Long runs
-use the existing persistent runner.
+The honest transport path now exists: QNX runs stage one exact catalog model
+and one canonical scenario JSON onto the physical Pi and store a verified
+receipt (`evaluation_kind: target_probe`, `inference_performed: false`) plus
+the helper log under the run directory. This is target validation, not
+inference: the Pi has no TensorFlow Lite, ONNX, OpenCV, or NumPy runtime, so
+the probe worker only proves the files reached the target and were processed
+there.
+
+Remaining: measured inference. When a real runtime exists on the Pi, connect
+QNX Sensor Framework file-camera or another proven deterministic playback path
+so the Pi receives a known frame sequence and returns predictions. Transfer
+jobs and artifacts over Ethernet/SSH. Long runs use the existing persistent
+runner.
 
 Acceptance gate:
 
-- the capability check reports exact target/runtime versions;
+- the capability check reports exact target/runtime versions and can actively
+  probe with short timeouts (done for target validation);
 - a submitted run refers to immutable model, scenario, and observation hashes;
 - the Pi returns per-frame predictions plus median/p95 latency, achieved FPS,
   memory, temperature, throttling, and dropped frames where available;

@@ -8,17 +8,20 @@ from pathlib import Path
 from fastapi import FastAPI, File, Form, Request, UploadFile
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 
 from .adapters import AdapterError
 from .catalog import CatalogConflict
 from .models import (
+    AdapterCapability,
     CreateRunRequest,
     ErrorBody,
     ErrorResponse,
     HealthResponse,
+    MediaAssetInfo,
     ModelArtifact,
     PenSnapshot,
+    RunResult,
     Scenario,
     SimulationRun,
     SystemCapabilities,
@@ -33,9 +36,21 @@ def _error(status: int, code: str, message: str, details: list[dict] | None = No
     return JSONResponse(status_code=status, content=body.model_dump(mode="json", exclude_none=True))
 
 
-def create_app(home: Path | None = None, scenario_directory: Path | None = None) -> FastAPI:
+def create_app(
+    home: Path | None = None,
+    scenario_directory: Path | None = None,
+    demo_assets_directory: Path | None = None,
+    qnx_runner=None,
+    qnx_prober=None,
+) -> FastAPI:
     resolved_home = home or Path(os.getenv("HOLY_CRAP_HOME", ".simlab"))
-    service = SimulationService(resolved_home, scenario_directory)
+    service = SimulationService(
+        resolved_home,
+        scenario_directory,
+        demo_assets_directory=demo_assets_directory,
+        qnx_runner=qnx_runner,
+        qnx_prober=qnx_prober,
+    )
     application = FastAPI(title="Holy Crap Simulation Lab", version="0.1.0")
     application.state.service = service
     application.add_middleware(
@@ -78,6 +93,10 @@ def create_app(home: Path | None = None, scenario_directory: Path | None = None)
             importers=[service.veri_importer.capability()],
         )
 
+    @application.post("/api/v1/system/qnx/probe", response_model=AdapterCapability)
+    def qnx_probe() -> AdapterCapability:
+        return service.qnx_capability()
+
     @application.get("/api/v1/scenarios", response_model=list[Scenario])
     def scenarios() -> list[Scenario]:
         return service.scenarios.list()
@@ -118,6 +137,10 @@ def create_app(home: Path | None = None, scenario_directory: Path | None = None)
     def get_run(run_id: str) -> SimulationRun:
         return service.require_run(run_id)
 
+    @application.get("/api/v1/runs/{run_id}/result", response_model=RunResult)
+    def get_result(run_id: str) -> RunResult:
+        return service.get_result(run_id)
+
     @application.get("/api/v1/runs/{run_id}/timeline", response_model=list[TimelinePoint])
     def get_timeline(run_id: str) -> list[TimelinePoint]:
         return service.timeline(run_id)
@@ -125,5 +148,21 @@ def create_app(home: Path | None = None, scenario_directory: Path | None = None)
     @application.get("/api/v1/runs/{run_id}/snapshots", response_model=list[PenSnapshot])
     def get_snapshots(run_id: str) -> list[PenSnapshot]:
         return service.snapshots(run_id)
+
+    @application.get("/api/v1/media", response_model=list[MediaAssetInfo])
+    def media() -> list[MediaAssetInfo]:
+        return service.media_assets()
+
+    @application.get("/api/v1/media/{asset_id}/content")
+    def media_content(asset_id: str) -> FileResponse:
+        manifest = service.media_manifest(asset_id)
+        if manifest is None:
+            raise NotFoundError(f"media asset not found: {asset_id}")
+        state = service.media_store.state(manifest)
+        if not state.valid:
+            raise NotFoundError(
+                f"media content is not installed or failed hash verification: {asset_id}"
+            )
+        return FileResponse(state.path, media_type=manifest.media_type)
 
     return application

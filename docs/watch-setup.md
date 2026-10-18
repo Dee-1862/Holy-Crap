@@ -43,3 +43,16 @@ Keep Wi-Fi name/password and broker credentials in a local `secrets.h` that is g
 - Flash: `arduino-cli upload -p COM18 --fqbn esp32:esp32:esp32s3box app/watch/hello`
 - Result: compiled (16% of flash), flashed and hash-verified, boots; serial prints `boot ok, board id 30, display 468x468`. Screen and buttons not yet confirmed visually by anyone.
 - Note: this replaced the watch's factory firmware. The official M5Stack board package (docs say >= 3.3.7, board option M5StopWatch) is the alternative if the generic board misbehaves (display, battery, power).
+
+## Live mode (2026-10-17)
+The watch runs on built in demo data until `app/watch/console/secrets.h` exists. With it, the watch joins Wi-Fi and talks to the console (`app/console`) so the actions really work.
+
+1. Copy `secrets.example.h` to `secrets.h` in `app/watch/console/` and fill in the Wi-Fi name, password and the console address. `secrets.h` is ignored by git.
+2. Run the console so the watch can reach it: `cd app/console`, then `npm run dev -- -H 0.0.0.0`. Allow port 3000 through the firewall of that machine. Use a 2.4 GHz network.
+3. Flash with `arduino-cli compile` and `arduino-cli upload` as in the steps above. Needs the ArduinoJson library (installed).
+
+What the watch does in live mode
+- Every 6 seconds on the overview or the board it reads `/api/watch` (about 2.3 KB).
+- I'll check it, Looks normal and Call the vet are sent to the console and show up on the web and phone apps within a few seconds.
+- Calling the vet only records a request. Real phone calls and any message service are on hold. If the console has `VET_WEBHOOK_URL` set, the request is posted there.
+- Not yet tested on a Wi-Fi network. The live code compiles, and the API it calls was tested with curl.

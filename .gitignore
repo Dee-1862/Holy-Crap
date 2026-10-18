@@ -1,2 +1,4 @@
 .gyst/
 cloner/
+
+app/watch/**/secrets.h

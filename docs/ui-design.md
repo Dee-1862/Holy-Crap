@@ -52,3 +52,15 @@ The watch uses the two buttons, with touch as a backup. Any press wakes the scre
 2. Add the offline state to all three.
 3. Real Grad-CAM images from the backend.
 4. Decide the grade definition and where the sub-scores come from.
+
+## Actions and watch screens (2026-10-17)
+Button names say what they do. Each has a one line caption in the apps.
+| Name | What it does | Caption |
+|---|---|---|
+| I'll check it | Marks the specimen as being checked, visible to everyone | Tells the team you are on it |
+| Looks normal | Marks it normal and removes it from alerts and averages. Can be undone | Removes it from alerts |
+| Call the vet | Hold to send. Logs a vet request, optionally to a webhook. One request per pen per minute | Hold to send |
+
+Real phone calls are on hold. The apps say plainly when a request was only saved.
+
+Watch screens: Active, Overview (barn health ring and a bar per pen), Health board, Pen pages and an action menu. Each specimen has a photo page with numbered markers and a Why page with class probabilities and the numbered evidence lines. The last pen page is a score radar. The photo and Why pages are the explainability view.

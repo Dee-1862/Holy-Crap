@@ -25,10 +25,22 @@ The system classifies **droppings on the floor, not individual hens**. With many
 - M5Stack StopWatch (ESP32-S3, 1.75" AMOLED, Wi-Fi, speaker, vibration) = good farmer-side alert/status device, not a vision node.
 
 ## Confirmed hardware and software path (2026-10-17)
-- Board: Raspberry Pi 5 running QNX 8.0.0 (repo TARGET.md; reached over SSH alias `qnxpi`). QNX's own sample README recommends Pi 4 B, so Pi 5 behavior must be verified.
-- Camera: Raspberry Pi Camera Module 3 (owned; listed as tested in QNX's AI Camera App).
-- Starting point: QNX **AI Camera App** (https://gitlab.com/qnx/projects/ai-camera-app, Apache-2.0). Shows frames from QSF (QNX Sensor Framework) into **TensorFlow Lite** with **OpenCV**, using QNX SDP 8.0. We replace its face-detection model with our fecal classifier/detector.
-- Runtime decision: **TensorFlow Lite (INT8 where possible)**, built from QNX ports (qnx-ports/build-files: tensorflow, opencv). ONNX Runtime is no longer needed. Models must be convertible to TFLite.
+> See also [vision-plan.md](vision-plan.md) (data, model, oss.qnx.com packages).
+- Board: **Raspberry Pi 5 running QNX 8.0.0** (confirmed by user; TARGET.md; SSH alias `qnxpi`). QNX's AI Camera App README recommends Pi 4 B, so Pi 5 behavior must be verified.
+- Camera: **Raspberry Pi Camera Module 3** (owned; listed as tested in QNX's AI Camera App).
+- Starting point: QNX **AI Camera App** (https://gitlab.com/qnx/projects/ai-camera-app, Apache-2.0). Frames from QSF (QNX Sensor Framework) into TensorFlow Lite with OpenCV on QNX SDP 8.0. We replace its face-detection model with our model. It is GUI-first (Screen windows, root SSH deployment), so a headless, non-root build needs capture/inference separated from rendering.
+- **Runtime: decided by a test on the Pi, TFLite is the default.** TFLite/OpenCV from the QNX source ports (built for 8.0.0, same path AICA uses). The prebuilt oss.qnx.com ONNX Runtime packages target QNX 8.0.3-8.0.5 (one note says 1.24.4 on 8.0.5), so use them only if they install on 8.0.0. Models must convert to whichever runtime wins.
+- Language: camera capture must be C/C++ (QSF has no Python API). **All C++ on device**: one process does capture -> preprocess -> inference -> result. Python stays on the laptop for training/export. Fallback: C++ capture writes a frame (shared memory or JPEG) and a Python script classifies it; fine at 1-2 FPS.
+- Detector boxes: from the Machuve Zenodo release (official YOLO boxes), not Roboflow (superseded by vision-plan.md). Recommended first model: single-stage YOLO11n (4-class or 2-class, see vision-plan.md).
+
+## Hackathon scope (decided 2026-10-17: deadline is days)
+- Camera view undecided; **prototype close-up first** (camera ~30-60 cm above floor), since it matches the public datasets.
+- Order of work, cut from the bottom if time runs out:
+  1. Laptop: train YOLO11n on the Zenodo boxes; export to TFLite (and ONNX).
+  2. Pi 5: get Camera Module 3 frames via the QSF sample app. **Biggest risk; start in parallel with step 1.**
+  3. Pi 5: C++ app = QSF capture -> inference -> print/log result.
+  4. Publish result via MQTT (mosquitto port) to the StopWatch.
+- Fallback demo if the camera on Pi 5 won't work: run the same C++ inference on still images copied to the Pi.
 
 ## Phases
 1. **Data**: get the public 4-class dataset (verify name/license, see research.md). Collect own barn images later; public data will not match real lighting/bedding.

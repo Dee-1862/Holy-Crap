@@ -17,7 +17,7 @@
 \title{Held-out Accuracy Is Not New-Collection Accuracy:\\
 A Cross-Collection Benchmark of Poultry Dropping Classifiers\\
 and a Fault-Isolated Pen-Camera Detector on a QNX Raspberry Pi 5}
-\author{\todo{authors and affiliations}}
+\author{Deekshith Reddy Bhoomireddy \and Rishit Rai \and Lance Streuber}
 \date{}
 
 \begin{document}
@@ -154,11 +154,13 @@ each test photograph, the Hamming distance to the closest training photograph.
 \subsection{Detector}
 \label{sec:detector}
 
-Our detector is YOLO11n~\cite{jocher2024yolo11} with four classes, fine-tuned from COCO weights at 640 pixels with early stopping (patience 20, seed 0) on a single laptop GPU
-	odo{confirm the GPU model: the run notes say RTX 3060}. The Newcastle-like class has about a sixth of the
+Our detector is YOLO11n~\cite{jocher2024yolo11} with four classes, fine-tuned from COCO weights at 640 pixels with early stopping (patience 20, seed 0) on a local laptop GPU. The Newcastle-like class has about a sixth of the
 photographs of the others, so its training photographs are repeated three times, after the split and in the training
 set only. Training stopped at epoch 69 and the weights of epoch 49, the best on validation, were kept
-(\texttt{dropping4-laptop}). We exported it to ONNX at 320, 416 and 640 pixels.
+(\texttt{dropping4-laptop}). We exported it to ONNX at 320, 416 and 640 pixels. To check that the result does not depend on the machine, we repeated the training on the Veri cloud
+platform on one NVIDIA A10G GPU, with batch 32 and a 30-minute limit (20 epochs). That run reached a test mAP50
+of 0.854 and mAP50-95 of 0.573, against 0.873 and 0.573 for the local run, so the two are close. All results below
+use the local run.
 
 To compare the detector with photograph classifiers, we score a whole photograph with it: the photograph is
 letterboxed to 640 pixels, every candidate box keeps its class scores, and each class takes its best score in the
@@ -238,6 +240,14 @@ supervisor restarts any section that exits. Inference uses ONNX Runtime~\cite{on
 open-source package repository, called from a small C bridge because the repository's Python binding does not load on
 QNX (Section~\ref{sec:discussion}). We report the detector's inference time on the Pi with four threads, without image
 decoding or post-processing.
+
+Alerts reach people in two ways. A wrist-worn display polls the dashboard and shows each pen's state. A separate
+messaging service sends pen alerts to the farmer over iMessage through the Photon platform and answers follow-up
+questions in plain language with a large language model (DeepSeek). Each alert states what the camera recorded, the
+model's closest match with its score, and that it is not a laboratory test. The service never tells the farmer to
+treat or cull birds. It contacts a veterinarian only after the farmer clearly agrees, and that decision is made by
+tested rules in the application code, not by the language model. We describe this service for completeness and do not
+evaluate it here.
 
 \section{Results}
 \label{sec:results}
@@ -518,16 +528,33 @@ milliseconds while the rest keeps running.
 \section*{Data and code availability}
 The farm and lab-confirmed photographs are Zenodo records 4628934 and 5801834, the PIO and NESTLER videos Zenodo
 records 16686320 and 15063494, all under CC BY 4.0. Our code, trained weights, per-photograph predictions,
-duplicate hashes, appearance grades with every rating, training logs and every figure with the table behind it are at \todo{repository URL}. The figures
+duplicate hashes, appearance grades with every rating, training logs and every figure with the table behind it are at
+\url{https://github.com/RishitRai/Holy-Crap}. The figures
 are produced by \texttt{data-visualization/evaluation.py}, the baselines by
 \texttt{training/benchmark\_classifiers.py}, and the image audit by \texttt{data-visualization/audit\_images.py}.
 
 \section*{Ethics}
 This study used only published photographs and videos. No animals were handled and no new animal data were collected.
 
+\section*{Compute}
+The detector, the pen-scale fine-tune and the baselines were trained on a local laptop GPU. The pen-scale fine-tune,
+the two baselines and every evaluation in this paper ran on an NVIDIA GeForce RTX 4060 Laptop GPU with 8\,GB of memory.
+The replicate detector run was trained on the Veri cloud platform on one NVIDIA A10G GPU (job \texttt{abe1b30a56c4}).
+All on-device timings were measured on a Raspberry Pi 5 running QNX 8.0.
+
+\section*{Use of AI tools}
+The appearance grades in Section~\ref{sec:grades} were produced by three AI models, as described there. AI coding
+and writing assistants were used to write analysis code and to draft and edit the text. The authors checked every
+number against the released result files and every reference against its source, and take responsibility for the
+content.
+
 \section*{Acknowledgements}
-We thank Machuve et al.\ for releasing the farm and PCR-confirmed photographs, and the authors of the PIO and NESTLER
-datasets for releasing their videos. \todo{funding, hackathon and compute acknowledgements}
+We thank Machuve and colleagues for releasing the farm and PCR-confirmed photographs, and the authors of the PIO and
+NESTLER datasets for releasing their barn videos, all under open licences. We thank the QNX team for the QNX
+Everywhere program and the open-source package repository at \url{https://oss.qnx.com}, whose ONNX Runtime, Python
+and numpy builds made on-device inference possible, and Veri for the cloud GPU time used for the replicate training
+run. This work was carried out at LA Hacks, in its QNX and Veri tracks. We also thank the developers of Ultralytics
+YOLO, PyTorch and ONNX Runtime.
 
 \bibliographystyle{plainnat}
 \bibliography{references}

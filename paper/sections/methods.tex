@@ -34,11 +34,13 @@ each test photograph, the Hamming distance to the closest training photograph.
 \subsection{Detector}
 \label{sec:detector}
 
-Our detector is YOLO11n~\cite{jocher2024yolo11} with four classes, fine-tuned from COCO weights at 640 pixels with early stopping (patience 20, seed 0) on a single laptop GPU
-	odo{confirm the GPU model: the run notes say RTX 3060}. The Newcastle-like class has about a sixth of the
+Our detector is YOLO11n~\cite{jocher2024yolo11} with four classes, fine-tuned from COCO weights at 640 pixels with early stopping (patience 20, seed 0) on a local laptop GPU. The Newcastle-like class has about a sixth of the
 photographs of the others, so its training photographs are repeated three times, after the split and in the training
 set only. Training stopped at epoch 69 and the weights of epoch 49, the best on validation, were kept
-(\texttt{dropping4-laptop}). We exported it to ONNX at 320, 416 and 640 pixels.
+(\texttt{dropping4-laptop}). We exported it to ONNX at 320, 416 and 640 pixels. To check that the result does not depend on the machine, we repeated the training on the Veri cloud
+platform on one NVIDIA A10G GPU, with batch 32 and a 30-minute limit (20 epochs). That run reached a test mAP50
+of 0.854 and mAP50-95 of 0.573, against 0.873 and 0.573 for the local run, so the two are close. All results below
+use the local run.
 
 To compare the detector with photograph classifiers, we score a whole photograph with it: the photograph is
 letterboxed to 640 pixels, every candidate box keeps its class scores, and each class takes its best score in the
@@ -118,3 +120,11 @@ supervisor restarts any section that exits. Inference uses ONNX Runtime~\cite{on
 open-source package repository, called from a small C bridge because the repository's Python binding does not load on
 QNX (Section~\ref{sec:discussion}). We report the detector's inference time on the Pi with four threads, without image
 decoding or post-processing.
+
+Alerts reach people in two ways. A wrist-worn display polls the dashboard and shows each pen's state. A separate
+messaging service sends pen alerts to the farmer over iMessage through the Photon platform and answers follow-up
+questions in plain language with a large language model (DeepSeek). Each alert states what the camera recorded, the
+model's closest match with its score, and that it is not a laboratory test. The service never tells the farmer to
+treat or cull birds. It contacts a veterinarian only after the farmer clearly agrees, and that decision is made by
+tested rules in the application code, not by the language model. We describe this service for completeness and do not
+evaluate it here.

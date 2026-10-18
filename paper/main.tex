@@ -17,7 +17,7 @@
 \title{Held-out Accuracy Is Not New-Collection Accuracy:\\
 A Cross-Collection Benchmark of Poultry Dropping Classifiers\\
 and a Fault-Isolated Pen-Camera Detector on a QNX Raspberry Pi 5}
-\author{\todo{authors and affiliations}}
+\author{Deekshith Reddy Bhoomireddy \and Rishit Rai \and Lance Streuber}
 \date{}
 
 \begin{document}
@@ -51,16 +51,33 @@ release the code, the per-photograph predictions and every figure with its data.
 \section*{Data and code availability}
 The farm and lab-confirmed photographs are Zenodo records 4628934 and 5801834, the PIO and NESTLER videos Zenodo
 records 16686320 and 15063494, all under CC BY 4.0. Our code, trained weights, per-photograph predictions,
-duplicate hashes, appearance grades with every rating, training logs and every figure with the table behind it are at \todo{repository URL}. The figures
+duplicate hashes, appearance grades with every rating, training logs and every figure with the table behind it are at
+\url{https://github.com/RishitRai/Holy-Crap}. The figures
 are produced by \texttt{data-visualization/evaluation.py}, the baselines by
 \texttt{training/benchmark\_classifiers.py}, and the image audit by \texttt{data-visualization/audit\_images.py}.
 
 \section*{Ethics}
 This study used only published photographs and videos. No animals were handled and no new animal data were collected.
 
+\section*{Compute}
+The detector, the pen-scale fine-tune and the baselines were trained on a local laptop GPU. The pen-scale fine-tune,
+the two baselines and every evaluation in this paper ran on an NVIDIA GeForce RTX 4060 Laptop GPU with 8\,GB of memory.
+The replicate detector run was trained on the Veri cloud platform on one NVIDIA A10G GPU (job \texttt{abe1b30a56c4}).
+All on-device timings were measured on a Raspberry Pi 5 running QNX 8.0.
+
+\section*{Use of AI tools}
+The appearance grades in Section~\ref{sec:grades} were produced by three AI models, as described there. AI coding
+and writing assistants were used to write analysis code and to draft and edit the text. The authors checked every
+number against the released result files and every reference against its source, and take responsibility for the
+content.
+
 \section*{Acknowledgements}
-We thank Machuve et al.\ for releasing the farm and PCR-confirmed photographs, and the authors of the PIO and NESTLER
-datasets for releasing their videos. \todo{funding, hackathon and compute acknowledgements}
+We thank Machuve and colleagues for releasing the farm and PCR-confirmed photographs, and the authors of the PIO and
+NESTLER datasets for releasing their barn videos, all under open licences. We thank the QNX team for the QNX
+Everywhere program and the open-source package repository at \url{https://oss.qnx.com}, whose ONNX Runtime, Python
+and numpy builds made on-device inference possible, and Veri for the cloud GPU time used for the replicate training
+run. This work was carried out at LA Hacks, in its QNX and Veri tracks. We also thank the developers of Ultralytics
+YOLO, PyTorch and ONNX Runtime.
 
 \bibliographystyle{plainnat}
 \bibliography{references}

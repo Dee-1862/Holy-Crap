@@ -47,6 +47,7 @@ export interface AlertSnapshot {
   cameraSecondsAgo: number;
   sensorHealthy: boolean;
   suspectedIllness?: string;
+  source?: "simulation-dashboard";
   evidence?: AlertEvidence;
   createdAt: string;
 }

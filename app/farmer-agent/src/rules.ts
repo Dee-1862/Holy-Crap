@@ -138,6 +138,13 @@ export function alertText(snapshot: AlertSnapshot, canContactVet = false): strin
     ? ` The model's closest match was ${snapshot.suspectedIllness}, with an ${score}% score.`
     : "";
   const vetOffer = canContactVet ? " I can also send this to your vet if you want." : "";
+  if (snapshot.source === "simulation-dashboard") {
+    return (
+      `Simulation alert: We found ${snapshot.observationCount} droppings in ${snapshot.penName} that looked unusual ` +
+      `during the ${snapshot.windowMinutes}-minute clip.${match} This is not a lab test. ` +
+      `What else would help you decide what to do next?${vetOffer}`
+    );
+  }
   return (
     `Hey, we found ${snapshot.observationCount} droppings in ${snapshot.penName} that looked unusual ` +
     `in the last ${snapshot.windowMinutes} minutes.${match} This is not a lab test. ` +

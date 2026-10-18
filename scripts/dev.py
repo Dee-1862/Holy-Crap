@@ -28,6 +28,8 @@ _shutdown_requested = False
 _terminating = False
 _PROJECT_ROOT = Path(__file__).resolve().parents[1]
 _PROXY_SPECIMENS_ENV = "HOLY_CRAP_PROXY_SPECIMENS_DIR"
+_FARMER_ALERTS_ENV = "HOLY_CRAP_FARMER_ALERTS_ENABLED"
+_FARMER_AGENT_URL_ENV = "HOLY_CRAP_FARMER_AGENT_URL"
 
 
 def _configure_proxy_specimen_pool(
@@ -49,6 +51,16 @@ def _configure_proxy_specimen_pool(
         )
         return kaggle_root
     return None
+
+
+def _configure_farmer_alerts(environ: MutableMapping[str, str] = os.environ) -> None:
+    """Connect dashboard jobs to the localhost farmer agent during demos."""
+
+    environ.setdefault(_FARMER_ALERTS_ENV, "1")
+    environ.setdefault(
+        _FARMER_AGENT_URL_ENV,
+        "http://127.0.0.1:4317/simulation-alerts",
+    )
 
 
 def _spawn(name: str, cmd: list[str]) -> subprocess.Popen:
@@ -119,6 +131,7 @@ def main() -> int:
     args = parser.parse_args()
 
     _configure_proxy_specimen_pool()
+    _configure_farmer_alerts()
 
     if not args.web_only:
         _spawn("API", [sys.executable, "-m", "holy_crap_simlab.cli", "serve"])

@@ -1,5 +1,6 @@
 import { loadConfig } from "./config";
 import { createRuntime } from "./service";
+import { listenForDashboardAlerts } from "./dashboard-bridge";
 
 function log(line: string): void {
   console.log(`[worker] ${new Date().toISOString()} ${line}`);
@@ -8,8 +9,13 @@ function log(line: string): void {
 async function main(): Promise<void> {
   const config = loadConfig(process.env);
   const { service } = createRuntime(config);
+  const bridgePort = Number.parseInt(process.env.FARMER_AGENT_BRIDGE_PORT ?? "4317", 10);
+  if (!Number.isInteger(bridgePort) || bridgePort < 1 || bridgePort > 65535) {
+    throw new Error("FARMER_AGENT_BRIDGE_PORT must be a valid port");
+  }
+  const bridge = await listenForDashboardAlerts(service, config.farmerNumbers, bridgePort);
 
-  log(`started (mode=${config.mode}, poll=${config.pollMs}ms)`);
+  log(`started (mode=${config.mode}, poll=${config.pollMs}ms, dashboard=127.0.0.1:${bridgePort})`);
   if (config.mode === "mock") {
     log("mock mode: no inbound polling, no network calls");
   }
@@ -24,6 +30,7 @@ async function main(): Promise<void> {
     shuttingDown = true;
     log(`received ${signal}, stopping`);
     if (timer) clearTimeout(timer);
+    bridge.close();
     wake?.();
   };
 

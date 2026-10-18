@@ -37,9 +37,13 @@ describe appearance and farm, and only the second collection was confirmed by PC
 screening categories, not diagnoses. The farm split is random by photograph because the release carries no farm or
 visit information. The pen test and the test clip use real droppings pasted onto real barn frames, so they measure
 whether a pen-sized dropping can be found on unseen litter, not field accuracy on naturally occurring droppings. We
-have no labelled droppings from a real pen camera. The detector was trained once. The baselines were trained with
-three seeds each but with one set of hyperparameters, which we did not tune. Finally, the edge timings are for
-inference only and do not include image decoding, post-processing or power draw.
+have no labelled droppings from a real pen camera. The detector and each baseline were trained once, with one
+seed and one set of hyperparameters that we did not tune, and EfficientNet-B0 for only 8 epochs. Run-to-run variation
+is therefore not measured, although it is small next to a drop of more than 20 points. Finally, the edge timings are for
+inference only and do not include image decoding, post-processing or power draw. The appearance grades come from three
+AI models following a rubric, not from veterinarians. Their agreement shows the grades are consistent, not that they
+are right, and three models from one vendor may share blind spots. The rubric is new and has not been validated
+against expert grading.
 
 \paragraph{Future work.} The most useful next step is labelled droppings from fixed pen cameras on more than one
 farm, split by farm. Short of that, the farm collection could be re-split with near-duplicate removal before

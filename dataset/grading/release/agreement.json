@@ -1,0 +1,93 @@
+{
+ "raters": [
+  "rater-a",
+  "rater-b",
+  "rater-c"
+ ],
+ "images": 1255,
+ "alpha": {
+  "form": 0.7,
+  "cap": 0.745,
+  "color": 0.561,
+  "blood": 0.742,
+  "mucus": 0.659,
+  "feed": 0.566,
+  "grade": 0.762
+ },
+ "kappa": {
+  "form": {
+   "rater-a~rater-b": 0.832,
+   "rater-a~rater-c": 0.615,
+   "rater-b~rater-c": 0.63
+  },
+  "cap": {
+   "rater-a~rater-b": 0.85,
+   "rater-a~rater-c": 0.701,
+   "rater-b~rater-c": 0.677
+  },
+  "color": {
+   "rater-a~rater-b": 0.713,
+   "rater-a~rater-c": 0.548,
+   "rater-b~rater-c": 0.568
+  },
+  "blood": {
+   "rater-a~rater-b": 0.834,
+   "rater-a~rater-c": 0.721,
+   "rater-b~rater-c": 0.771
+  },
+  "mucus": {
+   "rater-a~rater-b": 0.68,
+   "rater-a~rater-c": 0.678,
+   "rater-b~rater-c": 0.576
+  },
+  "feed": {
+   "rater-a~rater-b": 0.66,
+   "rater-a~rater-c": 0.538,
+   "rater-b~rater-c": 0.533
+  },
+  "grade": {
+   "rater-a~rater-b": 0.84,
+   "rater-a~rater-c": 0.724,
+   "rater-b~rater-c": 0.712
+  }
+ },
+ "self": {
+  "rater-a": {
+   "pairs": 126,
+   "kappa_grade": 0.864,
+   "exact_grade": 0.468
+  },
+  "rater-b": {
+   "pairs": 126,
+   "kappa_grade": 0.825,
+   "exact_grade": 0.452
+  },
+  "rater-c": {
+   "pairs": 126,
+   "kappa_grade": 0.712,
+   "exact_grade": 0.365
+  }
+ },
+ "by_class": {
+  "coccidiosis": {
+   "n": 366,
+   "mean_grade": 5.6,
+   "median_grade": 5.0
+  },
+  "healthy": {
+   "n": 347,
+   "mean_grade": 8.58,
+   "median_grade": 9
+  },
+  "ncd": {
+   "n": 186,
+   "mean_grade": 4.56,
+   "median_grade": 4.0
+  },
+  "salmonella": {
+   "n": 347,
+   "mean_grade": 7.98,
+   "median_grade": 8
+  }
+ }
+}

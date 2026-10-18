@@ -5,21 +5,23 @@
 \label{sec:res-bench}
 
 Table~\ref{tab:bench} and Figure~\ref{fig:bench} compare every model on the two test sets. On the farm test all of
-them are in the range earlier work reports. MobileNetV2 calls 99.6\% of the 679 photographs correctly \todo{mean over
-seeds}, and our detector 98.5\% when it always gives its best guess. On the 1,255 lab-confirmed photographs every model
-loses more than 20 points. MobileNetV2 falls to 74.6\% and the detector to 76.3\% \todo{final means and ranges}. The
-Wilson intervals of the two test sets do not overlap for any model, so the drop is not sampling noise.
+them are in the range earlier work reports. MobileNetV2 calls 99.6\% of the 679 photographs correctly (95\% CI 98.7 to
+99.9\%), and our detector 98.5\% (97.3 to 99.2\%) when it always gives its best guess. On the 1,255 lab-confirmed
+photographs both lose more than 20 points. MobileNetV2 falls to 74.6\% (72.1 to 76.9\%) and the detector to 76.3\%
+(73.9 to 78.6\%). For each model the intervals of the two test sets are far apart, so the drop is not sampling
+noise.
 
-Our detector does not classify better than the classifiers earlier work used. The differences between models on the
-lab-confirmed photographs are small next to the drop that every model shows. Under this protocol the published
+Our detector does not classify better than the classifier earlier work recommended. On the lab-confirmed photographs
+the intervals of the two models overlap. MobileNetV2 keeps more Newcastle-like photographs (recall 0.70 against
+0.53) and the detector more healthy ones (0.81 against 0.66). Both differences are small next to the drop that both
+models show. Under this protocol the published
 accuracies of 98 to 99\% describe photographs like the training photographs, and the choice of architecture matters
 less than the choice of test set.
 
 \begin{table}[t]
 \centering
 \caption{Accuracy and macro-F1 on the held-out farm test (679 photographs) and the lab-confirmed photographs (1,255),
-for models trained on the same 5,451 photographs. Classifiers: mean over three seeds, range in brackets.
-Detector: one run, scored with its best class in each photograph (always answers) and with the deployed 0.25
+for models trained on the same 5,451 photographs. One training run per model. The detector is scored with its best class in each photograph (always answers) and with the deployed 0.25
 confidence threshold (below it the photograph counts as wrong).}
 \label{tab:bench}
 \small
@@ -28,9 +30,8 @@ confidence threshold (below it the photograph counts as wrong).}
 & \multicolumn{2}{c}{Farm test} & \multicolumn{2}{c}{Lab-confirmed} \\
 Model & Accuracy & Macro-F1 & Accuracy & Macro-F1 \\
 \midrule
-MobileNetV2~\cite{machuve2022} & \todo{} & \todo{} & \todo{} & \todo{} \\
+MobileNetV2~\cite{machuve2022} & 99.6 & 99.7 & 74.6 & 75.3 \\
 EfficientNet-B0~\cite{dhungana2025} & \todo{} & \todo{} & \todo{} & \todo{} \\
-ResNet-50 & \todo{} & \todo{} & \todo{} & \todo{} \\
 YOLO11n (ours), always answers & 98.5 & 98.3 & 76.3 & 75.1 \\
 YOLO11n (ours), 0.25 threshold & 97.9 & 97.7 & 67.1 & 70.3 \\
 \bottomrule
@@ -40,8 +41,8 @@ YOLO11n (ours), 0.25 threshold & 97.9 & 97.7 & 67.1 & 70.3 \\
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/13_benchmark.pdf}
-\caption{Accuracy of each model on the farm test and on the lab-confirmed photographs. Dots are the mean over seeds,
-bands the range across seeds. Values are written beside each mark.}
+\caption{Accuracy of each model on the farm test and on the lab-confirmed photographs. One training run per model.
+Values are written beside each mark.}
 \label{fig:bench}
 \end{figure}
 
@@ -115,6 +116,51 @@ than ten photographs are labelled and should not be read.}
 \label{fig:calibration}
 \end{figure}
 
+\subsection{What the lab-confirmed droppings look like}
+\label{sec:grades-results}
+
+The three raters agreed well on the grade, with Krippendorff's alpha 0.76 over the 1,255 photographs and pairwise
+weighted kappa from 0.71 to 0.84. Agreement on single variables was lower, from 0.56 for colour and 0.57 for
+undigested feed to 0.75 for the urate cap and 0.74 for blood. Each rater agreed with itself on the 126 repeats with
+weighted kappa 0.71 to 0.86, but gave the identical grade only 37 to 47\% of the time, so a single grade is
+precise to about one point. Nine photographs showed no dropping that could be judged, 331 were only partly
+visible, and on 234 the raters' grades spread by three points or more. The grades, every rating with its rater's
+note and these agreement figures are released with the paper.
+
+\begin{table}[t]
+\centering
+\caption{Appearance grade and model accuracy on the lab-confirmed photographs. Normal looking means grade 9 or 10.
+Detector is our YOLO11n, MobileNetV2 is the seed 0 run. Accuracy is the share whose top class matches PCR.}
+\label{tab:grades}
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+PCR class & $n$ & Mean & Normal & \multicolumn{2}{c}{Acc. on normal looking} \\
+ & & grade & looking & Detector & MobileNetV2 \\
+\midrule
+Healthy & 347 & 8.6 & 62\% & 84\% & 66\% \\
+Salmonella & 347 & 8.0 & 47\% & 93\% & 98\% \\
+Coccidiosis & 366 & 5.6 & 7\% & 23\% & 23\% \\
+Newcastle & 186 & 4.6 & 1\% & \multicolumn{2}{c}{1 photograph} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The grade follows the PCR class (Table~\ref{tab:grades}). Newcastle disease and coccidiosis droppings look
+abnormal, with mean grades 4.6 and 5.6, while salmonella droppings are close to healthy ones, 8.0 against 8.6,
+and nearly half of them look normal. The raters scored salmonella droppings as looser (mean form penalty 0.61
+against 0.28) and with more undigested feed (0.44 against 0.09).
+
+We expected the models to fail most on infected birds whose droppings look normal. They do not. Over the 899
+PCR-positive photographs, the detector is right on 83\% of the 190 that look normal and on 73\% of the 709 that
+do not, and MobileNetV2 on 87\% and 76\%. The exception is coccidiosis, where both models are right on only 6 of
+the 26 normal looking photographs. The high score on normal looking positives comes from salmonella, which both
+models call correctly 93 to 98\% of the time even when the raters saw nothing abnormal. Part of that is a lean
+towards salmonella, since MobileNetV2 also calls 72 of the 215 normal looking healthy photographs salmonella
+(33\%), and the detector 32 (15\%). Telling a normal looking salmonella dropping from a healthy one by eye is
+hard, so cues other than the dropping's clinical signs, such as the surface, lighting or the camera used for one
+class, may be helping. These grades cannot show which.
+
 \subsection{Pen-scale detection}
 \label{sec:res-pen}
 
@@ -146,7 +192,8 @@ within two seconds of their appearance, and raised no false flags (Figure~\ref{f
 laptop, and like the pen test it uses pasted droppings. On the Pi, the deployed pipeline proposes candidates with a
 still-spot finder and judges a full-resolution patch of each with the close-up detector. On the Raspberry Pi
 5 the detector takes 168\,ms at 320 pixels and 618\,ms at 640 pixels with four threads, and the pen model 608\,ms at
-640 pixels \todo{full timing table for all models under the same harness}. Native message passing between two
+640 pixels. In the deployed pipeline the detector runs only on the candidate patches the spot finder flags, not on every frame.
+We did not time the baseline classifiers on the Pi. Native message passing between two
 sections takes 95\,$\mu$s for a 57.6\,KB frame and reply. When we killed any section with \texttt{SIGKILL}, the
 supervisor restarted it in 20 to 33\,ms. Killing the spot finder cost the camera one frame and the other sections
 none.

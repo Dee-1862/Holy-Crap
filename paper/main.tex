@@ -26,13 +26,15 @@ and a Fault-Isolated Pen-Camera Detector on a QNX Raspberry Pi 5}
 \begin{abstract}
 Deep networks classify photographs of poultry droppings into healthy, coccidiosis, salmonella and Newcastle disease
 with reported accuracies of 98 to 99\%, but these numbers come from random splits of a single collection. We retrained
-the classifiers earlier work used (MobileNetV2 and EfficientNet-B0), a ResNet-50 reference and our YOLO11n detector on
+the classifiers earlier work used (MobileNetV2 and EfficientNet-B0) and our YOLO11n detector on
 the same split of the public Tanzanian farm photographs. We then tested all of them on the same 679 held-out farm
 photographs and on 1,255 photographs from a separate collection whose labels were confirmed by PCR. Every model scores
-98 to 99\% on the farm test and loses more than 20 points on the lab-confirmed photographs \todo{final range}, so the
+98 to 99\% on the farm test and 75 to 76\% on the lab-confirmed photographs, a drop of more than 20 points, so the
 test set matters more than the architecture. An audit of the split found 49 test photographs (7.2\%) that are exact
 copies of training photographs. Removing them changes the farm accuracy by only 0.1 points, so they do not explain
-the gap. The detector's box score ranks photographs well but is not a calibrated probability. Since a fixed pen camera
+the gap. The detector's box score ranks photographs well but is not a calibrated probability. We also graded every
+lab-confirmed photograph for appearance with three AI raters (Krippendorff's alpha 0.76). Salmonella droppings look
+almost healthy, yet both models still name them correctly, while normal looking coccidiosis is mostly missed. Since a fixed pen camera
 sees each dropping at 8 to 30 pixels, we fine-tuned the detector on public barn video with real droppings pasted
 onto the litter, split by camera. On unseen cameras, recall rises from 0.29 to 0.80 and precision from 0.11 to 0.93,
 at a cost of 0.02 mAP50 on close-ups. The full pipeline runs on a Raspberry Pi 5 under the QNX microkernel. Each
@@ -49,7 +51,7 @@ release the code, the per-photograph predictions and every figure with its data.
 \section*{Data and code availability}
 The farm and lab-confirmed photographs are Zenodo records 4628934 and 5801834, the PIO and NESTLER videos Zenodo
 records 16686320 and 15063494, all under CC BY 4.0. Our code, trained weights, per-photograph predictions,
-duplicate hashes, training logs and every figure with the table behind it are at \todo{repository URL}. The figures
+duplicate hashes, appearance grades with every rating, training logs and every figure with the table behind it are at \todo{repository URL}. The figures
 are produced by \texttt{data-visualization/evaluation.py}, the baselines by
 \texttt{training/benchmark\_classifiers.py}, and the image audit by \texttt{data-visualization/audit\_images.py}.
 

@@ -40,7 +40,27 @@ documented, reproducible appearance grade so models can be benchmarked on it nex
 
 ## Results
 
-Filled in from `release/agreement.json` after grading.
+From `release/agreement.json` and `release/grade_vs_models.json` (all 1,255 photos, 1,381 images per rater):
+
+| Measure | Value |
+|---|---|
+| Krippendorff's alpha (ordinal), grade | 0.76 |
+| Alpha per variable | form 0.70, cap 0.75, colour 0.56, blood 0.74, mucus 0.66, feed 0.57 |
+| Pairwise weighted kappa, grade | Opus~Sonnet 0.84, Opus~Haiku 0.72, Sonnet~Haiku 0.71 |
+| Self agreement on 126 repeats, weighted kappa | Opus 0.86, Sonnet 0.83, Haiku 0.71 |
+| Self agreement, identical grade | Opus 47%, Sonnet 45%, Haiku 37% |
+| Photo quality | 915 good, 331 partial, 9 unusable |
+| Grades spread by 3 or more between raters | 234 photos |
+
+| PCR class | n | Mean grade | Grade 9 or 10 |
+|---|---|---|---|
+| Healthy | 347 | 8.6 | 62% |
+| Salmonella | 347 | 8.0 | 47% |
+| Coccidiosis | 366 | 5.6 | 7% |
+| Newcastle disease | 186 | 4.6 | 1% |
+
+A single grade is precise to about one point: the raters agree with themselves closely but rarely give the exact
+same number twice.
 
 ## Limitations
 

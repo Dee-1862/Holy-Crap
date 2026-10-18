@@ -1,0 +1,163 @@
+{
+ "photos_graded": 1246,
+ "models": {
+  "yolo11n_detector": {
+   "by_class_and_band": {
+    "coccidiosis": {
+     "1-5": {
+      "n": 201,
+      "accuracy": 0.806
+     },
+     "6-8": {
+      "n": 139,
+      "accuracy": 0.719
+     },
+     "9-10": {
+      "n": 26,
+      "accuracy": 0.231
+     }
+    },
+    "healthy": {
+     "1-5": {
+      "n": 21,
+      "accuracy": 0.571
+     },
+     "6-8": {
+      "n": 111,
+      "accuracy": 0.793
+     },
+     "9-10": {
+      "n": 215,
+      "accuracy": 0.842
+     }
+    },
+    "ncd": {
+     "1-5": {
+      "n": 141,
+      "accuracy": 0.546
+     },
+     "6-8": {
+      "n": 44,
+      "accuracy": 0.477
+     },
+     "9-10": {
+      "n": 1,
+      "accuracy": 0.0
+     }
+    },
+    "salmonella": {
+     "1-5": {
+      "n": 47,
+      "accuracy": 0.702
+     },
+     "6-8": {
+      "n": 137,
+      "accuracy": 0.891
+     },
+     "9-10": {
+      "n": 163,
+      "accuracy": 0.933
+     }
+    }
+   },
+   "pcr_positive_looks_abnormal": {
+    "n": 709,
+    "accuracy": 0.726
+   },
+   "pcr_positive_looks_normal": {
+    "n": 190,
+    "accuracy": 0.832
+   }
+  },
+  "mobilenet_v2": {
+   "by_class_and_band": {
+    "coccidiosis": {
+     "1-5": {
+      "n": 201,
+      "accuracy": 0.776
+     },
+     "6-8": {
+      "n": 139,
+      "accuracy": 0.633
+     },
+     "9-10": {
+      "n": 26,
+      "accuracy": 0.231
+     }
+    },
+    "healthy": {
+     "1-5": {
+      "n": 21,
+      "accuracy": 0.619
+     },
+     "6-8": {
+      "n": 111,
+      "accuracy": 0.667
+     },
+     "9-10": {
+      "n": 215,
+      "accuracy": 0.66
+     }
+    },
+    "ncd": {
+     "1-5": {
+      "n": 141,
+      "accuracy": 0.738
+     },
+     "6-8": {
+      "n": 44,
+      "accuracy": 0.591
+     },
+     "9-10": {
+      "n": 1,
+      "accuracy": 0.0
+     }
+    },
+    "salmonella": {
+     "1-5": {
+      "n": 47,
+      "accuracy": 0.809
+     },
+     "6-8": {
+      "n": 137,
+      "accuracy": 0.92
+     },
+     "9-10": {
+      "n": 163,
+      "accuracy": 0.975
+     }
+    }
+   },
+   "pcr_positive_looks_abnormal": {
+    "n": 709,
+    "accuracy": 0.759
+   },
+   "pcr_positive_looks_normal": {
+    "n": 190,
+    "accuracy": 0.868
+   }
+  }
+ },
+ "looks_normal_share": {
+  "coccidiosis": {
+   "n": 366,
+   "grade_9_10": 0.071,
+   "mean_grade": 5.6
+  },
+  "healthy": {
+   "n": 347,
+   "grade_9_10": 0.62,
+   "mean_grade": 8.58
+  },
+  "ncd": {
+   "n": 186,
+   "grade_9_10": 0.005,
+   "mean_grade": 4.56
+  },
+  "salmonella": {
+   "n": 347,
+   "grade_9_10": 0.47,
+   "mean_grade": 7.98
+  }
+ }
+}

@@ -1,8 +1,8 @@
 # Holy-Crap farmer messaging agent
 
-This is a standalone service for the farmer and veterinarian SMS workflow. It does not run inside the simulation dashboard and does not add a dashboard API route.
+This is a standalone service for the farmer and veterinarian messaging workflow over Photon 2.0 shared iMessage. It does not run inside the simulation dashboard and does not add a dashboard API route.
 
-The agent uses Photon 2.0 Beta for two-way SMS and DeepSeek for short, plain-language replies. Mock mode is the default, so a fresh checkout cannot send a real message by accident.
+The agent uses Photon 2.0 shared iMessage for two-way messaging and DeepSeek for short, plain-language replies. Mock mode is the default, so a fresh checkout cannot send a real message by accident.
 
 ## What it does
 
@@ -42,13 +42,13 @@ npm test
 npm run check
 ```
 
-## Switch to live SMS
+## Switch to live iMessage
 
 Live mode needs all of the following:
 
-- a Photon 2.0 Beta project and project API key with `project:read`, `project:write`, `platforms:read`, and `platforms:write`;
-- one SMS-capable Photon number, an active payment method, and an approved SMS campaign assigned to that number;
-- that number in `PHOTON_AGENT_PHONE`;
+- a Photon 2.0 project and project API key with `project:read`, `project:write`, `platforms:read`, and `platforms:write`;
+- an existing agent Photon user that owns your shared iMessage assignment. Put that user's Photon user ID (`pho_usr_...`) in `PHOTON_AGENT_USER_ID`; the service never creates the agent user from a phone number;
+- every farmer and vet recipient activated and assigned to the shared iMessage in Photon before live messaging. The service creates or gets only the human user by phone handle, then creates a space with the agent user first;
 - at least one verified farmer in `FARMER_ALLOWED_NUMBERS`;
 - a DeepSeek API key;
 - an always-on Node process for the inbound worker.
@@ -59,9 +59,9 @@ Set `MESSAGING_MODE=live`, then start:
 npm run worker
 ```
 
-The worker polls received SMS messages, processes them oldest first, checkpoints handled message IDs, and uses a one-minute overlap on later polls so an eventually consistent result is not silently skipped. Photon calls use stable idempotency keys, so retrying the same alert or reply does not create a second logical message.
+The worker polls received iMessage messages, processes them oldest first, checkpoints handled message IDs, and uses a one-minute overlap on later polls so an eventually consistent result is not silently skipped. Photon calls use stable idempotency keys, so retrying the same alert or reply does not create a second logical message.
 
-Number purchase and billing are intentionally not part of application startup. Provision the number in Photon first, then add the assigned number to the local secret configuration.
+iMessage assignment and billing are intentionally not part of application startup. Create the agent user and assign the shared iMessage in Photon first, then add the agent user ID and recipient numbers to the local secret configuration.
 
 ## Add the veterinarian test number
 

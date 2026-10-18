@@ -1,5 +1,5 @@
 import { DeepSeekClient } from "./deepseek";
-import { PhotonClient, PhotonError } from "./photon";
+import { PhotonClient, PHOTON_PLATFORM, PhotonError } from "./photon";
 import { createHash } from "node:crypto";
 import {
   SYSTEM_RULES,
@@ -134,25 +134,24 @@ export class MessagingService {
   }
 
   private async sendDirectText(phone: string, text: string, idempotencyKey: string): Promise<void> {
-    const agentHandle = this.config.photon.agentPhone;
-    const agent = await this.photon.createOrGetUser(agentHandle);
+    const agentId = this.config.photon.agentUserId;
     const human = await this.photon.createOrGetUser(phone);
-    const space = await this.photon.createOrGetSpace([agent.id, human.id]);
+    const space = await this.photon.createOrGetSpace([agentId, human.id]);
     await this.photon.sendTextMessage({
       spaceId: space.id,
-      senderId: agent.id,
+      senderId: agentId,
       text,
       idempotencyKey,
     });
     this.store.update((s) => {
-      s.agentUserId = agent.id;
+      s.agentUserId = agentId;
     });
     console.log(`[messaging] message accepted for ${maskPhone(phone)} (space ${space.id})`);
   }
 
   async processInbound(message: PhotonMessage): Promise<ProcessResult> {
-    if (message.platform !== "sms" || message.status !== "received") {
-      return { handled: false, reason: "not-received-sms" };
+    if (message.platform !== PHOTON_PLATFORM || message.status !== "received") {
+      return { handled: false, reason: "not-received-imessage" };
     }
     const content = message.content;
     if (content.type !== "text" || content.format !== "plain" || typeof content.text !== "string") {
@@ -171,12 +170,11 @@ export class MessagingService {
     }
 
     const recipient = message.receivedBy;
-    if (!recipient || recipient.kind !== "agent" || recipient.platform !== "sms") {
+    if (!recipient || recipient.kind !== "agent" || recipient.platform !== PHOTON_PLATFORM) {
       return { handled: false, reason: "not-for-agent" };
     }
-    const configuredAgent = normalizeUsPhone(this.config.photon.agentPhone);
-    const actualAgent = normalizeUsPhone(recipient.handle);
-    if (configuredAgent && actualAgent !== configuredAgent) {
+    const configuredAgentId = this.config.photon.agentUserId;
+    if (!configuredAgentId || recipient.id !== configuredAgentId) {
       return { handled: false, reason: "not-for-agent" };
     }
 
@@ -321,7 +319,6 @@ export class MessagingService {
       await this.photon.sendTextMessage({
         spaceId: message.space.id,
         senderId: agentUserId,
-        parentMessageId: message.id,
         text: reply,
         idempotencyKey: stableKey("reply", message.id),
       });

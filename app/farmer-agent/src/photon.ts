@@ -9,6 +9,8 @@ export interface PhotonClientDeps {
   fetch: typeof globalThis.fetch;
 }
 
+export const PHOTON_PLATFORM = "imessage";
+
 export class PhotonError extends Error implements PhotonErrorShape {
   readonly name = "PhotonError";
   readonly status: number | null;
@@ -89,7 +91,7 @@ export class PhotonClient {
     const { body } = await this.request(
       "POST",
       `/projects/${encodeURIComponent(this.projectId)}/users`,
-      { platform: "sms", handle },
+      { platform: PHOTON_PLATFORM, handle },
     );
     const user = body as PhotonUser | null;
     if (!user || typeof user.id !== "string") {
@@ -102,7 +104,7 @@ export class PhotonClient {
     const { body } = await this.request(
       "POST",
       `/projects/${encodeURIComponent(this.projectId)}/spaces`,
-      { platform: "sms", participantIds },
+      { platform: PHOTON_PLATFORM, participantIds },
       spaceKey(participantIds),
     );
     const space = body as PhotonSpace | null;
@@ -135,7 +137,7 @@ export class PhotonClient {
   async listReceivedMessages(opts: { createdSince: string; pageToken?: string }): Promise<PhotonPage> {
     const params = new URLSearchParams({
       direction: "received",
-      platform: "sms",
+      platform: PHOTON_PLATFORM,
       order: "asc",
       pageSize: "100",
       createdSince: opts.createdSince,

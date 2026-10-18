@@ -4,7 +4,7 @@ export interface PhotonConfig {
   baseUrl: string;
   apiKey: string;
   projectId: string;
-  agentPhone: string;
+  agentUserId: string;
 }
 
 export interface DeepSeekConfig {
@@ -152,7 +152,7 @@ export type ProcessReason =
   | "unauthorized"
   | "duplicate"
   | "not-for-agent"
-  | "not-received-sms"
+  | "not-received-imessage"
   | "no-space"
   | "vet-not-configured"
   | "send-failed";

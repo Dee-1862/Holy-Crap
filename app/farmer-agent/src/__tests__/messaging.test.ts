@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -22,6 +23,7 @@ import type { MessagingConfig, PhotonMessage } from "../types";
 const FARMER = "+12025550123";
 const VET = "+12155550199";
 const AGENT = "+12675550123";
+const AGENT_USER_ID = "pho_usr_agent_test";
 const NOW = new Date("2026-10-18T12:00:00.000Z");
 
 function tempState(): { dir: string; file: string } {
@@ -42,7 +44,7 @@ function config(file: string, overrides: Partial<MessagingConfig> = {}): Messagi
       baseUrl: "https://api.photon.codes/v1",
       apiKey: "",
       projectId: "pho_prj_test",
-      agentPhone: AGENT,
+      agentUserId: AGENT_USER_ID,
     },
     deepseek: {
       baseUrl: "https://api.deepseek.com/chat/completions",
@@ -57,11 +59,11 @@ function config(file: string, overrides: Partial<MessagingConfig> = {}): Messagi
 function inbound(id: string, from: string, text: string): PhotonMessage {
   return {
     id,
-    platform: "sms",
+    platform: "imessage",
     status: "received",
-    space: { id: "pho_spc_test", platform: "sms", kind: "direct" },
-    sentBy: { id: `human-${id}`, platform: "sms", handle: from, kind: "human" },
-    receivedBy: { id: "agent-user", platform: "sms", handle: AGENT, kind: "agent" },
+    space: { id: "pho_spc_test", platform: "imessage", kind: "direct" },
+    sentBy: { id: `pho_usr_human_${id}`, platform: "imessage", handle: from, kind: "human" },
+    receivedBy: { id: AGENT_USER_ID, platform: "imessage", handle: AGENT, kind: "agent" },
     content: { type: "text", format: "plain", text },
     createdAt: NOW.toISOString(),
   };
@@ -104,6 +106,24 @@ test("normalizes US numbers and keeps farmer/vet allowlists separate", () => {
       }),
     /must not overlap/,
   );
+});
+
+test("live config requires a plausible Photon agent user ID, not a phone number", () => {
+  const base = {
+    MESSAGING_MODE: "live",
+    FARMER_ALLOWED_NUMBERS: FARMER,
+    PHOTON_API_KEY: "test-only",
+    PHOTON_PROJECT_ID: "pho_prj_test",
+    DEEPSEEK_API_KEY: "test-only",
+  };
+  assert.throws(() => loadConfig({ ...base }), /PHOTON_AGENT_USER_ID/);
+  assert.throws(() => loadConfig({ ...base, PHOTON_AGENT_USER_ID: "" }), /PHOTON_AGENT_USER_ID/);
+  assert.throws(() => loadConfig({ ...base, PHOTON_AGENT_USER_ID: AGENT }), /PHOTON_AGENT_USER_ID/);
+  assert.throws(() => loadConfig({ ...base, PHOTON_AGENT_USER_ID: "pho_usr_" }), /PHOTON_AGENT_USER_ID/);
+  assert.throws(() => loadConfig({ ...base, PHOTON_AGENT_PHONE: AGENT }), /PHOTON_AGENT_USER_ID/);
+  const loaded = loadConfig({ ...base, PHOTON_AGENT_USER_ID: AGENT_USER_ID });
+  assert.equal(loaded.photon.agentUserId, AGENT_USER_ID);
+  assert.ok(!("agentPhone" in loaded.photon));
 });
 
 test("demo alert names the suspected illness in simple, uncertain words", () => {
@@ -395,8 +415,228 @@ test("Photon client follows Beta items and nested message contract", async () =>
   const page = await client.listReceivedMessages({ createdSince: NOW.toISOString() });
   assert.equal(page.items[0].space.id, "pho_spc_test");
   assert.match(requests[0].url, /direction=received/);
-  assert.match(requests[0].url, /platform=sms/);
+  assert.match(requests[0].url, /platform=imessage/);
   assert.equal(requests[0].init?.headers && (requests[0].init.headers as Record<string, string>).Authorization, "Bearer test-only");
+});
+
+test("Photon client sends imessage payloads for users, spaces, and messages", async () => {
+  const requests: { url: string; init?: RequestInit }[] = [];
+  const client = new PhotonClient({
+    baseUrl: "https://api.photon.codes/v1",
+    apiKey: "test-only",
+    projectId: "pho_prj_test",
+    timeoutMs: 1_000,
+    fetch: (async (url: string | URL | Request, init?: RequestInit) => {
+      requests.push({ url: String(url), init });
+      const target = String(url);
+      if (target.includes("/users")) {
+        return jsonResponse({ id: "pho_usr_human1", handle: FARMER, platform: "imessage" });
+      }
+      if (target.includes("/spaces")) {
+        return jsonResponse({
+          id: "pho_spc_out",
+          platform: "imessage",
+          participantIds: [AGENT_USER_ID, "pho_usr_human1"],
+        });
+      }
+      if (target.includes("/messages") && init?.method === "POST") {
+        return jsonResponse({ id: "pho_msg_out" });
+      }
+      return jsonResponse({ items: [], nextPageToken: null });
+    }) as typeof fetch,
+  });
+
+  const user = await client.createOrGetUser(FARMER);
+  assert.equal(user.id, "pho_usr_human1");
+  assert.equal(user.platform, "imessage");
+  const userBody = JSON.parse(String(requests[0].init?.body)) as { platform: string; handle: string };
+  assert.equal(userBody.platform, "imessage");
+  assert.equal(userBody.handle, FARMER);
+
+  const space = await client.createOrGetSpace([AGENT_USER_ID, user.id]);
+  assert.equal(space.platform, "imessage");
+  const spaceBody = JSON.parse(String(requests[1].init?.body)) as {
+    platform: string;
+    participantIds: string[];
+  };
+  assert.equal(spaceBody.platform, "imessage");
+  assert.deepEqual(spaceBody.participantIds, [AGENT_USER_ID, user.id]);
+  const spaceHeaders = requests[1].init?.headers as Record<string, string>;
+  assert.match(spaceHeaders["Idempotency-Key"] ?? "", /^space:/);
+
+  const sent = await client.sendTextMessage({
+    spaceId: space.id,
+    senderId: AGENT_USER_ID,
+    text: "hi",
+    idempotencyKey: "stable:key",
+  });
+  assert.equal(sent.id, "pho_msg_out");
+  const sendBody = JSON.parse(String(requests[2].init?.body)) as { senderId: string; spaceId: string };
+  assert.equal(sendBody.senderId, AGENT_USER_ID);
+  assert.equal(sendBody.spaceId, space.id);
+  const sendHeaders = requests[2].init?.headers as Record<string, string>;
+  assert.equal(sendHeaders["Idempotency-Key"], "stable:key");
+
+  await client.listReceivedMessages({ createdSince: NOW.toISOString() });
+  assert.match(requests[3].url, /platform=imessage/);
+});
+
+test("live sendDirectText uses the configured agent user ID and never creates an agent user", async (t) => {
+  const tmp = tempState();
+  t.after(() => fs.rmSync(tmp.dir, { recursive: true, force: true }));
+  const requests: { url: string; init?: RequestInit }[] = [];
+  const photonFetch = async (url: string | URL | Request, init?: RequestInit) => {
+    requests.push({ url: String(url), init });
+    const target = String(url);
+    if (target.includes("/users")) {
+      const body = JSON.parse(String(init?.body)) as { handle: string };
+      if (body.handle === AGENT) throw new Error("the agent user must not be created from a phone number");
+      return jsonResponse({ id: "pho_usr_human1", handle: body.handle, platform: "imessage" });
+    }
+    if (target.includes("/spaces")) {
+      return jsonResponse({
+        id: "pho_spc_out",
+        platform: "imessage",
+        participantIds: [AGENT_USER_ID, "pho_usr_human1"],
+      });
+    }
+    if (target.includes("/messages") && init?.method === "POST") {
+      return jsonResponse({ id: "pho_msg_out" });
+    }
+    return jsonResponse({ items: [], nextPageToken: null });
+  };
+  const { service } = createRuntime(
+    config(tmp.file, {
+      mode: "live",
+      photon: {
+        baseUrl: "https://api.photon.codes/v1",
+        apiKey: "test-only",
+        projectId: "pho_prj_test",
+        agentUserId: AGENT_USER_ID,
+      },
+    }),
+    {
+      fetch: photonFetch as typeof fetch,
+      deepseekFetch: (async () => {
+        throw new Error("DeepSeek must not run");
+      }) as typeof fetch,
+      clock: () => NOW,
+    },
+  );
+  const alert = demoAlert("B2");
+  const first = await service.sendAlert(alert, [FARMER]);
+  assert.deepEqual(first.map((d) => d.status), ["accepted"]);
+  const second = await service.sendAlert(alert, [FARMER]);
+  assert.deepEqual(second.map((d) => d.status), ["accepted"]);
+
+  const userCreates = requests.filter((r) => r.url.includes("/users"));
+  assert.equal(userCreates.length, 2);
+  for (const req of userCreates) {
+    const body = JSON.parse(String(req.init?.body)) as { platform: string; handle: string };
+    assert.equal(body.platform, "imessage");
+    assert.equal(body.handle, FARMER);
+  }
+
+  const spaceReqs = requests.filter((r) => r.url.includes("/spaces"));
+  assert.equal(spaceReqs.length, 2);
+  for (const req of spaceReqs) {
+    const body = JSON.parse(String(req.init?.body)) as { platform: string; participantIds: string[] };
+    assert.equal(body.platform, "imessage");
+    assert.deepEqual(body.participantIds, [AGENT_USER_ID, "pho_usr_human1"]);
+  }
+
+  const sendReqs = requests.filter((r) => r.url.includes("/messages") && r.init?.method === "POST");
+  assert.equal(sendReqs.length, 2);
+  const keys: string[] = [];
+  for (const req of sendReqs) {
+    const body = JSON.parse(String(req.init?.body)) as { senderId: string };
+    assert.equal(body.senderId, AGENT_USER_ID);
+    keys.push((req.init?.headers as Record<string, string>)["Idempotency-Key"] ?? "");
+  }
+  assert.match(keys[0], /^alert:/);
+  assert.equal(keys[0], keys[1]);
+});
+
+test("live inbound iMessage replies omit parentMessageId and reuse the inbound space", async (t) => {
+  const tmp = tempState();
+  t.after(() => fs.rmSync(tmp.dir, { recursive: true, force: true }));
+  const requests: { url: string; init?: RequestInit }[] = [];
+  const photonFetch = async (url: string | URL | Request, init?: RequestInit) => {
+    requests.push({ url: String(url), init });
+    const target = String(url);
+    if (target.includes("/messages") && init?.method === "POST") {
+      return jsonResponse({ id: "pho_msg_out" });
+    }
+    return jsonResponse({ items: [], nextPageToken: null });
+  };
+  const { service } = createRuntime(
+    config(tmp.file, {
+      mode: "live",
+      photon: {
+        baseUrl: "https://api.photon.codes/v1",
+        apiKey: "test-only",
+        projectId: "pho_prj_test",
+        agentUserId: AGENT_USER_ID,
+      },
+    }),
+    {
+      fetch: photonFetch as typeof fetch,
+      deepseekFetch: (async () =>
+        jsonResponse({
+          choices: [{ message: { content: "We saw three unusual droppings. Please check the birds." } }],
+        })) as typeof fetch,
+      clock: () => NOW,
+    },
+  );
+  const message = inbound("pho_msg_reply_no_parent", FARMER, "What is this?");
+  message.space = { id: "pho_spc_farmer_direct", platform: "imessage", kind: "direct" };
+  const result = await service.processInbound(message);
+  assert.equal(result.handled, true);
+  const sendReqs = requests.filter((r) => r.url.includes("/messages") && r.init?.method === "POST");
+  assert.equal(sendReqs.length, 1);
+  const body = JSON.parse(String(sendReqs[0].init?.body)) as Record<string, unknown>;
+  assert.equal(body.spaceId, "pho_spc_farmer_direct");
+  assert.equal(body.senderId, AGENT_USER_ID);
+  assert.ok(!("parentMessageId" in body));
+  const headers = sendReqs[0].init?.headers as Record<string, string>;
+  const replyKey = `reply:${createHash("sha256").update(message.id, "utf8").digest("hex")}`;
+  assert.equal(headers["Idempotency-Key"], replyKey);
+});
+
+test("inbound rejects sms platform and messages received by a different agent user", async (t) => {
+  const tmp = tempState();
+  t.after(() => fs.rmSync(tmp.dir, { recursive: true, force: true }));
+  let llmCalls = 0;
+  const { service } = createRuntime(config(tmp.file), {
+    fetch: (async () => {
+      throw new Error("Photon should not run in mock mode");
+    }) as typeof fetch,
+    deepseekFetch: (async () => {
+      llmCalls += 1;
+      throw new Error("LLM must not run for filtered messages");
+    }) as typeof fetch,
+    clock: () => NOW,
+  });
+
+  const smsPlatform = inbound("pho_msg_sms_platform", FARMER, "hi");
+  smsPlatform.platform = "sms";
+  assert.deepEqual(await service.processInbound(smsPlatform), {
+    handled: false,
+    reason: "not-received-imessage",
+  });
+
+  const wrongAgent = inbound("pho_msg_wrong_agent", FARMER, "hi");
+  wrongAgent.receivedBy = { id: "pho_usr_other_agent", platform: "imessage", handle: AGENT, kind: "agent" };
+  assert.deepEqual(await service.processInbound(wrongAgent), { handled: false, reason: "not-for-agent" });
+
+  const smsRecipient = inbound("pho_msg_sms_recipient", FARMER, "hi");
+  smsRecipient.receivedBy = { id: AGENT_USER_ID, platform: "sms", handle: AGENT, kind: "agent" };
+  assert.deepEqual(await service.processInbound(smsRecipient), { handled: false, reason: "not-for-agent" });
+
+  const notText = inbound("pho_msg_not_text", FARMER, "hi");
+  notText.content = { type: "image" };
+  assert.deepEqual(await service.processInbound(notText), { handled: false, reason: "not-plain-text" });
+  assert.equal(llmCalls, 0);
 });
 
 test("mock simulation queues only the configured farmer recipient", async (t) => {

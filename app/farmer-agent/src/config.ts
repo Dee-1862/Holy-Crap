@@ -19,6 +19,10 @@ function intOf(raw: string | undefined, fallback: number, name: string, min: num
   return Math.floor(value);
 }
 
+export function isPlausiblePhotonUserId(value: string): boolean {
+  return /^pho_usr_[A-Za-z0-9_-]{6,}$/.test(value);
+}
+
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): MessagingConfig {
   const mode = modeOf(env.MESSAGING_MODE);
   const statePath = env.MESSAGING_STATE_PATH?.trim() || DEFAULT_STATE_PATH;
@@ -45,7 +49,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): MessagingConfi
     baseUrl: (env.PHOTON_BASE_URL ?? "https://api.photon.codes/v1").replace(/\/+$/, ""),
     apiKey: env.PHOTON_API_KEY?.trim() ?? "",
     projectId: env.PHOTON_PROJECT_ID?.trim() ?? "",
-    agentPhone: env.PHOTON_AGENT_PHONE?.trim() ?? "",
+    agentUserId: env.PHOTON_AGENT_USER_ID?.trim() ?? "",
   };
   const deepseek: DeepSeekConfig = {
     baseUrl: env.DEEPSEEK_BASE_URL ?? "https://api.deepseek.com/chat/completions",
@@ -58,9 +62,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): MessagingConfi
     const missing: string[] = [];
     if (!photon.apiKey) missing.push("PHOTON_API_KEY");
     if (!photon.projectId) missing.push("PHOTON_PROJECT_ID");
-    const agent = normalizeUsPhone(photon.agentPhone);
-    if (!agent) missing.push("PHOTON_AGENT_PHONE (must be a valid US E.164 number)");
-    else photon.agentPhone = agent;
+    const agent = isPlausiblePhotonUserId(photon.agentUserId);
+    if (!agent) missing.push("PHOTON_AGENT_USER_ID (must look like a Photon user ID, e.g. pho_usr_)");
     if (!deepseek.apiKey) missing.push("DEEPSEEK_API_KEY");
     if (farmerNumbers.length === 0) missing.push("FARMER_ALLOWED_NUMBERS (must not be empty in live mode)");
     if (missing.length) {

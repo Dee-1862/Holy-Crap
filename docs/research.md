@@ -1,79 +1,112 @@
 # Research Notes
 
-Honest status: **no research papers have been read yet.** Everything marked *(unverified)* came from the idea write-up or memory and must be checked before it's cited anywhere.
+## Research log / front door
+
+The knowledge base lives under [docs/research/](research/README.md), with the central
+synthesis in [research/PAPER.md](research/PAPER.md). Start there.
+
+- [research/PAPER.md](research/PAPER.md): product conclusion, MVP sequence, risks, gaps.
+- [research/](research/README.md): evidence/subject nodes (datasets, observables, identity,
+  systems, evidence, practice).
+- [00-landscape-review.md](00-landscape-review.md): narrative + comparison table.
+- [01-key-findings.md](01-key-findings.md): numbered findings with confidence notes.
+- [02-bibliography.md](02-bibliography.md): sources with `[read]`/`[skimmed]`/`[found]` status.
+- [03-open-questions.md](03-open-questions.md): prioritized questions + answered/settled list.
+- [BIBLE.md](BIBLE.md): single source of truth for scope, hardware, decisions, unknowns.
+
+Status of the original claims from the idea write-up: the Machuve dataset is real and now
+documented with its label-quality caveats (see
+[research/datasets/machuve-fecal-datasets.md](research/datasets/machuve-fecal-datasets.md));
+UGA machine-vision work exists in the sources, but only as tracking/dye-marking studies -
+the specific "UGA works on machine vision for abnormal droppings" claim remains unverified
+(see
+[research/identity/rfid-and-markerless-tracking.md](research/identity/rfid-and-markerless-tracking.md)
+and [02-bibliography.md](02-bibliography.md)); the disease-appearance table below remains
+*(unverified)* and is now annotated against veterinary literature in
+[research/evidence/clinical-limits-of-visual-diagnosis.md](research/evidence/clinical-limits-of-visual-diagnosis.md).
+The rabies row was removed from the target list: rabies is a disease of mammals
+([WOAH](https://www.woah.org/en/disease/rabies/), `[read]`), not a chicken-camera target.
 
 ## Source of the idea (user's pasted write-up)
-Claims, all *(unverified)*:
-- Automated fecal scoring is a validated computer-vision application; University of Georgia researchers work on machine vision for abnormal droppings.
-- An "AI4D Poultry Dataset" with thousands of annotated fecal images exists. *(Likely the 4-class Tanzania dataset, Machuve et al., 2022, ~14k images: cocci / healthy / NCD / salmonella. From memory; find the actual paper and license.)*
-- Two-stage pipeline: YOLOv8 localisation, then MobileNetV2/ViT classification.
-- Edge deployment on a robot or trolley (Jetson or QNX ARM board).
 
-### Disease/appearance table (from the write-up, *unverified*)
-| Class | Appearance |
-|---|---|
-| Healthy | firm, brown, white urate cap |
-| Coccidiosis | blood-streaked, mucousy, dark brown or watery |
-| Salmonella | yellowish, foamy, diarrhea |
-| Newcastle (NCD) | bright green, watery |
+Claims, all *(unverified)* until checked against the bibliography:
 
-Caveat: green/yellow/dark droppings also occur from diet, bile, and normal cecal droppings. Needs veterinary-literature backing.
+- Automated fecal scoring is a validated computer-vision application; University of Georgia
+  researchers work on machine vision for abnormal droppings.
+- An "AI4D Poultry Dataset" with thousands of annotated fecal images exists. *(Still unverified
+  as stated; the closest documented dataset is the 4-class Tanzania collection, Machuve et al.: see
+  [research/datasets/machuve-fecal-datasets.md](research/datasets/machuve-fecal-datasets.md).)*
+- Two-stage pipeline: YOLOv8 localisation, then MobileNetV2/ViT classification. *(Model
+  prescriptivism dropped; families named at a high level only: see
+  [01-key-findings.md](01-key-findings.md) #12.)*
+- Edge deployment on a robot or trolley (Jetson or QNX ARM board). *(Target is now fixed:
+  headless Raspberry Pi 5 on QNX 8.0.0: see [TARGET.md](../TARGET.md) and [BIBLE.md](BIBLE.md).)*
 
-## Prior work: attributing droppings to individual birds (web search 2026-10-17; abstracts and snippets only, papers not read)
-- **No end-to-end system found for floor-raised flocks** that links a dropping to a specific hen.
-- **Caged layers, solved at cage level:** YOLOv5 flags abnormal manure on the manure belt, and SuperPoint-SuperGlue estimates belt motion to trace it back to the cage. Reported 91.6% correct cage tracing over 48 field tests, about 95% detector precision/recall. https://www.sciencedirect.com/science/article/abs/pii/S0168169924003909
-- Per-cage fecal volume on the manure belt as a mortality signal (3D camera, only 2–3 birds per trial): https://www.sciencedirect.com/science/article/pii/S277237552600701X
-- **Individual tracking in floor flocks is still early research:**
-  - UGA/Cobb tracked broilers in 48 pens with YOLO11x plus re-ID. Problems: occlusion, look-alike birds, feeders and drinker lines blocking the view. https://www.cobbgenetics.com/assets/Uploads/Li-et-al-v2.-Enhancing-Consistency-and-Efficiency-of-Tracking-Multiple-Individual-Broiler-Chickens-in-Group-Settings_RFS.pdf
-  - Wageningen used ArUco markers on hens and detected each individual only 37% of the observation time; identity switches cause misassignment. https://www.wur.nl/en/news/pixels-breeding-values-can-cameras-help-breed-better-hens
-  - Chicken re-ID dataset: 95–100% accuracy when multiple images per bird are available. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11718998/
-  - RFID leg bands track visits to feeders and nests, not droppings: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12355069/ and smart nest box https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5877303/
-- **Zone/flock-level dropping monitoring (what we are building) has precedent:**
-  - Pan-tilt-zoom camera about 3.5 m up, scanning the litter in a zigzag every few minutes to detect abnormal droppings early: https://doi.org/10.3390/ani13193041
-  - UGA precision-poultry machine-vision method for disease from manure images. This partly confirms the original write-up's UGA claim. https://site.caes.uga.edu/precisionpoultry/2025/09/a-machine-vision-method-for-poultry-disease-detection-based-on-manure-images/
-  - Open-house farms with slatted floors: new droppings are hard to tell apart from a dirty floor. https://www.researchgate.net/publication/392852662
-  - Commercial lead (vendor claim, unverified): Carus Lab "Chicken Boy", a rail robot that rates dropping colour, claiming disease prediction 2–3 days earlier. https://www.caruslab.com/blog-details/early-poultry-disease-detection-precision-farming-tech
-  - Patent: robot surveillance that detects chickens, equipment and droppings. https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/11019805
+### Historical disease/appearance table removed
 
-## TODO reading list
-- [ ] Machuve et al. poultry disease fecal dataset paper + dataset license
-- [ ] UGA machine-vision poultry papers (find actual titles)
-- [ ] YOLO small-object detection on cluttered floors
-- [ ] Domain shift / augmentation for barn imagery
-- [ ] Veterinary reference on fecal color vs disease
+The original idea associated dropping colors and textures with named diseases.
+That mapping is not sufficiently supported for product use and has been
+removed to avoid implying visual diagnosis. The reviewed evidence supports
+appearance-based labels such as normal-looking, abnormal color, abnormal
+shape, and abnormal water content. See
+[research/evidence/clinical-limits-of-visual-diagnosis.md](research/evidence/clinical-limits-of-visual-diagnosis.md).
 
-## QNX findings (web search, 2026-10-17)
-- **Verified target (2026-10-17)**: the actual device is a Raspberry Pi 5 running QNX 8.0.0 (`aarch64le`). See TARGET.md for the recorded target facts and connection procedure.
-- **Pi 4 background research only** (kept for reference, not evidence of Pi 5 support):
-  - Pi 4 (BCM2711) BSP for QNX SDP 8.0 exists; release notes dated Jan 2026 (build 484).
-    https://www.qnx.com/developers/docs/BSP8.0/com.qnx.doc.bsp.releasenotes/topic/rel_sdp80.bsp.broadcom.rpi4.bcm2711.html
-  - Quick Start Target Image (QSTI) for Raspberry Pi includes a camera demo; recommended if you need camera functionality.
-    https://www.qnx.com/developers/docs/qnxeverywhere/com.qnx.doc.target_images/topic/qsti/intro.html
-  - Refreshed QSTI adds Raspberry Pi Camera Module 3 support and multi-camera configuration.
-    https://qnx.software/en/blog/2026/refreshed-qnx-quick-start
-  - Custom image build repo for Pi 4 on QNX 8.0: https://devblog.qnx.com/refreshed-quick-start-custom-image-builds-and-more-samples
-- Resources hub: https://oss.qnx.com/
-- **Not confirmed**: whether the camera works on the Pi 5 under QNX. Runtime availability: see the package survey below.
+The earlier implementation survey and hackathon-oriented data/model/runtime
+recommendations are preserved in [vision-plan.md](vision-plan.md). The
+evidence-backed conclusions on attribution, datasets, and commercial systems
+have been reconciled into the linked research notes above rather than repeated
+here.
 
-## oss.qnx.com package survey (2026-10-17)
-Pulled the full build list (13,675 builds) from the dashboard's backing API (`/packages`, paginated). All builds below are aarch64 and passed. "apk" = installable via APK package manager; "cross" = source port in github.com/qnx-ports built with QNX makefiles. Platforms listed: QEMU, Raspberry Pi 4, Raspberry Pi 5.
+## QNX, camera, and application findings (2026-10-17)
 
-| Need | Package (version, QNX release, type) |
-|---|---|
-| Inference | onnxruntime + python3-onnxruntime 1.24.4 (8.0.5, apk) |
-| Inference | tflite-runtime + python3-tflite-runtime 2.21.0 (8.0.3, apk); XNNPACK, ruy also ported |
-| Inference | ncnn + python3-ncnn 20260526 (8.0.5, apk) |
-| Inference (heavy) | pytorch 2.3.1, tensorflow 2.16.1 (8.0.0, cross only) |
-| Image/CV | opencv 4.12.0 incl. dnn, python3-opencv (8.0.3, apk); ARM ComputeLibrary 52.8 (8.0.5) |
-| Python | python3 3.14 (8.0.3/8.0.5), python3-numpy 2.4.1, python3-pillow, python3-scipy |
-| Camera | qnx-sf-camera-imx708 (Camera Module 3 sensor), qnx-rpi-camera-ipa, qnx-sf-camera-usb, qnx-sf-camera-ipc-server (8.0.5, apk). License: QDL **Non-Commercial**. |
-| Video | gstreamer 1.26.8, ffmpeg 8.0 |
-| MQTT | mosquitto 2.0.15 (8.0.0, cross; C lib + broker); qt6-mqtt. No Python paho client found. |
+- **Verified physical target:** Raspberry Pi 5, `aarch64le`, running QNX
+  8.0.0. Connection and non-root runner details are in [../TARGET.md](../TARGET.md).
+- **Official platform context:** QNX publishes a 64-bit QNX 8 BSP for Pi 5 /
+  BCM2712, currently classified as experimental software. That is suitable for
+  this prototype, not a production-support guarantee
+  ([release notes](https://www.qnx.com/developers/docs/BSP8.0/com.qnx.doc.bsp.releasenotes/topic/rel_sdp80.bsp.broadcom.rpi5.bcm2712.html)).
+- **Selected camera:** Raspberry Pi Camera Module 3. QNX's QSTI documentation
+  lists it on Pi 5 as camera ID 3 (camera 1) and ID 4 (camera 2)
+  ([camera guide](https://www.qnx.com/developers/docs/qnxeverywhere/com.qnx.doc.target_images/topic/qsti/next-steps.html)).
+- **Selected application foundation:** QNX
+  [AI Camera App](https://gitlab.com/qnx/projects/ai-camera-app), an Apache-2.0
+  sample using Sensor Framework/camapi, OpenCV, TensorFlow Lite, and QNX
+  Screen. It lists Camera Module 3 as tested but recommends Pi 4; Pi 5 + Camera
+  Module 3 + AICA remains a bring-up test, not an established fact.
+- **Headless gap:** stock AICA creates a Screen/EGL/GLES window and listens for
+  mouse/touch input. The production path needs a no-window capture/inference
+  service. Do not enable root SSH just to follow the sample's deployment steps.
+- **Documented, not verified on this target:** AICA references Linux-host SDP
+  cross-build recipes for OpenCV and TensorFlow Lite. Use those recipes for
+  the isolated AICA compatibility test. Native APK packaging is a separate
+  Pi-side `abuild` workflow and is not configured yet. The availability of
+  matching OpenCV, TensorFlow, or TensorFlow Lite APKs in the configured
+  repositories has not been checked. ONNX Runtime and hardware acceleration
+  remain unknown.
+- QNX's Pi 5 QSTI guide uses `/etc/config/sensor/sensor_rpi5.conf`, with
+  related files under `/etc/config/sensor/rpi5`. Camera Module 3 uses
+  `SENSOR_UNIT_3` for camera 1 and `SENSOR_UNIT_4` for camera 2, followed by a
+  Sensor Framework restart with the Pi 5 configuration. The installed target
+  state is still unknown
+  ([camera guide](https://www.qnx.com/developers/docs/qnxeverywhere/com.qnx.doc.target_images/topic/qsti/next-steps.html)).
 
-Caveats:
-- Packages are split across releases: OpenCV/TFLite are built for 8.0.3, while ONNX Runtime/ncnn/camera are built for 8.0.5. Check whether 8.0.3 packages install on an 8.0.5 image before relying on mixing.
-- The QNX camera is exposed through "QNX Sensor Framework" (`qnx-sf-*`), not obviously libcamera/V4L2. Whether OpenCV `VideoCapture` can read it is unknown; frames may need to come via the sensor-framework API and then be handed to OpenCV/numpy.
-- "Built" ≠ "tested"; most entries show no test run. Performance on Pi 4 CPU unmeasured.
+## M5Stack StopWatch C152
+
+- **Role:** optional barn-wall status and alert client. The desktop application
+  is primary; the StopWatch is not a vision node or source of truth.
+- **Official specifications:** ESP32-S3R8 at 240 MHz, 16 MB flash, 8 MB PSRAM,
+  2.4 GHz Wi-Fi, 1.75-inch 466×466 round AMOLED touch display, buttons,
+  vibration, audio, IMU, RTC, 450 mAh battery, USB-C 5 V, and rear magnetic
+  attachment
+  ([M5Stack documentation](https://docs.m5stack.com/en/core/StopWatch)).
+- **Wall deployment:** propose protected continuous USB-C power. Treat the
+  battery as a short buffer until measured; test auto-restart, reconnect,
+  screen visibility/image retention, enclosure, dust, and moisture.
+- **Revision warning:** on some v1.0 units a pin labeled `BAT` is actually
+  5 V input. Never connect a lithium battery to that pin. On v1.0.1 the
+  `*BAT` pin is an actual battery connection. Inventory every unit first.
+
+## Additional implementation survey
 
 ### Camera access on QNX (2026-10-17)
 - Frames come from the **QNX Sensor Framework (QSF) camera C API** (`sf.camapi`). There is no Python binding for it on oss.qnx.com, so capture code must be C/C++.
@@ -140,4 +173,6 @@ https://gitlab.com/qnx/projects/ai-camera-app (Apache-2.0; created Apr 2025, las
 - Zenodo Machuve records (https://doi.org/10.5281/zenodo.4628934 farm, https://doi.org/10.5281/zenodo.5801834 PCR) reported as **CC BY 4.0**, full-resolution photos plus official YOLO boxes (`imgObjDet_Yolo.zip`; 9,090 boxes). This resolves the earlier "license unknown" and "224 px only" concerns for the Zenodo copy (the Kaggle copy is still 224 px with unknown license). Credit required.
 - oss.qnx.com: prebuilt packages target QNX 8.0.3-8.0.5; source ports (tensorflow 2.16.1, opencv 4.9, mosquitto, XNNPACK, ComputeLibrary) target 8.0.0. Details in vision-plan.md.
 - Hackathon context: LA Hacks QNX track (needs an oss.qnx.com AI module) and Veri track (train an open-source model on Veri); see vision-plan.md.
-- Lance's open PR #1 (docs/20261017-poultry-industry-research): knowledge base (BIBLE.md etc.), advisory-only product, no disease names, desktop primary UI, staged gates. Merge conflicts expected with game-plan/research/changes/mistakes.
+- The research branch adds the knowledge base (`BIBLE.md` and linked notes),
+  advisory-only product framing, no disease-name outputs, a desktop primary
+  UI, and staged validation gates.

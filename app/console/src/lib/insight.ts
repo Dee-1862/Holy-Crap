@@ -80,18 +80,16 @@ export function barnIndex(): number {
 
 export const openAlerts = () => GROUPS.filter((g) => groupStatus(g).level !== "good").length;
 
-// One line per specimen for the live feed.
-export function feedLines(): string[] {
-  return SPECIMENS.map((s) => {
-    const what = s.type === "healthy" ? "normal" : `suspected ${TYPES[s.type].name.toLowerCase()}`;
-    return `${groupName(s.group)}: ${what}, grade ${s.grade}, ${ago(s.minsAgo)}`;
-  });
-}
-
 export function summary() {
   const hot = ranked().filter((r) => r.status.level === "bad").map((r) => r.group.name);
   const abnormal = SPECIMENS.filter((s) => s.type !== "healthy").length;
   const mean = (SPECIMENS.reduce((a, s) => a + s.grade, 0) / SPECIMENS.length).toFixed(1);
-  const headline = hot.length ? `${hot.join(" and ")} ${hot.length > 1 ? "need" : "needs"} attention` : "Everything looks calm";
-  return { hot, abnormal, mean, headline, total: SPECIMENS.length };
+  const headline = hot.length ? `${hot.join(" and ")} ${hot.length > 1 ? "need" : "needs"} attention` : "All pens look calm";
+  // One plain sentence under the headline. Names the worst group and what to do.
+  const worst = ranked().filter((r) => r.status.level === "bad").map((r) => r.group)[0];
+  const n = worst ? groupStatus(worst).bad : 0;
+  const detail = worst
+    ? `${worst.name} has ${n} abnormal specimens in the last 15 minutes. Check the birds on site and call the vet if it continues.`
+    : "No pen has repeated abnormal specimens in the last 15 minutes.";
+  return { hot, abnormal, mean, headline, detail, total: SPECIMENS.length };
 }

@@ -6,7 +6,6 @@ import Clock from "@/components/Clock";
 import Readout from "@/components/Readout";
 import SiteMap, { type MapFilter } from "@/components/SiteMap";
 import ThemeToggle from "@/components/ThemeToggle";
-import Ticker from "@/components/Ticker";
 import { GROUPS } from "@/lib/data";
 import { barnIndex, openAlerts, ranked, tone } from "@/lib/insight";
 import styles from "./dashboard.module.css";
@@ -69,7 +68,6 @@ export default function Dashboard() {
         </aside>
       </main>
 
-      <Ticker />
     </div>
   );
 }

@@ -10,12 +10,18 @@ const HOLD_MS = 1500;
 const SUBS: [string, keyof Specimen["sub"]][] = [
   ["Color", "color"], ["Consistency", "consistency"], ["Urate cap", "urates"], ["Blood or mucus", "blood"], ["Foam", "foam"],
 ];
+// Scores stay neutral. Only a middling or low score picks up a color.
 const meterClass = (v: number) => (v >= 8 ? "" : v >= 5 ? "w" : "b");
+// Where each numbered marker sits relative to the specimen. Demo layout. In production
+// the explainability model returns a region for every evidence line.
+const MARKER_OFFSETS: [number, number][] = [[-0.13, -0.1], [0.15, 0.04], [-0.02, 0.2]];
+const clamp = (v: number) => Math.min(0.94, Math.max(0.06, v));
 
-// One specimen: verdict, next step, photo, evidence, scores and actions.
+// One specimen. Verdict, plan, photo with evidence markers, scores and actions.
 // Mount with key={specimen.id} so local state resets when the specimen changes.
 export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
   const [heat, setHeat] = useState(true);
+  const [on, setOn] = useState<number | null>(null);
   const [msg, setMsg] = useState("");
   const [progress, setProgress] = useState(0);
   const timer = useRef<number | null>(null);
@@ -43,6 +49,7 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
   const next = nextStep(s);
   const order = sortedProbs(s);
   const unc = uncertainty(s);
+  const evidence = s.why.slice(0, 3);
 
   return (
     <div className="card">
@@ -55,14 +62,21 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
         <Gauge grade={s.grade} />
         <div>
           <div className="t">{resultOf(s)}</div>
-          <div className="s">Confidence {pct(s.probs[s.type])}%. Screening result, not a diagnosis.</div>
+          <div className="s">{pct(s.probs[s.type])}% confident. Screening only, not a diagnosis.</div>
         </div>
       </div>
 
-      <div className={`next ${next.level}`}><div>{next.head}<small>{next.note}</small></div></div>
+      <div className={`next ${next.level}`}>{next.head}<small>{next.note}</small></div>
 
       <div className="photo">
         <SpecimenCanvas type={s.type} region={s.region} heat={heat} seed={s.id} label="Illustrated specimen" />
+        {heat && evidence.map((_, i) => (
+          <button
+            key={i} className="mk" data-on={on === i} aria-label={`Evidence ${i + 1}`}
+            style={{ left: `${clamp(s.region[0] + MARKER_OFFSETS[i][0]) * 100}%`, top: `${clamp(s.region[1] + MARKER_OFFSETS[i][1]) * 100}%` }}
+            onMouseEnter={() => setOn(i)} onMouseLeave={() => setOn(null)} onFocus={() => setOn(i)} onBlur={() => setOn(null)}
+          >{i + 1}</button>
+        ))}
       </div>
       <div className="tools">
         <label className="switch">
@@ -74,7 +88,13 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
 
       <span className="eyebrow sec">What the model saw</span>
       <ul className="saw">
-        {s.why.slice(0, 3).map((w, i) => <li key={w}><b>{i + 1}</b><span>{w}</span></li>)}
+        {evidence.map((w, i) => (
+          <li key={w}>
+            <button data-on={on === i} onMouseEnter={() => setOn(i)} onMouseLeave={() => setOn(null)} onFocus={() => setOn(i)} onBlur={() => setOn(null)}>
+              <b>{i + 1}</b><span>{w}</span>
+            </button>
+          </li>
+        ))}
       </ul>
 
       <span className="eyebrow sec">Scores</span>
@@ -88,35 +108,22 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
       </div>
 
       <details>
-        <summary>Model confidence</summary>
+        <summary>Model details</summary>
         <div className="top2">{topTwo(s)}</div>
-        {order.map((k, i) => (
+        {order.map((k) => (
           <div className="prob" key={k}>
             <span>{TYPES[k].name}</span>
-            <div className="meter"><i className={i === 0 ? "w" : ""} style={{ width: `${pct(s.probs[k])}%` }} /></div>
+            <div className="meter"><i style={{ width: `${pct(s.probs[k])}%` }} /></div>
             <b className="num">{pct(s.probs[k])}%</b>
           </div>
         ))}
         <div className="note"><b>{unc.text}</b> Margin between the top two is {pct(unc.margin)} points.</div>
-      </details>
-
-      <details>
-        <summary>Closest reference examples</summary>
         <div className="refs">
           {[0, 1, 2].map((i) => (
             <SpecimenCanvas key={i} type={s.type} region={[0.5, 0.5]} heat={false} seed={`${s.id}r${i}`} width={120} height={90} label={`Reference example ${i + 1}`} />
           ))}
         </div>
-        <div className="note">Placeholders. In production these come from the labeled training set.</div>
-      </details>
-
-      <details>
-        <summary>How the grade works</summary>
-        <div className="note">
-          Grade runs from 1 to 10, where 10 is a textbook healthy dropping. In this demo it comes from the model&apos;s healthy
-          probability, lowered when color, moisture, blood or foam look abnormal. It has not been validated against a veterinary
-          scale. Disease names are suspicions from appearance only, and a lab test confirms a diagnosis.
-        </div>
+        <div className="note">Reference examples are placeholders. In production they come from the labeled training set.</div>
       </details>
 
       <div className="actions">

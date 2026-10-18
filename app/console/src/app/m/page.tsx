@@ -38,6 +38,7 @@ export default function Mobile() {
             <div className={`glass ${styles.hero}`}>
               <div className="eyebrow">Barn status</div>
               <div className={styles.big}>{sum.headline}</div>
+              <p className={styles.detail}>{sum.detail}</p>
               <div className={styles.stats}>
                 <div><b className="num">{sum.total}</b><span>Specimens</span></div>
                 <div><b className="num tone-warn">{sum.abnormal}</b><span>Abnormal</span></div>

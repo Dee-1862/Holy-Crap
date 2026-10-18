@@ -1,4 +1,4 @@
-.shell { max-width: 1560px; margin: 0 auto; padding: 18px 20px 84px; }
+.shell { max-width: 1560px; margin: 0 auto; padding: 18px 20px 32px; }
 .top { display: flex; align-items: center; gap: 16px; padding: 4px 4px 14px; flex-wrap: wrap; }
 .brand { font-family: var(--display); font-size: 30px; letter-spacing: -0.01em; }
 .tabs { display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: var(--glass); border: 1px solid var(--edge); }

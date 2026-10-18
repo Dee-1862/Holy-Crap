@@ -20,7 +20,10 @@ export interface Spot {
   seen: number;
   window: number;
   scores: Record<ClassKey, number>;
-  truth?: { cls: ClassKey; photo: string };          // answer key on test clips
+  truth?: {                                          // answer key on test clips
+    cls: ClassKey; photo: string;
+    closeup: { img: string; box: [number, number, number, number] | null; scores: Record<ClassKey, number> | null } | null;
+  };
 }
 
 export interface Analysis {

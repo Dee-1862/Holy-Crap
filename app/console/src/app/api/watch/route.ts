@@ -1,4 +1,4 @@
-import { GROUPS, SPECIMENS, type TypeKey } from "@/lib/data";
+import { GROUPS, liveSpecimens, type TypeKey } from "@/lib/data";
 import { penStats } from "@/lib/rules";
 import { getState } from "@/server/store";
 
@@ -15,6 +15,7 @@ const ST = { new: 0, checking: 1, normal: 2 } as const;
 //   vet    most recent vet request, pen and minutes ago
 export async function GET() {
   const st = getState();
+  const SPECIMENS = liveSpecimens(Math.floor(Date.now() / 60000));   // same demo clock as the web app
   const active = SPECIMENS.filter((s) => st.states[s.id] !== "normal");
   const pens = GROUPS.map((g) => {
     const p = penStats(active.filter((s) => s.group === g.id));

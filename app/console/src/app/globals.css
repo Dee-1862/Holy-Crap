@@ -3,6 +3,7 @@
    materials for bars and sheets. Dark is the default. Light follows iOS light values.
    Color is for status only: green healthy, yellow watch, red critical. */
 :root {
+  color-scheme: dark;        /* dark native scrollbars and form controls */
   /* surfaces (iOS systemBackground, secondarySystemGroupedBackground and friends) */
   --bg: #000000;
   --card: #1c1c1e;
@@ -31,6 +32,7 @@
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", var(--font-geist), "Segoe UI", system-ui, sans-serif;
 }
 :root[data-theme="light"] {
+  color-scheme: light;
   --bg: #f2f2f7;
   --card: #ffffff;
   --card-2: #f2f2f7;

@@ -3,8 +3,7 @@
 import { useState } from "react";
 import SpecimenCard from "@/components/SpecimenCard";
 import ThemeToggle from "@/components/ThemeToggle";
-import { stateOf, useBarn } from "@/lib/store";
-import { SPECIMENS } from "@/lib/data";
+import { stateOf, useBarn, specimens } from "@/lib/store";
 import { ago, groupName, pct, ranked, resultOf, summary, tone } from "@/lib/insight";
 import styles from "./mobile.module.css";
 
@@ -26,10 +25,10 @@ const TABS: { id: Tab; label: string }[] = [
 export default function Mobile() {
   useBarn();
   const [tab, setTab] = useState<Tab>("over");
-  const [selectedId, setSelectedId] = useState(SPECIMENS[0].id);
-  const selected = SPECIMENS.find((s) => s.id === selectedId) ?? SPECIMENS[0];
+  const [selectedId, setSelectedId] = useState(specimens()[0].id);
+  const selected = specimens().find((s) => s.id === selectedId) ?? specimens()[0];
   const sum = summary();
-  const abnormal = SPECIMENS.filter((s) => s.type !== "healthy").length;
+  const abnormal = specimens().filter((s) => s.type !== "healthy").length;
 
   const open = (id: string) => { setSelectedId(id); setTab("card"); window.scrollTo(0, 0); };
 
@@ -61,7 +60,7 @@ export default function Mobile() {
               {ranked().map(({ group, status }, i) => (
                 <button
                   key={group.id} className={`row ${styles.board}`}
-                  onClick={() => { const s = SPECIMENS.find((x) => x.group === group.id); if (s) open(s.id); }}
+                  onClick={() => { const s = specimens().find((x) => x.group === group.id); if (s) open(s.id); }}
                 >
                   <span className={`${styles.rk} num`}>{i + 1}</span>
                   <span className="headline">{group.name}</span>
@@ -77,7 +76,7 @@ export default function Mobile() {
         {tab === "alerts" && (
           <section>
             <div className="list">
-              {SPECIMENS.map((s) => (
+              {specimens().map((s) => (
                 <button key={s.id} className={`row ${styles.item}`} onClick={() => open(s.id)}>
                   <span className={`${styles.grade} num tone-${tone(s.grade)}`}>{s.grade}</span>
                   <span className={styles.what}>

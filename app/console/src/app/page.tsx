@@ -2,25 +2,26 @@
 
 import { useEffect, useState } from "react";
 import CameraLoop from "@/components/CameraLoop";
+import CameraPulse from "@/components/CameraPulse";
 import Clock from "@/components/Clock";
 import PenDroppings from "@/components/PenDroppings";
 import PenFolder from "@/components/PenFolder";
 import Readout from "@/components/Readout";
 import SpecimenSheet from "@/components/SpecimenSheet";
 import ThemeToggle from "@/components/ThemeToggle";
-import { useBarn } from "@/lib/store";
+import { isOnlinePen, setOnlinePens, useBarn, specimens } from "@/lib/store";
 import ViewSwitch from "@/components/ViewSwitch";
-import { GROUPS, SPECIMENS } from "@/lib/data";
+import { GROUPS } from "@/lib/data";
 import { barnIndex, penLevels, ranked, tone } from "@/lib/insight";
 import styles from "./dashboard.module.css";
 
-// Main dashboard. Three widgets, a big camera view for the chosen pen, and the pens as folders on the side.
+// Main dashboard. Four widgets (three from the demo stream, one from the cameras), a big camera view for the chosen pen, and the pens as folders on the side.
 export default function Dashboard() {
   useBarn();
   const worst = ranked().at(-1)?.group.id ?? GROUPS[0].id;
   const [selected, setSelected] = useState(worst);
   const [openId, setOpenId] = useState<string | null>(null);
-  const open = SPECIMENS.find((s) => s.id === openId) ?? null;
+  const open = specimens().find((s) => s.id === openId) ?? null;
   const index = barnIndex();
   const pens = penLevels();
   // pens that have a camera feed, and start on one of them
@@ -30,9 +31,11 @@ export default function Dashboard() {
       .then((d: { clips: { pen: string }[] }) => {
         const pens = [...new Set(d.clips.map((c) => c.pen))].sort();
         setCams(pens);
+        setOnlinePens(pens);                                  // pens without a camera are offline and drop out of the numbers
         if (pens.length) setSelected((cur) => (pens.includes(cur) ? cur : pens[0]));
       })
       .catch(() => setCams([]));
+    return () => setOnlinePens(null);                       // other views count every pen
   }, []);
 
   return (
@@ -64,18 +67,21 @@ export default function Dashboard() {
             {pens.look.length ? pens.look.slice(0, 3).map((x) => x.group.name).join(", ") : "Nothing right now"}
           </span>
         </div>
+        <CameraPulse className={`glass ${styles.widget}`} bigClass={styles.big} />
       </section>
 
       <main className={styles.grid}>
         <aside className={styles.side} aria-label="Pens and readout">
           <PenFolder selected={selected} cams={cams} onSelect={setSelected} />
-          <div className={`glass ${styles.readout}`}>
-            <Readout key={selected} groupId={selected} />
-          </div>
+          {isOnlinePen(selected) && (
+            <div className={`glass ${styles.readout}`}>
+              <Readout key={selected} groupId={selected} />
+            </div>
+          )}
         </aside>
         <div className={styles.main}>
           <CameraLoop pen={selected} />
-          <PenDroppings key={selected} groupId={selected} onOpen={setOpenId} />
+          {isOnlinePen(selected) && <PenDroppings key={selected} groupId={selected} onOpen={setOpenId} />}
         </div>
       </main>
 

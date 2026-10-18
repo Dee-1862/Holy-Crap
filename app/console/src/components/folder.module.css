@@ -15,3 +15,5 @@ button.label:hover { color: var(--label); }
 .name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cam { font-size: 11px; font-weight: 500; color: var(--label-2); padding: 2px 7px; border-radius: 999px; background: var(--fill); }
 .group li b { font-size: 14px; font-weight: 500; color: var(--label-2); min-width: 28px; text-align: right; }
+.off { background: var(--label-3); }
+.offline { font-size: 11px; font-weight: 500; color: var(--label-3); padding: 2px 7px; border-radius: 999px; border: 1px solid var(--fill); }

@@ -1,14 +1,14 @@
 "use client";
 
-import { GROUPS, SPECIMENS } from "@/lib/data";
+import { GROUPS } from "@/lib/data";
 import { nextStep, radarOf } from "@/lib/insight";
-import { lastVet } from "@/lib/store";
+import { lastVet, specimens } from "@/lib/store";
 import ChecksList from "./ChecksList";
 
 // Side panel for the selected pen. The plan and the radar.
 export default function Readout({ groupId }: { groupId: string }) {
   const group = GROUPS.find((g) => g.id === groupId) ?? GROUPS[0];
-  const list = SPECIMENS.filter((s) => s.group === group.id);
+  const list = specimens().filter((s) => s.group === group.id);
   const mine = radarOf(group.id);
   const plan = nextStep(list[0]);
 

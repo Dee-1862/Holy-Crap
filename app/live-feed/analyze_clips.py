@@ -150,6 +150,39 @@ MODEL_NAME = "dropping4-laptop 640 onnx, zoomed, size and litter filtered"
 EVALUATION = None
 
 
+CLOSEUP_SESSION = None
+
+
+def closeup_of(photo: str) -> dict | None:
+    """The real close-up photo a test dropping was cut from, judged by the close-up model (dropping4-laptop).
+    This is the second step the system is built for: the pen camera finds a spot, a close-up judges it."""
+    global CLOSEUP_SESSION
+    import zipfile
+    sys.path.insert(0, str(D.REPO / "training"))
+    from pen_scale import RAW
+    cls = photo.split("/")[0]
+    try:
+        with zipfile.ZipFile(RAW / f"{cls}.zip") as z:
+            name = next(n for n in z.namelist() if n.endswith("/" + photo.split("/")[1]))
+            img = cv2.imdecode(np.frombuffer(z.read(name), np.uint8), cv2.IMREAD_COLOR)
+    except (OSError, StopIteration):
+        return None                                               # Machuve zips not on this machine
+    if CLOSEUP_SESSION is None:
+        CLOSEUP_SESSION = D.load_session()                        # the close-up model, not the pen model
+    h, w = img.shape[:2]
+    s = 640 / max(h, w)
+    small = cv2.resize(img, (round(w * s), round(h * s)), interpolation=cv2.INTER_AREA)
+    boxes = D.detect(CLOSEUP_SESSION, small, conf=0.1)
+    ok, buf = cv2.imencode(".jpg", cv2.resize(small, (round(small.shape[1] * 0.6), round(small.shape[0] * 0.6))), [cv2.IMWRITE_JPEG_QUALITY, 82])
+    out = {"img": "data:image/jpeg;base64," + base64.b64encode(buf.tobytes()).decode(), "box": None, "scores": None}
+    if len(boxes):
+        b = boxes[np.argmax(boxes[:, 5])]
+        H, W = small.shape[:2]
+        out["box"] = [round(float(b[0]) / W, 4), round(float(b[1]) / H, 4), round(float(b[2]) / W, 4), round(float(b[3]) / H, 4)]
+        out["scores"] = {c: round(float(p), 3) for c, p in zip(D.CLASSES, b[6:10])}
+    return out
+
+
 def score_truth(truth: list[dict], spots: list[dict]) -> list[dict]:
     """A pasted dropping counts as found when a spot lands inside its box, grown by 1 percent of the frame, after it appeared."""
     used, out = set(), []
@@ -163,7 +196,7 @@ def score_truth(truth: list[dict], spots: list[dict]) -> list[dict]:
                 hit = s["t"]
                 break
         if hit is not None:
-            spots[k]["truth"] = {"cls": t["cls"], "photo": t["photo"]}       # the answer key, shown next to the model's guess
+            spots[k]["truth"] = {"cls": t["cls"], "photo": t["photo"], "closeup": closeup_of(t["photo"])}   # answer key and its source photo
         out.append({**t, "foundAt": hit})
     return out
 

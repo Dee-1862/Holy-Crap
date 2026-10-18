@@ -88,7 +88,7 @@ export default function CameraLoop({ pen }: { pen: string }) {
     return (
       <section className={`glass ${styles.card} ${styles.empty}`} aria-label={`Pen ${pen} camera`}>
         <h2 className="headline">Pen {pen}</h2>
-        <p className="sub">No camera in this pen. The three camera pens are in the Cameras folder.</p>
+        <p className="sub">Camera offline right now. No video or readings from this pen until it reconnects.</p>
       </section>
     );
   }

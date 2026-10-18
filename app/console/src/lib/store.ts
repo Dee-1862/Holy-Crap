@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
-import { SPECIMENS, type Specimen } from "./data";
+import { liveSpecimens, type Specimen } from "./data";
 
 // Client side view of the actions people have taken. It follows the server (/api/state) and applies
 // each action locally first, so buttons respond at once and still work if the API is unreachable.
@@ -13,6 +13,7 @@ let states: Record<string, SpecState> = {};
 let vet: VetCall[] = [];
 let online = true;
 let version = 0;
+let clockMin = 0;          // demo clock in minutes, 0 until mounted so server and first client render match
 let lastJson = "";
 const listeners = new Set<() => void>();
 
@@ -27,7 +28,12 @@ function apply(d: { states?: Record<string, SpecState>; vet?: VetCall[] }) {
 }
 
 // Specimens that still count toward alerts and averages. Ones marked "Looks normal" drop out.
-export const getSpecimens = (): Specimen[] => SPECIMENS.filter((s) => states[s.id] !== "normal");
+// Pens whose camera is online. Null means every pen counts (views that do not know about cameras).
+let onlinePens: string[] | null = null;
+export function setOnlinePens(pens: string[] | null) { onlinePens = pens; emit(); }
+export const isOnlinePen = (id: string) => !onlinePens || onlinePens.includes(id);
+export const specimens = (): Specimen[] => liveSpecimens(clockMin).filter((s) => isOnlinePen(s.group));
+export const getSpecimens = (): Specimen[] => specimens().filter((s) => states[s.id] !== "normal");
 export const stateOf = (id: string): SpecState => states[id] ?? "new";
 export const lastVet = (pen: string): VetCall | undefined => vet.filter((v) => v.pen === pen).sort((a, b) => b.ts - a.ts)[0];
 export const isOnline = () => online;
@@ -44,6 +50,10 @@ async function refresh() {
 }
 
 let timer: number | undefined;
+function tickClock() {
+  const m = Math.floor(Date.now() / 60000);
+  if (m !== clockMin) { clockMin = m; emit(); }
+}
 let refs = 0;
 const subscribe = (l: () => void) => { listeners.add(l); return () => { listeners.delete(l); }; };
 
@@ -51,7 +61,11 @@ const subscribe = (l: () => void) => { listeners.add(l); return () => { listener
 export function useBarn() {
   useSyncExternalStore(subscribe, () => version, () => 0);
   useEffect(() => {
-    if (refs++ === 0) { void refresh(); timer = window.setInterval(refresh, 4000); }
+    if (refs++ === 0) {
+      void refresh();
+      timer = window.setInterval(() => { void refresh(); tickClock(); }, 4000);
+      tickClock();
+    }
     return () => { if (--refs === 0) window.clearInterval(timer); };
   }, []);
 }

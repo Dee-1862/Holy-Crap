@@ -73,6 +73,27 @@ export default function SpotSheet({ spot, n, clip, onClose }: { spot: Spot; n: n
           )}
         </ol>
 
+        <section className={styles.closeup} aria-label="Close-up check">
+          <span className="eyebrow">Close-up check</span>
+          {spot.truth?.closeup ? (() => {
+            const c = spot.truth.closeup;
+            const top = c.scores ? (Object.entries(c.scores) as [ClassKey, number][]).sort((a, b) => b[1] - a[1])[0] : null;
+            return (
+              <>
+                <div className={styles.closeImg}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={c.img} alt="Close-up photo this test dropping was cut from" />
+                  {c.box && <span className={styles.closeBox} style={{ left: `${c.box[0] * 100}%`, top: `${c.box[1] * 100}%`, width: `${(c.box[2] - c.box[0]) * 100}%`, height: `${(c.box[3] - c.box[1]) * 100}%` }} />}
+                </div>
+                <p className="sub" style={{ margin: "8px 0 0" }}>
+                  {top ? <>The close-up model reads this as <b>{CLASS_NAME[top[0]]}</b> ({top[1].toFixed(2)}){top[0] === spot.truth.cls ? ", which matches the answer key." : ", which does not match the answer key."}</> : "The close-up model found nothing here."}
+                </p>
+                <p className="foot">This is the real close-up photo this test dropping was cut from, not what the pen camera saw. It shows the second step: the camera finds a spot, a close-up judges it. The close-up model never trained on this photo.</p>
+              </>
+            );
+          })() : <p className="foot">No close-up yet. On a farm the Pi would zoom in here or a worker would take a photo, and the close-up model would judge it.</p>}
+        </section>
+
         <Link href={`/live?clip=${clip.id}&t=${Math.max(0, spot.t - 3).toFixed(1)}`} className={styles.open}>Watch this moment in Live</Link>
       </aside>
     </>

@@ -4,9 +4,8 @@ import { useState } from "react";
 import Clock from "@/components/Clock";
 import SpecimenSheet from "@/components/SpecimenSheet";
 import ThemeToggle from "@/components/ThemeToggle";
-import { stateOf, useBarn } from "@/lib/store";
+import { stateOf, useBarn, specimens } from "@/lib/store";
 import ViewSwitch from "@/components/ViewSwitch";
-import { SPECIMENS } from "@/lib/data";
 import { ago, groupName, pct, ranked, resultOf, summary, tone } from "@/lib/insight";
 import styles from "./page.module.css";
 
@@ -21,9 +20,9 @@ export default function Specimens() {
   const [all, setAll] = useState(false);
   const sum = summary();
   const board = ranked();
-  const rows = SPECIMENS.filter((s) => !filter || s.group === filter);
+  const rows = specimens().filter((s) => !filter || s.group === filter);
   const shown = all ? rows : rows.slice(0, SHOWN);
-  const open = SPECIMENS.find((s) => s.id === openId) ?? null;
+  const open = specimens().find((s) => s.id === openId) ?? null;
 
 
   return (

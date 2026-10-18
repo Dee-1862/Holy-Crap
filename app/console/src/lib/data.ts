@@ -101,3 +101,16 @@ export const SPECIMENS: Specimen[] = [
     why: ["Brown, firm", "White cap slightly smeared"],
   },
 ];
+
+// The demo stream runs on the clock. Every specimen ages in real time and comes round again as a new one
+// every DEMO_PERIOD minutes, each time in a different pen, so the time windows, pen grades and alerts keep changing.
+// clockMin is minutes since 1970, or 0 for the fixed layout above.
+export const DEMO_PERIOD = 90;
+export function liveSpecimens(clockMin: number): Specimen[] {
+  return SPECIMENS.map((s) => {
+    const t = s.minsAgo + clockMin;
+    const lap = Math.floor(t / DEMO_PERIOD);
+    const g = GROUPS.findIndex((x) => x.id === s.group);
+    return { ...s, minsAgo: t % DEMO_PERIOD, group: GROUPS[(g + lap * 2) % GROUPS.length].id };
+  }).sort((a, b) => a.minsAgo - b.minsAgo);
+}

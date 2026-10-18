@@ -5,15 +5,23 @@ from __future__ import annotations
 import hashlib
 import json
 from abc import ABC, abstractmethod
+from dataclasses import replace
 from datetime import datetime
 from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-from .catalog import Catalog
+from .catalog import Catalog, safe_part
 from .engine import SimulationResult, simulate
 from .models import AdapterCapability, ModelArtifact, Scenario
+from .qnx_runner import (
+    QnxProbeReport,
+    QnxRunner,
+    QnxRunnerError,
+    QnxValidationOutcome,
+)
+from .scenarios import ScenarioRepository
 
 
 class AdapterError(ValueError):
@@ -22,6 +30,7 @@ class AdapterError(ValueError):
 
 class Executor(ABC):
     id: str
+    version: str = "0.1.0"
 
     @abstractmethod
     def capability(self) -> AdapterCapability: ...
@@ -32,6 +41,7 @@ class Executor(ABC):
 
 class MockExecutor(Executor):
     id = "mock"
+    version = "0.1.0"
 
     def capability(self) -> AdapterCapability:
         return AdapterCapability(
@@ -46,25 +56,175 @@ class MockExecutor(Executor):
 
 
 class QnxExecutor(Executor):
-    """Future boundary for SSH/SCP deployment and Sensor Framework file-camera playback.
+    """Honest boundary to the headless QNX Pi: target validation, never inference.
 
-    The Pi remains a real execution target rather than a simulated device. This stub deliberately
-    performs no network access until target discovery, artifact deployment, invocation, and result
-    collection are designed and configured.
+    The Pi has no TensorFlow Lite, ONNX, OpenCV, or NumPy runtime, so every QNX
+    run is a target probe: it proves that one exact model artifact and one
+    canonical scenario JSON reached the physical target and were processed
+    there, using the dependency-free `target/qnx/simlab_probe.py` worker
+    through the persistent qnx-runner.
+
+    Capability status follows a strict ladder:
+
+    - `not_configured`: QNX_EXECUTOR_MODE is disabled; no Pi contact.
+    - `unreachable`: SSH/runner contact failed or timed out.
+    - `runtime_missing`: reachable but Python or the persistent runner is
+      missing, so the probe worker cannot run.
+    - `probe_only`: SSH, Python, and the runner all work, so target validation
+      runs can complete. This is the highest status QNX can reach.
+    - `ready`: never reported until actual inference exists on the Pi.
     """
 
     id = "qnx"
+    version = "0.1.0"
+
+    PROBE_SSH_TIMEOUT = 10
+    PROBE_COMMAND_TIMEOUT = 15
+
+    def __init__(
+        self,
+        runner: QnxRunner | None = None,
+        catalog: Catalog | None = None,
+        scenario_directory: Path | None = None,
+        prober: object | None = None,
+    ) -> None:
+        self._runner = runner or QnxRunner()
+        self._catalog = catalog
+        self._scenario_directory = scenario_directory
+        self._prober = prober
 
     def capability(self) -> AdapterCapability:
+        config = self._runner.config
+        if not config.enabled:
+            return AdapterCapability(
+                id=self.id,
+                kind="executor",
+                status="not_configured",
+                description=(
+                    "QNX target validation is disabled (QNX_EXECUTOR_MODE=%r); no Pi "
+                    "contact is attempted until it is set to 'probe'" % config.mode
+                ),
+                details={"mode": config.mode},
+            )
+        try:
+            report = self._probe()
+        except (QnxRunnerError, OSError, TimeoutError) as exc:
+            return AdapterCapability(
+                id=self.id,
+                kind="executor",
+                status="unreachable",
+                description="QNX Pi probe failed: %s" % exc,
+                details={"error": str(exc)},
+            )
+        return self._capability_from_report(report)
+
+    def _probe(self) -> QnxProbeReport:
+        if self._prober is not None:
+            return self._prober()  # type: ignore[return-value]
+        config = self._runner.config
+        probe_config = replace(
+            config,
+            ssh_timeout=min(config.ssh_timeout, self.PROBE_SSH_TIMEOUT),
+            command_timeout=min(config.command_timeout, self.PROBE_COMMAND_TIMEOUT),
+        )
+        return QnxRunner(probe_config).probe_capability()
+
+    def _capability_from_report(self, report: QnxProbeReport) -> AdapterCapability:
+        if not report.reachable:
+            return AdapterCapability(
+                id=self.id,
+                kind="executor",
+                status="unreachable",
+                description=report.detail,
+                details={"reachable": False, "detail": report.detail},
+            )
+        if not report.python_ok:
+            return AdapterCapability(
+                id=self.id,
+                kind="executor",
+                status="runtime_missing",
+                description="QNX Pi has no working Python; the probe worker cannot run",
+                details={"python_version": None, "runtimes": report.runtime_presence},
+            )
+        if not report.runner_ok:
+            return AdapterCapability(
+                id=self.id,
+                kind="executor",
+                status="runtime_missing",
+                description="QNX persistent runner is not running; jobs cannot be submitted",
+                details={
+                    "python_version": report.python_version,
+                    "runner": "not running",
+                    "runner_output": report.runner_output,
+                },
+            )
         return AdapterCapability(
             id=self.id,
             kind="executor",
-            status="not_configured",
-            description="QNX Pi execution via SSH/SCP and file-camera playback (not configured)",
+            status="probe_only",
+            description=(
+                "QNX target validation works (SSH, Python, runner), but the Pi has "
+                "no inference runtime; QNX never reports ready until actual inference exists"
+            ),
+            details={
+                "python_version": report.python_version,
+                "runner": "running",
+                "runtimes": report.runtime_presence,
+                "inference_performed": False,
+            },
         )
 
     def execute(self, scenario: Scenario, model: ModelArtifact) -> SimulationResult:
-        raise AdapterError("the QNX executor is not configured")
+        raise AdapterError(
+            "the QNX target has no inference runtime; QNX runs are target-validation "
+            "probes (evaluation_kind=target_probe) and cannot produce predictions"
+        )
+
+    def canonical_scenario_path(self, scenario: Scenario) -> Path:
+        directory = self._scenario_directory
+        if directory is None:
+            directory = ScenarioRepository.default_directory()
+        for path in directory.glob("*.json"):
+            try:
+                payload = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                continue
+            if isinstance(payload, dict) and payload.get("id") == scenario.id:
+                return path
+        raise AdapterError(f"canonical scenario file not found for scenario {scenario.id}")
+
+    def validate_target(
+        self, scenario: Scenario, model: ModelArtifact, run_id: str
+    ) -> QnxValidationOutcome:
+        """Run the QNX target probe for one exact catalog model and canonical scenario.
+
+        The built-in zero-byte mock model is rejected outright: it has no real
+        artifact bytes to stage on the Pi.
+        """
+        if model.size_bytes == 0:
+            raise AdapterError(
+                "the built-in zero-byte mock model cannot be validated on the QNX "
+                "target; register a real model artifact first"
+            )
+        if self._catalog is None:
+            raise AdapterError("QNX target validation requires the artifact catalog")
+        blob = self._catalog.artifact_path(model)
+        if blob is None or not blob.is_file():
+            raise AdapterError(
+                "model artifact bytes are missing from the catalog for %s; "
+                "re-register the model before QNX target validation" % model.id
+            )
+        scenario_path = self.canonical_scenario_path(scenario)
+        try:
+            return self._runner.validate_on_target(
+                run_id=run_id,
+                model_path=blob,
+                model_name=safe_part(model.name),
+                scenario_path=scenario_path,
+                scenario_name=scenario.id,
+            )
+        except QnxRunnerError as exc:
+            raise AdapterError(str(exc)) from exc
 
 
 class ManifestModel(BaseModel):

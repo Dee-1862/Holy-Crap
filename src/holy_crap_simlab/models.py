@@ -195,6 +195,7 @@ class ResultArtifact(StrictModel):
 class RunResult(StrictModel):
     schema_version: Literal[1] = 1
     run_id: str
+    evaluation_kind: Literal["prediction", "target_probe"] = "prediction"
     model: ResultModelReference
     scenario: ResultScenarioReference
     executor: ResultExecutorReference
@@ -202,7 +203,7 @@ class RunResult(StrictModel):
     started_at: datetime | None
     finished_at: datetime | None
     status: Literal["pending", "running", "completed", "failed", "cancelled"]
-    metrics: ResultMetrics
+    metrics: ResultMetrics | None = None
     artifacts: list[ResultArtifact]
     error: dict[str, Any] | None = None
 
@@ -220,8 +221,9 @@ class VeriImportRequest(StrictModel):
 class AdapterCapability(StrictModel):
     id: str
     kind: Literal["executor", "importer"]
-    status: Literal["ready", "not_configured"]
+    status: Literal["ready", "probe_only", "unreachable", "runtime_missing", "not_configured"]
     description: str
+    details: dict[str, Any] | None = None
 
 
 class SystemCapabilities(StrictModel):
@@ -243,3 +245,28 @@ class ErrorBody(StrictModel):
 
 class ErrorResponse(StrictModel):
     error: ErrorBody
+
+
+class MediaAssetInfo(StrictModel):
+    """Typed reference-media metadata served by the media API."""
+
+    id: str
+    title: str
+    description: str
+    media_type: str
+    width: int
+    height: int
+    filename: str
+    sha256: str
+    installed: bool
+    verified: bool
+    size_bytes: int
+    content_url: str
+    source_url: str
+    dataset_url: str
+    doi: str
+    license: str
+    license_url: str
+    attribution: str
+    creators: list[str]
+    limitations: list[str]

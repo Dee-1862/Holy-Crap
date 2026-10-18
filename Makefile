@@ -6,7 +6,7 @@ VENV_PY := $(VENV)/bin/python
 
 .DEFAULT_GOAL := help
 
-.PHONY: help bootstrap doctor dev api web test test-api test-web build-web clean-generated
+.PHONY: help bootstrap doctor dev api web test test-api test-web build-web clean-generated demo-assets
 
 help: ## Show available targets
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-16s %s\n", $$1, $$2}'
@@ -41,3 +41,6 @@ build-web: ## Production build of the frontend
 
 clean-generated: ## Remove known generated local artifacts (never touches .simlab/)
 	rm -rf web/dist .pytest_cache .mypy_cache .ruff_cache htmlcov .coverage coverage.xml
+
+demo-assets: ## Fetch and verify committed demo reference media into the runtime home
+	$(PYTHON) scripts/fetch_demo_assets.py

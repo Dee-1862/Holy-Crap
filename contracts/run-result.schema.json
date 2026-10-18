@@ -22,6 +22,12 @@
   "properties": {
     "schema_version": {"const": 1},
     "run_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "evaluation_kind": {
+      "type": "string",
+      "enum": ["prediction", "target_probe"],
+      "default": "prediction",
+      "description": "How the run was evaluated. prediction runs measure a model against simulated observations; target_probe runs only prove that one exact model and one canonical scenario reached a physical target and were processed there (no inference). Historical schema-v1 results without this field are prediction runs."
+    },
     "model": {
       "type": "object",
       "additionalProperties": false,
@@ -58,27 +64,32 @@
     "finished_at": {"type": ["string", "null"], "format": "date-time"},
     "status": {"enum": ["pending", "running", "completed", "failed", "cancelled"]},
     "metrics": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "detection_delay_s",
-        "false_alerts",
-        "mean_fps",
-        "p95_latency_ms",
-        "dropped_frames",
-        "alert_triggered"
-      ],
-      "properties": {
-        "detection_delay_s": {"type": ["number", "null"], "minimum": 0},
-        "false_alerts": {"type": "integer", "minimum": 0},
-        "mean_fps": {"type": "number", "minimum": 0},
-        "p50_latency_ms": {"type": "number", "minimum": 0},
-        "p95_latency_ms": {"type": "number", "minimum": 0},
-        "dropped_frames": {"type": "integer", "minimum": 0},
-        "alert_triggered": {"type": "boolean"},
-        "processed_frames": {"type": "integer", "minimum": 0},
-        "duration_s": {"type": "number", "minimum": 0}
-      }
+      "oneOf": [
+        {"type": "null", "description": "target_probe runs perform no inference and carry no metrics."},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "detection_delay_s",
+            "false_alerts",
+            "mean_fps",
+            "p95_latency_ms",
+            "dropped_frames",
+            "alert_triggered"
+          ],
+          "properties": {
+            "detection_delay_s": {"type": ["number", "null"], "minimum": 0},
+            "false_alerts": {"type": "integer", "minimum": 0},
+            "mean_fps": {"type": "number", "minimum": 0},
+            "p50_latency_ms": {"type": "number", "minimum": 0},
+            "p95_latency_ms": {"type": "number", "minimum": 0},
+            "dropped_frames": {"type": "integer", "minimum": 0},
+            "alert_triggered": {"type": "boolean"},
+            "processed_frames": {"type": "integer", "minimum": 0},
+            "duration_s": {"type": "number", "minimum": 0}
+          }
+        }
+      ]
     },
     "artifacts": {
       "type": "array",

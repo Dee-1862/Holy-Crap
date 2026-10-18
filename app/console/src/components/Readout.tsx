@@ -10,7 +10,8 @@ export default function Readout({ groupId }: { groupId: string }) {
   const group = GROUPS.find((g) => g.id === groupId) ?? GROUPS[0];
   const list = specimens().filter((s) => s.group === group.id);
   const mine = radarOf(group.id);
-  const plan = nextStep(list[0]);
+  // the demo stream moves specimens between pens, so a pen can have none for a while
+  const plan = list.length ? nextStep(list[0]) : { level: "good", head: "No droppings checked yet", note: `Nothing from ${group.name} in the last hour and a half.` };
 
   return (
     <div className="readout">
@@ -28,7 +29,7 @@ export default function Readout({ groupId }: { groupId: string }) {
         </p>
       )}
 
-      <ChecksList values={mine} title="What we checked in this pen" />
+      {list.length ? <ChecksList values={mine} title="What we checked in this pen" /> : <p className="foot">Checks appear once the camera finds a dropping in this pen.</p>}
 
     </div>
   );

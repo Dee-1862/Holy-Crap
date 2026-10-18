@@ -1,10 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { GROUPS, SPECIMENS } from "@/lib/data";
+import { kvEnabled, kvGet, kvSet } from "./kv";
 
-// Server side state for the actions people take. In memory, mirrored to .data/state.json so a
-// restart keeps it. On hosts with a read only disk (Vercel) it stays in memory per instance, so
-// swap this file for a real database before using it for more than a demo.
+// Server side state for the actions people take. With a KV store connected (Vercel) it lives there, so every
+// instance and the watch see the same state. Otherwise in memory, mirrored to .data/state.json on this machine.
 
 export type SpecState = "new" | "checking" | "normal";
 export type Delivery = "sent" | "logged" | "failed";
@@ -22,14 +22,21 @@ function load(): State {
     return { states: {}, vet: [] };
   }
 }
-function save(s: State) {
+const KEY = "hc:state";
+
+async function save(s: State) {
+  if (kvEnabled) { await kvSet(KEY, s); return; }
   try {
     fs.mkdirSync(path.dirname(FILE), { recursive: true });
     fs.writeFileSync(FILE, JSON.stringify(s));
   } catch { /* read only disk, keep in memory */ }
 }
 
-export function getState(): State {
+export async function getState(): Promise<State> {
+  if (kvEnabled) {
+    const raw = await kvGet<Partial<State>>(KEY);
+    return { states: raw?.states ?? {}, vet: raw?.vet ?? [] };
+  }
   if (!g.__barn) g.__barn = load();
   return g.__barn;
 }
@@ -37,10 +44,10 @@ export function getState(): State {
 export const knownSpecimen = (id: string) => SPECIMENS.some((s) => s.id === id);
 export const knownPen = (id: string) => GROUPS.some((p) => p.id === id);
 
-export function setSpecimenState(id: string, st: SpecState): State {
-  const s = getState();
+export async function setSpecimenState(id: string, st: SpecState): Promise<State> {
+  const s = await getState();
   if (st === "new") delete s.states[id]; else s.states[id] = st;
-  save(s);
+  await save(s);
   return s;
 }
 
@@ -50,7 +57,7 @@ const DUPLICATE_WINDOW_MS = 60_000;
 // "text" and "content" so Slack and Discord style webhooks work. Without a webhook the
 // request is only logged. Placing a real phone call needs a provider account (for example Twilio).
 export async function requestVet(pen: string, specimenId?: string): Promise<{ call: VetCall; duplicate: boolean; state: State }> {
-  const s = getState();
+  const s = await getState();
   const recent = s.vet.find((v) => v.pen === pen && Date.now() - v.ts < DUPLICATE_WINDOW_MS);
   if (recent) return { call: recent, duplicate: true, state: s };
 
@@ -74,6 +81,6 @@ export async function requestVet(pen: string, specimenId?: string): Promise<{ ca
   const call: VetCall = { id: `V-${Date.now().toString(36)}`, pen, specimenId, ts: Date.now(), delivered };
   s.vet.unshift(call);
   s.vet = s.vet.slice(0, 20);
-  save(s);
+  await save(s);
   return { call, duplicate: false, state: s };
 }

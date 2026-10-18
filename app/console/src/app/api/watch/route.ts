@@ -14,7 +14,7 @@ const ST = { new: 0, checking: 1, normal: 2 } as const;
 //          five scores, photo focus point in percent, evidence lines
 //   vet    most recent vet request, pen and minutes ago
 export async function GET() {
-  const st = getState();
+  const st = await getState();
   const SPECIMENS = liveSpecimens(Math.floor(Date.now() / 60000));   // same demo clock as the web app
   const active = SPECIMENS.filter((s) => st.states[s.id] !== "normal");
   const pens = GROUPS.map((g) => {

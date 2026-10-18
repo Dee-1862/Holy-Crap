@@ -40,3 +40,12 @@
 .spots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
 .spots button { padding: 0; border: 0; background: none; cursor: pointer; text-align: left; color: var(--label-2); font-size: 11px; }
 .spots img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; display: block; margin-bottom: 2px; }
+.pixel { width: 100%; height: 100%; image-rendering: pixelated; display: block; }
+.frame .pixel { position: absolute; inset: 0; }
+.marks { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.mark { fill: none; stroke: #ffd60a; stroke-width: 2; vector-effect: non-scaling-stroke; }
+.procs { list-style: none; padding: 0; margin: 10px 0; display: grid; gap: 10px; }
+.procs li { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.procs li div { display: grid; gap: 2px; }
+.spots .pixel { aspect-ratio: 1; border-radius: 8px; margin-bottom: 2px; }
+.smooth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }

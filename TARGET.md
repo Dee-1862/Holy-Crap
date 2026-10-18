@@ -16,6 +16,15 @@ preserves the alias's user, identity, and trusted host-key settings. On
 running persistent runner. Treat the address as discovered state, not a fixed
 deployment value.
 
+## Second setup (Windows laptop with its own Pi)
+
+A second QNX Pi is wired straight to a Windows laptop so both setups can test at the same time. It uses
+the alias `qnxpi-win`, never `qnxpi`, so the two never point at each other. On the Windows laptop run
+`python scripts/pi_win.py`. It finds the Pi on the cable by its Raspberry Pi network card prefix (the
+169.254.x.x address can change after a reboot), rewrites only its own marked block in `~/.ssh/config`
+and tests SSH. Repo tools take the alias from `QNX_SSH_ALIAS=qnxpi-win`. Seen on 2026-10-18 at
+169.254.237.143. Treat that as discovered state.
+
 ## Verified target facts
 
 - OS: QNX 8.0.0

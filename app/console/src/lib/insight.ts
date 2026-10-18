@@ -1,6 +1,6 @@
 import { GROUPS, TYPES, type Group, type Specimen } from "./data";
 import { penStats } from "./rules";
-import { getSpecimens } from "./store";
+import { getSpecimens, isOnlinePen } from "./store";
 
 export type Tone = "good" | "warn" | "bad";
 
@@ -24,7 +24,7 @@ export function groupStatus(g: Group): GroupStatus {
 
 // Groups ranked healthiest first.
 export function ranked(): { group: Group; status: GroupStatus }[] {
-  return GROUPS.map((group) => ({ group, status: groupStatus(group) })).sort(
+  return GROUPS.filter((g) => isOnlinePen(g.id)).map((group) => ({ group, status: groupStatus(group) })).sort(
     (a, b) => (b.status.mean ?? -1) - (a.status.mean ?? -1),
   );
 }
@@ -80,7 +80,7 @@ export function barnIndex(): number {
   return Math.round((list.reduce((a, s) => a + s.grade, 0) / list.length) * 10);
 }
 
-export const openAlerts = () => GROUPS.filter((g) => groupStatus(g).level !== "good").length;
+export const openAlerts = () => GROUPS.filter((g) => isOnlinePen(g.id) && groupStatus(g).level !== "good").length;
 
 // Pens split by whether they need a look. Used for the dashboard widgets.
 export function penLevels() {

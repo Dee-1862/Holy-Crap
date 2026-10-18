@@ -3,6 +3,7 @@
    materials for bars and sheets. Dark is the default. Light follows iOS light values.
    Color is for status only: green healthy, yellow watch, red critical. */
 :root {
+  color-scheme: dark;        /* dark native scrollbars and form controls */
   /* surfaces (iOS systemBackground, secondarySystemGroupedBackground and friends) */
   --bg: #000000;
   --card: #1c1c1e;
@@ -31,6 +32,7 @@
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", var(--font-geist), "Segoe UI", system-ui, sans-serif;
 }
 :root[data-theme="light"] {
+  color-scheme: light;
   --bg: #f2f2f7;
   --card: #ffffff;
   --card-2: #f2f2f7;
@@ -179,7 +181,8 @@ button.theme:hover { background: var(--fill); color: var(--label); }
 
 /* photo with numbered markers that tie each evidence line to a spot on the image */
 .photo { position: relative; margin-top: 14px; }
-.photo canvas { width: 100%; height: auto; display: block; border-radius: 16px; }
+.photo canvas, .photo img { width: 100%; height: auto; display: block; border-radius: 16px; }
+.photo .mbox { position: absolute; border: 2px dashed rgba(255, 255, 255, 0.85); border-radius: 8px; pointer-events: none; }
 .mk { position: absolute; width: 24px; height: 24px; margin: -12px 0 0 -12px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; color: var(--label); background: var(--material); border: 0; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); padding: 0; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35); transition: transform 0.15s, background 0.15s; }
 .mk[data-on="true"] { transform: scale(1.25); background: var(--label); color: var(--on-label); }
 .tools { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 13px; color: var(--label-2); }
@@ -205,7 +208,7 @@ button.theme:hover { background: var(--fill); color: var(--label); }
 .prob { display: grid; grid-template-columns: 120px 1fr 40px; gap: 10px; align-items: center; margin: 9px 0; font-size: 14px; }
 .prob b { text-align: right; font-weight: 600; }
 .refs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
-.refs canvas { width: 100%; height: auto; border-radius: 10px; }
+.refs canvas, .refs img { width: 100%; height: auto; border-radius: 10px; display: block; }
 .note { font-size: 13px; color: var(--label-2); line-height: 1.45; margin-top: 8px; }
 .actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 20px; }
 .status { min-height: 20px; margin-top: 10px; font-size: 14px; color: var(--label-2); }

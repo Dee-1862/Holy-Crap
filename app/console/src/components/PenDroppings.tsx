@@ -1,13 +1,13 @@
 "use client";
 
-import { GROUPS, SPECIMENS } from "@/lib/data";
+import { GROUPS } from "@/lib/data";
 import { ago, pct, resultOf, tone } from "@/lib/insight";
-import { stateOf } from "@/lib/store";
+import { stateOf, specimens } from "@/lib/store";
 
 // Short list of the droppings found in one pen. Tapping a row opens the specimen sheet.
 export default function PenDroppings({ groupId, onOpen }: { groupId: string; onOpen: (specimenId: string) => void }) {
   const group = GROUPS.find((g) => g.id === groupId) ?? GROUPS[0];
-  const list = SPECIMENS.filter((s) => s.group === group.id);
+  const list = specimens().filter((s) => s.group === group.id);
 
   return (
     <section className="glass list" aria-label={`Droppings in ${group.name}`}>

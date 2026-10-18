@@ -1,0 +1,26 @@
+[
+  {
+    "model": "dropping4-laptop (before)",
+    "imgsz": 640,
+    "closeup_test_map50": 0.8734,
+    "closeup_test_map50_95": 0.573,
+    "pen_test_map50_any_class": 0.0668,
+    "pen_test_recall_any_class": 0.2895,
+    "pen_test_precision_any_class": 0.112,
+    "pen_test_map50_4class": 0.0272,
+    "pen_test_real_boxes_per_tile_conf0.25": 3.553,
+    "pen_test_real_boxes_per_tile_conf0.4": 2.067
+  },
+  {
+    "model": "dropping4-pen (best of 38 epochs)",
+    "imgsz": 640,
+    "closeup_test_map50": 0.8528,
+    "closeup_test_map50_95": 0.5679,
+    "pen_test_map50_any_class": 0.8751,
+    "pen_test_recall_any_class": 0.798,
+    "pen_test_precision_any_class": 0.9271,
+    "pen_test_map50_4class": 0.6508,
+    "pen_test_real_boxes_per_tile_conf0.25": 0.05,
+    "pen_test_real_boxes_per_tile_conf0.4": 0.012
+  }
+]

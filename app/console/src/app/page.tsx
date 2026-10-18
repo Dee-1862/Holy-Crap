@@ -1,34 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import CameraLoop from "@/components/CameraLoop";
+import CameraPulse from "@/components/CameraPulse";
 import Clock from "@/components/Clock";
 import PenDroppings from "@/components/PenDroppings";
+import PenFolder from "@/components/PenFolder";
 import Readout from "@/components/Readout";
-import SiteMap, { type MapFilter } from "@/components/SiteMap";
 import SpecimenSheet from "@/components/SpecimenSheet";
 import ThemeToggle from "@/components/ThemeToggle";
-import { useBarn } from "@/lib/store";
+import { isOnlinePen, setOnlinePens, useBarn, specimens } from "@/lib/store";
 import ViewSwitch from "@/components/ViewSwitch";
-import { GROUPS, SPECIMENS } from "@/lib/data";
+import { GROUPS } from "@/lib/data";
 import { barnIndex, penLevels, ranked, tone } from "@/lib/insight";
 import styles from "./dashboard.module.css";
 
-const FILTERS: { id: MapFilter; label: string }[] = [
-  { id: "all", label: "All" },
-  { id: "watch", label: "Needs a look" },
-  { id: "action", label: "Urgent" },
-];
-
-// Main dashboard. Three widgets, the barn floor plan, and the readout for the chosen pen.
+// Main dashboard. Four widgets (three from the demo stream, one from the cameras), a big camera view for the chosen pen, and the pens as folders on the side.
 export default function Dashboard() {
   useBarn();
   const worst = ranked().at(-1)?.group.id ?? GROUPS[0].id;
   const [selected, setSelected] = useState(worst);
-  const [filter, setFilter] = useState<MapFilter>("all");
   const [openId, setOpenId] = useState<string | null>(null);
-  const open = SPECIMENS.find((s) => s.id === openId) ?? null;
+  const open = specimens().find((s) => s.id === openId) ?? null;
   const index = barnIndex();
   const pens = penLevels();
+  // pens that have a camera feed, and start on one of them
+  const [cams, setCams] = useState<string[]>([]);
+  useEffect(() => {
+    fetch("/api/live/clips", { cache: "no-store" }).then((r) => r.json())
+      .then((d: { clips: { pen: string }[] }) => {
+        const pens = [...new Set(d.clips.map((c) => c.pen))].sort();
+        setCams(pens);
+        setOnlinePens(pens);                                  // pens without a camera are offline and drop out of the numbers
+        if (pens.length) setSelected((cur) => (pens.includes(cur) ? cur : pens[0]));
+      })
+      .catch(() => setCams([]));
+    return () => setOnlinePens(null);                       // other views count every pen
+  }, []);
 
   return (
     <div className={styles.shell}>
@@ -59,34 +67,22 @@ export default function Dashboard() {
             {pens.look.length ? pens.look.slice(0, 3).map((x) => x.group.name).join(", ") : "Nothing right now"}
           </span>
         </div>
+        <CameraPulse className={`glass ${styles.widget}`} bigClass={styles.big} />
       </section>
 
       <main className={styles.grid}>
-        <div className={styles.left}>
-        <section className={`glass ${styles.map}`} aria-label="Barn site map">
-          <div className={styles.mapHead}>
-            <h2 className="headline">Floor plan</h2>
-            <div className="seg" role="group" aria-label="Filter pens">
-              {FILTERS.map((f) => (
-                <button key={f.id} aria-pressed={filter === f.id} onClick={() => setFilter(f.id)}>{f.label}</button>
-              ))}
+        <aside className={styles.side} aria-label="Pens and readout">
+          <PenFolder selected={selected} cams={cams} onSelect={setSelected} />
+          {isOnlinePen(selected) && (
+            <div className={`glass ${styles.readout}`}>
+              <Readout key={selected} groupId={selected} />
             </div>
-          </div>
-          <div className={styles.plan}>
-            <SiteMap selected={selected} filter={filter} onSelect={setSelected} />
-          </div>
-          <p className={`foot ${styles.legend}`}>
-            <span><i style={{ background: "var(--good)" }} />Healthy</span>
-            <span><i style={{ background: "var(--warn)" }} />Needs a look</span>
-            <span><i style={{ background: "var(--bad)" }} />Urgent</span>
-          </p>
-        </section>
-        <PenDroppings key={selected} groupId={selected} onOpen={setOpenId} />
-        </div>
-
-        <aside className={`glass ${styles.side}`} aria-label="Pen readout">
-          <Readout key={selected} groupId={selected} />
+          )}
         </aside>
+        <div className={styles.main}>
+          <CameraLoop pen={selected} />
+          {isOnlinePen(selected) && <PenDroppings key={selected} groupId={selected} onOpen={setOpenId} />}
+        </div>
       </main>
 
       {open && <SpecimenSheet specimen={open} onClose={() => setOpenId(null)} />}

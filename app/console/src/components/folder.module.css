@@ -1,0 +1,19 @@
+.folder { padding: 10px; display: grid; gap: 4px; }
+.group ul { list-style: none; margin: 0 0 6px; padding: 0; display: grid; gap: 2px; }
+.label { display: flex; align-items: center; gap: 6px; width: 100%; padding: 8px 8px 6px; border: 0; background: none; font-size: 13px; font-weight: 600; color: var(--label-2); text-align: left; cursor: default; }
+button.label { cursor: pointer; }
+button.label:hover { color: var(--label); }
+.label span { width: 12px; font-size: 11px; }
+.label small { font-weight: 500; color: var(--label-3); }
+.group li button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 10px 10px 26px; border: 0; border-radius: 10px; background: none; color: var(--label); font-size: 15px; text-align: left; cursor: pointer; }
+.group li button:hover { background: var(--fill-2); }
+.group li button[aria-pressed="true"] { background: var(--fill); }
+.group li i { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 8px; }
+.good { background: var(--good); }
+.warn { background: var(--warn); }
+.bad { background: var(--bad); }
+.name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cam { font-size: 11px; font-weight: 500; color: var(--label-2); padding: 2px 7px; border-radius: 999px; background: var(--fill); }
+.group li b { font-size: 14px; font-weight: 500; color: var(--label-2); min-width: 28px; text-align: right; }
+.off { background: var(--label-3); }
+.offline { font-size: 11px; font-weight: 500; color: var(--label-3); padding: 2px 7px; border-radius: 999px; border: 1px solid var(--fill); }

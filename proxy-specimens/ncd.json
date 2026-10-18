@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "asset_id": "ncd",
+  "filename": "ncd.jpg",
+  "media_type": "image/jpeg",
+  "sha256": "290e7cf67ffd3f740db210f4cde9efe4050fa8dc514dbdb99383785e0d5374ec",
+  "expected_demo_class": "ncd",
+  "description": "Curated proxy photo standing in for one feces crop from the assessed video. The expected demo class is a curation hint for deterministic demo profiles only; it is not a laboratory or PCR-confirmed label and never overrides the model's own output.",
+  "source_dataset": "Poultry Diseases Dataset (farm-labelled images), Machuve et al., Zenodo",
+  "source_url": "https://doi.org/10.5281/zenodo.4628934",
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Machuve, D., Nwankwo, E., Mduma, N., Mbelwa, J. (2021). Poultry Diseases Dataset [Data set]. Zenodo. https://doi.org/10.5281/zenodo.4628934. CC BY 4.0.",
+  "substitution_reason": "The whole-pen detector is a deterministic mock, so no real crop is cut from assessed footage. This curated photo is deterministically selected as the appearance-classifier input instead; it did NOT come from the assessed video."
+}

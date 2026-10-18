@@ -67,7 +67,7 @@ class DatasetClipRepository:
 
         payload = clip.model_dump(
             mode="json",
-            exclude={"bytes_available", "content_url"},
+            exclude={"bytes_available", "content_url", "installed_size_bytes"},
         )
         canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"))
         return hashlib.sha256(f"catalog-mock-v1:{canonical}".encode("utf-8")).hexdigest()

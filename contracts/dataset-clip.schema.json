@@ -32,6 +32,7 @@
     "demo_asset_id": {"type": ["string", "null"]},
     "assessable": {"type": "boolean"},
     "bytes_available": {"type": "boolean"},
-    "content_url": {"type": ["string", "null"]}
+    "content_url": {"type": ["string", "null"]},
+    "installed_size_bytes": {"type": ["integer", "null"], "minimum": 0}
   }
 }

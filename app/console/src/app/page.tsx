@@ -30,15 +30,29 @@ export default function Dashboard() {
   const piCam = selected === LIVE_CAM;
   const frame = useLiveFrame(piCam);
   useEffect(() => {
+    let active = true;
+    const known = new Set(GROUPS.map((g) => g.id));
     fetch("/api/live/clips", { cache: "no-store" }).then((r) => r.json())
-      .then((d: { clips: { pen: string }[] }) => {
-        const pens = [...new Set(d.clips.map((c) => c.pen))].sort();
+      .then((d: unknown) => {
+        if (!active) return;
+        const clips = typeof d === "object" && d !== null && "clips" in d && Array.isArray(d.clips) ? d.clips : [];
+        const pens = [...new Set(clips.flatMap((clip) => {
+          if (typeof clip !== "object" || clip === null || !("pen" in clip) || typeof clip.pen !== "string") return [];
+          return known.has(clip.pen) ? [clip.pen] : [];
+        }))].sort();
         setCams(pens);
         setOnlinePens(pens.length ? pens : null);             // pens without a camera are offline, unless no cameras are known at all
         if (pens.length) setSelected((cur) => (pens.includes(cur) ? cur : pens[0]));
       })
-      .catch(() => setCams([]));
-    return () => setOnlinePens(null);                       // other views count every pen
+      .catch(() => {
+        if (!active) return;
+        setCams([]);
+        setOnlinePens([]);
+      });
+    return () => {
+      active = false;
+      setOnlinePens(null);                                  // other views count every pen
+    };
   }, []);
 
   return (

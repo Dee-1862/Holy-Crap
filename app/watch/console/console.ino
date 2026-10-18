@@ -136,8 +136,24 @@ static bool dirty = true, asleep = false, swallow = false, arcShown = false, bFi
 static uint32_t lastInput = 0, toastUntil = 0, bStart = 0, splashUntil = 0;
 static int tx0, ty0, tlx, tly;
 
-static void loadPen(int p) { gcount = 0; for (int i = 0; i < NSP && gcount < MAXSPEC; i++) if (SP[i].pen == p) ge[gcount++] = i; }
-static int pages() { return 2 * gcount + 2; }            // photo and why for each specimen, then the checklist, then the radar
+// A pen shows only its most critical specimen: one still on alert before one marked normal, a suspected
+// disease before a healthy one, then the lowest grade, then the newest. penTotal keeps the pen's full count.
+static int penTotal = 0;
+static bool worse(const Spec& a, const Spec& b) {
+  if (counts(a) != counts(b)) return counts(a);
+  if ((a.k != 0) != (b.k != 0)) return a.k != 0;
+  if (a.grade != b.grade) return a.grade < b.grade;
+  return a.mins < b.mins;
+}
+static void loadPen(int p) {
+  gcount = 0; penTotal = 0;
+  for (int i = 0; i < NSP; i++) {
+    if (SP[i].pen != p) continue;
+    penTotal++;
+    if (!gcount || worse(SP[i], SP[ge[0]])) { ge[0] = i; gcount = 1; }
+  }
+}
+static int pages() { return 2 * gcount + 2; }            // photo and why of the critical one, then the checklist, then the radar
 static bool specPage() { return pg < 2 * gcount; }
 static bool summaryPage() { return pg == 2 * gcount; }
 static bool radarPage() { return pg == 2 * gcount + 1; }
@@ -365,7 +381,7 @@ static void pagePhoto() {
   text(KIND[s.k], 202, 320, s.k ? C_TXT : C_GOOD, &fonts::DejaVu18, middle_left);
   snprintf(b, sizeof b, "%d%% confident", s.conf); text(b, 202, 346, C_SEC, &fonts::DejaVu12, middle_left);
   if (s.st) stateTag(s, 202, 366); else { snprintf(b, sizeof b, "%d min ago", s.mins); text(b, 202, 366, C_TER, &fonts::DejaVu12, middle_left); }
-  snprintf(b, sizeof b, "%d of %d", pg / 2 + 1, gcount); text(b, CX, 410, C_TER, &fonts::DejaVu12);
+  snprintf(b, sizeof b, "Most critical of %d", penTotal); text(b, CX, 410, C_TER, &fonts::DejaVu12);
 }
 // Explainability in plain words: what it most likely is, how sure it is, and what it saw.
 static void pageWhy() {
@@ -390,14 +406,14 @@ static void pageWhy() {
     wrap(s.why[i], 116, y, 262, 15, 2, C_TXT);
     y += 58;
   }
-  snprintf(b, sizeof b, "%d of %d", pg / 2 + 1, gcount); text(b, CX, 410, C_TER, &fonts::DejaVu12);
+  snprintf(b, sizeof b, "Most critical of %d", penTotal); text(b, CX, 410, C_TER, &fonts::DejaVu12);
 }
 // Pen summary: the five checks in plain words, averaged over the pen's specimens.
 static void pageSummary() {
   M5.Display.fillScreen(C_BLK);
   text(PEN_NAME[pen], CX, 46, C_TXT, &fonts::DejaVu24);
   float v[5] = {0}; int n = 0;
-  for (int i = 0; i < gcount; i++) { Spec& sp = SP[ge[i]]; if (!counts(sp)) continue; n++; for (int j = 0; j < 5; j++) v[j] += sp.sub[j]; }
+  for (int i = 0; i < NSP; i++) { Spec& sp = SP[i]; if (sp.pen != pen || !counts(sp)) continue; n++; for (int j = 0; j < 5; j++) v[j] += sp.sub[j]; }   // whole pen
   for (int j = 0; j < 5; j++) v[j] = n ? v[j] / n : 0;
   card(70, 106, 326, 240, 26, C_CARD);
   for (int j = 0; j < 5; j++) {
@@ -423,7 +439,7 @@ static void pageRadar() {
   M5.Display.fillScreen(C_BLK);
   text(PEN_NAME[pen], CX, 46, C_TXT, &fonts::DejaVu24);
   float v[5] = {0}, w[5] = {0}; int n = 0, nb = 0;
-  for (int i = 0; i < gcount; i++) { Spec& sp = SP[ge[i]]; if (!counts(sp)) continue; n++; for (int j = 0; j < 5; j++) v[j] += sp.sub[j]; }
+  for (int i = 0; i < NSP; i++) { Spec& sp = SP[i]; if (sp.pen != pen || !counts(sp)) continue; n++; for (int j = 0; j < 5; j++) v[j] += sp.sub[j]; }   // whole pen
   for (int i = 0; i < NSP; i++) { if (!counts(SP[i])) continue; nb++; for (int j = 0; j < 5; j++) w[j] += SP[i].sub[j]; }
   for (int j = 0; j < 5; j++) { v[j] = n ? v[j] / n : 0; w[j] = nb ? w[j] / nb : 0; }
   const int cx = CX, cy = 222, R = 96; int lv = level(pen); int px[5], py[5], bx[5], by[5];
@@ -480,8 +496,7 @@ static const char* ALIEN[17] = {
   "...###........###..."
 };
 // cell is the size of one sprite pixel on screen. The sprite is drawn centered on cx, cy.
-static void drawAlien(int cx, int cy, int cell) {
-  auto& d = M5.Display;
+static void drawAlien(int cx, int cy, int cell, lgfx::LGFXBase& d = M5.Display) {
   uint16_t outline = d.color565(2, 2, 2), body = d.color565(124, 89, 171), light = d.color565(150, 115, 195);
   int x0 = cx - 10 * cell, y0 = cy - 17 * cell / 2;
   for (int r = 0; r < 17; r++) {
@@ -491,26 +506,243 @@ static void drawAlien(int cx, int cy, int cell) {
     }
   }
 }
-// One frame while B is held. The first frame clears the screen, then the alien bobs and the red
-// ring grows around the edge. p runs from 0 to 1.
+// ----- the chicken the alien turns into while the ring fills -----
+// 18 by 20 pixel art, built with the pixel-art-sprites skill: a blocky chicken that still reads as one in
+// silhouette, hue shifted ramps (warm whites, a cool lavender shadow, an orange lit comb) and hard edges.
+// O outline, W white, w shadow, R r comb, B b beak, K eye, F feet.
+static const char* CHICKEN[20] = {
+  "........rR........",
+  ".......rRRR.......",
+  "......OrRRRO......",
+  ".....OWWWWWWWO....",
+  ".....OWWWWWWWO....",
+  ".....OWWWWWKWOO...",
+  ".....OWWWWWWWBBO..",
+  ".....OWWWWWWWbbO..",
+  ".O...OWWWWWWWRO...",
+  ".OO..OWWWWWWWRO...",
+  ".OWOOOWWWWWWWO....",
+  ".OWWWWWWWWWWWO....",
+  ".OWWWWwwwWWWWO....",
+  ".OWWWWwwwWWWWO....",
+  ".OwWWWWwwWWWWO....",
+  ".OwwWWWWWWWWwO....",
+  "..OwwwwwwwwwwO....",
+  "...OOOOOOOOOO.....",
+  "......F..F........",
+  ".....FF.FF........",
+};
+static void alienRGB(char ch, int& R, int& G, int& B) {
+  if (ch == '#') { R = 2; G = 2; B = 2; } else if (ch == 'l') { R = 150; G = 115; B = 195; } else { R = 124; G = 89; B = 171; }
+}
+static void chickRGB(char ch, int& R, int& G, int& B) {
+  switch (ch) {
+    case 'O': R = 45; G = 32; B = 40; break;    case 'W': R = 252; G = 248; B = 236; break;
+    case 'w': R = 196; G = 192; B = 214; break; case 'R': R = 222; G = 44; B = 52; break;
+    case 'r': R = 252; G = 112; B = 72; break;  case 'B': R = 250; G = 168; B = 40; break;
+    case 'b': R = 214; G = 108; B = 34; break;  case 'K': R = 20; G = 18; B = 24; break;
+    default:  R = 244; G = 140; B = 40; break;  // F
+  }
+}
+// Draws pixel art with its bottom edge on bottom, each sprite pixel cw wide and chh tall, so a squash or a
+// stretch is just a change of cell size and the feet stay on the ground.
+static void drawArt(lgfx::LGFXBase& d, const char* const* art, int rows, int cols, void (*pal)(char, int&, int&, int&), int cx, int bottom, int cw, int chh) {
+  int x0 = cx - cols * cw / 2, y0 = bottom - rows * chh, R, G, B;
+  for (int r = 0; r < rows; r++) {
+    for (int c = 0; c < cols; c++) {
+      char ch = art[r][c]; if (ch == '.') continue;
+      pal(ch, R, G, B); d.fillRect(x0 + c * cw, y0 + r * chh, cw, chh, d.color565(R, G, B));
+    }
+  }
+}
+static void drawChicken(int cx, int cy, int cell, lgfx::LGFXBase& d = M5.Display) {
+  drawArt(d, CHICKEN, 20, 18, chickRGB, cx, cy + 10 * cell, cell, cell);
+}
+// The morph pairs alien pixels with chicken pixels, both read top to bottom, so the top of one becomes the top
+// of the other. Three beats from the skill: anticipation (the alien squashes), action (the pixels hop across in a
+// wave from the top) and follow-through (the chicken stretches and settles). Every pixel lands on whole pixels.
+struct Px { int8_t x, y; char ch; };
+static Px MA[20 * 17], MC[18 * 20];
+static int nA = 0, nC = 0;
+static void morphInit() {
+  if (nA) return;
+  for (int r = 0; r < 17; r++) for (int c = 0; c < 20; c++) if (ALIEN[r][c] != '.') MA[nA++] = {(int8_t)(c - 10), (int8_t)(r - 17), ALIEN[r][c]};
+  for (int r = 0; r < 20; r++) for (int c = 0; c < 18; c++) if (CHICKEN[r][c] != '.') MC[nC++] = {(int8_t)(c - 9), (int8_t)(r - 20), CHICKEN[r][c]};
+}
+static float ease(float t) { t = constrain(t, 0.0f, 1.0f); return t < 0.5f ? 4 * t * t * t : 1 - powf(-2 * t + 2, 3) / 2; }
+static void drawMorph(lgfx::LGFXBase& d, int cx, int bottom, float p) {
+  morphInit();
+  if (p < 0.2f) {                                                  // anticipation, squash down and out
+    float s = ease(p / 0.2f);
+    drawArt(d, ALIEN, 17, 20, alienRGB, cx, bottom, 7 + (int)(s + 0.5f), 7 - (int)(2 * s + 0.5f));
+    return;
+  }
+  if (p >= 0.8f) {                                                 // follow-through, stretch up then settle
+    float f = (p - 0.8f) / 0.2f; int up = sinf(PI * f) > 0.5f;   // one pixel taller and one thinner, then back
+    drawArt(d, CHICKEN, 20, 18, chickRGB, cx, bottom, 6 - up, 6 + up);
+    return;
+  }
+  float q = (p - 0.2f) / 0.6f; int N = max(nA, nC), R1, G1, B1, R2, G2, B2;
+  for (int i = 0; i < N; i++) {                                    // action, the pixels hop across
+    const Px& a = MA[i * nA / N]; const Px& b = MC[i * nC / N];
+    float t = ease((q - 0.4f * i / N) / 0.6f);                     // the wave starts at the top
+    alienRGB(a.ch, R1, G1, B1); chickRGB(b.ch, R2, G2, B2);
+    int x = cx + (int)(a.x * 7 + (b.x * 6 - a.x * 7) * t), y = bottom + (int)(a.y * 7 + (b.y * 6 - a.y * 7) * t - sinf(PI * t) * 14);
+    int sz = t < 0.5f ? 7 : 6;                                     // alien pixels are 7, chicken pixels 6
+    d.fillRect(x, y, sz, sz, d.color565(R1 + (R2 - R1) * t, G1 + (G2 - G1) * t, B1 + (B2 - B1) * t));
+  }
+}
+// One frame while B is held: the morph inside the dark circle, drawn off screen so it never flickers, and the
+// red ring growing around the edge. p runs from 0 to 1.
+static M5Canvas* holdCanvas = nullptr;
 static void holdFrame(float p, uint32_t now) {
   auto& d = M5.Display;
   if (!arcShown) { d.fillScreen(C_BLK); arcShown = true; }
-  d.fillSmoothCircle(CX, CY, 96, C_CARD);
-  drawAlien(CX, CY + ((now / 170) % 2) * 4 - 2, 7);
+  if (!holdCanvas) { holdCanvas = new M5Canvas(&M5.Display); if (!holdCanvas->createSprite(192, 192)) { delete holdCanvas; holdCanvas = nullptr; } }
+  if (holdCanvas) {
+    holdCanvas->fillScreen(C_BLK); holdCanvas->fillSmoothCircle(96, 96, 95, C_CARD);
+    drawMorph(*holdCanvas, 96, 158, p); holdCanvas->pushSprite(CX - 96, CY - 96);
+  } else {
+    d.fillSmoothCircle(CX, CY, 96, C_CARD); drawMorph(d, CX, CY + 62, p);
+  }
   d.fillArc(CX, CY, 216, 224, 270, fmodf(270 + p * 359.0f, 360.0f), C_BAD);
 }
+static void freeHoldCanvas() { if (holdCanvas) { holdCanvas->deleteSprite(); delete holdCanvas; holdCanvas = nullptr; } }
 // Finish screen for the termination. No flashing. Says plainly what happened.
 static void terminatedScreen(const char* line1, const char* line2) {
   auto& d = M5.Display;
   d.fillScreen(C_BLK);
   d.fillArc(CX, CY, 216, 224, 0, 360, C_BAD);
   d.fillSmoothCircle(CX, 150, 78, C_CARD);
-  drawAlien(CX, 150, 6);
+  drawChicken(CX, 150, 5);
   text("Terminated", CX, 262, C_TXT, &fonts::DejaVu24);
   text(PEN_NAME[pen], CX, 296, C_SEC, &fonts::DejaVu18);
   text(line1, CX, 338, C_TXT, &fonts::DejaVu18);
   text(line2, CX, 366, C_TER, &fonts::DejaVu12);
+}
+// ----- after the termination: the chicken dances, a gold gauntlet snaps across, and the chicken turns to dust -----
+// 22 by 30 pixel art of a gold gauntlet. O outline, d g h dark, mid and light gold, w a highlight,
+// o r b p y G the six gems. glow pushes the gems toward white for the snap.
+static const char* GAUNTLET[30] = {
+  "....OOOOOOOOOOOO......",
+  "...OhhgOhhgOhhgOO.....",
+  "..OhggdOhggdOhggdOO...",
+  "..OgddOOgddOOgddOOhO..",
+  "..OdgggggggggggggOhgO.",
+  "..OoogrrggbbggppgOhggO",
+  "..OoodrrddbbddppdOghgO",
+  "..OdgggggggggggggOgggO",
+  "..OggggggOOggggggOggdO",
+  "..OgggggOyyOgggggOgGGO",
+  "..OggggOyhwyOggggOgGGO",
+  "..OddggOywyyOggddOgGGO",
+  "..OgddgOyyyyOgddgOgddO",
+  "..OgggddOyyOddgggOgdO.",
+  "..OggggggOOggggggOddO.",
+  "..OdgggggggggggggOOO..",
+  "...OddddddddddddddO...",
+  "...OgdgggdggdgggdgO...",
+  "...OgdghgdggdghgdgO...",
+  "...OgdghgdggdghgdgO...",
+  "...OgdgggdggdgggdgO...",
+  "...OgdgggdggdgggdgO...",
+  "..OOddddddddddddddOO..",
+  ".OgggdgggdgggdgggdggO.",
+  ".OghgdghgdghgdghgdhgO.",
+  "OgghgdghgdghgdghgdhggO",
+  "OgghgdghgdghgdghgdhggO",
+  "OgggddgggdgggdgggddggO",
+  "OddddddddddddddddddddO",
+  ".OOOOOOOOOOOOOOOOOOOO.",
+};
+static void gauntRGB(char ch, int& R, int& G, int& B, bool& gem) {
+  gem = true;
+  switch (ch) {
+    case 'O': R = 45; G = 30; B = 8; gem = false; break;      case 'd': R = 125; G = 90; B = 20; gem = false; break;
+    case 'g': R = 185; G = 140; B = 35; gem = false; break;   case 'h': R = 235; G = 195; B = 85; gem = false; break;
+    case 'w': R = 255; G = 255; B = 220; break;               case 'o': R = 245; G = 120; B = 40; break;
+    case 'r': R = 225; G = 45; B = 45; break;                 case 'b': R = 70; G = 140; B = 245; break;
+    case 'p': R = 160; G = 70; B = 210; break;                case 'y': R = 250; G = 225; B = 40; break;
+    default:  R = 60; G = 220; B = 70; break;                 // G
+  }
+}
+// Drawn tilted by deg (negative leans the fist left, across toward the chicken). Each screen pixel looks up the
+// sprite pixel under it, so the turned gauntlet keeps hard pixel edges with no gaps.
+static void drawGauntlet(lgfx::LGFXBase& d, int cx, int cy, int cell, float glow = 0, float deg = 0) {
+  float a = deg * PI / 180, ca = cosf(a), sa = sinf(a);
+  const int span = 19 * cell;                                      // past the corner of the 22 by 30 sprite
+  for (int dy = -span; dy <= span; dy++) {
+    for (int dx = -span; dx <= span; dx++) {
+      float sx = ca * dx + sa * dy, sy = -sa * dx + ca * dy;
+      int c = (int)floorf(sx / cell + 11), r = (int)floorf(sy / cell + 15);
+      if (c < 0 || c >= 22 || r < 0 || r >= 30) continue;
+      char ch = GAUNTLET[r][c]; if (ch == '.') continue;
+      int R, G, B; bool gem; gauntRGB(ch, R, G, B, gem);
+      if (gem && glow > 0) { R += (255 - R) * glow; G += (255 - G) * glow; B += (255 - B) * glow; }
+      d.drawPixel(cx + dx, cy + dy, d.color565(R, G, B));
+    }
+  }
+}
+// The scene draws into an off-screen canvas over the top of the termination screen, so it never flickers.
+// The canvas also carries its slice of the red ring and the dark circle, and the text below stays untouched.
+static const int ST_W = 360, ST_H = 190, ST_X = CX - 180, ST_Y = 55, ST_AX = CX - ST_X, ST_AY = 150 - ST_Y;
+static void stageBase(M5Canvas& c) {
+  c.fillScreen(C_BLK);
+  c.fillArc(ST_AX, CY - ST_Y, 216, 224, 0, 360, C_BAD);
+  c.fillSmoothCircle(ST_AX, ST_AY, 78, C_CARD);
+}
+static void snapScene() {
+  M5Canvas c(&M5.Display);
+  if (!c.createSprite(ST_W, ST_H)) return;                         // no memory, keep the still screen
+  const int gx = ST_AX + 110, gy = ST_AY + 8;                      // where the gauntlet stops
+  static const int8_t DX[4] = {-10, 0, 10, 0}, DY[4] = {0, -8, 0, -8};
+  for (int f = 0; f < 20; f++) {                                   // 1 the chicken dances, side to side with a hop
+    stageBase(c); drawChicken(ST_AX + DX[f % 4], ST_AY + DY[f % 4], 5, c); c.pushSprite(ST_X, ST_Y); delay(90);
+  }
+  for (int f = 0; f <= 10; f++) {                                  // 2 the gauntlet slides in, already leaning
+    stageBase(c); drawChicken(ST_AX, ST_AY, 5, c); drawGauntlet(c, gx + (10 - f) * 9, gy, 4, 0, -25);
+    c.pushSprite(ST_X, ST_Y); delay(30);
+  }
+  delay(250);
+  // 3 the snap across: wind back (anticipation), swing hard across with the gems flaring (action), settle (follow-through)
+  static const int8_t ANG[7] = {-15, -10, -40, -55, -52, -45, -42};
+  static const uint8_t GLOW[7] = {0, 0, 60, 100, 70, 40, 15};
+  for (int f = 0; f < 7; f++) {
+    float a = ANG[f] * PI / 180;
+    stageBase(c); drawChicken(ST_AX, ST_AY, 5, c); drawGauntlet(c, gx, gy, 4, GLOW[f] / 100.0f, ANG[f]);
+    if (f >= 2 && f <= 4) {                                        // sparks off the top of the fist
+      int tx = gx + 60 * sinf(a), ty = gy - 60 * cosf(a);
+      for (int i = 0; i < 7; i++) {
+        float s = a - PI / 2 - 0.9f + i * 0.3f;
+        int sx = tx + cosf(s) * 10, sy = ty + sinf(s) * 10;
+        c.drawWideLine(sx, sy, sx + cosf(s) * 12, sy + sinf(s) * 12, 2, c.color565(255, 240, 160));
+      }
+    }
+    c.pushSprite(ST_X, ST_Y);
+    if (f == 3) { M5.Power.setVibration(200); delay(70); M5.Power.setVibration(0); } else delay(f < 2 ? 110 : 60);
+  }
+  delay(250);
+  uint8_t rnd[20 * 18];                                            // 4 the dust, each pixel goes at its own moment
+  for (auto& v : rnd) v = random(256);
+  const int cell = 5, ax = ST_AX - 9 * cell, ay = ST_AY - 10 * cell;
+  for (int f = 0; f <= 34; f++) {
+    float p = f / 34.0f;
+    stageBase(c); drawGauntlet(c, gx, gy, 4, 0, -42);
+    for (int r = 0; r < 20; r++) {
+      for (int k = 0; k < 18; k++) {
+        char ch = CHICKEN[r][k]; if (ch == '.') continue;
+        uint8_t rv = rnd[r * 18 + k]; int R, G, B; chickRGB(ch, R, G, B);
+        float t = 0.15f + 0.45f * rv / 255.0f + 0.3f * (17 - k) / 17.0f, q = (p - t) / 0.35f;
+        if (q <= 0) { c.fillRect(ax + k * cell, ay + r * cell, cell, cell, c.color565(R, G, B)); continue; }
+        if (q >= 1) continue;                                      // gone
+        int sz = max(1, (int)(cell * (1 - q)));
+        int x = ax + k * cell - q * 55 - (int)(((rv >> 3) & 7) - 3) * q * 3, y = ay + r * cell - q * 30 - (rv & 7) * q * 3;
+        c.fillRect(x, y, sz, sz, c.color565(R + (110 - R) * q, G + (95 - G) * q, B + (85 - B) * q));   // drifts away as dust
+      }
+    }
+    c.pushSprite(ST_X, ST_Y); delay(25);
+  }
+  c.deleteSprite();
 }
 static void toast(const char* m, const char* sub) {
   card(CX - 150, CY - 50, 300, 100, 34, C_CARD2);
@@ -545,7 +777,7 @@ static void setState(int specIdx, int st, const char* path) {
 #endif
 }
 static void actCheck() { setState(ge[min(pg / 2, gcount - 1)], 1, "check"); toast("I'll check it", where()); scr = PEN; }
-static void actNormal() { setState(ge[min(pg / 2, gcount - 1)], 2, "normal"); toast("Marked normal", "Removed from alerts"); scr = PEN; }
+static void actNormal() { setState(ge[min(pg / 2, gcount - 1)], 2, "normal"); toast("Marked normal", "Removed from alerts"); scr = PEN; loadPen(pen); pg = 0; }   // the next most critical takes its place
 // Vet request. Shows the alien, then says plainly what happened. No phone call is placed.
 static void actVet() {
   const char* line1 = "Vet request saved"; const char* line2 = where();
@@ -564,7 +796,8 @@ static void actVet() {
   vetPen = pen; vetAt = 0;
   M5.Power.setVibration(255); delay(160); M5.Power.setVibration(0);     // one short buzz, no flashing
   terminatedScreen(line1, line2);
-  toastUntil = millis() + 3500;
+  freeHoldCanvas(); snapScene();
+  toastUntil = millis() + 2500; swallow = true;                   // presses made during the scene do not count
   scr = LIST; sel = 0;
 }
 

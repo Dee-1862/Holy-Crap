@@ -85,6 +85,16 @@ def main():
     args = ap.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
 
+    # Veri runs scripts in a Docker sandbox with the default 64 MB /dev/shm; DataLoader
+    # workers pass batches through shm and die with a bus error. Load in-process instead.
+    try:
+        shm_gb = shutil.disk_usage("/dev/shm").total / 1e9
+    except OSError:
+        shm_gb = None
+    if shm_gb is not None and shm_gb < 1 and args.workers:
+        print(f"/dev/shm is only {shm_gb * 1000:.0f} MB; using workers=0", flush=True)
+        args.workers = 0
+
     model = YOLO(args.model)
     model.add_callback("on_fit_epoch_end", on_fit_epoch_end)
     train_kw = dict(data=args.data, epochs=args.epochs, imgsz=args.imgsz, batch=args.batch,

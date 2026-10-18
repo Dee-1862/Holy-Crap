@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { TYPES, type Specimen } from "@/lib/data";
 import { ago, groupName, nextStep, pct, resultOf, sortedProbs, topTwo, uncertainty } from "@/lib/insight";
+import { callVet, lastVet, markChecking, markNormal, resetState, stateOf } from "@/lib/store";
 import Gauge from "./Gauge";
 import SpecimenCanvas from "./SpecimenCanvas";
 
@@ -26,6 +27,7 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
   const [progress, setProgress] = useState(0);
   const timer = useRef<number | null>(null);
   const started = useRef(0);
+  const state = stateOf(s.id);
 
   const stop = () => {
     if (timer.current !== null) window.clearInterval(timer.current);
@@ -34,6 +36,7 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
   };
   useEffect(() => () => { if (timer.current !== null) window.clearInterval(timer.current); }, []);
 
+  // Hold the button for 1.5 seconds to call the vet, so a stray tap never does it.
   const startHold = () => {
     started.current = Date.now();
     timer.current = window.setInterval(() => {
@@ -41,7 +44,13 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
       setProgress(p);
       if (p >= 1) {
         stop();
-        setMsg(`Vet called for ${groupName(s.group)} (demo, nothing was sent).`);
+        void callVet(s.group, s.id).then(({ duplicate, call }) => {
+          const name = groupName(s.group);
+          if (duplicate) setMsg(`The vet was already requested for ${name} ${Math.max(1, Math.round((Date.now() - call.ts) / 60000))} min ago.`);
+          else if (call.delivered === "sent") setMsg(`Vet notified for ${name}.`);
+          else if (call.delivered === "failed") setMsg(`Saved for ${name}, but the message did not go out. Check the webhook.`);
+          else setMsg(`Request saved for ${name}. No phone or message service is connected yet.`);
+        });
       }
     }, 30);
   };
@@ -63,6 +72,7 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
         <div>
           <div className="t">{resultOf(s)}</div>
           <div className="s">{pct(s.probs[s.type])}% confident. Screening only, not a diagnosis.</div>
+          {state !== "new" && <div className="chip">{state === "checking" ? "Someone is checking this" : "Marked normal, no longer counts toward alerts"}<button onClick={() => resetState(s.id)}>Undo</button></div>}
         </div>
       </div>
 
@@ -127,16 +137,24 @@ export default function SpecimenCard({ specimen: s }: { specimen: Specimen }) {
       </details>
 
       <div className="actions">
-        <button className="btn go" onClick={() => setMsg("Acknowledged. The watch has been told.")}>Acknowledge</button>
-        <button className="btn" onClick={() => setMsg("Marked as false alarm and saved as a training label.")}>False alarm</button>
+        <button className="btn go" onClick={() => { void markChecking(s.id); setMsg("The team can see you are checking this."); }} disabled={state === "checking"}>
+          <span className="b-t">{state === "checking" ? "Checking" : "I'll check it"}</span>
+          <small>Tells the team you are on it</small>
+        </button>
+        <button className="btn" onClick={() => { void markNormal(s.id); setMsg("Marked normal. It no longer counts toward alerts."); }} disabled={state === "normal"}>
+          <span className="b-t">Looks normal</span>
+          <small>Removes it from alerts</small>
+        </button>
         <button
           className="btn hold" onPointerDown={startHold} onPointerUp={stop} onPointerLeave={stop} onPointerCancel={stop}
           aria-label="Hold to call the vet"
         >
-          Hold to call vet<span className="fill" style={{ width: `${progress * 100}%` }} />
+          <span className="b-t">Call the vet</span>
+          <small>Hold to send</small>
+          <span className="fill" style={{ width: `${progress * 100}%` }} />
         </button>
       </div>
-      <div className="status" role="status">{msg}</div>
+      <div className="status" role="status">{msg || (lastVet(s.group) ? `Vet requested for ${groupName(s.group)} ${Math.max(0, Math.round((Date.now() - lastVet(s.group)!.ts) / 60000))} min ago.` : "")}</div>
     </div>
   );
 }

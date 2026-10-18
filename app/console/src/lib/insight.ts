@@ -1,4 +1,6 @@
-import { GROUPS, SPECIMENS, TYPES, type Group, type Specimen } from "./data";
+import { GROUPS, TYPES, type Group, type Specimen } from "./data";
+import { penStats } from "./rules";
+import { getSpecimens } from "./store";
 
 export type Tone = "good" | "warn" | "bad";
 
@@ -17,13 +19,7 @@ export interface GroupStatus {
 // Abnormal count uses the last 15 minutes (three of them is an alert). The grade is the mean over the
 // last hour so a quiet pen still shows a number, and a low grade alone is enough to ask for a look.
 export function groupStatus(g: Group): GroupStatus {
-  const all = SPECIMENS.filter((s) => s.group === g.id);
-  const bad = all.filter((s) => s.minsAgo <= 15 && s.type !== "healthy").length;
-  const hour = all.filter((s) => s.minsAgo <= 60);
-  const pool = hour.length ? hour : all;
-  const mean = pool.length ? pool.reduce((a, s) => a + s.grade, 0) / pool.length : null;
-  const level: Tone = bad >= 3 ? "bad" : bad >= 1 || (mean !== null && mean < 5) ? "warn" : "good";
-  return { bad, mean, level };
+  return penStats(getSpecimens().filter((s) => s.group === g.id));
 }
 
 // Groups ranked healthiest first.
@@ -36,7 +32,7 @@ export function ranked(): { group: Group; status: GroupStatus }[] {
 // What the person should do next for a specimen.
 export function nextStep(s: Specimen): { level: Tone; head: string; note: string } {
   const name = groupName(s.group);
-  const bad = SPECIMENS.filter((x) => x.group === s.group && x.type !== "healthy" && x.minsAgo <= 15).length;
+  const bad = getSpecimens().filter((x) => x.group === s.group && x.type !== "healthy" && x.minsAgo <= 15).length;
   if (s.type === "healthy") return { level: "good", head: "No action needed", note: `This specimen looks normal for ${name}.` };
   if (bad >= 3) return { level: "bad", head: `Inspect ${name} now`, note: `${bad} abnormal specimens in 15 minutes. Check the birds and call the vet if it holds up.` };
   return { level: "warn", head: `Keep watching ${name}`, note: "One or two abnormal specimens so far. Acknowledge, or mark a false alarm if it looks fine." };
@@ -58,7 +54,7 @@ export function uncertainty(s: Specimen) {
   return { text, margin };
 }
 
-export const specimensOf = (groupId: string) => SPECIMENS.filter((s) => s.group === groupId);
+export const specimensOf = (groupId: string) => getSpecimens().filter((s) => s.group === groupId);
 
 export const SUB_AXES: { key: keyof Specimen["sub"]; label: string }[] = [
   { key: "color", label: "Color" },
@@ -70,15 +66,17 @@ export const SUB_AXES: { key: keyof Specimen["sub"]; label: string }[] = [
 
 // Mean sub-scores (0 to 10) for one group, or for the whole barn when no id is given.
 export function radarOf(groupId?: string): number[] {
-  const list = groupId ? specimensOf(groupId) : SPECIMENS;
+  const list = groupId ? specimensOf(groupId) : getSpecimens();
   if (!list.length) return SUB_AXES.map(() => 0);
   return SUB_AXES.map(({ key }) => list.reduce((a, s) => a + s.sub[key], 0) / list.length);
 }
 
 // Barn index out of 100, the mean grade of the last 15 minutes scaled up.
 export function barnIndex(): number {
-  const recent = SPECIMENS.filter((s) => s.minsAgo <= 15);
-  const list = recent.length ? recent : SPECIMENS;
+  const all = getSpecimens();
+  const recent = all.filter((s) => s.minsAgo <= 15);
+  const list = recent.length ? recent : all;
+  if (!list.length) return 0;
   return Math.round((list.reduce((a, s) => a + s.grade, 0) / list.length) * 10);
 }
 
@@ -92,8 +90,9 @@ export function penLevels() {
 
 export function summary() {
   const hot = ranked().filter((r) => r.status.level === "bad").map((r) => r.group.name);
-  const abnormal = SPECIMENS.filter((s) => s.type !== "healthy").length;
-  const mean = (SPECIMENS.reduce((a, s) => a + s.grade, 0) / SPECIMENS.length).toFixed(1);
+  const all = getSpecimens();
+  const abnormal = all.filter((s) => s.type !== "healthy").length;
+  const mean = all.length ? (all.reduce((a, s) => a + s.grade, 0) / all.length).toFixed(1) : "0.0";
   const headline = hot.length ? `${hot.join(" and ")} ${hot.length > 1 ? "need" : "needs"} attention` : "All pens look calm";
   // One plain sentence under the headline. Names the worst group and what to do.
   const worst = ranked().filter((r) => r.status.level === "bad").map((r) => r.group)[0];
@@ -101,5 +100,5 @@ export function summary() {
   const detail = worst
     ? `${worst.name} has ${n} abnormal specimens in the last 15 minutes. Check the birds on site and call the vet if it continues.`
     : "No pen has repeated abnormal specimens in the last 15 minutes.";
-  return { hot, abnormal, mean, headline, detail, total: SPECIMENS.length };
+  return { hot, abnormal, mean, headline, detail, total: all.length };
 }

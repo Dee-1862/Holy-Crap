@@ -3,6 +3,7 @@
 import { useState } from "react";
 import SpecimenCard from "@/components/SpecimenCard";
 import ThemeToggle from "@/components/ThemeToggle";
+import { stateOf, useBarn } from "@/lib/store";
 import { SPECIMENS } from "@/lib/data";
 import { ago, groupName, pct, ranked, resultOf, summary, tone } from "@/lib/insight";
 import styles from "./mobile.module.css";
@@ -23,6 +24,7 @@ const TABS: { id: Tab; label: string }[] = [
 
 // Phone version. Large title, grouped lists and a bottom tab bar. Desktop is at /.
 export default function Mobile() {
+  useBarn();
   const [tab, setTab] = useState<Tab>("over");
   const [selectedId, setSelectedId] = useState(SPECIMENS[0].id);
   const selected = SPECIMENS.find((s) => s.id === selectedId) ?? SPECIMENS[0];
@@ -80,7 +82,7 @@ export default function Mobile() {
                   <span className={`${styles.grade} num tone-${tone(s.grade)}`}>{s.grade}</span>
                   <span className={styles.what}>
                     <b>{resultOf(s)}</b>
-                    <small>{groupName(s.group)}, {ago(s.minsAgo)}</small>
+                    <small>{groupName(s.group)}, {ago(s.minsAgo)}{stateOf(s.id) === "checking" ? ", being checked" : stateOf(s.id) === "normal" ? ", marked normal" : ""}</small>
                   </span>
                   <span className={`${styles.conf} num`}>{pct(s.probs[s.type])}%</span>
                 </button>

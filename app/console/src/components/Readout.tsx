@@ -2,6 +2,7 @@
 
 import { GROUPS, SPECIMENS } from "@/lib/data";
 import { SUB_AXES, groupStatus, nextStep, radarOf } from "@/lib/insight";
+import { lastVet } from "@/lib/store";
 import Radar from "./Radar";
 
 const COLOR = { good: "var(--good)", warn: "var(--warn)", bad: "var(--bad)" } as const;
@@ -23,6 +24,13 @@ export default function Readout({ groupId }: { groupId: string }) {
       </div>
 
       <div className={`next ${plan.level}`} style={{ margin: "8px 0 8px" }}><b />{plan.head}<small>{plan.note}</small></div>
+
+      {lastVet(group.id) && (
+        <p className="foot" style={{ margin: "0 0 8px" }}>
+          <span style={{ display: "inline-block", width: 7, height: 7, borderRadius: "50%", background: "var(--good)", marginRight: 7 }} />
+          Vet requested {Math.max(0, Math.round((Date.now() - lastVet(group.id)!.ts) / 60000))} min ago
+        </p>
+      )}
 
       <div className="ro-radar"><Radar group={mine} barn={radarOf()} color={COLOR[status.level]} /></div>
       <div className="ro-legend">

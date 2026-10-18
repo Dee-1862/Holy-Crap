@@ -7,6 +7,7 @@ import Readout from "@/components/Readout";
 import SiteMap, { type MapFilter } from "@/components/SiteMap";
 import SpecimenSheet from "@/components/SpecimenSheet";
 import ThemeToggle from "@/components/ThemeToggle";
+import { useBarn } from "@/lib/store";
 import ViewSwitch from "@/components/ViewSwitch";
 import { GROUPS, SPECIMENS } from "@/lib/data";
 import { barnIndex, penLevels, ranked, tone } from "@/lib/insight";
@@ -20,6 +21,7 @@ const FILTERS: { id: MapFilter; label: string }[] = [
 
 // Main dashboard. Three widgets, the barn floor plan, and the readout for the chosen pen.
 export default function Dashboard() {
+  useBarn();
   const worst = ranked().at(-1)?.group.id ?? GROUPS[0].id;
   const [selected, setSelected] = useState(worst);
   const [filter, setFilter] = useState<MapFilter>("all");

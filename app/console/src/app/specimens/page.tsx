@@ -4,6 +4,7 @@ import { useState } from "react";
 import Clock from "@/components/Clock";
 import SpecimenSheet from "@/components/SpecimenSheet";
 import ThemeToggle from "@/components/ThemeToggle";
+import { stateOf, useBarn } from "@/lib/store";
 import ViewSwitch from "@/components/ViewSwitch";
 import { SPECIMENS } from "@/lib/data";
 import { ago, groupName, pct, ranked, resultOf, summary, tone } from "@/lib/insight";
@@ -14,6 +15,7 @@ const SHOWN = 5;
 // Specimen list. Grouped lists like iOS Settings, and the detail opens as a sheet so only one
 // thing is on screen at a time. The dashboard lives at / and the phone version at /m.
 export default function Specimens() {
+  useBarn();
   const [openId, setOpenId] = useState<string | null>(null);
   const [filter, setFilter] = useState<string | null>(null);
   const [all, setAll] = useState(false);
@@ -75,7 +77,7 @@ export default function Specimens() {
                 <span className={`${styles.grade} num tone-${tone(s.grade)}`}>{s.grade}</span>
                 <span className={styles.what}>
                   <b>{resultOf(s)}</b>
-                  <small>{groupName(s.group)}, {ago(s.minsAgo)}</small>
+                  <small>{groupName(s.group)}, {ago(s.minsAgo)}{stateOf(s.id) === "checking" ? ", being checked" : stateOf(s.id) === "normal" ? ", marked normal" : ""}</small>
                 </span>
                 <span className={`${styles.conf} num`}>{pct(s.probs[s.type])}%</span>
               </button>

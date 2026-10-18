@@ -118,6 +118,7 @@ export default function CameraLoop({ pen }: { pen: string }) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={s.crop} alt={`Spot ${i + 1}`} />
             <span>{i + 1}</span>
+            {clip.test && !s.truth && <em className={styles.falseTag}>False flag</em>}
           </button>
         ))}
       </div>

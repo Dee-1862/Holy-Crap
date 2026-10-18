@@ -65,6 +65,12 @@ export default function SpotSheet({ spot, n, clip, onClose }: { spot: Spot; n: n
             </div>
             At this size the disease guess is weak (0.65 mAP50 on the pen test). Use it to find the spot, then take a close-up to judge it.
           </li>
+          {clip.test && !spot.truth && (
+            <li>
+              <b>Answer key: false flag.</b> No test dropping was pasted here. The detector flagged something else, such as
+              a feeder part or a resting bird. It is shown so the misses and false flags are visible, not hidden.
+            </li>
+          )}
           {spot.truth && (
             <li>
               <b>Answer key.</b> This is a test dropping pasted from a {CLASS_NAME[spot.truth.cls]} photo the model never trained on.

@@ -1,0 +1,224 @@
+{
+ "specimens": {
+  "E-0412": {
+   "src": "/specimens/E-0412.jpg",
+   "box": [
+    0.0777,
+    0.0,
+    0.974,
+    1.0
+   ],
+   "photo": "cocci/cocci.1335.jpg",
+   "scores": {
+    "coccidiosis": 0.818,
+    "healthy": 0.0,
+    "ncd": 0.0,
+    "salmonella": 0.0
+   },
+   "probs": {
+    "coccidiosis": 1.0,
+    "healthy": 0.0,
+    "ncd": 0.0,
+    "salmonella": 0.0
+   }
+  },
+  "E-0411": {
+   "src": "/specimens/E-0411.jpg",
+   "box": [
+    0.084,
+    0.0173,
+    0.9168,
+    0.7121
+   ],
+   "photo": "cocci/cocci.874.jpg",
+   "scores": {
+    "coccidiosis": 0.926,
+    "healthy": 0.0,
+    "ncd": 0.0,
+    "salmonella": 0.0
+   },
+   "probs": {
+    "coccidiosis": 1.0,
+    "healthy": 0.0,
+    "ncd": 0.0,
+    "salmonella": 0.0
+   }
+  },
+  "E-0413": {
+   "src": "/specimens/E-0413.jpg",
+   "box": [
+    0.0264,
+    0.0062,
+    0.9742,
+    0.898
+   ],
+   "photo": "cocci/cocci.1885.jpg",
+   "scores": {
+    "coccidiosis": 0.913,
+    "healthy": 0.0,
+    "ncd": 0.0,
+    "salmonella": 0.0
+   },
+   "probs": {
+    "coccidiosis": 1.0,
+    "healthy": 0.0,
+    "ncd": 0.0,
+    "salmonella": 0.0
+   }
+  },
+  "E-0410": {
+   "src": "/specimens/E-0410.jpg",
+   "box": [
+    0.2732,
+    0.2858,
+    0.7278,
+    0.7237
+   ],
+   "photo": "healthy/healthy.915.jpg",
+   "scores": {
+    "coccidiosis": 0.0,
+    "healthy": 0.894,
+    "ncd": 0.0,
+    "salmonella": 0.0
+   },
+   "probs": {
+    "coccidiosis": 0.0,
+    "healthy": 1.0,
+    "ncd": 0.0,
+    "salmonella": 0.0
+   }
+  },
+  "E-0408": {
+   "src": "/specimens/E-0408.jpg",
+   "box": [
+    0.3759,
+    0.2049,
+    0.6974,
+    0.7952
+   ],
+   "photo": "healthy/healthy.799.jpg",
+   "scores": {
+    "coccidiosis": 0.0,
+    "healthy": 0.86,
+    "ncd": 0.0,
+    "salmonella": 0.001
+   },
+   "probs": {
+    "coccidiosis": 0.0,
+    "healthy": 0.999,
+    "ncd": 0.0,
+    "salmonella": 0.001
+   }
+  },
+  "E-0406": {
+   "src": "/specimens/E-0406.jpg",
+   "box": [
+    0.3408,
+    0.1165,
+    0.6602,
+    0.8106
+   ],
+   "photo": "healthy/healthy.1848.jpg",
+   "scores": {
+    "coccidiosis": 0.0,
+    "healthy": 0.914,
+    "ncd": 0.0,
+    "salmonella": 0.0
+   },
+   "probs": {
+    "coccidiosis": 0.0,
+    "healthy": 1.0,
+    "ncd": 0.0,
+    "salmonella": 0.0
+   }
+  },
+  "E-0405": {
+   "src": "/specimens/E-0405.jpg",
+   "box": [
+    0.3951,
+    0.2742,
+    0.6059,
+    0.7287
+   ],
+   "photo": "healthy/healthy.1709.jpg",
+   "scores": {
+    "coccidiosis": 0.0,
+    "healthy": 0.883,
+    "ncd": 0.0,
+    "salmonella": 0.0
+   },
+   "probs": {
+    "coccidiosis": 0.0,
+    "healthy": 1.0,
+    "ncd": 0.0,
+    "salmonella": 0.0
+   }
+  },
+  "E-0407": {
+   "src": "/specimens/E-0407.jpg",
+   "box": [
+    0.0913,
+    0.2543,
+    0.7058,
+    0.7466
+   ],
+   "photo": "ncd/ncd.271.jpg",
+   "scores": {
+    "coccidiosis": 0.0,
+    "healthy": 0.0,
+    "ncd": 0.79,
+    "salmonella": 0.0
+   },
+   "probs": {
+    "coccidiosis": 0.0,
+    "healthy": 0.0,
+    "ncd": 0.999,
+    "salmonella": 0.0
+   }
+  },
+  "E-0409": {
+   "src": "/specimens/E-0409.jpg",
+   "box": [
+    0.2865,
+    0.2732,
+    0.7153,
+    0.7278
+   ],
+   "photo": "salmo/salmo.2194.jpg",
+   "scores": {
+    "coccidiosis": 0.0,
+    "healthy": 0.0,
+    "ncd": 0.0,
+    "salmonella": 0.708
+   },
+   "probs": {
+    "coccidiosis": 0.0,
+    "healthy": 0.0,
+    "ncd": 0.0,
+    "salmonella": 1.0
+   }
+  }
+ },
+ "refs": {
+  "coccidiosis": [
+   "/specimens/ref_cocci_0.jpg",
+   "/specimens/ref_cocci_1.jpg",
+   "/specimens/ref_cocci_2.jpg"
+  ],
+  "healthy": [
+   "/specimens/ref_healthy_0.jpg",
+   "/specimens/ref_healthy_1.jpg",
+   "/specimens/ref_healthy_2.jpg"
+  ],
+  "ncd": [
+   "/specimens/ref_ncd_0.jpg",
+   "/specimens/ref_ncd_1.jpg",
+   "/specimens/ref_ncd_2.jpg"
+  ],
+  "salmonella": [
+   "/specimens/ref_salmo_0.jpg",
+   "/specimens/ref_salmo_1.jpg",
+   "/specimens/ref_salmo_2.jpg"
+  ]
+ }
+}

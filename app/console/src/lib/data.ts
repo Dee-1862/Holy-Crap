@@ -45,7 +45,15 @@ export const GROUPS: Group[] = [
   { id: "C2", name: "Cage row C2", n: 12 },
 ];
 
-export const SPECIMENS: Specimen[] = [
+import PHOTOS from "./specimen-photos.json";
+
+// Each specimen has a real Machuve test photo, and its probabilities are the close-up model's real scores on that
+// photo (app/live-feed/make_specimen_photos.py). Grade, check scores and reading notes are still written for the demo.
+export interface SpecimenPhoto { src: string; box: [number, number, number, number]; photo: string; probs: Record<TypeKey, number> }
+export const photoOf = (id: string) => (PHOTOS.specimens as unknown as Record<string, SpecimenPhoto | undefined>)[id];
+export const referencePhotos = (t: TypeKey): string[] => (PHOTOS.refs as Record<string, string[]>)[t] ?? [];
+
+const WRITTEN: Specimen[] = [
   {
     id: "E-0412", minsAgo: 2, group: "B2", type: "coccidiosis",
     probs: { healthy: 0.06, coccidiosis: 0.81, salmonella: 0.09, ncd: 0.04 }, grade: 2,
@@ -101,6 +109,8 @@ export const SPECIMENS: Specimen[] = [
     why: ["Brown, firm", "White cap slightly smeared"],
   },
 ];
+
+export const SPECIMENS: Specimen[] = WRITTEN.map((s) => { const p = photoOf(s.id); return p ? { ...s, probs: p.probs } : s; });
 
 // The demo stream runs on the clock. Every specimen ages in real time and comes round again as a new one
 // every DEMO_PERIOD minutes, each time in a different pen, so the time windows, pen grades and alerts keep changing.

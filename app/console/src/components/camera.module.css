@@ -37,3 +37,4 @@
 .closeImg { position: relative; margin-top: 8px; border-radius: 12px; overflow: hidden; background: #000; }
 .closeImg img { width: 100%; display: block; }
 .closeBox { position: absolute; border: 2px solid #30d158; border-radius: 4px; }
+.falseTag { position: absolute; left: 0; right: 0; bottom: 0; font-size: 10px; font-style: normal; font-weight: 600; text-align: center; color: #fff; background: rgba(255, 69, 58, 0.85); padding: 1px 0; }

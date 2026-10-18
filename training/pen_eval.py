@@ -15,7 +15,9 @@ from pathlib import Path
 
 from ultralytics import YOLO
 
-Y = Path(__file__).resolve().parent / "work" / "pen" / "yolo"
+from pen_scale import WORK
+
+Y = WORK / "yolo"
 
 
 def boxes_per_tile(model: YOLO, listfile: Path, conf: float) -> float:

@@ -24,6 +24,7 @@ from __future__ import annotations
 import argparse
 import io
 import json
+import os
 import random
 import sys
 import zipfile
@@ -35,15 +36,39 @@ import numpy as np
 import pandas as pd
 
 REPO = Path(__file__).resolve().parents[1]
-RAW = REPO / "data-visualization" / "data" / "raw"                 # Machuve zips, md5 checked by the audit
-SPLIT_CSV = REPO / "data-visualization" / "results" / "farm_hashes.csv"
-VIDEOS = REPO / "app" / "console" / "media" / "raw"
-WORK = REPO / "training" / "work" / "pen"
+# The PEN_* variables let the same code run on a cloud GPU box (see run_pen.sh), the defaults are this repo.
+RAW = Path(os.environ.get("PEN_RAW", REPO / "data-visualization" / "data" / "raw"))       # Machuve zips, md5 checked
+SPLIT_CSV = Path(os.environ.get("PEN_SPLIT_CSV", REPO / "data-visualization" / "results" / "farm_hashes.csv"))
+VIDEOS = Path(os.environ.get("PEN_VIDEOS", REPO / "app" / "console" / "media" / "raw"))
+WORK = Path(os.environ.get("PEN_WORK", REPO / "training" / "work" / "pen"))
 CLASSES = ["cocci", "healthy", "ncd", "salmo"]
 TILE = 640
 FRAME_W = 1280                    # pen frames are handled at this width, the Pi camera's 720p mode
 SIZE_PX = (8, 30)                 # longest side of a pasted dropping in a 1280 wide pen frame
 SEED = 0
+
+
+def split_map() -> dict[tuple[str, str], str]:
+    """(class, stem) -> train, val or test. Same rule as training/prepare_data.py: labelled stems of each
+    class, sorted, shuffled with seed 0, first tenth test, next tenth val. Read from the audit's CSV when
+    present, otherwise rebuilt from the label zip (on a cloud box)."""
+    if SPLIT_CSV.exists():
+        return pd.read_csv(SPLIT_CSV).set_index(["cls", "stem"]).split.to_dict()
+    labelled: dict[str, set[str]] = {c: set() for c in CLASSES}
+    with zipfile.ZipFile(RAW / "imgObjDet_Yolo.zip") as z:
+        for name in z.namelist():
+            p = name.split("/")
+            if len(p) == 3 and p[2].endswith(".txt") and p[2] != "classes.txt" and p[1] in labelled:
+                if any(len(l.split()) == 5 for l in z.read(name).decode(errors="ignore").splitlines()):
+                    labelled[p[1]].add(p[2][:-4])
+    out = {}
+    for cls in CLASSES:
+        stems = sorted(labelled[cls])
+        random.Random(SEED).shuffle(stems)
+        n = max(1, len(stems) // 10)
+        for part, ss in (("test", stems[:n]), ("val", stems[n:2 * n]), ("train", stems[2 * n:])):
+            out.update({(cls, st): part for st in ss})
+    return out
 
 
 # ---------------------------------------------------------------- 1. droppings bank
@@ -102,7 +127,7 @@ def bank_job(job):
 
 
 def cmd_bank(args):
-    split_of = pd.read_csv(SPLIT_CSV).set_index(["cls", "stem"]).split.to_dict()
+    split_of = split_map()
     labels = zipfile.ZipFile(RAW / "imgObjDet_Yolo.zip")
     rng = random.Random(SEED)
     cap = {"train": 500, "val": 60, "test": 120}                   # photos per class and split
@@ -323,7 +348,7 @@ def closeup_job(job):
 
 
 def cmd_build(args):
-    split_of = pd.read_csv(SPLIT_CSV).set_index(["cls", "stem"]).split.to_dict()
+    split_of = split_map()
     labels = zipfile.ZipFile(RAW / "imgObjDet_Yolo.zip")
     jobs = []
     for name in labels.namelist():

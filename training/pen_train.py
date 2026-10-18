@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -20,19 +21,23 @@ from ultralytics import YOLO
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parent
-WORK = HERE / "work" / "pen"
-START = REPO / "models" / "dropping4-laptop" / "dropping4_yolo11n.pt"
+from pen_scale import WORK  # noqa: E402
+
+START = Path(os.environ.get("PEN_START", REPO / "models" / "dropping4-laptop" / "dropping4_yolo11n.pt"))
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--epochs", type=int, default=40)
     ap.add_argument("--batch", type=int, default=16)
+    ap.add_argument("--patience", type=int, default=10)
+    ap.add_argument("--cache", default="disk", help="disk, ram, or none")
     ap.add_argument("--name", default="pen1")
+    ap.add_argument("--workers", type=int, default=2, help="each worker loads CUDA, on Windows more than 2 can exhaust the page file")
     args = ap.parse_args()
     model = YOLO(str(START))
-    model.train(data=str(WORK / "yolo" / "data.yaml"), imgsz=640, epochs=args.epochs, batch=args.batch, workers=6,
-                patience=10, cache="disk", project=str(WORK / "runs"), name=args.name, exist_ok=True,
+    model.train(data=str(WORK / "yolo" / "data.yaml"), imgsz=640, epochs=args.epochs, batch=args.batch, workers=args.workers,
+                patience=args.patience, cache=False if args.cache == "none" else args.cache, project=str(WORK / "runs"), name=args.name, exist_ok=True,
                 lr0=0.002, cos_lr=True, seed=0, deterministic=True, plots=True)
     best = WORK / "runs" / args.name / "weights" / "best.pt"
     subprocess.run([sys.executable, str(HERE / "pen_eval.py"), str(START), str(best), "--out", str(WORK / "eval.json")], check=True)
